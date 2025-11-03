@@ -9,11 +9,6 @@ export function setUpIframeElement(
   if (oldEl !== null) {
     console.warn("[keplr] iframe already exists");
 
-    if (!oldEl.hasAttribute("sandbox")) {
-      (oldEl as HTMLIFrameElement).sandbox.add("allow-scripts");
-      (oldEl as HTMLIFrameElement).sandbox.add("allow-same-origin");
-    }
-
     return {
       success: true,
       data: oldEl as HTMLIFrameElement,
@@ -57,14 +52,10 @@ function loadIframe(
   // since its visibility is hidden from the viewport.
   iframe.loading = "eager";
 
-  // sandbox options
-  iframe.sandbox.add("allow-scripts");
-  iframe.sandbox.add("allow-same-origin");
-
   // iframe style
   iframe.id = KEPLR_IFRAME_ID;
   iframe.style.position = "fixed";
-  iframe.style.top = "1";
+  iframe.style.top = "0";
   iframe.style.left = "0";
   iframe.style.width = "100vw";
   iframe.style.height = "100vh";
