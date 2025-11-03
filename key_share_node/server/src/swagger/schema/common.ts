@@ -1,34 +1,21 @@
-export const commonSchemas = {
-  SuccessResponse: {
-    type: "object",
-    required: ["success", "data"],
-    properties: {
-      success: {
-        type: "boolean",
-        enum: [true],
-      },
-      data: {
-        type: "object",
-        description: "Response data",
-      },
-    },
-  },
-  ErrorResponse: {
-    type: "object",
-    required: ["success", "code", "msg"],
-    properties: {
-      success: {
-        type: "boolean",
-        enum: [false],
-      },
-      code: {
-        type: "string",
-        description: "Error code",
-      },
-      msg: {
-        type: "string",
-        description: "Error message",
-      },
-    },
-  },
-};
+import { registry } from "../registry";
+import { z } from "zod";
+
+export const ErrorResponseSchema = registry.register(
+  "ErrorResponse",
+  z
+    .object({
+      success: z.literal(false),
+      code: z
+        .string()
+        .describe("Error code")
+        .openapi({ example: "UNKNOWN_ERROR" }),
+      msg: z
+        .string()
+        .describe("Error message")
+        .openapi({ example: "An unexpected error occurred" }),
+    })
+    .openapi("ErrorResponse", {
+      description: "Standard error response wrapper.",
+    }),
+);

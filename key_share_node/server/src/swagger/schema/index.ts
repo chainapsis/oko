@@ -1,9 +1,3 @@
-import { commonSchemas } from "./common";
-import { keyShareSchemas } from "./key_share";
-import { pgDumpSchemas } from "./pg_dump";
-
-export const schemas = {
-  ...commonSchemas,
-  ...keyShareSchemas,
-  ...pgDumpSchemas,
-};
+export * from "./common";
+export * from "./key_share";
+export * from "./pg_dump";

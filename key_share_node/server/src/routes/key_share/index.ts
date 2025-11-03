@@ -23,88 +23,117 @@ import {
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
 import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
+import { registry } from "../../swagger/registry";
+import {
+  CheckKeyShareRequestBodySchema,
+  GetKeyShareRequestBodySchema,
+  RegisterKeyShareBodySchema,
+  ReshareKeyShareBodySchema,
+  ErrorResponseSchema,
+  KeyShareEmptySuccessResponseSchema,
+  GetKeyShareSuccessResponseSchema,
+  CheckKeyShareSuccessResponseSchema,
+} from "../../swagger/schema";
 
 export function makeKeyshareRouter() {
   const router = Router();
 
-  /**
-   * @swagger
-   * /keyshare/v1/register:
-   *   post:
-   *     tags:
-   *       - Key Share
-   *     summary: Register a new key share
-   *     description: Register a new key share for the authenticated user.
-   *     security:
-   *       - googleAuth: []
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Google OAuth token (Bearer token format)
-   *         schema:
-   *           type: string
-   *           pattern: '^Bearer\s[\w-]+\.[\w-]+\.[\w-]+$'
-   *           example: 'Bearer eyJhbGciOiJIUzI1NiIs...'
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: '#/components/schemas/RegisterKeyShareBody'
-   *     responses:
-   *       200:
-   *         description: Successfully registered key share
-   *         content:
-   *           application/json:
-   *             schema:
-   *               allOf:
-   *                 - $ref: '#/components/schemas/SuccessResponse'
-   *                 - type: object
-   *                   properties:
-   *                     data:
-   *                       type: "null"
-   *       400:
-   *         description: Bad request
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: CURVE_TYPE_NOT_SUPPORTED
-   *               msg: "Curve type not supported"
-   *       401:
-   *         description: Unauthorized - Invalid or missing bearer token
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNAUTHORIZED
-   *               msg: Unauthorized
-   *       409:
-   *         description: Conflict - Public key already exists
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: DUPLICATE_PUBLIC_KEY
-   *               msg: "Duplicate public key"
-   *       500:
-   *         description: Internal server error
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNKNOWN_ERROR
-   *               msg: "{error message}"
-   */
+  registry.registerPath({
+    method: "post",
+    path: "/keyshare/v1/register",
+    tags: ["Key Share"],
+    summary: "Register a new key share",
+    description: "Register a new key share for the authenticated user.",
+    security: [{ googleAuth: [] }],
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: RegisterKeyShareBodySchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully registered key share",
+        content: {
+          "application/json": {
+            schema: KeyShareEmptySuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              CURVE_TYPE_NOT_SUPPORTED: {
+                value: {
+                  success: false,
+                  code: "CURVE_TYPE_NOT_SUPPORTED",
+                  msg: "Curve type not supported",
+                },
+              },
+            },
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing bearer token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              UNAUTHORIZED: {
+                value: {
+                  success: false,
+                  code: "UNAUTHORIZED",
+                  msg: "Unauthorized",
+                },
+              },
+            },
+          },
+        },
+      },
+      409: {
+        description: "Conflict - Public key already exists",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              DUPLICATE_PUBLIC_KEY: {
+                value: {
+                  success: false,
+                  code: "DUPLICATE_PUBLIC_KEY",
+                  msg: "Duplicate public key",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              UNKNOWN_ERROR: {
+                value: {
+                  success: false,
+                  code: "UNKNOWN_ERROR",
+                  msg: "{error message}",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/register",
     bearerTokenMiddleware,
@@ -162,86 +191,89 @@ export function makeKeyshareRouter() {
     },
   );
 
-  /**
-   * @swagger
-   * /keyshare/v1/:
-   *   post:
-   *     tags:
-   *       - Key Share
-   *     summary: Get a key share
-   *     description: Retrieve a key share for the authenticated user
-   *     security:
-   *       - googleAuth: []
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Google OAuth token (Bearer token format)
-   *         schema:
-   *           type: string
-   *           pattern: '^Bearer\s[\w-]+\.[\w-]+\.[\w-]+$'
-   *           example: 'Bearer eyJhbGciOiJIUzI1NiIs...'
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: '#/components/schemas/GetKeyShareRequestBody'
-   *     responses:
-   *       200:
-   *         description: Successfully retrieved key share
-   *         content:
-   *           application/json:
-   *             schema:
-   *               allOf:
-   *                 - $ref: '#/components/schemas/SuccessResponse'
-   *                 - type: object
-   *                   properties:
-   *                     data:
-   *                       $ref: '#/components/schemas/GetKeyShareResponse'
-   *       401:
-   *         description: Unauthorized - Invalid or missing bearer token
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNAUTHORIZED
-   *               msg: Unauthorized
-   *       404:
-   *         description: Not found - User, wallet or key share not found
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             examples:
-   *               userNotFound:
-   *                 value:
-   *                   success: false
-   *                   code: USER_NOT_FOUND
-   *                   msg: "User not found"
-   *               walletNotFound:
-   *                 value:
-   *                   success: false
-   *                   code: WALLET_NOT_FOUND
-   *                   msg: "Wallet not found"
-   *               keyShareNotFound:
-   *                 value:
-   *                   success: false
-   *                   code: KEY_SHARE_NOT_FOUND
-   *                   msg: "Key share not found"
-   *       500:
-   *         description: Internal server error
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNKNOWN_ERROR
-   *               msg: "{error message}"
-   */
+  registry.registerPath({
+    method: "post",
+    path: "/keyshare/v1",
+    tags: ["Key Share"],
+    summary: "Get a key share",
+    description: "Retrieve a key share for the authenticated user.",
+    security: [{ googleAuth: [] }],
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: GetKeyShareRequestBodySchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully retrieved key share",
+        content: {
+          "application/json": {
+            schema: GetKeyShareSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing bearer token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Not found - User, wallet or key share not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              USER_NOT_FOUND: {
+                value: {
+                  success: false,
+                  code: "USER_NOT_FOUND",
+                  msg: "User not found",
+                },
+              },
+              WALLET_NOT_FOUND: {
+                value: {
+                  success: false,
+                  code: "WALLET_NOT_FOUND",
+                  msg: "Wallet not found",
+                },
+              },
+              KEY_SHARE_NOT_FOUND: {
+                value: {
+                  success: false,
+                  code: "KEY_SHARE_NOT_FOUND",
+                  msg: "Key share not found",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/",
     bearerTokenMiddleware,
@@ -284,53 +316,59 @@ export function makeKeyshareRouter() {
     },
   );
 
-  /**
-   * @swagger
-   * /keyshare/v1/check:
-   *   post:
-   *     tags:
-   *       - Key Share
-   *     summary: Check if a key share exists
-   *     description: Check if a key share exists
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: '#/components/schemas/CheckKeyShareRequestBody'
-   *     responses:
-   *       200:
-   *         description: Successfully checked key share
-   *         content:
-   *           application/json:
-   *             schema:
-   *               allOf:
-   *                 - $ref: '#/components/schemas/SuccessResponse'
-   *                 - type: object
-   *                   properties:
-   *                     data:
-   *                       $ref: '#/components/schemas/CheckKeyShareResponse'
-   *       400:
-   *         description: Bad request
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: PUBLIC_KEY_INVALID
-   *               msg: "Public key is not valid"
-   *       500:
-   *         description: Internal server error
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNKNOWN_ERROR
-   *               msg: "{error message}"
-   */
+  registry.registerPath({
+    method: "post",
+    path: "/keyshare/v1/check",
+    tags: ["Key Share"],
+    summary: "Check if a key share exists",
+    description:
+      "Check if a key share exists for the provided email and public key.",
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: CheckKeyShareRequestBodySchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully checked key share",
+        content: {
+          "application/json": {
+            schema: CheckKeyShareSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              PUBLIC_KEY_INVALID: {
+                value: {
+                  success: false,
+                  code: "PUBLIC_KEY_INVALID",
+                  msg: "Public key is not valid",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/check",
     async (
@@ -367,111 +405,125 @@ export function makeKeyshareRouter() {
     },
   );
 
-  /**
-   * @swagger
-   * /keyshare/v1/reshare:
-   *   post:
-   *     tags:
-   *       - Key Share
-   *     summary: Create or update (reshare) a key share
-   *     description: Creates a new key share if it doesn't exist, or updates an existing key share with a new encrypted share. For existing shares, the previous share is stored in history.
-   *     security:
-   *       - googleAuth: []
-   *     parameters:
-   *       - in: header
-   *         name: Authorization
-   *         required: true
-   *         description: Google OAuth token (Bearer token format)
-   *         schema:
-   *           type: string
-   *           pattern: '^Bearer\s[\w-]+\.[\w-]+\.[\w-]+$'
-   *           example: 'Bearer eyJhbGciOiJIUzI1NiIs...'
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: '#/components/schemas/ReshareKeyShareBody'
-   *     responses:
-   *       200:
-   *         description: Successfully updated key share
-   *         content:
-   *           application/json:
-   *             schema:
-   *               allOf:
-   *                 - $ref: '#/components/schemas/SuccessResponse'
-   *                 - type: object
-   *                   properties:
-   *                     data:
-   *                       type: "null"
-   *       401:
-   *         description: Unauthorized - Invalid or missing bearer token
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNAUTHORIZED
-   *               msg: Unauthorized
-   *       400:
-   *         description: Bad request
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             examples:
-   *               public_key_invalid:
-   *                 summary: Public key is not valid
-   *                 value:
-   *                   success: false
-   *                   code: PUBLIC_KEY_INVALID
-   *                   msg: "Public key is not valid"
-   *               share_invalid:
-   *                 summary: Share is not valid
-   *                 value:
-   *                   success: false
-   *                   code: SHARE_INVALID
-   *                   msg: "Share is not valid"
-   *               curve_type_not_supported:
-   *                 summary: Curve type not supported
-   *                 value:
-   *                   success: false
-   *                   code: CURVE_TYPE_NOT_SUPPORTED
-   *                   msg: "Curve type not supported"
-   *       404:
-   *         description: Not found - User, wallet or key share not found
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             examples:
-   *               userNotFound:
-   *                 value:
-   *                   success: false
-   *                   code: USER_NOT_FOUND
-   *                   msg: "User not found"
-   *               walletNotFound:
-   *                 value:
-   *                   success: false
-   *                   code: WALLET_NOT_FOUND
-   *                   msg: "Wallet not found"
-   *               keyShareNotFound:
-   *                 value:
-   *                   success: false
-   *                   code: KEY_SHARE_NOT_FOUND
-   *                   msg: "Key share not found"
-   *       500:
-   *         description: Internal server error
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNKNOWN_ERROR
-   *               msg: "{error message}"
-   */
+  registry.registerPath({
+    method: "post",
+    path: "/keyshare/v1/reshare",
+    tags: ["Key Share"],
+    summary: "Create or update a key share",
+    description:
+      "Creates a new key share if it does not exist, or updates an existing key share with a new encrypted share.",
+    security: [{ googleAuth: [] }],
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: ReshareKeyShareBodySchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully updated key share",
+        content: {
+          "application/json": {
+            schema: KeyShareEmptySuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Bad request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              PUBLIC_KEY_INVALID: {
+                summary: "Public key is not valid",
+                value: {
+                  success: false,
+                  code: "PUBLIC_KEY_INVALID",
+                  msg: "Public key is not valid",
+                },
+              },
+              SHARE_INVALID: {
+                summary: "Share is not valid",
+                value: {
+                  success: false,
+                  code: "SHARE_INVALID",
+                  msg: "Share is not valid",
+                },
+              },
+              CURVE_TYPE_NOT_SUPPORTED: {
+                summary: "Curve type not supported",
+                value: {
+                  success: false,
+                  code: "CURVE_TYPE_NOT_SUPPORTED",
+                  msg: "Curve type not supported",
+                },
+              },
+            },
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing bearer token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              UNAUTHORIZED: {
+                value: {
+                  success: false,
+                  code: "UNAUTHORIZED",
+                  msg: "Unauthorized",
+                },
+              },
+            },
+          },
+        },
+      },
+      404: {
+        description: "Not found - User, wallet or key share not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              USER_NOT_FOUND: {
+                value: {
+                  success: false,
+                  code: "USER_NOT_FOUND",
+                  msg: "User not found",
+                },
+              },
+              WALLET_NOT_FOUND: {
+                value: {
+                  success: false,
+                  code: "WALLET_NOT_FOUND",
+                  msg: "Wallet not found",
+                },
+              },
+              KEY_SHARE_NOT_FOUND: {
+                value: {
+                  success: false,
+                  code: "KEY_SHARE_NOT_FOUND",
+                  msg: "Key share not found",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/reshare",
     bearerTokenMiddleware,
