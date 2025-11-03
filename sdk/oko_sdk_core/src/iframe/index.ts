@@ -29,6 +29,7 @@ export function setUpIframeElement(
   console.debug("[keplr] setting up iframe");
 
   const iframe = document.createElement("iframe");
+  iframe.setAttribute("sandbox", "allow-scripts allow-same-origin");
 
   if (document.readyState === "complete") {
     loadIframe(iframe, bodyEl, url);
