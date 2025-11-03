@@ -5299,7 +5299,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/bytes@npm:^0.0.3-alpha.47, @oko-wallet/bytes@workspace:*, @oko-wallet/bytes@workspace:crypto/bytes":
+"@oko-wallet/bytes@npm:0.0.3-alpha.47, @oko-wallet/bytes@npm:^0.0.3-alpha.47, @oko-wallet/bytes@workspace:*, @oko-wallet/bytes@workspace:crypto/bytes":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/bytes@workspace:crypto/bytes"
   dependencies:
@@ -5448,6 +5448,7 @@ __metadata:
   resolution: "@oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core"
   dependencies:
     "@keplr-wallet/types": "npm:^0.12.257"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.47"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.29"
     "@rollup/plugin-commonjs": "npm:*"
     "@rollup/plugin-node-resolve": "npm:*"
