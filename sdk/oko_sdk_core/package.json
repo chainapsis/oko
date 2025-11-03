@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-core",
-  "version": "0.0.6-rc.107",
+  "version": "0.0.6-rc.108",
   "packageManager": "yarn@4.7.0",
   "type": "module",
   "scripts": {
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@keplr-wallet/types": "^0.12.257",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.28"
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.29"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "*",
