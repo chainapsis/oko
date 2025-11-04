@@ -5,6 +5,7 @@ import { buildPkgs } from "./cmds/build_pkgs";
 import { version } from "./cmds/version";
 import { publish } from "./cmds/publish";
 import { dbMigrate } from "./cmds/db_migrate";
+import { buildCs } from "./cmds/build_cs";
 
 async function main() {
   const command = program.version("0.0.1").description("EWallet Public CI");
@@ -16,6 +17,9 @@ async function main() {
   command.command("version").action(version);
 
   command.command("publish").action(publish);
+
+  // internals2
+  command.command("build_cs").action(buildCs);
 
   command
     .command("db_migrate")

@@ -9,3 +9,6 @@ members = [
   "lib/tecdsa/cait_sith_keplr_addon/addon",
   "lib/tecdsa/cait_sith_keplr_wasm/wasm",
 ]
+
+[workspace.dependencies]
+cait_sith_keplr = { version = "=0.0.2-rc.4" }
