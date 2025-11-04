@@ -71,11 +71,11 @@ yarn workspace @oko-wallet/key-share-node-server create_env
 docker run --name ksnode-pg -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres:17
 
 # Node 1 (port 4201)
-yarn workspace @oko-wallet/key-share-node-server start --reset-db
+yarn workspace @oko-wallet/key-share-node-server start
 # Node 2 (port 4202)
-yarn workspace @oko-wallet/key-share-node-server start_2 --reset-db
+yarn workspace @oko-wallet/key-share-node-server start_2
 # (Optional) Node 3 (port 4203)
-yarn workspace @oko-wallet/key-share-node-server start_3 --reset-db
+yarn workspace @oko-wallet/key-share-node-server start_3
 ```
 Health check: `curl http://localhost:4201/status`
 
