@@ -1,5 +1,6 @@
-import { registry } from "../registry";
 import { z } from "zod";
+
+import { registry } from "../registry";
 
 export const ErrorResponseSchema = registry.register(
   "ErrorResponse",

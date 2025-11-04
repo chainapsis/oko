@@ -1,5 +1,6 @@
-import { registry } from "../registry";
 import { z } from "zod";
+
+import { registry } from "../registry";
 
 const dumpIdSchema = z
   .string()
@@ -98,8 +99,7 @@ export const PgRestoreRequestBodySchema = registry.register(
       dump_path: dumpPathSchema,
     })
     .openapi("PgRestoreRequestBody", {
-      description:
-        "Request payload for restoring a database from a pg dump.",
+      description: "Request payload for restoring a database from a pg dump.",
     }),
 );
 

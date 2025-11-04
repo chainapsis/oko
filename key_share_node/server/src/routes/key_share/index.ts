@@ -23,7 +23,7 @@ import {
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
 import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
-import { registry } from "../../swagger/registry";
+import { registry } from "@oko-wallet-ksn-server/openapi/registry";
 import {
   CheckKeyShareRequestBodySchema,
   GetKeyShareRequestBodySchema,
@@ -33,7 +33,7 @@ import {
   KeyShareEmptySuccessResponseSchema,
   GetKeyShareSuccessResponseSchema,
   CheckKeyShareSuccessResponseSchema,
-} from "../../swagger/schema";
+} from "@oko-wallet-ksn-server/openapi/schema";
 
 export function makeKeyshareRouter() {
   const router = Router();

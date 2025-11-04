@@ -3,7 +3,7 @@ import helmet from "helmet";
 import cors from "cors";
 import morgan from "morgan";
 
-import { installSwaggerDocs } from "@oko-wallet-ksn-server/swagger";
+import { installSwaggerDocs } from "@oko-wallet-ksn-server/openapi";
 import { setRoutes } from "@oko-wallet-ksn-server/routes";
 import { rateLimitMiddleware } from "@oko-wallet-ksn-server/middlewares";
 

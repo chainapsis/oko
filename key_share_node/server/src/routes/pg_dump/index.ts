@@ -25,7 +25,7 @@ import {
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { KSNodeRequest } from "../io";
-import { registry } from "../../swagger/registry";
+import { registry } from "@oko-wallet-ksn-server/openapi/registry";
 import {
   PgDumpRequestBodySchema,
   PgRestoreRequestBodySchema,
@@ -34,7 +34,7 @@ import {
   PgRestoreSuccessResponseSchema,
   PgDumpHistoryQuerySchema,
   ErrorResponseSchema,
-} from "../../swagger/schema";
+} from "@oko-wallet-ksn-server/openapi/schema";
 
 export function makePgDumpRouter() {
   const router = Router();
