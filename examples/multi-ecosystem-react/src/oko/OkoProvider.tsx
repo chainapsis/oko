@@ -8,7 +8,6 @@ import {
 import {
   OkoEthWallet,
   type OkoEthWalletInterface,
-  type EIP1193Provider,
 } from "@oko-wallet/oko-sdk-eth";
 import type { ChainInfo } from "@keplr-wallet/types";
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
@@ -25,7 +24,7 @@ interface OkoProviderValues {
   chainInfo: ChainInfo;
   // evm
   address: Address | null;
-  provider: EIP1193Provider | null;
+  okoEth: OkoEthWalletInterface | null;
   // auth
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
@@ -93,7 +92,7 @@ const OkoContext = createContext<OkoProviderValues>({
   offlineSigner: null,
   chainInfo,
   address: null,
-  provider: null,
+  okoEth: null,
   signIn: async () => {},
   signOut: async () => {},
 });
@@ -103,7 +102,6 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
     null,
   );
   const [okoEth, setOkoEth] = useState<OkoEthWalletInterface | null>(null);
-  const [provider, setProvider] = useState<EIP1193Provider | null>(null);
 
   const [offlineSigner, setOfflineSigner] =
     useState<OfflineDirectSigner | null>(null);
@@ -145,7 +143,6 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
 
     const c = cosmosInit.data;
     const e = ethInit.data;
-    const p = await e.getEthereumProvider();
     const signer = c.getOfflineSigner("osmo-test-5");
 
     try {
@@ -169,7 +166,6 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setOkoCosmos(c);
       setOkoEth(e);
-      setProvider(p);
       setOfflineSigner(signer);
     }
   }
@@ -234,7 +230,7 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
         offlineSigner,
         chainInfo,
         address,
-        provider,
+        okoEth,
         signIn,
         signOut,
       }}

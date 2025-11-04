@@ -1,6 +1,5 @@
 import { createContext, useEffect, useState } from "react";
 import {
-  OkoEIP1193Provider,
   OkoEthWallet,
   type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
@@ -11,7 +10,7 @@ interface OkoEvmProviderValues {
   isSignedIn: boolean;
   isSigningIn: boolean;
   address: Address | null;
-  provider: OkoEIP1193Provider | null;
+  okoEth: OkoEthWalletInterface | null;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -21,14 +20,13 @@ const OkoEvmContext = createContext<OkoEvmProviderValues>({
   isSignedIn: false,
   isSigningIn: false,
   address: null,
-  provider: null,
+  okoEth: null,
   signIn: async () => {},
   signOut: async () => {},
 });
 
 function OkoEvmProvider({ children }: { children: React.ReactNode }) {
   const [okoEth, setOkoEth] = useState<OkoEthWalletInterface | null>(null);
-  const [provider, setProvider] = useState<OkoEIP1193Provider | null>(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [address, setAddress] = useState<Address | null>(null);
@@ -44,7 +42,6 @@ function OkoEvmProvider({ children }: { children: React.ReactNode }) {
     }
 
     const okoEth = initRes.data;
-    const provider = await okoEth.getEthereumProvider();
 
     try {
       const address = await okoEth.getAddress();
@@ -58,7 +55,6 @@ function OkoEvmProvider({ children }: { children: React.ReactNode }) {
       setAddress(null);
     } finally {
       setOkoEth(okoEth);
-      setProvider(provider);
     }
   }
 
@@ -100,7 +96,7 @@ function OkoEvmProvider({ children }: { children: React.ReactNode }) {
         isSignedIn,
         isSigningIn,
         address,
-        provider,
+        okoEth,
         signIn,
         signOut,
       }}

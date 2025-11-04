@@ -25,7 +25,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function EvmTransactionForm() {
-  const { address, provider, publicClient } = useEvm();
+  const { address, okoEth, publicClient } = useEvm();
   const queryClient = useQueryClient();
 
   const {
@@ -50,7 +50,7 @@ export default function EvmTransactionForm() {
   }, [txHash]);
 
   async function handleSend(values: FormValues) {
-    if (!address || !provider || isTxSending) {
+    if (!address || !okoEth || isTxSending) {
       return;
     }
     const { recipientAddress, amount } = values;
@@ -60,6 +60,8 @@ export default function EvmTransactionForm() {
     let txHashForTracking: Hex | null = null;
 
     try {
+      const provider = await okoEth.getEthereumProvider();
+
       await provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0xaa36a7" }],
