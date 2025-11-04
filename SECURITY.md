@@ -7,7 +7,7 @@ We value responsible disclosure and the researchers who help keep Oko secure.
 - Latest stable release (older minors for critical issues at maintainers’ discretion)
 
 ## Report a vulnerability
-- Email ``
+- Email `security@keplr.app`
 - Or open a private GitHub Security Advisory: *Security → Advisories → Report a vulnerability*
 
 Include a short description, impact, affected versions, and reproduction steps if possible. Please avoid opening public issues.
