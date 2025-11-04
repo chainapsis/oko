@@ -10,7 +10,7 @@ import { Widget } from "../widget_components";
 import { AddressRow } from "./address_row";
 import { ViewChainsButton } from "./view_chains_button";
 import { ViewChainsModal } from "./view_chains_modal";
-import { useAddresses } from "@oko-wallet-demo-web/hooks/ewallet";
+import { useAddresses } from "@oko-wallet-demo-web/hooks/wallet";
 import { useGetChainInfos } from "@oko-wallet-demo-web/hooks/use_get_chain_infos";
 
 export const AddressWidget: React.FC<AddressWidgetProps> = ({}) => {

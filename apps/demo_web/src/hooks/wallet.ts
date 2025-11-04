@@ -3,8 +3,8 @@ import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 import { useEffect, useState } from "react";
 
 export function useAddresses() {
-  const cosmosSDK = useSDKState((state) => state.keplr_sdk_cosmos);
-  const ethSDK = useSDKState((state) => state.keplr_sdk_eth);
+  const okoCosmos = useSDKState((state) => state.oko_cosmos);
+  const okoEth = useSDKState((state) => state.oko_eth);
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
 
   const [cosmosAddress, setCosmosAddress] = useState<string | null>(null);
@@ -15,17 +15,17 @@ export function useAddresses() {
       try {
         const promises = [];
 
-        if (cosmosSDK) {
+        if (okoCosmos) {
           promises.push(
-            cosmosSDK
+            okoCosmos
               .getKey("cosmoshub-4")
               .then((key) => setCosmosAddress(key.bech32Address)),
           );
         }
 
-        if (ethSDK) {
+        if (okoEth) {
           promises.push(
-            ethSDK.getAddress().then((addr) => setEthAddress(addr)),
+            okoEth.getAddress().then((addr) => setEthAddress(addr)),
           );
         }
 
@@ -48,7 +48,7 @@ export function useAddresses() {
         setEthAddress(null);
       }
     }
-  }, [isSignedIn, cosmosSDK, ethSDK]);
+  }, [isSignedIn, okoCosmos, okoEth]);
 
   return { cosmosAddress, ethAddress };
 }

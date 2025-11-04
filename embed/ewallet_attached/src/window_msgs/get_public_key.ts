@@ -1,6 +1,6 @@
-import type { EWalletMsgGetPublicKeyAck } from "@oko-wallet/oko-sdk-core";
+import type { OkoWalletMsgGetPublicKeyAck } from "@oko-wallet/oko-sdk-core";
 
-import { EWALLET_SDK_TARGET } from "./target";
+import { OKO_SDK_TARGET } from "./target";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import type { MsgEventContext } from "./types";
 
@@ -8,7 +8,7 @@ export async function handleGetPublicKey(ctx: MsgEventContext) {
   const { port, hostOrigin } = ctx;
   const wallet = useAppState.getState().getWallet(hostOrigin);
 
-  let payload: EWalletMsgGetPublicKeyAck["payload"];
+  let payload: OkoWalletMsgGetPublicKeyAck["payload"];
   if (wallet?.publicKey) {
     payload = {
       success: true,
@@ -21,8 +21,8 @@ export async function handleGetPublicKey(ctx: MsgEventContext) {
     };
   }
 
-  const ack: EWalletMsgGetPublicKeyAck = {
-    target: EWALLET_SDK_TARGET,
+  const ack: OkoWalletMsgGetPublicKeyAck = {
+    target: OKO_SDK_TARGET,
     msg_type: "get_public_key_ack",
     payload,
   };

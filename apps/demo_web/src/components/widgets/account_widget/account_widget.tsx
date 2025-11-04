@@ -12,7 +12,7 @@ type SigningInState =
   | { status: "failed"; error: string };
 
 export const AccountWidget: React.FC<AccountWidgetProps> = () => {
-  const eWallet = useSDKState((state) => state.keplr_sdk_cosmos)?.eWallet;
+  const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
   const [signingInState, setSigningInState] = useState<SigningInState>({
     status: "ready",
   });
@@ -28,7 +28,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     method: "email" | "google" | "telegram" | "x" | "apple",
     email?: string,
   ) {
-    if (!eWallet) {
+    if (!okoWallet) {
       console.error("eWallet is not initialized");
       return;
     }
@@ -40,7 +40,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
 
     try {
       setSigningInState({ status: "signing-in" });
-      await eWallet.signIn("google");
+      await okoWallet.signIn("google");
 
       setSigningInState({ status: "ready" });
     } catch (error: any) {
@@ -58,14 +58,14 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   }
 
   async function handleSignOut() {
-    if (eWallet) {
-      await eWallet.signOut();
+    if (okoWallet) {
+      await okoWallet.signOut();
     } else {
       console.error("EWallet is not initialized");
     }
   }
 
-  if (!eWallet) {
+  if (!okoWallet) {
     return <>Loading...</>;
   }
 

@@ -1,5 +1,5 @@
 import styles from "./page.module.scss";
-import { KeplrEWalletProvider } from "@oko-wallet-demo-web/components/ewallet_provider/ewallet_provider";
+import { OkoProvider } from "@oko-wallet-demo-web/components/oko_provider/oko_provider";
 import { GlobalHeader } from "@oko-wallet-demo-web/components/global_header/global_header";
 import { LeftBar } from "@oko-wallet-demo-web/components/left_bar/left_bar";
 import { PreviewPanel } from "@oko-wallet-demo-web/components/preview_panel/preview_panel";
@@ -7,7 +7,7 @@ import { QueryClientProvider } from "@oko-wallet-demo-web/components/query_clien
 
 export default function Home() {
   return (
-    <KeplrEWalletProvider>
+    <OkoProvider>
       <QueryClientProvider>
         <div className={styles.wrapper}>
           <GlobalHeader />
@@ -17,6 +17,6 @@ export default function Home() {
           </div>
         </div>
       </QueryClientProvider>
-    </KeplrEWalletProvider>
+    </OkoProvider>
   );
 }

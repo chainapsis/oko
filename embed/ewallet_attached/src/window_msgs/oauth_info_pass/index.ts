@@ -1,13 +1,13 @@
 import type {
-  EWalletMsgOAuthInfoPass,
-  EWalletMsgOAuthInfoPassAck,
-  EWalletMsgOAuthSignInUpdate,
+  OkoWalletMsgOAuthInfoPass,
+  OkoWalletMsgOAuthInfoPassAck,
+  OkoWalletMsgOAuthSignInUpdate,
   OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
 
 import {
-  EWALLET_ATTACHED_POPUP,
-  EWALLET_SDK_TARGET,
+  OKO_ATTACHED_POPUP,
+  OKO_SDK_TARGET,
 } from "@oko-wallet-attached/window_msgs/target";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import { postLog } from "@oko-wallet-attached/requests/logging";
@@ -29,7 +29,7 @@ import {
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
-  message: EWalletMsgOAuthInfoPass,
+  message: OkoWalletMsgOAuthInfoPass,
 ): Promise<void> {
   const { port } = ctx;
   const appState = useAppState.getState();
@@ -167,8 +167,8 @@ export async function handleOAuthInfoPass(
       }
     }
 
-    const updateMsg: EWalletMsgOAuthSignInUpdate = {
-      target: EWALLET_SDK_TARGET,
+    const updateMsg: OkoWalletMsgOAuthSignInUpdate = {
+      target: OKO_SDK_TARGET,
       msg_type: "oauth_sign_in_update",
       payload: { success: true, data: null },
     };
@@ -190,8 +190,8 @@ export async function handleOAuthInfoPass(
         }
       }
     }
-    const infoPassAck: EWalletMsgOAuthInfoPassAck = {
-      target: EWALLET_ATTACHED_POPUP,
+    const infoPassAck: OkoWalletMsgOAuthInfoPassAck = {
+      target: OKO_ATTACHED_POPUP,
       msg_type: "oauth_info_pass_ack",
       payload: null,
     };
@@ -214,7 +214,7 @@ async function verifyGoogleIdToken(idToken: string): Promise<GoogleTokenInfo> {
   return await response.json();
 }
 
-async function bail(message: EWalletMsgOAuthInfoPass, err: OAuthSignInError) {
+async function bail(message: OkoWalletMsgOAuthInfoPass, err: OAuthSignInError) {
   // TODO: Error handling @elden
   //
   postLog(
@@ -229,8 +229,8 @@ async function bail(message: EWalletMsgOAuthInfoPass, err: OAuthSignInError) {
     { console: true },
   );
 
-  const updateMsg: EWalletMsgOAuthSignInUpdate = {
-    target: EWALLET_SDK_TARGET,
+  const updateMsg: OkoWalletMsgOAuthSignInUpdate = {
+    target: OKO_SDK_TARGET,
     msg_type: "oauth_sign_in_update",
     payload: { success: false, err },
   };

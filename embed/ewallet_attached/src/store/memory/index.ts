@@ -1,11 +1,11 @@
 import type {
-  EWalletMsgOpenModalAck,
+  OkoWalletMsgOpenModalAck,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
-import { EWALLET_SDK_TARGET } from "@oko-wallet-attached/window_msgs/target";
+import { OKO_SDK_TARGET } from "@oko-wallet-attached/window_msgs/target";
 import type { MemoryActions, MemoryState } from "./types";
 import { type AppError } from "@oko-wallet-attached/errors";
 
@@ -39,8 +39,8 @@ export const useMemoryState = create(
       if (modalRequest) {
         const { port } = modalRequest;
 
-        const ack: EWalletMsgOpenModalAck = {
-          target: EWALLET_SDK_TARGET,
+        const ack: OkoWalletMsgOpenModalAck = {
+          target: OKO_SDK_TARGET,
           msg_type: "open_modal_ack",
           payload,
         };

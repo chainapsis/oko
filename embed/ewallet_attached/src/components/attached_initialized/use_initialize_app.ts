@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 // import { useSearchParams } from "next/navigation";
 import type { SignInSilentlyResponse } from "@oko-wallet/ewallet-types/user";
-import type { EWalletMsgInit } from "@oko-wallet/oko-sdk-core";
+import type { OkoWalletMsgInit } from "@oko-wallet/oko-sdk-core";
 import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
 
 import { initKeplrWasm } from "@oko-wallet-attached/wasm";
@@ -64,7 +64,7 @@ export function useInitializeApp() {
 
         const hostOrigin = searchParams.get("host_origin");
         if (hostOrigin === null) {
-          const msg: EWalletMsgInit = {
+          const msg: OkoWalletMsgInit = {
             target: "oko_sdk",
             msg_type: "init",
             payload: {
@@ -103,7 +103,7 @@ export function useInitializeApp() {
           setUserId(wallet.walletId);
         }
 
-        const initMsg: EWalletMsgInit = {
+        const initMsg: OkoWalletMsgInit = {
           target: "oko_sdk",
           msg_type: "init",
           payload: {
@@ -127,7 +127,7 @@ export function useInitializeApp() {
           { console: true },
         );
 
-        const initErrorMsg: EWalletMsgInit = {
+        const initErrorMsg: OkoWalletMsgInit = {
           target: "oko_sdk",
           msg_type: "init",
           payload: {
@@ -145,7 +145,7 @@ export function useInitializeApp() {
   return { theme: resolvedTheme };
 }
 
-function sendInitMsg(hostOrigin: string, msg: EWalletMsgInit) {
+function sendInitMsg(hostOrigin: string, msg: OkoWalletMsgInit) {
   console.log(`[attached] sending init msg, payload: %o`, msg.payload);
 
   return sendMsgToWindow(window.parent, msg, hostOrigin);

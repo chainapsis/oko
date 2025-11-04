@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type {
-  EWalletMsg,
-  EWalletMsgOAuthInfoPass,
+  OkoWalletMsg,
+  OkoWalletMsgOAuthInfoPass,
   OAuthPayload,
 } from "@oko-wallet/oko-sdk-core";
 import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
@@ -72,7 +72,7 @@ export async function handleGoogleCallback(): Promise<
       target_origin: targetOrigin,
     };
 
-    const msg: EWalletMsg = {
+    const msg: OkoWalletMsg = {
       target: "oko_attached",
       msg_type: "oauth_info_pass",
       payload,
@@ -123,8 +123,8 @@ function getOAuthStateFromUrl() {
 // whether because of the browser policy or the option in response header,
 // we may later opt in to communicating via Keplr server orchestration
 async function sendMsgToEmbeddedWindow(
-  msg: EWalletMsgOAuthInfoPass,
-): Promise<Result<EWalletMsg, SendMsgToEmbeddedWindowError>> {
+  msg: OkoWalletMsgOAuthInfoPass,
+): Promise<Result<OkoWalletMsg, SendMsgToEmbeddedWindowError>> {
   const attachedURL = window.location.toString();
   const targetOrigin = new URL(attachedURL).origin;
 

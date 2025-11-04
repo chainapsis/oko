@@ -1,6 +1,6 @@
 import type {
-  EWalletMsgGetCosmosChainInfo,
-  EWalletMsgGetCosmosChainInfoAck,
+  OkoWalletMsgGetCosmosChainInfo,
+  OkoWalletMsgGetCosmosChainInfoAck,
 } from "@oko-wallet/oko-sdk-core";
 import type { ChainInfo } from "@keplr-wallet/types";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
@@ -9,12 +9,12 @@ import {
   getAllChainsCached,
   filterCosmosChains,
 } from "@oko-wallet-attached/requests/chain_infos";
-import { EWALLET_SDK_TARGET } from "./target";
+import { OKO_SDK_TARGET } from "./target";
 import type { MsgEventContext } from "./types";
 
 export async function handleGetCosmosChain(
   ctx: MsgEventContext,
-  message: EWalletMsgGetCosmosChainInfo,
+  message: OkoWalletMsgGetCosmosChainInfo,
 ): Promise<void> {
   const { port } = ctx;
 
@@ -46,8 +46,8 @@ export async function handleGetCosmosChain(
       resultChains = chainInfos;
     }
 
-    const ack: EWalletMsgGetCosmosChainInfoAck = {
-      target: EWALLET_SDK_TARGET,
+    const ack: OkoWalletMsgGetCosmosChainInfoAck = {
+      target: OKO_SDK_TARGET,
       msg_type: "get_cosmos_chain_info_ack",
       payload: {
         success: true,
@@ -62,8 +62,8 @@ export async function handleGetCosmosChain(
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
 
-    const ack: EWalletMsgGetCosmosChainInfoAck = {
-      target: EWALLET_SDK_TARGET,
+    const ack: OkoWalletMsgGetCosmosChainInfoAck = {
+      target: OKO_SDK_TARGET,
       msg_type: "get_cosmos_chain_info_ack",
       payload: {
         success: false,

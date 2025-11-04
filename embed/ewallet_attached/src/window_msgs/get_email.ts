@@ -1,6 +1,6 @@
-import type { EWalletMsgGetEmailAck } from "@oko-wallet/oko-sdk-core";
+import type { OkoWalletMsgGetEmailAck } from "@oko-wallet/oko-sdk-core";
 
-import { EWALLET_SDK_TARGET } from "./target";
+import { OKO_SDK_TARGET } from "./target";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import type { MsgEventContext } from "./types";
 
@@ -8,7 +8,7 @@ export async function handleGetEmail(ctx: MsgEventContext) {
   const { port, hostOrigin } = ctx;
   const wallet = useAppState.getState().getWallet(hostOrigin);
 
-  let payload: EWalletMsgGetEmailAck["payload"];
+  let payload: OkoWalletMsgGetEmailAck["payload"];
   if (wallet?.email) {
     payload = {
       success: true,
@@ -21,8 +21,8 @@ export async function handleGetEmail(ctx: MsgEventContext) {
     };
   }
 
-  const ack: EWalletMsgGetEmailAck = {
-    target: EWALLET_SDK_TARGET,
+  const ack: OkoWalletMsgGetEmailAck = {
+    target: OKO_SDK_TARGET,
     msg_type: "get_email_ack",
     payload,
   };

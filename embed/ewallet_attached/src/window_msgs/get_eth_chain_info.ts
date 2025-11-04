@@ -1,6 +1,6 @@
 import type {
-  EWalletMsgGetEthChainInfo,
-  EWalletMsgGetEthChainInfoAck,
+  OkoWalletMsgGetEthChainInfo,
+  OkoWalletMsgGetEthChainInfoAck,
 } from "@oko-wallet/oko-sdk-core";
 import type { ChainInfo } from "@keplr-wallet/types";
 
@@ -8,12 +8,12 @@ import {
   getAllChainsCached,
   filterEthChains,
 } from "@oko-wallet-attached/requests/chain_infos";
-import { EWALLET_SDK_TARGET } from "./target";
+import { OKO_SDK_TARGET } from "./target";
 import type { MsgEventContext } from "./types";
 
 export async function handleGetEthChain(
   ctx: MsgEventContext,
-  message: EWalletMsgGetEthChainInfo,
+  message: OkoWalletMsgGetEthChainInfo,
 ): Promise<void> {
   const { port } = ctx;
 
@@ -50,8 +50,8 @@ export async function handleGetEthChain(
       resultChains = chainInfos;
     }
 
-    const ack: EWalletMsgGetEthChainInfoAck = {
-      target: EWALLET_SDK_TARGET,
+    const ack: OkoWalletMsgGetEthChainInfoAck = {
+      target: OKO_SDK_TARGET,
       msg_type: "get_eth_chain_info_ack",
       payload: {
         success: true,
@@ -66,8 +66,8 @@ export async function handleGetEthChain(
     const errorMessage =
       error instanceof Error ? error.message : "Unknown error";
 
-    const ack: EWalletMsgGetEthChainInfoAck = {
-      target: EWALLET_SDK_TARGET,
+    const ack: OkoWalletMsgGetEthChainInfoAck = {
+      target: OKO_SDK_TARGET,
       msg_type: "get_eth_chain_info_ack",
       payload: {
         success: false,

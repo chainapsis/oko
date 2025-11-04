@@ -1,17 +1,17 @@
-import type { EWalletMsg } from "@oko-wallet/oko-sdk-core";
+import type { OkoWalletMsg } from "@oko-wallet/oko-sdk-core";
 
-import { EWALLET_SDK_TARGET } from "./target";
+import { OKO_SDK_TARGET } from "./target";
 
 export function sendMsgToWindow(
   window: Window,
-  msg: EWalletMsg,
+  msg: OkoWalletMsg,
   targetOrigin: string,
 ) {
-  return new Promise<EWalletMsg>((resolve) => {
+  return new Promise<OkoWalletMsg>((resolve) => {
     const channel = new MessageChannel();
 
     channel.port1.onmessage = (obj: any) => {
-      const data = obj.data as EWalletMsg;
+      const data = obj.data as OkoWalletMsg;
 
       channel.port1.close();
 
@@ -19,7 +19,7 @@ export function sendMsgToWindow(
         resolve(data);
       } else {
         resolve({
-          target: EWALLET_SDK_TARGET,
+          target: OKO_SDK_TARGET,
           msg_type: "unknown_msg_type",
           payload: JSON.stringify(data),
         });

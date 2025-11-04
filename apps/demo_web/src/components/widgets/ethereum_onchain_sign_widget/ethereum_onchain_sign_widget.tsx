@@ -15,15 +15,15 @@ import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
 export const EthereumOnchainSignWidget = () => {
-  const ethSDK = useSDKState((state) => state.keplr_sdk_eth);
+  const okoEth = useSDKState((state) => state.oko_eth);
 
   const handleClickEthOnchainSign = async () => {
-    if (ethSDK === null) {
+    if (okoEth === null) {
       throw new Error("EthEWallet is not initialized");
     }
 
-    const provider = await ethSDK.getEthereumProvider();
-    const address = await ethSDK.getAddress();
+    const provider = await okoEth.getEthereumProvider();
+    const address = await okoEth.getAddress();
 
     const toAddress = "0xbb6B34131210C091cb2890b81fCe7103816324a5"; // dogemos.eth
     const usdcAddress = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";

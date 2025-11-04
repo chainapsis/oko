@@ -1,4 +1,4 @@
-import type { EWalletMsg } from "@oko-wallet/oko-sdk-core";
+import type { OkoWalletMsg } from "@oko-wallet/oko-sdk-core";
 
 import type { MsgEventContext } from "./types";
 import { handleGetPublicKey } from "./get_public_key";
@@ -20,7 +20,7 @@ export function makeMsgHandler() {
 
     const port = event.ports[0];
 
-    const message = event.data as EWalletMsg;
+    const message = event.data as OkoWalletMsg;
 
     if (message.target === "oko_attached" || message.target === "oko_sdk") {
       console.debug("[attached] msg recv", event.data);

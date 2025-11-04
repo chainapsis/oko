@@ -1,15 +1,15 @@
 import type {
-  EWalletMsgSetOAuthNonce,
-  EWalletMsgSetOAuthNonceAck,
+  OkoWalletMsgSetOAuthNonce,
+  OkoWalletMsgSetOAuthNonceAck,
 } from "@oko-wallet/oko-sdk-core";
 
-import { EWALLET_SDK_TARGET } from "./target";
+import { OKO_SDK_TARGET } from "./target";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import type { MsgEventContext } from "./types";
 
 export function handleSetOAuthNonce(
   ctx: MsgEventContext,
-  message: EWalletMsgSetOAuthNonce,
+  message: OkoWalletMsgSetOAuthNonce,
 ) {
   const { port, hostOrigin } = ctx;
 
@@ -20,8 +20,8 @@ export function handleSetOAuthNonce(
   const appState = useAppState.getState();
   appState.setNonce(hostOrigin, message.payload);
 
-  const ack: EWalletMsgSetOAuthNonceAck = {
-    target: EWALLET_SDK_TARGET,
+  const ack: OkoWalletMsgSetOAuthNonceAck = {
+    target: OKO_SDK_TARGET,
     msg_type: "set_oauth_nonce_ack",
     payload: {
       success: true,
