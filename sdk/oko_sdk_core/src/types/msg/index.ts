@@ -8,6 +8,7 @@ import type {
 import type { InitPayload } from "@oko-wallet-sdk-core/types/init";
 import type { OAuthSignInError } from "@oko-wallet-sdk-core/types/sign_in";
 import type { OAuthPayload } from "@oko-wallet-sdk-core/types/oauth";
+import type { Bytes32 } from "@oko-wallet/bytes";
 
 export type EWalletMsgGetPublicKey = {
   target: "oko_attached";
@@ -145,6 +146,18 @@ export type EWalletMsgGetEthChainInfoAck = {
   payload: Result<ChainInfo[], string>;
 };
 
+export type EWAlletMsgImportPrivateKey = {
+  target: "oko_attached";
+  msg_type: "import_private_key";
+  payload: OAuthPayload;
+};
+
+export type EWalletMsgImportPrivateKeyAck = {
+  target: "oko_sdk";
+  msg_type: "import_private_key_ack";
+  payload: Result<Bytes32, string>;
+};
+
 export type EWalletMsg =
   | EWalletMsgInit
   | EWalletMsgInitAck
@@ -168,6 +181,8 @@ export type EWalletMsg =
   | EWalletMsgGetCosmosChainInfoAck
   | EWalletMsgGetEthChainInfo
   | EWalletMsgGetEthChainInfoAck
+  | EWAlletMsgImportPrivateKey
+  | EWalletMsgImportPrivateKeyAck
   | {
       target: "oko_sdk";
       msg_type: "unknown_msg_type";

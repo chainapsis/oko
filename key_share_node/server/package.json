@@ -2,7 +2,7 @@
   "name": "@oko-wallet/key-share-node-server",
   "packageManager": "yarn@4.7.0",
   "private": true,
-  "version": "0.0.4",
+  "version": "0.0.5-alpha.1",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -13,6 +13,7 @@
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
+    "@asteasolutions/zod-to-openapi": "^8.1.0",
     "@oko-wallet/bytes": "workspace:*",
     "@oko-wallet/ksn-interface": "workspace:*",
     "@oko-wallet/ksn-pg-interface": "workspace:*",
@@ -27,7 +28,6 @@
     "helmet": "^8.0.0",
     "morgan": "^1.10.0",
     "pg": "^8.16.3",
-    "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "tsx": "*",
     "winston": "*",

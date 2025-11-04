@@ -24,58 +24,82 @@ import {
   type AdminAuthenticatedRequest,
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import type { KSNodeRequest } from "../io";
+import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
+import { registry } from "@oko-wallet-ksn-server/openapi/registry";
+import {
+  PgDumpRequestBodySchema,
+  PgRestoreRequestBodySchema,
+  PgDumpSuccessResponseSchema,
+  PgDumpHistorySuccessResponseSchema,
+  PgRestoreSuccessResponseSchema,
+  PgDumpHistoryQuerySchema,
+  ErrorResponseSchema,
+} from "@oko-wallet-ksn-server/openapi/schema";
 
 export function makePgDumpRouter() {
   const router = Router();
 
-  /**
-   * @swagger
-   * /pg_dump/v1/backup:
-   *   post:
-   *     tags:
-   *       - PG Dump
-   *     summary: Request a pg dump
-   *     description: Request a pg dump
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: '#/components/schemas/PgDumpRequestBody'
-   *     responses:
-   *       200:
-   *         description: Successfully requested pg dump
-   *         content:
-   *           application/json:
-   *             schema:
-   *               allOf:
-   *                 - $ref: '#/components/schemas/SuccessResponse'
-   *                 - type: object
-   *                   properties:
-   *                     data:
-   *                       $ref: '#/components/schemas/PgDumpResponse'
-   *       401:
-   *         description: Invalid admin password
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNAUTHORIZED
-   *               msg: "Invalid admin password"
-   *       500:
-   *         description: Failed to process pg dump
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: PG_DUMP_FAILED
-   *               msg: "Failed to process pg dump"
-   */
+  registry.registerPath({
+    method: "post",
+    path: "/pg_dump/v1/backup",
+    tags: ["PG Dump"],
+    summary: "Request a pg dump",
+    description: "Request a pg dump.",
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: PgDumpRequestBodySchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully requested pg dump",
+        content: {
+          "application/json": {
+            schema: PgDumpSuccessResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Invalid admin password",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              UNAUTHORIZED: {
+                value: {
+                  success: false,
+                  code: "UNAUTHORIZED",
+                  msg: "Invalid admin password",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Failed to process pg dump",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              PG_DUMP_FAILED: {
+                value: {
+                  success: false,
+                  code: "PG_DUMP_FAILED",
+                  msg: "Failed to process pg dump",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/backup",
     adminAuthMiddleware,
@@ -112,59 +136,60 @@ export function makePgDumpRouter() {
     },
   );
 
-  /**
-   * @swagger
-   * /pg_dump/v1/get_backup_history:
-   *   post:
-   *     tags:
-   *       - PG Dump
-   *     summary: Get pg dump history
-   *     description: Get pg dump history for the specified number of days
-   *     parameters:
-   *       - in: query
-   *         name: days
-   *         required: false
-   *         schema:
-   *           type: integer
-   *           minimum: 1
-   *           maximum: 1000
-   *         description: Number of days to look back for dump history (1-1000 days). If not specified, returns all dumps.
-   *         example: 30
-   *     responses:
-   *       200:
-   *         description: Successfully retrieved pg dump history
-   *         content:
-   *           application/json:
-   *             schema:
-   *               allOf:
-   *                 - $ref: '#/components/schemas/SuccessResponse'
-   *                 - type: object
-   *                   properties:
-   *                     data:
-   *                       type: array
-   *                       items:
-   *                         $ref: '#/components/schemas/PgDump'
-   *       400:
-   *         description: Invalid days parameter
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: INVALID_DAYS
-   *               msg: "Days parameter must be between 1 and 1000"
-   *       500:
-   *         description: Failed to retrieve pg dump history
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNKNOWN_ERROR
-   *               msg: "Failed to retrieve pg dump history"
-   */
+  registry.registerPath({
+    method: "post",
+    path: "/pg_dump/v1/get_backup_history",
+    tags: ["PG Dump"],
+    summary: "Get pg dump history",
+    description: "Get pg dump history for the specified number of days.",
+    request: {
+      query: PgDumpHistoryQuerySchema,
+    },
+    responses: {
+      200: {
+        description: "Successfully retrieved pg dump history",
+        content: {
+          "application/json": {
+            schema: PgDumpHistorySuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid days parameter",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              INVALID_DAYS: {
+                value: {
+                  success: false,
+                  code: "INVALID_DAYS",
+                  msg: "Days parameter must be between 1 and 1000",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Failed to retrieve pg dump history",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              UNKNOWN_ERROR: {
+                value: {
+                  success: false,
+                  code: "UNKNOWN_ERROR",
+                  msg: "Failed to retrieve pg dump history",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/get_backup_history",
     async (
@@ -191,89 +216,109 @@ export function makePgDumpRouter() {
     },
   );
 
-  /**
-   * @swagger
-   * /pg_dump/v1/restore:
-   *   post:
-   *     tags:
-   *       - PG Dump
-   *     summary: Restore a pg dump
-   *     description: Restore a pg dump
-   *     requestBody:
-   *       required: true
-   *       content:
-   *         application/json:
-   *           schema:
-   *             $ref: '#/components/schemas/PgRestoreRequestBody'
-   *     responses:
-   *       200:
-   *         description: Successfully restored pg dump
-   *         content:
-   *           application/json:
-   *             schema:
-   *               allOf:
-   *                 - $ref: '#/components/schemas/SuccessResponse'
-   *                 - type: object
-   *                   properties:
-   *                     data:
-   *                       type: object
-   *                       properties:
-   *                         dump_path:
-   *                           type: string
-   *                           description: The path to the pg dump that was restored
-   *                           example: "/path/to/dump.sql"
-   *       400:
-   *         description: Invalid dump_path parameter or file not found
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             examples:
-   *               INVALID_DUMP_PATH:
-   *                 summary: Invalid dump_path parameter
-   *                 value:
-   *                   success: false
-   *                   code: INVALID_DUMP_PATH
-   *                   msg: "dump_path parameter is required"
-   *               DUMP_FILE_NOT_FOUND:
-   *                 summary: Dump file not found
-   *                 value:
-   *                   success: false
-   *                   code: DUMP_FILE_NOT_FOUND
-   *                   msg: "Dump file not found at path: /path/to/dump.sql"
-   *               INVALID_DUMP_FILE:
-   *                 summary: Path is not a file
-   *                 value:
-   *                   success: false
-   *                   code: INVALID_DUMP_FILE
-   *                   msg: "Path is not a file: /path/to/dump.sql"
-   *               DUMP_FILE_ACCESS_ERROR:
-   *                 summary: Cannot access dump file
-   *                 value:
-   *                   success: false
-   *                   code: DUMP_FILE_ACCESS_ERROR
-   *                   msg: "Cannot access dump file: /path/to/dump.sql"
-   *       401:
-   *         description: Invalid admin password
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: UNAUTHORIZED
-   *               msg: "Invalid admin password"
-   *       500:
-   *         description: Failed to restore pg dump
-   *         content:
-   *           application/json:
-   *             schema:
-   *               $ref: '#/components/schemas/ErrorResponse'
-   *             example:
-   *               success: false
-   *               code: PG_RESTORE_FAILED
-   *               msg: "Failed to restore pg dump"
-   */
+  registry.registerPath({
+    method: "post",
+    path: "/pg_dump/v1/restore",
+    tags: ["PG Dump"],
+    summary: "Restore a pg dump",
+    description: "Restore a pg dump.",
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: PgRestoreRequestBodySchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully restored pg dump",
+        content: {
+          "application/json": {
+            schema: PgRestoreSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid dump_path parameter or file not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              INVALID_DUMP_PATH: {
+                summary: "Invalid dump_path parameter",
+                value: {
+                  success: false,
+                  code: "INVALID_DUMP_PATH",
+                  msg: "dump_path parameter is required",
+                },
+              },
+              DUMP_FILE_NOT_FOUND: {
+                summary: "Dump file not found",
+                value: {
+                  success: false,
+                  code: "DUMP_FILE_NOT_FOUND",
+                  msg: "Dump file not found at path: /path/to/dump.sql",
+                },
+              },
+              INVALID_DUMP_FILE: {
+                summary: "Path is not a file",
+                value: {
+                  success: false,
+                  code: "INVALID_DUMP_FILE",
+                  msg: "Path is not a file: /path/to/dump.sql",
+                },
+              },
+              DUMP_FILE_ACCESS_ERROR: {
+                summary: "Cannot access dump file",
+                value: {
+                  success: false,
+                  code: "DUMP_FILE_ACCESS_ERROR",
+                  msg: "Cannot access dump file: /path/to/dump.sql",
+                },
+              },
+            },
+          },
+        },
+      },
+      401: {
+        description: "Invalid admin password",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              UNAUTHORIZED: {
+                value: {
+                  success: false,
+                  code: "UNAUTHORIZED",
+                  msg: "Invalid admin password",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Failed to restore pg dump",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              PG_RESTORE_FAILED: {
+                value: {
+                  success: false,
+                  code: "PG_RESTORE_FAILED",
+                  msg: "Failed to restore pg dump",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/restore",
     adminAuthMiddleware,

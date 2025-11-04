@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/dotenv",
-  "version": "0.0.2-alpha.13",
+  "version": "0.0.2-alpha.15",
   "packageManager": "yarn@4.7.0",
   "type": "module",
   "main": "./dist/index.js",
@@ -17,7 +17,7 @@
     "directory": "stdlib_js"
   },
   "dependencies": {
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.28"
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.30"
   },
   "devDependencies": {
     "@types/jest": "*",
