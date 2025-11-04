@@ -6,6 +6,8 @@ import { version } from "./cmds/version";
 import { publish } from "./cmds/publish";
 import { dbMigrate } from "./cmds/db_migrate";
 import { buildCs } from "./cmds/build_cs";
+import { apiDbSeed } from "./cmds/api_db_seed";
+import { apiDbMigrate } from "./cmds/api_db_migrate";
 
 async function main() {
   const command = program.version("0.0.1").description("EWallet Public CI");
@@ -20,6 +22,10 @@ async function main() {
 
   // internals2
   command.command("build_cs").action(buildCs);
+
+  command.command("api_db_migrate").action(apiDbMigrate);
+
+  command.command("api_db_seed").action(apiDbSeed);
 
   command
     .command("db_migrate")
