@@ -22,11 +22,10 @@
     }
   },
   "keywords": [
+    "oko",
     "keplr",
-    "ewallet",
-    "cosmos",
-    "blockchain",
-    "wallet"
+    "wallet",
+    "blockchain"
   ],
   "repository": {
     "type": "git",

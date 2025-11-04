@@ -1,4 +1,4 @@
-export * from "./ewallet";
+export * from "./oko_wallet";
 export * from "./msg";
 export * from "./sign";
 export * from "./modal";

@@ -1,54 +1,48 @@
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type { EventEmitter3 } from "@oko-wallet-sdk-core/event";
-import type {
-  KeplrEWalletCoreEvent2,
-  KeplrEWalletCoreEventHandler2,
-} from "./event";
-import type { EWalletMsg, EWalletMsgOpenModal } from "./msg";
+import type { OkoWalletCoreEvent2, OkoWalletCoreEventHandler2 } from "./event";
+import type { OkoWalletMsg, OkoWalletMsgOpenModal } from "./msg";
 import type { OpenModalAckPayload } from "./modal";
 import type {
-  KeplrEwalletInitError,
+  OkoWalletInitError,
   OpenModalError,
 } from "@oko-wallet-sdk-core/errors";
 
-export interface KeplrEWalletStaticInterface {
+export interface OkoWalletStaticInterface {
   new (apiKey: string, iframe: HTMLIFrameElement, sdkEndpoint: string): void;
   init: (
-    args: KeplrEwalletInitArgs,
-  ) => Result<KeplrEWalletInterface, KeplrEwalletInitError>;
+    args: OkoWalletInitArgs,
+  ) => Result<OkoWalletInterface, OkoWalletInitError>;
 }
 
-export interface KeplrEWalletInterface {
-  state: KeplrEWalletState;
+export interface OkoWalletInterface {
+  state: OkoWalletState;
   apiKey: string;
   iframe: HTMLIFrameElement;
   sdkEndpoint: string;
-  eventEmitter: EventEmitter3<
-    KeplrEWalletCoreEvent2,
-    KeplrEWalletCoreEventHandler2
-  >;
+  eventEmitter: EventEmitter3<OkoWalletCoreEvent2, OkoWalletCoreEventHandler2>;
   origin: string;
-  waitUntilInitialized: Promise<Result<KeplrEWalletState, string>>;
+  waitUntilInitialized: Promise<Result<OkoWalletState, string>>;
 
   openModal: (
-    msg: EWalletMsgOpenModal,
+    msg: OkoWalletMsgOpenModal,
   ) => Promise<Result<OpenModalAckPayload, OpenModalError>>;
   closeModal: () => void;
-  sendMsgToIframe: (msg: EWalletMsg) => Promise<EWalletMsg>;
+  sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>;
   signIn: (type: "google") => Promise<void>;
   signOut: () => Promise<void>;
   getPublicKey: () => Promise<string | null>;
   getEmail: () => Promise<string | null>;
-  on: (handlerDef: KeplrEWalletCoreEventHandler2) => void;
+  on: (handlerDef: OkoWalletCoreEventHandler2) => void;
 }
 
-export interface KeplrEwalletInitArgs {
+export interface OkoWalletInitArgs {
   api_key: string;
   sdk_endpoint?: string;
 }
 
-export interface KeplrEWalletState {
+export interface OkoWalletState {
   email: string | null;
   publicKey: string | null;
 }

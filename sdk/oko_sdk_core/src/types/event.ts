@@ -3,7 +3,7 @@ export interface AccountsChangedPayload {
   publicKey: string | null;
 }
 
-export type KeplrEWalletCoreEvent2 =
+export type OkoWalletCoreEvent2 =
   | {
       type: "CORE__accountsChanged";
       email: string | null;
@@ -13,7 +13,7 @@ export type KeplrEWalletCoreEvent2 =
       type: "CORE__chainChanged";
     };
 
-export type KeplrEWalletCoreEventHandler2 =
+export type OkoWalletCoreEventHandler2 =
   | {
       type: "CORE__accountsChanged";
       handler: (payload: AccountsChangedPayload) => void;
