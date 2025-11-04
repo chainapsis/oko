@@ -1,5 +1,5 @@
-import type { KeplrEWalletInterface } from "@oko-wallet-sdk-core/types";
+import type { OkoWalletInterface } from "@oko-wallet-sdk-core/types";
 
-export function closeModal(this: KeplrEWalletInterface) {
+export function closeModal(this: OkoWalletInterface) {
   this.iframe.style.display = "none";
 }

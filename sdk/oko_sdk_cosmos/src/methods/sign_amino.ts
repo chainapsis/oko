@@ -2,17 +2,17 @@ import { type AminoSignResponse, type StdSignDoc } from "@cosmjs/amino";
 import type { KeplrSignOptions } from "@keplr-wallet/types";
 import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function signAmino(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   chainId: string,
   signer: string,
   signDoc: StdSignDoc,
   signOptions?: KeplrSignOptions,
 ): Promise<AminoSignResponse> {
   try {
-    const origin = this.eWallet.origin;
+    const origin = this.okoWallet.origin;
     const chainInfoList = await this.getCosmosChainInfo();
     const chainInfo = chainInfoList.find((info) => info.chainId === chainId);
 
@@ -82,7 +82,7 @@ export async function signAmino(
       }
     }
   } catch (error) {
-    console.error("[keplr-cosmos] Error signing amino, err: %s", error);
+    console.error("[oko-cosmos] Error signing amino, err: %s", error);
 
     throw error;
   }

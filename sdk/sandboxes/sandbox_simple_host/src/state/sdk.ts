@@ -1,21 +1,24 @@
 import {
-  CosmosEWallet,
-  type CosmosEWalletInterface,
+  OkoCosmosWallet,
+  type OkoCosmosWalletInterface,
 } from "@oko-wallet/oko-sdk-cosmos";
-import { EthEWallet, type EthEWalletInterface } from "@oko-wallet/oko-sdk-eth";
+import {
+  OkoEthWallet,
+  type OkoEthWalletInterface,
+} from "@oko-wallet/oko-sdk-eth";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
 interface SDKState {
-  oko_eth: EthEWalletInterface | null;
-  oko_cosmos: CosmosEWalletInterface | null;
+  oko_eth: OkoEthWalletInterface | null;
+  oko_cosmos: OkoCosmosWalletInterface | null;
   isEthInitializing: boolean;
   isCosmosInitializing: boolean;
 }
 
 interface SDKActions {
-  initOkoEth: () => EthEWalletInterface | null;
-  initOkoCosmos: () => CosmosEWalletInterface | null;
+  initOkoEth: () => OkoEthWalletInterface | null;
+  initOkoCosmos: () => OkoCosmosWalletInterface | null;
 }
 
 export const useSDKState = create(
@@ -40,7 +43,7 @@ export const useSDKState = create(
         console.log("Initializing ETH SDK...");
         set({ isEthInitializing: true });
 
-        const initRes = EthEWallet.init({
+        const initRes = OkoEthWallet.init({
           api_key:
             "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
           sdk_endpoint: import.meta.env.VITE_OKO_SDK_ENDPOINT,
@@ -75,7 +78,7 @@ export const useSDKState = create(
         console.log("Initializing Cosmos SDK...");
         set({ isCosmosInitializing: true });
 
-        const initRes = CosmosEWallet.init({
+        const initRes = OkoCosmosWallet.init({
           api_key:
             "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
           sdk_endpoint: import.meta.env.VITE_OKO_SDK_ENDPOINT,

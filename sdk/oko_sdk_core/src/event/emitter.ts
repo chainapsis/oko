@@ -29,7 +29,7 @@ Received ${handler === null ? "null" : typeof handler}`,
 
   emit<T extends E["type"]>(event: E): Result<void, EventEmitError> {
     const { type, ...rest } = event;
-    console.log("[keplr] emit, type: %s", type);
+    console.log("[oko] emit, type: %s", type);
 
     const handlers = this.listeners[type as T];
 

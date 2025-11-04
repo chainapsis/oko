@@ -1,19 +1,19 @@
 import type {
-  EWalletMsgOpenModal,
+  OkoWalletMsgOpenModal,
   MakeCosmosSigData,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
 import { v4 as uuidv4 } from "uuid";
 
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function openModal(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   data: MakeCosmosSigData,
 ): Promise<OpenModalAckPayload> {
   const modal_id = uuidv4();
 
-  const openModalMsg: EWalletMsgOpenModal = {
+  const openModalMsg: OkoWalletMsgOpenModal = {
     target: "oko_attached",
     msg_type: "open_modal",
     payload: {
@@ -23,13 +23,13 @@ export async function openModal(
     },
   };
   try {
-    const modalResult = await this.eWallet.openModal(openModalMsg);
+    const modalResult = await this.okoWallet.openModal(openModalMsg);
 
     if (!modalResult.success) {
       throw new Error("modal result not success");
     }
 
-    this.eWallet.closeModal();
+    this.okoWallet.closeModal();
 
     return modalResult.data;
   } catch (err: any) {

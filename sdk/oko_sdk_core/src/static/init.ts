@@ -2,22 +2,22 @@ import { type Result } from "@oko-wallet/stdlib-js";
 
 import { setUpIframeElement } from "@oko-wallet-sdk-core/iframe";
 import type {
-  KeplrEwalletInitArgs,
-  KeplrEWalletInterface,
+  OkoWalletInitArgs,
+  OkoWalletInterface,
 } from "@oko-wallet-sdk-core/types";
-import { KeplrEWallet } from "@oko-wallet-sdk-core/constructor";
-import type { KeplrEwalletInitError } from "@oko-wallet-sdk-core/errors";
+import { OkoWallet } from "@oko-wallet-sdk-core/constructor";
+import type { OkoWalletInitError } from "@oko-wallet-sdk-core/errors";
 
 const SDK_ENDPOINT = `https://attached.oko.app`;
 
 export function init(
-  args: KeplrEwalletInitArgs,
-): Result<KeplrEWalletInterface, KeplrEwalletInitError> {
+  args: OkoWalletInitArgs,
+): Result<OkoWalletInterface, OkoWalletInitError> {
   try {
-    console.log("[keplr] init");
+    console.log("[oko] init");
 
     if (window === undefined) {
-      console.error("[keplr] EWallet can only be initialized in the browser");
+      console.error("[oko] oko wallet can only be initialized in the browser");
 
       return {
         success: false,
@@ -27,17 +27,17 @@ export function init(
 
     if (window.__oko_locked === true) {
       console.warn(
-        "keplr ewallet init is locked. Is init being exeucted concurrently?",
+        "oko wallet init is locked. Is init being executed concurrently?",
       );
       return { success: false, err: { type: "is_locked" } };
     } else {
       window.__oko_locked = true;
     }
 
-    console.log("[keplr] sdk endpoint: %s", args.sdk_endpoint);
+    console.log("[oko] sdk endpoint: %s", args.sdk_endpoint);
 
     if (window.__oko) {
-      console.warn("[keplr] already initialized");
+      console.warn("[oko] already initialized");
 
       return { success: true, data: window.__oko };
     }
@@ -64,8 +64,8 @@ export function init(
       };
     }
 
-    console.log("[keplr] resolved sdk endpoint: %s", sdkEndpoint);
-    console.log("[keplr] host origin: %s", hostOrigin);
+    console.log("[oko] resolved sdk endpoint: %s", sdkEndpoint);
+    console.log("[oko] host origin: %s", hostOrigin);
 
     const iframeRes = setUpIframeElement(sdkEndpointURL);
     if (!iframeRes.success) {
@@ -77,24 +77,20 @@ export function init(
 
     const iframe = iframeRes.data;
 
-    const ewalletCore = new (KeplrEWallet as any)(
-      args.api_key,
-      iframe,
-      sdkEndpoint,
-    );
+    const okoWallet = new (OkoWallet as any)(args.api_key, iframe, sdkEndpoint);
 
     if (window.__oko) {
-      console.warn("[keplr] ewallet has been initialized by another process");
+      console.warn("[oko] oko wallet has been initialized by another process");
 
       return { success: true, data: window.__oko };
     } else {
-      window.__oko = ewalletCore;
-      return { success: true, data: ewalletCore };
+      window.__oko = okoWallet;
+      return { success: true, data: okoWallet };
     }
   } catch (err: any) {
-    console.error("[keplr] init fail", err);
+    console.error("[oko] init fail", err);
 
-    throw new Error("[keplr] sdk init fail, unreachable");
+    throw new Error("[oko] sdk init fail, unreachable");
   } finally {
     if (window.__oko_locked === true) {
       window.__oko_locked = false;

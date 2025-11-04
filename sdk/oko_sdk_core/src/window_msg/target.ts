@@ -1,1 +1,1 @@
-export const EWALLET_ATTACHED_TARGET = "oko_attached";
+export const OKO_ATTACHED_TARGET = "oko_attached";

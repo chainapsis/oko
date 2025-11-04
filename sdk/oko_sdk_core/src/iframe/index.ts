@@ -1,13 +1,13 @@
 import { type Result } from "@oko-wallet/stdlib-js";
 
-export const KEPLR_IFRAME_ID = "oko-attached";
+export const OKO_IFRAME_ID = "oko-attached";
 
 export function setUpIframeElement(
   url: URL,
 ): Result<HTMLIFrameElement, string> {
-  const oldEl = document.getElementById(KEPLR_IFRAME_ID);
+  const oldEl = document.getElementById(OKO_IFRAME_ID);
   if (oldEl !== null) {
-    console.warn("[keplr] iframe already exists");
+    console.warn("[oko] iframe already exists");
 
     return {
       success: true,
@@ -26,7 +26,7 @@ export function setUpIframeElement(
 
   const bodyEl = bodyEls[0];
 
-  console.debug("[keplr] setting up iframe");
+  console.debug("[oko] setting up iframe");
 
   const iframe = document.createElement("iframe");
 
@@ -44,7 +44,7 @@ function loadIframe(
   bodyEl: HTMLBodyElement,
   url: URL,
 ) {
-  console.log("[keplr] loading iframe");
+  console.log("[oko] loading iframe");
 
   iframe.src = url.toString();
 
@@ -53,7 +53,7 @@ function loadIframe(
   iframe.loading = "eager";
 
   // iframe style
-  iframe.id = KEPLR_IFRAME_ID;
+  iframe.id = OKO_IFRAME_ID;
   iframe.style.position = "fixed";
   iframe.style.top = "0";
   iframe.style.left = "0";

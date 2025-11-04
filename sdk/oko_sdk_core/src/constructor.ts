@@ -1,14 +1,14 @@
 import { lazyInit } from "./private/lazy_init";
 import type {
-  KeplrEWalletCoreEvent2,
-  KeplrEWalletCoreEventHandler2,
-  KeplrEWalletInterface,
-  KeplrEWalletStaticInterface,
+  OkoWalletCoreEvent2,
+  OkoWalletCoreEventHandler2,
+  OkoWalletInterface,
+  OkoWalletStaticInterface,
 } from "./types";
 import { EventEmitter3 } from "./event";
 
-export const KeplrEWallet = function (
-  this: KeplrEWalletInterface,
+export const OkoWallet = function (
+  this: OkoWalletInterface,
   apiKey: string,
   iframe: HTMLIFrameElement,
   sdkEndpoint: string,
@@ -18,12 +18,12 @@ export const KeplrEWallet = function (
   this.sdkEndpoint = sdkEndpoint;
   this.origin = window.location.origin;
   this.eventEmitter = new EventEmitter3<
-    KeplrEWalletCoreEvent2,
-    KeplrEWalletCoreEventHandler2
+    OkoWalletCoreEvent2,
+    OkoWalletCoreEventHandler2
   >();
   this.state = {
     email: null,
     publicKey: null,
   };
   this.waitUntilInitialized = lazyInit(this).then();
-} as any as KeplrEWalletStaticInterface;
+} as any as OkoWalletStaticInterface;

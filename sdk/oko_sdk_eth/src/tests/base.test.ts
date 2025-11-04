@@ -17,7 +17,7 @@ import {
   MOCK_SIGNATURE,
 } from "./mock";
 import {
-  EWalletEIP1193Provider,
+  OkoEIP1193Provider,
   ProviderRpcErrorCode,
   RpcErrorCode,
 } from "@oko-wallet-sdk-eth/provider";
@@ -25,7 +25,7 @@ import { ProviderEventEmitter } from "@oko-wallet-sdk-eth/provider/emitter";
 
 describe("EWallet Provider - Base", () => {
   describe("Basic Properties", () => {
-    let provider: EWalletEIP1193Provider;
+    let provider: OkoEIP1193Provider;
     let mockServer: MockRpcServer;
 
     beforeEach(() => {
@@ -41,7 +41,7 @@ describe("EWallet Provider - Base", () => {
         rpcUrls: [mainnetUrl],
       };
 
-      provider = new EWalletEIP1193Provider(
+      provider = new OkoEIP1193Provider(
         createProviderOptions([mockChainParam]),
       );
     });
@@ -51,7 +51,7 @@ describe("EWallet Provider - Base", () => {
     });
 
     it("should initialize with correct properties", () => {
-      expect(EWalletEIP1193Provider).toBeDefined();
+      expect(OkoEIP1193Provider).toBeDefined();
       expect(provider.chainId).toBe(toHex(mainnet.id));
       expect(provider.isConnected).toBe(true);
       expect(provider.version).toBe(EXPECTED_VERSION);
@@ -64,7 +64,7 @@ describe("EWallet Provider - Base", () => {
   });
 
   describe("EIP1193 Interface", () => {
-    let provider: EWalletEIP1193Provider;
+    let provider: OkoEIP1193Provider;
     let mockServer: MockRpcServer;
 
     beforeEach(() => {
@@ -80,7 +80,7 @@ describe("EWallet Provider - Base", () => {
         rpcUrls: [mainnetUrl],
       };
 
-      provider = new EWalletEIP1193Provider(
+      provider = new OkoEIP1193Provider(
         createProviderOptions([mockChainParam]),
       );
     });
@@ -118,13 +118,13 @@ describe("EWallet Provider - Base", () => {
 
   describe("Request Method Handling", () => {
     describe("Basic RPC Methods", () => {
-      let provider: EWalletEIP1193Provider;
+      let provider: OkoEIP1193Provider;
       let mainnetChainParam: AddEthereumChainParameter;
 
       beforeEach(() => {
         // Use live RPC for basic RPC method tests
         mainnetChainParam = createChainParam(mainnet);
-        provider = new EWalletEIP1193Provider(
+        provider = new OkoEIP1193Provider(
           createProviderOptions([mainnetChainParam]),
         );
       });
@@ -166,7 +166,7 @@ describe("EWallet Provider - Base", () => {
 
       it("should successfully init provider with signer but no account", async () => {
         const mockSigner = createMockSigner({ noAccount: true });
-        const publicProvider = new EWalletEIP1193Provider(
+        const publicProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(mainnet)], mockSigner),
         );
 
@@ -183,13 +183,13 @@ describe("EWallet Provider - Base", () => {
     });
 
     describe("Chain Management", () => {
-      let provider: EWalletEIP1193Provider;
+      let provider: OkoEIP1193Provider;
       let mainnetChainParam: AddEthereumChainParameter;
 
       beforeEach(() => {
         // Use live RPC for chain management tests
         mainnetChainParam = createChainParam(mainnet);
-        provider = new EWalletEIP1193Provider(
+        provider = new OkoEIP1193Provider(
           createProviderOptions([mainnetChainParam]),
         );
       });
@@ -300,7 +300,7 @@ describe("EWallet Provider - Base", () => {
       });
 
       it("should successfully handle multi-chain state", async () => {
-        const multiProvider = new EWalletEIP1193Provider(
+        const multiProvider = new OkoEIP1193Provider(
           createProviderOptions([
             createChainParam(mainnet),
             createChainParam(sepolia),
@@ -334,7 +334,7 @@ describe("EWallet Provider - Base", () => {
 
     describe("Wallet Methods - No Signer", () => {
       it("should successfully handle public RPC methods without signer", async () => {
-        const publicProvider = new EWalletEIP1193Provider(
+        const publicProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(mainnet)]),
         );
 
@@ -349,7 +349,7 @@ describe("EWallet Provider - Base", () => {
       });
 
       it("should successfully handle wallet RPC methods not requiring authenticated signer", async () => {
-        const publicProvider = new EWalletEIP1193Provider(
+        const publicProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(mainnet)]),
         );
 
@@ -365,7 +365,7 @@ describe("EWallet Provider - Base", () => {
       });
 
       it("should fail with wallet RPC methods without signer", async () => {
-        const publicProvider = new EWalletEIP1193Provider(
+        const publicProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(mainnet)]),
         );
 
@@ -384,7 +384,7 @@ describe("EWallet Provider - Base", () => {
     describe("Wallet Methods - With Signer", () => {
       it("should successfully handle wallet RPC methods with signer", async () => {
         const mockSigner = createMockSigner();
-        const walletProvider = new EWalletEIP1193Provider(
+        const walletProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(mainnet)], mockSigner),
         );
 
@@ -407,7 +407,7 @@ describe("EWallet Provider - Base", () => {
 
       it("should fail when signer given but no account", async () => {
         const mockSigner = createMockSigner({ noAccount: true });
-        const walletProvider = new EWalletEIP1193Provider(
+        const walletProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(mainnet)], mockSigner),
         );
 
@@ -426,7 +426,7 @@ describe("EWallet Provider - Base", () => {
 
   describe("Event System", () => {
     it("should successfully prevent duplicate connect events after initialization", async () => {
-      const eventProvider = new EWalletEIP1193Provider(
+      const eventProvider = new OkoEIP1193Provider(
         createProviderOptions([createChainParam(mainnet)]),
       );
 
@@ -443,7 +443,7 @@ describe("EWallet Provider - Base", () => {
     });
 
     it("should successfully handle multiple event listeners", async () => {
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions([createChainParam(mainnet)]),
       );
 
@@ -480,7 +480,7 @@ describe("EWallet Provider - Base", () => {
     });
 
     it("should successfully remove event listeners", async () => {
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions([createChainParam(mainnet)]),
       );
 

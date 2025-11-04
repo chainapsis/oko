@@ -1,12 +1,12 @@
 import type {
-  EWalletMsg,
-  KeplrEWalletInterface,
+  OkoWalletMsg,
+  OkoWalletInterface,
 } from "@oko-wallet-sdk-core/types";
 
 export async function sendMsgToIframe(
-  this: KeplrEWalletInterface,
-  msg: EWalletMsg,
-): Promise<EWalletMsg> {
+  this: OkoWalletInterface,
+  msg: OkoWalletMsg,
+): Promise<OkoWalletMsg> {
   await this.waitUntilInitialized;
 
   const contentWindow = this.iframe.contentWindow;
@@ -14,18 +14,18 @@ export async function sendMsgToIframe(
     throw new Error("iframe contentWindow is null");
   }
 
-  return new Promise<EWalletMsg>((resolve) => {
+  return new Promise<OkoWalletMsg>((resolve) => {
     const channel = new MessageChannel();
 
     channel.port1.onmessage = (event: MessageEvent) => {
-      const data = event.data as EWalletMsg;
+      const data = event.data as OkoWalletMsg;
 
-      console.debug("[keplr] reply recv", data);
+      console.debug("[oko] reply recv", data);
 
       if (data.hasOwnProperty("payload")) {
         resolve(data);
       } else {
-        console.error("[keplr] unknown msg type");
+        console.error("[oko] unknown msg type");
         resolve({
           target: "oko_sdk",
           msg_type: "unknown_msg_type",

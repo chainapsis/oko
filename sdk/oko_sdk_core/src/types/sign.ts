@@ -8,6 +8,6 @@ export interface SignOutput {
   is_high: boolean;
 }
 
-export type EWalletMakeSignaturePayload = {
+export type MakeSignaturePayload = {
   msg: Uint8Array;
 };

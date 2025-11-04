@@ -1,60 +1,63 @@
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {
-  CosmosEWalletInterface,
-  CosmosEWalletState,
+  OkoCosmosWalletInterface,
+  OkoCosmosWalletState,
 } from "@oko-wallet-sdk-cosmos/types";
 import type { LazyInitError } from "@oko-wallet-sdk-cosmos/errors";
 
 export async function lazyInit(
-  cosmosEWallet: CosmosEWalletInterface,
-): Promise<Result<CosmosEWalletState, LazyInitError>> {
-  const eWalletStateRes = await cosmosEWallet.eWallet.waitUntilInitialized;
+  okoCosmosWallet: OkoCosmosWalletInterface,
+): Promise<Result<OkoCosmosWalletState, LazyInitError>> {
+  const walletStateRes = await okoCosmosWallet.okoWallet.waitUntilInitialized;
 
-  if (!eWalletStateRes.success) {
-    return { success: false, err: { type: "eWallet failed to initailize" } };
+  if (!walletStateRes.success) {
+    return {
+      success: false,
+      err: { type: "oko_cosmos_wallet_lazy_init_fail" },
+    };
   }
 
-  setUpEventHandlers.call(cosmosEWallet);
+  setUpEventHandlers.call(okoCosmosWallet);
 
-  const eWalletState = eWalletStateRes.data;
-  if (eWalletState.publicKey) {
-    const pk = Buffer.from(eWalletState.publicKey, "hex");
+  const walletState = walletStateRes.data;
+  if (walletState.publicKey) {
+    const pk = Buffer.from(walletState.publicKey, "hex");
 
-    cosmosEWallet.state = {
+    okoCosmosWallet.state = {
       publicKey: pk,
-      publicKeyRaw: eWalletState.publicKey,
+      publicKeyRaw: walletState.publicKey,
     };
 
-    cosmosEWallet.eventEmitter.emit({
+    okoCosmosWallet.eventEmitter.emit({
       type: "accountsChanged",
-      email: eWalletState.email,
+      email: walletState.email,
       publicKey: pk,
     });
   } else {
-    cosmosEWallet.state = {
+    okoCosmosWallet.state = {
       publicKey: null,
       publicKeyRaw: null,
     };
 
-    cosmosEWallet.eventEmitter.emit({
+    okoCosmosWallet.eventEmitter.emit({
       type: "accountsChanged",
-      email: eWalletState.email,
+      email: walletState.email,
       publicKey: null,
     });
   }
 
-  return { success: true, data: cosmosEWallet.state };
+  return { success: true, data: okoCosmosWallet.state };
 }
 
-export function setUpEventHandlers(this: CosmosEWalletInterface): void {
-  console.log("[keplr-cosmos] set up event handlers");
+export function setUpEventHandlers(this: OkoCosmosWalletInterface): void {
+  console.log("[oko-cosmos] set up event handlers");
 
-  this.eWallet.on({
+  this.okoWallet.on({
     type: "CORE__accountsChanged",
     handler: (payload) => {
       console.log(
-        "[keplr-cosmos] CORE__accountsChanged callback, payload: %s",
+        "[oko-cosmos] CORE__accountsChanged callback, payload: %s",
         JSON.stringify(payload),
       );
 
@@ -84,7 +87,7 @@ export function setUpEventHandlers(this: CosmosEWalletInterface): void {
     },
   });
 
-  this.eWallet.on({
+  this.okoWallet.on({
     type: "CORE__chainChanged",
     handler: (_payload) => {
       this.eventEmitter.emit({ type: "chainChanged" });

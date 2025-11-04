@@ -1,12 +1,12 @@
 import type {
-  EWalletMsgGetEthChainInfo,
-  KeplrEWalletInterface,
+  OkoWalletMsgGetEthChainInfo,
+  OkoWalletInterface,
 } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { ChainInfo } from "@keplr-wallet/types";
 import { toHex } from "viem";
 
-import type { EWalletRpcChain } from "@oko-wallet-sdk-eth/provider";
+import type { OkoEthRpcChain } from "@oko-wallet-sdk-eth/provider";
 import type { SendGetEthChainInfoError } from "@oko-wallet-sdk-eth/errors";
 import { parseChainId } from "@oko-wallet-sdk-eth/utils";
 
@@ -14,7 +14,7 @@ export const DEFAULT_CHAIN_ID = 1;
 
 export function convertChainInfoToRpcChain(
   chainInfo: ChainInfo,
-): EWalletRpcChain | null {
+): OkoEthRpcChain | null {
   if (chainInfo.currencies.length === 0) {
     return null;
   }
@@ -37,10 +37,10 @@ export function convertChainInfoToRpcChain(
 }
 
 export async function sendGetEthChainInfo(
-  ewallet: KeplrEWalletInterface,
+  okoWallet: OkoWalletInterface,
   chainId?: string,
 ): Promise<Result<ChainInfo[], SendGetEthChainInfoError>> {
-  const msg: EWalletMsgGetEthChainInfo = {
+  const msg: OkoWalletMsgGetEthChainInfo = {
     target: "oko_attached",
     msg_type: "get_eth_chain_info",
     payload: {
@@ -48,7 +48,7 @@ export async function sendGetEthChainInfo(
     },
   };
 
-  const res = await ewallet.sendMsgToIframe(msg);
+  const res = await okoWallet.sendMsgToIframe(msg);
 
   if (res.msg_type !== "get_eth_chain_info_ack") {
     return { success: false, err: { type: "wrong_ack_message_type" } };

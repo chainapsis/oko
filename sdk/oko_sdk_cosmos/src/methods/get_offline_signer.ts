@@ -1,10 +1,10 @@
 import type { KeplrSignOptions } from "@keplr-wallet/types";
 import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export function getOfflineSigner(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   chainId: string,
   signOptions?: KeplrSignOptions,
 ): OfflineDirectSigner {

@@ -12,16 +12,16 @@ import {
   cosmosAddress,
   initiaAddress,
 } from "@oko-wallet-sdk-cosmos/tests/test-data";
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 describe("getKey", () => {
-  let mockCosmosEWallet: CosmosEWalletInterface;
+  let mockCosmosEWallet: OkoCosmosWalletInterface;
   let mockGetPublicKey: jest.Mock<() => Promise<Uint8Array>>;
   let mockGetCosmosChainInfo: jest.Mock<() => Promise<ChainInfo[]>>;
 
   beforeEach(() => {
     // Create a mock CosmosEWallet instance
-    mockCosmosEWallet = {} as CosmosEWalletInterface;
+    mockCosmosEWallet = {} as OkoCosmosWalletInterface;
 
     // Create mock methods (default to Cosmos data)
     mockGetPublicKey = jest

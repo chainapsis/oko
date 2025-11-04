@@ -19,9 +19,9 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
       if (okoCosmos) {
         setIsSigningIn(true);
 
-        const eWallet = okoCosmos.eWallet;
+        const okoWallet = okoCosmos.okoWallet;
         // await eWallet.signIn("google");
-        eWallet.signIn("google");
+        okoWallet.signIn("google");
       }
     } catch (error) {
       console.error(error);
@@ -32,7 +32,7 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
 
   const handleSignOut = async () => {
     if (okoCosmos) {
-      await okoCosmos.eWallet.signOut();
+      await okoCosmos.okoWallet.signOut();
     }
   };
 

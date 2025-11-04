@@ -1,46 +1,46 @@
 import type { Result } from "@oko-wallet/stdlib-js";
 
-import { KEPLR_IFRAME_ID } from "@oko-wallet-sdk-core/iframe";
+import { OKO_IFRAME_ID } from "@oko-wallet-sdk-core/iframe";
 import { registerMsgListener } from "@oko-wallet-sdk-core/window_msg/listener";
 import type {
-  KeplrEWalletInterface,
-  KeplrEWalletState,
+  OkoWalletInterface,
+  OkoWalletState,
 } from "@oko-wallet-sdk-core/types";
 
 export async function lazyInit(
-  eWallet: KeplrEWalletInterface,
-): Promise<Result<KeplrEWalletState, string>> {
+  okoWallet: OkoWalletInterface,
+): Promise<Result<OkoWalletState, string>> {
   await waitUntilDocumentLoad();
 
-  const el = document.getElementById(KEPLR_IFRAME_ID);
+  const el = document.getElementById(OKO_IFRAME_ID);
   if (el === null) {
     return {
       success: false,
-      err: "iframe not exists even after Keplr eWallet initialization",
+      err: "iframe not exists even after oko wallet initialization",
     };
   }
 
-  const checkURLRes = await checkURL(eWallet.sdkEndpoint);
+  const checkURLRes = await checkURL(okoWallet.sdkEndpoint);
   if (!checkURLRes.success) {
     return checkURLRes;
   }
 
-  const registerRes = await registerMsgListener(eWallet);
+  const registerRes = await registerMsgListener(okoWallet);
   if (registerRes.success) {
     const initResult = registerRes.data;
     const { email, public_key } = initResult;
 
-    eWallet.state = { email, publicKey: public_key };
+    okoWallet.state = { email, publicKey: public_key };
 
     if (email && public_key) {
-      eWallet.eventEmitter.emit({
+      okoWallet.eventEmitter.emit({
         type: "CORE__accountsChanged",
         email: email,
         publicKey: public_key,
       });
     }
 
-    return { success: true, data: eWallet.state };
+    return { success: true, data: okoWallet.state };
   } else {
     return {
       success: false,
@@ -61,7 +61,7 @@ async function checkURL(url: string): Promise<Result<string, string>> {
       };
     }
   } catch (err: any) {
-    console.error("[keplr] check url fail, url: %s", url);
+    console.error("[oko] check url fail, url: %s", url);
 
     return { success: false, err: `check url fail, ${err.toString()}` };
   }

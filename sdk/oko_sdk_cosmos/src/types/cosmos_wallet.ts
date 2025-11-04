@@ -1,8 +1,7 @@
 import type {
   EventEmitter3,
-  KeplrEwalletInitArgs,
-  KeplrEwalletInitError,
-  KeplrEWalletInterface,
+  OkoWalletInitArgs,
+  OkoWalletInterface,
   MakeCosmosSigData,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
@@ -26,39 +25,39 @@ import type {
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {
-  KeplrEWalletCosmosEvent2,
-  KeplrEWalletCosmosEventHandler2,
+  OkoCosmosWalletEvent2,
+  OkoCosmosWalletEventHandler2,
 } from "./event";
 import type { SignDoc } from "@oko-wallet-sdk-cosmos/types/sign";
 import type {
-  CosmosEwalletInitError,
+  OkoCosmosWalletInitError,
   LazyInitError,
 } from "@oko-wallet-sdk-cosmos/errors";
 import type { ArbitrarySigVerificationResult } from "@oko-wallet-sdk-cosmos/methods/verify_arbitrary";
 
-export interface CosmosEWalletState {
+export interface OkoCosmosWalletState {
   publicKey: Uint8Array | null;
   publicKeyRaw: string | null;
 }
 
-export interface CosmosEWalletStaticInterface {
-  new (eWallet: KeplrEWalletInterface): void;
+export interface OkoCosmosWalletStaticInterface {
+  new (okoWallet: OkoWalletInterface): void;
   init: (
-    args: KeplrEwalletInitArgs,
-  ) => Result<CosmosEWalletInterface, CosmosEwalletInitError>;
+    args: OkoWalletInitArgs,
+  ) => Result<OkoCosmosWalletInterface, OkoCosmosWalletInitError>;
 }
 
-export interface CosmosEWalletInterface {
-  state: CosmosEWalletState;
-  eWallet: KeplrEWalletInterface;
+export interface OkoCosmosWalletInterface {
+  state: OkoCosmosWalletState;
+  okoWallet: OkoWalletInterface;
   eventEmitter: EventEmitter3<
-    KeplrEWalletCosmosEvent2,
-    KeplrEWalletCosmosEventHandler2
+    OkoCosmosWalletEvent2,
+    OkoCosmosWalletEventHandler2
   >;
-  waitUntilInitialized: Promise<Result<CosmosEWalletState, LazyInitError>>;
+  waitUntilInitialized: Promise<Result<OkoCosmosWalletState, LazyInitError>>;
 
   enable: (_chainId: string) => Promise<void>;
-  on: (handlerDef: KeplrEWalletCosmosEventHandler2) => void;
+  on: (handlerDef: OkoCosmosWalletEventHandler2) => void;
   getPublicKey: () => Promise<Uint8Array | null>;
   getCosmosChainInfo: () => Promise<ChainInfo[]>;
   experimentalSuggestChain: (_chainInfo: ChainInfo) => Promise<void>;

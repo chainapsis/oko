@@ -5,7 +5,7 @@ import styles from "./error_widget.module.scss";
 import { useOko } from "@/hooks/use_oko";
 import { useUserInfoState } from "@/state/user_info";
 import { useAddresses } from "@/hooks/use_addresses";
-import type { EWalletMsgOpenModal } from "@oko-wallet/oko-sdk-core";
+import type { OkoWalletMsgOpenModal } from "@oko-wallet/oko-sdk-core";
 
 export const ErrorWidget: FC<LoginWidgetProps> = () => {
   const { okoCosmos } = useOko();
@@ -16,7 +16,7 @@ export const ErrorWidget: FC<LoginWidgetProps> = () => {
       if (okoCosmos) {
         setIsSigningIn(true);
 
-        const eWallet = okoCosmos.eWallet;
+        const okoWallet = okoCosmos.okoWallet;
 
         const invalidMsg = {
           target: "oko_attached",
@@ -26,9 +26,9 @@ export const ErrorWidget: FC<LoginWidgetProps> = () => {
             modal_id: "123",
             data: {},
           },
-        } as unknown as EWalletMsgOpenModal;
+        } as unknown as OkoWalletMsgOpenModal;
 
-        eWallet.openModal(invalidMsg);
+        okoWallet.openModal(invalidMsg);
       }
     } catch (error) {
       console.error(error);

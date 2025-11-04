@@ -1,22 +1,22 @@
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {
-  EWalletMsg,
-  EWalletMsgInitAck,
-  KeplrEWalletInterface,
+  OkoWalletMsg,
+  OkoWalletMsgInitAck,
+  OkoWalletInterface,
 } from "@oko-wallet-sdk-core/types";
 import type { InitPayload } from "@oko-wallet-sdk-core/types/init";
 
 export function registerMsgListener(
-  _eWallet: KeplrEWalletInterface,
+  _okoWallet: OkoWalletInterface,
 ): Promise<Result<InitPayload, string>> {
   if (window.__oko_ev) {
     // TODO: theoretically unreachable but this can happen
     // Later we will report to centralized logging system
-    console.error("[keplr] isn't it already initailized?");
+    console.error("[oko] isn't it already initialized?");
   }
 
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     async function handler(event: MessageEvent) {
       if (event.ports.length < 1) {
         // do nothing
@@ -25,10 +25,10 @@ export function registerMsgListener(
       }
 
       const port = event.ports[0];
-      const msg = event.data as EWalletMsg;
+      const msg = event.data as OkoWalletMsg;
 
       if (msg.msg_type === "init") {
-        const ack: EWalletMsgInitAck = {
+        const ack: OkoWalletMsgInitAck = {
           target: "oko_attached",
           msg_type: "init_ack",
           payload: { success: true, data: null },
@@ -45,6 +45,6 @@ export function registerMsgListener(
 
     window.addEventListener("message", handler);
     window.__oko_ev = handler;
-    console.log("[keplr] msg listener registered");
+    console.log("[oko] msg listener registered");
   });
 }

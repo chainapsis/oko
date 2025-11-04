@@ -1,8 +1,8 @@
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {
-  EWalletMsgOpenModal,
-  KeplrEWalletInterface,
+  OkoWalletMsgOpenModal,
+  OkoWalletInterface,
   OpenModalAckPayload,
 } from "@oko-wallet-sdk-core/types";
 import type { OpenModalError } from "@oko-wallet-sdk-core/errors";
@@ -10,8 +10,8 @@ import type { OpenModalError } from "@oko-wallet-sdk-core/errors";
 const FIVE_MINS = 60 * 5 * 1000;
 
 export async function openModal(
-  this: KeplrEWalletInterface,
-  msg: EWalletMsgOpenModal,
+  this: OkoWalletInterface,
+  msg: OkoWalletMsgOpenModal,
 ): Promise<Result<OpenModalAckPayload, OpenModalError>> {
   await this.waitUntilInitialized;
 

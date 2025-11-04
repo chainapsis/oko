@@ -1,15 +1,15 @@
 import { serializeTypedData } from "viem";
 
 import type {
-  EthEWalletInterface,
+  OkoEthWalletInterface,
   EthSignParams,
-  EWalletAccount,
+  OkoViemAccount,
 } from "@oko-wallet-sdk-eth/types";
 import { toRpcTransactionRequest } from "@oko-wallet-sdk-eth/utils";
 
 export async function toViemAccount(
-  this: EthEWalletInterface,
-): Promise<EWalletAccount> {
+  this: OkoEthWalletInterface,
+): Promise<OkoViemAccount> {
   await this.waitUntilInitialized;
 
   const publicKey = await this.getPublicKey();
@@ -17,10 +17,10 @@ export async function toViemAccount(
 
   const sign = (params: EthSignParams) => this.makeSignature(params);
 
-  const account: EWalletAccount = {
+  const account: OkoViemAccount = {
     address,
     type: "local",
-    source: "ewallet",
+    source: "oko_wallet",
     publicKey,
     signMessage: async ({ message }) => {
       const result = await sign({

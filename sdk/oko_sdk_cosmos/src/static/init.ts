@@ -1,51 +1,28 @@
-import {
-  KeplrEWallet,
-  type KeplrEwalletInitArgs,
-} from "@oko-wallet/oko-sdk-core";
+import { OkoWallet, type OkoWalletInitArgs } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
 
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
-// import { CosmosEWallet } from "@oko-wallet-sdk-cosmos/cosmos_ewallet";
-import type { CosmosEwalletInitError } from "@oko-wallet-sdk-cosmos/errors";
-import { CosmosEWallet } from "@oko-wallet-sdk-cosmos/constructor";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInitError } from "@oko-wallet-sdk-cosmos/errors";
+import { OkoCosmosWallet } from "@oko-wallet-sdk-cosmos/constructor";
 
 export function init(
-  args: KeplrEwalletInitArgs,
-): Result<CosmosEWalletInterface, CosmosEwalletInitError> {
-  const eWalletRes = KeplrEWallet.init(args);
-  if (!eWalletRes.success) {
+  args: OkoWalletInitArgs,
+): Result<OkoCosmosWalletInterface, OkoCosmosWalletInitError> {
+  const walletRes = OkoWallet.init(args);
+  if (!walletRes.success) {
     console.error(
-      "[keplr-cosmos] ewallet core init fail, err: %s",
-      eWalletRes.err,
+      "[oko-cosmos] cosmos wallet core init fail, err: %s",
+      walletRes.err,
     );
 
     return {
       success: false,
-      err: { type: "ewallet_core_init_fail", msg: eWalletRes.err.toString() },
+      err: {
+        type: "oko_cosmos_wallet_init_fail",
+        msg: walletRes.err.toString(),
+      },
     };
   }
 
-  return { success: true, data: new (CosmosEWallet as any)(eWalletRes.data) };
+  return { success: true, data: new (OkoCosmosWallet as any)(walletRes.data) };
 }
-
-// export async function initAsync(
-//   args: KeplrEwalletInitArgs,
-// ): Promise<Result<CosmosEWalletInterface, string>> {
-//   const eWalletRes = KeplrEWallet.init(args);
-//   if (!eWalletRes.success) {
-//     console.error(
-//       "[keplr-cosmos] ewallet core init fail, err: %s",
-//       eWalletRes.err,
-//     );
-//
-//     return { success: false, err: eWalletRes.err.toString() };
-//   }
-//
-//   const eWallet: CosmosEWalletInterface = new (CosmosEWallet as any)(
-//     eWalletRes.data,
-//   );
-//
-//   await eWallet.waitUntilInitialized;
-//
-//   return { success: true, data: eWallet };
-// }

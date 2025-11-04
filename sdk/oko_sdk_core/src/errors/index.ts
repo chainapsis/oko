@@ -1,4 +1,4 @@
-export type KeplrEwalletInitError =
+export type OkoWalletInitError =
   | {
       type: "is_locked";
     }
