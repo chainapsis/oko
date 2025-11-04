@@ -124,26 +124,85 @@ Health check: `curl http://localhost:4201/status`
 
 ## oko_api (backend)
 
-```
+1. **Create environment file**:
+
+```bash
 cd oko
-# Create env under ~/.oko/ewallet_api_server.env
 yarn workspace @oko-wallet/ewallet-api-server create_env
-# Configure DB_* (host/port/dbname), ENCRYPTION_SECRET, SMTP*, JWT*
+```
 
-# Migrate/seed using env
+2. **Edit `~/.oko/ewallet_api_server.env` file** with your configuration:
+
+```bash
+# Server Configuration
+SERVER_PORT=4200                    # Port number for the ewallet API server
+
+# JWT Configuration
+JWT_SECRET=jwtsecret               # Secret key for JWT token signing
+JWT_EXPIRES_IN=1H                   # JWT token expiration time
+
+# SMTP Configuration (for email verification)
+SMTP_HOST=smtp.gmail.com           # SMTP server hostname
+SMTP_PORT=587                      # SMTP server port (587 for TLS, 465 for SSL)
+SMTP_USER=no-reply@example.com     # SMTP authentication username
+SMTP_PASS=your-app-password        # SMTP authentication password
+FROM_EMAIL=no-reply@example.com     # Email address used as sender for verification emails
+EMAIL_VERIFICATION_EXPIRATION_MINUTES=3  # Email verification code expiration time in minutes
+
+# S3 Configuration (for customer data storage)
+S3_REGION=ap-northeast-2           # AWS S3 region
+S3_BUCKET=oko-wallet-customer      # AWS S3 bucket name
+S3_ACCESS_KEY_ID=ID                # AWS S3 access key ID
+S3_SECRET_ACCESS_KEY=SECRET_KEY     # AWS S3 secret access key
+
+# Database Configuration
+DB_HOST=localhost                  # PostgreSQL database host
+DB_PORT=5432                       # PostgreSQL database port
+DB_USER=postgres                   # PostgreSQL database username
+DB_PASSWORD=postgres               # PostgreSQL database password
+DB_NAME=ewallet_dev                # PostgreSQL database name
+DB_SSL=false                       # Enable/disable SSL connection (true/false)
+
+# Encryption Configuration
+ENCRYPTION_SECRET=temp-enc-secret  # Secret key used to encrypt user shares (use a strong random value in production)
+
+# Elasticsearch Configuration (optional, for logging)
+ES_URL=                            # Elasticsearch URL (leave empty if not using)
+ES_INDEX=index                     # Elasticsearch index name (optional)
+ES_CLIENT_INDEX=client_index       # Elasticsearch client index name (optional)
+ES_USERNAME=username               # Elasticsearch username (optional)
+ES_PASSWORD=pw                     # Elasticsearch password (optional)
+```
+
+3. **Migrate and seed database**:
+
+```bash
+# Migrate database schema
 USE_ENV=true yarn workspace @oko-wallet/ewallet-pg-interface migrate
-USE_ENV=true TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
 
-# Run server (dev)
+# Seed database with initial data (use "dev" for local development)
+USE_ENV=true TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
+```
+
+4. **Run server**:
+
+```bash
+# Development mode
 yarn workspace @oko-wallet/ewallet-api-server dev
-# (prod)
+
+# Production mode
 # yarn workspace @oko-wallet/ewallet-api-server start
 ```
 
-Verify:
+5. **Verify the server is running**:
 
-- Health: `curl http://localhost:4200/` → Ok
-- API docs: `http://localhost:4200/api_docs`
+```bash
+# Health check
+curl http://localhost:4200/
+
+# API documentation
+# Open in browser: http://localhost:4200/api_docs
+```
 
 ## oko_attached (embedded app)
 
