@@ -1,0 +1,29 @@
+.tableWrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.ksNodesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.nodeName {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+
+  &.nodeActive {
+    color: var(--success-500);
+    background-color: var(--success-50);
+  }
+
+  &.nodeInactive {
+    color: var(--error-500);
+    background-color: var(--error-50);
+  }
+}

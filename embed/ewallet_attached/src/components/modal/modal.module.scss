@@ -1,0 +1,17 @@
+.overlay {
+  background-color: rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(4px);
+  display: grid;
+  place-items: center;
+}
+
+.floatingWrapper {
+  &:focus-visible {
+    outline: none;
+  }
+}
+
+.invisible {
+  opacity: 0;
+  pointer-events: none;
+}

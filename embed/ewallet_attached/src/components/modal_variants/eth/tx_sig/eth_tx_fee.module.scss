@@ -1,0 +1,31 @@
+.feeContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+}
+
+.feeSummaryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.errorMessage {
+  display: flex;
+  width: fit-content;
+  max-width: 360px;
+  max-height: 66px;
+  padding: 6px 8px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 12px;
+  background: var(--bg-warning-primary);
+  text-align: center;
+  overflow-y: auto;
+  word-wrap: break-word;
+  word-break: break-word;
+}

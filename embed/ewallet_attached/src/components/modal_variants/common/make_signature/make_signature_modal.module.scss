@@ -1,0 +1,70 @@
+@use "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal_tokens"
+  as *;
+@use "@oko-wallet-attached/app/globals.scss" as global;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 20px;
+
+  gap: 20px;
+
+  .demoDescription {
+    text-align: center;
+  }
+}
+
+.modal {
+  height: 100%;
+  max-height: $make-signature-modal-max-height;
+  overflow-y: auto;
+}
+
+.modalInnerContentContainer {
+  height: 100%;
+  max-height: calc(
+    #{$make-signature-modal-max-height} - calc(
+        $make-signature-modal-padding-y + $make-signature-modal-header-height +
+          $make-signature-modal-footer-height + 2px
+      )
+  );
+  overflow-y: auto;
+  @include global.common-list-scroll;
+}
+
+.closeButton {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 8px;
+  cursor: pointer;
+}
+
+.signWithKeplrBox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  .text {
+    color: #000;
+    font-family: var(--Font-family-font-family-body, Inter);
+    font-size: var(--Font-size-text-xs, 12px);
+    font-style: normal;
+    font-weight: 500;
+    line-height: var(--Line-height-text-xs, 18px);
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 0 4px;
+}
+
+.rejectButton {
+  border: 1px solid var(--border-primary) !important;
+}

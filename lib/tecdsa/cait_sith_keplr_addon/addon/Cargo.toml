@@ -1,0 +1,29 @@
+[package]
+edition = "2021"
+name = "addon"
+version = "0.0.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Default enable napi4 feature, see https://nodejs.org/api/n-api.html#node-api-version-matrix
+napi = { version = "2.12.2", default-features = false, features = [
+  "napi4", 
+  "serde-json"
+] }
+napi-derive = "2.12.2"
+serde = { version = "1.0.175", features = ["derive"] }
+serde_json = "1.0"
+bincode = "1.3"
+elliptic-curve = { version = "0.13.5", features = ["serde"] }
+ecdsa = { version = "0.16.8", features = ["digest", "hazmat"] }
+k256 = { version = "0.13.4", features = ["sha256", "ecdsa", "serde"] }
+cait_sith_keplr = { workspace = true, features = ['k256'] }
+
+[build-dependencies]
+napi-build = "2.0.1"
+
+[profile.release]
+lto = true
+strip = "symbols"

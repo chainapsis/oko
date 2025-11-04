@@ -1,0 +1,53 @@
+.wrapper {
+  display: flex;
+  padding: 20px 0px;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  align-self: stretch;
+}
+
+.pagination {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.page {
+  display: flex;
+  border: none;
+  background: none;
+  width: 40px;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--radius-md, 8px);
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border 0.2s;
+  &.active,
+  &[aria-current="true"] {
+    background: var(--bg-primary-hover);
+    cursor: default;
+  }
+}
+
+.ellipsisWrapper {
+  display: flex;
+  width: 40px;
+  padding: 8px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  align-self: stretch;
+}
+
+.ellipsis {
+  color: var(--text-quaternary);
+  text-align: center;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 20px;
+}

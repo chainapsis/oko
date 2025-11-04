@@ -1,0 +1,118 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-xs, 4px);
+  border-radius: var(--radius-md, 8px);
+  transition: background 0.2s ease;
+
+  border: none !important;
+  outline: none;
+  cursor: pointer;
+
+  font-style: normal;
+  font-weight: 600;
+  font-family: var(--font-family-body, Inter, sans-serif);
+
+  &.fullWidth {
+    width: 100%;
+  }
+
+  &.md {
+    height: 40px;
+    padding: 10px 14px;
+
+    font-size: var(--font-size-sm);
+    line-height: var(--font-line-height-sm);
+  }
+
+  &.lg {
+    padding: 10px var(--spacing-xl, 16px);
+    min-height: 44px;
+
+    font-size: var(--font-size-md);
+    line-height: var(--font-line-height-md);
+  }
+
+  &.disabled {
+    background: var(--bg-disabled);
+    color: var(--text-disabled);
+    border: 1px solid var(--border-disabled_subtle);
+    box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
+    pointer-events: none;
+    cursor: not-allowed;
+  }
+
+  &.ghost {
+    background: transparent;
+    color: var(--text-primary);
+    border: none;
+    box-shadow: none;
+
+    &.loading {
+      pointer-events: none;
+    }
+  }
+
+  &.primary {
+    background: var(--bg-brand-solid);
+    border: 2px solid rgba(255, 255, 255, 0.12);
+
+    box-shadow: var(--shadow-xs-skeuomorphic);
+
+    color: white;
+
+    // TODO: Need to review brand color tokens
+    [data-theme="dark"] &:not(.disabled) {
+      color: var(--gray-800);
+    }
+
+    [data-theme="dark"] &.disabled {
+      background: var(--white);
+      color: var(--brand-300);
+    }
+
+    &:hover {
+      background: var(--bg-brand-solid-hover);
+    }
+
+    &.loading {
+      pointer-events: none;
+      background: var(--bg-brand-solid-hover);
+    }
+  }
+
+  &.secondary {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    border: 1px solid var(--border-primary);
+
+    box-shadow: var(--shadow-xs-skeuomorphic);
+
+    &:hover {
+      background: var(--bg-primary-hover);
+    }
+
+    &.loading {
+      pointer-events: none;
+      background: var(--bg-primary-hover);
+    }
+  }
+
+  &:focus {
+    box-shadow: var(--shadow-focus-ring-xs-skeuomorphic);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loadingIcon {
+  animation: spin 1s linear infinite;
+}

@@ -1,0 +1,28 @@
+import styles from "./logo.module.scss";
+import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
+import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
+
+export interface LogoProps {
+  width?: number;
+  height?: number;
+  className?: string;
+  theme?: Theme | null;
+}
+
+export const Logo: React.FC<LogoProps> = ({
+  width = 102,
+  height = 44,
+  className,
+  theme,
+}) => {
+  return (
+    <div className={styles.logoContainer}>
+      <OkoLogoIcon
+        width={width}
+        height={height}
+        className={className}
+        theme={theme}
+      />
+    </div>
+  );
+};

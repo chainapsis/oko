@@ -1,0 +1,75 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  p {
+    margin: 0;
+  }
+
+  .originRow {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+
+    .originFavicon {
+      width: 20px;
+      height: 20px;
+    }
+  }
+
+  .signInfoColumn {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .chainInfoRow {
+      width: 100%;
+      margin-bottom: 12px;
+
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+      justify-items: flex-start;
+
+      .chainNameGroup {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        flex-shrink: 0;
+      }
+    }
+  }
+}
+
+.website-name {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.chain-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.chain-icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 4px;
+}
+
+.chain-text {
+  font-size: 14px;
+}
+
+.address-text {
+  font-size: 12px;
+  color: #595959;
+  word-break: break-all;
+}

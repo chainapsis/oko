@@ -1,0 +1,21 @@
+{
+  "name": "@oko-wallet/crypto-js",
+  "type": "module",
+  "main": "./src/index.ts",
+  "packageManager": "yarn@4.7.0",
+  "dependencies": {
+    "@noble/hashes": "^1.8.0",
+    "bcryptjs": "^3.0.2",
+    "jest": "*",
+    "shamir-secret-sharing": "^0.0.4",
+    "supertest": "*"
+  },
+  "devDependencies": {
+    "@jest/globals": "*",
+    "@types/bcryptjs": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "ts-jest": "*",
+    "typescript": "*"
+  }
+}

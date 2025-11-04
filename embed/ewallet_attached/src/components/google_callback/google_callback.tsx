@@ -1,0 +1,92 @@
+"use client";
+
+import React, { useEffect, useState } from "react";
+import { LoadingIcon } from "@oko-wallet/ewallet-common-ui/icons/loading";
+import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
+import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { OkoProductLogoIcon } from "@oko-wallet-common-ui/icons/oko_product_logo_icon";
+import { ErrorIcon } from "@oko-wallet/ewallet-common-ui/icons/error_icon";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/external_link_outlined";
+import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
+
+import styles from "./google_callback.module.scss";
+import { getSystemTheme } from "./theme";
+import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
+import { useGoogleCallback } from "./use_callback";
+
+export const GoogleCallback: React.FC = () => {
+  const [theme, setTheme] = useState<Theme>("light");
+
+  useEffect(() => {
+    const theme = getSystemTheme();
+    setColorScheme(theme);
+    setTheme(theme);
+  }, []);
+
+  const { error } = useGoogleCallback();
+
+  return (
+    <div className={`${styles.wrapper} ${styles.wrapperForSystemTheme}`}>
+      <OkoProductLogoIcon height={44} width={95} theme={theme} />
+      <Spacing height={56} />
+      {error ? (
+        <ErrorMessage error={error} />
+      ) : (
+        <>
+          <LoadingIcon
+            size={50}
+            className={styles.loadingIcon}
+            backgroundColor="var(--bg-tertiary)"
+            color="var(--fg-brand-primary)"
+          />
+          <Spacing height={19} />
+
+          <Typography size="lg" weight="medium" color="secondary">
+            Redirecting...
+          </Typography>
+        </>
+      )}
+      <Spacing height={60} />
+    </div>
+  );
+};
+
+const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
+  return (
+    <>
+      <div className={styles.errorIconContainer}>
+        <div className={styles.ring1} />
+        <div className={styles.ring2} />
+        <ErrorIcon size={28} color="var(--fg-error-primary)" />
+      </div>
+      <Spacing height={32} />
+
+      <a
+        href="https://help.keplr.app/"
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.supportLink}
+      >
+        <Typography size="sm" weight="medium" color="secondary">
+          Having problems?
+        </Typography>
+        <Typography
+          className={styles.textUnderline}
+          size="sm"
+          weight="medium"
+          color="secondary"
+        >
+          Get support
+        </Typography>
+        <ExternalLinkOutlinedIcon color="var(--fg-quaternary-hover)" />
+      </a>
+
+      <Spacing height={32} />
+      <div className={styles.errorMessageContainer}>
+        <Typography size="sm" weight="medium" color="error-primary">
+          {error}
+        </Typography>
+      </div>
+    </>
+  );
+};

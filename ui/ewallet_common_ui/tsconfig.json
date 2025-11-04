@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "verbatimModuleSyntax": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "rootDir": ".",
+    "jsx": "preserve",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@oko-wallet-common-ui/*": ["./src/*"],
+      "@oko-wallet-sdk-core/*": ["../ewallet_sdk_core/src/*"],
+      "@oko-wallet-sdk-eth/*": ["../ewallet_sdk_variants/eth/src/*"],
+      "@oko-wallet-sdk-cosmos/*": ["../ewallet_sdk_variants/cosmos/src/*"]
+    }
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
+  "exclude": ["node_modules"]
+}

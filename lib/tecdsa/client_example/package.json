@@ -1,0 +1,30 @@
+{
+  "name": "client_example",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "copy:wasm": "cp ../cait_sith_keplr_wasm/pkg/*.wasm ./public/pkg/",
+    "start": "next start",
+    "lint": "next lint",
+    "prettier": "prettier --write ."
+  },
+  "dependencies": {
+    "@oko-wallet/api-lib": "workspace:*",
+    "@oko-wallet/cait-sith-keplr-hooks": "workspace:*",
+    "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
+    "classnames": "^2.5.1",
+    "next": "15.2.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint-config-next": "15.2.3",
+    "prettier": "^3.5.3",
+    "typescript": "^5"
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "name": "@oko-wallet/cait-sith-keplr-express",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "type": "module",
+  "scripts": {
+    "test:e2e": "ts-node src/tests/e2e/e2e.test.ts"
+  },
+  "dependencies": {
+    "@oko-wallet/api-lib": "workspace:*",
+    "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
+    "@oko-wallet/tecdsa-interface": "0.0.2-alpha.15",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.23.0",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.20",
+    "@types/jest": "^29.5.13",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^22.7.5",
+    "@types/supertest": "^6.0.2",
+    "@typescript-eslint/eslint-plugin": "^7.16.1",
+    "@typescript-eslint/parser": "^7.16.1",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-import-resolver-typescript": "^3.6.3",
+    "eslint-plugin-import": "^2.31.0",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.7",
+    "npm": "^11.2.0",
+    "prettier": "^3.4.2",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.2.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.28.0"
+  },
+  "packageManager": "yarn@4.7.0"
+}

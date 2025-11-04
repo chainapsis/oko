@@ -1,0 +1,23 @@
+{
+  "name": "@oko-wallet/aws",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "packageManager": "yarn@4.7.0",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.850.0",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "dotenv": "*"
+  },
+  "devDependencies": {
+    "@jest/globals": "*",
+    "@types/bcryptjs": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "jest": "*",
+    "ts-jest": "*",
+    "typescript": "*"
+  }
+}

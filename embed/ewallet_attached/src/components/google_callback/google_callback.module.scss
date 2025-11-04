@@ -1,0 +1,181 @@
+@use "@oko-wallet/ewallet-common-ui/styles/color_tokens.scss" as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--bg-primary);
+}
+
+.supportLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .textUnderline {
+    text-decoration: underline;
+  }
+}
+
+.errorMessageContainer {
+  display: flex;
+  padding: 12px 16px;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 12px;
+  background-color: var(--bg-error-primary);
+}
+
+.errorIconContainer {
+  display: flex;
+  position: relative;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  justify-content: center;
+
+  .ring2 {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 42px;
+    border: 3.5px solid var(--fg-error-primary);
+    opacity: 0.3;
+  }
+
+  .ring1 {
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    width: 59.2px;
+    height: 59.2px;
+    border-radius: 42px;
+    border: 3.5px solid var(--fg-error-primary);
+    opacity: 0.1;
+  }
+}
+
+.loadingIcon {
+  width: 32px;
+  height: 32px;
+  animation: spin 1s linear infinite;
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .wrapperForSystemTheme {
+    --gray-50: #{$gray-50-dark};
+    --gray-100: #{$gray-100-dark};
+    --gray-200: #{$gray-200-dark};
+    --gray-300: #{$gray-300-dark};
+    --gray-400: #{$gray-400-dark};
+    --gray-500: #{$gray-500-dark};
+    --gray-600: #{$gray-600-dark};
+    --gray-700: #{$gray-700-dark};
+    --gray-800: #{$gray-800-dark};
+    --gray-900: #{$gray-900-dark};
+    --gray-950: #{$gray-950-dark};
+
+    --text-primary: #{$text-primary-dark};
+    --text-primary-on-brand: #{$text-primary-on-brand-dark};
+    --text-secondary: #{$text-secondary-dark};
+    --text-secondary-hover: #{$text-secondary-hover-dark};
+    --text-secondary-on-brand: #{$text-secondary-on-brand-dark};
+    --text-tertiary: #{$text-tertiary-dark};
+    --text-tertiary-hover: #{$text-tertiary-hover-dark};
+    --text-tertiary-on-brand: #{$text-tertiary-on-brand-dark};
+    --text-quaternary: #{$text-quaternary-dark};
+    --text-quaternary-on-brand: #{$text-quaternary-on-brand-dark};
+    --text-white: #{$text-white-dark};
+    --text-disabled: #{$text-disabled-dark};
+    --text-placeholder: #{$text-placeholder-dark};
+    --text-placeholder-subtle: #{$text-placeholder-subtle-dark};
+    --text-brand-primary: #{$text-brand-primary-dark};
+    --text-brand-secondary: #{$text-brand-secondary-dark};
+    --text-brand-secondary-hover: #{$text-brand-secondary-hover-dark};
+    --text-brand-tertiary: #{$text-brand-tertiary-dark};
+    --text-brand-tertiary-alt: #{$text-brand-tertiary-alt-dark};
+    --text-error-primary: #{$text-error-primary-dark};
+    --text-warning-primary: #{$text-warning-primary-dark};
+    --text-success-primary: #{$text-success-primary-dark};
+
+    --bg-primary: #{$bg-primary-dark};
+    --bg-primary-alt: #{$bg-primary-alt-dark};
+    --bg-primary-hover: #{$bg-primary-hover-dark};
+    --bg-primary-solid: #{$bg-primary-solid-dark};
+    --bg-secondary: #{$bg-secondary-dark};
+    --bg-secondary-alt: #{$bg-secondary-alt-dark};
+    --bg-secondary-hover: #{$bg-secondary-hover-dark};
+    --bg-secondary-subtle: #{$bg-secondary-subtle-dark};
+    --bg-secondary-solid: #{$bg-secondary-solid-dark};
+    --bg-tertiary: #{$bg-tertiary-dark};
+    --bg-quaternary: #{$bg-quaternary-dark};
+    --bg-active: #{$bg-active-dark};
+    --bg-disabled: #{$bg-disabled-dark};
+    --bg-disabled-subtle: #{$bg-disabled-subtle-dark};
+    --bg-overlay: #{$bg-overlay-dark};
+    --bg-brand-primary: #{$bg-brand-primary-dark};
+    --bg-brand-primary-alt: #{$bg-brand-primary-alt-dark};
+    --bg-brand-secondary: #{$bg-brand-secondary-dark};
+    --bg-brand-solid: #{$bg-brand-solid-dark};
+    --bg-brand-solid-hover: #{$bg-brand-solid-hover-dark};
+    --bg-brand-section: #{$bg-brand-section-dark};
+    --bg-brand-section-subtle: #{$bg-brand-section-subtle-dark};
+    --bg-error-primary: #{$bg-error-primary-dark};
+    --bg-error-secondary: #{$bg-error-secondary-dark};
+    --bg-error-solid: #{$bg-error-solid-dark};
+    --bg-error-solid-hover: #{$bg-error-solid-hover-dark};
+    --bg-warning-primary: #{$bg-warning-primary-dark};
+    --bg-warning-secondary: #{$bg-warning-secondary-dark};
+    --bg-warning-solid: #{$bg-warning-solid-dark};
+    --bg-success-primary: #{$bg-success-primary-dark};
+    --bg-success-secondary: #{$bg-success-secondary-dark};
+    --bg-success-solid: #{$bg-success-solid-dark};
+
+    --fg-primary: #{$fg-primary-dark};
+    --fg-secondary: #{$fg-secondary-dark};
+    --fg-secondary-hover: #{$fg-secondary-hover-dark};
+    --fg-tertiary: #{$fg-tertiary-dark};
+    --fg-tertiary-hover: #{$fg-tertiary-hover-dark};
+    --fg-quaternary: #{$fg-quaternary-dark};
+    --fg-quaternary-hover: #{$fg-quaternary-hover-dark};
+    --fg-white: #{$fg-white-dark};
+    --fg-disabled: #{$fg-disabled-dark};
+    --fg-disabled-subtle: #{$fg-disabled-subtle-dark};
+    --fg-brand-primary: #{$fg-brand-primary-dark};
+    --fg-brand-primary-alt: #{$fg-brand-primary-alt-dark};
+    --fg-brand-secondary: #{$fg-brand-secondary-dark};
+    --fg-brand-secondary-alt: #{$fg-brand-secondary-alt-dark};
+    --fg-error-primary: #{$fg-error-primary-dark};
+    --fg-error-secondary: #{$fg-error-secondary-dark};
+    --fg-warning-primary: #{$fg-warning-primary-dark};
+    --fg-warning-secondary: #{$fg-warning-secondary-dark};
+    --fg-success-primary: #{$fg-success-primary-dark};
+    --fg-success-secondary: #{$fg-success-secondary-dark};
+
+    --border-primary: #{$border-primary-dark};
+    --border-secondary: #{$border-secondary-dark};
+    --border-secondary-alt: #{$border-secondary-alt-dark};
+    --border-tertiary: #{$border-tertiary-dark};
+    --border-disabled: #{$border-disabled-dark};
+    --border-disabled_subtle: #{$border-disabled-subtle-dark};
+    --border-brand: #{$border-brand-dark};
+    --border-brand-alt: #{$border-brand-alt-dark};
+    --border-error: #{$border-error-dark};
+    --border-error-subtle: #{$border-error-subtle-dark};
+  }
+}

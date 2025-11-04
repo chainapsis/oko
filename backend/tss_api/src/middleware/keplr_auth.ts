@@ -1,0 +1,93 @@
+import type { Request, Response, NextFunction } from "express";
+
+import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
+
+export interface UserAuthenticatedRequest<T = any> extends Request {
+  body: T;
+}
+
+export async function userJwtMiddleware(
+  req: UserAuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    res
+      .status(401)
+      .json({ error: "Authorization header with Bearer token required" });
+    return;
+  }
+
+  const token = authHeader.substring(7); // skip "Bearer "
+
+  try {
+    const state = req.app.locals;
+
+    const verifyTokenRes = verifyUserToken({
+      token,
+      jwt_config: {
+        secret: state.jwt_secret,
+      },
+    });
+
+    if (!verifyTokenRes.success) {
+      res.status(401).json({ error: verifyTokenRes.err });
+      return;
+    }
+
+    const payload = verifyTokenRes.data;
+
+    if (!payload.email || !payload.wallet_id) {
+      res.status(401).json({
+        error: "Unauthorized: Invalid token",
+      });
+      return;
+    }
+
+    // if (shouldRefresh) {
+    //   const newTokenResult = generateUserToken({
+    //     email: payload.email,
+    //     wallet_id: payload.wallet_id,
+    //     jwt_config: {
+    //       secret: state.jwt_secret,
+    //       expires_in: state.jwt_expires_in,
+    //     },
+    //   });
+    //
+    //   if (newTokenResult.success) {
+    //     res.locals.newToken = newTokenResult.data.token;
+    //   } else {
+    //     res.status(500).json({
+    //       error: newTokenResult.err || "Failed to generate new token",
+    //     });
+    //     return;
+    //   }
+    // }
+
+    res.locals.user = {
+      email: payload.email,
+      wallet_id: payload.wallet_id,
+    };
+
+    next();
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: `Token validation failed: ${error instanceof Error ? error.message : String(error)}`,
+    });
+    return;
+  }
+}
+
+export function sendResponseWithNewToken(
+  res: Response,
+  data: any,
+  statusCode: number = 200,
+) {
+  if (res.locals.newToken) {
+    res.setHeader("X-New-Token", res.locals.newToken);
+  }
+  res.status(statusCode).json({ success: true, data });
+}

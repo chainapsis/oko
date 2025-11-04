@@ -1,0 +1,22 @@
+{
+  "name": "@oko-wallet/vite-test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@oko-wallet/crypto-js": "workspace:*",
+    "vite-plugin-node-polyfills": "^0.24.0"
+  },
+  "devDependencies": {
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

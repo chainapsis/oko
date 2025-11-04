@@ -1,0 +1,108 @@
+@use "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal_tokens"
+  as *;
+
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 400px;
+  margin: 20px;
+}
+
+.modal {
+  height: 100%;
+  max-height: $make-signature-modal-max-height;
+  overflow-y: auto;
+}
+
+.closeButton {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 8px;
+  cursor: pointer;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4px;
+}
+
+.modalInnerContentContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--bg-primary);
+}
+
+.supportLink {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  .supportLinkText {
+    text-decoration: underline;
+
+    &:hover {
+      color: var(--text-tertiary-hover);
+    }
+  }
+}
+
+.errorMessageContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  align-self: stretch;
+
+  border-radius: 12px;
+  background-color: var(--bg-warning-primary);
+}
+
+.bottomCloseButton {
+  border: 1px solid var(--border-primary) !important;
+}
+
+.productLogoIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.errorIconContainer {
+  position: relative;
+  display: inline-flex;
+  flex-shrink: 0;
+
+  .ring2 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px;
+    height: 32px;
+    border-radius: 24px;
+    border: 2px solid var(--fg-warning-primary);
+    opacity: 0.3;
+    pointer-events: none;
+  }
+
+  .ring1 {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 24px;
+    border: 2px solid var(--fg-warning-primary);
+    opacity: 0.1;
+    pointer-events: none;
+  }
+}

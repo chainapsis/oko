@@ -1,0 +1,25 @@
+.wrapper {
+  display: flex;
+  align-self: stretch;
+  flex-direction: column;
+  margin-top: 44px;
+  gap: 32px;
+}
+
+.backButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}
+
+.title {
+  color: var(--text-primary);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 140%;
+  letter-spacing: -0.42px;
+}

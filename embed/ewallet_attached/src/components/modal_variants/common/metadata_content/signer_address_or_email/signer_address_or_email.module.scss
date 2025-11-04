@@ -1,0 +1,22 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  width: 100%;
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+}
+
+.changeViewTypeButton {
+  display: flex;
+  padding: 4px 8px;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+
+  cursor: pointer;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+  width: fit-content;
+}

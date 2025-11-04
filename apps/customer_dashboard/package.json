@@ -1,0 +1,35 @@
+{
+  "name": "@oko-wallet/customer-dashboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "create_env": "tsx ./src/bin/create_env.ts",
+    "dev": "tsx ./src/bin/launch.ts",
+    "build": "next build",
+    "start": "NODE_ENV=production tsx src/bin/launch.ts",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@floating-ui/dom": "*",
+    "@floating-ui/react": "*",
+    "@oko-wallet/dotenv": "0.0.2-alpha.12",
+    "@oko-wallet/ewallet-common-ui": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.27",
+    "@tanstack/react-query": "*",
+    "@tanstack/react-table": "*",
+    "next": "^15.4.5",
+    "react": "*",
+    "react-dom": "*",
+    "react-hook-form": "*",
+    "zustand": "*"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "sass": "*",
+    "tsx": "*",
+    "typescript": "*"
+  }
+}

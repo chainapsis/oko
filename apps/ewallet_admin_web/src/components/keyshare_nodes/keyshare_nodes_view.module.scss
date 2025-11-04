@@ -1,0 +1,26 @@
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  padding: 0px 40px;
+  padding-bottom: 40px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  overflow: auto;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.dangerButton {
+  background: var(--error-600) !important;
+  color: white !important;
+  border: 2px solid rgba(255, 255, 255, 0.12) !important;
+
+  &:hover {
+    background: var(--error-700) !important;
+  }
+}

@@ -1,0 +1,41 @@
+.collapsibleContainer {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  align-items: flex-start;
+  gap: 12px;
+  align-self: stretch;
+  border-radius: 12px;
+  background: var(--bg-secondary);
+}
+
+.collapsibleHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+  width: 100%;
+  cursor: pointer;
+
+  &:hover {
+    .chevronIcon {
+      color: var(--fg-quaternary-hover);
+    }
+  }
+}
+
+.chevronIcon {
+  color: var(--fg-quaternary);
+
+  &.expanded {
+    transform: rotate(180deg);
+  }
+}
+
+.collapsibleContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}

@@ -1,0 +1,22 @@
+{
+  "name": "@oko-wallet/ewallet-api-openapi",
+  "packageManager": "yarn@4.7.0",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schema": "./src/schema/index.ts",
+    "./common": "./src/common/index.ts",
+    "./ct_dashboard": "./src/ct_dashboard/index.ts",
+    "./tss": "./src/tss/index.ts",
+    "./oko_admin": "./src/oko_admin/index.ts",
+    "./oko": "./src/oko/index.ts"
+  },
+  "type": "module",
+  "dependencies": {
+    "@asteasolutions/zod-to-openapi": "*",
+    "zod": "*"
+  },
+  "devDependencies": {
+    "typescript": "*"
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "name": "@oko-wallet/api-lib",
+  "packageManager": "yarn@4.7.0",
+  "main": "./src/index.ts",
+  "type": "module",
+  "dependencies": {
+    "@oko-wallet/ewallet-types": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "typescript": "*"
+  }
+}

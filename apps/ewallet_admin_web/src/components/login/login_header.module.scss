@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  height: 140px;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.headerContentText {
+  color: #000;
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}

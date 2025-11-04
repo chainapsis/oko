@@ -1,0 +1,48 @@
+import type { Request, Response, NextFunction } from "express";
+
+import { verifyAdminToken } from "@oko-wallet-admin-api/auth";
+
+export type AuthenticatedAdminRequest<T = any> = Request<any, any, T, any>;
+
+export function adminAuthMiddleware(
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    res.status(401).json({
+      success: false,
+      error: "Authorization header with Bearer token required",
+    });
+    return;
+  }
+
+  const token = authHeader.substring(7);
+
+  const state = req.app.locals;
+  const verifyResult = verifyAdminToken({
+    token,
+    jwt_config: {
+      secret: state.jwt_secret,
+    },
+  });
+
+  if (!verifyResult.success) {
+    res.status(401).json({
+      success: false,
+      code: "INVALID_TOKEN",
+      error: verifyResult.err || "Invalid token",
+    });
+    return;
+  }
+
+  res.locals.admin = {
+    user_id: verifyResult.data.sub,
+    role: verifyResult.data.role,
+    type: verifyResult.data.type,
+  };
+  next();
+  return;
+}
