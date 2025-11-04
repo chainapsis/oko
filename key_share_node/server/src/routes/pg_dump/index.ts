@@ -24,7 +24,7 @@ import {
   type AdminAuthenticatedRequest,
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import type { KSNodeRequest } from "../io";
+import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
 import { registry } from "@oko-wallet-ksn-server/openapi/registry";
 import {
   PgDumpRequestBodySchema,
