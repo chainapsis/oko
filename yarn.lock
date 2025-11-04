@@ -1471,7 +1471,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.21.3, @babel/core@npm:^7.23.7, @babel/core@npm:^7.23.9, @babel/core@npm:^7.25.9, @babel/core@npm:^7.26.10, @babel/core@npm:^7.27.4, @babel/core@npm:^7.27.7, @babel/core@npm:^7.28.4":
+"@babel/core@npm:^7.11.6, @babel/core@npm:^7.12.3, @babel/core@npm:^7.21.3, @babel/core@npm:^7.23.7, @babel/core@npm:^7.23.9, @babel/core@npm:^7.25.9, @babel/core@npm:^7.26.10, @babel/core@npm:^7.27.4, @babel/core@npm:^7.27.7, @babel/core@npm:^7.28.0, @babel/core@npm:^7.28.4":
   version: 7.28.5
   resolution: "@babel/core@npm:7.28.5"
   dependencies:
@@ -3161,7 +3161,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/amino@npm:^0.34.1":
+"@cosmjs/amino@npm:^0.34.0, @cosmjs/amino@npm:^0.34.1":
   version: 0.34.1
   resolution: "@cosmjs/amino@npm:0.34.1"
   dependencies:
@@ -3263,6 +3263,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmjs/encoding@npm:0.34.0":
+  version: 0.34.0
+  resolution: "@cosmjs/encoding@npm:0.34.0"
+  dependencies:
+    base64-js: "npm:^1.3.0"
+    bech32: "npm:^1.1.4"
+    readonly-date: "npm:^1.0.0"
+  checksum: 10c0/d35f4fc7eaffde9dd3a32f60a8b58a87c0c23b8901c3a4760156a0103739b862b14963f60eeef638ddacd0b4fab28fa46b4fc57b82fa14ee08d4786aab6d87fe
+  languageName: node
+  linkType: hard
+
 "@cosmjs/encoding@npm:0.36.1":
   version: 0.36.1
   resolution: "@cosmjs/encoding@npm:0.36.1"
@@ -3296,7 +3307,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/encoding@npm:^0.34.1":
+"@cosmjs/encoding@npm:^0.34.0, @cosmjs/encoding@npm:^0.34.1":
   version: 0.34.1
   resolution: "@cosmjs/encoding@npm:0.34.1"
   dependencies:
@@ -3366,7 +3377,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/math@npm:^0.34.1":
+"@cosmjs/math@npm:^0.34.0, @cosmjs/math@npm:^0.34.1":
   version: 0.34.1
   resolution: "@cosmjs/math@npm:0.34.1"
   dependencies:
@@ -3424,7 +3435,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/proto-signing@npm:^0.34.1":
+"@cosmjs/proto-signing@npm:^0.34.0, @cosmjs/proto-signing@npm:^0.34.1":
   version: 0.34.1
   resolution: "@cosmjs/proto-signing@npm:0.34.1"
   dependencies:
@@ -3488,6 +3499,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@cosmjs/stargate@npm:0.34.0":
+  version: 0.34.0
+  resolution: "@cosmjs/stargate@npm:0.34.0"
+  dependencies:
+    "@cosmjs/amino": "npm:^0.34.0"
+    "@cosmjs/encoding": "npm:^0.34.0"
+    "@cosmjs/math": "npm:^0.34.0"
+    "@cosmjs/proto-signing": "npm:^0.34.0"
+    "@cosmjs/stream": "npm:^0.34.0"
+    "@cosmjs/tendermint-rpc": "npm:^0.34.0"
+    "@cosmjs/utils": "npm:^0.34.0"
+    cosmjs-types: "npm:^0.9.0"
+  checksum: 10c0/b9e1e494000f4481c691bdedb9becc0a0ed74c9999514bea2d2c371ce4bbd7ba92d84b974069713245cd9847d99b220867e10ee4f740269b2be786cfce8b6611
+  languageName: node
+  linkType: hard
+
 "@cosmjs/stargate@npm:0.36.1":
   version: 0.36.1
   resolution: "@cosmjs/stargate@npm:0.36.1"
@@ -3547,7 +3574,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/stream@npm:^0.34.1":
+"@cosmjs/stream@npm:^0.34.0, @cosmjs/stream@npm:^0.34.1":
   version: 0.34.1
   resolution: "@cosmjs/stream@npm:0.34.1"
   dependencies:
@@ -3583,7 +3610,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/tendermint-rpc@npm:^0.34.1":
+"@cosmjs/tendermint-rpc@npm:^0.34.0, @cosmjs/tendermint-rpc@npm:^0.34.1":
   version: 0.34.1
   resolution: "@cosmjs/tendermint-rpc@npm:0.34.1"
   dependencies:
@@ -3632,7 +3659,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cosmjs/utils@npm:^0.34.1":
+"@cosmjs/utils@npm:^0.34.0, @cosmjs/utils@npm:^0.34.1":
   version: 0.34.1
   resolution: "@cosmjs/utils@npm:0.34.1"
   checksum: 10c0/e476c6ad70eb2cba26c54fa46119afe3819aa3de62189eeb00058a0a8a0dd9a7bc0233b52a1893479bd7991392eb17e42a30a488c5f0f463501eecdd458c2aa3
@@ -7610,6 +7637,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@keplr-wallet/types@npm:0.12.257":
+  version: 0.12.257
+  resolution: "@keplr-wallet/types@npm:0.12.257"
+  dependencies:
+    long: "npm:^4.0.0"
+  peerDependencies:
+    starknet: ^7
+  checksum: 10c0/a995ef4d4aea9078d5521bbfc60f681f293fdf0d8c1e9824d9e68b224776160490964a54d6f05520742a096f0859f9777e112da19f657d377f6cb967514cc0f8
+  languageName: node
+  linkType: hard
+
 "@keplr-wallet/types@npm:0.12.263":
   version: 0.12.263
   resolution: "@keplr-wallet/types@npm:0.12.263"
@@ -7660,6 +7698,17 @@ __metadata:
   peerDependencies:
     starknet: ^7
   checksum: 10c0/c28bf98567ad030db953ad860e0be2da3afbbb4ecaa44920f39566eebd84dac114742aadc1302bb971d78571eae69625a89b497153aa01a3d3b404f1e93fc843
+  languageName: node
+  linkType: hard
+
+"@keplr-wallet/unit@npm:0.12.257":
+  version: 0.12.257
+  resolution: "@keplr-wallet/unit@npm:0.12.257"
+  dependencies:
+    "@keplr-wallet/types": "npm:0.12.257"
+    big-integer: "npm:^1.6.48"
+    utility-types: "npm:^3.10.0"
+  checksum: 10c0/5fa246e3c2de0b05f9cd4eae5693ec00d4ffc1870b8c54668e47af1a93db3314aee91db00f4df1014e31ad10aa6836d96afc40478c1a1ef515db59161a561e68
   languageName: node
   linkType: hard
 
@@ -9879,7 +9928,7 @@ __metadata:
     "@hookform/resolvers": "npm:5.2.2"
     "@keplr-wallet/types": "npm:0.12.280"
     "@keplr-wallet/unit": "npm:0.12.280"
-    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.128"
+    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
     "@tailwindcss/postcss": "npm:^4"
     "@types/node": "npm:20.14.12"
     "@types/react": "npm:19.0.2"
@@ -9902,7 +9951,7 @@ __metadata:
   dependencies:
     "@eslint/eslintrc": "npm:3.1.0"
     "@hookform/resolvers": "npm:5.2.2"
-    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.119"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-query": "npm:5.90.2"
     "@types/node": "npm:20.14.12"
@@ -9927,7 +9976,7 @@ __metadata:
   dependencies:
     "@eslint/eslintrc": "npm:3.1.0"
     "@hookform/resolvers": "npm:5.2.2"
-    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.119"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
     "@rainbow-me/rainbowkit": "npm:2.2.8"
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-query": "npm:5.90.2"
@@ -9944,6 +9993,41 @@ __metadata:
     typescript: "npm:5.6.2"
     viem: "npm:2.38.1"
     wagmi: "npm:2.18.0"
+    zod: "npm:4.1.12"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet-examples/multi-ecosystem-react@workspace:examples/multi-ecosystem-react":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet-examples/multi-ecosystem-react@workspace:examples/multi-ecosystem-react"
+  dependencies:
+    "@cosmjs/encoding": "npm:0.34.0"
+    "@cosmjs/stargate": "npm:0.34.0"
+    "@eslint/js": "npm:9.36.0"
+    "@hookform/resolvers": "npm:5.2.2"
+    "@keplr-wallet/types": "npm:0.12.257"
+    "@keplr-wallet/unit": "npm:0.12.257"
+    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
+    "@tailwindcss/postcss": "npm:^4"
+    "@tanstack/react-query": "npm:5.59.15"
+    "@types/node": "npm:20.14.12"
+    "@types/react": "npm:19.0.2"
+    "@types/react-dom": "npm:19.0.2"
+    "@vitejs/plugin-react": "npm:^4.3.4"
+    buffer: "npm:^6.0.3"
+    eslint: "npm:9.36.0"
+    eslint-plugin-react-hooks: "npm:^5.2.0"
+    eslint-plugin-react-refresh: "npm:^0.4.22"
+    globals: "npm:^16.4.0"
+    react: "npm:19.1.0"
+    react-dom: "npm:19.1.0"
+    react-hook-form: "npm:7.65.0"
+    tailwindcss: "npm:^4"
+    typescript: "npm:5.6.2"
+    typescript-eslint: "npm:^8.45.0"
+    viem: "npm:2.38.1"
+    vite: "npm:^7.1.7"
     zod: "npm:4.1.12"
   languageName: unknown
   linkType: soft
@@ -10769,7 +10853,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.112, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.106, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.112, @oko-wallet/oko-sdk-core@workspace:*, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
+"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.112, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.112, @oko-wallet/oko-sdk-core@workspace:*, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core"
   dependencies:
@@ -10794,25 +10878,6 @@ __metadata:
     typescript: "npm:*"
   languageName: unknown
   linkType: soft
-
-"@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.128":
-  version: 0.0.6-rc.128
-  resolution: "@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.128"
-  dependencies:
-    "@cosmjs/amino": "npm:^0.33.1"
-    "@cosmjs/proto-signing": "npm:^0.33.1"
-    "@keplr-wallet/proto-types": "npm:^0.12.253"
-    "@keplr-wallet/types": "npm:^0.12.253"
-    "@noble/curves": "npm:1.9.7"
-    "@noble/hashes": "npm:^1.8.0"
-    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.106"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.27"
-    bech32: "npm:^2.0.0"
-    buffer: "npm:^6.0.3"
-    uuid: "npm:*"
-  checksum: 10c0/6a672e61b4dce0b1edaad3d8a837586ab206f476ea56553eabe44e665a0561f0f57b97d43aa33286642cd6e39ca2a713ffd708a89f9205603746b9235f6191fd
-  languageName: node
-  linkType: hard
 
 "@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.134, @oko-wallet/oko-sdk-cosmos@workspace:*, @oko-wallet/oko-sdk-cosmos@workspace:sdk/oko_sdk_cosmos":
   version: 0.0.0-use.local
@@ -10847,19 +10912,6 @@ __metadata:
     uuid: "npm:*"
   languageName: unknown
   linkType: soft
-
-"@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.119":
-  version: 0.0.6-rc.119
-  resolution: "@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.119"
-  dependencies:
-    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.106"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.27"
-    eventemitter3: "npm:^5.0.1"
-    uuid: "npm:*"
-    viem: "npm:*"
-  checksum: 10c0/3a9eabb037fdee6c3716f2ae8d13e9d71c7715691ca02b50317cb6d719708ddda1030fcb416ea9f70ccbfcff92f68f838e908ef85a6cd773576fffe1c206f4d0
-  languageName: node
-  linkType: hard
 
 "@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.125, @oko-wallet/oko-sdk-eth@workspace:*, @oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth":
   version: 0.0.0-use.local
@@ -12140,6 +12192,13 @@ __metadata:
     valtio: "npm:1.13.2"
     viem: "npm:>=2.29.0"
   checksum: 10c0/d5c8ba49f9eb4e2446219d9f84a603a11cb940379f5f37e46da507e94bcd2657a9fc232248b1692f3fa6c6105dd582442da0c745d13c3cbb89860db8a0bb39c6
+  languageName: node
+  linkType: hard
+
+"@rolldown/pluginutils@npm:1.0.0-beta.27":
+  version: 1.0.0-beta.27
+  resolution: "@rolldown/pluginutils@npm:1.0.0-beta.27"
+  checksum: 10c0/9658f235b345201d4f6bfb1f32da9754ca164f892d1cb68154fe5f53c1df42bd675ecd409836dff46884a7847d6c00bdc38af870f7c81e05bba5c2645eb4ab9c
   languageName: node
   linkType: hard
 
@@ -14488,6 +14547,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@tanstack/query-core@npm:5.59.13":
+  version: 5.59.13
+  resolution: "@tanstack/query-core@npm:5.59.13"
+  checksum: 10c0/57b43a9c1599b99055195fa83db80ddc7e00996244e9b73de5afa6bb8b0b489ee344ca5bcd660ccb9a6e4d2c01ef5dab42acd2e30ffa2b96d0335b3facb84707
+  languageName: node
+  linkType: hard
+
 "@tanstack/query-core@npm:5.59.20":
   version: 5.59.20
   resolution: "@tanstack/query-core@npm:5.59.20"
@@ -14517,6 +14583,17 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19
   checksum: 10c0/0cde819c41d3f02dccc443786c3aeb6e0a6135365ef127dd8e5bb25d65837b0b12b011c6700c14df1f866a1d65d57a6f4a00abf2ddac31543d68b4963ca80d1a
+  languageName: node
+  linkType: hard
+
+"@tanstack/react-query@npm:5.59.15":
+  version: 5.59.15
+  resolution: "@tanstack/react-query@npm:5.59.15"
+  dependencies:
+    "@tanstack/query-core": "npm:5.59.13"
+  peerDependencies:
+    react: ^18 || ^19
+  checksum: 10c0/7b697eee85ed40efb82b6609434e2580405a3c32844365a8bb876b354e3068b21e0fa4c8ed0f5a06af45dc68373f39873b046f104975a31204d9288e03bba0f5
   languageName: node
   linkType: hard
 
@@ -16335,6 +16412,22 @@ __metadata:
   bin:
     nft: out/cli.js
   checksum: 10c0/84ba32c685f9d7c2c849b1e8c963d3b7eb09d122e666143ed97c3776f5b04a4745605e1d29fd81383f72b1d1c0d7d58e39f06dc92f021b5de079dfa4e8523574
+  languageName: node
+  linkType: hard
+
+"@vitejs/plugin-react@npm:^4.3.4":
+  version: 4.7.0
+  resolution: "@vitejs/plugin-react@npm:4.7.0"
+  dependencies:
+    "@babel/core": "npm:^7.28.0"
+    "@babel/plugin-transform-react-jsx-self": "npm:^7.27.1"
+    "@babel/plugin-transform-react-jsx-source": "npm:^7.27.1"
+    "@rolldown/pluginutils": "npm:1.0.0-beta.27"
+    "@types/babel__core": "npm:^7.20.5"
+    react-refresh: "npm:^0.17.0"
+  peerDependencies:
+    vite: ^4.2.0 || ^5.0.0 || ^6.0.0 || ^7.0.0
+  checksum: 10c0/692f23960972879485d647713663ec299c478222c96567d60285acf7c7dc5c178e71abfe9d2eefddef1eeb01514dacbc2ed68aad84628debf9c7116134734253
   languageName: node
   linkType: hard
 
@@ -22911,12 +23004,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-plugin-react-hooks@npm:^5.0.0":
+"eslint-plugin-react-hooks@npm:^5.0.0, eslint-plugin-react-hooks@npm:^5.2.0":
   version: 5.2.0
   resolution: "eslint-plugin-react-hooks@npm:5.2.0"
   peerDependencies:
     eslint: ^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-0 || ^9.0.0
   checksum: 10c0/1c8d50fa5984c6dea32470651807d2922cc3934cf3425e78f84a24c2dfd972e7f019bee84aefb27e0cf2c13fea0ac1d4473267727408feeb1c56333ca1489385
+  languageName: node
+  linkType: hard
+
+"eslint-plugin-react-refresh@npm:^0.4.22":
+  version: 0.4.24
+  resolution: "eslint-plugin-react-refresh@npm:0.4.24"
+  peerDependencies:
+    eslint: ">=8.40"
+  checksum: 10c0/7471a25663cdec2886b5aec53cff6319475a6704616f96db4eef7ada3cba1236abeb71b4c2db6396e48a3a8a3a416a0266b2eac06bb6ef77d8b5674604ece7fb
   languageName: node
   linkType: hard
 
@@ -24841,6 +24943,13 @@ __metadata:
   version: 14.0.0
   resolution: "globals@npm:14.0.0"
   checksum: 10c0/b96ff42620c9231ad468d4c58ff42afee7777ee1c963013ff8aabe095a451d0ceeb8dcd8ef4cbd64d2538cef45f787a78ba3a9574f4a634438963e334471302d
+  languageName: node
+  linkType: hard
+
+"globals@npm:^16.4.0":
+  version: 16.5.0
+  resolution: "globals@npm:16.5.0"
+  checksum: 10c0/615241dae7851c8012f5aa0223005b1ed6607713d6813de0741768bd4ddc39353117648f1a7086b4b0fa45eae733f1c0a0fe369aa4e543bb63f8de8990178ea9
   languageName: node
   linkType: hard
 
@@ -35523,6 +35632,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-refresh@npm:^0.17.0":
+  version: 0.17.0
+  resolution: "react-refresh@npm:0.17.0"
+  checksum: 10c0/002cba940384c9930008c0bce26cac97a9d5682bc623112c2268ba0c155127d9c178a9a5cc2212d560088d60dfd503edd808669a25f9b377f316a32361d0b23c
+  languageName: node
+  linkType: hard
+
 "react-refresh@npm:^0.18.0":
   version: 0.18.0
   resolution: "react-refresh@npm:0.18.0"
@@ -39690,7 +39806,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript-eslint@npm:^8.28.0":
+"typescript-eslint@npm:^8.28.0, typescript-eslint@npm:^8.45.0":
   version: 8.46.3
   resolution: "typescript-eslint@npm:8.46.3"
   dependencies:

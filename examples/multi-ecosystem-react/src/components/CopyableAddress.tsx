@@ -15,7 +15,9 @@ export default function CopyableAddress({
       await navigator.clipboard.writeText(value);
       setCopied(true);
       setTimeout(() => setCopied(false), 1200);
-    } catch {}
+    } catch {
+      // ignore
+    }
   }
 
   const formatted = value ? `${value.slice(0, 10)}...${value.slice(-8)}` : "-";

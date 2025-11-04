@@ -1,13 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import {
-  CosmosEWallet,
+  OkoCosmosWallet,
   getBech32Address,
   getCosmosAddress,
-  type CosmosEWalletInterface,
+  type OkoCosmosWalletInterface,
 } from "@oko-wallet/oko-sdk-cosmos";
 import {
-  EthEWallet,
-  type EthEWalletInterface,
+  OkoEthWallet,
+  type OkoEthWalletInterface,
   type EIP1193Provider,
 } from "@oko-wallet/oko-sdk-eth";
 import type { ChainInfo } from "@keplr-wallet/types";
@@ -99,9 +99,10 @@ const OkoContext = createContext<OkoProviderValues>({
 });
 
 function OkoProvider({ children }: { children: React.ReactNode }) {
-  const [cosmosWallet, setCosmosWallet] =
-    useState<CosmosEWalletInterface | null>(null);
-  const [ethWallet, setEthWallet] = useState<EthEWalletInterface | null>(null);
+  const [okoCosmos, setOkoCosmos] = useState<OkoCosmosWalletInterface | null>(
+    null,
+  );
+  const [okoEth, setOkoEth] = useState<OkoEthWalletInterface | null>(null);
   const [provider, setProvider] = useState<EIP1193Provider | null>(null);
 
   const [offlineSigner, setOfflineSigner] =
@@ -121,15 +122,14 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
     : null;
 
   async function init() {
-    const apiKey = (import.meta as any).env.VITE_OKO_API_KEY ?? "";
-    const sdkEndpoint =
-      (import.meta as any).env.VITE_OKO_SDK_ENDPOINT ?? undefined;
+    const apiKey = import.meta.env.VITE_OKO_API_KEY ?? "";
+    const sdkEndpoint = import.meta.env.VITE_OKO_SDK_ENDPOINT ?? undefined;
 
-    const cosmosInit = CosmosEWallet.init({
+    const cosmosInit = OkoCosmosWallet.init({
       api_key: apiKey,
       sdk_endpoint: sdkEndpoint,
     });
-    const ethInit = EthEWallet.init({
+    const ethInit = OkoEthWallet.init({
       api_key: apiKey,
       sdk_endpoint: sdkEndpoint,
     });
@@ -167,37 +167,32 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
       setPublicKey(null);
       setAddress(null);
     } finally {
-      setCosmosWallet(c);
-      setEthWallet(e);
+      setOkoCosmos(c);
+      setOkoEth(e);
       setProvider(p);
       setOfflineSigner(signer);
-
-      p.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0xaa36a7" }],
-      }).catch(console.error);
     }
   }
 
   async function signIn() {
-    if (!cosmosWallet && !ethWallet) {
+    if (!okoCosmos && !okoEth) {
       return;
     }
 
     // sign-in via core eWallet (available from either instance)
-    const eWallet = cosmosWallet?.eWallet ?? ethWallet?.eWallet;
-    if (!eWallet) {
+    const okoWallet = okoCosmos?.okoWallet ?? okoEth?.okoWallet;
+    if (!okoWallet) {
       return;
     }
 
     setIsSigningIn(true);
 
     try {
-      await eWallet?.signIn("google");
+      await okoWallet.signIn("google");
 
       const [pk, addr] = await Promise.all([
-        cosmosWallet?.getPublicKey().catch(() => null),
-        ethWallet?.getAddress().catch(() => null),
+        okoCosmos?.getPublicKey().catch(() => null),
+        okoEth?.getAddress().catch(() => null),
       ]);
 
       if (pk) {
@@ -216,7 +211,7 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
 
   async function signOut() {
     try {
-      await (cosmosWallet?.eWallet ?? ethWallet?.eWallet)?.signOut();
+      await (okoCosmos?.okoWallet ?? okoEth?.okoWallet)?.signOut();
     } finally {
       setIsSignedIn(false);
       setPublicKey(null);
@@ -231,7 +226,7 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
   return (
     <OkoContext.Provider
       value={{
-        isReady: !!cosmosWallet && !!ethWallet,
+        isReady: !!okoCosmos && !!okoEth,
         isSignedIn,
         isSigningIn,
         publicKey,

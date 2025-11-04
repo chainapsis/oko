@@ -134,7 +134,7 @@ export default function CosmosTransactionForm() {
             exact: true,
           });
         }
-      } catch (err) {
+      } catch {
         // keep polling
       }
     }, 2000);
@@ -154,7 +154,7 @@ export default function CosmosTransactionForm() {
           recipientPlaceholder="osmo..."
           amountPlaceholder="0"
           register={register}
-          errors={errors as any}
+          errors={errors}
           onSubmit={handleSubmit(handleSend)}
           canSend={!!bech32Address && isValid && !isTxSending}
           loading={isTxSending}

@@ -1,8 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import {
-  EIP1193Provider,
-  EthEWallet,
-  type EthEWalletInterface,
+  OkoEIP1193Provider,
+  OkoEthWallet,
+  type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
 import { Address } from "viem";
 
@@ -11,7 +11,7 @@ interface OkoEvmProviderValues {
   isSignedIn: boolean;
   isSigningIn: boolean;
   address: Address | null;
-  provider: EIP1193Provider | null;
+  provider: OkoEIP1193Provider | null;
   signIn: () => Promise<void>;
   signOut: () => Promise<void>;
 }
@@ -27,30 +27,27 @@ const OkoEvmContext = createContext<OkoEvmProviderValues>({
 });
 
 function OkoEvmProvider({ children }: { children: React.ReactNode }) {
-  const [ethEWallet, setEthEWallet] = useState<EthEWalletInterface | null>(
-    null,
-  );
-  const [provider, setProvider] = useState<EIP1193Provider | null>(null);
+  const [okoEth, setOkoEth] = useState<OkoEthWalletInterface | null>(null);
+  const [provider, setProvider] = useState<OkoEIP1193Provider | null>(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isSigningIn, setIsSigningIn] = useState(false);
   const [address, setAddress] = useState<Address | null>(null);
 
   async function initOkoEvm() {
-    const okoEvm = EthEWallet.init({
+    const initRes = OkoEthWallet.init({
       api_key: process.env.NEXT_PUBLIC_OKO_API_KEY ?? "",
-      sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT ?? undefined,
     });
 
-    if (!okoEvm.success) {
-      console.error(okoEvm.err);
+    if (!initRes.success) {
+      console.error(initRes.err);
       return;
     }
 
-    const ethEWallet = okoEvm.data;
-    const provider = await ethEWallet.getEthereumProvider();
+    const okoEth = initRes.data;
+    const provider = await okoEth.getEthereumProvider();
 
     try {
-      const address = await ethEWallet.getAddress();
+      const address = await okoEth.getAddress();
 
       setAddress(address);
       setIsSignedIn(true);
@@ -60,30 +57,22 @@ function OkoEvmProvider({ children }: { children: React.ReactNode }) {
       setIsSignedIn(false);
       setAddress(null);
     } finally {
-      setEthEWallet(ethEWallet);
+      setOkoEth(okoEth);
       setProvider(provider);
-
-      // switch to ethereum sepolia as initial chain id is set to 1
-      provider
-        .request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: "0xaa36a7" }],
-        })
-        .catch(console.error);
     }
   }
 
   async function signIn() {
-    if (!ethEWallet) {
+    if (!okoEth) {
       return;
     }
 
     setIsSigningIn(true);
 
     try {
-      await ethEWallet.eWallet.signIn("google");
+      await okoEth.okoWallet.signIn("google");
 
-      const address = await ethEWallet.getAddress();
+      const address = await okoEth.getAddress();
 
       setIsSignedIn(true);
       setAddress(address);
@@ -95,7 +84,7 @@ function OkoEvmProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function signOut() {
-    await ethEWallet?.eWallet.signOut();
+    await okoEth?.okoWallet.signOut();
     setIsSignedIn(false);
     setAddress(null);
   }
@@ -107,7 +96,7 @@ function OkoEvmProvider({ children }: { children: React.ReactNode }) {
   return (
     <OkoEvmContext.Provider
       value={{
-        isReady: !!ethEWallet,
+        isReady: !!okoEth,
         isSignedIn,
         isSigningIn,
         address,

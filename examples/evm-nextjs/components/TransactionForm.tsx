@@ -71,20 +71,27 @@ export default function TransactionForm({ className }: TransactionFormProps) {
     if (!address || isTxSending || !provider) {
       return;
     }
+    const { recipientAddress, amount } = values;
+
+    setIsTxSending(true);
 
     let txHashForTracking: Hex | null = null;
 
-    setIsTxSending(true);
     try {
-      const { recipientAddress, amount } = values;
-
       // make sure we are on the correct chain
       await provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0xaa36a7" }],
       });
 
-      // send transaction
+      const current = await provider.request({
+        method: "eth_chainId",
+      });
+
+      if (current !== "0xaa36a7") {
+        throw new Error("Not on the correct chain");
+      }
+
       txHashForTracking = await provider.request({
         method: "eth_sendTransaction",
         params: [
@@ -96,6 +103,7 @@ export default function TransactionForm({ className }: TransactionFormProps) {
       });
 
       setTxHash(txHashForTracking);
+      setTxStatus("pending");
     } catch (error) {
       console.error(error);
     } finally {

@@ -22,7 +22,7 @@
       "examples/cosmos-nextjs",
       "examples/evm-nextjs",
       "examples/evm-wagmi-nextjs",
-      "multi-ecosystem-react",
+      "examples/multi-ecosystem-react",
       "backend/ewallet_api/error_codes",
       "backend/ewallet_api/server",
       "backend/ewallet_api_server_state",

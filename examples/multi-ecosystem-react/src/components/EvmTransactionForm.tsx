@@ -50,16 +50,28 @@ export default function EvmTransactionForm() {
   }, [txHash]);
 
   async function handleSend(values: FormValues) {
-    if (!address || !provider || isTxSending) return;
+    if (!address || !provider || isTxSending) {
+      return;
+    }
     const { recipientAddress, amount } = values;
 
     setIsTxSending(true);
+
     let txHashForTracking: Hex | null = null;
+
     try {
       await provider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: "0xaa36a7" }],
       });
+
+      const current = await provider.request({
+        method: "eth_chainId",
+      });
+
+      if (current !== "0xaa36a7") {
+        throw new Error("Not on the correct chain");
+      }
 
       txHashForTracking = await provider.request({
         method: "eth_sendTransaction",
@@ -112,7 +124,7 @@ export default function EvmTransactionForm() {
           recipientPlaceholder="0x..."
           amountPlaceholder="0"
           register={register}
-          errors={errors as any}
+          errors={errors}
           onSubmit={handleSubmit(handleSend)}
           canSend={!!address && isValid && !isTxSending}
           loading={isTxSending}
