@@ -28,6 +28,12 @@ This guide explains how to self-host Oko in a standalone setup. It covers how to
 - Docker + Docker Compose (recommended for keyshare node in production)
 - PostgreSQL 14+ (separate DBs for keyshare node and oko_api; or separate DB names on the same server)
 
+## Clone the Repository
+```
+git clone https://github.com/chainapsis/oko.git
+cd oko
+```
+
 ## Install/Build
 ```
 cd oko && yarn && yarn workspaces foreach -p run build
@@ -190,4 +196,3 @@ Use `yarn ci` at each workspace root to speed up repetitive local tasks. Argumen
 - Typecheck: `cd oko-internal && yarn ci typecheck`
 
 Note: `yarn ci` is a thin wrapper around `yarn --cwd ./internals/ci run start <command>`. Run `yarn ci --help` to list available commands.
-
