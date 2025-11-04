@@ -5,7 +5,7 @@ export interface AccountChangePayload {
   publicKey: Key["pubKey"] | null;
 }
 
-export type KeplrEWalletCosmosEvent2 =
+export type OkoCosmosWalletEvent2 =
   | ({
       type: "accountsChanged";
     } & AccountChangePayload)
@@ -13,7 +13,7 @@ export type KeplrEWalletCosmosEvent2 =
       type: "chainChanged";
     };
 
-export type KeplrEWalletCosmosEventHandler2 =
+export type OkoCosmosWalletEventHandler2 =
   | {
       type: "accountsChanged";
       handler: (payload: AccountChangePayload) => void;

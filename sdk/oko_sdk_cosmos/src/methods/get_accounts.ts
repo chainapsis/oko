@@ -1,6 +1,6 @@
 import type { AccountData } from "@cosmjs/amino";
 
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 import {
   isEthereumCompatible,
   getEthAddress,
@@ -10,7 +10,7 @@ import {
 import { sendGetCosmosChainInfo } from "@oko-wallet-sdk-cosmos/utils/chain";
 
 export async function getAccounts(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
 ): Promise<AccountData[]> {
   try {
     const pubKey = await this.getPublicKey();
@@ -18,8 +18,7 @@ export async function getAccounts(
       return [];
     }
 
-    // const chainInfoList = await this.eWallet.getCosmosChainInfo();
-    const chainInfoRes = await sendGetCosmosChainInfo(this.eWallet);
+    const chainInfoRes = await sendGetCosmosChainInfo(this.okoWallet);
     if (!chainInfoRes.success) {
       throw new Error(chainInfoRes.err.toString());
     }

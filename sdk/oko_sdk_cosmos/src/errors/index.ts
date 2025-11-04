@@ -1,6 +1,6 @@
-export type CosmosEwalletInitError =
+export type OkoCosmosWalletInitError =
   | {
-      type: "ewallet_core_init_fail";
+      type: "oko_cosmos_wallet_init_fail";
       msg: string;
     }
   | {
@@ -9,5 +9,5 @@ export type CosmosEwalletInitError =
     };
 
 export type LazyInitError = {
-  type: "eWallet failed to initailize";
+  type: "oko_cosmos_wallet_lazy_init_fail";
 };

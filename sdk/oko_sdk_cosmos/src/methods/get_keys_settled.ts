@@ -1,13 +1,9 @@
-import type {
-  Key,
-  SettledResponse,
-  SettledResponses,
-} from "@keplr-wallet/types";
+import type { Key, SettledResponses } from "@keplr-wallet/types";
 
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function getKeysSettled(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   chainIds: string[],
 ): Promise<SettledResponses<Key>> {
   await this.waitUntilInitialized;

@@ -3,17 +3,17 @@ import { type DirectSignResponse } from "@cosmjs/proto-signing";
 import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 
 import type { SignDoc } from "@oko-wallet-sdk-cosmos/types/sign";
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function signDirect(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   chainId: string,
   signer: string,
   signDoc: SignDoc,
   signOptions?: KeplrSignOptions,
 ): Promise<DirectSignResponse> {
   try {
-    const origin = this.eWallet.origin;
+    const origin = this.okoWallet.origin;
 
     const chainInfoList = await this.getCosmosChainInfo();
     const chainInfo = chainInfoList.find((info) => info.chainId === chainId);
@@ -87,7 +87,7 @@ export async function signDirect(
       }
     }
   } catch (error) {
-    console.error("[keplr-cosmos] sign direct err: %s", error);
+    console.error("[oko-cosmos] sign direct err: %s", error);
 
     throw error;
   }

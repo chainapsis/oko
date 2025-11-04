@@ -6,10 +6,10 @@ import {
   getEthAddress,
   isEthereumCompatible,
 } from "@oko-wallet-sdk-cosmos/utils/address";
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function getKey(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   chainId: string,
 ): Promise<Key> {
   const pubKey = await this.getPublicKey();

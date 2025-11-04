@@ -1,28 +1,28 @@
 import {
   EventEmitter3,
-  type KeplrEWalletInterface,
+  type OkoWalletInterface,
 } from "@oko-wallet/oko-sdk-core";
 
 import type {
-  CosmosEWalletInterface,
-  CosmosEWalletStaticInterface,
-  KeplrEWalletCosmosEvent2,
-  KeplrEWalletCosmosEventHandler2,
+  OkoCosmosWalletInterface,
+  OkoCosmosWalletStaticInterface,
+  OkoCosmosWalletEvent2,
+  OkoCosmosWalletEventHandler2,
 } from "@oko-wallet-sdk-cosmos/types";
 import { lazyInit } from "./private/lazy_init";
 
-export const CosmosEWallet = function (
-  this: CosmosEWalletInterface,
-  eWallet: KeplrEWalletInterface,
+export const OkoCosmosWallet = function (
+  this: OkoCosmosWalletInterface,
+  okoWallet: OkoWalletInterface,
 ) {
-  this.eWallet = eWallet;
+  this.okoWallet = okoWallet;
   this.eventEmitter = new EventEmitter3<
-    KeplrEWalletCosmosEvent2,
-    KeplrEWalletCosmosEventHandler2
+    OkoCosmosWalletEvent2,
+    OkoCosmosWalletEventHandler2
   >();
   this.state = {
     publicKey: null,
     publicKeyRaw: null,
   };
   this.waitUntilInitialized = lazyInit(this).then();
-} as any as CosmosEWalletStaticInterface;
+} as any as OkoCosmosWalletStaticInterface;
