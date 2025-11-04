@@ -29,7 +29,7 @@ This guide explains how to self-host Oko in a standalone setup. It covers how to
 
 - Node 22 + Yarn 4
 - Docker + Docker Compose (recommended for keyshare node in production)
-- PostgreSQL 14+ (separate DBs for keyshare node and oko_api; or separate DB names on the same server)
+- PostgreSQL 17+ (separate DBs for keyshare node and oko_api; or separate DB names on the same server)
 
 ## Clone the Repository
 
