@@ -10,8 +10,8 @@ import { SignMode } from "@keplr-wallet/proto-types/cosmos/tx/signing/v1beta1/si
 import { SigningStargateClient } from "@cosmjs/stargate";
 import type { Coin } from "@keplr-wallet/proto-types/cosmos/base/v1beta1/coin";
 import type {
-  CosmosEWallet,
-  CosmosEWalletInterface,
+  OkoCosmosWallet,
+  OkoCosmosWalletInterface,
 } from "@oko-wallet/oko-sdk-cosmos";
 import { makeSignDoc as makeAminoSignDoc } from "@cosmjs/amino";
 
@@ -19,13 +19,13 @@ import { TEST_COSMOS_CHAIN_ID, TEST_COSMOS_CHAIN_RPC } from "@/constants";
 import { SignDocWrapper } from "./sign_doc_wrapper";
 
 export async function makeMockSendTokenProtoSignDoc(
-  cosmosEWallet: CosmosEWalletInterface,
+  okoCosmosWallet: OkoCosmosWalletInterface,
   coin: Coin = {
     denom: "uosmo",
     amount: "10",
   },
 ) {
-  const account = await cosmosEWallet.getKey(TEST_COSMOS_CHAIN_ID);
+  const account = await okoCosmosWallet.getKey(TEST_COSMOS_CHAIN_ID);
   const stargateClient = await SigningStargateClient.connect(
     TEST_COSMOS_CHAIN_RPC,
   );
@@ -113,13 +113,13 @@ export async function makeMockSendTokenProtoSignDoc(
 }
 
 export async function makeMockSendTokenAminoSignDoc(
-  cosmosEWallet: CosmosEWalletInterface,
+  okoCosmosWallet: OkoCosmosWalletInterface,
   coin: Coin = {
     denom: "uosmo",
     amount: "10",
   },
 ) {
-  const account = await cosmosEWallet.getKey(TEST_COSMOS_CHAIN_ID);
+  const account = await okoCosmosWallet.getKey(TEST_COSMOS_CHAIN_ID);
   const stargateClient = await SigningStargateClient.connect(
     TEST_COSMOS_CHAIN_RPC,
   );

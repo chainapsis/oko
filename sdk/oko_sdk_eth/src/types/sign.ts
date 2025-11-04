@@ -38,7 +38,7 @@ export type EthSignResult = MakeEthereumSigResult;
 /**
  * Signer interface for Ethereum
  */
-export interface EthSigner {
+export interface OkoEthSigner {
   getAddress: () => Address | null;
   sign: (params: EthSignParams) => Promise<EthSignResult>;
 }

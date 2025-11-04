@@ -1,13 +1,16 @@
-import type { KeplrEWalletInterface } from "@oko-wallet/oko-sdk-core";
+import type { OkoWalletInterface } from "@oko-wallet/oko-sdk-core";
 
-import type { EthEWalletInterface, EthEWalletStaticInterface } from "./types";
+import type {
+  OkoEthWalletInterface,
+  OkoEthWalletStaticInterface,
+} from "./types";
 import { lazyInit } from "./private/lazy_init";
 
-export const EthEWallet = function (
-  this: EthEWalletInterface,
-  eWallet: KeplrEWalletInterface,
+export const OkoEthWallet = function (
+  this: OkoEthWalletInterface,
+  okoWallet: OkoWalletInterface,
 ) {
-  this.eWallet = eWallet;
+  this.okoWallet = okoWallet;
   this.provider = null;
   this.state = {
     publicKey: null,
@@ -15,4 +18,4 @@ export const EthEWallet = function (
     address: null,
   };
   this.waitUntilInitialized = lazyInit(this).then();
-} as any as EthEWalletStaticInterface;
+} as any as OkoEthWalletStaticInterface;

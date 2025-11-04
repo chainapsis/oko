@@ -9,7 +9,7 @@ import { Footer } from "@oko-wallet-sandbox-evm/components/Footer";
 import { Header } from "@oko-wallet-sandbox-evm/components/Header";
 import { BlockieAvatar } from "@oko-wallet-sandbox-evm/components/scaffold-eth";
 import { useInitializeNativeCurrencyPrice } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
-import { wagmiConfigWithKeplr } from "@oko-wallet-sandbox-evm/services/web3/wagmiConfig";
+import { wagmiConfig } from "@oko-wallet-sandbox-evm/services/web3/wagmiConfig";
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   useInitializeNativeCurrencyPrice();
@@ -34,10 +34,8 @@ export const queryClient = new QueryClient({
   },
 });
 
-const config = wagmiConfigWithKeplr();
-
 const WagmiWithKeplr = ({ children }: { children: React.ReactNode }) => {
-  return <WagmiProvider config={config}>{children}</WagmiProvider>;
+  return <WagmiProvider config={wagmiConfig}>{children}</WagmiProvider>;
 };
 
 export const ScaffoldEthAppWithProviders = ({

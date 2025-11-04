@@ -16,9 +16,9 @@ import {
   Wallet,
 } from "@rainbow-me/rainbowkit";
 import type {
-  EthEWalletInitArgs,
-  EthEWalletInterface,
-  EWalletEIP1193Provider,
+  OkoEthWalletInitArgs,
+  OkoEthWalletInterface,
+  OkoEIP1193Provider,
 } from "@oko-wallet/oko-sdk-eth";
 
 import { getAlchemyHttpUrl } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
@@ -37,7 +37,7 @@ export const defaultWallets = [
   }),
 ];
 
-function toOko(args: EthEWalletInitArgs): () => Wallet {
+function toOko(args: OkoEthWalletInitArgs): () => Wallet {
   return () => ({
     id: "oko",
     name: "Oko",
@@ -57,19 +57,19 @@ export interface WalletConnectOptions {
 // wagmi compatible connector for oko
 function okoConnector(
   walletDetails: WalletDetailsParams,
-  args: EthEWalletInitArgs,
+  args: OkoEthWalletInitArgs,
 ): CreateConnectorFn {
-  let ethEWallet: EthEWalletInterface | null = null;
-  let cachedProvider: EWalletEIP1193Provider | null = null;
+  let okoEthWallet: OkoEthWalletInterface | null = null;
+  let cachedProvider: OkoEIP1193Provider | null = null;
 
-  async function initEthEWalletOnce(): Promise<EthEWalletInterface> {
-    if (ethEWallet) {
-      return ethEWallet;
+  async function initOkoEthWalletOnce(): Promise<OkoEthWalletInterface> {
+    if (okoEthWallet) {
+      return okoEthWallet;
     }
 
     // lazy import to avoid SSR issues and optimize bundle size
-    const { EthEWallet } = await import("@oko-wallet/oko-sdk-eth");
-    const initRes = EthEWallet.init(args);
+    const { OkoEthWallet } = await import("@oko-wallet/oko-sdk-eth");
+    const initRes = OkoEthWallet.init(args);
 
     if (!initRes.success) {
       throw new Error(`init fail: ${initRes.err}`);
@@ -77,11 +77,11 @@ function okoConnector(
 
     await initRes.data.waitUntilInitialized;
 
-    ethEWallet = initRes.data;
-    return ethEWallet;
+    okoEthWallet = initRes.data;
+    return okoEthWallet;
   }
 
-  return createConnector<EWalletEIP1193Provider>((config) => {
+  return createConnector<OkoEIP1193Provider>((config) => {
     const wallet = {
       id: "oko",
       name: "Oko",
@@ -92,7 +92,7 @@ function okoConnector(
         // Only setup in browser environment
         if (typeof window !== "undefined") {
           console.log("[sandbox-evm] setup oko in browser");
-          await initEthEWalletOnce();
+          await initOkoEthWalletOnce();
         } else {
           console.log("[sandbox-evm] oko can only be initialized in browser");
         }
@@ -103,8 +103,8 @@ function okoConnector(
       }) => {
         console.log("[sandbox-evm] try to connect oko!");
 
-        if (!ethEWallet) {
-          await initEthEWalletOnce();
+        if (!okoEthWallet) {
+          await initOkoEthWalletOnce();
 
           // DO NOT fallthrough here to manually retry connect
           // as popup on safari will be blocked by async initialization
@@ -132,7 +132,7 @@ function okoConnector(
           console.log(
             "[sandbox-evm] no authenticated account, sign in with google",
           );
-          await ethEWallet.eWallet.signIn("google");
+          await okoEthWallet.okoWallet.signIn("google");
         }
 
         const chainId = await wallet.getChainId();
@@ -160,8 +160,8 @@ function okoConnector(
         const provider = await wallet.getProvider();
         provider.removeListener("accountsChanged", wallet.onAccountsChanged);
         provider.removeListener("chainChanged", wallet.onChainChanged);
-        if (ethEWallet) {
-          await ethEWallet.eWallet.signOut();
+        if (okoEthWallet) {
+          await okoEthWallet.okoWallet.signOut();
         }
       },
       getAccounts: async () => {
@@ -187,9 +187,9 @@ function okoConnector(
           return cachedProvider;
         }
 
-        const ethEWallet = await initEthEWalletOnce();
+        const okoEthWallet = await initOkoEthWalletOnce();
 
-        cachedProvider = await ethEWallet.getEthereumProvider();
+        cachedProvider = await okoEthWallet.getEthereumProvider();
 
         cachedProvider.on("chainChanged", (chainId) => {
           wallet.onChainChanged(chainId);
@@ -299,44 +299,42 @@ function okoConnector(
   });
 }
 
-export const wagmiConfigWithKeplr = () => {
-  return createConfig({
-    chains: [targetNetworks[0], ...targetNetworks.slice(1)],
-    ssr: true, // in server side, it won't be able to initialize oko
-    connectors: connectorsForWallets(
-      [
-        {
-          groupName: "Supported Wallets",
-          wallets: defaultWallets,
-        },
-      ],
+export const wagmiConfig = createConfig({
+  chains: [targetNetworks[0], ...targetNetworks.slice(1)],
+  ssr: true, // in server side, it won't be able to initialize oko
+  connectors: connectorsForWallets(
+    [
       {
-        appName: "Sandbox EVM",
-        projectId: scaffoldConfig.walletConnectProjectId,
+        groupName: "Supported Wallets",
+        wallets: defaultWallets,
       },
-    ),
-    client: ({ chain }) => {
-      let rpcFallbacks = [http()];
-      const rpcOverrideUrl = (
-        scaffoldConfig.rpcOverrides as ScaffoldConfig["rpcOverrides"]
-      )?.[chain.id];
-      if (rpcOverrideUrl) {
-        rpcFallbacks = [http(rpcOverrideUrl), http()];
-      } else {
-        const alchemyHttpUrl = getAlchemyHttpUrl(chain.id);
-        if (alchemyHttpUrl) {
-          const isUsingDefaultKey =
-            scaffoldConfig.alchemyApiKey === DEFAULT_ALCHEMY_API_KEY;
-          rpcFallbacks = isUsingDefaultKey
-            ? [http(), http(alchemyHttpUrl)]
-            : [http(alchemyHttpUrl), http()];
-        }
-      }
-      return createClient({
-        chain,
-        transport: fallback(rpcFallbacks),
-        ...{ pollingInterval: scaffoldConfig.pollingInterval },
-      });
+    ],
+    {
+      appName: "Sandbox EVM",
+      projectId: scaffoldConfig.walletConnectProjectId,
     },
-  });
-};
+  ),
+  client: ({ chain }) => {
+    let rpcFallbacks = [http()];
+    const rpcOverrideUrl = (
+      scaffoldConfig.rpcOverrides as ScaffoldConfig["rpcOverrides"]
+    )?.[chain.id];
+    if (rpcOverrideUrl) {
+      rpcFallbacks = [http(rpcOverrideUrl), http()];
+    } else {
+      const alchemyHttpUrl = getAlchemyHttpUrl(chain.id);
+      if (alchemyHttpUrl) {
+        const isUsingDefaultKey =
+          scaffoldConfig.alchemyApiKey === DEFAULT_ALCHEMY_API_KEY;
+        rpcFallbacks = isUsingDefaultKey
+          ? [http(), http(alchemyHttpUrl)]
+          : [http(alchemyHttpUrl), http()];
+      }
+    }
+    return createClient({
+      chain,
+      transport: fallback(rpcFallbacks),
+      ...{ pollingInterval: scaffoldConfig.pollingInterval },
+    });
+  },
+});

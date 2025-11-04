@@ -7,7 +7,7 @@ import {
 } from "viem";
 import { v4 as uuidv4 } from "uuid";
 
-import type { EthSigner } from "@oko-wallet-sdk-eth/types";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import type {
   RpcMethod,
   RpcResponse,
@@ -25,10 +25,10 @@ import {
 import { ProviderEventEmitter } from "./emitter";
 import type {
   EIP1193Provider,
-  EWalletEIP1193ProviderOptions,
+  OkoEIP1193ProviderOptions,
   ProviderConnectInfo,
-  EWalletRpcChain,
-  EWalletRpcChainWithStatus,
+  OkoEthRpcChain,
+  OkoEthRpcChainWithStatus,
 } from "./types";
 import { VERSION } from "./version";
 import {
@@ -38,21 +38,21 @@ import {
   isConnectionError,
 } from "./error";
 
-export class EWalletEIP1193Provider
+export class OkoEIP1193Provider
   extends ProviderEventEmitter
   implements EIP1193Provider
 {
-  protected signer: EthSigner | null;
+  protected signer: OkoEthSigner | null;
 
-  private activeChainState: EWalletRpcChain;
-  private addedChainsState: EWalletRpcChainWithStatus[];
+  private activeChainState: OkoEthRpcChain;
+  private addedChainsState: OkoEthRpcChainWithStatus[];
 
   private lastConnectedEmittedEvent: "connect" | "disconnect" | null;
 
   public readonly version: string = VERSION;
   public readonly name: string = "EWalletEIP1193Provider";
 
-  constructor(options: EWalletEIP1193ProviderOptions) {
+  constructor(options: OkoEIP1193ProviderOptions) {
     super();
 
     this.lastConnectedEmittedEvent = null;
@@ -88,11 +88,11 @@ export class EWalletEIP1193Provider
     return this.activeChainState.chainId;
   }
 
-  get activeChain(): EWalletRpcChain {
+  get activeChain(): OkoEthRpcChain {
     return this.activeChainState;
   }
 
-  get addedChains(): ReadonlyArray<EWalletRpcChainWithStatus> {
+  get addedChains(): ReadonlyArray<OkoEthRpcChainWithStatus> {
     return this.addedChainsState;
   }
 
@@ -413,7 +413,7 @@ export class EWalletEIP1193Provider
    * Get signer & address or throw if not authenticated
    */
   private _getAuthenticatedSigner(): {
-    signer: EthSigner;
+    signer: OkoEthSigner;
     address: Address;
   } {
     const signer = this.signer;

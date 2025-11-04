@@ -1,11 +1,11 @@
 import type {
-  CosmosEWalletInterface,
-  KeplrEWalletCosmosEventHandler2,
+  OkoCosmosWalletInterface,
+  OkoCosmosWalletEventHandler2,
 } from "@oko-wallet-sdk-cosmos/types";
 
-export async function on(
-  this: CosmosEWalletInterface,
-  handlerDef: KeplrEWalletCosmosEventHandler2,
+export function on(
+  this: OkoCosmosWalletInterface,
+  handlerDef: OkoCosmosWalletEventHandler2,
 ) {
   this.eventEmitter.on(handlerDef);
 }

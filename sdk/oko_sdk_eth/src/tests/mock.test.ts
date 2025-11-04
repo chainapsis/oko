@@ -23,9 +23,9 @@ import {
   mockMainnetRpc,
   createMockSigner,
 } from "./mock";
-import type { EthSigner } from "@oko-wallet-sdk-eth/types";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import {
-  EWalletEIP1193Provider,
+  OkoEIP1193Provider,
   ProviderRpcErrorCode,
   RpcErrorCode,
 } from "@oko-wallet-sdk-eth/provider";
@@ -42,8 +42,8 @@ describe("EWallet Provider - Mock RPC Testing", () => {
   });
 
   describe("Signing Operations", () => {
-    let golf: EthSigner;
-    let hotel: EthSigner;
+    let golf: OkoEthSigner;
+    let hotel: OkoEthSigner;
 
     beforeAll(async () => {
       // Use accounts 6, 7 for mock.test.ts to avoid conflicts with other test files
@@ -58,7 +58,7 @@ describe("EWallet Provider - Mock RPC Testing", () => {
         [mainnetUrl]: mainnetConfig,
       });
 
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions(
           [
             {
@@ -96,7 +96,7 @@ describe("EWallet Provider - Mock RPC Testing", () => {
         [mainnetUrl]: mainnetConfig,
       });
 
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions(
           [
             {
@@ -135,7 +135,7 @@ describe("EWallet Provider - Mock RPC Testing", () => {
         [mainnetUrl]: mainnetConfig,
       });
 
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions(
           [
             {
@@ -184,7 +184,7 @@ describe("EWallet Provider - Mock RPC Testing", () => {
         [dynamicUrl]: { chainId: toHex(mainnet.id) },
       });
 
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions([
           {
             ...createChainParam(mainnet),
@@ -243,7 +243,7 @@ describe("EWallet Provider - Mock RPC Testing", () => {
         [dynamicUrl]: { chainId: toHex(mainnet.id) },
       });
 
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions(
           [
             {
@@ -303,7 +303,7 @@ describe("EWallet Provider - Mock RPC Testing", () => {
         [dynamicUrl]: { chainId: toHex(mainnet.id) },
       });
 
-      const provider = new EWalletEIP1193Provider(
+      const provider = new OkoEIP1193Provider(
         createProviderOptions([
           {
             ...createChainParam(mainnet),

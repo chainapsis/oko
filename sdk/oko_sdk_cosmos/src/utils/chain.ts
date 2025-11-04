@@ -1,6 +1,6 @@
 import type {
-  EWalletMsgGetCosmosChainInfo,
-  KeplrEWalletInterface,
+  OkoWalletMsgGetCosmosChainInfo,
+  OkoWalletInterface,
 } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { ChainInfo } from "@keplr-wallet/types";
@@ -10,10 +10,10 @@ type SendGetCosmosChainInfoError =
   | { type: "payload_contains_err"; err: any };
 
 export async function sendGetCosmosChainInfo(
-  ewallet: KeplrEWalletInterface,
+  okoWallet: OkoWalletInterface,
   chainId?: string,
 ): Promise<Result<ChainInfo[], SendGetCosmosChainInfoError>> {
-  const msg: EWalletMsgGetCosmosChainInfo = {
+  const msg: OkoWalletMsgGetCosmosChainInfo = {
     target: "oko_attached",
     msg_type: "get_cosmos_chain_info",
     payload: {
@@ -21,7 +21,7 @@ export async function sendGetCosmosChainInfo(
     },
   };
 
-  const res = await ewallet.sendMsgToIframe(msg);
+  const res = await okoWallet.sendMsgToIframe(msg);
 
   if (res.msg_type !== "get_cosmos_chain_info_ack") {
     return { success: false, err: { type: "wrong_ack_message_type" } };

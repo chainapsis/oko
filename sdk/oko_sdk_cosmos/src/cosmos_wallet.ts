@@ -15,13 +15,13 @@ import { verifyArbitrary } from "@oko-wallet-sdk-cosmos/methods/verify_arbitrary
 import { openModal } from "@oko-wallet-sdk-cosmos/methods/open_modal";
 import { getPublicKey } from "@oko-wallet-sdk-cosmos/methods/get_public_key";
 import { on } from "@oko-wallet-sdk-cosmos/methods/on";
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 import { init } from "./static/init";
-import { CosmosEWallet } from "./constructor";
+import { OkoCosmosWallet } from "./constructor";
 
-CosmosEWallet.init = init;
+OkoCosmosWallet.init = init;
 
-const ptype: CosmosEWalletInterface = CosmosEWallet.prototype;
+const ptype: OkoCosmosWalletInterface = OkoCosmosWallet.prototype;
 
 ptype.enable = enable;
 ptype.on = on;
@@ -41,4 +41,4 @@ ptype.signArbitrary = signArbitrary;
 ptype.verifyArbitrary = verifyArbitrary;
 ptype.openModal = openModal;
 
-export { CosmosEWallet };
+export { OkoCosmosWallet };

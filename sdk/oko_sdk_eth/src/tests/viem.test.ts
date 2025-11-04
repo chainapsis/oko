@@ -24,19 +24,16 @@ import {
   generateInvalidBytecode,
   createEthSigner,
 } from "./utils";
-import {
-  EWalletEIP1193Provider,
-  RpcErrorCode,
-} from "@oko-wallet-sdk-eth/provider";
-import type { EthSigner } from "@oko-wallet-sdk-eth/types";
+import { OkoEIP1193Provider, RpcErrorCode } from "@oko-wallet-sdk-eth/provider";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 
 describe("EWallet Provider - Viem Integration", () => {
   describe("Public Client - Live RPC", () => {
-    let provider: EWalletEIP1193Provider;
+    let provider: OkoEIP1193Provider;
 
     beforeAll(() => {
       const mainnetChainParam = createChainParam(mainnet);
-      provider = new EWalletEIP1193Provider(
+      provider = new OkoEIP1193Provider(
         createProviderOptions([mainnetChainParam]),
       );
     });
@@ -72,10 +69,10 @@ describe("EWallet Provider - Viem Integration", () => {
   });
 
   describe("Hardhat Integration", () => {
-    let hardhatProvider: EWalletEIP1193Provider;
-    let alice: EthSigner;
-    let bob: EthSigner;
-    let charlie: EthSigner;
+    let hardhatProvider: OkoEIP1193Provider;
+    let alice: OkoEthSigner;
+    let bob: OkoEthSigner;
+    let charlie: OkoEthSigner;
 
     beforeAll(async () => {
       // Use accounts 0, 1, 2 for viem.test.ts to avoid conflicts with other test files
@@ -86,7 +83,7 @@ describe("EWallet Provider - Viem Integration", () => {
       try {
         await hardhatNodeAlt.start();
         const hardhatChainParam = createChainParam(hardhatAlt);
-        hardhatProvider = new EWalletEIP1193Provider(
+        hardhatProvider = new OkoEIP1193Provider(
           createProviderOptions([hardhatChainParam]),
         );
       } catch (error) {
@@ -182,10 +179,10 @@ describe("EWallet Provider - Viem Integration", () => {
     });
 
     describe("Signing Operations", () => {
-      let aliceProvider: EWalletEIP1193Provider;
+      let aliceProvider: OkoEIP1193Provider;
 
       beforeAll(() => {
-        aliceProvider = new EWalletEIP1193Provider(
+        aliceProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(hardhatAlt)], alice),
         );
       });
@@ -292,13 +289,13 @@ describe("EWallet Provider - Viem Integration", () => {
     });
 
     describe("Transaction Operations", () => {
-      let aliceProvider: EWalletEIP1193Provider;
+      let aliceProvider: OkoEIP1193Provider;
       let publicClient: any;
       let walletClient: any;
       let txHelper: any;
 
       beforeAll(() => {
-        aliceProvider = new EWalletEIP1193Provider(
+        aliceProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(hardhatAlt)], alice),
         );
 
@@ -468,13 +465,13 @@ describe("EWallet Provider - Viem Integration", () => {
     });
 
     describe("Contract Operations", () => {
-      let aliceProvider: EWalletEIP1193Provider;
+      let aliceProvider: OkoEIP1193Provider;
       let publicClient: any;
       let walletClient: any;
       let contractHelper: any;
 
       beforeAll(() => {
-        aliceProvider = new EWalletEIP1193Provider(
+        aliceProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(hardhatAlt)], alice),
         );
 

@@ -3,57 +3,57 @@ import type { Hex } from "viem";
 
 import { publicKeyToEthereumAddress } from "@oko-wallet-sdk-eth/utils";
 import type {
-  EthEWalletInterface,
-  EthEWalletState,
+  OkoEthWalletInterface,
+  OkoEthWalletState,
 } from "@oko-wallet-sdk-eth/types";
 import type { LazyInitError } from "@oko-wallet-sdk-eth/errors";
 
 export async function lazyInit(
-  ethEwallet: EthEWalletInterface,
-): Promise<Result<EthEWalletState, LazyInitError>> {
-  console.log("[keplr-eth] lazy init for eth ewallet");
+  okoEthWallet: OkoEthWalletInterface,
+): Promise<Result<OkoEthWalletState, LazyInitError>> {
+  console.log("[oko-eth] lazy init for oko-eth wallet");
 
-  const eWalletStateRes = await ethEwallet.eWallet.waitUntilInitialized;
+  const okoEthWalletRes = await okoEthWallet.okoWallet.waitUntilInitialized;
 
-  if (!eWalletStateRes.success) {
-    return { success: false, err: { type: "eWallet failed to initialize" } };
+  if (!okoEthWalletRes.success) {
+    return { success: false, err: { type: "oko_eth_wallet_lazy_init_fail" } };
   }
 
-  const eWalletState = eWalletStateRes.data;
+  const okoEthWalletState = okoEthWalletRes.data;
 
-  if (eWalletState.publicKey) {
+  if (okoEthWalletState.publicKey) {
     // ensure not missing initial state change
-    handleAccountsChanged.call(ethEwallet, eWalletState.publicKey);
+    handleAccountsChanged.call(okoEthWallet, okoEthWalletState.publicKey);
   }
 
-  setUpEventHandlers.call(ethEwallet);
+  setUpEventHandlers.call(okoEthWallet);
 
   console.log(
-    "[keplr-eth] lazy init for eth ewallet complete, \
+    "[oko-eth] lazy init for oko-eth wallet complete, \
     publicKeyRaw: %s, publicKey: %s, address: %s",
-    ethEwallet.state.publicKeyRaw,
-    ethEwallet.state.publicKey,
-    ethEwallet.state.address,
+    okoEthWallet.state.publicKeyRaw,
+    okoEthWallet.state.publicKey,
+    okoEthWallet.state.address,
   );
 
   return {
     success: true,
-    data: ethEwallet.state,
+    data: okoEthWallet.state,
   };
 }
 
-function setUpEventHandlers(this: EthEWalletInterface) {
-  this.eWallet.on({
+function setUpEventHandlers(this: OkoEthWalletInterface) {
+  this.okoWallet.on({
     type: "CORE__accountsChanged",
     handler: (payload) => handleAccountsChanged.call(this, payload.publicKey),
   });
 }
 
 function handleAccountsChanged(
-  this: EthEWalletInterface,
+  this: OkoEthWalletInterface,
   publicKey: string | null,
 ) {
-  console.log("[keplr-eth] detect account change", publicKey);
+  console.log("[oko-eth] detect account change", publicKey);
 
   const currentPublicKeyRaw = normalizeKey(this.state.publicKeyRaw);
   const publicKeyNormalized = normalizeKey(publicKey);
@@ -63,7 +63,7 @@ function handleAccountsChanged(
   // only emit `accountsChanged` event if public key changed
   if (changed) {
     console.log(
-      "[keplr-eth] account change detected, from: %s to: %s",
+      "[oko-eth] account change detected, from: %s to: %s",
       currentPublicKeyRaw,
       publicKeyNormalized,
     );

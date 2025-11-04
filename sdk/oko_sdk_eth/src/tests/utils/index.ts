@@ -13,7 +13,7 @@ import { privateKeyToAccount } from "viem/accounts";
 import { hardhat } from "../hardhat";
 import { VERSION } from "@oko-wallet-sdk-eth/provider";
 import type {
-  EthSigner,
+  OkoEthSigner,
   EthSignParams,
   EthSignResult,
 } from "@oko-wallet-sdk-eth/types";
@@ -74,7 +74,7 @@ export function createChainParam(
 }
 
 // Create a dummy signer for testing
-export function createDummySigner(): EthSigner {
+export function createDummySigner(): OkoEthSigner {
   return {
     getAddress: () => DUMMY_ADDRESS,
     sign: async function (parameters: EthSignParams): Promise<EthSignResult> {
@@ -116,7 +116,7 @@ export function createDummySigner(): EthSigner {
 export function createEthSigner(
   chainId: number | string,
   privateKey: Hex,
-): EthSigner & { signHash: ({ hash }: { hash: Hex }) => Promise<Hex> } {
+): OkoEthSigner & { signHash: ({ hash }: { hash: Hex }) => Promise<Hex> } {
   const account = privateKeyToAccount(privateKey);
   return {
     getAddress: () => account.address,
@@ -171,7 +171,7 @@ export function createEthSigner(
 
 export function createProviderOptions(
   chains: AddEthereumChainParameter[],
-  signer?: EthSigner,
+  signer?: OkoEthSigner,
 ) {
   return {
     id: DUMMY_PROVIDER_ID,

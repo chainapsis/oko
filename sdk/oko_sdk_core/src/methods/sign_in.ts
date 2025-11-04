@@ -1,21 +1,21 @@
-import { EWALLET_ATTACHED_TARGET } from "@oko-wallet-sdk-core/window_msg/target";
+import { OKO_ATTACHED_TARGET } from "@oko-wallet-sdk-core/window_msg/target";
 import type {
-  KeplrEWalletInterface,
+  OkoWalletInterface,
   OAuthState,
-  EWalletMsg,
-  EWalletMsgOAuthSignInUpdateAck,
-  EWalletMsgOAuthSignInUpdate,
+  OkoWalletMsg,
+  OkoWalletMsgOAuthSignInUpdateAck,
+  OkoWalletMsgOAuthSignInUpdate,
 } from "@oko-wallet-sdk-core/types";
 import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
 import { GOOGLE_CLIENT_ID } from "@oko-wallet-sdk-core/auth/google";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 
-export async function signIn(this: KeplrEWalletInterface, type: "google") {
+export async function signIn(this: OkoWalletInterface, type: "google") {
   await this.waitUntilInitialized;
 
   // SDK takes oauth_sign_in_result msg from the popup window
-  let signInRes: EWalletMsgOAuthSignInUpdate;
+  let signInRes: OkoWalletMsgOAuthSignInUpdate;
   try {
     switch (type) {
       case "google": {
@@ -50,7 +50,7 @@ export async function signIn(this: KeplrEWalletInterface, type: "google") {
   const email = await this.getEmail();
 
   if (!!publicKey && !!email) {
-    console.log("[keplr] emit CORE__accountsChanged");
+    console.log("[oko] emit CORE__accountsChanged");
 
     this.eventEmitter.emit({
       type: "CORE__accountsChanged",
@@ -63,8 +63,8 @@ export async function signIn(this: KeplrEWalletInterface, type: "google") {
 async function tryGoogleSignIn(
   sdkEndpoint: string,
   apiKey: string,
-  sendMsgToIframe: (msg: EWalletMsg) => Promise<EWalletMsg>,
-): Promise<EWalletMsgOAuthSignInUpdate> {
+  sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>,
+): Promise<OkoWalletMsgOAuthSignInUpdate> {
   const clientId = GOOGLE_CLIENT_ID;
   if (!clientId) {
     throw new Error("GOOGLE_CLIENT_ID is not set");
@@ -72,15 +72,15 @@ async function tryGoogleSignIn(
 
   const redirectUri = `${new URL(sdkEndpoint).origin}/google/callback`;
 
-  console.debug("[keplr] window host: %s", window.location.host);
-  console.debug("[keplr] redirectUri: %s", redirectUri);
+  console.debug("[oko] window host: %s", window.location.host);
+  console.debug("[oko] redirectUri: %s", redirectUri);
 
   const nonce = Array.from(crypto.getRandomValues(new Uint8Array(8)))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 
   const nonceAckPromise = sendMsgToIframe({
-    target: EWALLET_ATTACHED_TARGET,
+    target: OKO_ATTACHED_TARGET,
     msg_type: "set_oauth_nonce",
     payload: nonce,
   });
@@ -91,7 +91,7 @@ async function tryGoogleSignIn(
   };
   const oauthStateString = JSON.stringify(oauthState);
 
-  console.debug("[keplr] oauthStateString: %s", oauthStateString);
+  console.debug("[oko] oauthStateString: %s", oauthStateString);
 
   const authUrl = new URL("https://accounts.google.com/o/oauth2/v2/auth");
   authUrl.searchParams.set("client_id", clientId);
@@ -125,7 +125,7 @@ async function tryGoogleSignIn(
     throw new Error("Failed to set nonce for google oauth sign in");
   }
 
-  return new Promise<EWalletMsgOAuthSignInUpdate>(async (resolve, reject) => {
+  return new Promise<OkoWalletMsgOAuthSignInUpdate>(async (resolve, reject) => {
     // let focusTimer: number;
     let timeout: number;
 
@@ -149,12 +149,12 @@ async function tryGoogleSignIn(
       }
 
       const port = event.ports[0];
-      const data = event.data as EWalletMsg;
+      const data = event.data as OkoWalletMsg;
 
       if (data.msg_type === "oauth_sign_in_update") {
-        console.log("[keplr] oauth_sign_in_update recv, %o", data);
+        console.log("[oko] oauth_sign_in_update recv, %o", data);
 
-        const msg: EWalletMsgOAuthSignInUpdateAck = {
+        const msg: OkoWalletMsgOAuthSignInUpdateAck = {
           target: "oko_attached",
           msg_type: "oauth_sign_in_update_ack",
           payload: null,
@@ -180,7 +180,7 @@ async function tryGoogleSignIn(
     }, FIVE_MINS_MS);
 
     function cleanup() {
-      console.log("[keplr] clean up oauth sign in listener");
+      console.log("[oko] clean up oauth sign in listener");
 
       // window.clearTimeout(focusTimer);
       // window.removeEventListener("focus", onFocus);

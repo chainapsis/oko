@@ -1,6 +1,6 @@
 import {
-  EWalletEIP1193Provider,
-  type EWalletRpcChain,
+  OkoEIP1193Provider,
+  type OkoEthRpcChain,
 } from "@oko-wallet-sdk-eth/provider";
 import {
   DEFAULT_CHAIN_ID,
@@ -8,25 +8,25 @@ import {
   convertChainInfoToRpcChain,
 } from "@oko-wallet-sdk-eth/chains";
 import { parseChainId } from "@oko-wallet-sdk-eth/utils";
-import type { EthEWalletInterface } from "@oko-wallet-sdk-eth/types";
+import type { OkoEthWalletInterface } from "@oko-wallet-sdk-eth/types";
 
 export async function getEthereumProvider(
-  this: EthEWalletInterface,
-): Promise<EWalletEIP1193Provider> {
+  this: OkoEthWalletInterface,
+): Promise<OkoEIP1193Provider> {
   if (this.provider !== null) {
     return this.provider;
   }
 
   await this.waitUntilInitialized;
 
-  const chainInfoRes = await sendGetEthChainInfo(this.eWallet);
+  const chainInfoRes = await sendGetEthChainInfo(this.okoWallet);
   if (!chainInfoRes.success) {
     throw new Error(
       `Failed to get chain registry response: ${chainInfoRes.err.toString()}`,
     );
   }
 
-  let rpcChains: EWalletRpcChain[] = chainInfoRes.data
+  let rpcChains: OkoEthRpcChain[] = chainInfoRes.data
     .map((chain) => convertChainInfoToRpcChain(chain))
     .filter((chain) => chain !== null);
 
@@ -47,7 +47,7 @@ export async function getEthereumProvider(
     ];
   }
 
-  this.provider = new EWalletEIP1193Provider({
+  this.provider = new OkoEIP1193Provider({
     signer: {
       sign: (params) => this.makeSignature(params),
       getAddress: () => this.state.address,

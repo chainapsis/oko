@@ -1,6 +1,6 @@
-export type EthEwalletInitError =
+export type OkoEthWalletInitError =
   | {
-      type: "ewallet_core_init_fail";
+      type: "oko_eth_wallet_init_fail";
       msg: string;
     }
   | {
@@ -9,7 +9,7 @@ export type EthEwalletInitError =
     };
 
 export type LazyInitError = {
-  type: "eWallet failed to initialize";
+  type: "oko_eth_wallet_lazy_init_fail";
 };
 
 export type SendGetEthChainInfoError =

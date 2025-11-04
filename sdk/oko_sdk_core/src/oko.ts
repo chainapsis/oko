@@ -6,13 +6,13 @@ import { getPublicKey } from "./methods/get_public_key";
 import { getEmail } from "./methods/get_email";
 import { closeModal } from "./methods/close_modal";
 import { on } from "./methods/on";
-import type { KeplrEWalletInterface } from "./types";
+import type { OkoWalletInterface } from "./types";
 import { init } from "./static/init";
-import { KeplrEWallet } from "./constructor";
+import { OkoWallet } from "./constructor";
 
-KeplrEWallet.init = init;
+OkoWallet.init = init;
 
-const ptype: KeplrEWalletInterface = KeplrEWallet.prototype;
+const ptype: OkoWalletInterface = OkoWallet.prototype;
 
 ptype.openModal = openModal;
 ptype.closeModal = closeModal;
@@ -23,4 +23,4 @@ ptype.getPublicKey = getPublicKey;
 ptype.getEmail = getEmail;
 ptype.on = on;
 
-export { KeplrEWallet };
+export { OkoWallet };

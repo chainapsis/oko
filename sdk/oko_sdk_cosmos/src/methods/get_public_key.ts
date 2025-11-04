@@ -1,9 +1,9 @@
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function getPublicKey(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
 ): Promise<Uint8Array | null> {
-  console.log("[keplr-cosmos] getPublicKey: start");
+  console.log("[oko-cosmos] getPublicKey: start");
 
   try {
     await this.waitUntilInitialized;
@@ -13,14 +13,14 @@ export async function getPublicKey(
     }
 
     if (this.state.publicKey) {
-      console.log("[keplr-cosmos] getPublicKey: cached public key");
+      console.log("[oko-cosmos] getPublicKey: cached public key");
 
       return this.state.publicKey;
     }
 
-    console.log("[keplr-cosmos] getPublicKey: getPublicKey from eWallet");
+    console.log("[oko-cosmos] getPublicKey: getPublicKey from eWallet");
 
-    const pk = await this.eWallet.getPublicKey();
+    const pk = await this.okoWallet.getPublicKey();
 
     if (pk === null) {
       this.state.publicKey = null;
@@ -32,7 +32,7 @@ export async function getPublicKey(
       return this.state.publicKey;
     }
   } catch (error: any) {
-    console.error("[keplr-cosmos] getPublicKey failed with error:", error);
+    console.error("[oko-cosmos] getPublicKey failed with error:", error);
 
     throw error;
   }

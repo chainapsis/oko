@@ -1,9 +1,9 @@
 import type { Hex } from "viem";
 
-import type { EthEWalletInterface } from "@oko-wallet-sdk-eth/types";
+import type { OkoEthWalletInterface } from "@oko-wallet-sdk-eth/types";
 
 export async function personalSign(
-  this: EthEWalletInterface,
+  this: OkoEthWalletInterface,
   message: string,
 ): Promise<Hex> {
   const result = await this.makeSignature({

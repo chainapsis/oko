@@ -10,115 +10,115 @@ import type { OAuthSignInError } from "@oko-wallet-sdk-core/types/sign_in";
 import type { OAuthPayload } from "@oko-wallet-sdk-core/types/oauth";
 import type { Bytes32 } from "@oko-wallet/bytes";
 
-export type EWalletMsgGetPublicKey = {
+export type OkoWalletMsgGetPublicKey = {
   target: "oko_attached";
   msg_type: "get_public_key";
   payload: null;
 };
 
-export type EWalletMsgGetPublicKeyAck = {
+export type OkoWalletMsgGetPublicKeyAck = {
   target: "oko_sdk";
   msg_type: "get_public_key_ack";
   payload: Result<string, string>;
 };
 
-export type EWalletMsgSetOAuthNonce = {
+export type OkoWalletMsgSetOAuthNonce = {
   target: "oko_attached";
   msg_type: "set_oauth_nonce";
   payload: string;
 };
 
-export type EWalletMsgSetOAuthNonceAck = {
+export type OkoWalletMsgSetOAuthNonceAck = {
   target: "oko_sdk";
   msg_type: "set_oauth_nonce_ack";
   payload: Result<null, string>;
 };
 
-export type EWalletMsgOAuthSignInUpdate = {
+export type OkoWalletMsgOAuthSignInUpdate = {
   target: "oko_sdk";
   msg_type: "oauth_sign_in_update";
   payload: Result<null, OAuthSignInError>;
 };
 
-export type EWalletMsgOAuthSignInUpdateAck = {
+export type OkoWalletMsgOAuthSignInUpdateAck = {
   target: "oko_attached";
   msg_type: "oauth_sign_in_update_ack";
   payload: null;
 };
 
-export type EWalletMsgOAuthInfoPass = {
+export type OkoWalletMsgOAuthInfoPass = {
   target: "oko_attached";
   msg_type: "oauth_info_pass";
   payload: OAuthPayload;
 };
 
-export type EWalletMsgOAuthInfoPassAck = {
+export type OkoWalletMsgOAuthInfoPassAck = {
   target: "oko_attached_popup";
   msg_type: "oauth_info_pass_ack";
   payload: null;
 };
 
-export type EWalletMsgSignOut = {
+export type OkoWalletMsgSignOut = {
   target: "oko_attached";
   msg_type: "sign_out";
   payload: null;
 };
 
-export type EWalletMsgSignOutAck = {
+export type OkoWalletMsgSignOutAck = {
   target: "oko_sdk";
   msg_type: "sign_out_ack";
   payload: Result<null, string>;
 };
 
-export type EWalletMsgOpenModal = {
+export type OkoWalletMsgOpenModal = {
   target: "oko_attached";
   msg_type: "open_modal";
   payload: OpenModalPayload;
 };
 
-export type EWalletMsgOpenModalAck = {
+export type OkoWalletMsgOpenModalAck = {
   target: "oko_sdk";
   msg_type: "open_modal_ack";
   payload: OpenModalAckPayload;
 };
 
-export type EWalletMsgHideModal = {
+export type OkoWalletMsgHideModal = {
   target: "oko_attached";
   msg_type: "hide_modal";
   payload: null;
 };
 
-export type EWalletMsgHideModalAck = {
+export type OkoWalletMsgHideModalAck = {
   target: "oko_sdk";
   msg_type: "hide_modal_ack";
   payload: Result<null, string>;
 };
 
-export type EWalletMsgInit = {
+export type OkoWalletMsgInit = {
   target: "oko_sdk";
   msg_type: "init";
   payload: Result<InitPayload, string>;
 };
 
-export type EWalletMsgInitAck = {
+export type OkoWalletMsgInitAck = {
   target: "oko_attached";
   msg_type: "init_ack";
   payload: Result<null, string>;
 };
 
-export type EWalletMsgGetEmail = {
+export type OkoWalletMsgGetEmail = {
   target: "oko_attached";
   msg_type: "get_email";
   payload: null;
 };
 
-export type EWalletMsgGetEmailAck = {
+export type OkoWalletMsgGetEmailAck = {
   target: "oko_sdk";
   msg_type: "get_email_ack";
   payload: Result<string, string>;
 };
 
-export type EWalletMsgGetCosmosChainInfo = {
+export type OkoWalletMsgGetCosmosChainInfo = {
   target: "oko_attached";
   msg_type: "get_cosmos_chain_info";
   payload: {
@@ -126,13 +126,13 @@ export type EWalletMsgGetCosmosChainInfo = {
   };
 };
 
-export type EWalletMsgGetCosmosChainInfoAck = {
+export type OkoWalletMsgGetCosmosChainInfoAck = {
   target: "oko_sdk";
   msg_type: "get_cosmos_chain_info_ack";
   payload: Result<ChainInfo[], string>;
 };
 
-export type EWalletMsgGetEthChainInfo = {
+export type OkoWalletMsgGetEthChainInfo = {
   target: "oko_attached";
   msg_type: "get_eth_chain_info";
   payload: {
@@ -140,49 +140,49 @@ export type EWalletMsgGetEthChainInfo = {
   };
 };
 
-export type EWalletMsgGetEthChainInfoAck = {
+export type OkoWalletMsgGetEthChainInfoAck = {
   target: "oko_sdk";
   msg_type: "get_eth_chain_info_ack";
   payload: Result<ChainInfo[], string>;
 };
 
-export type EWAlletMsgImportPrivateKey = {
+export type OkoWalletMsgImportPrivateKey = {
   target: "oko_attached";
   msg_type: "import_private_key";
   payload: OAuthPayload;
 };
 
-export type EWalletMsgImportPrivateKeyAck = {
+export type OkoWalletMsgImportPrivateKeyAck = {
   target: "oko_sdk";
   msg_type: "import_private_key_ack";
   payload: Result<Bytes32, string>;
 };
 
-export type EWalletMsg =
-  | EWalletMsgInit
-  | EWalletMsgInitAck
-  | EWalletMsgGetPublicKey
-  | EWalletMsgGetPublicKeyAck
-  | EWalletMsgSetOAuthNonce
-  | EWalletMsgSetOAuthNonceAck
-  | EWalletMsgOAuthSignInUpdate
-  | EWalletMsgOAuthSignInUpdateAck
-  | EWalletMsgOAuthInfoPass
-  | EWalletMsgOAuthInfoPassAck
-  | EWalletMsgSignOut
-  | EWalletMsgSignOutAck
-  | EWalletMsgOpenModal
-  | EWalletMsgOpenModalAck
-  | EWalletMsgHideModal
-  | EWalletMsgHideModalAck
-  | EWalletMsgGetEmail
-  | EWalletMsgGetEmailAck
-  | EWalletMsgGetCosmosChainInfo
-  | EWalletMsgGetCosmosChainInfoAck
-  | EWalletMsgGetEthChainInfo
-  | EWalletMsgGetEthChainInfoAck
-  | EWAlletMsgImportPrivateKey
-  | EWalletMsgImportPrivateKeyAck
+export type OkoWalletMsg =
+  | OkoWalletMsgInit
+  | OkoWalletMsgInitAck
+  | OkoWalletMsgGetPublicKey
+  | OkoWalletMsgGetPublicKeyAck
+  | OkoWalletMsgSetOAuthNonce
+  | OkoWalletMsgSetOAuthNonceAck
+  | OkoWalletMsgOAuthSignInUpdate
+  | OkoWalletMsgOAuthSignInUpdateAck
+  | OkoWalletMsgOAuthInfoPass
+  | OkoWalletMsgOAuthInfoPassAck
+  | OkoWalletMsgSignOut
+  | OkoWalletMsgSignOutAck
+  | OkoWalletMsgOpenModal
+  | OkoWalletMsgOpenModalAck
+  | OkoWalletMsgHideModal
+  | OkoWalletMsgHideModalAck
+  | OkoWalletMsgGetEmail
+  | OkoWalletMsgGetEmailAck
+  | OkoWalletMsgGetCosmosChainInfo
+  | OkoWalletMsgGetCosmosChainInfoAck
+  | OkoWalletMsgGetEthChainInfo
+  | OkoWalletMsgGetEthChainInfoAck
+  | OkoWalletMsgImportPrivateKey
+  | OkoWalletMsgImportPrivateKeyAck
   | {
       target: "oko_sdk";
       msg_type: "unknown_msg_type";

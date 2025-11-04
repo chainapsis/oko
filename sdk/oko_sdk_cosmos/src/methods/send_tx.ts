@@ -5,10 +5,10 @@ import {
   simpleFetch,
   TendermintTxTracer,
 } from "@oko-wallet-sdk-cosmos/utils";
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function sendTx(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   chainId: string,
   tx: unknown,
   mode: "async" | "sync" | "block",

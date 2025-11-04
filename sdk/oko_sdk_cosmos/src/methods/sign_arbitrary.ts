@@ -1,11 +1,11 @@
 import type { StdSignature } from "@cosmjs/amino";
 import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 
-import type { CosmosEWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 import { makeADR36AminoSignDoc } from "@oko-wallet-sdk-cosmos/utils/arbitrary";
 
 export async function signArbitrary(
-  this: CosmosEWalletInterface,
+  this: OkoCosmosWalletInterface,
   chainId: string,
   signer: string,
   data: string | Uint8Array,
@@ -13,7 +13,7 @@ export async function signArbitrary(
   try {
     // Create ADR-36 sign doc for arbitrary message signing
     const signDoc = makeADR36AminoSignDoc(signer, data);
-    const origin = this.eWallet.origin;
+    const origin = this.okoWallet.origin;
 
     const chainInfoList = await this.getCosmosChainInfo();
     const chainInfo = chainInfoList.find((info) => info.chainId === chainId);
@@ -90,7 +90,7 @@ export async function signArbitrary(
       }
     }
   } catch (error) {
-    console.error("[keplr-cosmos] Error signing arbitrary, err: %s", error);
+    console.error("[oko-cosmos] Error signing arbitrary, err: %s", error);
 
     throw error;
   }
