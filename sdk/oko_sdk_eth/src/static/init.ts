@@ -1,32 +1,35 @@
-import { KeplrEWallet } from "@oko-wallet/oko-sdk-core";
+import { OkoWallet } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {
-  EthEWalletInterface,
-  EthEWalletInitArgs,
+  OkoEthWalletInterface,
+  OkoEthWalletInitArgs,
 } from "@oko-wallet-sdk-eth/types";
-import type { EthEwalletInitError } from "@oko-wallet-sdk-eth/errors";
-import { EthEWallet } from "@oko-wallet-sdk-eth/constructor";
+import type { OkoEthWalletInitError } from "@oko-wallet-sdk-eth/errors";
+import { OkoEthWallet } from "@oko-wallet-sdk-eth/constructor";
 
 export function init(
-  args: EthEWalletInitArgs,
-): Result<EthEWalletInterface, EthEwalletInitError> {
-  const eWalletRes = KeplrEWallet.init(args);
+  args: OkoEthWalletInitArgs,
+): Result<OkoEthWalletInterface, OkoEthWalletInitError> {
+  const okoEthWalletRes = OkoWallet.init(args);
 
-  if (!eWalletRes.success) {
+  if (!okoEthWalletRes.success) {
     console.error(
-      "[keplr-eth] ewallet core init fail, err: %s",
-      eWalletRes.err,
+      "[oko-eth] oko-eth wallet core init fail, err: %s",
+      okoEthWalletRes.err,
     );
 
     return {
       success: false,
-      err: { type: "ewallet_core_init_fail", msg: eWalletRes.err.toString() },
+      err: {
+        type: "oko_eth_wallet_init_fail",
+        msg: okoEthWalletRes.err.toString(),
+      },
     };
   }
 
   return {
     success: true,
-    data: new (EthEWallet as any)(eWalletRes.data),
+    data: new (OkoEthWallet as any)(okoEthWalletRes.data),
   };
 }

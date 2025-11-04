@@ -30,16 +30,16 @@ import {
   createEthersTransactionHelper,
   createEthersContractHelper,
 } from "./utils/ethersHelpers";
-import { EWalletEIP1193Provider } from "@oko-wallet-sdk-eth/provider";
-import type { EthSigner } from "@oko-wallet-sdk-eth/types";
+import { OkoEIP1193Provider } from "@oko-wallet-sdk-eth/provider";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 
 describe("EWallet Provider - Ethers.js Integration", () => {
   describe("BrowserProvider - Live RPC", () => {
-    let provider: EWalletEIP1193Provider;
+    let provider: OkoEIP1193Provider;
 
     beforeAll(async () => {
       const mainnetChainParam = createChainParam(mainnet);
-      provider = new EWalletEIP1193Provider(
+      provider = new OkoEIP1193Provider(
         createProviderOptions([mainnetChainParam], createDummySigner()),
       );
     });
@@ -63,10 +63,10 @@ describe("EWallet Provider - Ethers.js Integration", () => {
   });
 
   describe("Hardhat Integration", () => {
-    let hardhatProvider: EWalletEIP1193Provider;
-    let delta: EthSigner;
-    let epsilon: EthSigner;
-    let foxtrot: EthSigner;
+    let hardhatProvider: OkoEIP1193Provider;
+    let delta: OkoEthSigner;
+    let epsilon: OkoEthSigner;
+    let foxtrot: OkoEthSigner;
 
     beforeAll(async () => {
       // Use accounts 3, 4, 5 for ethers.test.ts to avoid conflicts with viem.test.ts
@@ -77,7 +77,7 @@ describe("EWallet Provider - Ethers.js Integration", () => {
       try {
         await hardhatNode.start();
         const hardhatChainParam = createChainParam(hardhat);
-        hardhatProvider = new EWalletEIP1193Provider(
+        hardhatProvider = new OkoEIP1193Provider(
           createProviderOptions([hardhatChainParam]),
         );
       } catch (error) {
@@ -130,10 +130,10 @@ describe("EWallet Provider - Ethers.js Integration", () => {
     });
 
     describe("Signer Operations", () => {
-      let deltaProvider: EWalletEIP1193Provider;
+      let deltaProvider: OkoEIP1193Provider;
 
       beforeAll(async () => {
-        deltaProvider = new EWalletEIP1193Provider(
+        deltaProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(hardhat)], delta),
         );
       });
@@ -269,13 +269,13 @@ describe("EWallet Provider - Ethers.js Integration", () => {
     });
 
     describe("Transaction Operations", () => {
-      let deltaProvider: EWalletEIP1193Provider;
+      let deltaProvider: OkoEIP1193Provider;
       let browserProvider: BrowserProvider;
       let signer: Signer;
       let txHelper: ReturnType<typeof createEthersTransactionHelper>;
 
       beforeAll(async () => {
-        deltaProvider = new EWalletEIP1193Provider(
+        deltaProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(hardhat)], delta),
         );
 
@@ -380,13 +380,13 @@ describe("EWallet Provider - Ethers.js Integration", () => {
     });
 
     describe("Contract Operations", () => {
-      let deltaProvider: EWalletEIP1193Provider;
+      let deltaProvider: OkoEIP1193Provider;
       let browserProvider: BrowserProvider;
       let signer: Signer;
       let contractHelper: ReturnType<typeof createEthersContractHelper>;
 
       beforeAll(async () => {
-        deltaProvider = new EWalletEIP1193Provider(
+        deltaProvider = new OkoEIP1193Provider(
           createProviderOptions([createChainParam(hardhat)], delta),
         );
 

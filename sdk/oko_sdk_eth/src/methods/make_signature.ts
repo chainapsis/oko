@@ -1,12 +1,12 @@
 import type {
-  EWalletMsgOpenModal,
+  OkoWalletMsgOpenModal,
   MakeEthereumSigData,
   ChainInfoForAttachedModal,
 } from "@oko-wallet/oko-sdk-core";
 import { v4 as uuidv4 } from "uuid";
 
 import type {
-  EthEWalletInterface,
+  OkoEthWalletInterface,
   EthSignParams,
   EthSignResult,
   MakeSignatureBasePayload,
@@ -19,12 +19,12 @@ import {
 import { toSignableTransaction } from "@oko-wallet-sdk-eth/utils";
 
 export async function makeSignature(
-  this: EthEWalletInterface,
+  this: OkoEthWalletInterface,
   params: EthSignParams,
 ): Promise<EthSignResult> {
   await this.waitUntilInitialized;
 
-  const origin = this.eWallet.origin;
+  const origin = this.okoWallet.origin;
 
   const provider = await this.getEthereumProvider();
 
@@ -111,15 +111,15 @@ function createMakeSignatureData(
 }
 
 async function handleSigningFlow(
-  ethEWallet: EthEWalletInterface,
+  okoEthWallet: OkoEthWalletInterface,
   data: MakeEthereumSigData,
 ): Promise<EthSignResult> {
-  const eWallet = ethEWallet.eWallet;
+  const okoWallet = okoEthWallet.okoWallet;
 
   try {
     const modal_id = uuidv4();
 
-    const openModalMsg: EWalletMsgOpenModal = {
+    const openModalMsg: OkoWalletMsgOpenModal = {
       target: "oko_attached",
       msg_type: "open_modal",
       payload: {
@@ -129,7 +129,7 @@ async function handleSigningFlow(
       },
     };
 
-    const openModalResp = await eWallet.openModal(openModalMsg);
+    const openModalResp = await okoWallet.openModal(openModalMsg);
 
     if (!openModalResp.success) {
       throw new Error(
@@ -190,6 +190,6 @@ async function handleSigningFlow(
 
     throw new EthereumRpcError(RpcErrorCode.Internal, message);
   } finally {
-    eWallet.closeModal();
+    okoWallet.closeModal();
   }
 }

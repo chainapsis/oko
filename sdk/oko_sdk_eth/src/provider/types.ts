@@ -6,7 +6,7 @@ import type {
   RpcRequestArgs,
   RpcResponseData,
 } from "@oko-wallet-sdk-eth/rpc";
-import type { EthSigner } from "@oko-wallet-sdk-eth/types";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import type { ProviderEventEmitter } from "./emitter";
 
 export interface ProviderConnectInfo {
@@ -41,7 +41,7 @@ export interface EIP1193Provider extends ProviderEventEmitter {
 
 export type RpcChain = AddEthereumChainParameter;
 
-export type EWalletRpcChain = RpcChain & {
+export type OkoEthRpcChain = RpcChain & {
   readonly chainSymbolImageUrl?: string;
   readonly currencies?: AppCurrency[];
   readonly bip44?: BIP44;
@@ -49,11 +49,11 @@ export type EWalletRpcChain = RpcChain & {
   readonly evm?: EVMInfo;
 };
 
-export type EWalletRpcChainWithStatus = EWalletRpcChain & {
+export type OkoEthRpcChainWithStatus = OkoEthRpcChain & {
   connected: boolean;
 };
 
-export type EWalletEIP1193ProviderOptions = {
-  chains: EWalletRpcChain[];
-  signer?: EthSigner;
+export type OkoEIP1193ProviderOptions = {
+  chains: OkoEthRpcChain[];
+  signer?: OkoEthSigner;
 };
