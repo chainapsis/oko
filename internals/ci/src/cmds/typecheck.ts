@@ -11,6 +11,16 @@ export async function typeCheck(..._args: any[]) {
     paths.sdk_eth,
     paths.ksn_server,
     paths.sandbox_simple_host,
+    // internals2
+    paths.ewallet_api_server,
+    paths.tss_api,
+    paths.admin_api,
+    paths.ct_dashboard_api,
+    paths.ewallet_attached,
+    paths.ewallet_pg_interface,
+    paths.demo_web,
+    paths.ewallet_admin_web,
+    paths.ct_dashboard_web,
   ];
 
   console.log("Type checking, total (%s)", pkgPaths.length);

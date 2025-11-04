@@ -8,7 +8,7 @@
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "0.0.3-alpha.45",
+    "@oko-wallet/bytes": "0.0.3-alpha.49",
     "@oko-wallet/ewallet-api-error-codes": "workspace:*",
     "@oko-wallet/ewallet-api-server-state": "workspace:*",
     "@oko-wallet/ewallet-pg-interface": "workspace:*",
