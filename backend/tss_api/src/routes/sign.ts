@@ -6,7 +6,7 @@ import type {
   SignStep2Response,
 } from "@oko-wallet/ewallet-types/tss";
 import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,

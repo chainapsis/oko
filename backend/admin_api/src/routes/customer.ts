@@ -11,7 +11,7 @@ import type {
   DeleteCustomerAndCustomerDashboardUsersResponse,
 } from "@oko-wallet/ewallet-types/customers";
 import multer from "multer";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/ewallet-api-openapi";
 import {
   ErrorResponseSchema,

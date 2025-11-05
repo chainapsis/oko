@@ -5,7 +5,7 @@ import type {
   AdminLogoutResponse,
 } from "@oko-wallet/ewallet-types/admin";
 import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/ewallet-api-openapi";
 import {
   ErrorResponseSchema,

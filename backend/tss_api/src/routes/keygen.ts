@@ -1,6 +1,6 @@
 import type { Response, Router } from "express";
 import type { KeygenBody } from "@oko-wallet/ewallet-types/tss";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type { SignInResponse } from "@oko-wallet/ewallet-types/user";
 import {

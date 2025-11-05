@@ -4,7 +4,7 @@ import type {
   GetWalletListResponse,
 } from "@oko-wallet-types/admin";
 import type { Response, Router } from "express";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/ewallet-api-openapi";
 import {
   AdminAuthHeaderSchema,

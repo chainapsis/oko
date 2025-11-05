@@ -9,7 +9,7 @@ import type {
   LoginResponse,
   ChangePasswordResponse,
 } from "@oko-wallet/ewallet-types/ct_dashboard";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   getCTDUserWithCustomerAndPasswordHashByEmail,
   updateCustomerDashboardUserPassword,

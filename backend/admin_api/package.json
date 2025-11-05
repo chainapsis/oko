@@ -9,6 +9,7 @@
     "@oko-wallet/aws": "workspace:*",
     "@oko-wallet/crypto-js": "workspace:*",
     "@oko-wallet/ewallet-api-openapi": "workspace:*",
+    "@oko-wallet/oko-api-error-codes": "workspace:*",
     "@oko-wallet/ewallet-api-server-state": "workspace:*",
     "@oko-wallet/ewallet-pg-interface": "workspace:*",
     "@oko-wallet/ewallet-types": "workspace:*",

@@ -5,7 +5,7 @@ import type {
   PostLogBody,
   PostLogResponse,
 } from "@oko-wallet/ewallet-types/log";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
 import { ingestLog } from "@oko-wallet-log-api/api/log";
 import { rateLimitMiddleware } from "@oko-wallet-log-api/middleware/rate_limit";

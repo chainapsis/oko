@@ -13,7 +13,7 @@ import type {
   ActivateKSNodeResponse,
 } from "@oko-wallet/ewallet-types/admin";
 import type { CreateKSNodeRequest } from "@oko-wallet/ewallet-types/admin";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
 import {
   adminAuthMiddleware,

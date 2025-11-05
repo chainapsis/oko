@@ -7,7 +7,7 @@ import type {
   SignInSilentlyResponse,
 } from "@oko-wallet/ewallet-types/user";
 import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   GoogleAuthHeaderSchema,

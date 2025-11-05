@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/ewallet-api-error-codes",
+  "name": "@oko-wallet/oko-api-error-codes",
   "main": "./src/index.ts",
   "type": "module",
   "scripts": {
