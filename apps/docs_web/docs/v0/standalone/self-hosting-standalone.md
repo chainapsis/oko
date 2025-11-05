@@ -68,8 +68,10 @@ cd oko
 ## Install/Build
 
 ```bash
-cd oko && yarn && yarn workspaces foreach -p run build
+cd oko && yarn install && yarn ci build_pkgs
 ```
+
+This installs dependencies and builds core packages (stdlib, dotenv, SDK core/cosmos/eth, crypto/bytes, ksn-interface, tecdsa-interface) in the correct dependency order.
 
 ## keyshare node
 
