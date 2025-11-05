@@ -1,0 +1,52 @@
+services:
+  pg_local:
+    image: postgres:17.4
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      TZ: "UTC"
+      PGTZ: "UTC"
+    volumes:
+      - ${PG_DATA_DIR}:/var/lib/postgresql/data
+
+  ewallet_api_server:
+    build:
+      context: ../../../
+      dockerfile: backend/docker/ewallet_api_server.Dockerfile
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    platform: linux/amd64
+    restart: unless-stopped
+    environment:
+      SERVER_PORT: ${SERVER_PORT}
+      NODE_ENV: ${NODE_ENV}
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_EXPIRES_IN: ${JWT_EXPIRES_IN}
+      SMTP_HOST: ${SMTP_HOST}
+      SMTP_PORT: ${SMTP_PORT}
+      SMTP_USER: ${SMTP_USER}
+      SMTP_PASS: ${SMTP_PASS}
+      FROM_EMAIL: ${FROM_EMAIL}
+      EMAIL_VERIFICATION_EXPIRATION_MINUTES: ${EMAIL_VERIFICATION_EXPIRATION_MINUTES}
+      S3_REGION: ${S3_REGION}
+      S3_BUCKET: ${S3_BUCKET}
+      S3_ACCESS_KEY_ID: ${S3_ACCESS_KEY_ID}
+      S3_SECRET_ACCESS_KEY: ${S3_SECRET_ACCESS_KEY}
+      DB_HOST: "pg_local"
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+      DB_SSL: ${DB_SSL}
+      ENCRYPTION_SECRET: ${ENCRYPTION_SECRET}
+      ES_URL: ${ES_URL:-}
+      ES_INDEX: ${ES_INDEX:-}
+      ES_CLIENT_INDEX: ${ES_CLIENT_INDEX:-}
+      ES_USERNAME: ${ES_USERNAME:-}
+      ES_PASSWORD: ${ES_PASSWORD:-}
+    depends_on:
+      - pg_local
