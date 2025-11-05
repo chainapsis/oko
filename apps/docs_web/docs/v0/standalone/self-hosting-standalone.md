@@ -8,13 +8,23 @@ This guide explains how to self-host Oko in a standalone setup. It covers how to
 
 ## Components (to run)
 
-- keyshare node: `oko/key_share_node` — stores/returns user key shares
-- oko_api: `oko/backend/ewallet_api/server` — customers/wallets/keyshare node meta, login/JWT
-- oko_attached (embedded app): `oko/embed/ewallet_attached` — an independent app served in an iframe (not a traditional UI "widget")
-- Apps: `oko/apps`
-  - demo_web (for testing)
-  - customer_dashboard
-  - oko_admin_web
+### keyshare node (`oko/key_share_node`)
+
+Stores encrypted SSS shares of the user's first TSS share. Multiple nodes (2-3 recommended) each store one SSS share, ensuring no single node can reconstruct the user's share. Provides these shares to users during login for reconstruction.
+
+### oko_api (`oko/backend/ewallet_api/server`)
+
+The main API server that orchestrates the system. Stores the user's second TSS share encrypted in its database. Performs distributed TSS transaction signing with the client (which holds the first TSS share) without ever reconstructing the full private key. Manages customer organizations, wallets, user accounts, Google OAuth authentication, JWT token issuance, and provides REST APIs for dashboards and admin functions.
+
+### oko_attached (`oko/embed/ewallet_attached`)
+
+Client-side web application running in an iframe that provides the user interface for wallet operations. Handles key generation, manages the user's first TSS share locally, and coordinates with `oko_api` for transaction signing. Communicates with host applications via `postMessage` API to expose wallet functionality.
+
+### Apps (`oko/apps`)
+
+- **demo_web**: A test application demonstrating how to integrate Oko wallet functionality into a dApp using the SDK
+- **customer_dashboard**: A web interface for customers to manage their API keys, view usage statistics, and configure their organization settings
+- **oko_admin_web**: An administrative interface for system administrators to manage customers, monitor key share nodes, configure system settings, and oversee the entire Oko infrastructure
 
 ## Default Ports (customizable)
 
