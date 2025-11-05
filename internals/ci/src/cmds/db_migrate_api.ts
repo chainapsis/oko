@@ -25,7 +25,7 @@ export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
   }
 
   const migrateRet = spawnSync("yarn", ["run", "migrate"], {
-    cwd: paths.ewallet_pg_interface,
+    cwd: paths.oko_pg_interface,
     stdio: "inherit",
     env,
   });

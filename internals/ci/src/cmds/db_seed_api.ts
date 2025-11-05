@@ -17,7 +17,7 @@ export async function DbSeedAPI(options: {
   };
 
   const seedRet = spawnSync("yarn", ["run", "seed"], {
-    cwd: paths.ewallet_pg_interface,
+    cwd: paths.oko_pg_interface,
     stdio: "inherit",
     env,
   });
