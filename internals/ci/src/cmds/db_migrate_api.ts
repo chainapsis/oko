@@ -4,15 +4,15 @@ import chalk from "chalk";
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
-export async function DbMigrateAPI(options: { useEnv: boolean }) {
+export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
   console.log("Start DB migrating");
 
   const env = {
     ...process.env,
-    USE_ENV: options.useEnv ? "true" : "false",
+    USE_ENV_FILE: options.useEnvFile ? "true" : "false",
   };
 
-  if (options.useEnv === false) {
+  if (options.useEnvFile === false) {
     const dockerComposeRet = spawnSync(
       "docker",
       ["compose", "up", "-d", "pg_local"],

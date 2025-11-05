@@ -5,14 +5,14 @@ import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
 export async function DbSeedAPI(options: {
-  useEnv: boolean;
+  useEnvFile: boolean;
   target: "dev" | "prod";
 }) {
   console.log("Start DB seeding");
 
   const env = {
     ...process.env,
-    USE_ENV: options.useEnv ? "true" : "false",
+    USE_ENV_FILE: options.useEnvFile ? "true" : "false",
     TARGET: options.target,
   };
 
