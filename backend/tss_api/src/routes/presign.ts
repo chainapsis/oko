@@ -12,8 +12,8 @@ import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+} from "@oko-wallet/oko-api-openapi/common";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   PresignStep1RequestSchema,
   PresignStep1SuccessResponseSchema,
@@ -21,7 +21,7 @@ import {
   PresignStep2SuccessResponseSchema,
   PresignStep3RequestSchema,
   PresignStep3SuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/tss";
 
 import {
   runPresignStep1,

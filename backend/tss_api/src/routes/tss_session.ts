@@ -3,17 +3,17 @@ import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   AbortTssSessionRequestSchema,
   AbortTssSessionSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/tss";
 import type {
   AbortTssSessionBody,
   AbortTssSessionResponse,
 } from "@oko-wallet/ewallet-types/tss";
 import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { registry } from "@oko-wallet/oko-api-openapi";
 
 import {
   sendResponseWithNewToken,

@@ -10,14 +10,14 @@ import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   SignStep1RequestSchema,
   SignStep1SuccessResponseSchema,
   SignStep2RequestSchema,
   SignStep2SuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/tss";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+} from "@oko-wallet/oko-api-openapi/tss";
+import { registry } from "@oko-wallet/oko-api-openapi";
 
 import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/sign";
 import {

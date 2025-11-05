@@ -6,16 +6,16 @@ import type {
 } from "@oko-wallet/ewallet-types/admin";
 import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   AdminAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   LoginRequestSchema,
   AdminLoginSuccessResponseSchema,
   AdminLogoutSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/oko_admin";
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 
 import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware";
 import { login, logout } from "@oko-wallet-admin-api/api/user";

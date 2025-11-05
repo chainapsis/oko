@@ -8,18 +8,18 @@ import type {
   SetTssAllActivationSettingResponse,
 } from "@oko-wallet-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   AdminAuthHeaderSchema,
   ErrorResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   GetTssSessionListRequestSchema,
   GetTssSessionListSuccessResponseSchema,
   GetTssAllActivationSettingSuccessResponseSchema,
   SetTssAllActivationSettingRequestSchema,
   SetTssAllActivationSettingSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/oko_admin";
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 
 import {
   adminAuthMiddleware,

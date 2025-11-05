@@ -6,10 +6,10 @@ import type { SignInResponse } from "@oko-wallet/ewallet-types/user";
 import {
   ErrorResponseSchema,
   GoogleAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
-import { SignInSuccessResponseSchema } from "@oko-wallet/ewallet-api-openapi/tss";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
-import { KeygenRequestSchema } from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/common";
+import { SignInSuccessResponseSchema } from "@oko-wallet/oko-api-openapi/tss";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { KeygenRequestSchema } from "@oko-wallet/oko-api-openapi/tss";
 
 import { runKeygen } from "@oko-wallet-tss-api/api/keygen";
 import {

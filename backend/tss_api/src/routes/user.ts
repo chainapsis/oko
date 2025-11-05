@@ -12,15 +12,15 @@ import {
   ErrorResponseSchema,
   GoogleAuthHeaderSchema,
   UserAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   CheckEmailRequestSchema,
   CheckEmailSuccessResponseSchema,
   SignInSilentlySuccessResponseSchema,
   SignInSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/tss";
 import { Bytes } from "@oko-wallet/bytes";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { registry } from "@oko-wallet/oko-api-openapi";
 
 import {
   type GoogleAuthenticatedRequest,

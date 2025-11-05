@@ -3,7 +3,7 @@ import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   ApiKeyAndUserAuthHeaderSchema,
   TriplesStep10RequestSchema,
@@ -28,7 +28,7 @@ import {
   TriplesStep8SuccessResponseSchema,
   TriplesStep9RequestSchema,
   TriplesStep9SuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/tss";
 import type {
   TriplesStep10Body,
   TriplesStep10Response,
@@ -75,7 +75,7 @@ import {
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { registry } from "@oko-wallet/oko-api-openapi";
 
 export function setTriplesRoutes(router: Router) {
   registry.registerPath({

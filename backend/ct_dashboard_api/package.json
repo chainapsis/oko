@@ -7,10 +7,10 @@
   },
   "dependencies": {
     "@oko-wallet/crypto-js": "workspace:*",
-    "@oko-wallet/ewallet-api-openapi": "workspace:*",
     "@oko-wallet/ewallet-pg-interface": "workspace:*",
     "@oko-wallet/ewallet-types": "workspace:*",
     "@oko-wallet/oko-api-error-codes": "workspace:*",
+    "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-api-server-state": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.25",

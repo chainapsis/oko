@@ -18,8 +18,8 @@ import {
 } from "@oko-wallet/ewallet-pg-interface/customer_dashboard_users";
 import { hashPassword, comparePassword } from "@oko-wallet/crypto-js";
 import { verifyEmailCode } from "@oko-wallet/ewallet-pg-interface/email_verifications";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
-import { ErrorResponseSchema } from "@oko-wallet/ewallet-api-openapi/common";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {
   ChangePasswordRequestSchema,
   ChangePasswordSuccessResponseSchema,
@@ -29,7 +29,7 @@ import {
   SendVerificationSuccessResponseSchema,
   SignInRequestSchema,
   VerifyAndLoginRequestSchema,
-} from "@oko-wallet/ewallet-api-openapi/ct_dashboard";
+} from "@oko-wallet/oko-api-openapi/ct_dashboard";
 
 import { generateCustomerToken } from "@oko-wallet-ctd-api/auth";
 import { sendEmailVerificationCode } from "@oko-wallet-ctd-api/email/send";

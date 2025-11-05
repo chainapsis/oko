@@ -12,11 +12,11 @@ import type {
 } from "@oko-wallet/ewallet-types/customers";
 import multer from "multer";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   AdminAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   CreateCustomerWithDashboardUserRequestSchema,
   CreateCustomerSuccessResponseSchema,
@@ -25,7 +25,7 @@ import {
   CustomerIdParamSchema,
   GetCustomerSuccessResponseSchema,
   DeleteCustomerSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/oko_admin";
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 
 import {
   adminAuthMiddleware,

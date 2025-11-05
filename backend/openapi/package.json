@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/ewallet-api-openapi",
+  "name": "@oko-wallet/oko-api-openapi",
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts",
