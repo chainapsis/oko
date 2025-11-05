@@ -6,18 +6,18 @@ import { SignWidget } from "@oko-wallet-import-demo-web/components/widgets/sign_
 import { useSDKState } from "@oko-wallet-import-demo-web/state/sdk";
 
 export const EthereumOffchainSignWidget = () => {
-  const ethSDK = useSDKState((state) => state.keplr_sdk_eth);
+  const okoEth = useSDKState((state) => state.oko_eth);
 
   const handleClickEthOffchainSign = async () => {
-    if (ethSDK === null) {
+    if (okoEth === null) {
       throw new Error("EthEWallet is not initialized");
     }
 
     const message = "Welcome to Oko! 🚀 Try generating an MPC signature.";
 
-    const signature = await ethSDK.sign(message);
+    const signature = await okoEth.sign(message);
 
-    const address = await ethSDK.getAddress();
+    const address = await okoEth.getAddress();
     const recoveredAddress = await recoverMessageAddress({
       message,
       signature,

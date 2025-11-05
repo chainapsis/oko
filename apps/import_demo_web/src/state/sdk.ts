@@ -1,31 +1,33 @@
 import {
-  CosmosEWallet,
-  type CosmosEWalletInterface,
+  OkoCosmosWallet,
+  type OkoCosmosWalletInterface,
 } from "@oko-wallet/oko-sdk-cosmos";
-import { EthEWallet, type EthEWalletInterface } from "@oko-wallet/oko-sdk-eth";
+import {
+  OkoEthWallet,
+  type OkoEthWalletInterface,
+} from "@oko-wallet/oko-sdk-eth";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 import { useUserInfoState } from "@oko-wallet-import-demo-web/state/user_info";
 
 interface SDKState {
-  keplr_sdk_eth: EthEWalletInterface | null;
-  keplr_sdk_cosmos: CosmosEWalletInterface | null;
+  oko_eth: OkoEthWalletInterface | null;
+  oko_cosmos: OkoCosmosWalletInterface | null;
 
   isEthInitializing: boolean;
   isEthLazyInitialized: boolean;
-
   isCosmosInitializing: boolean;
   isCosmosLazyInitialized: boolean;
 }
 
 interface SDKActions {
-  initKeplrSdkEth: () => Promise<EthEWalletInterface | null>;
-  initKeplrSdkCosmos: () => Promise<CosmosEWalletInterface | null>;
+  initOkoEth: () => Promise<OkoEthWalletInterface | null>;
+  initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
 }
 
 const initialState: SDKState = {
-  keplr_sdk_eth: null,
-  keplr_sdk_cosmos: null,
+  oko_eth: null,
+  oko_cosmos: null,
 
   isEthInitializing: false,
   isEthLazyInitialized: false,
@@ -36,12 +38,12 @@ const initialState: SDKState = {
 
 export const useSDKState = create(
   combine<SDKState, SDKActions>(initialState, (set, get) => ({
-    initKeplrSdkEth: async () => {
+    initOkoEth: async () => {
       const state = get();
 
-      if (state.keplr_sdk_eth || state.isEthInitializing) {
+      if (state.oko_eth || state.isEthInitializing) {
         console.log("ETH SDK already initialized or initializing, skipping...");
-        return state.keplr_sdk_eth;
+        return state.oko_eth;
       }
 
       console.log("Initializing ETH SDK...");
@@ -49,7 +51,7 @@ export const useSDKState = create(
         isEthInitializing: true,
       });
 
-      const initRes = EthEWallet.init({
+      const initRes = OkoEthWallet.init({
         api_key:
           "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
         sdk_endpoint: process.env.NEXT_PUBLIC_KEPLR_EWALLET_SDK_ENDPOINT,
@@ -58,13 +60,13 @@ export const useSDKState = create(
       if (initRes.success) {
         console.log("Eth sdk initialized");
 
-        const ethEWallet = initRes.data;
+        const okoEth = initRes.data;
         set({
-          keplr_sdk_eth: initRes.data,
+          oko_eth: initRes.data,
           isEthInitializing: false,
         });
 
-        await ethEWallet.waitUntilInitialized;
+        await okoEth.waitUntilInitialized;
         set({
           isEthLazyInitialized: true,
         });
@@ -77,14 +79,14 @@ export const useSDKState = create(
         return null;
       }
     },
-    initKeplrSdkCosmos: async () => {
+    initOkoCosmos: async () => {
       const state = get();
 
-      if (state.keplr_sdk_cosmos) {
+      if (state.oko_cosmos) {
         console.log(
           "Cosmos SDK already initialized or initializing, skipping...",
         );
-        return state.keplr_sdk_cosmos;
+        return state.oko_cosmos;
       }
 
       console.log("Initializing Cosmos SDK...");
@@ -92,7 +94,7 @@ export const useSDKState = create(
         isCosmosInitializing: true,
       });
 
-      const initRes = CosmosEWallet.init({
+      const initRes = OkoCosmosWallet.init({
         api_key:
           "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
         sdk_endpoint: process.env.NEXT_PUBLIC_KEPLR_EWALLET_SDK_ENDPOINT,
@@ -104,7 +106,7 @@ export const useSDKState = create(
         setupCosmosListener(cosmosSDK);
 
         set({
-          keplr_sdk_cosmos: cosmosSDK,
+          oko_cosmos: cosmosSDK,
           isCosmosInitializing: false,
         });
 
@@ -125,7 +127,7 @@ export const useSDKState = create(
   })),
 );
 
-function setupCosmosListener(cosmosSDK: CosmosEWalletInterface) {
+function setupCosmosListener(cosmosSDK: OkoCosmosWalletInterface) {
   const setUserInfo = useUserInfoState.getState().setUserInfo;
 
   if (cosmosSDK) {

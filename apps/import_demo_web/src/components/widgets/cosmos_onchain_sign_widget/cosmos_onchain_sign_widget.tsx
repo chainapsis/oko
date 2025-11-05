@@ -20,17 +20,17 @@ const COSMOS_CHAIN_ID = "cosmoshub-4";
 const TOKEN_MINIMAL_DENOM = "uatom";
 
 export const CosmosOnchainSignWidget = () => {
-  const cosmosSDK = useSDKState((state) => state.keplr_sdk_cosmos);
+  const okoCosmos = useSDKState((state) => state.oko_cosmos);
   const [isSignAmino, setIsSignAmino] = useState(false);
 
   const handleClickCosmosSignDirect = useCallback(async () => {
     console.log("handleClickCosmosSignDirect()");
 
-    if (cosmosSDK === null) {
+    if (okoCosmos === null) {
       throw new Error("CosmosEWallet is not initialized");
     }
 
-    const account = await cosmosSDK.getKey(COSMOS_CHAIN_ID);
+    const account = await okoCosmos.getKey(COSMOS_CHAIN_ID);
     const address = account?.bech32Address;
 
     if (!address) {
@@ -94,21 +94,21 @@ export const CosmosOnchainSignWidget = () => {
       1288582,
     );
 
-    const result = await cosmosSDK.signDirect(
+    const result = await okoCosmos.signDirect(
       COSMOS_CHAIN_ID,
       address,
       mockSignDoc,
     );
     console.info("SignDirect result:", result);
-  }, [cosmosSDK]);
+  }, [okoCosmos]);
 
   const handleClickCosmosSignAmino = useCallback(async () => {
     console.info("handleClickCosmosSignAmino()");
-    if (cosmosSDK === null) {
+    if (okoCosmos === null) {
       throw new Error("CosmosEWallet is not initialized");
     }
 
-    const account = await cosmosSDK.getKey(COSMOS_CHAIN_ID);
+    const account = await okoCosmos.getKey(COSMOS_CHAIN_ID);
     const address = account?.bech32Address;
 
     if (!address) {
@@ -152,14 +152,14 @@ export const CosmosOnchainSignWidget = () => {
       sequence,
     );
 
-    const result = await cosmosSDK.signAmino(
+    const result = await okoCosmos.signAmino(
       COSMOS_CHAIN_ID,
       address,
       mockSignDoc,
     );
 
     console.info("SignAmino result:", result);
-  }, [cosmosSDK]);
+  }, [okoCosmos]);
 
   return (
     <SignWidget
