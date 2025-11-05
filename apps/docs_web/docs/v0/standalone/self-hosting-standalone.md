@@ -33,14 +33,14 @@ This guide explains how to self-host Oko in a standalone setup. It covers how to
 
 ## Clone the Repository
 
-```
+```bash
 git clone https://github.com/chainapsis/oko.git
 cd oko
 ```
 
 ## Install/Build
 
-```
+```bash
 cd oko && yarn && yarn workspaces foreach -p run build
 ```
 
@@ -48,7 +48,7 @@ cd oko && yarn && yarn workspaces foreach -p run build
 
 Option A — Docker Compose (recommended)
 
-```
+```bash
 cd oko/key_share_node/docker
 cp env.example .env
 ```
