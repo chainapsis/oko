@@ -1,0 +1,68 @@
+name: "Feature request"
+description: "Suggest an idea to improve the project."
+title: "[Feature]: "
+labels: ["enhancement"]
+assignees: []
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / motivation
+      description: What problem does this feature solve? Why is it needed?
+      placeholder: When I try to ..., I can't ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: Describe the feature, behavior, and examples.
+      placeholder: Add a setting to ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives
+      description: Any alternative solutions or workarounds considered?
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Scope
+      description: What's in scope? What's out of scope?
+
+  - type: textarea
+    id: acceptance
+    attributes:
+      label: Acceptance criteria
+      description: Bullet list of criteria for completion.
+      placeholder: |
+        - Given/When/Then ...
+        - Telemetry/Docs/Tests updated
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area (select all that apply)
+      multiple: true
+      options:
+        - API
+        - Backend
+        - Frontend
+        - CLI
+        - Docs
+        - DevOps
+        - Other
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched for existing feature requests.
+          required: true
+        - label: I am willing to contribute a PR. (Optional)
+          required: false
