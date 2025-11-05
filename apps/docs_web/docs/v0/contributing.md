@@ -1,6 +1,6 @@
 ---
 title: Contributing
-sidebar_position: 45
+sidebar_position: 8
 ---
 
 Use this page to get started contributing to Oko. For the full set of rules and
