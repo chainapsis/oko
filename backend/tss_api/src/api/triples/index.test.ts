@@ -39,13 +39,13 @@ import {
   createTssSession,
   createTssStage,
   getTssStageWithSessionData,
-} from "@oko-wallet/ewallet-pg-interface/tss";
+} from "@oko-wallet/oko-pg-interface/tss";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import type { WalletStatus } from "@oko-wallet/ewallet-types/wallets";
-import { createWallet } from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
-import { createUser } from "@oko-wallet/ewallet-pg-interface/ewallet_users";
-import { insertCustomer } from "@oko-wallet/ewallet-pg-interface/customers";
-import { insertKeyShareNodeMeta } from "@oko-wallet/ewallet-pg-interface/key_share_node_meta";
+import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";

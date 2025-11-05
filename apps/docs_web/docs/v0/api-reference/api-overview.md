@@ -317,7 +317,7 @@ Database: witnessed_id_tokens table
 
 ### Session Tracking
 
-Based on schema in `packages/ewallet_pg_interface/migrate/migrate.sql`:
+Based on schema in `backend/oko_pg_interface/scripts/migrate/migrate.sql`:
 
 **TSS Sessions:**
 

@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { getTssActivationSetting } from "@oko-wallet/ewallet-pg-interface/tss_activate";
+import { getTssActivationSetting } from "@oko-wallet/oko-pg-interface/tss_activate";
 
 export async function tssActivateMiddleware(
   req: Request,

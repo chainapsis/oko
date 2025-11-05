@@ -1,6 +1,6 @@
 import { jest } from "@jest/globals";
 import { Pool } from "pg";
-import { insertKSNode } from "@oko-wallet/ewallet-pg-interface/ks_nodes";
+import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import { processKSNodeHealthChecks } from "@oko-wallet/ks-node-health";
 

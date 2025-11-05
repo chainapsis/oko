@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/ewallet-pg-interface",
+  "name": "@oko-wallet/oko-pg-interface",
   "type": "module",
   "scripts": {
     "migrate": "tsx ./scripts/migrate/index.ts",

@@ -1,4 +1,4 @@
-import { getWalletByIdWithEmail } from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
+import { getWalletByIdWithEmail } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
 import { TssSessionState } from "@oko-wallet/ewallet-types/tss";
 import type { Customer } from "@oko-wallet/ewallet-types/customers";
 import type {
@@ -12,8 +12,8 @@ import { Pool } from "pg";
 import {
   updateTssSessionState,
   updateTssStage,
-} from "@oko-wallet/ewallet-pg-interface/tss";
-import { getCustomer } from "@oko-wallet/ewallet-pg-interface/customers";
+} from "@oko-wallet/oko-pg-interface/tss";
+import { getCustomer } from "@oko-wallet/oko-pg-interface/customers";
 
 export function validateTssSession(
   triplesStage: TssStageWithSessionData | null,

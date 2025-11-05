@@ -26,7 +26,7 @@
       "backend/oko_api_server_state",
       "backend/log_api",
       "backend/ct_dashboard_api",
-      "backend/ewallet_pg_interface",
+      "backend/oko_pg_interface",
       "backend/admin_api",
       "backend/tss_api",
       "backend/ks_node_health",

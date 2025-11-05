@@ -18,16 +18,16 @@ import {
   getCustomersCount,
   deleteCustomer,
   getCustomer,
-} from "@oko-wallet/ewallet-pg-interface/customers";
+} from "@oko-wallet/oko-pg-interface/customers";
 import {
   insertAPIKey,
   getAPIKeysByCustomerIdsMap,
   updateAPIKeyStatusByCustomerId,
-} from "@oko-wallet/ewallet-pg-interface/api_keys";
+} from "@oko-wallet/oko-pg-interface/api_keys";
 import {
   deleteCustomerDashboardUserByCustomerId,
   insertCustomerDashboardUser,
-} from "@oko-wallet/ewallet-pg-interface/customer_dashboard_users";
+} from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   APIKey,
   InsertCustomerDashboardUserRequest,

@@ -5,7 +5,7 @@ import type {
   AdminLoginResponse,
   AdminLogoutResponse,
 } from "@oko-wallet/ewallet-types/admin";
-import { getAdminByEmail } from "@oko-wallet/ewallet-pg-interface/admin_users";
+import { getAdminByEmail } from "@oko-wallet/oko-pg-interface/admin_users";
 import { comparePassword } from "@oko-wallet/crypto-js";
 
 import { generateAdminToken } from "@oko-wallet-admin-api/auth";

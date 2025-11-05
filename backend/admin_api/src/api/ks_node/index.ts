@@ -22,7 +22,7 @@ import {
   updateKSNodeStatus,
   updateKSNodeInfo,
   deleteKSNodeById,
-} from "@oko-wallet/ewallet-pg-interface/ks_nodes";
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 import type { KSNodeStatus } from "@oko-wallet-types/tss";
 import { processKSNodeHealthChecks } from "@oko-wallet/ks-node-health";
 

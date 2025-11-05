@@ -23,7 +23,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@oko-wallet-pg-interface/*": ["./src/*"],
+      "@oko-wallet-oko-pg-interface/*": ["./src/*"],
       "@oko-wallet-types/*": ["../../common/ewallet_types/src/*"]
     }
   },

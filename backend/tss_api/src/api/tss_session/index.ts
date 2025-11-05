@@ -1,7 +1,7 @@
 import {
   getTssSessionById,
   updateTssSessionState,
-} from "@oko-wallet/ewallet-pg-interface/tss";
+} from "@oko-wallet/oko-pg-interface/tss";
 import {
   type AbortTssSessionRequest,
   type AbortTssSessionResponse,

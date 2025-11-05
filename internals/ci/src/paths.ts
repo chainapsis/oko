@@ -57,7 +57,7 @@ export const paths = (function () {
 
   const ewallet_pg_interface = path.join(
     __dirname,
-    "../../../backend/ewallet_pg_interface",
+    "../../../backend/oko_pg_interface",
   );
 
   const ewallet_attached = path.join(

@@ -7,11 +7,11 @@ import type {
   SetTssAllActivationSettingRequest,
   SetTssAllActivationSettingResponse,
 } from "@oko-wallet/ewallet-types/admin";
-import { getTssSessions } from "@oko-wallet/ewallet-pg-interface/tss";
+import { getTssSessions } from "@oko-wallet/oko-pg-interface/tss";
 import {
   getTssActivationSetting as getTssAllActivationSettingPG,
   setTssActivationSetting as setTssAllActivationSettingPG,
-} from "@oko-wallet/ewallet-pg-interface/tss_activate";
+} from "@oko-wallet/oko-pg-interface/tss_activate";
 
 export async function getTssSessionList(
   db: Pool,

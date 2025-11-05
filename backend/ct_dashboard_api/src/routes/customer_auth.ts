@@ -15,9 +15,9 @@ import {
   updateCustomerDashboardUserPassword,
   verifyCustomerDashboardUserEmail,
   getCTDUserWithCustomerByEmail,
-} from "@oko-wallet/ewallet-pg-interface/customer_dashboard_users";
+} from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import { hashPassword, comparePassword } from "@oko-wallet/crypto-js";
-import { verifyEmailCode } from "@oko-wallet/ewallet-pg-interface/email_verifications";
+import { verifyEmailCode } from "@oko-wallet/oko-pg-interface/email_verifications";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {

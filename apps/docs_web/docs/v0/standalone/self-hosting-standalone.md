@@ -254,7 +254,7 @@ ES_PASSWORD=pw                     # Elasticsearch password (optional)
 
 ```bash
 # Migrate database schema
-USE_ENV=true yarn workspace @oko-wallet/ewallet-pg-interface migrate
+USE_ENV=true yarn workspace @oko-wallet/oko-pg-interface migrate
 ```
 
 See [Database Seeding](#database-seeding) below for seeding instructions.
@@ -300,7 +300,7 @@ To seed the database with initial data, run the following command from the proje
 ```bash
 cd oko
 # Replace DB_* values with those from your backend/docker/.env file
-DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
+DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 ```
 
 **For Option B (Local):**
@@ -308,7 +308,7 @@ DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewa
 ```bash
 cd oko
 # Uses environment variables from ~/.oko/oko_api_server.env
-USE_ENV=true TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
+USE_ENV=true TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 ```
 
 ## oko_attached (embedded app)

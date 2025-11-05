@@ -12,7 +12,7 @@ services:
       PGTZ: "UTC"
     volumes:
       - ${PG_DATA_DIR}:/var/lib/postgresql/data
-      - ../ewallet_pg_interface/scripts/migrate/migrate.sql:/docker-entrypoint-initdb.d/migrate.sql
+      - ../oko_pg_interface/scripts/migrate/migrate.sql:/docker-entrypoint-initdb.d/migrate.sql
 
   ewallet_api_server:
     build:

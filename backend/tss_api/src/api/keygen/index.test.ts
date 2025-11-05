@@ -10,15 +10,15 @@ import { napiRunKeygenClientCentralized } from "@oko-wallet/cait-sith-keplr-addo
 import {
   insertKSNode,
   getWalletKSNodesByWalletId,
-} from "@oko-wallet/ewallet-pg-interface/ks_nodes";
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { decryptData } from "@oko-wallet/crypto-js";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import { createUser } from "@oko-wallet/ewallet-pg-interface/ewallet_users";
+import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   createWallet,
   getWalletById,
-} from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
-import { insertKeyShareNodeMeta } from "@oko-wallet/ewallet-pg-interface/key_share_node_meta";
+} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";

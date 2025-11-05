@@ -2,7 +2,7 @@ import {
   createTssStage,
   getTssStageWithSessionData,
   updateTssStage,
-} from "@oko-wallet/ewallet-pg-interface/tss";
+} from "@oko-wallet/oko-pg-interface/tss";
 import {
   PresignStageStatus,
   TriplesStageStatus,

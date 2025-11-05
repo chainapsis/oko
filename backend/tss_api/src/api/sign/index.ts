@@ -1,7 +1,7 @@
 import {
   createTssStage,
   getTssStageWithSessionData,
-} from "@oko-wallet/ewallet-pg-interface/tss";
+} from "@oko-wallet/oko-pg-interface/tss";
 import type {
   SignStep1Request,
   SignStep1Response,

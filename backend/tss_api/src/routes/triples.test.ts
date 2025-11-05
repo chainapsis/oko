@@ -5,7 +5,7 @@ import { createPgConn } from "@oko-wallet/postgres-lib";
 import {
   insertAPIKey,
   updateAPIKeyStatusByHashedKey,
-} from "@oko-wallet/ewallet-pg-interface/api_keys";
+} from "@oko-wallet/oko-pg-interface/api_keys";
 
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";

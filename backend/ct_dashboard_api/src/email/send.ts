@@ -1,8 +1,8 @@
 import {
   createEmailVerification,
   getLatestPendingVerification,
-} from "@oko-wallet/ewallet-pg-interface/email_verifications";
-import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/ewallet-pg-interface/customer_dashboard_users";
+} from "@oko-wallet/oko-pg-interface/email_verifications";
+import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   SendVerificationRequest,
   SendVerificationResponse,
