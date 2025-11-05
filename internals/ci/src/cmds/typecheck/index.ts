@@ -33,8 +33,8 @@ export async function typeCheck(..._args: any[]) {
   const chunckedPaths = chunkArr(pkgPaths, WORKER_COUNT);
 
   let workers = [];
-  for (let i = 0; i < chunckedPaths.length; i += 1) {
-    const worker = spawnWorker(`worker-${i}`, chunckedPaths[i]);
+  for (let idx = 0; idx < chunckedPaths.length; idx += 1) {
+    const worker = spawnWorker(`worker-${idx}`, chunckedPaths[idx]);
     workers.push(worker);
   }
 
