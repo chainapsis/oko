@@ -51,6 +51,8 @@ export async function typeCheck(..._args: any[]) {
     );
   } catch (err: any) {
     console.log("Worker exec error: %s", err);
+
+    // TODO: @elden stop workers
   }
 }
 

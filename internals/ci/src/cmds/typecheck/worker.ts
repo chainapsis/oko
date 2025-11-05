@@ -7,7 +7,7 @@ import { getPkgName } from "../../pkg_name";
 export async function runBatchTypeCheck(pkgPaths: string[]) {
   if (parentPort === null) {
     console.error("This script is built to run on a worker thread");
-    return new Error(`No parent port`);
+    throw new Error(`No parent port`);
   }
 
   for (const pkg of pkgPaths) {
@@ -25,7 +25,7 @@ export async function runBatchTypeCheck(pkgPaths: string[]) {
     } else {
       console.error("Error type checking, pkg: %s", name);
 
-      return new Error(`Error type checking, pkg ${name}`);
+      throw new Error(`Error type checking, pkg ${name}`);
     }
   }
 
