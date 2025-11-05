@@ -68,10 +68,10 @@ cd oko
 ## Install/Build
 
 ```bash
-cd oko && yarn install && yarn ci build_pkgs
+cd oko && yarn && yarn ci build_pkgs && yarn ci build_cs
 ```
 
-This installs dependencies and builds core packages (stdlib, dotenv, SDK core/cosmos/eth, crypto/bytes, ksn-interface, tecdsa-interface) in the correct dependency order.
+This installs dependencies and builds core packages and Cait Sith. See [Local CI helpers (yarn ci)](#local-ci-helpers-yarn-ci) below for detailed descriptions of each command.
 
 ## keyshare node
 
@@ -423,18 +423,19 @@ Use `yarn ci` at each workspace root to speed up repetitive local tasks. Argumen
 
 - Build packages: `yarn ci build_pkgs`
   - Builds in order: stdlib, dotenv, SDK (core/cosmos/eth), crypto/bytes, ksn-interface, tecdsa-interface
+  - Required for all services that depend on these core packages
+- Build Cait Sith: `yarn ci build_cs`
+  - Builds Rust addon (required for `oko_api` TSS operations: triples, presign, sign)
+  - Builds WASM (required for `oko_attached` client-side TSS operations: keygen, combine, reshare, signing)
+  - Copies WASM into `oko_attached/public/pkg/`
 - Typecheck: `yarn ci typecheck`
 - keyshare node DB migration: `yarn ci db_migrate_ksn --use-env-file`
   - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate per-node DBs
   - Without it, uses local defaults (`localhost:5432`, `key_share_node_dev*`)
-
 - DB migration: `yarn ci db_migrate_api --use-env`
   - With `--use-env`, uses `~/.oko/oko_api_server.env`
   - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates with test config
-- DB seed: ` yarn ci db_seed_api --use-env --target dev`
+- DB seed: `yarn ci db_seed_api --use-env --target dev`
   - `--target` supports `dev | prod` (use `dev` for local)
-- Build/copy Cait Sith (prepare embedded WASM): `yarn ci build_cs`
-  - Builds addon/wasm and copies wasm into `ewallet_attached`
-- Typecheck: `yarn ci typecheck`
 
 Note: `yarn ci` is a thin wrapper around `yarn --cwd ./internals/ci run start <command>`. Run `yarn ci --help` to list available commands.
