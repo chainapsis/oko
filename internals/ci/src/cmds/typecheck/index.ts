@@ -55,10 +55,15 @@ export async function typeCheck(..._args: any[]) {
 }
 
 export async function spawnWorker(workerName: string, pkgPaths: string[]) {
-  const scriptPath = join(__dirname, "./thread.ts");
+  const scriptPath = join(__dirname, "./worker.ts");
 
   const p1 = new Promise((resolve, reject) => {
-    console.log("Spawn worker, script path: %s", scriptPath);
+    console.log(
+      "Spawn worker (%s), checking %s pkgs, script path: %s",
+      workerName,
+      pkgPaths.length,
+      scriptPath,
+    );
 
     const worker = new Worker(
       // NOTE:Register runtime hook, if not, scripts in a worker thread run on
