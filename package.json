@@ -23,7 +23,7 @@
       "examples/multi-ecosystem-react",
       "backend/oko_api/error_codes",
       "backend/oko_api/server",
-      "backend/ewallet_api_server_state",
+      "backend/oko_api_server_state",
       "backend/log_api",
       "backend/ct_dashboard_api",
       "backend/ewallet_pg_interface",
