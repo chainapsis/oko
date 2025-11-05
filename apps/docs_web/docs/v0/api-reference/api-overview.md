@@ -13,12 +13,12 @@ with Oko.
 The Oko system provides REST APIs for authentication, key management,
 and transaction signing:
 
-| Service          | Port | Purpose                            |
-| ---------------- | ---- | ---------------------------------- |
-| Main API Server  | 4200 | TSS operations and admin functions |
-| Credential Vault | 4201 | Secure key share storage           |
+| Service         | Port | Purpose                                                          |
+| --------------- | ---- | ---------------------------------------------------------------- |
+| Main API Server | 4200 | TSS operations, admin functions, customer dashboard, and logging |
+| Key Share Node  | 4201 | Secure key share storage and retrieval                           |
 
-### `POST /user/v1/signin`
+### `POST /tss/v1/user/signin`
 
 Sign in a user via Google OAuth. This endpoint will return an authentication
 token and related metadata on success.
@@ -26,20 +26,24 @@ token and related metadata on success.
 #### Request
 
 - **Method**: `POST`
+- **Path**: `/tss/v1/user/signin`
 - **Headers**: `Authorization: Bearer <Google ID Token>` (The token should be
   issued via Google Sign-In)
 
 #### Response
 
-#### 200 OK
+**200 OK**
 
-```javascript
+```json
 {
   "success": true,
   "data": {
-    "wallet_address": "cosmos1...",
-    "auth_token": "eyJhbGciOi...",
-    ...
+    "token": "eyJhbGciOi...",
+    "user": {
+      "email": "user@example.com",
+      "wallet_id": "...",
+      "public_key": "..."
+    }
   }
 }
 ```
@@ -59,8 +63,16 @@ token and related metadata on success.
 ```json
 {
   "success": false,
-  "code": "USER_NOT_FOUND", // or "WALLET_NOT_FOUND"
+  "code": "USER_NOT_FOUND",
   "msg": "User not found"
+}
+```
+
+```json
+{
+  "success": false,
+  "code": "WALLET_NOT_FOUND",
+  "msg": "Wallet not found"
 }
 ```
 
@@ -69,31 +81,110 @@ token and related metadata on success.
 ```json
 {
   "success": false,
-  "code": "FAILED_TO_GENERATE_TOKEN" | "UNKNOWN_ERROR",
+  "code": "UNKNOWN_ERROR",
   "msg": "Something went wrong"
 }
 ```
 
-### `GET /user/v1/check/:email`
+### `POST /tss/v1/user/check`
 
-Check whether a user account exists for a given gmail address.
+Check whether a user account exists for a given email address.
 
 #### Request
 
-- **Method**: `GET`
-- **Path param**: `:email` (string) - Email to check
+- **Method**: `POST`
+- **Path**: `/tss/v1/user/check`
+- **Body**:
 
-**Example**  
-GET /user/v1/check/user@example.com
+```json
+{
+  "email": "user@example.com"
+}
+```
 
-**Response**  
-**200 OK**
+#### Response
+
+**200 OK** (User exists)
 
 ```json
 {
   "success": true,
   "data": {
-    "exists": true
+    "exists": true,
+    "keyshare_node_meta": {
+      "threshold": 2,
+      "nodes": [
+        {
+          "name": "ks_node_1",
+          "endpoint": "http://localhost:4201",
+          "wallet_status": "ACTIVE"
+        },
+        {
+          "name": "ks_node_2",
+          "endpoint": "http://localhost:4202",
+          "wallet_status": "ACTIVE"
+        }
+      ]
+    },
+    "needs_reshare": false,
+    "active_nodes_below_threshold": false
+  }
+}
+```
+
+**200 OK** (User exists, needs reshare)
+
+```json
+{
+  "success": true,
+  "data": {
+    "exists": true,
+    "keyshare_node_meta": {
+      "threshold": 2,
+      "nodes": [
+        {
+          "name": "ks_node_1",
+          "endpoint": "http://localhost:4201",
+          "wallet_status": "UNRECOVERABLE_DATA_LOSS"
+        },
+        {
+          "name": "ks_node_2",
+          "endpoint": "http://localhost:4202",
+          "wallet_status": "ACTIVE"
+        }
+      ]
+    },
+    "needs_reshare": true,
+    "reshare_reasons": ["UNRECOVERABLE_NODE_DATA_LOSS"],
+    "active_nodes_below_threshold": false
+  }
+}
+```
+
+**200 OK** (User does not exist - signup flow)
+
+```json
+{
+  "success": true,
+  "data": {
+    "exists": false,
+    "keyshare_node_meta": {
+      "threshold": 2,
+      "nodes": [
+        {
+          "name": "ks_node_1",
+          "endpoint": "http://localhost:4201",
+          "wallet_status": "NOT_REGISTERED"
+        },
+        {
+          "name": "ks_node_2",
+          "endpoint": "http://localhost:4202",
+          "wallet_status": "NOT_REGISTERED"
+        }
+      ]
+    },
+    "needs_reshare": false,
+    "active_nodes_below_threshold": false
   }
 }
 ```
@@ -115,6 +206,45 @@ GET /user/v1/check/user@example.com
   "success": false,
   "code": "UNKNOWN_ERROR",
   "msg": "Failed to get user"
+}
+```
+
+### `POST /tss/v1/user/reshare`
+
+Update wallet key share nodes for resharing after unrecoverable data loss.
+
+#### Request
+
+- **Method**: `POST`
+- **Path**: `/tss/v1/user/reshare`
+- **Headers**: `Authorization: Bearer <Google ID Token>`
+- **Body**:
+
+```json
+{
+  "public_key": "...",
+  "reshared_key_shares": [...]
+}
+```
+
+#### Response
+
+**200 OK**
+
+```json
+{
+  "success": true,
+  "data": null
+}
+```
+
+**400 Bad Request**
+
+```json
+{
+  "success": false,
+  "code": "INVALID_REQUEST",
+  "msg": "Invalid public key" | "reshared_key_shares is required"
 }
 ```
 
@@ -150,15 +280,33 @@ From `backend/tss_api/src/routes/user.ts`:
 ```
 POST /tss/v1/user/signin
 - Initiates Google OAuth authentication
-- Returns JWT token for subsequent API calls
+- Returns JWT token and user information for subsequent API calls
+- Requires Google OAuth token in Authorization header
 ```
 
 **User verification:**
 
 ```
-GET /tss/v1/user/check/:email
+POST /tss/v1/user/check
 - Checks if email exists in system
 - Used for user registration flow
+- Requires email in request body
+```
+
+**Silent sign-in:**
+
+```
+POST /tss/v1/user/signin_silently
+- Validates existing JWT token or refreshes expired token
+- Used for token renewal without re-authentication
+```
+
+**Reshare:**
+
+```
+POST /tss/v1/user/reshare
+- Updates wallet key share nodes after unrecoverable data loss
+- Requires Google OAuth token and reshared key shares
 ```
 
 ### JWT Token Usage
@@ -183,8 +331,9 @@ From `backend/tss_api/src/routes/`:
 #### Key Generation
 
 ```
-POST /keygen
+POST /tss/v1/keygen
 Content-Type: application/json
+Headers: Authorization: Bearer <Google ID Token>
 
 Purpose: Create distributed key shares and wallet entities
 Implementation: Coordinates threshold key generation protocol
@@ -194,8 +343,9 @@ Database: Creates entries in wallets table and key_shares table
 #### Triple Generation (Preprocessing)
 
 ```
-POST /triples
+POST /tss/v1/triples
 Content-Type: application/json
+Headers: Authorization: Bearer <JWT Token>
 
 Purpose: Generate Beaver triples for efficient signature preprocessing
 Implementation: Creates reusable cryptographic material
@@ -205,8 +355,9 @@ Benefits: Reduces signature latency by preprocessing before message known
 #### Presignature Creation
 
 ```
-POST /presign
+POST /tss/v1/presign
 Content-Type: application/json
+Headers: Authorization: Bearer <JWT Token>
 
 Purpose: Create presignature components using preprocessed triples
 Implementation: Combines triples with key shares for signature preparation
@@ -216,12 +367,24 @@ Database: Operations tracked in tss_sessions and tss_stages tables
 #### Signature Completion
 
 ```
-POST /sign
+POST /tss/v1/sign
 Content-Type: application/json
+Headers: Authorization: Bearer <JWT Token>
 
 Purpose: Complete ECDSA signature using presignatures and message
 Implementation: Final signature creation step
 Output: Standard ECDSA signature (r, s) format
+```
+
+#### Session Management
+
+```
+POST /tss/v1/session/abort
+Content-Type: application/json
+Headers: Authorization: Bearer <JWT Token>
+
+Purpose: Abort an active TSS session
+Implementation: Cancels ongoing TSS operation and cleans up resources
 ```
 
 ## Admin API Endpoints
@@ -233,50 +396,168 @@ From `backend/admin_api/src/routes/`:
 #### Customer Management
 
 ```
-POST /create_customer
-Content-Type: application/json
+POST /ewallet_admin/v1/customer/create_customer
+Content-Type: multipart/form-data
+Headers: Authorization: Bearer <Admin JWT Token>
 
 Purpose: Create new customer organization with dashboard user
 Database: Creates entries in customers and customer_dashboard_users tables
 Authentication: Admin-level access required
+Request: Includes email, password, label, and optional logo file
+Response: Returns customer_id and customer details
 ```
 
 ```
-GET /customers
-Content-Type: application/json
+GET /ewallet_admin/v1/customer/get_customer_list
+Headers: Authorization: Bearer <Admin JWT Token>
+Query Parameters: limit (optional), offset (optional)
 
-Purpose: Retrieve all customer organizations
-Response: List of customer entities with metadata(customer information and API keys)
+Purpose: Retrieve all customer organizations with pagination
+Response: List of customer entities with metadata (customer information and API keys)
 Authentication: Admin-level access required
 ```
 
 ```
-GET /customers/:customer_id
+GET /ewallet_admin/v1/customer/get_customer/{customer_id}
 Path Parameter: customer_id
+Headers: Authorization: Bearer <Admin JWT Token>
 
-Purpose: Get specific customer details
+Purpose: Get specific customer details by ID
 Response: Customer entity with associated user accounts
 Authentication: Admin-level access required
 ```
 
 ```
-DELETE /customers/:customer_id
-Path Parameter: customer_id
+POST /ewallet_admin/v1/customer/delete_customer
+Content-Type: application/json
+Headers: Authorization: Bearer <Admin JWT Token>
+Body: { "customer_id": "..." }
 
-Purpose: Delete speicific customer and related customer dashboard users
+Purpose: Delete specific customer and related customer dashboard users
 Response: Customer ids with associated user ids
 Authentication: Admin-level access required
 ```
 
 #### User Management
 
-From admin API routes, additional endpoints for:
+```
+POST /ewallet_admin/v1/user/login
+Content-Type: application/json
+Body: { "email": "...", "password": "..." }
 
-- User account creation and management
-- Role assignment and permissions
-- System administration functions
+Purpose: Authenticate admin user
+Response: Returns JWT token and admin information
+Authentication: None required (public endpoint)
+```
 
-## Credential Vault API
+```
+POST /ewallet_admin/v1/user/logout
+Headers: Authorization: Bearer <Admin JWT Token>
+
+Purpose: Log out admin user
+Response: Success message
+Authentication: Admin-level access required
+```
+
+#### Wallet Management
+
+```
+POST /ewallet_admin/v1/wallet/get_wallet_list
+Content-Type: application/json (optional)
+Headers: Authorization: Bearer <Admin JWT Token>
+Body: { "limit": number, "offset": number } (optional)
+
+Purpose: Retrieve list of wallets with pagination
+Response: List of wallet entities
+Authentication: Admin-level access required
+```
+
+#### TSS Session Management
+
+```
+POST /ewallet_admin/v1/tss/get_tss_session_list
+Content-Type: application/json
+Headers: Authorization: Bearer <Admin JWT Token>
+Body: { "limit": number, "cursor": string } (optional)
+
+Purpose: Retrieve TSS sessions with pagination
+Response: List of TSS session entities
+Authentication: Admin-level access required
+```
+
+#### Key Share Node Management
+
+```
+POST /ewallet_admin/v1/ks_node/get_all_ks_nodes
+Content-Type: application/json
+Headers: Authorization: Bearer <Admin JWT Token>
+
+Purpose: Retrieve all key share nodes
+Response: List of key share node entities
+Authentication: Admin-level access required
+```
+
+Additional admin endpoints available for:
+
+- Key share node creation, update, activation, and deletion
+- TSS activation settings management
+
+## Customer Dashboard API
+
+### Base Path: `/customer_dashboard/v1`
+
+From `backend/ct_dashboard_api/src/routes/`:
+
+#### Customer Authentication
+
+```
+POST /customer_dashboard/v1/customer/auth/signin
+Content-Type: application/json
+Body: { "email": "...", "password": "..." }
+
+Purpose: Authenticate customer dashboard user
+Response: Returns JWT token and customer information
+Authentication: None required (public endpoint)
+```
+
+```
+POST /customer_dashboard/v1/customer/auth/signup
+Content-Type: application/json
+Body: { "email": "...", "password": "...", "customer_id": "..." }
+
+Purpose: Register new customer dashboard user
+Response: Returns success status
+Authentication: None required (public endpoint)
+```
+
+Additional authentication endpoints available for:
+
+- Email verification
+- Password reset
+- Token refresh
+
+#### Customer Information
+
+```
+POST /customer_dashboard/v1/customer/info
+Headers: Authorization: Bearer <Customer JWT Token>
+
+Purpose: Get customer information for authenticated user
+Response: Customer entity with metadata
+Authentication: Customer JWT token required
+```
+
+```
+POST /customer_dashboard/v1/customer/api_keys
+Headers: Authorization: Bearer <Customer JWT Token>
+Body: { "limit": number, "offset": number } (optional)
+
+Purpose: Retrieve API keys for customer
+Response: List of API key entities
+Authentication: Customer JWT token required
+```
+
+## Key Share Node API
 
 ### Base Path: `/keyshare/v1` and `/commit/v1`
 
@@ -337,8 +618,20 @@ Based on schema in `backend/oko_pg_interface/scripts/migrate/migrate.sql`:
 
 ```json
 {
-  "error": "Error message",
-  "details": "Additional error details"
+  "success": false,
+  "code": "ERROR_CODE",
+  "msg": "Error message"
+}
+```
+
+**Success Response Format:**
+
+```json
+{
+  "success": true,
+  "data": {
+    // Response data
+  }
 }
 ```
 
@@ -403,14 +696,18 @@ Example API testing commands:
 ```bash
 # Test TSS authentication
 curl -X POST http://localhost:4200/tss/v1/user/signin \
-  -H "Content-Type: application/json" \
-  -d '{"credential": "google-oauth-token"}'
+  -H "Authorization: Bearer <google-oauth-token>"
 
-# Test key generation (requires authentication)
+# Test email check
+curl -X POST http://localhost:4200/tss/v1/user/check \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com"}'
+
+# Test key generation (requires Google OAuth token)
 curl -X POST http://localhost:4200/tss/v1/keygen \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer <jwt-token>" \
-  -d '{"participants": 2, "threshold": 1}'
+  -H "Authorization: Bearer <google-oauth-token>" \
+  -d '{...}'
 ```
 
 ### Monitoring and Health Checks
