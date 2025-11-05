@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/ewallet-api-server-state",
-  "packageManager": "yarn@4.7.0",
   "main": "./src/index.ts",
   "type": "module",
   "dependencies": {

@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/ewallet-api-server",
-  "packageManager": "yarn@4.7.0",
   "type": "module",
   "scripts": {
     "create_env": "tsx src/bin/create_env.ts",

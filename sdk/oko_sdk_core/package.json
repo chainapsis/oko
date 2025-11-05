@@ -1,7 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-core",
   "version": "0.0.6-rc.112",
-  "packageManager": "yarn@4.7.0",
   "type": "module",
   "scripts": {
     "clean": "del-cli dist",

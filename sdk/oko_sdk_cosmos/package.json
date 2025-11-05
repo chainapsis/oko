@@ -1,7 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-cosmos",
   "version": "0.0.6-rc.134",
-  "packageManager": "yarn@4.7.0",
   "type": "module",
   "publishConfig": {
     "access": "public"

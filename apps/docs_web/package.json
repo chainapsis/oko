@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/docs_web",
-  "packageManager": "yarn@4.7.0",
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start --port 3205",

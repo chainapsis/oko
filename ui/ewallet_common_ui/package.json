@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/ewallet-common-ui",
-  "packageManager": "yarn@4.7.0",
   "type": "module",
   "exports": {
     "./anchored_menu": "./src/anchored_menu/anchored_menu.tsx",

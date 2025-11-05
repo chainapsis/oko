@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/ewallet-types",
-  "packageManager": "yarn@4.7.0",
   "type": "module",
   "exports": {
     "./admin": "./src/admin/index.ts",

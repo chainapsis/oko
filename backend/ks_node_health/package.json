@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/ks-node-health",
-  "packageManager": "yarn@4.7.0",
   "main": "./src/index.ts",
   "exports": {
     ".": "./src/index.ts"

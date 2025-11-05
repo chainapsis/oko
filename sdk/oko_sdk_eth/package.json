@@ -1,7 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-eth",
   "version": "0.0.6-rc.125",
-  "packageManager": "yarn@4.7.0",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",

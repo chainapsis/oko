@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/ewallet-pg-interface",
-  "packageManager": "yarn@4.7.0",
   "type": "module",
   "scripts": {
     "migrate": "tsx ./scripts/migrate/index.ts",

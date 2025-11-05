@@ -4,7 +4,6 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "version": "0.0.3-alpha.49",
-  "packageManager": "yarn@4.7.0",
   "publishConfig": {
     "access": "public"
   },
