@@ -40,6 +40,23 @@ Client-side web application running in an iframe that provides the user interfac
 - Node 22 + Yarn 4
 - Docker + Docker Compose (recommended for keyshare node in production)
 - PostgreSQL 17+ (separate DBs for keyshare node and oko_api; or separate DB names on the same server)
+- Build tools for native Node addons (make, gcc/g++, and Python 3 for node-gyp)
+  - Ubuntu/Debian:
+    ```bash
+    sudo apt update
+    sudo apt install -y build-essential python3
+    ```
+  - Rocky Linux / RHEL / Fedora:
+    ```bash
+    sudo dnf groupinstall -y "Development Tools"
+    sudo dnf install -y python3
+    ```
+  - Verify:
+    ```bash
+    make --version
+    gcc --version
+    python3 --version
+    ```
 
 ## Clone the Repository
 
