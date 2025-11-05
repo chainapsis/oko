@@ -124,6 +124,78 @@ Health check: `curl http://localhost:4201/status`
 
 ## oko_api (backend)
 
+Option A — Docker Compose (recommended)
+
+```
+cd oko/backend/docker
+cp env.example .env
+```
+
+1. **Edit `.env` file** with your configuration:
+
+```bash
+# Database Configuration
+DB_USER=postgres                    # PostgreSQL database username
+DB_PASSWORD=postgres                # PostgreSQL database password
+DB_NAME=ewallet_dev                 # PostgreSQL database name
+DB_PORT=5432                        # PostgreSQL database port
+DB_SSL=false                        # Enable/disable SSL connection (true/false)
+PG_DATA_DIR=./pg_data               # Host directory for PostgreSQL data persistence
+
+# Server Configuration
+SERVER_PORT=4200                    # Port number for the oko API server
+JWT_SECRET=jwtsecret               # Secret key for JWT token signing
+JWT_EXPIRES_IN=1H                   # JWT token expiration time
+
+# SMTP Configuration (for email verification)
+SMTP_HOST=smtp.gmail.com           # SMTP server hostname
+SMTP_PORT=587                      # SMTP server port (587 for TLS, 465 for SSL)
+SMTP_USER=no-reply@example.com     # SMTP authentication username
+SMTP_PASS=your-app-password        # SMTP authentication password
+FROM_EMAIL=no-reply@example.com     # Email address used as sender for verification emails
+EMAIL_VERIFICATION_EXPIRATION_MINUTES=3  # Email verification code expiration time in minutes
+
+# S3 Configuration (for customer data storage)
+S3_REGION=ap-northeast-2           # AWS S3 region
+S3_BUCKET=oko-wallet-customer      # AWS S3 bucket name
+S3_ACCESS_KEY_ID=ID                # AWS S3 access key ID
+S3_SECRET_ACCESS_KEY=SECRET_KEY     # AWS S3 secret access key
+
+# Encryption Configuration
+ENCRYPTION_SECRET=temp-enc-secret  # Secret key used to encrypt user shares (use a strong random value in production)
+
+# Elasticsearch Configuration (optional, for logging)
+ES_URL=                            # Elasticsearch URL (leave empty if not using)
+ES_INDEX=index                     # Elasticsearch index name (optional)
+ES_CLIENT_INDEX=client_index       # Elasticsearch client index name (optional)
+ES_USERNAME=username               # Elasticsearch username (optional)
+ES_PASSWORD=pw                     # Elasticsearch password (optional)
+```
+
+2. **Start the services**:
+
+```bash
+docker compose up -d
+```
+
+3. **Verify the services are running**:
+
+```bash
+docker compose ps
+curl http://localhost:4200/
+```
+
+The database will be automatically migrated on first startup. To seed the database with initial data, you can run from the host machine:
+
+```bash
+# From project root, connect to the Docker PostgreSQL container
+# Replace DB_* values with those from your backend/docker/.env file
+cd oko
+DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
+```
+
+Option B — Local (dev)
+
 1. **Create environment file**:
 
 ```bash
