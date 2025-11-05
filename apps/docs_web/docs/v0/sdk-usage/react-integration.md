@@ -17,8 +17,8 @@ Prefer a ready-to-run example? Try the **[Cosmos + EVM (React) starter template]
 ```typescript
 // contexts/OkoProvider.tsx
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { CosmosEWallet } from '@oko-wallet/oko-sdk-cosmos';
-import { EthEWallet } from '@oko-wallet/oko-sdk-eth';
+import { OkoCosmosWallet } from '@oko-wallet/oko-sdk-cosmos';
+import { OkoEthWallet } from '@oko-wallet/oko-sdk-eth';
 
 const OkoContext = createContext(null);
 
@@ -28,34 +28,34 @@ export const OkoProvider = ({ children }) => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   function signIn() {
-    const eWallet = cosmosWallet.eWallet || ethWallet.eWallet;
-    if (!eWallet) {
+    const okoWallet = cosmosWallet.okoWallet || ethWallet.okoWallet;
+    if (!okoWallet) {
       throw new Error('Core is not initialized');
     }
 
-    await eWallet.signIn('google');
+    await okoWallet.signIn('google');
   }
 
   function signOut() {
-    const eWallet = cosmosWallet.eWallet || ethWallet.eWallet;
-    if (!eWallet) {
+    const okoWallet = cosmosWallet.okoWallet || ethWallet.okoWallet;
+    if (!okoWallet) {
       throw new Error('Core is not initialized');
     }
 
-    await eWallet.signOut();
+    await okoWallet.signOut();
   }
 
   useEffect(() => {
     const initWallet = () => {
       try {
-        const cosmosInitRes = CosmosEWallet.init({
+        const cosmosInitRes = OkoCosmosWallet.init({
           api_key: process.env.REACT_APP_OKO_API_KEY,
         });
         if (!cosmosInitRes.success) {
           return;
         }
 
-        const ethInitRes = EthEWallet.init({
+        const ethInitRes = OkoEthWallet.init({
           api_key: process.env.REACT_APP_OKO_API_KEY,
         });
         if (!ethInitRes.success) {

@@ -19,12 +19,12 @@ your dApp with Oko.
 When a user first interacts with your dApp:
 
 ```typescript
-import { EthEWallet } from "@oko-wallet/oko-sdk-eth";
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
 import { createWalletClient, custom } from "viem";
 import { mainnet } from "viem/chains";
 
 // User clicks "Connect Wallet" in your dApp
-const initRes = EthEWallet.init({
+const initRes = OkoEthWallet.init({
   api_key: "your-api-key",
 });
 
@@ -252,7 +252,7 @@ console.log("Transaction confirmed with 3 blocks");
 Here's a full implementation showing the entire lifecycle:
 
 ```typescript
-import { EthEWallet } from "@oko-wallet/oko-sdk-eth";
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
 import {
   createWalletClient,
   createPublicClient,
@@ -268,8 +268,8 @@ class OkoWallet {
   private publicClient: any;
 
   async initialize(apiKey: string) {
-    // Step 1: Initialize EthEWallet
-    const initRes = EthEWallet.init({
+    // Step 1: Initialize OkoEthWallet
+    const initRes = OkoEthWallet.init({
       api_key: apiKey,
     });
 
@@ -353,10 +353,10 @@ console.log("Transaction result:", result);
 The process is similar for Cosmos transactions:
 
 ```typescript
-import { CosmosEWallet } from "@oko-wallet/oko-sdk-cosmos";
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
 
 // Step 1: Initialize Cosmos wallet
-const initRes = CosmosEWallet.init({
+const initRes = OkoCosmosWallet.init({
   api_key: "your-api-key",
 });
 
@@ -441,8 +441,8 @@ if (isAuthenticated) {
 }
 
 // Sign out (if needed)
-if (ethWallet.eWallet && ethWallet.eWallet.signOut) {
-  await ethWallet.eWallet.signOut();
+if (ethWallet && ethWallet.okoWallet) {
+  await ethWallet.okoWallet.signOut();
 }
 ```
 
@@ -461,9 +461,9 @@ if (accounts.length > 0) {
   console.log("User needs to connect");
 }
 
-// Get user info from eWallet
-if (ethWallet.eWallet) {
-  const userInfo = await ethWallet.eWallet.getUserInfo();
+// Get user info from OkoEthWallet
+if (ethWallet && ethWallet.okoWallet) {
+  const userInfo = await ethWallet.okoWallet.getUserInfo();
   console.log("User info:", userInfo);
 }
 ```

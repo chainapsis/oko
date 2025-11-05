@@ -52,10 +52,10 @@ const config = {
 Works seamlessly with CosmJS and other Cosmos libraries:
 
 ```typescript
-import { CosmosEWallet } from "@oko-wallet/oko-sdk-cosmos";
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
 
 // Initialize Cosmos wallet
-const initRes = CosmosEWallet.init(config);
+const initRes = OkoCosmosWallet.init(config);
 
 if (!initRes.success) {
   throw new Error(`Cosmos wallet initialization failed: ${initRes.err}`);
@@ -80,12 +80,12 @@ Drop-in replacement for `window.ethereum` - your existing dApp code stays the
 same:
 
 ```typescript
-import { EthEWallet } from "@oko-wallet/oko-sdk-eth";
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
 import { createWalletClient, custom } from "viem";
 import { mainnet } from "viem/chains";
 
 // Initialize Oko (replaces window.ethereum)
-const initRes = EthEWallet.init(config);
+const initRes = OkoEthWallet.init(config);
 if (!initRes.success) {
   throw new Error(`Eth wallet initialization failed: ${initRes.err}`);
 }
@@ -113,12 +113,12 @@ while giving users **one account** that works across **both ecosystems**. Same
 Google login, consistent experience.
 
 ```typescript
-import { CosmosEWallet } from "@oko-wallet/oko-sdk-cosmos";
-import { EthEWallet } from "@oko-wallet/oko-sdk-eth";
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
 
 // Support both Ethereum and Cosmos in one integration
-const cosmosInitRes = CosmosEWallet.init(config);
-const ethInitRes = EthEWallet.init(config);
+const cosmosInitRes = OkoCosmosWallet.init(config);
+const ethInitRes = OkoEthWallet.init(config);
 
 if (!cosmosInitRes.success) {
   throw new Error(`Cosmos wallet initialization failed: ${cosmosInitRes.err}`);

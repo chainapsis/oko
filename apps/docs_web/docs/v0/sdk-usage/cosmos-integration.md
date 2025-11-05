@@ -21,9 +21,9 @@ npm install @oko-wallet/oko-sdk-cosmos
 ## Basic Setup
 
 ```typescript
-import { CosmosEWallet } from "@oko-wallet/oko-sdk-cosmos";
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
 
-const initRes = CosmosEWallet.init({
+const initRes = OkoCosmosWallet.init({
   api_key: "your-api-key",
 });
 

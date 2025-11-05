@@ -22,12 +22,12 @@ npm install @oko-wallet/oko-sdk-eth
 ## Basic Setup
 
 ```typescript
-import { EthEWallet } from "@oko-wallet/oko-sdk-eth";
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
 import { createWalletClient, custom } from "viem";
 import { mainnet } from "viem/chains";
 
 // Initialize eth wallet
-const initRes = EthEWallet.init({
+const initRes = OkoEthWallet.init({
   api_key: "your-api-key",
 });
 

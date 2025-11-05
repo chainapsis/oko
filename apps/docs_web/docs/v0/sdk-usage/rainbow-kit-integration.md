@@ -42,27 +42,27 @@ import {
 import { createConfig, CreateConnectorFn, createConnector } from "wagmi";
 import { getAddress, toHex } from "viem";
 import {
-  EWalletEIP1193Provider,
-  type EthEWalletInitArgs,
-  type EthEWalletInterface,
+  OkoEIP1193Provider,
+  OkoEthWalletInterface,
+  type OkoEthWalletInitArgs,
 } from "@oko-wallet/oko-sdk-eth";
 
 const okoIcon = "data:image/svg+xml;base64,..."; // Oko icon here
 
 function okoConnector(
   walletDetails: WalletDetailsParams,
-  args: EthEWalletInitArgs,
+  args: OkoEthWalletInitArgs,
 ): CreateConnectorFn {
-  let ethEWallet: EthEWalletInterface | null = null;
+  let okoEth: OkoEthWalletInterface | null = null;
   let cachedProvider: EWalletEIP1193Provider | null = null;
 
-  async function initEthEWalletOnce(): Promise<EthEWalletInterface> {
-    if (ethEWallet) {
-      return ethEWallet;
+  async function initOkoEthOnce(): Promise<OkoEthWalletInterface> {
+    if (okoEth) {
+      return okoEth;
     }
 
-    const { EthEWallet } = await import("@oko-wallet/oko-sdk-eth");
-    const initRes = EthEWallet.init(args);
+    const { OkoEthWallet } = await import("@oko-wallet/oko-sdk-eth");
+    const initRes = OkoEthWallet.init(args);
 
     if (!initRes.success) {
       throw new Error(`init fail: ${initRes.err}`);
@@ -70,12 +70,12 @@ function okoConnector(
 
     await initRes.data.waitUntilInitialized;
 
-    ethEWallet = initRes.data;
+    okoEth = initRes.data;
 
-    return ethEWallet;
+    return okoEth;
   }
 
-  return createConnector<EWalletEIP1193Provider>((config) => {
+  return createConnector<OkoEIP1193Provider>((config) => {
     const wallet = {
       id: "oko",
       name: "Oko",
@@ -83,15 +83,15 @@ function okoConnector(
       icon: keplrIcon,
       setup: async () => {
         if (typeof window !== "undefined") {
-          await initEthEWalletOnce();
+          await initOkoEthOnce();
         }
       },
       connect: async (parameters?: {
         chainId?: number | undefined;
         isReconnecting?: boolean | undefined;
       }) => {
-        if (!ethEWallet) {
-          await initEthEWalletOnce();
+        if (!okoEth) {
+          await initOkoEthOnce();
 
           throw new Error("oko sdk is just initialized");
         }
@@ -105,7 +105,7 @@ function okoConnector(
               chainId: await wallet.getChainId(),
             };
           }
-          await ethEWallet.eWallet.signIn("google");
+          await okoEth.okoWallet.signIn("google");
         }
 
         const chainId = await wallet.getChainId();
@@ -120,8 +120,8 @@ function okoConnector(
         const provider = await wallet.getProvider();
         provider.removeListener("accountsChanged", wallet.onAccountsChanged);
         provider.removeListener("chainChanged", wallet.onChainChanged);
-        if (ethEWallet) {
-          await ethEWallet.eWallet.signOut();
+        if (okoEth) {
+          await okoEth.okoWallet.signOut();
         }
       },
       getAccounts: async () => {
@@ -143,9 +143,9 @@ function okoConnector(
           return cachedProvider;
         }
 
-        const ethEWallet = await initEthEWalletOnce();
+        const okoEth = await initOkoEthOnce();
 
-        cachedProvider = await ethEWallet.getEthereumProvider();
+        cachedProvider = await okoEth.getEthereumProvider();
 
         cachedProvider.on("chainChanged", (chainId) => {
           wallet.onChainChanged(chainId);
@@ -202,7 +202,7 @@ function okoConnector(
 ### Create Wallet Configuration Function
 
 ```typescript
-function toOko(args: EthEWalletInitArgs): () => Wallet {
+function toOko(args: OkoEthWalletInitArgs): () => Wallet {
   return () => ({
     id: "oko",
     name: "Oko",

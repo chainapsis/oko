@@ -32,9 +32,9 @@ npm install @oko-wallet/oko-sdk-core
 ### Cosmos
 
 ```typescript
-import { CosmosEWallet } from "@oko-wallet/oko-sdk-cosmos";
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
 
-const initRes = CosmosEWallet.init(config);
+const initRes = OkoCosmosWallet.init(config);
 if (!initRes.success) {
   throw new Error(`Cosmos wallet initialization failed: ${initRes.err}`);
 }
@@ -45,9 +45,9 @@ const cosmosWallet = initRes.data;
 ### Ethereum
 
 ```typescript
-import { EthEWallet } from "@oko-wallet/oko-sdk-eth";
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
 
-const initRes = EthEWallet.init(config);
+const initRes = OkoEthWallet.init(config);
 if (!initRes.success) {
   throw new Error(`Eth wallet initialization failed: ${initRes.err}`);
 }

@@ -71,7 +71,7 @@ export const useSDKState = create(
           isEthLazyInitialized: true,
         });
 
-        return initRes.data;
+        return okoEth;
       } else {
         console.error("sdk init fail, err: %s", initRes.err);
         set({ isEthInitializing: false });
@@ -102,20 +102,21 @@ export const useSDKState = create(
 
       if (initRes.success) {
         console.log("Cosmos SDK initialized");
-        const cosmosSDK = initRes.data;
-        setupCosmosListener(cosmosSDK);
+
+        const okoCosmos = initRes.data;
+        setupCosmosListener(okoCosmos);
 
         set({
-          oko_cosmos: cosmosSDK,
+          oko_cosmos: okoCosmos,
           isCosmosInitializing: false,
         });
 
-        await cosmosSDK.waitUntilInitialized;
+        await okoCosmos.waitUntilInitialized;
         set({
           isCosmosLazyInitialized: true,
         });
 
-        return initRes.data;
+        return okoCosmos;
       } else {
         console.error("Cosmos sdk init fail, err: %s", initRes.err);
 
