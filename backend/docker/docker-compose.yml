@@ -14,7 +14,7 @@ services:
       - ${PG_DATA_DIR}:/var/lib/postgresql/data
       - ../oko_pg_interface/scripts/migrate/migrate.sql:/docker-entrypoint-initdb.d/migrate.sql
 
-  ewallet_api_server:
+  oko_api_server:
     build:
       context: ../../
       dockerfile: backend/docker/oko_api_server.Dockerfile
