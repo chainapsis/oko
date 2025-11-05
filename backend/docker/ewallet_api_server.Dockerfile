@@ -22,8 +22,8 @@ ENV PATH="${CARGO_HOME}/bin:${PATH}"
 RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 
 # Create working directory and copy source code
-RUN mkdir -p /home/node/ewallet && chown -R node:node /home/node/ewallet
-WORKDIR /home/node/ewallet
+RUN mkdir -p /home/node/oko && chown -R node:node /home/node/oko
+WORKDIR /home/node/oko
 COPY --chown=node:node ../../.. .
  
 RUN yarn set version 4.7.0
@@ -32,10 +32,10 @@ RUN yarn set version 4.7.0
 RUN yarn workspaces focus addon
 
 # Build Rust napi addon
-WORKDIR /home/node/ewallet/lib/tecdsa/cait_sith_keplr_addon/addon
+WORKDIR /home/node/oko/lib/tecdsa/cait_sith_keplr_addon/addon
 RUN yarn run build
 
-WORKDIR /home/node/ewallet
+WORKDIR /home/node/oko
 
 # Install dependencies for ewallet_api_server
 RUN yarn workspaces focus --production \
@@ -47,10 +47,10 @@ RUN yarn workspaces focus --production \
 FROM node:22.0.0-alpine AS runtime
 
 USER node
-WORKDIR /home/node/ewallet
+WORKDIR /home/node/oko
 
 # Copy source code from builder
-COPY --from=builder --chown=node:node /home/node/ewallet /home/node/ewallet
+COPY --from=builder --chown=node:node /home/node/oko /home/node/oko
 
-WORKDIR /home/node/ewallet/backend/ewallet_api/server
+WORKDIR /home/node/oko/backend/ewallet_api/server
 CMD ["yarn", "start"]
