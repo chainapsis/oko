@@ -8,6 +8,8 @@ import { paths } from "../../paths";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
+const WORKER_COUNT = 4;
+
 export async function typeCheck(..._args: any[]) {
   const pkgPaths = [
     paths.sdk_core,
@@ -28,21 +30,17 @@ export async function typeCheck(..._args: any[]) {
 
   console.log("Type checking, total (%s)", pkgPaths.length);
 
-  const targets1 = pkgPaths.slice(0, pkgPaths.length / 2);
-  const w1 = spawnWorker("worker1", targets1);
+  const chunckedPaths = chunkArr(pkgPaths, WORKER_COUNT);
 
-  const targets2 = pkgPaths.slice(pkgPaths.length / 2);
-  const w2 = spawnWorker("worker2", targets2);
-
-  if (targets1.length + targets2.length !== pkgPaths.length) {
-    console.log("Not all packages are selected to type-check");
-    process.exit(1);
+  let workers = [];
+  for (let i = 0; i < chunckedPaths.length; i += 1) {
+    const worker = spawnWorker(`worker-${i}`, chunckedPaths[i]);
+    workers.push(worker);
   }
 
   try {
     const since = Date.now();
-    await Promise.all([w1]);
-    await Promise.all([w2]);
+    await Promise.all(workers);
     const now = Date.now();
 
     console.log("Took %sms", now - since);
@@ -91,4 +89,22 @@ export async function spawnWorker(workerName: string, pkgPaths: string[]) {
   });
 
   return p1;
+}
+
+// https://stackoverflow.com/questions/66067249/how-to-split-an-array-into-equal-chunks
+function chunkArr(arr: any[], maxSize: number) {
+  let numChunks = (arr.length - 1) / maxSize + 1;
+  let minChunkSize = arr.length / numChunks;
+  let numSmallChunks = numChunks * (minChunkSize + 1) - arr.length;
+
+  arr = [...arr]; // avoid muckking the input
+  let arrays = [];
+  for (let i = 0; i < numChunks; i++)
+    if (i < numSmallChunks) {
+      arrays.push(arr.splice(0, minChunkSize));
+    } else {
+      arrays.push(arr.splice(0, minChunkSize + 1));
+    }
+
+  return arrays;
 }
