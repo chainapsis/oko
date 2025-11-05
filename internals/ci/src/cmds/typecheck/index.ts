@@ -91,7 +91,6 @@ export async function spawnWorker(workerName: string, pkgPaths: string[]) {
   return p1;
 }
 
-// https://stackoverflow.com/questions/66067249/how-to-split-an-array-into-equal-chunks
 function chunkArr(arr: any[], maxSize: number) {
   let numChunks = (arr.length - 1) / maxSize + 1;
   let minChunkSize = arr.length / numChunks;
