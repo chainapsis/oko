@@ -143,7 +143,7 @@ Examples of signing transactions:
 
 ### Google OAuth Flow
 
-From `packages/ewallet_api/tss_api/src/routes/user.ts`:
+From `backend/tss_api/src/routes/user.ts`:
 
 **Sign-in endpoint:**
 
@@ -169,7 +169,7 @@ Based on middleware implementation:
 Authorization: Bearer <jwt_token>
 ```
 
-Token configuration from `packages/ewallet_api/server/src/config/env.ts`:
+Token configuration from `backend/oko_api/server/src/envs.ts`:
 
 - Default expiration: "1H"
 - Configurable via `JWT_EXPIRES_IN` environment variable
@@ -178,7 +178,7 @@ Token configuration from `packages/ewallet_api/server/src/config/env.ts`:
 
 ### Base Path: `/tss/v1`
 
-From `packages/ewallet_api/tss_api/src/routes/`:
+From `backend/tss_api/src/routes/`:
 
 #### Key Generation
 
@@ -228,7 +228,7 @@ Output: Standard ECDSA signature (r, s) format
 
 ### Base Path: `/ewallet_admin/v1`
 
-From `packages/ewallet_api/admin_api/src/routes/`:
+From `backend/admin_api/src/routes/`:
 
 #### Customer Management
 

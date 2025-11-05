@@ -17,7 +17,7 @@ services:
   ewallet_api_server:
     build:
       context: ../../
-      dockerfile: backend/docker/ewallet_api_server.Dockerfile
+      dockerfile: backend/docker/oko_api_server.Dockerfile
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
     platform: linux/amd64

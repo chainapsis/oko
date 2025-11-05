@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/ewallet-api-server",
+  "name": "@oko-wallet/oko-api-server",
   "type": "module",
   "scripts": {
     "create_env": "tsx src/bin/create_env.ts",

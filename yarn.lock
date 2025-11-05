@@ -10340,9 +10340,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/ewallet-api-error-codes@workspace:*, @oko-wallet/ewallet-api-error-codes@workspace:backend/ewallet_api/error_codes":
+"@oko-wallet/ewallet-api-error-codes@workspace:*, @oko-wallet/ewallet-api-error-codes@workspace:backend/oko_api/error_codes":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-api-error-codes@workspace:backend/ewallet_api/error_codes"
+  resolution: "@oko-wallet/ewallet-api-error-codes@workspace:backend/oko_api/error_codes"
   dependencies:
     "@oko-wallet/ewallet-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
@@ -10394,54 +10394,6 @@ __metadata:
     uuid: "npm:*"
     winston: "npm:*"
     winston-elasticsearch: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-api-server@workspace:backend/ewallet_api/server":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-api-server@workspace:backend/ewallet_api/server"
-  dependencies:
-    "@oko-wallet/admin-api": "workspace:*"
-    "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/ct-dashboard-api": "workspace:*"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ewallet-api-openapi": "workspace:*"
-    "@oko-wallet/ewallet-api-server-state": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
-    "@oko-wallet/ks-node-health": "workspace:*"
-    "@oko-wallet/log-api": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@oko-wallet/tss-api": "workspace:*"
-    "@types/cors": "npm:*"
-    "@types/express": "npm:*"
-    "@types/jest": "npm:*"
-    "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
-    "@types/node": "npm:*"
-    "@types/nodemailer": "npm:*"
-    "@types/supertest": "npm:*"
-    "@types/swagger-jsdoc": "npm:*"
-    "@types/swagger-ui-express": "npm:*"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
-    chalk: "npm:*"
-    cors: "npm:*"
-    dotenv: "npm:*"
-    express: "npm:*"
-    helmet: "npm:*"
-    jest: "npm:*"
-    jsonwebtoken: "npm:*"
-    morgan: "npm:*"
-    nodemailer: "npm:^7.0.4"
-    pg: "npm:*"
-    supertest: "npm:*"
-    swagger-ui-express: "npm:*"
-    ts-jest: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
-    uuid: "npm:*"
-    zod: "npm:*"
   languageName: unknown
   linkType: soft
 
@@ -10739,6 +10691,54 @@ __metadata:
     uuid: "npm:*"
     winston: "npm:*"
     winston-elasticsearch: "npm:*"
+    zod: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/oko-api-server@workspace:backend/oko_api/server":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-api-server@workspace:backend/oko_api/server"
+  dependencies:
+    "@oko-wallet/admin-api": "workspace:*"
+    "@oko-wallet/crypto-js": "workspace:*"
+    "@oko-wallet/ct-dashboard-api": "workspace:*"
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
+    "@oko-wallet/ewallet-api-openapi": "workspace:*"
+    "@oko-wallet/ewallet-api-server-state": "workspace:*"
+    "@oko-wallet/ewallet-pg-interface": "workspace:*"
+    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/ks-node-health": "workspace:*"
+    "@oko-wallet/log-api": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/tss-api": "workspace:*"
+    "@types/cors": "npm:*"
+    "@types/express": "npm:*"
+    "@types/jest": "npm:*"
+    "@types/jsonwebtoken": "npm:*"
+    "@types/morgan": "npm:*"
+    "@types/node": "npm:*"
+    "@types/nodemailer": "npm:*"
+    "@types/supertest": "npm:*"
+    "@types/swagger-jsdoc": "npm:*"
+    "@types/swagger-ui-express": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:*"
+    "@typescript-eslint/parser": "npm:*"
+    chalk: "npm:*"
+    cors: "npm:*"
+    dotenv: "npm:*"
+    express: "npm:*"
+    helmet: "npm:*"
+    jest: "npm:*"
+    jsonwebtoken: "npm:*"
+    morgan: "npm:*"
+    nodemailer: "npm:^7.0.4"
+    pg: "npm:*"
+    supertest: "npm:*"
+    swagger-ui-express: "npm:*"
+    ts-jest: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    uuid: "npm:*"
     zod: "npm:*"
   languageName: unknown
   linkType: soft

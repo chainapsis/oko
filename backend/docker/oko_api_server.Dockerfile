@@ -37,9 +37,9 @@ RUN yarn run build
 
 WORKDIR /home/node/oko
 
-# Install dependencies for ewallet_api_server
+# Install dependencies for oko_api_server
 RUN yarn workspaces focus --production \
-      @oko-wallet/ewallet-api-server
+      @oko-wallet/oko-api-server
 
 # ───────────────
 # Runtime stage
@@ -52,5 +52,5 @@ WORKDIR /home/node/oko
 # Copy source code from builder
 COPY --from=builder --chown=node:node /home/node/oko /home/node/oko
 
-WORKDIR /home/node/oko/backend/ewallet_api/server
+WORKDIR /home/node/oko/backend/oko_api/server
 CMD ["yarn", "start"]

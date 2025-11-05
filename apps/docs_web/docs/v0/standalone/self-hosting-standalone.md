@@ -12,7 +12,7 @@ This guide explains how to self-host Oko in a standalone setup. It covers how to
 
 Stores encrypted SSS shares of the user's first TSS share. Multiple nodes (2-3 recommended) each store one SSS share, ensuring no single node can reconstruct the user's share. Provides these shares to users during login for reconstruction.
 
-### oko_api (`oko/backend/ewallet_api/server`)
+### oko_api (`oko/backend/oko_api/server`)
 
 The main API server that orchestrates the system. Stores the user's second TSS share encrypted in its database. Performs distributed TSS transaction signing with the client (which holds the first TSS share) without ever reconstructing the full private key. Manages customer organizations, wallets, user accounts, Google OAuth authentication, JWT token issuance, and provides REST APIs for dashboards and admin functions.
 
@@ -204,10 +204,10 @@ Option B — Local (dev)
 
 ```bash
 cd oko
-yarn workspace @oko-wallet/ewallet-api-server create_env
+yarn workspace @oko-wallet/oko-api-server create_env
 ```
 
-2. **Edit `~/.oko/ewallet_api_server.env` file** with your configuration:
+2. **Edit `~/.oko/oko_api_server.env` file** with your configuration:
 
 ```bash
 # Server Configuration
@@ -263,10 +263,10 @@ See [Database Seeding](#database-seeding) below for seeding instructions.
 
 ```bash
 # Development mode
-yarn workspace @oko-wallet/ewallet-api-server dev
+yarn workspace @oko-wallet/oko-api-server dev
 
 # Production mode
-# yarn workspace @oko-wallet/ewallet-api-server start
+# yarn workspace @oko-wallet/oko-api-server start
 ```
 
 5. **Verify the server is running**:
@@ -307,7 +307,7 @@ DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewa
 
 ```bash
 cd oko
-# Uses environment variables from ~/.oko/ewallet_api_server.env
+# Uses environment variables from ~/.oko/oko_api_server.env
 USE_ENV=true TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
 ```
 
@@ -412,7 +412,7 @@ Use `yarn ci` at each workspace root to speed up repetitive local tasks. Argumen
 ### oko-internal root (backend/apps/oko_attached)
 
 - DB migration: `cd oko-internal && yarn ci db_migrate --use-env`
-  - With `--use-env`, uses `~/.oko/ewallet_api_server.env`
+  - With `--use-env`, uses `~/.oko/oko_api_server.env`
   - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates with test config
 - DB seed: `cd oko-internal && yarn ci db_seed --use-env --target dev`
   - `--target` supports `dev | prod` (use `dev` for local)

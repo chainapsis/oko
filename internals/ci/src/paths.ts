@@ -79,7 +79,7 @@ export const paths = (function () {
 
   const ewallet_api_server = path.join(
     __dirname,
-    "../../../backend/ewallet_api/server",
+    "../../../backend/oko_api/server",
   );
 
   const tss_api = path.join(__dirname, "../../../backend/tss_api");
