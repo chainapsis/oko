@@ -104,7 +104,7 @@ curl http://localhost:4201/status
 
 Option B — Local (dev, multi-node)
 
-```
+```bash
 cd oko
 # Generate env files for nodes 1/2/3 under ~/.oko and a temp encryption secret file
 yarn workspace @oko-wallet/key-share-node-server create_env
