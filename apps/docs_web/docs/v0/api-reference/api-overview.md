@@ -280,7 +280,7 @@ From admin API routes, additional endpoints for:
 
 ### Base Path: `/keyshare/v1` and `/commit/v1`
 
-From `packages/credential_vault/server/src/routes/`:
+From `key_share_node/server/src/routes/`:
 
 #### Key Share Operations
 
@@ -353,7 +353,7 @@ Common HTTP status codes:
 
 ### Required Environment Variables
 
-From `packages/ewallet_api/server/src/config/env.ts`:
+From `backend/oko_api/server/src/envs.ts`:
 
 **JWT Configuration:**
 
@@ -425,7 +425,7 @@ API services provide standard monitoring endpoints:
 
 ### Core SDK Usage
 
-From `packages/ewallet_sdk_core/src/init.ts`:
+From `sdk/oko_sdk_core/src/static/init.ts`:
 
 ```typescript
 import { KeplrEWallet } from "@oko-wallet/sdk-core";

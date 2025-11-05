@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ENV_FILE_NAME = "ewallet_api_server.env";
+export const ENV_FILE_NAME = "oko_api_server.env";
 
 export const envSchema = z.object({
   DB_HOST: z.string(),
