@@ -186,14 +186,7 @@ docker compose ps
 curl http://localhost:4200/
 ```
 
-The database will be automatically migrated on first startup. To seed the database with initial data, you can run from the host machine:
-
-```bash
-# From project root, connect to the Docker PostgreSQL container
-# Replace DB_* values with those from your backend/docker/.env file
-cd oko
-DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
-```
+The database will be automatically migrated on first startup. See [Database Seeding](#database-seeding) below for seeding instructions.
 
 Option B — Local (dev)
 
@@ -247,15 +240,14 @@ ES_USERNAME=username               # Elasticsearch username (optional)
 ES_PASSWORD=pw                     # Elasticsearch password (optional)
 ```
 
-3. **Migrate and seed database**:
+3. **Migrate database**:
 
 ```bash
 # Migrate database schema
 USE_ENV=true yarn workspace @oko-wallet/ewallet-pg-interface migrate
-
-# Seed database with initial data (use "dev" for local development)
-USE_ENV=true TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
 ```
+
+See [Database Seeding](#database-seeding) below for seeding instructions.
 
 4. **Run server**:
 
@@ -275,6 +267,38 @@ curl http://localhost:4200/
 
 # API documentation
 # Open in browser: http://localhost:4200/api_docs
+```
+
+### Database Seeding
+
+After the database migration is complete, you can seed the database with initial development/test data.
+
+Seeding populates the database with:
+
+- **Admin user**: Admin account for oko_admin_web (`admin@keplr.app` / password: `0000`)
+- **Customer**: Demo customer record (`demo_web`)
+- **Customer dashboard user**: User for customer_dashboard (`demo@keplr.app` / password: `00000000`)
+- **API keys**: API keys for customer authentication
+- **Key share nodes**: Key share node server URLs (dev: `http://localhost:4201`, `http://localhost:4202`)
+- **Key share node metadata**: SSS threshold configuration (default: 2)
+- **TSS activation settings**: Master switch for TSS operations
+
+To seed the database with initial data, run the following command from the project root:
+
+**For Option A (Docker Compose):**
+
+```bash
+cd oko
+# Replace DB_* values with those from your backend/docker/.env file
+DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
+```
+
+**For Option B (Local):**
+
+```bash
+cd oko
+# Uses environment variables from ~/.oko/ewallet_api_server.env
+USE_ENV=true TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
 ```
 
 ## oko_attached (embedded app)
