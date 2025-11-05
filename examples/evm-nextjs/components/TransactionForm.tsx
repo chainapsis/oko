@@ -41,7 +41,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function TransactionForm({ className }: TransactionFormProps) {
-  const { address, provider } = useOkoEvm();
+  const { address, okoEth } = useOkoEvm();
   const publicClient = usePublicClient();
   const queryClient = useQueryClient();
 
@@ -68,15 +68,17 @@ export default function TransactionForm({ className }: TransactionFormProps) {
   }, [txHash]);
 
   async function handleSendTransaction(values: FormValues) {
-    if (!address || isTxSending || !provider) {
+    if (!address || isTxSending || !okoEth) {
       return;
     }
+    const { recipientAddress, amount } = values;
+
+    setIsTxSending(true);
 
     let txHashForTracking: Hex | null = null;
 
-    setIsTxSending(true);
     try {
-      const { recipientAddress, amount } = values;
+      const provider = await okoEth.getEthereumProvider();
 
       // make sure we are on the correct chain
       await provider.request({
@@ -84,7 +86,14 @@ export default function TransactionForm({ className }: TransactionFormProps) {
         params: [{ chainId: "0xaa36a7" }],
       });
 
-      // send transaction
+      const current = await provider.request({
+        method: "eth_chainId",
+      });
+
+      if (current !== "0xaa36a7") {
+        throw new Error("Not on the correct chain");
+      }
+
       txHashForTracking = await provider.request({
         method: "eth_sendTransaction",
         params: [
@@ -96,6 +105,7 @@ export default function TransactionForm({ className }: TransactionFormProps) {
       });
 
       setTxHash(txHashForTracking);
+      setTxStatus("pending");
     } catch (error) {
       console.error(error);
     } finally {

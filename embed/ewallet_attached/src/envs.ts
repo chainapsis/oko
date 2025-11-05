@@ -1,0 +1,16 @@
+import { z } from "zod";
+
+export const ENV_FILE_NAME = "ewallet_attached.env";
+export const EXAMPLE_ENV_FILE = "ewallet_attached.env.example";
+
+export const envSchema = z.object({
+  SERVER_PORT: z.string(),
+
+  VITE_EWALLET_API_ENDPOINT: z.string(),
+  VITE_CREDENTIAL_VAULT_API_ENDPOINT: z.string(),
+  VITE_CREDENTIAL_VAULT_API_ENDPOINT_2: z.string(),
+  VITE_DEMO_WEB_ORIGIN: z.string(),
+  VITE_KEPLR_API_ENDPOINT: z.string(),
+  VITE_TX_INTERPRETER_API_ENDPOINT: z.string(),
+  VITE_AMPLITUDE_API_KEY: z.string(),
+});

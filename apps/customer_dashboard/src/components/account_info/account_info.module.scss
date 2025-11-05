@@ -1,0 +1,45 @@
+.wrapper {
+  display: flex;
+  padding-top: 8px;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.customerInfo {
+  display: flex;
+  align-items: center;
+}
+
+.fallbackImageText {
+  width: 40px;
+  height: 40px;
+  padding: 8px 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 999px;
+  border: 1px solid var(--gray-200);
+  background: var(--bg-tertiary);
+
+  text-align: center;
+}
+
+.customerUrl {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+
+  &:hover {
+    border-radius: 8px;
+    background: var(--bg-secondary-hover);
+  }
+}
+
+.externalLinkIcon {
+  width: 16px;
+  height: 16px;
+}

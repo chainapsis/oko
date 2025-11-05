@@ -1,6 +1,5 @@
 {
   "name": "@oko-wallet/ksn-pg-interface",
-  "packageManager": "yarn@4.7.0",
   "type": "module",
   "main": "./src/index.ts",
   "scripts": {

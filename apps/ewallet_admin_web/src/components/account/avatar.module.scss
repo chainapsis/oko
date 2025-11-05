@@ -1,0 +1,21 @@
+.wrapper {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  padding: 8px 0px 10px 0px;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 1/1;
+  border-radius: 9999px;
+  border: 1px solid var(--border-secondary);
+  background: var(--bg-tertiary);
+}
+
+.altText {
+  color: var(--text-quaternary);
+  text-align: center;
+  font-size: 15px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: 22px;
+}

@@ -1,0 +1,29 @@
+.wrapper {
+  position: fixed;
+  top: 36px;
+  right: 40px;
+  z-index: 9999;
+  color: var(--text-primary);
+  padding: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  gap: 10px;
+}
+
+.success {
+  background: var(--bg-success-primary);
+}
+
+.error {
+  background: var(--bg-error-primary);
+}
+
+.close {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: 20px;
+  cursor: pointer;
+}

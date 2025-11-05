@@ -1,0 +1,54 @@
+@use "../../../styles/viewport.module.scss" as *;
+
+.email {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.loginInfoContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+
+  .loginInfoRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+    align-self: stretch;
+  }
+
+  .publicKeyCol {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+
+    gap: 8px;
+
+    .label {
+      flex-shrink: 0;
+    }
+    .publicKey {
+      word-break: break-all;
+    }
+  }
+
+  .signOutRow {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+
+    .signOutButton {
+      display: flex;
+      gap: 4px;
+
+      cursor: pointer;
+
+      background: none;
+      border: none;
+      margin-left: auto;
+    }
+  }
+}

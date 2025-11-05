@@ -1,0 +1,43 @@
+import type { ChainInfo } from "@keplr-wallet/types";
+import { queryOptions } from "@tanstack/react-query";
+
+import { queryClient } from "@oko-wallet-attached/config/react_query";
+
+const CHAIN_INFO_ENDPOINT = "https://keplr-api.keplr.app/v1/chains";
+
+interface ChainInfoResponse {
+  chains: ChainInfo[];
+}
+
+export const allChainsQuery = queryOptions<ChainInfo[]>({
+  queryKey: ["keplr", "chains", "all"],
+  queryFn: async () => {
+    const response = await fetch(CHAIN_INFO_ENDPOINT);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch chain info: ${response.status}`);
+    }
+    const json = (await response.json()) as ChainInfoResponse | null;
+    if (!json) {
+      throw new Error("Empty chain info response");
+    }
+    return json.chains ?? [];
+  },
+  // Cache and reuse for 1 hour
+  staleTime: 1000 * 60 * 60,
+  gcTime: 1000 * 60 * 60,
+  retry: 3,
+  refetchOnWindowFocus: false,
+});
+
+export async function getAllChainsCached(): Promise<ChainInfo[]> {
+  return queryClient.ensureQueryData(allChainsQuery);
+}
+
+// CHECK: filter logic is correct?
+export function filterCosmosChains(chains: ChainInfo[]): ChainInfo[] {
+  return chains.filter((c) => !c.chainId.startsWith("eip155:"));
+}
+
+export function filterEthChains(chains: ChainInfo[]): ChainInfo[] {
+  return chains.filter((c) => c.chainId.startsWith("eip155:"));
+}

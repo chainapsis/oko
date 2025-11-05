@@ -1,0 +1,48 @@
+{
+  "name": "@oko-wallet/log-api",
+  "main": "./src/index.ts",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "dependencies": {
+    "@oko-wallet/bytes": "0.0.3-alpha.49",
+    "@oko-wallet/ewallet-api-error-codes": "workspace:*",
+    "@oko-wallet/ewallet-api-server-state": "workspace:*",
+    "@oko-wallet/ewallet-pg-interface": "workspace:*",
+    "@oko-wallet/ewallet-types": "workspace:*",
+    "@oko-wallet/postgres-lib": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "cors": "*",
+    "dayjs": "*",
+    "dotenv": "*",
+    "express": "*",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "*",
+    "jsonwebtoken": "*",
+    "morgan": "*",
+    "pg": "*",
+    "swagger-ui-express": "*",
+    "uuid": "*",
+    "winston": "*",
+    "winston-elasticsearch": "*",
+    "zod": "*"
+  },
+  "devDependencies": {
+    "@types/cors": "*",
+    "@types/express": "*",
+    "@types/express-rate-limit": "^6.0.2",
+    "@types/jest": "*",
+    "@types/jsonwebtoken": "*",
+    "@types/morgan": "*",
+    "@types/node": "*",
+    "@types/supertest": "*",
+    "@types/swagger-jsdoc": "*",
+    "@types/swagger-ui-express": "*",
+    "jest": "*",
+    "supertest": "*",
+    "ts-jest": "*",
+    "typescript": "*"
+  }
+}

@@ -1,0 +1,49 @@
+[package]
+name = "cait_sith_keplr_wasm"
+description = "TBDx"
+version = "0.0.1"
+categories = ["wasm"]
+readme = "README.md"
+edition = "2018"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+# This makes the compiled code faster and smaller, but it makes compiling slower,
+# so it's only enabled in release mode.
+lto = true
+strip = true
+
+[features]
+# If you uncomment this line, it will enable `wee_alloc`:
+#default = ["wee_alloc"]
+
+[dependencies]
+cait_sith_keplr = { workspace = true, features = ["k256"] }
+wasm-bindgen = "0.2.100"
+k256 = { version = "0.13.4", features = ["sha256", "ecdsa", "serde"] }
+ecdsa = { version = "0.16.8", features = ["digest", "hazmat"] }
+serde = { version = "1.0.175", features = ["derive"] }
+serde_json = "1.0"
+gloo-utils = "0.2.0"
+
+# The `web-sys` crate allows you to interact with the various browser APIs,
+# like the DOM.
+[dependencies.web-sys]
+version = "0.3.22"
+features = ["console"]
+
+# The `console_error_panic_hook` crate provides better debugging of panics by
+# logging them with `console.error`. This is great for development, but requires
+# all the `std::fmt` and `std::panicking` infrastructure, so it's only enabled
+# in debug mode.
+[target."cfg(debug_assertions)".dependencies]
+console_error_panic_hook = "0.1.5"
+
+# These crates are used for running unit tests.
+[dev-dependencies]
+wasm-bindgen-test = "0.2.45"
+futures = "0.1.27"
+js-sys = "0.3.22"
+wasm-bindgen-futures = "0.3.22"

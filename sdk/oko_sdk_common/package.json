@@ -16,7 +16,6 @@
   "files": [
     "dist"
   ],
-  "packageManager": "yarn@4.7.0",
   "scripts": {
     "clean": "del-cli dist",
     "build": "yarn clean && tsc && tsc-alias"

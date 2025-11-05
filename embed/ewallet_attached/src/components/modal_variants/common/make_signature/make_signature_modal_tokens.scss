@@ -1,0 +1,9 @@
+//NOTE: These values are currently variables created by manually calculating the part of MakeSignatureModal
+// that excludes the modalInnerContentContainer area
+// If the design and style of the MakeSignatureModal changes, you will need to modify these values manually.
+$make-signature-modal-footer-height: 132px;
+$make-signature-modal-header-height: 36px;
+$make-signature-modal-padding-y: 40px;
+$make-signature-modal-max-height: 70dvh;
+$make-signature-modal-metadata-content-height: 128px;
+$make-signature-modal-tx-fee-summary-area-height: 28px;

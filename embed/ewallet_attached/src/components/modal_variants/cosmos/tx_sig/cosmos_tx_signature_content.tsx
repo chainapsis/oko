@@ -1,0 +1,35 @@
+import type { FC } from "react";
+import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
+import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
+import type { StdSignDoc } from "@keplr-wallet/types";
+
+import { MetadataContent } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/metadata_content";
+import { CosmosTxSummary } from "./cosmos_tx_summary";
+
+interface CosmosTxSignatureContentProps {
+  payload: CosmosTxSignPayload;
+  signDocJson: StdSignDoc;
+  modalId: string;
+}
+
+export const CosmosTxSignatureContent: FC<CosmosTxSignatureContentProps> = ({
+  payload,
+  signDocJson,
+  modalId,
+}) => {
+  return (
+    <div>
+      <MetadataContent
+        origin={payload.origin}
+        chainInfo={payload.chain_info}
+        signer={payload.signer}
+      />
+      <Spacing height={28} />
+      <CosmosTxSummary
+        payload={payload}
+        modalId={modalId}
+        signDocJson={signDocJson}
+      />
+    </div>
+  );
+};

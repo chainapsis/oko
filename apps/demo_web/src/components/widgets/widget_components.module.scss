@@ -1,0 +1,52 @@
+@use "../../styles/viewport.module.scss" as *;
+
+.widget {
+  width: 100%;
+  border-radius: 20px;
+  position: relative;
+
+  border: 1px solid var(--border-secondary);
+
+  &.gradientBorder {
+    width: calc(100% - 6px);
+    margin-left: 3px;
+    margin-top: 3px;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+      background: linear-gradient(
+        135deg,
+        #fff2ec 0%,
+        #e08c62 50%,
+        #f2641d 100%
+      );
+      border-radius: inherit;
+    }
+
+    // Handle child style elements here to increase cohesion
+    > div {
+      position: relative;
+      z-index: 1;
+      background: var(--bg-primary);
+      border-radius: 16px;
+    }
+  }
+
+  background: var(--bg-primary);
+  box-shadow: var(--shadow-xs);
+}
+
+@media (min-width: $tablet_min_width) {
+  .widget {
+    width: 360px;
+
+    &.gradientBorder {
+      width: 354px;
+    }
+  }
+}

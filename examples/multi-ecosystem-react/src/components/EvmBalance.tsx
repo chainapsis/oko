@@ -24,7 +24,7 @@ export default function EvmBalance() {
 
   return (
     <div className="bg-widget-field border border-widget-border rounded-2xl px-6 py-6 hover:border-widget-border-hover transition-colors">
-      <div className="text-2xl font-semibold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent leading-tight">
+      <div className="text-2xl font-semibold bg-linear-to-r from-white to-gray-300 bg-clip-text text-transparent leading-tight">
         {isLoading ? "..." : (data ?? "-")}
       </div>
     </div>

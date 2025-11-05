@@ -1,0 +1,269 @@
+@use "color_tokens" as *;
+
+:root {
+  --white: #{$white};
+  --black: #{$black};
+  --transparent: #{$transparent};
+
+  --gray-50: #{$gray-50};
+  --gray-100: #{$gray-100};
+  --gray-200: #{$gray-200};
+  --gray-300: #{$gray-300};
+  --gray-400: #{$gray-400};
+  --gray-500: #{$gray-500};
+  --gray-600: #{$gray-600};
+  --gray-700: #{$gray-700};
+  --gray-800: #{$gray-800};
+  --gray-900: #{$gray-900};
+  --gray-950: #{$gray-950};
+
+  --brand-25: #{$brand-25};
+  --brand-50: #{$brand-50};
+  --brand-100: #{$brand-100};
+  --brand-200: #{$brand-200};
+  --brand-300: #{$brand-300};
+  --brand-400: #{$brand-400};
+  --brand-500: #{$brand-500};
+  --brand-600: #{$brand-600};
+  --brand-700: #{$brand-700};
+  --brand-800: #{$brand-800};
+  --brand-900: #{$brand-900};
+
+  --error-25: #{$error-25};
+  --error-50: #{$error-50};
+  --error-100: #{$error-100};
+  --error-200: #{$error-200};
+  --error-300: #{$error-300};
+  --error-400: #{$error-400};
+  --error-500: #{$error-500};
+  --error-600: #{$error-600};
+  --error-700: #{$error-700};
+  --error-800: #{$error-800};
+  --error-900: #{$error-900};
+  --error-950: #{$error-950};
+
+  --warning-25: #{$warning-25};
+  --warning-50: #{$warning-50};
+  --warning-100: #{$warning-100};
+  --warning-200: #{$warning-200};
+  --warning-300: #{$warning-300};
+  --warning-400: #{$warning-400};
+  --warning-500: #{$warning-500};
+  --warning-600: #{$warning-600};
+  --warning-700: #{$warning-700};
+  --warning-800: #{$warning-800};
+  --warning-900: #{$warning-900};
+  --warning-950: #{$warning-950};
+
+  --success-25: #{$success-25};
+  --success-50: #{$success-50};
+  --success-100: #{$success-100};
+  --success-200: #{$success-200};
+  --success-300: #{$success-300};
+  --success-400: #{$success-400};
+  --success-500: #{$success-500};
+  --success-600: #{$success-600};
+  --success-700: #{$success-700};
+  --success-800: #{$success-800};
+  --success-900: #{$success-900};
+  --success-950: #{$success-950};
+
+  /* Semantic colors for light theme */
+  --text-primary: #{$text-primary};
+  --text-primary-on-brand: #{$text-primary-on-brand};
+  --text-secondary: #{$text-secondary};
+  --text-secondary-hover: #{$text-secondary-hover};
+  --text-secondary-on-brand: #{$text-secondary-on-brand};
+  --text-tertiary: #{$text-tertiary};
+  --text-tertiary-hover: #{$text-tertiary-hover};
+  --text-tertiary-on-brand: #{$text-tertiary-on-brand};
+  --text-quaternary: #{$text-quaternary};
+  --text-quaternary-on-brand: #{$text-quaternary-on-brand};
+  --text-white: #{$text-white};
+  --text-disabled: #{$text-disabled};
+  --text-placeholder: #{$text-placeholder};
+  --text-placeholder-subtle: #{$text-placeholder-subtle};
+  --text-subtle: #{$text-subtle};
+  --text-brand-primary: #{$text-brand-primary};
+  --text-brand-secondary: #{$text-brand-secondary};
+  --text-brand-secondary-hover: #{$text-brand-secondary-hover};
+  --text-brand-tertiary: #{$text-brand-tertiary};
+  --text-brand-tertiary-alt: #{$text-brand-tertiary-alt};
+  --text-error-primary: #{$text-error-primary};
+  --text-warning-primary: #{$text-warning-primary};
+  --text-success-primary: #{$text-success-primary};
+
+  /* Background colors for light theme */
+  --bg-primary: #{$bg-primary};
+  --bg-primary-alt: #{$bg-primary-alt};
+  --bg-primary-hover: #{$bg-primary-hover};
+  --bg-primary-solid: #{$bg-primary-solid};
+  --bg-surface-primary-default: #{$bg-surface-primary-default};
+  --bg-secondary: #{$bg-secondary};
+  --bg-secondary-alt: #{$bg-secondary-alt};
+  --bg-secondary-hover: #{$bg-secondary-hover};
+  --bg-secondary-subtle: #{$bg-secondary-subtle};
+  --bg-secondary-solid: #{$bg-secondary-solid};
+  --bg-tertiary: #{$bg-tertiary};
+  --bg-quaternary: #{$bg-quaternary};
+  --bg-active: #{$bg-active};
+  --bg-disabled: #{$bg-disabled};
+  --bg-disabled-subtle: #{$bg-disabled-subtle};
+  --bg-overlay: #{$bg-overlay};
+  --bg-brand-primary: #{$bg-brand-primary};
+  --bg-brand-primary-alt: #{$bg-brand-primary-alt};
+  --bg-brand-secondary: #{$bg-brand-secondary};
+  --bg-brand-solid: #{$bg-brand-solid};
+  --bg-brand-solid-hover: #{$bg-brand-solid-hover};
+  --bg-brand-section: #{$bg-brand-section};
+  --bg-brand-section-subtle: #{$bg-brand-section-subtle};
+  --bg-error-primary: #{$bg-error-primary};
+  --bg-error-secondary: #{$bg-error-secondary};
+  --bg-error-solid: #{$bg-error-solid};
+  --bg-error-solid-hover: #{$bg-error-solid-hover};
+  --bg-warning-primary: #{$bg-warning-primary};
+  --bg-warning-secondary: #{$bg-warning-secondary};
+  --bg-warning-solid: #{$bg-warning-solid};
+  --bg-success-primary: #{$bg-success-primary};
+  --bg-success-secondary: #{$bg-success-secondary};
+  --bg-success-solid: #{$bg-success-solid};
+
+  /* Foreground colors for light theme */
+  --fg-primary: #{$fg-primary};
+  --fg-secondary: #{$fg-secondary};
+  --fg-secondary-hover: #{$fg-secondary-hover};
+  --fg-tertiary: #{$fg-tertiary};
+  --fg-tertiary-hover: #{$fg-tertiary-hover};
+  --fg-quaternary: #{$fg-quaternary};
+  --fg-quaternary-hover: #{$fg-quaternary-hover};
+  --fg-white: #{$fg-white};
+  --fg-disabled: #{$fg-disabled};
+  --fg-disabled-subtle: #{$fg-disabled-subtle};
+  --fg-brand-primary: #{$fg-brand-primary};
+  --fg-brand-primary-alt: #{$fg-brand-primary-alt};
+  --fg-brand-secondary: #{$fg-brand-secondary};
+  --fg-brand-secondary-alt: #{$fg-brand-secondary-alt};
+  --fg-error-primary: #{$fg-error-primary};
+  --fg-error-secondary: #{$fg-error-secondary};
+  --fg-warning-primary: #{$fg-warning-primary};
+  --fg-warning-secondary: #{$fg-warning-secondary};
+  --fg-success-primary: #{$fg-success-primary};
+  --fg-success-secondary: #{$fg-success-secondary};
+
+  /* Border colors for light theme */
+  --border-primary: #{$border-primary};
+  --border-secondary: #{$border-secondary};
+  --border-secondary-alt: #{$border-secondary-alt};
+  --border-tertiary: #{$border-tertiary};
+  --border-disabled: #{$border-disabled};
+  --border-disabled_subtle: #{$border-disabled-subtle};
+  --border-brand: #{$border-brand};
+  --border-brand-alt: #{$border-brand-alt};
+  --border-error: #{$border-error};
+  --border-error-subtle: #{$border-error-subtle};
+}
+
+[data-theme="dark"] {
+  --gray-50: #{$gray-50-dark};
+  --gray-100: #{$gray-100-dark};
+  --gray-200: #{$gray-200-dark};
+  --gray-300: #{$gray-300-dark};
+  --gray-400: #{$gray-400-dark};
+  --gray-500: #{$gray-500-dark};
+  --gray-600: #{$gray-600-dark};
+  --gray-700: #{$gray-700-dark};
+  --gray-800: #{$gray-800-dark};
+  --gray-900: #{$gray-900-dark};
+  --gray-950: #{$gray-950-dark};
+
+  --text-primary: #{$text-primary-dark};
+  --text-primary-on-brand: #{$text-primary-on-brand-dark};
+  --text-secondary: #{$text-secondary-dark};
+  --text-secondary-hover: #{$text-secondary-hover-dark};
+  --text-secondary-on-brand: #{$text-secondary-on-brand-dark};
+  --text-tertiary: #{$text-tertiary-dark};
+  --text-tertiary-hover: #{$text-tertiary-hover-dark};
+  --text-tertiary-on-brand: #{$text-tertiary-on-brand-dark};
+  --text-quaternary: #{$text-quaternary-dark};
+  --text-quaternary-on-brand: #{$text-quaternary-on-brand-dark};
+  --text-white: #{$text-white-dark};
+  --text-disabled: #{$text-disabled-dark};
+  --text-placeholder: #{$text-placeholder-dark};
+  --text-placeholder-subtle: #{$text-placeholder-subtle-dark};
+  --text-brand-primary: #{$text-brand-primary-dark};
+  --text-brand-secondary: #{$text-brand-secondary-dark};
+  --text-brand-secondary-hover: #{$text-brand-secondary-hover-dark};
+  --text-brand-tertiary: #{$text-brand-tertiary-dark};
+  --text-brand-tertiary-alt: #{$text-brand-tertiary-alt-dark};
+  --text-error-primary: #{$text-error-primary-dark};
+  --text-warning-primary: #{$text-warning-primary-dark};
+  --text-success-primary: #{$text-success-primary-dark};
+
+  /* Background colors for dark theme */
+  --bg-primary: #{$bg-primary-dark};
+  --bg-primary-alt: #{$bg-primary-alt-dark};
+  --bg-primary-hover: #{$bg-primary-hover-dark};
+  --bg-primary-solid: #{$bg-primary-solid-dark};
+  --bg-secondary: #{$bg-secondary-dark};
+  --bg-secondary-alt: #{$bg-secondary-alt-dark};
+  --bg-secondary-hover: #{$bg-secondary-hover-dark};
+  --bg-secondary-subtle: #{$bg-secondary-subtle-dark};
+  --bg-secondary-solid: #{$bg-secondary-solid-dark};
+  --bg-tertiary: #{$bg-tertiary-dark};
+  --bg-quaternary: #{$bg-quaternary-dark};
+  --bg-active: #{$bg-active-dark};
+  --bg-disabled: #{$bg-disabled-dark};
+  --bg-disabled-subtle: #{$bg-disabled-subtle-dark};
+  --bg-overlay: #{$bg-overlay-dark};
+  --bg-brand-primary: #{$bg-brand-primary-dark};
+  --bg-brand-primary-alt: #{$bg-brand-primary-alt-dark};
+  --bg-brand-secondary: #{$bg-brand-secondary-dark};
+  --bg-brand-solid: #{$bg-brand-solid-dark};
+  --bg-brand-solid-hover: #{$bg-brand-solid-hover-dark};
+  --bg-brand-section: #{$bg-brand-section-dark};
+  --bg-brand-section-subtle: #{$bg-brand-section-subtle-dark};
+  --bg-error-primary: #{$bg-error-primary-dark};
+  --bg-error-secondary: #{$bg-error-secondary-dark};
+  --bg-error-solid: #{$bg-error-solid-dark};
+  --bg-error-solid-hover: #{$bg-error-solid-hover-dark};
+  --bg-warning-primary: #{$bg-warning-primary-dark};
+  --bg-warning-secondary: #{$bg-warning-secondary-dark};
+  --bg-warning-solid: #{$bg-warning-solid-dark};
+  --bg-success-primary: #{$bg-success-primary-dark};
+  --bg-success-secondary: #{$bg-success-secondary-dark};
+  --bg-success-solid: #{$bg-success-solid-dark};
+
+  /* Foreground colors for dark theme */
+  --fg-primary: #{$fg-primary-dark};
+  --fg-secondary: #{$fg-secondary-dark};
+  --fg-secondary-hover: #{$fg-secondary-hover-dark};
+  --fg-tertiary: #{$fg-tertiary-dark};
+  --fg-tertiary-hover: #{$fg-tertiary-hover-dark};
+  --fg-quaternary: #{$fg-quaternary-dark};
+  --fg-quaternary-hover: #{$fg-quaternary-hover-dark};
+  --fg-white: #{$fg-white-dark};
+  --fg-disabled: #{$fg-disabled-dark};
+  --fg-disabled-subtle: #{$fg-disabled-subtle-dark};
+  --fg-brand-primary: #{$fg-brand-primary-dark};
+  --fg-brand-primary-alt: #{$fg-brand-primary-alt-dark};
+  --fg-brand-secondary: #{$fg-brand-secondary-dark};
+  --fg-brand-secondary-alt: #{$fg-brand-secondary-alt-dark};
+  --fg-error-primary: #{$fg-error-primary-dark};
+  --fg-error-secondary: #{$fg-error-secondary-dark};
+  --fg-warning-primary: #{$fg-warning-primary-dark};
+  --fg-warning-secondary: #{$fg-warning-secondary-dark};
+  --fg-success-primary: #{$fg-success-primary-dark};
+  --fg-success-secondary: #{$fg-success-secondary-dark};
+
+  /* Border colors for dark theme */
+  --border-primary: #{$border-primary-dark};
+  --border-secondary: #{$border-secondary-dark};
+  --border-secondary-alt: #{$border-secondary-alt-dark};
+  --border-tertiary: #{$border-tertiary-dark};
+  --border-disabled: #{$border-disabled-dark};
+  --border-disabled_subtle: #{$border-disabled-subtle-dark};
+  --border-brand: #{$border-brand-dark};
+  --border-brand-alt: #{$border-brand-alt-dark};
+  --border-error: #{$border-error-dark};
+  --border-error-subtle: #{$border-error-subtle-dark};
+}

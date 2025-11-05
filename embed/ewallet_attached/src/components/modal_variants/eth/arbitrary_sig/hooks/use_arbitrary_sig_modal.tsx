@@ -1,0 +1,138 @@
+import { useEffect, useState } from "react";
+import type {
+  MakeArbitrarySigData,
+  MakeSigModalErrorAckPayload,
+  OpenModalAckPayload,
+} from "@oko-wallet/oko-sdk-core";
+
+import { makeEthereumArbitraryMessageSignature } from "@oko-wallet-attached/web3/ethereum/sig";
+import { useAppState } from "@oko-wallet-attached/store/app";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import { DEMO_WEB_ORIGIN } from "@oko-wallet-attached/requests/endpoints";
+import { useSupportedEthChain } from "@oko-wallet-attached/web3/ethereum/hooks/use_supported_eth_chain";
+
+export interface UseEthereumSigModalArgs {
+  modalId: string;
+  data: MakeArbitrarySigData;
+  getIsAborted: () => boolean;
+}
+
+export function useArbitrarySigModal(args: UseEthereumSigModalArgs) {
+  const { getIsAborted, modalId, data } = args;
+  const { closeModal, setError } = useMemoryState();
+
+  const { isSupportedChain, isSupportChecked } = useSupportedEthChain({
+    chainInfoForModal: data.payload.chain_info,
+  });
+
+  const hostOrigin = data.payload.origin;
+  const theme = useAppState().getTheme(hostOrigin);
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [isApproveEnabled, setIsApproveEnabled] = useState(false);
+
+  const isDemo = !!hostOrigin && hostOrigin === DEMO_WEB_ORIGIN;
+
+  useEffect(() => {
+    if (!isSupportChecked) {
+      return;
+    }
+
+    if (isSupportedChain) {
+      setIsApproveEnabled(true);
+    } else {
+      setIsApproveEnabled(false);
+      setError({
+        modal_type: "eth/make_signature",
+        modal_id: modalId,
+        type: "error",
+        error: {
+          type: "chain_not_supported",
+          data: {
+            chain_id: data.payload.chain_info.chain_id,
+            chain_name: data.payload.chain_info.chain_name,
+            chain_symbol_image_url:
+              data.payload.chain_info.chain_symbol_image_url,
+          },
+        },
+      });
+    }
+  }, [isSupportedChain, isSupportChecked]);
+
+  function onReject() {
+    const ack: OpenModalAckPayload = {
+      modal_type: "eth/make_signature",
+      modal_id: modalId,
+      type: "reject",
+    };
+
+    closeModal(ack);
+  }
+
+  async function onApprove() {
+    try {
+      if (getIsAborted()) {
+        return;
+      }
+
+      setIsLoading(true);
+
+      const signatureRes = await makeEthereumArbitraryMessageSignature(
+        hostOrigin,
+        data.payload.data.message,
+        getIsAborted,
+      );
+
+      if (!signatureRes.success) {
+        console.log("make eth arbitrary sig fail", signatureRes.err);
+
+        const err: MakeSigModalErrorAckPayload = {
+          modal_type: "eth/make_signature",
+          modal_id: modalId,
+          type: "error",
+          error: signatureRes.err,
+        };
+        setError(err);
+
+        return;
+      }
+
+      const ack: OpenModalAckPayload = {
+        modal_type: "eth/make_signature",
+        modal_id: modalId,
+        type: "approve",
+        data: {
+          chain_type: "eth",
+          sig_result: {
+            type: "signature",
+            signature: signatureRes.data,
+          },
+        },
+      };
+
+      closeModal(ack);
+    } catch (error: any) {
+      const err: MakeSigModalErrorAckPayload = {
+        modal_type: "eth/make_signature",
+        modal_id: modalId,
+        type: "error",
+        error: {
+          type: "unknown_error",
+          error,
+        },
+      };
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return {
+    onReject,
+    onApprove,
+    isLoading,
+    isApproveEnabled,
+    isDemo,
+    theme,
+  };
+}

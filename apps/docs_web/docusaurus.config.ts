@@ -1,0 +1,108 @@
+import { themes as prismThemes } from "prism-react-renderer";
+import type { Config } from "@docusaurus/types";
+import type * as Preset from "@docusaurus/preset-classic";
+
+// This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
+
+const config: Config = {
+  title: "Oko Docs",
+  tagline: "Integrate Oko into your dApp",
+  favicon: "img/oko-favicon.png",
+
+  future: {
+    v4: true,
+  },
+  url: "https://docs.oko.app",
+  baseUrl: "/",
+
+  onBrokenLinks: "throw",
+  onBrokenMarkdownLinks: "warn",
+
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en"],
+  },
+
+  presets: [
+    [
+      "classic",
+      {
+        docs: {
+          sidebarPath: "./sidebars.ts",
+        },
+        theme: {
+          customCss: "./src/css/custom.css",
+        },
+      } satisfies Preset.Options,
+    ],
+  ],
+
+  themeConfig: {
+    metadata: [
+      {
+        name: "og:type",
+        content: "website",
+      },
+      {
+        name: "og:image",
+        content:
+          "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-og-image.png",
+      },
+    ],
+    navbar: {
+      logo: {
+        alt: "Oko Logo",
+        src: "img/oko-logo-light.png",
+        srcDark: "img/oko-logo-dark.png",
+      },
+      items: [
+        {
+          type: "docSidebar",
+          sidebarId: "tutorialSidebar",
+          position: "left",
+          label: "Docs",
+        },
+      ],
+    },
+    footer: {
+      style: "dark",
+      links: [
+        {
+          title: "Oko",
+          items: [
+            {
+              label: "Github",
+              href: "https://github.com/chainapsis/oko",
+            },
+          ],
+        },
+        {
+          title: "Keplr",
+          items: [
+            {
+              label: "Keplr",
+              href: "https://www.keplr.app",
+            },
+          ],
+        },
+        {
+          title: "Need Help?",
+          items: [
+            {
+              label: "Keplr Helpdesk",
+              href: "https://help.keplr.app/",
+            },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} Keplr`,
+    },
+    prism: {
+      theme: prismThemes.github,
+      darkTheme: prismThemes.dracula,
+      additionalLanguages: ["bash"],
+    },
+  } satisfies Preset.ThemeConfig,
+};
+
+export default config;

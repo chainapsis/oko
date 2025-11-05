@@ -1,3 +1,5 @@
+import type { InputHTMLAttributes } from "react";
+
 import Button from "./Button";
 
 interface TxFormProps {
@@ -42,7 +44,9 @@ export default function TxForm(props: TxFormProps) {
         <input
           type="text"
           placeholder={recipientPlaceholder}
-          {...(register("recipientAddress") as any)}
+          {...(register(
+            "recipientAddress",
+          ) as unknown as InputHTMLAttributes<HTMLInputElement>)}
         />
         {errors.recipientAddress?.message && (
           <p className="text-red-400 text-sm mt-1">
@@ -55,7 +59,9 @@ export default function TxForm(props: TxFormProps) {
         <input
           type="text"
           placeholder={amountPlaceholder}
-          {...(register("amount") as any)}
+          {...(register(
+            "amount",
+          ) as unknown as InputHTMLAttributes<HTMLInputElement>)}
         />
         {errors.amount?.message && (
           <p className="text-red-400 text-sm mt-1">{errors.amount.message}</p>

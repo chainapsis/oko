@@ -1,0 +1,28 @@
+.txSummaryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+}
+
+.txSummaryHeader {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+}
+
+.txSummaryHeaderRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  cursor: pointer;
+}
+
+.txSummaryHeaderRightIcon {
+  width: 16px;
+  height: 16px;
+  aspect-ratio: 1/1;
+}

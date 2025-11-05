@@ -1,0 +1,30 @@
+{
+  "name": "@oko-wallet/ewallet-api-server-state",
+  "main": "./src/index.ts",
+  "type": "module",
+  "dependencies": {
+    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "cors": "*",
+    "dotenv": "*",
+    "express": "*",
+    "helmet": "*",
+    "jsonwebtoken": "*",
+    "morgan": "*",
+    "pg": "*",
+    "uuid": "*",
+    "winston": "*",
+    "winston-elasticsearch": "*"
+  },
+  "devDependencies": {
+    "@types/express": "*",
+    "@types/jest": "*",
+    "@types/jsonwebtoken": "*",
+    "@types/morgan": "*",
+    "@types/node": "*",
+    "@types/supertest": "*",
+    "jest": "*",
+    "supertest": "*",
+    "ts-jest": "*",
+    "typescript": "*"
+  }
+}

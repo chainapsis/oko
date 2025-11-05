@@ -1,0 +1,360 @@
+import type { Response, Router, Request } from "express";
+import type {
+  CheckEmailRequest,
+  CheckEmailResponse,
+  ReshareRequest,
+  SignInResponse,
+  SignInSilentlyResponse,
+} from "@oko-wallet/ewallet-types/user";
+import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import {
+  ErrorResponseSchema,
+  GoogleAuthHeaderSchema,
+  UserAuthHeaderSchema,
+} from "@oko-wallet/ewallet-api-openapi/common";
+import {
+  CheckEmailRequestSchema,
+  CheckEmailSuccessResponseSchema,
+  SignInSilentlySuccessResponseSchema,
+  SignInSuccessResponseSchema,
+} from "@oko-wallet/ewallet-api-openapi/tss";
+import { Bytes } from "@oko-wallet/bytes";
+import { registry } from "@oko-wallet/ewallet-api-openapi";
+
+import {
+  type GoogleAuthenticatedRequest,
+  googleAuthMiddleware,
+} from "@oko-wallet-tss-api/middleware/google_auth";
+import {
+  signIn,
+  checkEmail,
+  updateWalletKSNodesForReshare,
+} from "@oko-wallet-tss-api/api/user";
+import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
+import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
+
+export function setUserRoutes(router: Router) {
+  registry.registerPath({
+    method: "post",
+    path: "/tss/v1/user/check",
+    tags: ["TSS"],
+    summary: "Check if email exists",
+    description:
+      "Checks if a user with the given email address exists in the database",
+    security: [],
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: CheckEmailRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully checked email existence",
+        content: {
+          "application/json": {
+            schema: CheckEmailSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request - Email is missing",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/user/check",
+    async (
+      req: Request<any, any, CheckEmailRequest>,
+      res: Response<EwalletApiResponse<CheckEmailResponse>>,
+    ) => {
+      const state = req.app.locals;
+
+      const { email } = req.body;
+
+      if (!email) {
+        res.status(400).json({
+          success: false,
+          code: "INVALID_REQUEST",
+          msg: "email is required",
+        });
+        return;
+      }
+
+      const checkEmailRes = await checkEmail(state.db, email.toLowerCase());
+      if (checkEmailRes.success === false) {
+        res
+          .status(ErrorCodeMap[checkEmailRes.code] ?? 500) //
+          .json(checkEmailRes);
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: checkEmailRes.data,
+      });
+    },
+  );
+
+  registry.registerPath({
+    method: "post",
+    path: "/tss/v1/user/signin",
+    tags: ["TSS"],
+    summary: "Sign in with Google OAuth",
+    description:
+      "Authenticates user using Google OAuth token and returns user information with JWT token",
+    security: [{ googleAuth: [] }],
+    request: {
+      headers: GoogleAuthHeaderSchema,
+    },
+    responses: {
+      200: {
+        description: "Successfully signed in",
+        content: {
+          "application/json": {
+            schema: SignInSuccessResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing Google OAuth token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Not Found - User or wallet not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/user/signin",
+    [googleAuthMiddleware, tssActivateMiddleware],
+    async (
+      req: GoogleAuthenticatedRequest,
+      res: Response<EwalletApiResponse<SignInResponse>>,
+    ) => {
+      const state = req.app.locals;
+      const googleUser = res.locals.google_user;
+
+      const signInRes = await signIn(state.db, googleUser.email.toLowerCase(), {
+        secret: state.jwt_secret,
+        expires_in: state.jwt_expires_in,
+      });
+      if (signInRes.success === false) {
+        res
+          .status(ErrorCodeMap[signInRes.code] ?? 500) //
+          .json(signInRes);
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: signInRes.data,
+      });
+    },
+  );
+
+  registry.registerPath({
+    method: "post",
+    path: "/tss/v1/user/signin_silently",
+    tags: ["TSS"],
+    summary: "Sign in silently with existing token",
+    description:
+      "Attempts to refresh an expired JWT token or validates an existing one",
+    security: [],
+    request: {
+      headers: UserAuthHeaderSchema,
+    },
+    responses: {
+      200: {
+        description: "Successfully processed token",
+        content: {
+          "application/json": {
+            schema: SignInSilentlySuccessResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/user/signin_silently",
+    [tssActivateMiddleware],
+    async (
+      req: Request<any, any, {}>,
+      res: Response<EwalletApiResponse<SignInSilentlyResponse>>,
+    ) => {
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        res.status(401).json({
+          success: false,
+          code: "INVALID_REQUEST",
+          msg: "Authorization header with Bearer token required",
+        });
+        return;
+      }
+
+      const token = authHeader.substring(7); // skip "Bearer "
+      const state = req.app.locals;
+
+      const verifyTokenRes = verifyUserToken({
+        token,
+        jwt_config: {
+          secret: state.jwt_secret,
+        },
+      });
+
+      if (!verifyTokenRes.success) {
+        const { err } = verifyTokenRes;
+
+        if (err.type === "expired") {
+          const payload = err.payload;
+
+          if (!payload.email || !payload.wallet_id) {
+            res.status(401).json({
+              success: false,
+              code: "INVALID_AUTH_TOKEN",
+              msg: "Unauthorized: Invalid token",
+            });
+            return;
+          }
+
+          const signInRes = await signIn(
+            state.db,
+            payload.email.toLowerCase(),
+            {
+              secret: state.jwt_secret,
+              expires_in: state.jwt_expires_in,
+            },
+          );
+
+          if (signInRes.success === false) {
+            res.status(ErrorCodeMap[signInRes.code] ?? 500).json(signInRes);
+            return;
+          }
+
+          res.status(200).json({
+            success: true,
+            data: { token: signInRes.data.token },
+          });
+          return;
+        } else {
+          res.status(401).json({
+            success: false,
+            code: "INVALID_REQUEST",
+            msg: verifyTokenRes.err.toString(),
+          });
+          return;
+        }
+      } else {
+        res.status(200).json({
+          success: true,
+          data: {
+            token: null,
+          },
+        });
+      }
+    },
+  );
+
+  router.post(
+    "/user/reshare",
+    [googleAuthMiddleware, tssActivateMiddleware],
+    async (
+      req: GoogleAuthenticatedRequest<ReshareRequest>,
+      res: Response<EwalletApiResponse<void>>,
+    ) => {
+      const state = req.app.locals;
+      const googleUser = res.locals.google_user;
+      const { public_key, reshared_key_shares } = req.body;
+
+      const publicKeyRes = Bytes.fromHexString(public_key, 33);
+      if (publicKeyRes.success === false) {
+        res.status(400).json({
+          success: false,
+          code: "INVALID_REQUEST",
+          msg: `Invalid public key: ${publicKeyRes.err}`,
+        });
+        return;
+      }
+
+      if (reshared_key_shares.length === 0) {
+        res.status(400).json({
+          success: false,
+          code: "INVALID_REQUEST",
+          msg: "reshared_key_shares is required",
+        });
+        return;
+      }
+
+      const reshareRes = await updateWalletKSNodesForReshare(
+        state.db,
+        googleUser.email.toLowerCase(),
+        publicKeyRes.data,
+        reshared_key_shares,
+      );
+
+      if (reshareRes.success === false) {
+        res
+          .status(ErrorCodeMap[reshareRes.code] ?? 500) //
+          .json(reshareRes);
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: void 0,
+      });
+    },
+  );
+}

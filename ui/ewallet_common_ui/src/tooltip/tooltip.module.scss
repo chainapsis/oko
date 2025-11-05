@@ -1,0 +1,45 @@
+@each $background-color
+  in (
+    primary,
+    secondary,
+    tertiary,
+    quaternary,
+    primary-solid,
+    secondary-solid,
+    tertiary-solid,
+    quaternary-solid
+  )
+{
+  .bg-#{$background-color} {
+    background-color: var(--bg-#{$background-color});
+  }
+}
+
+@each $background-color
+  in (
+    primary,
+    secondary,
+    tertiary,
+    quaternary,
+    primary-solid,
+    secondary-solid,
+    tertiary-solid,
+    quaternary-solid
+  )
+{
+  .arrow-color-#{$background-color} {
+    fill: var(--bg-#{$background-color});
+  }
+}
+
+.floatingUI {
+  padding: 8px 12px;
+  border-radius: 8px;
+  max-width: 344px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow-wrap: break-word;
+}

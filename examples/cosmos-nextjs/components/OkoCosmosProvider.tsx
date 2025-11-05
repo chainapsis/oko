@@ -1,9 +1,9 @@
 import { createContext, useEffect, useState } from "react";
 import {
-  CosmosEWallet,
+  OkoCosmosWallet,
   getBech32Address,
   getCosmosAddress,
-  type CosmosEWalletInterface,
+  type OkoCosmosWalletInterface,
 } from "@oko-wallet/oko-sdk-cosmos";
 import { ChainInfo } from "@keplr-wallet/types";
 import { OfflineDirectSigner } from "@cosmjs/proto-signing";
@@ -92,8 +92,9 @@ const OkoCosmosContext = createContext<OkoCosmosProviderValues>({
 });
 
 function OkoCosmosProvider({ children }: { children: React.ReactNode }) {
-  const [cosmosEWallet, setCosmosEWallet] =
-    useState<CosmosEWalletInterface | null>(null);
+  const [okoCosmos, setOkoCosmos] = useState<OkoCosmosWalletInterface | null>(
+    null,
+  );
   const [offlineSigner, setOfflineSigner] =
     useState<OfflineDirectSigner | null>(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
@@ -108,21 +109,21 @@ function OkoCosmosProvider({ children }: { children: React.ReactNode }) {
     : null;
 
   async function initOkoCosmos() {
-    const okoCosmos = CosmosEWallet.init({
+    const initRes = OkoCosmosWallet.init({
       api_key: process.env.NEXT_PUBLIC_OKO_API_KEY ?? "",
       sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT ?? undefined,
     });
 
-    if (!okoCosmos.success) {
-      console.error(okoCosmos.err);
+    if (!initRes.success) {
+      console.error(initRes.err);
       return;
     }
 
-    const cosmosEWallet = okoCosmos.data;
-    const offlineSigner = cosmosEWallet.getOfflineSigner("osmo-test-5");
+    const okoCosmos = initRes.data;
+    const offlineSigner = okoCosmos.getOfflineSigner("osmo-test-5");
 
     try {
-      const publicKey = await cosmosEWallet.getPublicKey();
+      const publicKey = await okoCosmos.getPublicKey();
 
       setPublicKey(publicKey);
       setIsSignedIn(true);
@@ -132,22 +133,22 @@ function OkoCosmosProvider({ children }: { children: React.ReactNode }) {
       setIsSignedIn(false);
       setPublicKey(null);
     } finally {
-      setCosmosEWallet(cosmosEWallet);
+      setOkoCosmos(okoCosmos);
       setOfflineSigner(offlineSigner);
     }
   }
 
   async function signIn() {
-    if (!cosmosEWallet) {
+    if (!okoCosmos) {
       return;
     }
 
     setIsSigningIn(true);
 
     try {
-      await cosmosEWallet.eWallet.signIn("google");
+      await okoCosmos.okoWallet.signIn("google");
 
-      const publicKey = await cosmosEWallet.getPublicKey();
+      const publicKey = await okoCosmos.getPublicKey();
 
       setIsSignedIn(true);
       setPublicKey(publicKey);
@@ -159,7 +160,7 @@ function OkoCosmosProvider({ children }: { children: React.ReactNode }) {
   }
 
   async function signOut() {
-    await cosmosEWallet?.eWallet.signOut();
+    await okoCosmos?.okoWallet.signOut();
     setIsSignedIn(false);
     setPublicKey(null);
   }
@@ -171,7 +172,7 @@ function OkoCosmosProvider({ children }: { children: React.ReactNode }) {
   return (
     <OkoCosmosContext.Provider
       value={{
-        isReady: !!cosmosEWallet,
+        isReady: !!okoCosmos,
         isSignedIn,
         isSigningIn,
         publicKey,

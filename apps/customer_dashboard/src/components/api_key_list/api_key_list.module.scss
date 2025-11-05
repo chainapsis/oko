@@ -1,0 +1,43 @@
+.wrapper {
+  margin-top: 4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+.apiKeyCell {
+  display: flex;
+  align-items: center;
+}
+
+.dateCell {
+  width: 150px;
+}
+
+.apiKey {
+  width: fit-content;
+  padding: 4px 8px;
+
+  border-radius: 8px;
+  background: #f7f7f9;
+}
+
+.buttonIcon {
+  display: flex;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 8px;
+
+  &:hover {
+    background: var(--bg-secondary-alt);
+  }
+}
+
+.copiedText {
+  height: 28px;
+  white-space: nowrap;
+  vertical-align: middle;
+  height: 100%;
+}

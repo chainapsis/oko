@@ -1,0 +1,25 @@
+{
+  "name": "@oko-wallet/ewallet-api-error-codes",
+  "main": "./src/index.ts",
+  "type": "module",
+  "scripts": {
+    "migrate": "tsx ./migrate/index.ts",
+    "seed": "tsx ./seed/index.ts"
+  },
+  "dependencies": {
+    "@oko-wallet/ewallet-types": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "uuid": "*"
+  },
+  "devDependencies": {
+    "@types/jest": "*",
+    "@types/node": "*",
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "jest": "*",
+    "ts-jest": "*",
+    "tsconfig-paths": "*",
+    "tsx": "*",
+    "typescript": "*"
+  }
+}

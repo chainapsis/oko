@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { SigningStargateClient, StargateClient } from "@cosmjs/stargate";
 import { fromBech32 } from "@cosmjs/encoding";

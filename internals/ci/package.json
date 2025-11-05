@@ -1,7 +1,7 @@
 {
   "private": true,
   "name": "@oko-wallet/ci",
-  "packageManager": "yarn@4.7.0",
+  "type": "module",
   "scripts": {
     "start": "tsx src/main.ts"
   },

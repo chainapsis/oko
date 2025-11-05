@@ -1,0 +1,18 @@
+.wrapper {
+  background-color: var(--bg-primary);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  width: 100%;
+  padding: 8px 12px;
+  height: 38px;
+  gap: 8px;
+  border-radius: 6px;
+  cursor: pointer;
+
+  &.active {
+    background-color: var(--bg-active);
+  }
+}

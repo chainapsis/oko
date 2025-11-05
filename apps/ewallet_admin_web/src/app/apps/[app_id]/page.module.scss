@@ -1,0 +1,72 @@
+.wrapper {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 24px;
+  background-color: hsl(0, 0%, 96.1%);
+}
+
+.customer_card {
+  width: 100%;
+  max-width: 800px;
+  background-color: #fff;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  padding: 100px;
+
+  .customer_card_header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    .customer_card_header_left {
+      display: flex;
+      align-items: center;
+    }
+
+    .customer_card_header_logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #e0e0e0;
+    }
+
+    .customer_card_header_info {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      .customer_card_header_name {
+        font-size: 16px;
+      }
+
+      .customer_card_header_id {
+        font-size: 12px;
+        color: #666;
+      }
+    }
+  }
+
+  .customer_card_body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 10px;
+    .customer_card_body_item {
+      display: flex;
+      gap: 10px;
+
+      .customer_card_body_item_label {
+        font-size: 16px;
+        color: #666;
+        border-right: 1px solid #e0e0e0;
+        padding-right: 10px;
+      }
+
+      .customer_card_body_item_value {
+        font-size: 16px;
+        color: #666;
+      }
+    }
+  }
+}

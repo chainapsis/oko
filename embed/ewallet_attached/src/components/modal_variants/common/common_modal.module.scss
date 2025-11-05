@@ -1,0 +1,8 @@
+.modalContainer {
+  border-radius: var(--radius-2xl, 16px);
+  border: 1px solid var(--border-primary);
+  background: var(--bg-primary);
+  padding: 20px;
+
+  box-shadow: var(--shadow-xl);
+}

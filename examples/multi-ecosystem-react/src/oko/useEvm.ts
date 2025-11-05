@@ -16,7 +16,7 @@ export default function useEvm() {
     isSignedIn: ctx.isSignedIn,
     isSigningIn: ctx.isSigningIn,
     address: ctx.address,
-    provider: ctx.provider,
+    okoEth: ctx.okoEth,
     signIn: ctx.signIn,
     signOut: ctx.signOut,
     publicClient,

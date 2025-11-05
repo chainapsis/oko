@@ -1,0 +1,18 @@
+.wrapper {
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+
+  min-width: 240px;
+  padding: 24px 16px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex: 1 0 0;
+  align-self: stretch;
+  height: 100%;
+}

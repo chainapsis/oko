@@ -1,0 +1,26 @@
+.badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: fit-content;
+
+  /* types */
+  &.pill {
+    border-radius: 999px;
+  }
+  &.square {
+    border-radius: 8px;
+  }
+
+  /* sizes */
+  &.sm {
+    padding: 2px 8px;
+  }
+  &.md {
+    padding: 2px 10px;
+  }
+  &.lg {
+    padding: 4px 12px;
+  }
+}

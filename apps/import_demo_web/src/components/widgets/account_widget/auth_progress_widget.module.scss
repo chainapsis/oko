@@ -1,0 +1,48 @@
+@use "../../../styles/viewport.module.scss" as *;
+
+.signingInWrapper {
+  display: flex;
+  padding: var(--spacing-4xl, 32px) var(--spacing-3xl, 24px)
+    var(--spacing-3xl, 24px) var(--spacing-3xl, 24px);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.signingInCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  background: #fff;
+  position: relative;
+}
+
+.spinnerOverlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -31px;
+  margin-left: -31px;
+  z-index: 10;
+}
+
+.signingInText {
+  text-align: center;
+}
+
+.failed {
+  // container modifier for failed state if needed later
+}
+
+.retryButton {
+  display: flex;
+  height: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  align-self: stretch;
+  cursor: pointer;
+  margin-top: 16px;
+}

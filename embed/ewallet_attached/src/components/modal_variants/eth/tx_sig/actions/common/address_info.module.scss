@@ -1,0 +1,11 @@
+.addressInfo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+.address {
+  text-overflow: ellipsis;
+  word-break: break-all;
+}

@@ -1,0 +1,36 @@
+{
+  "name": "@oko-wallet/demo-web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "create_env": "tsx src/bin/create_env.ts",
+    "dev": "tsx src/bin/launch.ts",
+    "build": "next build",
+    "start": "NODE_ENV=production tsx src/bin/launch.ts",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "next": "^15.4.5",
+    "react": "*",
+    "react-dom": "*"
+  },
+  "devDependencies": {
+    "@cosmjs/proto-signing": "^0.33.1",
+    "@keplr-wallet/proto-types": "^0.12.250",
+    "@oko-wallet/dotenv": "0.0.2-alpha.10",
+    "@oko-wallet/ewallet-common-ui": "workspace:*",
+    "@oko-wallet/oko-sdk-core": "0.0.6-rc.112",
+    "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.134",
+    "@oko-wallet/oko-sdk-eth": "0.0.6-rc.125",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "dotenv": "*",
+    "sass": "*",
+    "tsx": "*",
+    "typescript": "*",
+    "zod": "*"
+  }
+}

@@ -1,0 +1,90 @@
+.checkboxControl {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  align-self: stretch;
+}
+
+.checkboxHidden {
+  display: none;
+}
+
+.checkboxInputContainer {
+  padding-top: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.checkboxInput {
+  display: flex;
+
+  justify-content: center;
+  align-items: center;
+  transition:
+    background-color 140ms ease-in-out,
+    border-color 140ms ease-in-out;
+}
+.checkboxInput-sm {
+  width: 16px;
+  height: 16px;
+  padding: 2px;
+
+  border-radius: 4px;
+}
+.checkboxInput-md {
+  width: 20px;
+  height: 20px;
+
+  border-radius: 6px;
+}
+
+.checkboxInputChecked {
+  background-color: var(--bg-brand-solid);
+  border: 1px solid transparent;
+}
+.checkboxInputUnChecked {
+  background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
+}
+
+/* Icon transition: scale + opacity (GPU-friendly) */
+.checkboxInput-sm svg,
+.checkboxInput-md svg {
+  transition:
+    transform 140ms ease-in-out,
+    opacity 140ms ease-in-out;
+  transform-origin: center;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  display: block;
+  pointer-events: none;
+}
+
+.checkboxInputUnChecked svg {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.checkboxInputChecked svg {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.checkboxContainer {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+.checkboxContainer-sm {
+  gap: var(--spacing-md, 8px);
+}
+.checkboxContainer-md {
+  gap: var(--spacing-lg, 12px);
+}
+
+.checkboxLabelText {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
