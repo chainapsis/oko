@@ -206,7 +206,7 @@ curl http://localhost:4200/
 
 ## oko_attached (embedded app)
 
-```
+```bash
 cd oko
 # Create env under ~/.oko/ewallet_attached.env
 yarn workspace @oko-wallet/ewallet-attached create_env
@@ -226,7 +226,7 @@ Open the printed dev URL. This is an independent app that runs inside an iframe 
 
 ### demo_web (for testing)
 
-```
+```bash
 cd oko
 yarn workspace @oko-wallet/demo-web create_env
 # Example values:
@@ -240,7 +240,7 @@ Open: `http://localhost:3200`
 
 ### customer_dashboard
 
-```
+```bash
 cd oko
 # Create ~/.oko/customer_dashboard.env
 yarn workspace @oko-wallet/customer-dashboard create_env
@@ -255,7 +255,7 @@ Open: `http://localhost:3203`
 
 ### oko_admin_web
 
-```
+```bash
 cd oko
 yarn workspace @oko-wallet/ewallet-admin-web create_env
 # Example values:
