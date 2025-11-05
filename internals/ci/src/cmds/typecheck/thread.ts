@@ -26,7 +26,6 @@ export async function runBatchTypeCheck(pkgPaths: string[]) {
       console.error("Error type checking, pkg: %s", name);
 
       return new Error(`Error type checking, pkg ${name}`);
-      // process.exit(ret.status);
     }
   }
 
