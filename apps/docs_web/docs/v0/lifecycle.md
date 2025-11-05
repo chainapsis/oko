@@ -64,7 +64,7 @@ For new users, distributed key shares are created:
 1. POST /tss/v1/keygen
    - Creates distributed key shares
    - No single party knows the complete private key
-   - Stores encrypted shares in credential vault
+   - Stores encrypted shares in key share nodes
 
 2. Database Updates:
    - wallets table: new entry with public key
