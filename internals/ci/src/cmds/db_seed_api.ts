@@ -4,7 +4,7 @@ import chalk from "chalk";
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
-export async function apiDbSeed(options: {
+export async function DbSeedAPI(options: {
   useEnv: boolean;
   target: "dev" | "prod";
 }) {

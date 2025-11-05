@@ -4,7 +4,7 @@ import chalk from "chalk";
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
-export async function apiDbMigrate(options: { useEnv: boolean }) {
+export async function DbMigrateAPI(options: { useEnv: boolean }) {
   console.log("Start DB migrating");
 
   const env = {

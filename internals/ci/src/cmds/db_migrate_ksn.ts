@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
-export async function dbMigrate(options: { useEnvFile: boolean }) {
+export async function dbMigrateKSN(options: { useEnvFile: boolean }) {
   console.log(
     "db_migrate, useEnvFile: %j, ksn pg interface path: %s",
     options.useEnvFile,
