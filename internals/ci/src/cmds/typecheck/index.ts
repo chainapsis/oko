@@ -91,19 +91,18 @@ export async function spawnWorker(workerName: string, pkgPaths: string[]) {
   return p1;
 }
 
-function chunkArr(arr: any[], maxSize: number) {
-  let numChunks = (arr.length - 1) / maxSize + 1;
-  let minChunkSize = arr.length / numChunks;
-  let numSmallChunks = numChunks * (minChunkSize + 1) - arr.length;
+function chunkArr(arr: any[], chunkCount: number) {
+  let ret: any[][] = [];
+  for (let i = 0; i < chunkCount; i += 1) {
+    ret.push([]);
+  }
 
-  arr = [...arr]; // avoid muckking the input
-  let arrays = [];
-  for (let i = 0; i < numChunks; i++)
-    if (i < numSmallChunks) {
-      arrays.push(arr.splice(0, minChunkSize));
-    } else {
-      arrays.push(arr.splice(0, minChunkSize + 1));
-    }
+  let currArrIdx = 0;
+  for (let i = 0; i < arr.length; i += 1) {
+    ret[currArrIdx].push(arr[i]);
 
-  return arrays;
+    currArrIdx = (currArrIdx + 1) % chunkCount;
+  }
+
+  return ret;
 }
