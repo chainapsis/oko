@@ -400,24 +400,22 @@ Open: `http://localhost:3204`
 
 Use `yarn ci` at each workspace root to speed up repetitive local tasks. Arguments are forwarded to the internal CLI.
 
-### oko root (SDK/keyshare node)
+### oko root
 
-- Build packages: `cd oko && yarn ci build_pkgs`
+- Build packages: `yarn ci build_pkgs`
   - Builds in order: stdlib, dotenv, SDK (core/cosmos/eth), crypto/bytes, ksn-interface, tecdsa-interface
-- Typecheck: `cd oko && yarn ci typecheck`
-- keyshare node DB migration: `cd oko && yarn ci db_migrate --use-env-file`
+- Typecheck: `yarn ci typecheck`
+- keyshare node DB migration: `yarn ci db_migrate_ksn --use-env-file`
   - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate per-node DBs
   - Without it, uses local defaults (`localhost:5432`, `key_share_node_dev*`)
 
-### oko-internal root (backend/apps/oko_attached)
-
-- DB migration: `cd oko-internal && yarn ci db_migrate --use-env`
+- DB migration: `yarn ci db_migrate_api --use-env`
   - With `--use-env`, uses `~/.oko/oko_api_server.env`
   - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates with test config
-- DB seed: `cd oko-internal && yarn ci db_seed --use-env --target dev`
+- DB seed: ` yarn ci db_seed_api --use-env --target dev`
   - `--target` supports `dev | prod` (use `dev` for local)
-- Build/copy Cait Sith (prepare embedded WASM): `cd oko-internal && yarn ci build_cs`
+- Build/copy Cait Sith (prepare embedded WASM): `yarn ci build_cs`
   - Builds addon/wasm and copies wasm into `ewallet_attached`
-- Typecheck: `cd oko-internal && yarn ci typecheck`
+- Typecheck: `yarn ci typecheck`
 
 Note: `yarn ci` is a thin wrapper around `yarn --cwd ./internals/ci run start <command>`. Run `yarn ci --help` to list available commands.
