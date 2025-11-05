@@ -56,9 +56,10 @@ cp env.example .env
 1. **Create encryption secret file** (32-byte hex string, you can use any random value):
 
 ```bash
-# Example encryption secret (32-byte hex string)
-echo "f7e2a9c4b8d1e6f3a5c7b9d2e4f6a8c1b3d5e7f9a2c4b6d8e1f3a5c7b9d2e4f6a8" > /opt/key_share_node/encryption_secret.txt
-chmod 600 /opt/key_share_node/encryption_secret.txt
+# Generate a random 32-byte (256-bit) encryption secret as hex and save it to a file
+sudo mkdir -p /opt/key_share_node
+openssl rand -hex 32 | tr -d '\n' | sudo tee /opt/key_share_node/encryption_secret.txt >/dev/null
+sudo chmod 600 /opt/key_share_node/encryption_secret.txt
 ```
 
 2. **Create required directories and set proper permissions**:
