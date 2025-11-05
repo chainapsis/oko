@@ -49,23 +49,24 @@ export async function typeCheck(..._args: any[]) {
       chalk.bold.green("Success"),
       `All ${pkgPaths.length} ok!`,
     );
-  } catch (err) {
-    console.log("error", err);
+  } catch (err: any) {
+    console.log("Worker exec error: %s", err);
   }
 }
 
 export async function spawnWorker(workerName: string, pkgPaths: string[]) {
-  const threadPath = join(__dirname, "./thread.ts");
-  console.log("thread path: %s", threadPath);
+  const scriptPath = join(__dirname, "./thread.ts");
 
   const p1 = new Promise((resolve, reject) => {
+    console.log("Spawn worker, script path: %s", scriptPath);
+
     const worker = new Worker(
       // NOTE:Register runtime hook, if not, scripts in a worker thread run on
       // NodeJS runtime, not TSX (or any TypeScript runtime).
       `import('tsx/esm/api')
         .then(({ register }) => {
           register();
-          import('${threadPath}')
+          import('${scriptPath}')
         })`,
       {
         workerData: pkgPaths,
