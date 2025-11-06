@@ -2,9 +2,9 @@ import type { APIKey } from "@oko-wallet/ewallet-types/ct_dashboard";
 import type { Customer } from "@oko-wallet/ewallet-types/customers";
 
 import { errorHandle } from "./utils";
-import { EWALLET_API_ENDPOINT } from ".";
+import { OKO_API_ENDPOINT } from ".";
 
-export const CUSTOMER_V1_ENDPOINT = `${EWALLET_API_ENDPOINT}/customer_dashboard/v1`;
+export const CUSTOMER_V1_ENDPOINT = `${OKO_API_ENDPOINT}/customer_dashboard/v1`;
 
 export async function requestGetCustomerInfo({
   token,
