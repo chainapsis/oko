@@ -2,11 +2,11 @@ import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response"
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type { FetchError } from "./types";
-import { EWALLET_API_ENDPOINT } from "./endpoints";
+import { OKO_API_ENDPOINT } from "./endpoints";
 
-export const TSS_V1_ENDPOINT = `${EWALLET_API_ENDPOINT}/tss/v1`;
+export const TSS_V1_ENDPOINT = `${OKO_API_ENDPOINT}/tss/v1`;
 
-export async function makeKeplrApiRequest<T, R>(
+export async function makeOkoApiRequest<T, R>(
   path: string,
   args: T,
 ): Promise<Result<EwalletApiResponse<R>, FetchError>> {
@@ -38,7 +38,7 @@ export async function makeKeplrApiRequest<T, R>(
   }
 }
 
-export async function makeAuthorizedKeplrApiRequest<T, R>(
+export async function makeAuthorizedOkoApiRequest<T, R>(
   path: string,
   idToken: string,
   args: T,

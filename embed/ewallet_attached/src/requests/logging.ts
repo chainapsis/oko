@@ -7,7 +7,7 @@ import type {
 
 import type { FetchError } from "@oko-wallet-attached/requests/types";
 import type { PostLogParams } from "@oko-wallet-attached/logging/types";
-import { EWALLET_API_ENDPOINT } from "./endpoints";
+import { OKO_API_ENDPOINT } from "./endpoints";
 
 export async function postLog(
   log: PostLogParams,
@@ -44,7 +44,7 @@ export async function postLog(
 
   let resp;
   try {
-    resp = await fetch(`${EWALLET_API_ENDPOINT}/log/v1/`, {
+    resp = await fetch(`${OKO_API_ENDPOINT}/log/v1/`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(completeLog),
