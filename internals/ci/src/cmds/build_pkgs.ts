@@ -14,10 +14,10 @@ export function doBuildPkgs() {
   const pkgsInOrder = [
     paths.stdlib,
     paths.dotenv,
+    paths.crypto_bytes,
     paths.sdk_core,
     paths.sdk_cosmos,
     paths.sdk_eth,
-    paths.crypto_bytes,
     paths.ksn_interface,
     paths.tecdsa_interface,
   ];
