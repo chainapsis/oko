@@ -32,7 +32,7 @@
       "backend/ks_node_health",
       "backend/openapi",
       "embed/ewallet_attached",
-      "ui/ewallet_common_ui",
+      "ui/oko_common_ui",
       "apps/demo_web",
       "apps/import_demo_web",
       "apps/ewallet_admin_web",

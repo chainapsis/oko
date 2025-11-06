@@ -1,9 +1,9 @@
 "use client";
 
 import React, { type FC } from "react";
-import { Logo } from "@oko-wallet/ewallet-common-ui/logo";
-import { MenuIcon } from "@oko-wallet/ewallet-common-ui/icons/menu";
-import { XCloseIcon } from "@oko-wallet/ewallet-common-ui/icons/x_close";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import { MenuIcon } from "@oko-wallet/oko-common-ui/icons/menu";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 
 import styles from "./global_header.module.scss";
 import { useViewState } from "@oko-wallet-import-demo-web/state/view";

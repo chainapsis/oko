@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@oko-wallet/ewallet-common-ui/table";
+} from "@oko-wallet/oko-common-ui/table";
 
 import styles from "./sig_shares_table.module.scss";
 import { useGetTSSSessionsList } from "./use_get_tss_sessions";

@@ -14,7 +14,7 @@ import {
   autoUpdate,
 } from "@floating-ui/react";
 import cn from "classnames";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./anchored_menu.module.scss";
 

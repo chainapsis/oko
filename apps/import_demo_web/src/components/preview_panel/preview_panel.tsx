@@ -1,7 +1,7 @@
 "use client";
 
 import cn from "classnames";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import styles from "./preview_panel.module.scss";
 import { AccountWidget } from "@oko-wallet-import-demo-web/components/widgets/account_widget/account_widget";

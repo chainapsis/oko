@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { CodeIcon } from "@oko-wallet/ewallet-common-ui/icons/code";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { CodeIcon } from "@oko-wallet/oko-common-ui/icons/code";
 
 import { Widget } from "@oko-wallet-import-demo-web/components/widgets/widget_components";
 import styles from "./user_data_widget.module.scss";

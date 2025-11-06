@@ -1,6 +1,6 @@
 import { type FC } from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { ChevronRightIcon } from "@oko-wallet/ewallet-common-ui/icons/chevron_right";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
 
 import styles from "./beta_access_card.module.scss";
 

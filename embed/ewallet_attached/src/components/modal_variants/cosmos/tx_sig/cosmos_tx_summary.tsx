@@ -1,8 +1,8 @@
 import { type FC } from "react";
 import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import type { StdSignDoc } from "@keplr-wallet/types";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { ChevronRightIcon } from "@oko-wallet/ewallet-common-ui/icons/chevron_right";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
 
 import styles from "./cosmos_tx_summary.module.scss";
 import { Messages } from "./msg/messages";

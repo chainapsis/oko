@@ -1,9 +1,9 @@
 "use client";
 
 import { FC } from "react";
-import { ExternalLinkOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/external_link_outlined";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import Link from "next/link";
 
 import { useAppState } from "@oko-wallet-ct-dashboard/state";

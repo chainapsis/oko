@@ -10,8 +10,8 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@oko-wallet/ewallet-common-ui/table";
-import { Toggle } from "@oko-wallet/ewallet-common-ui/toggle";
+} from "@oko-wallet/oko-common-ui/table";
+import { Toggle } from "@oko-wallet/oko-common-ui/toggle";
 import { useRouter } from "next/navigation";
 import { Button } from "@oko-wallet-common-ui/button/button";
 

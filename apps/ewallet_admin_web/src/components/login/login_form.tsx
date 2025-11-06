@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
-import { Checkbox } from "@oko-wallet/ewallet-common-ui/checkbox";
-import { Input } from "@oko-wallet/ewallet-common-ui/input";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
+import { Input } from "@oko-wallet/oko-common-ui/input";
 
 import styles from "./login_form.module.scss";
 import { paths } from "@oko-wallet-admin/paths";

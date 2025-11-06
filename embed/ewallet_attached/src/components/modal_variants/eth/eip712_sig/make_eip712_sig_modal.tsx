@@ -1,10 +1,10 @@
 import { type FC } from "react";
 import type { MakeEIP712SigData } from "@oko-wallet/oko-sdk-core";
-import { XCloseIcon } from "@oko-wallet/ewallet-common-ui/icons/x_close";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { OkoProductLogoIcon } from "@oko-wallet/ewallet-common-ui/icons/oko_product_logo_icon";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";

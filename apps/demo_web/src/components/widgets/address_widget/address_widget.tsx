@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { CosmosIcon } from "@oko-wallet/ewallet-common-ui/icons/cosmos_icon";
-import { EthereumBlueIcon } from "@oko-wallet/ewallet-common-ui/icons/ethereum_blue_icon";
-import { WalletIcon } from "@oko-wallet/ewallet-common-ui/icons/wallet";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
+import { EthereumBlueIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_blue_icon";
+import { WalletIcon } from "@oko-wallet/oko-common-ui/icons/wallet";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./address_widget.module.scss";
 import { Widget } from "../widget_components";

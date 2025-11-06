@@ -1,7 +1,7 @@
 import React from "react";
 import type { EthereumArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { bytesToString, hexToString } from "viem";
 
 import { MetadataContent } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/metadata_content";

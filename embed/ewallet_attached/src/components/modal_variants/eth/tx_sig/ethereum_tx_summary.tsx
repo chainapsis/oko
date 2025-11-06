@@ -1,7 +1,7 @@
 import { type FC, type ReactNode, useState } from "react";
 import type { EthereumTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { ChevronRightIcon } from "@oko-wallet/ewallet-common-ui/icons/chevron_right";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
 import type { RpcTransactionRequest } from "viem";
 
 import styles from "./ethereum_tx_summary.module.scss";

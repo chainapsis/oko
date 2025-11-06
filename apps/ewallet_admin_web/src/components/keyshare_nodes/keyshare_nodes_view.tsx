@@ -1,8 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import type { FC } from "react";
 import { FormattedMessage } from "react-intl";
 

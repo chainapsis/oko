@@ -1,6 +1,6 @@
-import { Badge } from "@oko-wallet/ewallet-common-ui/badge";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { PlusIcon } from "@oko-wallet/ewallet-common-ui/icons/plus";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { PlusIcon } from "@oko-wallet/oko-common-ui/icons/plus";
 
 import styles from "./table_filter.module.scss";
 

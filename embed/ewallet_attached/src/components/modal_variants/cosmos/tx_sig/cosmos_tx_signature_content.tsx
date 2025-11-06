@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import type { StdSignDoc } from "@keplr-wallet/types";
 
 import { MetadataContent } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/metadata_content";

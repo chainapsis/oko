@@ -10,9 +10,9 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@oko-wallet/ewallet-common-ui/table";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
+} from "@oko-wallet/oko-common-ui/table";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import styles from "./customer_table.module.scss";
 import { useGetCustomerListWithAPIKeys } from "./use_get_customer";

@@ -1,6 +1,6 @@
 import { Fragment, type FC } from "react";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { stringify, type TypedDataDefinition } from "viem";
 
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";

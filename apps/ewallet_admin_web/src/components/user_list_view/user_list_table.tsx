@@ -7,7 +7,7 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@oko-wallet/ewallet-common-ui/table";
+} from "@oko-wallet/oko-common-ui/table";
 import { flexRender } from "@tanstack/react-table";
 
 import styles from "./user_list_table.module.scss";

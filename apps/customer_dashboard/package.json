@@ -14,7 +14,7 @@
     "@floating-ui/dom": "*",
     "@floating-ui/react": "*",
     "@oko-wallet/dotenv": "0.0.2-alpha.12",
-    "@oko-wallet/ewallet-common-ui": "workspace:*",
+    "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.27",
     "@tanstack/react-query": "*",
     "@tanstack/react-table": "*",

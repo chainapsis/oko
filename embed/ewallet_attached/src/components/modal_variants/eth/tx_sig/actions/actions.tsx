@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import styles from "./actions.module.scss";
 import type { RenderContext, EthTxAction } from "./types";

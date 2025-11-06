@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import type { ChainInfo } from "@keplr-wallet/types";
-import { SearchIcon } from "@oko-wallet/ewallet-common-ui/icons/search";
-import { XCloseIcon } from "@oko-wallet/ewallet-common-ui/icons/x_close";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import cn from "classnames";
 
 import styles from "./view_chains_modal.module.scss";

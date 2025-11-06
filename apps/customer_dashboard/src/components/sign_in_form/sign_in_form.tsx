@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useState } from "react";
-import { Input } from "@oko-wallet/ewallet-common-ui/input";
-import { Card } from "@oko-wallet/ewallet-common-ui/card";
-import { Logo } from "@oko-wallet/ewallet-common-ui/logo";
-import { Checkbox } from "@oko-wallet/ewallet-common-ui/checkbox";
+import { Input } from "@oko-wallet/oko-common-ui/input";
+import { Card } from "@oko-wallet/oko-common-ui/card";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
 import { AccountForm } from "@oko-wallet-ct-dashboard/ui";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { InfoModal } from "../info_modal/info_modal";
 
 import styles from "./sign_in_form.module.scss";

@@ -17,7 +17,7 @@
     "incremental": true,
     "paths": {
       "@oko-wallet-attached/*": ["./src/*"],
-      "@oko-wallet-common-ui/*": ["../../ui/ewallet_common_ui/src/*"]
+      "@oko-wallet-common-ui/*": ["../../ui/oko_common_ui/src/*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],

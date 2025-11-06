@@ -1,4 +1,4 @@
-import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import { create } from "zustand";
 import { combine, persist } from "zustand/middleware";
 

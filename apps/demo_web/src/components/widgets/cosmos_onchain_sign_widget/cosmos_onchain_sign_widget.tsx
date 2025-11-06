@@ -9,8 +9,8 @@ import {
 import { MsgSend } from "@keplr-wallet/proto-types/cosmos/bank/v1beta1/tx";
 import { PubKey } from "@keplr-wallet/proto-types/cosmos/crypto/secp256k1/keys";
 import { SignMode } from "@keplr-wallet/proto-types/cosmos/tx/signing/v1beta1/signing";
-import { CosmosIcon } from "@oko-wallet/ewallet-common-ui/icons/cosmos_icon";
-import { Checkbox } from "@oko-wallet/ewallet-common-ui/checkbox";
+import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
+import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
 
 import styles from "./cosmos_onchain_sign_widget.module.scss";
 import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";

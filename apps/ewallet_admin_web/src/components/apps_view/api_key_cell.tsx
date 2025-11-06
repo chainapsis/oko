@@ -1,7 +1,7 @@
 import { type FC, useState } from "react";
-import { Badge } from "@oko-wallet/ewallet-common-ui/badge";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { CopyOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/copy_outlined";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 
 import styles from "./api_key_cell.module.scss";
 

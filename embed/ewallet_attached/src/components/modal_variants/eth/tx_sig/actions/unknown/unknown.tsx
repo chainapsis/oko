@@ -1,5 +1,5 @@
 import { type FC } from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { TxContainer } from "../common/tx_container";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";

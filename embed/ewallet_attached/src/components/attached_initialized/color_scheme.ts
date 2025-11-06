@@ -1,4 +1,4 @@
-import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 export function setColorScheme(theme: Theme) {
   const root = window.document.documentElement;

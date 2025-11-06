@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { LoadingIcon } from "@oko-wallet/ewallet-common-ui/icons/loading";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { OkoProductLogoIcon } from "@oko-wallet-common-ui/icons/oko_product_logo_icon";
-import { ErrorIcon } from "@oko-wallet/ewallet-common-ui/icons/error_icon";
-import { ExternalLinkOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/external_link_outlined";
-import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
+import { ErrorIcon } from "@oko-wallet/oko-common-ui/icons/error_icon";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import styles from "./google_callback.module.scss";
 import { getSystemTheme } from "./theme";

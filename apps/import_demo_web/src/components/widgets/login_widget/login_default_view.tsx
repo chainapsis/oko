@@ -1,16 +1,16 @@
 import { type FC, Fragment, useState } from "react";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
-import { GoogleIcon } from "@oko-wallet/ewallet-common-ui/icons/google_icon";
-import { Logo } from "@oko-wallet/ewallet-common-ui/logo";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { ExternalLinkOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/external_link_outlined";
-import { ChevronRightIcon } from "@oko-wallet/ewallet-common-ui/icons/chevron_right";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { TelegramIcon } from "@oko-wallet/ewallet-common-ui/icons/telegram_icon";
-import { XIcon } from "@oko-wallet/ewallet-common-ui/icons/x_icon";
-import { AppleIcon } from "@oko-wallet/ewallet-common-ui/icons/apple_icon";
-import { OkoProductLogoIcon } from "@oko-wallet/ewallet-common-ui/icons/oko_product_logo_icon";
-import { MailboxIcon } from "@oko-wallet/ewallet-common-ui/icons/mailbox";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
+import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
+import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
+import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
+import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 
 import styles from "./login_widget.module.scss";
 

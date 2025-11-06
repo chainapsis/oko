@@ -3,8 +3,8 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import { type SubmitHandler } from "react-hook-form";
-import { Input } from "@oko-wallet/ewallet-common-ui/input";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
+import { Input } from "@oko-wallet/oko-common-ui/input";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import styles from "./create_customer_form.module.scss";
 import {

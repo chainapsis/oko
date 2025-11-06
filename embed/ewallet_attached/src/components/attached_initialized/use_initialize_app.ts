@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 // import { useSearchParams } from "next/navigation";
 import type { SignInSilentlyResponse } from "@oko-wallet/oko-types/user";
 import type { OkoWalletMsgInit } from "@oko-wallet/oko-sdk-core";
-import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import { initKeplrWasm } from "@oko-wallet-attached/wasm";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";

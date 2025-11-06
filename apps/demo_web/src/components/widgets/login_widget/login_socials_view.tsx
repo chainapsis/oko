@@ -1,10 +1,10 @@
 import { type FC, Fragment } from "react";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { TelegramIcon } from "@oko-wallet/ewallet-common-ui/icons/telegram_icon";
-import { XIcon } from "@oko-wallet/ewallet-common-ui/icons/x_icon";
-import { AppleIcon } from "@oko-wallet/ewallet-common-ui/icons/apple_icon";
-import { ChevronLeftIcon } from "@oko-wallet/ewallet-common-ui/icons/chevron_left";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
+import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
+import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
+import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
 
 import styles from "./login_widget.module.scss";
