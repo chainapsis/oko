@@ -12,7 +12,7 @@ export const DocsWidget: React.FC = () => {
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
 
   const handleOpenDocs = () => {
-    window.open(process.env.NEXT_PUBLIC_KEPLR_EWALLET_DOCS_ENDPOINT, "_blank");
+    window.open(process.env.NEXT_PUBLIC_OKO_DOCS_ENDPOINT, "_blank");
   };
 
   return (
