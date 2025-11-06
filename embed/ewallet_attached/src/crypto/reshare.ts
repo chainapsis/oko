@@ -16,7 +16,7 @@ import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_kepl
 import type { ReshareRequest } from "@oko-wallet/ewallet-types/user";
 
 import { hashKeyshareNodeNames } from "./hash";
-import { makeAuthorizedKeplrApiRequest } from "@oko-wallet-attached/requests/ewallet_api";
+import { makeAuthorizedOkoApiRequest } from "@oko-wallet-attached/requests/oko_api";
 
 export async function reshareUserKeyShares(
   publicKey: Bytes33,
@@ -118,7 +118,7 @@ export async function reshareUserKeyShares(
     };
   }
 
-  const updateWalletStatusRes = await makeAuthorizedKeplrApiRequest<
+  const updateWalletStatusRes = await makeAuthorizedOkoApiRequest<
     ReshareRequest,
     void
   >("user/reshare", idToken, {
