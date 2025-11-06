@@ -24,14 +24,14 @@ export default function Home() {
                 title="Read our docs"
                 description="Everything you need to get started with Oko."
                 buttonText="Open docs"
-                buttonLink={process.env.NEXT_PUBLIC_KEPLR_EWALLET_DOCS_ENDPOINT}
+                buttonLink={process.env.NEXT_PUBLIC_OKO_DOCS_ENDPOINT}
                 type="docs"
               />
               <HomeBanner
                 title="See it in action"
                 description="Try and explore Oko in a live demo."
                 buttonText="Try Demo"
-                buttonLink={process.env.NEXT_PUBLIC_KEPLR_EWALLET_DEMO_ENDPOINT}
+                buttonLink={process.env.NEXT_PUBLIC_OKO_DEMO_ENDPOINT}
                 type="demo"
               />
             </div>
