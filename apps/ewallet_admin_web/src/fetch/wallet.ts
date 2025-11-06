@@ -4,7 +4,7 @@ import type {
 } from "@oko-wallet/ewallet-types/admin";
 
 import { errorHandle } from "./utils";
-import { EWALLET_ADMIN_API_ENDPOINT_V1 } from ".";
+import { OKO_ADMIN_API_ENDPOINT_V1 } from ".";
 
 export async function getWalletList({
   token,
@@ -21,7 +21,7 @@ export async function getWalletList({
   };
 
   return errorHandle<GetWalletListResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/wallet/get_wallet_list`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/wallet/get_wallet_list`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

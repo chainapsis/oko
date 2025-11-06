@@ -7,7 +7,7 @@ import type {
 } from "@oko-wallet/ewallet-types/admin";
 
 import { errorHandle } from "@oko-wallet-admin/fetch/utils";
-import { EWALLET_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
 export async function getTSSSessionsList({
   token,
@@ -27,7 +27,7 @@ export async function getTSSSessionsList({
   };
 
   return errorHandle<GetTssSessionListResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/tss/get_tss_session_list`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/tss/get_tss_session_list`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -40,16 +40,13 @@ export async function getTSSSessionsList({
 
 export async function getTssAllActivationSetting({ token }: { token: string }) {
   return errorHandle<GetTssAllActivationSettingResponse>(() =>
-    fetch(
-      `${EWALLET_ADMIN_API_ENDPOINT_V1}/tss/get_tss_all_activation_setting`,
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/tss/get_tss_all_activation_setting`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ),
+    }),
   );
 }
 
@@ -65,16 +62,13 @@ export async function setTssAllActivationSetting({
   };
 
   return errorHandle<SetTssAllActivationSettingResponse>(() =>
-    fetch(
-      `${EWALLET_ADMIN_API_ENDPOINT_V1}/tss/set_tss_all_activation_setting`,
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(body),
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/tss/set_tss_all_activation_setting`, {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ),
+      body: JSON.stringify(body),
+    }),
   );
 }
