@@ -83,13 +83,19 @@ cd oko/key_share_node/docker
 cp env.example .env
 ```
 
-1. **Create encryption secret file** (32-byte hex string, you can use any random value):
+1. **Prepare the encryption secret file:**
+
+Create a secure encryption secret file at your desired location. This file will
+be used to encrypt user key shares within the Key Share Node. **You can use any
+random value you choose** - this will be referenced later in the
+`ENCRYPTION_SECRET_FILE_PATH` environment variable.
+
+**Create the encryption secret file:**
 
 ```bash
 # Generate a random 32-byte (256-bit) encryption secret as hex and save it to a file
 sudo mkdir -p /opt/key_share_node
 openssl rand -hex 32 | tr -d '\n' | sudo tee /opt/key_share_node/encryption_secret.txt >/dev/null
-sudo chmod 600 /opt/key_share_node/encryption_secret.txt
 ```
 
 2. **Create required directories and set proper permissions**:
