@@ -5,5 +5,5 @@ export const EXAMPLE_ENV_FILE = "ewallet_admin_web.env.example";
 
 export const envSchema = z.object({
   SERVER_PORT: z.string(),
-  NEXT_PUBLIC_EWALLET_API_ENDPOINT: z.string(),
+  NEXT_PUBLIC_OKO_API_ENDPOINT: z.string(),
 });

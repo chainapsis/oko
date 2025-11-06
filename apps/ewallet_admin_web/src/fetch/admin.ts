@@ -4,12 +4,12 @@ import type {
 } from "@oko-wallet/ewallet-types/admin";
 import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
-import { EWALLET_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 import { errorHandle } from "@oko-wallet-admin/fetch/utils";
 
 export const postLoginAdmin = async (email: string, password: string) => {
   return errorHandle<AdminLoginResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/user/login`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/user/login`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -26,7 +26,7 @@ export const postLogoutAdmin = async (
   token?: string,
 ): Promise<EwalletApiResponse<AdminLogoutResponse>> => {
   return errorHandle<AdminLogoutResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/user/logout`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/user/logout`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

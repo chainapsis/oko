@@ -12,7 +12,7 @@ import type {
 } from "@oko-wallet/ewallet-types/admin";
 
 import { errorHandle } from "@oko-wallet-admin/fetch/utils";
-import { EWALLET_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
 export type GetKSNodesParams = {
   token: string;
@@ -52,7 +52,7 @@ export type ActivateKSNodeParams = {
 
 export async function getAllKeyShareNodes({ token }: GetKSNodesParams) {
   return errorHandle<GetAllKSNodeResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/ks_node/get_all_ks_nodes`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_all_ks_nodes`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -64,7 +64,7 @@ export async function getAllKeyShareNodes({ token }: GetKSNodesParams) {
 
 export async function getKSNodeById({ token, node_id }: GetKSNodeByIdParams) {
   return errorHandle<GetKSNodeByIdResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/ks_node/get_ks_node_by_id`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ks_node_by_id`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -86,7 +86,7 @@ export async function createKeyShareNode({
   };
 
   return errorHandle<CreateKSNodeResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/ks_node/create_ks_node`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/create_ks_node`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -106,7 +106,7 @@ export async function deactivateKeyShareNode({
   };
 
   return errorHandle<DeactivateKSNodeResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/ks_node/deactivate_ks_node`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/deactivate_ks_node`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -126,7 +126,7 @@ export async function deleteKeyShareNode({
   };
 
   return errorHandle<DeleteKSNodeResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/ks_node/delete_ks_node`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/delete_ks_node`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -148,7 +148,7 @@ export async function updateKeyShareNode({
   };
 
   return errorHandle<UpdateKSNodeResponse>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/ks_node/update_ks_node`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/update_ks_node`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -168,7 +168,7 @@ export async function activateKeyShareNode({
   };
 
   return errorHandle<{ node_id: string }>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/ks_node/activate_ks_node`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/activate_ks_node`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
