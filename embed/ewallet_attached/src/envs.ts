@@ -7,8 +7,6 @@ export const envSchema = z.object({
   SERVER_PORT: z.string(),
 
   VITE_OKO_API_ENDPOINT: z.string(),
-  VITE_KS_NODE_API_ENDPOINT: z.string(),
-  VITE_KS_NODE_API_ENDPOINT_2: z.string(),
   VITE_DEMO_WEB_ORIGIN: z.string(),
   VITE_KEPLR_API_ENDPOINT: z.string(),
   VITE_TX_INTERPRETER_API_ENDPOINT: z.string(),

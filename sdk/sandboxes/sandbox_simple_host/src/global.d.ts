@@ -11,8 +11,6 @@ declare global {
     export interface ProcessEnv {
       SERVER_PORT: string;
       VITE_OKO_API_ENDPOINT: string;
-      VITE_KS_NODE_API_ENDPOINT: string;
-      VITE_KS_NODE_API_ENDPOINT_2: string;
       VITE_DEMO_WEB_ORIGIN: string;
     }
   }

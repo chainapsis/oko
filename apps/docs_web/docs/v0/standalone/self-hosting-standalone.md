@@ -340,8 +340,6 @@ yarn workspace @oko-wallet/ewallet-attached create_env
 # Example values:
 # SERVER_PORT=3201
 # VITE_OKO_API_ENDPOINT=http://localhost:4200
-# VITE_KS_NODE_API_ENDPOINT=http://localhost:4201
-# VITE_KS_NODE_API_ENDPOINT_2=http://localhost:4202
 # VITE_DEMO_WEB_ORIGIN=http://localhost:3200  # host app origin embedding the iframe
 
 yarn workspace @oko-wallet/ewallet-attached dev
