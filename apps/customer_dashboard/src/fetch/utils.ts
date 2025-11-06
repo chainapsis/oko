@@ -1,4 +1,4 @@
-import { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 
@@ -13,7 +13,7 @@ let resetTimeout: NodeJS.Timeout | null = null;
 // rework
 export async function errorHandle<T>(
   fetchCall: () => Promise<Response>,
-): Promise<EwalletApiResponse<T>> {
+): Promise<OkoApiResponse<T>> {
   try {
     const response = await fetchCall();
     const data = await response.json();
@@ -43,7 +43,7 @@ export async function errorHandle<T>(
       };
     }
 
-    return data satisfies EwalletApiResponse<T>;
+    return data satisfies OkoApiResponse<T>;
   } catch (error) {
     let errorMessage: string;
     if (error instanceof Error) {

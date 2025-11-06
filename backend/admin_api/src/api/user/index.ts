@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type {
   AdminLoginRequest,
   AdminLoginResponse,
@@ -17,7 +17,7 @@ export async function login(
     secret: string;
     expires_in: string;
   },
-): Promise<EwalletApiResponse<AdminLoginResponse>> {
+): Promise<OkoApiResponse<AdminLoginResponse>> {
   try {
     const getAdminRes = await getAdminByEmail(db, body.email);
     if (getAdminRes.success === false) {
@@ -96,7 +96,7 @@ export async function login(
 export async function logout(
   db: Pool,
   token?: string,
-): Promise<EwalletApiResponse<AdminLogoutResponse>> {
+): Promise<OkoApiResponse<AdminLogoutResponse>> {
   try {
     if (token) {
       return {

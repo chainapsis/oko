@@ -8,7 +8,7 @@ import type {
   SendVerificationResponse,
 } from "@oko-wallet/ewallet-types/ct_dashboard";
 import { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
 import {
   generateVerificationCode,
@@ -22,7 +22,7 @@ import {
 export async function sendEmailVerificationCode(
   db: Pool,
   request: SendVerificationRequest,
-): Promise<EwalletApiResponse<SendVerificationResponse>> {
+): Promise<OkoApiResponse<SendVerificationResponse>> {
   if (!request.email) {
     return {
       success: false,

@@ -4,7 +4,7 @@ import type {
   AdminLoginResponse,
   AdminLogoutResponse,
 } from "@oko-wallet/ewallet-types/admin";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import {
@@ -77,7 +77,7 @@ export function setUserRoutes(router: Router) {
     "/user/login",
     async (
       req: Request<any, any, AdminLoginRequest>,
-      res: Response<EwalletApiResponse<AdminLoginResponse>>,
+      res: Response<OkoApiResponse<AdminLoginResponse>>,
     ) => {
       const state = req.app.locals;
 
@@ -136,7 +136,7 @@ export function setUserRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: Request,
-      res: Response<EwalletApiResponse<AdminLogoutResponse>>,
+      res: Response<OkoApiResponse<AdminLogoutResponse>>,
     ) => {
       const state = req.app.locals;
 

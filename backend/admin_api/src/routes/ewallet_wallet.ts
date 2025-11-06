@@ -1,4 +1,4 @@
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type {
   GetWalletListRequest,
   GetWalletListResponse,
@@ -72,7 +72,7 @@ export function setWalletRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<GetWalletListRequest>,
-      res: Response<EwalletApiResponse<GetWalletListResponse>>,
+      res: Response<OkoApiResponse<GetWalletListResponse>>,
     ) => {
       const state = req.app.locals;
 

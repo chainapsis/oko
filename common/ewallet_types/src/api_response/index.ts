@@ -1,13 +1,13 @@
-export type EwalletApiResponse<T> =
-  | EwalletApiSuccessResponse<T>
-  | EwalletApiErrorResponse;
+export type OkoApiResponse<T> =
+  | OkoApiSuccessResponse<T>
+  | OkoApiErrorResponse;
 
-export interface EwalletApiSuccessResponse<T> {
+export interface OkoApiSuccessResponse<T> {
   success: true;
   data: T;
 }
 
-export interface EwalletApiErrorResponse {
+export interface OkoApiErrorResponse {
   success: false;
   code: ErrorCode;
   msg: string;

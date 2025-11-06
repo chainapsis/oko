@@ -1,5 +1,5 @@
 import type { Bytes33 } from "@oko-wallet/bytes";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type { CheckKeyShareResponse } from "@oko-wallet/ksn-interface/key_share";
 
 export async function requestCheckKeyShare(
@@ -17,5 +17,5 @@ export async function requestCheckKeyShare(
       public_key: publicKey.toHex(),
     }),
   });
-  return (await res.json()) as EwalletApiResponse<CheckKeyShareResponse>;
+  return (await res.json()) as OkoApiResponse<CheckKeyShareResponse>;
 }

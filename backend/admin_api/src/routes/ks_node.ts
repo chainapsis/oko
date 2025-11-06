@@ -1,5 +1,5 @@
 import type { Response, Router } from "express";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type {
   GetAllKSNodeResponse,
   CreateKSNodeResponse,
@@ -35,7 +35,7 @@ export function setKSNodeRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest,
-      res: Response<EwalletApiResponse<GetAllKSNodeResponse>>,
+      res: Response<OkoApiResponse<GetAllKSNodeResponse>>,
     ) => {
       const state = req.app.locals;
 
@@ -54,7 +54,7 @@ export function setKSNodeRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<GetKSNodeByIdRequest>,
-      res: Response<EwalletApiResponse<GetKSNodeByIdResponse>>,
+      res: Response<OkoApiResponse<GetKSNodeByIdResponse>>,
     ) => {
       const state = req.app.locals;
       const result = await getKSNodeById(state.db, req.body);
@@ -72,7 +72,7 @@ export function setKSNodeRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<CreateKSNodeRequest>,
-      res: Response<EwalletApiResponse<CreateKSNodeResponse>>,
+      res: Response<OkoApiResponse<CreateKSNodeResponse>>,
     ) => {
       const state = req.app.locals;
 
@@ -91,7 +91,7 @@ export function setKSNodeRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<DeactivateKSNodeRequest>,
-      res: Response<EwalletApiResponse<DeactivateKSNodeResponse>>,
+      res: Response<OkoApiResponse<DeactivateKSNodeResponse>>,
     ) => {
       const state = req.app.locals;
 
@@ -110,7 +110,7 @@ export function setKSNodeRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<DeactivateKSNodeRequest>,
-      res: Response<EwalletApiResponse<DeactivateKSNodeResponse>>,
+      res: Response<OkoApiResponse<DeactivateKSNodeResponse>>,
     ) => {
       const state = req.app.locals;
 
@@ -129,7 +129,7 @@ export function setKSNodeRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<UpdateKSNodeRequest>,
-      res: Response<EwalletApiResponse<UpdateKSNodeResponse>>,
+      res: Response<OkoApiResponse<UpdateKSNodeResponse>>,
     ) => {
       const state = req.app.locals;
 
@@ -148,7 +148,7 @@ export function setKSNodeRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<ActivateKSNodeRequest>,
-      res: Response<EwalletApiResponse<ActivateKSNodeResponse>>,
+      res: Response<OkoApiResponse<ActivateKSNodeResponse>>,
     ) => {
       const state = req.app.locals;
 

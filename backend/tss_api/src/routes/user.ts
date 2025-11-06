@@ -6,7 +6,7 @@ import type {
   SignInResponse,
   SignInSilentlyResponse,
 } from "@oko-wallet/ewallet-types/user";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
@@ -84,7 +84,7 @@ export function setUserRoutes(router: Router) {
     "/user/check",
     async (
       req: Request<any, any, CheckEmailRequest>,
-      res: Response<EwalletApiResponse<CheckEmailResponse>>,
+      res: Response<OkoApiResponse<CheckEmailResponse>>,
     ) => {
       const state = req.app.locals;
 
@@ -165,7 +165,7 @@ export function setUserRoutes(router: Router) {
     [googleAuthMiddleware, tssActivateMiddleware],
     async (
       req: GoogleAuthenticatedRequest,
-      res: Response<EwalletApiResponse<SignInResponse>>,
+      res: Response<OkoApiResponse<SignInResponse>>,
     ) => {
       const state = req.app.locals;
       const googleUser = res.locals.google_user;
@@ -231,7 +231,7 @@ export function setUserRoutes(router: Router) {
     [tssActivateMiddleware],
     async (
       req: Request<any, any, {}>,
-      res: Response<EwalletApiResponse<SignInSilentlyResponse>>,
+      res: Response<OkoApiResponse<SignInSilentlyResponse>>,
     ) => {
       const authHeader = req.headers.authorization;
 
@@ -312,7 +312,7 @@ export function setUserRoutes(router: Router) {
     [googleAuthMiddleware, tssActivateMiddleware],
     async (
       req: GoogleAuthenticatedRequest<ReshareRequest>,
-      res: Response<EwalletApiResponse<void>>,
+      res: Response<OkoApiResponse<void>>,
     ) => {
       const state = req.app.locals;
       const googleUser = res.locals.google_user;

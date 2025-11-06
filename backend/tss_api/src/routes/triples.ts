@@ -53,7 +53,7 @@ import type {
   TriplesStep9Body,
   TriplesStep9Response,
 } from "@oko-wallet/ewallet-types/tss";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
 import {
   runTriplesStep1,
@@ -129,7 +129,7 @@ export function setTriplesRoutes(router: Router) {
     [apiKeyMiddleware, userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep1Body>,
-      res: Response<EwalletApiResponse<TriplesStep1Response>>,
+      res: Response<OkoApiResponse<TriplesStep1Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -220,7 +220,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep2Body>,
-      res: Response<EwalletApiResponse<TriplesStep2Response>>,
+      res: Response<OkoApiResponse<TriplesStep2Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -310,7 +310,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep3Body>,
-      res: Response<EwalletApiResponse<TriplesStep3Response>>,
+      res: Response<OkoApiResponse<TriplesStep3Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -400,7 +400,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep4Body>,
-      res: Response<EwalletApiResponse<TriplesStep4Response>>,
+      res: Response<OkoApiResponse<TriplesStep4Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -481,7 +481,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep5Body>,
-      res: Response<EwalletApiResponse<TriplesStep5Response>>,
+      res: Response<OkoApiResponse<TriplesStep5Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -562,7 +562,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep6Body>,
-      res: Response<EwalletApiResponse<TriplesStep6Response>>,
+      res: Response<OkoApiResponse<TriplesStep6Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -643,7 +643,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep7Body>,
-      res: Response<EwalletApiResponse<TriplesStep7Response>>,
+      res: Response<OkoApiResponse<TriplesStep7Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -724,7 +724,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep8Body>,
-      res: Response<EwalletApiResponse<TriplesStep8Response>>,
+      res: Response<OkoApiResponse<TriplesStep8Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -805,7 +805,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep9Body>,
-      res: Response<EwalletApiResponse<TriplesStep9Response>>,
+      res: Response<OkoApiResponse<TriplesStep9Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -886,7 +886,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep10Body>,
-      res: Response<EwalletApiResponse<TriplesStep10Response>>,
+      res: Response<OkoApiResponse<TriplesStep10Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -969,7 +969,7 @@ export function setTriplesRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep11Body>,
-      res: Response<EwalletApiResponse<TriplesStep11Response>>,
+      res: Response<OkoApiResponse<TriplesStep11Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;

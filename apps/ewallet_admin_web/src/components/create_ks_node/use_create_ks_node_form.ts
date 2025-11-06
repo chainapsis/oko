@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { type EwalletApiSuccessResponse } from "@oko-wallet/ewallet-types/api_response";
+import { type OkoApiSuccessResponse } from "@oko-wallet/ewallet-types/api_response";
 import { type CreateKSNodeResponse } from "@oko-wallet/ewallet-types/admin";
 
 import { isValidUrl } from "@oko-wallet-admin/utils/";
@@ -40,7 +40,7 @@ export function useCreateKSNodeForm(
   const { token } = useAppState();
 
   const mutation = useMutation<
-    EwalletApiSuccessResponse<CreateKSNodeResponse> | undefined,
+    OkoApiSuccessResponse<CreateKSNodeResponse> | undefined,
     any,
     CreateKSNodeFormData
   >({

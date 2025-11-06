@@ -12,7 +12,7 @@ import {
 } from "@oko-wallet/ewallet-types/wallets";
 import type { KeygenRequest } from "@oko-wallet/ewallet-types/tss";
 import type { SignInResponse, User } from "@oko-wallet/ewallet-types/user";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,
@@ -35,7 +35,7 @@ export async function runKeygen(
   },
   keygenRequest: KeygenRequest,
   encryptionSecret: string,
-): Promise<EwalletApiResponse<SignInResponse>> {
+): Promise<OkoApiResponse<SignInResponse>> {
   try {
     const { email, keygen_2 } = keygenRequest;
 

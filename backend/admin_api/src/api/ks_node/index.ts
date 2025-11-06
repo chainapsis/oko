@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type {
   CreateKSNodeRequest,
   GetAllKSNodeResponse,
@@ -28,7 +28,7 @@ import { processKSNodeHealthChecks } from "@oko-wallet/ks-node-health";
 
 export async function getAllKSNodes(
   db: Pool,
-): Promise<EwalletApiResponse<GetAllKSNodeResponse>> {
+): Promise<OkoApiResponse<GetAllKSNodeResponse>> {
   try {
     const getAllKSNodesRes = await getAllKSNodesWithHealthCheck(db);
     if (getAllKSNodesRes.success === false) {
@@ -57,7 +57,7 @@ export async function getAllKSNodes(
 export async function getKSNodeById(
   db: Pool,
   body: GetKSNodeByIdRequest,
-): Promise<EwalletApiResponse<GetKSNodeByIdResponse>> {
+): Promise<OkoApiResponse<GetKSNodeByIdResponse>> {
   try {
     const getKSNodeRes = await getKSNodeByIdFromPG(db, body.node_id);
     if (getKSNodeRes.success === false) {
@@ -92,7 +92,7 @@ export async function getKSNodeById(
 export async function createKSNode(
   db: Pool,
   body: CreateKSNodeRequest,
-): Promise<EwalletApiResponse<CreateKSNodeResponse>> {
+): Promise<OkoApiResponse<CreateKSNodeResponse>> {
   try {
     const { node_name, server_url } = body;
 
@@ -134,7 +134,7 @@ export async function createKSNode(
 export async function deactivateKSNode(
   db: Pool,
   body: DeactivateKSNodeRequest,
-): Promise<EwalletApiResponse<DeactivateKSNodeResponse>> {
+): Promise<OkoApiResponse<DeactivateKSNodeResponse>> {
   try {
     const getKSNodeRes = await getKSNodeByIdFromPG(db, body.node_id);
     if (getKSNodeRes.success === false) {
@@ -190,7 +190,7 @@ export async function deactivateKSNode(
 export async function activateKSNode(
   db: Pool,
   body: ActivateKSNodeRequest,
-): Promise<EwalletApiResponse<ActivateKSNodeResponse>> {
+): Promise<OkoApiResponse<ActivateKSNodeResponse>> {
   try {
     const getKSNodeRes = await getKSNodeByIdFromPG(db, body.node_id);
     if (getKSNodeRes.success === false) {
@@ -246,7 +246,7 @@ export async function activateKSNode(
 export async function updateKSNode(
   db: Pool,
   body: UpdateKSNodeRequest,
-): Promise<EwalletApiResponse<UpdateKSNodeResponse>> {
+): Promise<OkoApiResponse<UpdateKSNodeResponse>> {
   try {
     const { node_id, server_url } = body;
 
@@ -283,7 +283,7 @@ export async function updateKSNode(
 export async function deleteKSNode(
   db: Pool,
   body: DeleteKSNodeRequest,
-): Promise<EwalletApiResponse<DeleteKSNodeResponse>> {
+): Promise<OkoApiResponse<DeleteKSNodeResponse>> {
   try {
     const getKSNodeRes = await getKSNodeByIdFromPG(db, body.node_id);
     if (getKSNodeRes.success === false) {

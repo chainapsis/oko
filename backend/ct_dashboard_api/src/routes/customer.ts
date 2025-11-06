@@ -3,7 +3,7 @@ import type { Customer } from "@oko-wallet/ewallet-types/customers";
 import { getCustomerByUserId } from "@oko-wallet/oko-pg-interface/customers";
 import { getAPIKeysByCustomerId } from "@oko-wallet/oko-pg-interface/api_keys";
 import type { APIKey } from "@oko-wallet/ewallet-types/ct_dashboard";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { CustomerAuthHeaderSchema } from "@oko-wallet/oko-api-openapi/ct_dashboard";
@@ -69,7 +69,7 @@ export function setCustomerRoutes(router: Router) {
     customerJwtMiddleware,
     async (
       req: CustomerAuthenticatedRequest,
-      res: Response<EwalletApiResponse<Customer>>,
+      res: Response<OkoApiResponse<Customer>>,
     ) => {
       try {
         const state = req.app.locals as any;
@@ -172,7 +172,7 @@ export function setCustomerRoutes(router: Router) {
     customerJwtMiddleware,
     async (
       req: CustomerAuthenticatedRequest<{ customer_id: string }>,
-      res: Response<EwalletApiResponse<APIKey[]>>,
+      res: Response<OkoApiResponse<APIKey[]>>,
     ) => {
       try {
         const state = req.app.locals as any;

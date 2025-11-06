@@ -12,7 +12,7 @@ import type {
   AbortTssSessionBody,
   AbortTssSessionResponse,
 } from "@oko-wallet/ewallet-types/tss";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
 import {
@@ -89,7 +89,7 @@ export function setTssSessionRoutes(router: Router) {
     userJwtMiddleware,
     async (
       req: UserAuthenticatedRequest<AbortTssSessionBody>,
-      res: Response<EwalletApiResponse<AbortTssSessionResponse>>,
+      res: Response<OkoApiResponse<AbortTssSessionResponse>>,
     ) => {
       const state = req.app.locals;
       const user = res.locals.user;

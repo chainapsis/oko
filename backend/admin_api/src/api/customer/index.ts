@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import { randomBytes } from "crypto";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
@@ -45,7 +45,7 @@ export async function createCustomer(
     };
     logo?: { buffer: Buffer; originalname: string } | null;
   },
-): Promise<EwalletApiResponse<CreateCustomerResponse>> {
+): Promise<OkoApiResponse<CreateCustomerResponse>> {
   try {
     let logo_url: string | null = null;
     if (opts.logo) {
@@ -149,7 +149,7 @@ export async function getCustomerList(
   limit: number,
   offset: number,
 ): Promise<
-  EwalletApiResponse<{
+  OkoApiResponse<{
     customerWithAPIKeysList: CustomerWithAPIKeys[];
     pagination: {
       total: number;
@@ -221,7 +221,7 @@ export async function getCustomerList(
 export async function getCustomerById(
   db: Pool,
   customer_id: string,
-): Promise<EwalletApiResponse<Customer>> {
+): Promise<OkoApiResponse<Customer>> {
   try {
     const customerRes = await getCustomer(db, customer_id);
     if (customerRes.success === false) {
@@ -254,7 +254,7 @@ export async function deleteCustomerAndUsers(
   db: Pool,
   customer_id: string,
 ): Promise<
-  EwalletApiResponse<{
+  OkoApiResponse<{
     customer_id: string;
     customer_dashboard_user_ids: string[];
   }>

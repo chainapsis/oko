@@ -8,14 +8,14 @@ import {
   TssSessionState,
 } from "@oko-wallet/ewallet-types/tss";
 import { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
 import { validateWalletEmail } from "@oko-wallet-tss-api/api/utils";
 
 export async function abortTssSession(
   db: Pool,
   abortTssSessionRequest: AbortTssSessionRequest,
-): Promise<EwalletApiResponse<AbortTssSessionResponse>> {
+): Promise<OkoApiResponse<AbortTssSessionResponse>> {
   try {
     const { email, wallet_id, session_id } = abortTssSessionRequest;
 

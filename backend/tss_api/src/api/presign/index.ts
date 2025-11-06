@@ -24,7 +24,7 @@ import {
   runPresignServerStep3,
 } from "@oko-wallet/cait-sith-keplr-addon/src/server";
 import { Participant } from "@oko-wallet/tecdsa-interface";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
 import {
   validateWalletEmail,
@@ -36,7 +36,7 @@ export async function runPresignStep1(
   db: Pool,
   presignStep1Request: PresignStep1Request,
   encryptionSecret: string,
-): Promise<EwalletApiResponse<PresignStep1Response>> {
+): Promise<OkoApiResponse<PresignStep1Response>> {
   try {
     const { email, wallet_id, session_id, msgs_1 } = presignStep1Request;
 
@@ -161,7 +161,7 @@ export async function runPresignStep1(
 export async function runPresignStep2(
   db: Pool,
   presignStep2Request: PresignStep2Request,
-): Promise<EwalletApiResponse<PresignStep2Response>> {
+): Promise<OkoApiResponse<PresignStep2Response>> {
   try {
     const { email, wallet_id, session_id, wait_1_0_1 } = presignStep2Request;
 
@@ -248,7 +248,7 @@ export async function runPresignStep2(
 export async function runPresignStep3(
   db: Pool,
   presignStep3Request: PresignStep3Request,
-): Promise<EwalletApiResponse<PresignStep3Response>> {
+): Promise<OkoApiResponse<PresignStep3Response>> {
   try {
     const { email, wallet_id, session_id, presign_big_r } = presignStep3Request;
 

@@ -48,7 +48,7 @@ import {
   runTriples2ServerStep9,
 } from "@oko-wallet/cait-sith-keplr-addon/src/server/triples";
 import { Participant, type TriplePub } from "@oko-wallet/tecdsa-interface";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
 import {
   validateTssSession,
@@ -60,7 +60,7 @@ import {
 export async function runTriplesStep1(
   db: Pool,
   triplesStep1Request: TriplesStep1Request,
-): Promise<EwalletApiResponse<TriplesStep1Response>> {
+): Promise<OkoApiResponse<TriplesStep1Response>> {
   try {
     const { email, wallet_id, customer_id, msgs_1 } = triplesStep1Request;
 
@@ -143,7 +143,7 @@ export async function runTriplesStep1(
 export async function runTriplesStep2(
   db: Pool,
   triplesStep2Request: TriplesStep2Request,
-): Promise<EwalletApiResponse<TriplesStep2Response>> {
+): Promise<OkoApiResponse<TriplesStep2Response>> {
   try {
     const { email, wallet_id, session_id, wait_1 } = triplesStep2Request;
 
@@ -231,7 +231,7 @@ export async function runTriplesStep2(
 export async function runTriplesStep3(
   db: Pool,
   triplesStep3Request: TriplesStep3Request,
-): Promise<EwalletApiResponse<TriplesStep3Response>> {
+): Promise<OkoApiResponse<TriplesStep3Response>> {
   try {
     const { email, wallet_id, session_id, wait_2 } = triplesStep3Request;
 
@@ -319,7 +319,7 @@ export async function runTriplesStep3(
 export async function runTriplesStep4(
   db: Pool,
   triplesStep4Request: TriplesStep4Request,
-): Promise<EwalletApiResponse<TriplesStep4Response>> {
+): Promise<OkoApiResponse<TriplesStep4Response>> {
   try {
     const { email, wallet_id, session_id, wait_3 } = triplesStep4Request;
 
@@ -407,7 +407,7 @@ export async function runTriplesStep4(
 export async function runTriplesStep5(
   db: Pool,
   triplesStep5Request: TriplesStep5Request,
-): Promise<EwalletApiResponse<TriplesStep5Response>> {
+): Promise<OkoApiResponse<TriplesStep5Response>> {
   try {
     const { email, wallet_id, session_id, wait_4 } = triplesStep5Request;
 
@@ -495,7 +495,7 @@ export async function runTriplesStep5(
 export async function runTriplesStep6(
   db: Pool,
   triplesStep6Request: TriplesStep6Request,
-): Promise<EwalletApiResponse<TriplesStep6Response>> {
+): Promise<OkoApiResponse<TriplesStep6Response>> {
   try {
     const { email, wallet_id, session_id, batch_random_ot_wait_0 } =
       triplesStep6Request;
@@ -586,7 +586,7 @@ export async function runTriplesStep6(
 export async function runTriplesStep7(
   db: Pool,
   triplesStep7Request: TriplesStep7Request,
-): Promise<EwalletApiResponse<TriplesStep7Response>> {
+): Promise<OkoApiResponse<TriplesStep7Response>> {
   try {
     const { email, wallet_id, session_id, correlated_ot_wait_0 } =
       triplesStep7Request;
@@ -677,7 +677,7 @@ export async function runTriplesStep7(
 export async function runTriplesStep8(
   db: Pool,
   triplesStep8Request: TriplesStep8Request,
-): Promise<EwalletApiResponse<TriplesStep8Response>> {
+): Promise<OkoApiResponse<TriplesStep8Response>> {
   try {
     const { email, wallet_id, session_id, random_ot_extension_wait_1 } =
       triplesStep8Request;
@@ -767,7 +767,7 @@ export async function runTriplesStep8(
 export async function runTriplesStep9(
   db: Pool,
   triplesStep9Request: TriplesStep9Request,
-): Promise<EwalletApiResponse<TriplesStep9Response>> {
+): Promise<OkoApiResponse<TriplesStep9Response>> {
   try {
     const { email, wallet_id, session_id, mta_wait_1 } = triplesStep9Request;
 
@@ -855,7 +855,7 @@ export async function runTriplesStep9(
 export async function runTriplesStep10(
   db: Pool,
   triplesStep10Request: TriplesStep10Request,
-): Promise<EwalletApiResponse<TriplesStep10Response>> {
+): Promise<OkoApiResponse<TriplesStep10Response>> {
   try {
     const { email, wallet_id, session_id, wait_5, wait_6 } =
       triplesStep10Request;
@@ -946,7 +946,7 @@ export async function runTriplesStep10(
 export async function runTriplesStep11(
   db: Pool,
   triplesStep11Request: TriplesStep11Request,
-): Promise<EwalletApiResponse<TriplesStep11Response>> {
+): Promise<OkoApiResponse<TriplesStep11Response>> {
   try {
     const { email, wallet_id, session_id, pub_v } = triplesStep11Request;
 

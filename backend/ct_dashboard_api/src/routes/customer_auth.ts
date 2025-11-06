@@ -1,5 +1,5 @@
 import { Router, type Response } from "express";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type {
   SendVerificationRequest,
   VerifyAndLoginRequest,
@@ -100,7 +100,7 @@ export function setCustomerAuthRoutes(router: Router) {
     "/customer/auth/send-code",
     async (
       req,
-      res: Response<EwalletApiResponse<SendVerificationResponse>>,
+      res: Response<OkoApiResponse<SendVerificationResponse>>,
     ) => {
       try {
         const state = req.app.locals;
@@ -204,7 +204,7 @@ export function setCustomerAuthRoutes(router: Router) {
   });
   router.post(
     "/customer/auth/verify-login",
-    async (req, res: Response<EwalletApiResponse<LoginResponse>>) => {
+    async (req, res: Response<OkoApiResponse<LoginResponse>>) => {
       try {
         const state = req.app.locals as any;
         const request: VerifyAndLoginRequest = req.body;
@@ -394,7 +394,7 @@ export function setCustomerAuthRoutes(router: Router) {
   });
   router.post(
     "/customer/auth/signin",
-    async (req, res: Response<EwalletApiResponse<LoginResponse>>) => {
+    async (req, res: Response<OkoApiResponse<LoginResponse>>) => {
       try {
         const state = req.app.locals as any;
         const request: SignInRequest = req.body;
@@ -587,7 +587,7 @@ export function setCustomerAuthRoutes(router: Router) {
     customerJwtMiddleware,
     async (
       req: CustomerAuthenticatedRequest<ChangePasswordRequest>,
-      res: Response<EwalletApiResponse<ChangePasswordResponse>>,
+      res: Response<OkoApiResponse<ChangePasswordResponse>>,
     ) => {
       try {
         const state = req.app.locals as any;

@@ -4,12 +4,12 @@ import type {
   PostLogBody,
   PostLogResponse,
 } from "@oko-wallet/ewallet-types/log";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 
 export function ingestLog(
   log: PostLogBody,
   clientLogger: Logger,
-): EwalletApiResponse<PostLogResponse> {
+): OkoApiResponse<PostLogResponse> {
   try {
     let parsedLog;
     try {

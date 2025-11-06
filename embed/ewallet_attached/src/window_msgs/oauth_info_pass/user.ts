@@ -9,7 +9,7 @@ import type {
   WalletKSNodeStatus,
 } from "@oko-wallet/ewallet-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
 
 import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
@@ -327,7 +327,7 @@ export async function handleReshare(
 
 export async function checkUserExists(
   email: string,
-): Promise<Result<EwalletApiResponse<CheckEmailResponse>, FetchError>> {
+): Promise<Result<OkoApiResponse<CheckEmailResponse>, FetchError>> {
   const res = await makeOkoApiRequest<CheckEmailRequest, CheckEmailResponse>(
     "user/check",
     {

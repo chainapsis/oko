@@ -5,7 +5,7 @@ import type {
   SignStep2Body,
   SignStep2Response,
 } from "@oko-wallet/ewallet-types/tss";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
@@ -86,7 +86,7 @@ export function setSignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<SignStep1Body>,
-      res: Response<EwalletApiResponse<SignStep1Response>>,
+      res: Response<OkoApiResponse<SignStep1Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -170,7 +170,7 @@ export function setSignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<SignStep2Body>,
-      res: Response<EwalletApiResponse<SignStep2Response>>,
+      res: Response<OkoApiResponse<SignStep2Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;

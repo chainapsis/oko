@@ -7,7 +7,7 @@ import type {
   PresignStep3Body,
   PresignStep3Response,
 } from "@oko-wallet/ewallet-types/tss";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
@@ -94,7 +94,7 @@ export function setPresignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep1Body>,
-      res: Response<EwalletApiResponse<PresignStep1Response>>,
+      res: Response<OkoApiResponse<PresignStep1Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -180,7 +180,7 @@ export function setPresignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep2Body>,
-      res: Response<EwalletApiResponse<PresignStep2Response>>,
+      res: Response<OkoApiResponse<PresignStep2Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -262,7 +262,7 @@ export function setPresignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep3Body>,
-      res: Response<EwalletApiResponse<PresignStep3Response>>,
+      res: Response<OkoApiResponse<PresignStep3Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;

@@ -1,4 +1,4 @@
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   PostLogBody,
@@ -12,7 +12,7 @@ import { OKO_API_ENDPOINT } from "./endpoints";
 export async function postLog(
   log: PostLogParams,
   option?: { console: boolean },
-): Promise<Result<EwalletApiResponse<PostLogResponse>, FetchError>> {
+): Promise<Result<OkoApiResponse<PostLogResponse>, FetchError>> {
   if (option?.console) {
     if (log.level === "error") {
       console.error(log.message, log.error);
@@ -61,7 +61,7 @@ export async function postLog(
   }
 
   try {
-    const result = (await resp.json()) as EwalletApiResponse<PostLogResponse>;
+    const result = (await resp.json()) as OkoApiResponse<PostLogResponse>;
     return { success: true, data: result };
   } catch (err: any) {
     return { success: false, err: err.toString() };

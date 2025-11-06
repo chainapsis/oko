@@ -9,7 +9,7 @@ import type {
   SignInResponse,
   User,
 } from "@oko-wallet/ewallet-types/user";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import { getUserByEmail } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   getActiveKSNodes,
@@ -36,7 +36,7 @@ export async function signIn(
     secret: string;
     expires_in: string;
   },
-): Promise<EwalletApiResponse<SignInResponse>> {
+): Promise<OkoApiResponse<SignInResponse>> {
   try {
     const getUserRes = await getUserByEmail(db, email);
     if (getUserRes.success === false) {
@@ -111,7 +111,7 @@ export async function signIn(
 export async function checkEmail(
   db: Pool,
   email: string,
-): Promise<EwalletApiResponse<CheckEmailResponse>> {
+): Promise<OkoApiResponse<CheckEmailResponse>> {
   try {
     // Check if user exists and has an active wallet
     const getUserRes = await getUserByEmail(db, email);
@@ -267,7 +267,7 @@ export async function updateWalletKSNodesForReshare(
   email: string,
   public_key: Bytes33,
   reshared_key_shares: NodeNameAndEndpoint[],
-): Promise<EwalletApiResponse<void>> {
+): Promise<OkoApiResponse<void>> {
   try {
     const getUserRes = await getUserByEmail(db, email);
     if (getUserRes.success === false) {

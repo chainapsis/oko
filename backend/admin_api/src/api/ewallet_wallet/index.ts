@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type {
   GetWalletListRequest,
   GetWalletListResponse,
@@ -12,7 +12,7 @@ import {
 export async function getWalletList(
   db: Pool,
   body: GetWalletListRequest,
-): Promise<EwalletApiResponse<GetWalletListResponse>> {
+): Promise<OkoApiResponse<GetWalletListResponse>> {
   try {
     let { limit, offset } = body;
     if (!limit || !offset) {

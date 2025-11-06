@@ -1,4 +1,4 @@
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type { FetchError } from "./types";
@@ -9,7 +9,7 @@ export const TSS_V1_ENDPOINT = `${OKO_API_ENDPOINT}/tss/v1`;
 export async function makeOkoApiRequest<T, R>(
   path: string,
   args: T,
-): Promise<Result<EwalletApiResponse<R>, FetchError>> {
+): Promise<Result<OkoApiResponse<R>, FetchError>> {
   let resp;
   try {
     resp = await fetch(`${TSS_V1_ENDPOINT}/${path}`, {
@@ -31,7 +31,7 @@ export async function makeOkoApiRequest<T, R>(
   }
 
   try {
-    const result = (await resp.json()) as EwalletApiResponse<R>;
+    const result = (await resp.json()) as OkoApiResponse<R>;
     return { success: true, data: result };
   } catch (err: any) {
     return { success: false, err: err.toString() };
@@ -42,7 +42,7 @@ export async function makeAuthorizedOkoApiRequest<T, R>(
   path: string,
   idToken: string,
   args: T,
-): Promise<Result<EwalletApiResponse<R>, FetchError>> {
+): Promise<Result<OkoApiResponse<R>, FetchError>> {
   let resp;
   try {
     resp = await fetch(`${TSS_V1_ENDPOINT}/${path}`, {
@@ -65,7 +65,7 @@ export async function makeAuthorizedOkoApiRequest<T, R>(
   }
 
   try {
-    const result = (await resp.json()) as EwalletApiResponse<R>;
+    const result = (await resp.json()) as OkoApiResponse<R>;
     return { success: true, data: result };
   } catch (err: any) {
     return { success: false, err: err };
