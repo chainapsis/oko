@@ -18,9 +18,9 @@ services:
     build:
       context: ../../
       dockerfile: backend/docker/oko_api_server.Dockerfile
+      network: host
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
-    platform: linux/amd64
     restart: unless-stopped
     environment:
       SERVER_PORT: ${SERVER_PORT}
