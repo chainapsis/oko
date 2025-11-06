@@ -339,9 +339,9 @@ cd oko
 yarn workspace @oko-wallet/ewallet-attached create_env
 # Example values:
 # SERVER_PORT=3201
-# VITE_EWALLET_API_ENDPOINT=http://localhost:4200
-# VITE_CREDENTIAL_VAULT_API_ENDPOINT=http://localhost:4201
-# VITE_CREDENTIAL_VAULT_API_ENDPOINT_2=http://localhost:4202
+# VITE_OKO_API_ENDPOINT=http://localhost:4200
+# VITE_KS_NODE_API_ENDPOINT=http://localhost:4201
+# VITE_KS_NODE_API_ENDPOINT_2=http://localhost:4202
 # VITE_DEMO_WEB_ORIGIN=http://localhost:3200  # host app origin embedding the iframe
 
 yarn workspace @oko-wallet/ewallet-attached dev
@@ -358,7 +358,7 @@ cd oko
 yarn workspace @oko-wallet/demo-web create_env
 # Example values:
 # SERVER_PORT=3200
-# NEXT_PUBLIC_KEPLR_EWALLET_SDK_ENDPOINT=http://localhost:3201  # oko_attached URL
+# NEXT_PUBLIC_OKO_SDK_ENDPOINT=http://localhost:3201  # oko_attached URL
 
 yarn workspace @oko-wallet/demo-web dev
 ```
@@ -373,7 +373,7 @@ cd oko
 yarn workspace @oko-wallet/customer-dashboard create_env
 # Example values:
 # SERVER_PORT=3203
-# NEXT_PUBLIC_EWALLET_API_ENDPOINT=http://localhost:4200
+# NEXT_PUBLIC_OKO_API_ENDPOINT=http://localhost:4200
 
 yarn workspace @oko-wallet/customer-dashboard dev
 ```
@@ -387,7 +387,7 @@ cd oko
 yarn workspace @oko-wallet/ewallet-admin-web create_env
 # Example values:
 # SERVER_PORT=3204
-# NEXT_PUBLIC_EWALLET_API_ENDPOINT=http://localhost:4200
+# NEXT_PUBLIC_OKO_API_ENDPOINT=http://localhost:4200
 
 yarn workspace @oko-wallet/ewallet-admin-web dev
 ```
