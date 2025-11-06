@@ -1,4 +1,4 @@
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetWalletListRequest,
   GetWalletListResponse,

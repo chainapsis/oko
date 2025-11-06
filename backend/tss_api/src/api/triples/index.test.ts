@@ -11,12 +11,12 @@ import type {
   TriplesStep7Request,
   TriplesStep8Request,
   TriplesStep9Request,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   TriplesStageStatus,
   TssSessionState,
   TssStageType,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   Participant,
   type TECDSATriplesState,
@@ -41,7 +41,7 @@ import {
   getTssStageWithSessionData,
 } from "@oko-wallet/oko-pg-interface/tss";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import type { WalletStatus } from "@oko-wallet/ewallet-types/wallets";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
 import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";

@@ -1,5 +1,5 @@
 import { Router, type Response } from "express";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   SendVerificationRequest,
   VerifyAndLoginRequest,
@@ -8,7 +8,7 @@ import type {
   SendVerificationResponse,
   LoginResponse,
   ChangePasswordResponse,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   getCTDUserWithCustomerAndPasswordHashByEmail,

@@ -1,4 +1,4 @@
-import type { OkoApiErrorResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiErrorResponse } from "@oko-wallet/oko-types/api_response";
 import rateLimit from "express-rate-limit";
 
 export interface RateLimitMiddlewareOption {

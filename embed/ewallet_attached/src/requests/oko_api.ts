@@ -1,4 +1,4 @@
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type { FetchError } from "./types";

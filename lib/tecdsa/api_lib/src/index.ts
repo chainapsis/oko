@@ -46,13 +46,13 @@ import type {
   SignStep2Body,
   AbortTssSessionBody,
   AbortTssSessionResponse,
-} from "@oko-wallet/ewallet-types/tss";
-import { type SignInResponse } from "@oko-wallet/ewallet-types/user";
+} from "@oko-wallet/oko-types/tss";
+import { type SignInResponse } from "@oko-wallet/oko-types/user";
 import {
   type ErrorCode,
   type OkoApiErrorResponse,
   type OkoApiResponse,
-} from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/api_response";
 
 /* NOTE - The error type returned by the middleware is not compatible with OkoApiErrorResponse.
    So we use a separate function to handle it.

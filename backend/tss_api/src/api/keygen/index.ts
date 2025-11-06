@@ -9,10 +9,10 @@ import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import {
   type WalletStatus,
   type Wallet,
-} from "@oko-wallet/ewallet-types/wallets";
-import type { KeygenRequest } from "@oko-wallet/ewallet-types/tss";
-import type { SignInResponse, User } from "@oko-wallet/ewallet-types/user";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/wallets";
+import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
+import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,

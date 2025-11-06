@@ -1,8 +1,8 @@
 import type { Response, Router } from "express";
-import type { KeygenBody } from "@oko-wallet/ewallet-types/tss";
+import type { KeygenBody } from "@oko-wallet/oko-types/tss";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import type { SignInResponse } from "@oko-wallet/ewallet-types/user";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { SignInResponse } from "@oko-wallet/oko-types/user";
 import {
   ErrorResponseSchema,
   GoogleAuthHeaderSchema,

@@ -15,7 +15,7 @@ import {
   type TriplesStageData,
   type PresignStageData,
   TssStageType,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import { decryptData } from "@oko-wallet/crypto-js";
 import { Pool } from "pg";
 import {
@@ -24,7 +24,7 @@ import {
   runPresignServerStep3,
 } from "@oko-wallet/cait-sith-keplr-addon/src/server";
 import { Participant } from "@oko-wallet/tecdsa-interface";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
   validateWalletEmail,

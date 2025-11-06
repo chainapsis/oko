@@ -18,7 +18,7 @@ import type {
   PresignStep1Body,
   PresignStep2Body,
   PresignStep3Body,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 
 export type RunPresignError =
   | { type: "aborted" }

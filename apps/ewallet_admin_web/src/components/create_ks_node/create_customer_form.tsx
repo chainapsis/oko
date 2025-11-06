@@ -12,7 +12,7 @@ import {
   type CreateKSNodeFormData,
 } from "./use_create_ks_node_form";
 import { useQuery } from "@tanstack/react-query";
-import { type KeyShareNode } from "@oko-wallet/ewallet-types/tss";
+import { type KeyShareNode } from "@oko-wallet/oko-types/tss";
 import { getKSNodeById } from "@oko-wallet-admin/fetch/ks_node";
 import { useAppState } from "@oko-wallet-admin/state";
 import { useToast } from "@oko-wallet-admin/components/toast/use_toast";

@@ -5,8 +5,8 @@ import type {
   ReshareRequest,
   SignInResponse,
   SignInSilentlyResponse,
-} from "@oko-wallet/ewallet-types/user";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/user";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,

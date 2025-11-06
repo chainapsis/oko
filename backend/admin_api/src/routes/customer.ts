@@ -2,14 +2,14 @@ import type { Response, Router } from "express";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
-} from "@oko-wallet/ewallet-types/admin";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   Customer,
   CustomerWithAPIKeys,
   DeleteCustomerAndCustomerDashboardUsersRequest,
   DeleteCustomerAndCustomerDashboardUsersResponse,
-} from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/customers";
 import multer from "multer";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";

@@ -8,8 +8,8 @@ import type {
   ReshareReason,
   SignInResponse,
   User,
-} from "@oko-wallet/ewallet-types/user";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/user";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { getUserByEmail } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   getActiveKSNodes,
@@ -20,7 +20,7 @@ import {
 import type {
   WalletKSNodeWithNodeNameAndServerUrl,
   WalletKSNodeStatus,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { Wallet } from "@oko-wallet-types/wallets";
 import type { NodeNameAndEndpoint } from "@oko-wallet-types/user_key_share";

@@ -1,9 +1,9 @@
 import { type GetKeyShareResponse } from "@oko-wallet/ksn-interface/key_share";
-import type { NodeStatusInfo } from "@oko-wallet/ewallet-types/tss";
+import type { NodeStatusInfo } from "@oko-wallet/oko-types/tss";
 import type {
   Point256,
   UserKeySharePointByNode,
-} from "@oko-wallet/ewallet-types/user_key_share";
+} from "@oko-wallet/oko-types/user_key_share";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 

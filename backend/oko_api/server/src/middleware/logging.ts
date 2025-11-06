@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from "express";
-import { type OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import { type OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 export function loggingMiddleware() {
   return (req: Request, res: Response, next: NextFunction) => {

@@ -1,8 +1,8 @@
 import { Pool } from "pg";
-import type { AbortTssSessionRequest } from "@oko-wallet/ewallet-types/tss";
-import { TssSessionState } from "@oko-wallet/ewallet-types/tss";
+import type { AbortTssSessionRequest } from "@oko-wallet/oko-types/tss";
+import { TssSessionState } from "@oko-wallet/oko-types/tss";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import type { WalletStatus } from "@oko-wallet/ewallet-types/wallets";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 import { createTssSession } from "@oko-wallet/oko-pg-interface/tss";
 import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
 import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
@@ -10,7 +10,7 @@ import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   TssStageType,
   TriplesStageStatus,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   napiRunTriples2ClientStep1,
   napiRunTriples2ClientStep2,

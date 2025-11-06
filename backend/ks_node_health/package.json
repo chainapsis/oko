@@ -6,8 +6,8 @@
   },
   "type": "module",
   "dependencies": {
-    "@oko-wallet/ewallet-types": "workspace:*",
     "@oko-wallet/oko-pg-interface": "workspace:*",
+    "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.25",
     "pg": "*"
   },

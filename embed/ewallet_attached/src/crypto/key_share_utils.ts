@@ -1,4 +1,4 @@
-import type { Point256 } from "@oko-wallet/ewallet-types/user_key_share";
+import type { Point256 } from "@oko-wallet/oko-types/user_key_share";
 import { Bytes } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 

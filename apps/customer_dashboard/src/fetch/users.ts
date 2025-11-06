@@ -1,9 +1,9 @@
-import { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   ChangePasswordResponse,
   LoginResponse,
   SendVerificationResponse,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 import { errorHandle } from "./utils";
 import { CUSTOMER_V1_ENDPOINT } from "./customers";

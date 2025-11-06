@@ -30,7 +30,7 @@ import type {
   TriplesStep9Body,
   TriplesStep10Body,
   TriplesStep11Body,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type { TriplesResult } from "./types";

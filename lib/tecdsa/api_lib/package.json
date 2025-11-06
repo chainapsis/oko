@@ -3,7 +3,7 @@
   "main": "./src/index.ts",
   "type": "module",
   "dependencies": {
-    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "*",

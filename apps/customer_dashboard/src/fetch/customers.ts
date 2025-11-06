@@ -1,5 +1,5 @@
-import type { APIKey } from "@oko-wallet/ewallet-types/ct_dashboard";
-import type { Customer } from "@oko-wallet/ewallet-types/customers";
+import type { APIKey } from "@oko-wallet/oko-types/ct_dashboard";
+import type { Customer } from "@oko-wallet/oko-types/customers";
 
 import { errorHandle } from "./utils";
 import { OKO_API_ENDPOINT } from ".";

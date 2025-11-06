@@ -1,5 +1,5 @@
 import type { Response, Router } from "express";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetAllKSNodeResponse,
   CreateKSNodeResponse,
@@ -11,8 +11,8 @@ import type {
   UpdateKSNodeResponse,
   ActivateKSNodeRequest,
   ActivateKSNodeResponse,
-} from "@oko-wallet/ewallet-types/admin";
-import type { CreateKSNodeRequest } from "@oko-wallet/ewallet-types/admin";
+} from "@oko-wallet/oko-types/admin";
+import type { CreateKSNodeRequest } from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
 import {

@@ -11,7 +11,7 @@ import {
   type UpdateCustomerAccountPasswordReseponse,
   type VerifyCustomerAccountEmailRequest,
   type VerifyCustomerAccountEmailResponse,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 export async function insertCustomerDashboardUser(
   db: Pool | PoolClient,

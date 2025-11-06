@@ -1,7 +1,7 @@
 import type {
   Customer,
   CustomerStatus,
-} from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/customers";
 
 export type CustomerDashboardUserStatus = "ACTIVE" | "DELETED";
 

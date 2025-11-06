@@ -9,8 +9,8 @@ import type {
   TssStage,
   TssStageWithSessionData,
   UpdateTssStageRequest,
-} from "@oko-wallet/ewallet-types/tss";
-import { TssSessionState, TssStageType } from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
+import { TssSessionState, TssStageType } from "@oko-wallet/oko-types/tss";
 
 export async function createTssSession(
   db: Pool | PoolClient,

@@ -6,7 +6,7 @@ import {
   type VerifyEmailRequest,
   EmailVerificationStatus,
   type VerifyEmailResponse,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function createEmailVerification(

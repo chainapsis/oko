@@ -1,12 +1,12 @@
 import type { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetTssSessionListRequest,
   GetTssSessionListResponse,
   GetTssAllActivationSettingResponse,
   SetTssAllActivationSettingRequest,
   SetTssAllActivationSettingResponse,
-} from "@oko-wallet/ewallet-types/admin";
+} from "@oko-wallet/oko-types/admin";
 import { getTssSessions } from "@oko-wallet/oko-pg-interface/tss";
 import {
   getTssActivationSetting as getTssAllActivationSettingPG,

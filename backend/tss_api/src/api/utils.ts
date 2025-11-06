@@ -1,12 +1,12 @@
 import { getWalletByIdWithEmail } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
-import { TssSessionState } from "@oko-wallet/ewallet-types/tss";
-import type { Customer } from "@oko-wallet/ewallet-types/customers";
+import { TssSessionState } from "@oko-wallet/oko-types/tss";
+import type { Customer } from "@oko-wallet/oko-types/customers";
 import type {
   TssStageWithSessionData,
   TssStageStatus,
   UpdateTssStageRequest,
-} from "@oko-wallet/ewallet-types/tss";
-import type { WalletWithEmail } from "@oko-wallet/ewallet-types/wallets";
+} from "@oko-wallet/oko-types/tss";
+import type { WalletWithEmail } from "@oko-wallet/oko-types/wallets";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { Pool } from "pg";
 import {

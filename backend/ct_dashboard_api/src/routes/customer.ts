@@ -1,9 +1,9 @@
 import { Router, type Response } from "express";
-import type { Customer } from "@oko-wallet/ewallet-types/customers";
+import type { Customer } from "@oko-wallet/oko-types/customers";
 import { getCustomerByUserId } from "@oko-wallet/oko-pg-interface/customers";
 import { getAPIKeysByCustomerId } from "@oko-wallet/oko-pg-interface/api_keys";
-import type { APIKey } from "@oko-wallet/ewallet-types/ct_dashboard";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { APIKey } from "@oko-wallet/oko-types/ct_dashboard";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { CustomerAuthHeaderSchema } from "@oko-wallet/oko-api-openapi/ct_dashboard";

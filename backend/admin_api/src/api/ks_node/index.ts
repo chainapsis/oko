@@ -1,5 +1,5 @@
 import { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   CreateKSNodeRequest,
   GetAllKSNodeResponse,
@@ -14,7 +14,7 @@ import type {
   ActivateKSNodeResponse,
   DeleteKSNodeRequest,
   DeleteKSNodeResponse,
-} from "@oko-wallet/ewallet-types/admin";
+} from "@oko-wallet/oko-types/admin";
 import {
   getAllKSNodesWithHealthCheck,
   getKSNodeById as getKSNodeByIdFromPG,

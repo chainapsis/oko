@@ -1,15 +1,15 @@
 import { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import { randomBytes } from "crypto";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
-} from "@oko-wallet/ewallet-types/admin";
+} from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
   CustomerWithAPIKeys,
-} from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/customers";
 import { uploadToS3 } from "@oko-wallet/aws";
 import { hashPassword } from "@oko-wallet/crypto-js";
 import {
@@ -31,7 +31,7 @@ import {
 import type {
   APIKey,
   InsertCustomerDashboardUserRequest,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 export async function createCustomer(
   db: Pool,

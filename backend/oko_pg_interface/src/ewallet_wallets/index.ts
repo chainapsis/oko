@@ -7,8 +7,8 @@ import {
   type Wallet,
   type WalletWithEmail,
   type WalletWithEmailAndKSNodes,
-} from "@oko-wallet/ewallet-types/wallets";
-import type { CurveType } from "@oko-wallet/ewallet-types/crypto";
+} from "@oko-wallet/oko-types/wallets";
+import type { CurveType } from "@oko-wallet/oko-types/crypto";
 
 export async function createWallet(
   db: Pool | PoolClient,

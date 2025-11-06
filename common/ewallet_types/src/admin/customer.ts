@@ -1,4 +1,4 @@
-import type { CustomerStatus } from "@oko-wallet/ewallet-types/customers";
+import type { CustomerStatus } from "@oko-wallet/oko-types/customers";
 
 export interface CreateCustomerUserRequest {
   email: string;

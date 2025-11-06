@@ -9,7 +9,7 @@ import type {
   GetKSNodeByIdResponse,
   UpdateKSNodeRequest,
   UpdateKSNodeResponse,
-} from "@oko-wallet/ewallet-types/admin";
+} from "@oko-wallet/oko-types/admin";
 
 import { errorHandle } from "@oko-wallet-admin/fetch/utils";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";

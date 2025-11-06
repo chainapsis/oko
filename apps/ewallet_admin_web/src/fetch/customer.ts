@@ -1,8 +1,8 @@
-import type { CreateCustomerWithDashboardUserRequest } from "@oko-wallet/ewallet-types/admin";
+import type { CreateCustomerWithDashboardUserRequest } from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
   CustomerWithAPIKeys,
-} from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/customers";
 
 import { errorHandle } from "@oko-wallet-admin/fetch/utils";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";

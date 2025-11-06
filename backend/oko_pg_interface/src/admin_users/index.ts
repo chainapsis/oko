@@ -1,5 +1,5 @@
 import { Pool, type PoolClient } from "pg";
-import type { EWalletAdminUser } from "@oko-wallet/ewallet-types/admin";
+import type { EWalletAdminUser } from "@oko-wallet/oko-types/admin";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function createAdmin(

@@ -7,8 +7,8 @@ import { insertCustomerDashboardUser } from "@oko-wallet/oko-pg-interface/custom
 import {
   type CustomerDashboardUser,
   type PasswordHash,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
-import { type Customer } from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/ct_dashboard";
+import { type Customer } from "@oko-wallet/oko-types/customers";
 import * as dotenv from "dotenv";
 import path from "path";
 import { createPgConn } from "@oko-wallet/postgres-lib";

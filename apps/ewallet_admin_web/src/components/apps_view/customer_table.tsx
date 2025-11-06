@@ -2,7 +2,7 @@ import { createColumnHelper, flexRender } from "@tanstack/react-table";
 import Link from "next/link";
 import { type FC } from "react";
 import { useRouter } from "next/navigation";
-import { type CustomerWithAPIKeys } from "@oko-wallet/ewallet-types/customers";
+import { type CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
 import {
   Table,
   TableBody,

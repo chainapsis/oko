@@ -6,8 +6,8 @@ import type {
   PresignStep2Response,
   PresignStep3Body,
   PresignStep3Response,
-} from "@oko-wallet/ewallet-types/tss";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,

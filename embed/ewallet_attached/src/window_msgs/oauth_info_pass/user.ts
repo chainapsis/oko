@@ -2,14 +2,14 @@ import type {
   CheckEmailRequest,
   CheckEmailResponse,
   SignInResponse,
-} from "@oko-wallet/ewallet-types/user";
+} from "@oko-wallet/oko-types/user";
 import type {
   KeygenBody,
   KeyShareNodeMetaWithNodeStatusInfo,
   WalletKSNodeStatus,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
 
 import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";

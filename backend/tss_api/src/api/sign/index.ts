@@ -9,19 +9,19 @@ import type {
   SignStep2Response,
   PresignStageData,
   SignStageData,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   PresignStageStatus,
   SignStageStatus,
   TssSessionState,
   TssStageType,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import { Pool } from "pg";
 import {
   runSignServerStep1V2,
   runSignServerStep2,
 } from "@oko-wallet/cait-sith-keplr-addon/src/server";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
   updateTssStageWithSessionState,

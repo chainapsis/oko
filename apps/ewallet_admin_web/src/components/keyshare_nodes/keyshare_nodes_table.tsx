@@ -2,7 +2,7 @@
 
 import React from "react";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
-import type { KSNodeWithHealthCheck } from "@oko-wallet/ewallet-types/tss";
+import type { KSNodeWithHealthCheck } from "@oko-wallet/oko-types/tss";
 import {
   Table,
   TableBody,

@@ -7,7 +7,7 @@ import { Input } from "@oko-wallet/ewallet-common-ui/input";
 import { Button } from "@oko-wallet/ewallet-common-ui/button";
 import { PlusIcon } from "@oko-wallet/ewallet-common-ui/icons/plus";
 import { XCloseIcon } from "@oko-wallet/ewallet-common-ui/icons/x_close";
-import { type CreateCustomerWithDashboardUserRequest } from "@oko-wallet/ewallet-types/admin";
+import { type CreateCustomerWithDashboardUserRequest } from "@oko-wallet/oko-types/admin";
 
 import styles from "./create_customer_form.module.scss";
 import { useCreateCustomerForm } from "./use_create_customer_form";

@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/ewallet-types",
+  "name": "@oko-wallet/oko-types",
   "type": "module",
   "exports": {
     "./admin": "./src/admin/index.ts",

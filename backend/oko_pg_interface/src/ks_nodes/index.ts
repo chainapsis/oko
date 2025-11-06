@@ -8,7 +8,7 @@ import {
   type KSNodeWithHealthCheck,
   type WalletKSNodeWithNodeNameAndServerUrl,
   type WalletKSNodeStatus,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 
 export async function getKSNodeById(
   db: Pool | PoolClient,

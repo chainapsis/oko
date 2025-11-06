@@ -1,9 +1,9 @@
-import type { Customer } from "@oko-wallet/ewallet-types/customers";
+import type { Customer } from "@oko-wallet/oko-types/customers";
 import type {
   CustomerDashboardUser,
   PasswordHash,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
-import type { EWalletAdminUser } from "@oko-wallet/ewallet-types/admin";
+} from "@oko-wallet/oko-types/ct_dashboard";
+import type { EWalletAdminUser } from "@oko-wallet/oko-types/admin";
 
 import {
   createAdmin,

@@ -3,7 +3,7 @@ import type { Pool, PoolClient } from "pg";
 import type {
   InsertKeyShareNodeMetaRequest,
   KeyShareNodeMeta,
-} from "@oko-wallet/ewallet-types/key_share_node_meta";
+} from "@oko-wallet/oko-types/key_share_node_meta";
 
 export async function insertKeyShareNodeMeta(
   db: Pool | PoolClient,

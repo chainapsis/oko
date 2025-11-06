@@ -2,7 +2,7 @@ import React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
-import { type TssSessionWithCustomerAndUser } from "@oko-wallet/ewallet-types/tss";
+import { type TssSessionWithCustomerAndUser } from "@oko-wallet/oko-types/tss";
 import {
   Table,
   TableBody,

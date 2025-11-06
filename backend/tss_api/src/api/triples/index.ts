@@ -23,11 +23,11 @@ import type {
   TriplesStep9Request,
   TriplesStep9Response,
   TriplesStageData,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   TriplesStageStatus,
   TssStageType,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   createTssSession,
   createTssStage,
@@ -48,7 +48,7 @@ import {
   runTriples2ServerStep9,
 } from "@oko-wallet/cait-sith-keplr-addon/src/server/triples";
 import { Participant, type TriplePub } from "@oko-wallet/tecdsa-interface";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
   validateTssSession,

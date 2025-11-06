@@ -1,4 +1,4 @@
-import { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 

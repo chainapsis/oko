@@ -6,9 +6,9 @@ import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/oko-pg
 import type {
   SendVerificationRequest,
   SendVerificationResponse,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 import { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
   generateVerificationCode,

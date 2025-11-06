@@ -1,13 +1,13 @@
 import { v4 as uuidv4 } from "uuid";
-import { type Customer } from "@oko-wallet/ewallet-types/customers";
+import { type Customer } from "@oko-wallet/oko-types/customers";
 import { hashPassword } from "@oko-wallet/crypto-js";
 import type {
   CustomerDashboardUser,
   CustomerAndCTDUserWithPasswordHash,
   PasswordHash,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
-import type { EWalletAdminUser } from "@oko-wallet/ewallet-types/admin";
-import type { KeyShareNodeMeta } from "@oko-wallet/ewallet-types/key_share_node_meta";
+} from "@oko-wallet/oko-types/ct_dashboard";
+import type { EWalletAdminUser } from "@oko-wallet/oko-types/admin";
+import type { KeyShareNodeMeta } from "@oko-wallet/oko-types/key_share_node_meta";
 import type { TssActivationSetting } from "@oko-wallet-types/tss_activate";
 
 export const ADMIN_EMAIL = "admin@keplr.app";
