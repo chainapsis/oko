@@ -43,7 +43,9 @@ In most cases, the commit message should be structured as follows:
 <scope>: <description>
 ```
 
-1. scope: A package or module that is most relevant to the commit. Please choose
-   one that you think is the most helpful to convey your intent of the commit
-   message. e.g., `crypto`, `demo_web`.
-2. Commit message title of length equal to or less than 80 characters.
+1. **scope**: A package or module that is most relevant to the commit. Please
+   choose one that you think is the most helpful to convey your intent of the
+   commit message. e.g., `crypto`, `demo_web`.
+2. **description**: A phrase that starts with a lowercase letter (adn often
+   verb).
+3. Commit message title is of length equal to or less than 80 characters.
