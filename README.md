@@ -9,9 +9,8 @@
 
 Crypto wallet seamlessly built in your apps.
 
-Using the latest advances in cryptography, Oko delivers a seamless
-experience by integrating the security of blockchain wallets directly into web
-or mobile apps.
+Using the latest advances in cryptography, Oko delivers a seamless experience by
+integrating the security of blockchain wallets directly into web or mobile apps.
 
 - 🔒**Enhanced Security**: Multi-party computation to generate signature
 - 🚀 **Better User Experience**: No browser extension, no secret phrases, sign
@@ -43,24 +42,11 @@ Please refer to the
 
 ## Contributing
 
-Any contributions you make are greatly appreciated.
-
-If you have a suggestion that would make this better, please fork the repo and
-create a pull request. You can also simply open an issue.
-
-### Code Formatting
-
-This project uses _Biome_ for code formatting.
-
-For installation, you can refer to the following documentations
-
-- VSCode, IntelliJ: https://biomejs.dev/guides/editors/first-party-extensions/
-- Other IDEs: https://biomejs.dev/guides/editors/third-party-extensions/
-
-Biome provides two major operations: format and check
-
-- The difference between `format` and `check` is that `check` also runs lint
-  with format.
+Any contributions you make are greatly appreciated. If you have a suggestion can
+improve this project, please do not hesitate to open an issue ticket or raise a
+pull request.
+[Guidelines](https://github.com/chainapsis/oko/blob/main/CONTRIBUTING.md) are
+provided.
 
 ## Security
 

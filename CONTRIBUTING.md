@@ -27,13 +27,8 @@ cd oko
 
 ## Linting & style
 
-- Oko uses Biome for formatting and linting.
-- Editor setup guides:
-  https://biomejs.dev/guides/editors/first-party-extensions/ (VSCode, IntelliJ,
-  Zed) and https://biomejs.dev/guides/editors/third-party-extensions/ (other
-  IDEs).
-- `biome format` updates source files; `biome check` runs the same formatting
-  validations plus lint checks.
+- Oko uses a number of code formatters including _Biome_, _Prettier_, and
+  _rust_analyzer_.
 
 ## Security
 
