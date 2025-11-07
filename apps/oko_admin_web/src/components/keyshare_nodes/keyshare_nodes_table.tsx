@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { type FC } from "react";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
 import type { KSNodeWithHealthCheck } from "@oko-wallet/oko-types/tss";
 import {
@@ -170,7 +170,7 @@ const createColumns = (
   }),
 ];
 
-export const KeyshareNodesTable: React.FC = () => {
+export const KeyshareNodesTable: FC = () => {
   // TO-DO: Pagination is not supported yet.
   // const { pagination, onPaginationChange } = useTablePagination({
   //   initialPageSize: 10,

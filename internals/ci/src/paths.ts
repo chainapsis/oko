@@ -47,12 +47,12 @@ export const paths = (function () {
   // internals2
   const cait_sith_addon_addon = path.join(
     __dirname,
-    "../../../lib/tecdsa/cait_sith_keplr_addon/addon",
+    "../../../crypto/tecdsa/cait_sith_keplr_addon/addon",
   );
 
   const cait_sith_keplr_wasm = path.join(
     __dirname,
-    "../../../lib/tecdsa/cait_sith_keplr_wasm",
+    "../../../crypto/tecdsa/cait_sith_keplr_wasm",
   );
 
   const oko_pg_interface = path.join(
@@ -60,15 +60,9 @@ export const paths = (function () {
     "../../../backend/oko_pg_interface",
   );
 
-  const ewallet_attached = path.join(
-    __dirname,
-    "../../../embed/ewallet_attached",
-  );
+  const oko_attached = path.join(__dirname, "../../../embed/oko_attached");
 
-  const ewallet_admin_web = path.join(
-    __dirname,
-    "../../../apps/ewallet_admin_web/",
-  );
+  const oko_admin_web = path.join(__dirname, "../../../apps/oko_admin_web/");
 
   const demo_web = path.join(__dirname, "../../../apps/demo_web");
 
@@ -108,10 +102,10 @@ export const paths = (function () {
     sandbox_simple_host,
     tecdsa_interface,
     oko_pg_interface,
-    cait_sith_addon_addon,
-    ewallet_attached,
-    ewallet_admin_web,
+    oko_attached,
+    oko_admin_web,
     cait_sith_keplr_wasm,
+    cait_sith_addon_addon,
     demo_web,
     ct_dashboard_web,
     oko_api_server,

@@ -32,7 +32,7 @@ RUN yarn set version 4.7.0
 RUN yarn workspaces focus addon
 
 # Build Rust napi addon
-WORKDIR /home/node/oko/lib/tecdsa/cait_sith_keplr_addon/addon
+WORKDIR /home/node/oko/crypto/tecdsa/cait_sith_keplr_addon/addon
 RUN yarn run build
 
 WORKDIR /home/node/oko

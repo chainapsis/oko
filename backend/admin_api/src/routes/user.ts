@@ -23,7 +23,7 @@ import { login, logout } from "@oko-wallet-admin-api/api/user";
 export function setUserRoutes(router: Router) {
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/user/login",
+    path: "/oko_admin/v1/user/login",
     tags: ["Admin"],
     summary: "Admin login",
     description: "Authenticates an admin user",
@@ -96,7 +96,7 @@ export function setUserRoutes(router: Router) {
 
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/user/logout",
+    path: "/oko_admin/v1/user/logout",
     tags: ["Admin"],
     summary: "Admin logout",
     description: "Logs out an admin user",

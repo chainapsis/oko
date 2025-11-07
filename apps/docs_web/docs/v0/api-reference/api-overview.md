@@ -389,14 +389,14 @@ Implementation: Cancels ongoing TSS operation and cleans up resources
 
 ## Admin API Endpoints
 
-### Base Path: `/ewallet_admin/v1`
+### Base Path: `/oko_admin/v1`
 
 From `backend/admin_api/src/routes/`:
 
 #### Customer Management
 
 ```
-POST /ewallet_admin/v1/customer/create_customer
+POST /oko_admin/v1/customer/create_customer
 Content-Type: multipart/form-data
 Headers: Authorization: Bearer <Admin JWT Token>
 
@@ -408,7 +408,7 @@ Response: Returns customer_id and customer details
 ```
 
 ```
-GET /ewallet_admin/v1/customer/get_customer_list
+GET /oko_admin/v1/customer/get_customer_list
 Headers: Authorization: Bearer <Admin JWT Token>
 Query Parameters: limit (optional), offset (optional)
 
@@ -418,7 +418,7 @@ Authentication: Admin-level access required
 ```
 
 ```
-GET /ewallet_admin/v1/customer/get_customer/{customer_id}
+GET /oko_admin/v1/customer/get_customer/{customer_id}
 Path Parameter: customer_id
 Headers: Authorization: Bearer <Admin JWT Token>
 
@@ -428,7 +428,7 @@ Authentication: Admin-level access required
 ```
 
 ```
-POST /ewallet_admin/v1/customer/delete_customer
+POST /oko_admin/v1/customer/delete_customer
 Content-Type: application/json
 Headers: Authorization: Bearer <Admin JWT Token>
 Body: { "customer_id": "..." }
@@ -441,7 +441,7 @@ Authentication: Admin-level access required
 #### User Management
 
 ```
-POST /ewallet_admin/v1/user/login
+POST /oko_admin/v1/user/login
 Content-Type: application/json
 Body: { "email": "...", "password": "..." }
 
@@ -451,7 +451,7 @@ Authentication: None required (public endpoint)
 ```
 
 ```
-POST /ewallet_admin/v1/user/logout
+POST /oko_admin/v1/user/logout
 Headers: Authorization: Bearer <Admin JWT Token>
 
 Purpose: Log out admin user
@@ -462,7 +462,7 @@ Authentication: Admin-level access required
 #### Wallet Management
 
 ```
-POST /ewallet_admin/v1/wallet/get_wallet_list
+POST /oko_admin/v1/wallet/get_wallet_list
 Content-Type: application/json (optional)
 Headers: Authorization: Bearer <Admin JWT Token>
 Body: { "limit": number, "offset": number } (optional)
@@ -475,7 +475,7 @@ Authentication: Admin-level access required
 #### TSS Session Management
 
 ```
-POST /ewallet_admin/v1/tss/get_tss_session_list
+POST /oko_admin/v1/tss/get_tss_session_list
 Content-Type: application/json
 Headers: Authorization: Bearer <Admin JWT Token>
 Body: { "limit": number, "cursor": string } (optional)
@@ -488,7 +488,7 @@ Authentication: Admin-level access required
 #### Key Share Node Management
 
 ```
-POST /ewallet_admin/v1/ks_node/get_all_ks_nodes
+POST /oko_admin/v1/ks_node/get_all_ks_nodes
 Content-Type: application/json
 Headers: Authorization: Bearer <Admin JWT Token>
 

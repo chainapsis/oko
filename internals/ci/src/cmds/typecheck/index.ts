@@ -1,7 +1,7 @@
 import chalk from "chalk";
 import { Worker } from "node:worker_threads";
 import { dirname, join } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { paths } from "../../paths";
 
@@ -21,10 +21,10 @@ export async function typeCheck(..._args: any[]) {
     paths.tss_api,
     paths.admin_api,
     paths.ct_dashboard_api,
-    paths.ewallet_attached,
+    paths.oko_attached,
     paths.oko_pg_interface,
     paths.demo_web,
-    paths.ewallet_admin_web,
+    paths.oko_admin_web,
     paths.ct_dashboard_web,
   ];
 
@@ -61,13 +61,14 @@ export async function typeCheck(..._args: any[]) {
 
 export async function spawnWorker(workerName: string, pkgPaths: string[]) {
   const scriptPath = join(__dirname, "./worker.ts");
+  const scriptUrl = pathToFileURL(scriptPath).href;
 
   const p1 = new Promise((resolve, reject) => {
     console.log(
       "Spawn worker (%s), checking %s pkgs, script path: %s",
       workerName,
       pkgPaths.length,
-      scriptPath,
+      scriptUrl,
     );
 
     const worker = new Worker(
@@ -76,7 +77,7 @@ export async function spawnWorker(workerName: string, pkgPaths: string[]) {
       `import('tsx/esm/api')
         .then(({ register }) => {
           register();
-          import('${scriptPath}')
+          import('${scriptUrl}')
         })`,
       {
         workerData: pkgPaths,

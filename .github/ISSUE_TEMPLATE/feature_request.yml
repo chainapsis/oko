@@ -22,41 +22,6 @@ body:
     validations:
       required: true
 
-  - type: textarea
-    id: alternatives
-    attributes:
-      label: Alternatives
-      description: Any alternative solutions or workarounds considered?
-
-  - type: textarea
-    id: scope
-    attributes:
-      label: Scope
-      description: What's in scope? What's out of scope?
-
-  - type: textarea
-    id: acceptance
-    attributes:
-      label: Acceptance criteria
-      description: Bullet list of criteria for completion.
-      placeholder: |
-        - Given/When/Then ...
-        - Telemetry/Docs/Tests updated
-
-  - type: dropdown
-    id: area
-    attributes:
-      label: Area (select all that apply)
-      multiple: true
-      options:
-        - API
-        - Backend
-        - Frontend
-        - CLI
-        - Docs
-        - DevOps
-        - Other
-
   - type: checkboxes
     id: checks
     attributes:
@@ -64,5 +29,3 @@ body:
       options:
         - label: I searched for existing feature requests.
           required: true
-        - label: I am willing to contribute a PR. (Optional)
-          required: false

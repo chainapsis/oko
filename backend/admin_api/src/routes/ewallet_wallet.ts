@@ -24,7 +24,7 @@ import { getWalletList } from "@oko-wallet-admin-api/api/ewallet_wallet";
 export function setWalletRoutes(router: Router) {
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/wallet/get_wallet_list",
+    path: "/oko_admin/v1/wallet/get_wallet_list",
     tags: ["Admin"],
     summary: "Get wallet list with pagination",
     description: "Retrieves a list of wallets with pagination",

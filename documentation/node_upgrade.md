@@ -31,7 +31,8 @@ For most upgrades, use the standard upgrade process:
 docker compose up -d --build key_share_node
 ```
 
-This will rebuild the Key Share Node container with the latest code while preserving all existing data and database schema.
+This will rebuild the Key Share Node container with the latest code while
+preserving all existing data and database schema.
 
 #### Database Reset (Only when requested by Keplr team)
 
@@ -56,7 +57,8 @@ docker compose logs key_share_node
 curl http://localhost:${SERVER_PORT}/status
 ```
 
-Verify that both the `version` and `git_hash` fields in the response match the values announced in the upgrade request from the Keplr team.
+Verify that both the `version` and `git_hash` fields in the response match the
+values announced in the upgrade request from the Keplr team.
 
 ## Troubleshooting
 

@@ -1,12 +1,12 @@
 {
-  "name": "@oko-wallet/ewallet-attached",
+  "name": "@oko-wallet/oko-attached",
   "version": "0.1.0",
   "private": true,
   "type": "module",
   "scripts": {
     "create_env": "tsx src/bin/create_env.ts",
     "clean": "del-cli ./public/pkg",
-    "copy_wasm": "yarn run clean && cp -R ../../lib/tecdsa/cait_sith_keplr_wasm/pkg ./public",
+    "copy_wasm": "yarn run clean && cp -R ../../crypto/tecdsa/cait_sith_keplr_wasm/pkg ./public",
     "dev": "tsx ./src/bin/launch.ts",
     "build": "vite build && tsc --noEmit",
     "serve": "vite preview",

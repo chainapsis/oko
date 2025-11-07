@@ -59,7 +59,7 @@
   },
   "overrides": [
     {
-      "includes": ["lib/tecdsa/cait_sith_keplr_addon/**"],
+      "includes": ["crypto/tecdsa/cait_sith_keplr_addon/**"],
       "javascript": {
         "formatter": {
           "quoteStyle": "double",

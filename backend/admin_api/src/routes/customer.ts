@@ -43,7 +43,7 @@ const upload = multer();
 export function setCustomerRoutes(router: Router) {
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/customer/create_customer",
+    path: "/oko_admin/v1/customer/create_customer",
     tags: ["Admin"],
     summary: "Create new customer",
     description: "Creates a new customer with dashboard user account",
@@ -153,7 +153,7 @@ export function setCustomerRoutes(router: Router) {
 
   registry.registerPath({
     method: "get",
-    path: "/ewallet_admin/v1/customer/get_customer_list",
+    path: "/oko_admin/v1/customer/get_customer_list",
     tags: ["Admin"],
     summary: "Get customers with pagination",
     description: "Retrieves a list of customers with pagination",
@@ -234,7 +234,7 @@ export function setCustomerRoutes(router: Router) {
 
   registry.registerPath({
     method: "get",
-    path: "/ewallet_admin/v1/customer/get_customer/{customer_id}",
+    path: "/oko_admin/v1/customer/get_customer/{customer_id}",
     tags: ["Admin"],
     summary: "Get customer by ID",
     description: "Retrieves customer information by customer ID",
@@ -320,7 +320,7 @@ export function setCustomerRoutes(router: Router) {
 
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/customer/delete_customer/{customer_id}",
+    path: "/oko_admin/v1/customer/delete_customer/{customer_id}",
     tags: ["Admin"],
     summary: "Delete customer by ID",
     description: "Deletes a customer by customer ID",

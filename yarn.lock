@@ -1708,7 +1708,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.6, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.26.10, @babel/parser@npm:^7.27.2, @babel/parser@npm:^7.27.5, @babel/parser@npm:^7.27.7, @babel/parser@npm:^7.28.5":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.6, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.26.10, @babel/parser@npm:^7.27.2, @babel/parser@npm:^7.27.5, @babel/parser@npm:^7.27.7, @babel/parser@npm:^7.28.3, @babel/parser@npm:^7.28.5":
   version: 7.28.5
   resolution: "@babel/parser@npm:7.28.5"
   dependencies:
@@ -2921,18 +2921,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/biome@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/biome@npm:2.2.6"
+"@biomejs/biome@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/biome@npm:2.3.4"
   dependencies:
-    "@biomejs/cli-darwin-arm64": "npm:2.2.6"
-    "@biomejs/cli-darwin-x64": "npm:2.2.6"
-    "@biomejs/cli-linux-arm64": "npm:2.2.6"
-    "@biomejs/cli-linux-arm64-musl": "npm:2.2.6"
-    "@biomejs/cli-linux-x64": "npm:2.2.6"
-    "@biomejs/cli-linux-x64-musl": "npm:2.2.6"
-    "@biomejs/cli-win32-arm64": "npm:2.2.6"
-    "@biomejs/cli-win32-x64": "npm:2.2.6"
+    "@biomejs/cli-darwin-arm64": "npm:2.3.4"
+    "@biomejs/cli-darwin-x64": "npm:2.3.4"
+    "@biomejs/cli-linux-arm64": "npm:2.3.4"
+    "@biomejs/cli-linux-arm64-musl": "npm:2.3.4"
+    "@biomejs/cli-linux-x64": "npm:2.3.4"
+    "@biomejs/cli-linux-x64-musl": "npm:2.3.4"
+    "@biomejs/cli-win32-arm64": "npm:2.3.4"
+    "@biomejs/cli-win32-x64": "npm:2.3.4"
   dependenciesMeta:
     "@biomejs/cli-darwin-arm64":
       optional: true
@@ -2952,13 +2952,13 @@ __metadata:
       optional: true
   bin:
     biome: bin/biome
-  checksum: 10c0/1b99279f41acd5e9928da8c8864194642cc5d197c6517366fe159c9d8af4b6f5da1dd200264456c3dd423b6355715ba153ae6488d82ae3678a0c699d76c8a81e
+  checksum: 10c0/61bb2e3b98ebb26cc21e5690492bc09793c9135c34fd33230c227d4cb707a19ced578d20df4cab8b257c70cef006312f1050cdba3abdf8c0aa478ca6a347b27f
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-arm64@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-darwin-arm64@npm:2.2.6"
+"@biomejs/cli-darwin-arm64@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-darwin-arm64@npm:2.3.4"
   conditions: os=darwin & cpu=arm64
   languageName: node
   linkType: hard
@@ -2970,51 +2970,51 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@biomejs/cli-darwin-x64@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-darwin-x64@npm:2.2.6"
+"@biomejs/cli-darwin-x64@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-darwin-x64@npm:2.3.4"
   conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64-musl@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.2.6"
+"@biomejs/cli-linux-arm64-musl@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-linux-arm64-musl@npm:2.3.4"
   conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-arm64@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-linux-arm64@npm:2.2.6"
+"@biomejs/cli-linux-arm64@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-linux-arm64@npm:2.3.4"
   conditions: os=linux & cpu=arm64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64-musl@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-linux-x64-musl@npm:2.2.6"
+"@biomejs/cli-linux-x64-musl@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-linux-x64-musl@npm:2.3.4"
   conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
-"@biomejs/cli-linux-x64@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-linux-x64@npm:2.2.6"
+"@biomejs/cli-linux-x64@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-linux-x64@npm:2.3.4"
   conditions: os=linux & cpu=x64 & libc=glibc
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-arm64@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-win32-arm64@npm:2.2.6"
+"@biomejs/cli-win32-arm64@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-win32-arm64@npm:2.3.4"
   conditions: os=win32 & cpu=arm64
   languageName: node
   linkType: hard
 
-"@biomejs/cli-win32-x64@npm:2.2.6":
-  version: 2.2.6
-  resolution: "@biomejs/cli-win32-x64@npm:2.2.6"
+"@biomejs/cli-win32-x64@npm:2.3.4":
+  version: 2.3.4
+  resolution: "@biomejs/cli-win32-x64@npm:2.3.4"
   conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
@@ -6364,6 +6364,25 @@ __metadata:
     typescript:
       optional: true
   checksum: 10c0/b291e867bcde491737f70254ec30898e120f36784b5ee2911dcc271fbd744e90382f03232ac7f5a55d46071f4ffccfc84b63445734117b75ca1ced659f6b7827
+  languageName: node
+  linkType: hard
+
+"@fsouza/prettierd@npm:^0.26.2":
+  version: 0.26.2
+  resolution: "@fsouza/prettierd@npm:0.26.2"
+  dependencies:
+    "@babel/parser": "npm:^7.28.3"
+    "@typescript-eslint/typescript-estree": "npm:^8.39.1"
+    core_d: "npm:^6.1.1"
+    prettier: "npm:^3.6.2"
+  dependenciesMeta:
+    "@babel/parser":
+      optional: true
+    "@typescript-eslint/typescript-estree":
+      optional: true
+  bin:
+    prettierd: bin/prettierd
+  checksum: 10c0/5f4449307beb574e72db80ba035b5018388a2602a46fb9b344d17bfb0f41e9fe43cd12af249a63bd27618d1a5fbfa05b730abe567e73172bbc65bf1b3053d986
   languageName: node
   linkType: hard
 
@@ -9989,9 +10008,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/api-lib@workspace:*, @oko-wallet/api-lib@workspace:lib/tecdsa/api_lib":
+"@oko-wallet/api-lib@workspace:*, @oko-wallet/api-lib@workspace:crypto/tecdsa/api_lib":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/api-lib@workspace:lib/tecdsa/api_lib"
+  resolution: "@oko-wallet/api-lib@workspace:crypto/tecdsa/api_lib"
   dependencies:
     "@oko-wallet/oko-types": "workspace:*"
     "@types/node": "npm:*"
@@ -10033,9 +10052,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-addon@workspace:*, @oko-wallet/cait-sith-keplr-addon@workspace:lib/tecdsa/cait_sith_keplr_addon":
+"@oko-wallet/cait-sith-keplr-addon@workspace:*, @oko-wallet/cait-sith-keplr-addon@workspace:crypto/tecdsa/cait_sith_keplr_addon":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-addon@workspace:lib/tecdsa/cait_sith_keplr_addon"
+  resolution: "@oko-wallet/cait-sith-keplr-addon@workspace:crypto/tecdsa/cait_sith_keplr_addon"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
@@ -10068,9 +10087,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-express@workspace:*, @oko-wallet/cait-sith-keplr-express@workspace:lib/tecdsa/cait_sith_keplr_express":
+"@oko-wallet/cait-sith-keplr-express@workspace:*, @oko-wallet/cait-sith-keplr-express@workspace:crypto/tecdsa/cait_sith_keplr_express":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-express@workspace:lib/tecdsa/cait_sith_keplr_express"
+  resolution: "@oko-wallet/cait-sith-keplr-express@workspace:crypto/tecdsa/cait_sith_keplr_express"
   dependencies:
     "@eslint/js": "npm:^9.23.0"
     "@oko-wallet/api-lib": "workspace:*"
@@ -10105,9 +10124,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-hooks@workspace:*, @oko-wallet/cait-sith-keplr-hooks@workspace:lib/tecdsa/cait_sith_keplr_hooks":
+"@oko-wallet/cait-sith-keplr-hooks@workspace:*, @oko-wallet/cait-sith-keplr-hooks@workspace:crypto/tecdsa/cait_sith_keplr_hooks":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-hooks@workspace:lib/tecdsa/cait_sith_keplr_hooks"
+  resolution: "@oko-wallet/cait-sith-keplr-hooks@workspace:crypto/tecdsa/cait_sith_keplr_hooks"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/bytes": "npm:0.0.3-alpha.49"
@@ -10127,9 +10146,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-wasm@workspace:*, @oko-wallet/cait-sith-keplr-wasm@workspace:lib/tecdsa/cait_sith_keplr_wasm":
+"@oko-wallet/cait-sith-keplr-wasm@workspace:*, @oko-wallet/cait-sith-keplr-wasm@workspace:crypto/tecdsa/cait_sith_keplr_wasm":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-wasm@workspace:lib/tecdsa/cait_sith_keplr_wasm"
+  resolution: "@oko-wallet/cait-sith-keplr-wasm@workspace:crypto/tecdsa/cait_sith_keplr_wasm"
   dependencies:
     "@types/node": "npm:^20"
     prettier: "npm:^3.5.3"
@@ -10155,9 +10174,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/crypto-js@workspace:*, @oko-wallet/crypto-js@workspace:lib/crypto_js":
+"@oko-wallet/crypto-js@workspace:*, @oko-wallet/crypto-js@workspace:crypto/crypto_js":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/crypto-js@workspace:lib/crypto_js"
+  resolution: "@oko-wallet/crypto-js@workspace:crypto/crypto_js"
   dependencies:
     "@jest/globals": "npm:*"
     "@noble/hashes": "npm:^1.8.0"
@@ -10314,94 +10333,6 @@ __metadata:
     tsc-alias: "npm:*"
     tsx: "npm:*"
     typescript: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-admin-web@workspace:apps/ewallet_admin_web":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-admin-web@workspace:apps/ewallet_admin_web"
-  dependencies:
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@tanstack/react-query": "npm:*"
-    "@tanstack/react-table": "npm:*"
-    "@types/node": "npm:*"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
-    next: "npm:^15.4.5"
-    react: "npm:*"
-    react-dom: "npm:*"
-    react-hook-form: "npm:*"
-    react-intl: "npm:*"
-    sass: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
-    zustand: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-attached@workspace:embed/ewallet_attached":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-attached@workspace:embed/ewallet_attached"
-  dependencies:
-    "@amplitude/analytics-browser": "npm:^2.18.1"
-    "@cosmjs/amino": "npm:^0.33.1"
-    "@cosmjs/proto-signing": "npm:^0.33.1"
-    "@floating-ui/dom": "npm:*"
-    "@floating-ui/react": "npm:*"
-    "@fontsource-variable/geist": "npm:^5.2.8"
-    "@fontsource-variable/geist-mono": "npm:^5.2.7"
-    "@fontsource-variable/inter": "npm:^5.2.8"
-    "@keplr-wallet/cosmos": "npm:^0.12.210"
-    "@keplr-wallet/proto-types": "npm:^0.12.250"
-    "@keplr-wallet/types": "npm:^0.12.257"
-    "@keplr-wallet/unit": "npm:0.12.263"
-    "@noble/curves": "npm:^1.9.2"
-    "@noble/hashes": "npm:^1.8.0"
-    "@oko-wallet/api-lib": "workspace:*"
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.49"
-    "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
-    "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
-    "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.40"
-    "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.112"
-    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
-    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.15"
-    "@tanstack/react-query": "npm:*"
-    "@tanstack/react-router": "npm:^1.131.49"
-    "@tanstack/react-router-devtools": "npm:^1.131.49"
-    "@tanstack/router-plugin": "npm:^1.131.49"
-    "@types/node": "npm:*"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
-    "@vitejs/plugin-react": "npm:^5.0.3"
-    biome: "npm:*"
-    bitcoinjs-lib: "npm:^6.1.7"
-    chalk: "npm:*"
-    cosmjs-types: "npm:^0.9.0"
-    del-cli: "npm:*"
-    dotenv: "npm:*"
-    jsonwebtoken: "npm:*"
-    react: "npm:*"
-    react-dom: "npm:*"
-    react-error-boundary: "npm:*"
-    sass: "npm:*"
-    starknet: "npm:^7.6.4"
-    tsx: "npm:*"
-    typescript: "npm:*"
-    uuid: "npm:*"
-    viem: "npm:*"
-    vite: "npm:^7.1.6"
-    vite-plugin-node-polyfills: "npm:^0.24.0"
-    vite-tsconfig-paths: "npm:^5.1.4"
-    zod: "npm:*"
-    zustand: "npm:*"
   languageName: unknown
   linkType: soft
 
@@ -10576,6 +10507,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/oko-admin-web@workspace:apps/oko_admin_web":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-admin-web@workspace:apps/oko_admin_web"
+  dependencies:
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
+    "@oko-wallet/oko-common-ui": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@tanstack/react-query": "npm:*"
+    "@tanstack/react-table": "npm:*"
+    "@types/node": "npm:*"
+    "@types/react": "npm:*"
+    "@types/react-dom": "npm:*"
+    next: "npm:^15.4.5"
+    react: "npm:*"
+    react-dom: "npm:*"
+    react-hook-form: "npm:*"
+    react-intl: "npm:*"
+    sass: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    zustand: "npm:*"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/oko-api-error-codes@workspace:*, @oko-wallet/oko-api-error-codes@workspace:backend/oko_api/error_codes":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-error-codes@workspace:backend/oko_api/error_codes"
@@ -10678,6 +10634,69 @@ __metadata:
     typescript: "npm:*"
     uuid: "npm:*"
     zod: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/oko-attached@workspace:embed/oko_attached":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-attached@workspace:embed/oko_attached"
+  dependencies:
+    "@amplitude/analytics-browser": "npm:^2.18.1"
+    "@cosmjs/amino": "npm:^0.33.1"
+    "@cosmjs/proto-signing": "npm:^0.33.1"
+    "@floating-ui/dom": "npm:*"
+    "@floating-ui/react": "npm:*"
+    "@fontsource-variable/geist": "npm:^5.2.8"
+    "@fontsource-variable/geist-mono": "npm:^5.2.7"
+    "@fontsource-variable/inter": "npm:^5.2.8"
+    "@keplr-wallet/cosmos": "npm:^0.12.210"
+    "@keplr-wallet/proto-types": "npm:^0.12.250"
+    "@keplr-wallet/types": "npm:^0.12.257"
+    "@keplr-wallet/unit": "npm:0.12.263"
+    "@noble/curves": "npm:^1.9.2"
+    "@noble/hashes": "npm:^1.8.0"
+    "@oko-wallet/api-lib": "workspace:*"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.49"
+    "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
+    "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
+    "@oko-wallet/crypto-js": "workspace:*"
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
+    "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.40"
+    "@oko-wallet/oko-common-ui": "workspace:*"
+    "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.112"
+    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.15"
+    "@tanstack/react-query": "npm:*"
+    "@tanstack/react-router": "npm:^1.131.49"
+    "@tanstack/react-router-devtools": "npm:^1.131.49"
+    "@tanstack/router-plugin": "npm:^1.131.49"
+    "@types/node": "npm:*"
+    "@types/react": "npm:*"
+    "@types/react-dom": "npm:*"
+    "@vitejs/plugin-react": "npm:^5.0.3"
+    biome: "npm:*"
+    bitcoinjs-lib: "npm:^6.1.7"
+    chalk: "npm:*"
+    cosmjs-types: "npm:^0.9.0"
+    del-cli: "npm:*"
+    dotenv: "npm:*"
+    jsonwebtoken: "npm:*"
+    react: "npm:*"
+    react-dom: "npm:*"
+    react-error-boundary: "npm:*"
+    sass: "npm:*"
+    starknet: "npm:^7.6.4"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    uuid: "npm:*"
+    viem: "npm:*"
+    vite: "npm:^7.1.6"
+    vite-plugin-node-polyfills: "npm:^0.24.0"
+    vite-tsconfig-paths: "npm:^5.1.4"
+    zod: "npm:*"
+    zustand: "npm:*"
   languageName: unknown
   linkType: soft
 
@@ -10985,9 +11004,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/vite-test@workspace:lib/crypto_js/tests/vite":
+"@oko-wallet/vite-test@workspace:crypto/crypto_js/tests/vite":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/vite-test@workspace:lib/crypto_js/tests/vite"
+  resolution: "@oko-wallet/vite-test@workspace:crypto/crypto_js/tests/vite"
   dependencies:
     "@oko-wallet/crypto-js": "workspace:*"
     typescript: "npm:~5.8.3"
@@ -15945,7 +15964,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:8.46.3":
+"@typescript-eslint/typescript-estree@npm:8.46.3, @typescript-eslint/typescript-estree@npm:^8.39.1":
   version: 8.46.3
   resolution: "@typescript-eslint/typescript-estree@npm:8.46.3"
   dependencies:
@@ -17232,9 +17251,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"addon@workspace:lib/tecdsa/cait_sith_keplr_addon/addon":
+"addon@workspace:crypto/tecdsa/cait_sith_keplr_addon/addon":
   version: 0.0.0-use.local
-  resolution: "addon@workspace:lib/tecdsa/cait_sith_keplr_addon/addon"
+  resolution: "addon@workspace:crypto/tecdsa/cait_sith_keplr_addon/addon"
   dependencies:
     "@napi-rs/cli": "npm:^2.18.4"
     ava: "npm:^6.0.1"
@@ -19700,9 +19719,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client_example@workspace:lib/tecdsa/client_example":
+"client_example@workspace:crypto/tecdsa/client_example":
   version: 0.0.0-use.local
-  resolution: "client_example@workspace:lib/tecdsa/client_example"
+  resolution: "client_example@workspace:crypto/tecdsa/client_example"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
@@ -20516,6 +20535,15 @@ __metadata:
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
   checksum: 10c0/90a0e40abbddfd7618f8ccd63a74d88deea94e77d0e8dbbea059fa7ebebb8fbb4e2909667fe26f3a467073de1a542ebe6ae4c73a73745ac5833786759cd906c9
+  languageName: node
+  linkType: hard
+
+"core_d@npm:^6.1.1":
+  version: 6.1.1
+  resolution: "core_d@npm:6.1.1"
+  dependencies:
+    supports-color: "npm:^8.1.0"
+  checksum: 10c0/a0fcddf115115faa5f46b1da01c06baa0423253e60d42ef7720f4ea833a27fe41ec44a2f8e19c18b63453d3494b8d4c51401f6f6a929adbb1216f90f681534b2
   languageName: node
   linkType: hard
 
@@ -36587,7 +36615,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
-    "@biomejs/biome": "npm:2.2.6"
+    "@biomejs/biome": "npm:2.3.4"
+    "@fsouza/prettierd": "npm:^0.26.2"
     "@jest/globals": "npm:^30.0.4"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
@@ -37151,9 +37180,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"server_example@workspace:lib/tecdsa/server_example":
+"server_example@workspace:crypto/tecdsa/server_example":
   version: 0.0.0-use.local
-  resolution: "server_example@workspace:lib/tecdsa/server_example"
+  resolution: "server_example@workspace:crypto/tecdsa/server_example"
   dependencies:
     "@eslint/js": "npm:^9.23.0"
     "@oko-wallet/api-lib": "workspace:*"
@@ -38588,7 +38617,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^8.0.0, supports-color@npm:^8.1.1":
+"supports-color@npm:^8.0.0, supports-color@npm:^8.1.0, supports-color@npm:^8.1.1":
   version: 8.1.1
   resolution: "supports-color@npm:8.1.1"
   dependencies:

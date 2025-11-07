@@ -22,7 +22,7 @@ export async function buildCs(..._args: any[]) {
   console.log("%s %s", chalk.bold.green("Done"), "wasm");
 
   const copyRet = spawnSync("yarn", ["run", "copy_wasm"], {
-    cwd: paths.ewallet_attached,
+    cwd: paths.oko_attached,
     stdio: "inherit",
   });
   expectSuccess(copyRet, "copy failed");

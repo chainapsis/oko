@@ -3,11 +3,11 @@ resolver = "2"
 members = [
   "crypto/tecdsa/cait_sith_keplr",
   "crypto/tecdsa/sandbox",
+  "crypto/tecdsa/cait_sith_keplr_addon/addon",
+  "crypto/tecdsa/cait_sith_keplr_wasm/wasm",
   "key_share_node_2/core",
   "key_share_node_2/pg_interface",
   "key_share_node_2/server",
-  "lib/tecdsa/cait_sith_keplr_addon/addon",
-  "lib/tecdsa/cait_sith_keplr_wasm/wasm",
 ]
 
 [workspace.dependencies]

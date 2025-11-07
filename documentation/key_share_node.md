@@ -3,8 +3,8 @@
 ## Before you begin
 
 The key share node is a crucial component of the distributed signature
-generation scheme. Please read the Oko documentation first to
-learn how the system works.
+generation scheme. Please read the Oko documentation first to learn how the
+system works.
 
 ## [1/3] System Requirements
 

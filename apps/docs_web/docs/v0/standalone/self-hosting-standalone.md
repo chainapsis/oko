@@ -16,7 +16,7 @@ Stores encrypted SSS shares of the user's first TSS share. Multiple nodes (2-3 r
 
 The main API server that orchestrates the system. Stores the user's second TSS share encrypted in its database. Performs distributed TSS transaction signing with the client (which holds the first TSS share) without ever reconstructing the full private key. Manages customer organizations, wallets, user accounts, Google OAuth authentication, JWT token issuance, and provides REST APIs for dashboards and admin functions.
 
-### oko_attached (`oko/embed/ewallet_attached`)
+### oko_attached (`oko/embed/oko_attached`)
 
 Client-side web application running in an iframe that provides the user interface for wallet operations. Handles key generation, manages the user's first TSS share locally, and coordinates with `oko_api` for transaction signing. Communicates with host applications via `postMessage` API to expose wallet functionality.
 
@@ -341,14 +341,14 @@ USE_ENV=true TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 
 ```bash
 cd oko
-# Create env under ~/.oko/ewallet_attached.env
-yarn workspace @oko-wallet/ewallet-attached create_env
+# Create env under ~/.oko/oko_attached.env
+yarn workspace @oko-wallet/oko-attached create_env
 # Example values:
 # SERVER_PORT=3201
 # VITE_OKO_API_ENDPOINT=http://localhost:4200
 # VITE_DEMO_WEB_ORIGIN=http://localhost:3200  # host app origin embedding the iframe
 
-yarn workspace @oko-wallet/ewallet-attached dev
+yarn workspace @oko-wallet/oko-attached dev
 ```
 
 Open the printed dev URL. This is an independent app that runs inside an iframe (not a traditional UI "widget"). The host app should iframe `http://localhost:3201/` and pass a `host_origin` parameter for initialization.
@@ -388,12 +388,12 @@ Open: `http://localhost:3203`
 
 ```bash
 cd oko
-yarn workspace @oko-wallet/ewallet-admin-web create_env
+yarn workspace @oko-wallet/oko-admin-web create_env
 # Example values:
 # SERVER_PORT=3204
 # NEXT_PUBLIC_OKO_API_ENDPOINT=http://localhost:4200
 
-yarn workspace @oko-wallet/ewallet-admin-web dev
+yarn workspace @oko-wallet/oko-admin-web dev
 ```
 
 Open: `http://localhost:3204`
