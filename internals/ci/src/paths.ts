@@ -60,10 +60,7 @@ export const paths = (function () {
     "../../../backend/oko_pg_interface",
   );
 
-  const ewallet_attached = path.join(
-    __dirname,
-    "../../../embed/ewallet_attached",
-  );
+  const oko_attached = path.join(__dirname, "../../../embed/oko_attached");
 
   const ewallet_admin_web = path.join(
     __dirname,
@@ -109,7 +106,7 @@ export const paths = (function () {
     tecdsa_interface,
     oko_pg_interface,
     cait_sith_addon_addon,
-    ewallet_attached,
+    oko_attached,
     ewallet_admin_web,
     cait_sith_keplr_wasm,
     demo_web,

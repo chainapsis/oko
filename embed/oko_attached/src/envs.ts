@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-export const ENV_FILE_NAME = "ewallet_attached.env";
-export const EXAMPLE_ENV_FILE = "ewallet_attached.env.example";
+export const ENV_FILE_NAME = "oko_attached.env";
+export const EXAMPLE_ENV_FILE = "oko_attached.env.example";
 
 export const envSchema = z.object({
   SERVER_PORT: z.string(),

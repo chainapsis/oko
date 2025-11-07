@@ -31,7 +31,7 @@
       "backend/tss_api",
       "backend/ks_node_health",
       "backend/openapi",
-      "embed/ewallet_attached",
+      "embed/oko_attached",
       "ui/oko_common_ui",
       "apps/demo_web",
       "apps/import_demo_web",
