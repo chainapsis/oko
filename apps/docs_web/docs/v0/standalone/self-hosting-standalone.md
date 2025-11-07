@@ -37,7 +37,8 @@ Client-side web application running in an iframe that provides the user interfac
 
 ## Prerequisites
 
-- Node 22 + Yarn 4
+- OS: Oko supports only Linux/macOS. On Windows, use WSL2.
+- Node 22 + Yarn 4'
 - Rust toolchain (via rustup)
 - Docker + Docker Compose (recommended for keyshare node in production)
 - PostgreSQL 17+ (non-Docker setups only; separate DBs for keyshare node and oko_api; or separate DB names on the same server)
