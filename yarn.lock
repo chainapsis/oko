@@ -1708,7 +1708,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.6, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.26.10, @babel/parser@npm:^7.27.2, @babel/parser@npm:^7.27.5, @babel/parser@npm:^7.27.7, @babel/parser@npm:^7.28.3, @babel/parser@npm:^7.28.5":
+"@babel/parser@npm:^7.1.0, @babel/parser@npm:^7.14.7, @babel/parser@npm:^7.20.7, @babel/parser@npm:^7.23.6, @babel/parser@npm:^7.23.9, @babel/parser@npm:^7.26.10, @babel/parser@npm:^7.27.2, @babel/parser@npm:^7.27.5, @babel/parser@npm:^7.27.7, @babel/parser@npm:^7.28.5":
   version: 7.28.5
   resolution: "@babel/parser@npm:7.28.5"
   dependencies:
@@ -6364,25 +6364,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 10c0/b291e867bcde491737f70254ec30898e120f36784b5ee2911dcc271fbd744e90382f03232ac7f5a55d46071f4ffccfc84b63445734117b75ca1ced659f6b7827
-  languageName: node
-  linkType: hard
-
-"@fsouza/prettierd@npm:^0.26.2":
-  version: 0.26.2
-  resolution: "@fsouza/prettierd@npm:0.26.2"
-  dependencies:
-    "@babel/parser": "npm:^7.28.3"
-    "@typescript-eslint/typescript-estree": "npm:^8.39.1"
-    core_d: "npm:^6.1.1"
-    prettier: "npm:^3.6.2"
-  dependenciesMeta:
-    "@babel/parser":
-      optional: true
-    "@typescript-eslint/typescript-estree":
-      optional: true
-  bin:
-    prettierd: bin/prettierd
-  checksum: 10c0/5f4449307beb574e72db80ba035b5018388a2602a46fb9b344d17bfb0f41e9fe43cd12af249a63bd27618d1a5fbfa05b730abe567e73172bbc65bf1b3053d986
   languageName: node
   linkType: hard
 
@@ -15964,7 +15945,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/typescript-estree@npm:8.46.3, @typescript-eslint/typescript-estree@npm:^8.39.1":
+"@typescript-eslint/typescript-estree@npm:8.46.3":
   version: 8.46.3
   resolution: "@typescript-eslint/typescript-estree@npm:8.46.3"
   dependencies:
@@ -20535,15 +20516,6 @@ __metadata:
   version: 1.0.3
   resolution: "core-util-is@npm:1.0.3"
   checksum: 10c0/90a0e40abbddfd7618f8ccd63a74d88deea94e77d0e8dbbea059fa7ebebb8fbb4e2909667fe26f3a467073de1a542ebe6ae4c73a73745ac5833786759cd906c9
-  languageName: node
-  linkType: hard
-
-"core_d@npm:^6.1.1":
-  version: 6.1.1
-  resolution: "core_d@npm:6.1.1"
-  dependencies:
-    supports-color: "npm:^8.1.0"
-  checksum: 10c0/a0fcddf115115faa5f46b1da01c06baa0423253e60d42ef7720f4ea833a27fe41ec44a2f8e19c18b63453d3494b8d4c51401f6f6a929adbb1216f90f681534b2
   languageName: node
   linkType: hard
 
@@ -36616,7 +36588,6 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@biomejs/biome": "npm:2.3.4"
-    "@fsouza/prettierd": "npm:^0.26.2"
     "@jest/globals": "npm:^30.0.4"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
@@ -38617,7 +38588,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-color@npm:^8.0.0, supports-color@npm:^8.1.0, supports-color@npm:^8.1.1":
+"supports-color@npm:^8.0.0, supports-color@npm:^8.1.1":
   version: 8.1.1
   resolution: "supports-color@npm:8.1.1"
   dependencies:
