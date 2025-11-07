@@ -9,7 +9,7 @@ import { Input } from "@oko-wallet/oko-common-ui/input";
 import styles from "./login_form.module.scss";
 import { paths } from "@oko-wallet-admin/paths";
 import { useLogin } from "./use_login";
-import { useToast } from "../toast/use_toast";
+import { useToast } from "@oko-wallet-admin/components/toast/use_toast";
 
 const REMEMBERED_EMAIL_KEY = "oko_admin_remembered_email";
 
