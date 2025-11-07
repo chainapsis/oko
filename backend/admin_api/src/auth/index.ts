@@ -4,8 +4,8 @@ import type {
   AdminTokenPayload,
   GenerateAdminTokenArgs,
   VerifyAdminTokenArgs,
-} from "@oko-wallet/ewallet-types/admin";
-import type { TokenResult } from "@oko-wallet/ewallet-types/auth";
+} from "@oko-wallet/oko-types/admin";
+import type { TokenResult } from "@oko-wallet/oko-types/auth";
 
 export const ADMIN_ISSUER = "https://api.oko.app";
 export const ADMIN_AUDIENCE = "https://api.oko.app";

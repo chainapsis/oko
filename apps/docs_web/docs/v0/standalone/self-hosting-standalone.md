@@ -38,8 +38,26 @@ Client-side web application running in an iframe that provides the user interfac
 ## Prerequisites
 
 - Node 22 + Yarn 4
+- Rust toolchain (via rustup)
 - Docker + Docker Compose (recommended for keyshare node in production)
-- PostgreSQL 17+ (separate DBs for keyshare node and oko_api; or separate DB names on the same server)
+- PostgreSQL 17+ (non-Docker setups only; separate DBs for keyshare node and oko_api; or separate DB names on the same server)
+- Build tools for native Node addons (make, gcc/g++, and Python 3 for node-gyp)
+  - Ubuntu/Debian:
+    ```bash
+    sudo apt update
+    sudo apt install -y build-essential python3
+    ```
+  - Rocky Linux / RHEL / Fedora:
+    ```bash
+    sudo dnf groupinstall -y "Development Tools"
+    sudo dnf install -y python3
+    ```
+  - Verify:
+    ```bash
+    make --version
+    gcc --version
+    python3 --version
+    ```
 
 ## Clone the Repository
 
@@ -51,8 +69,10 @@ cd oko
 ## Install/Build
 
 ```bash
-cd oko && yarn && yarn workspaces foreach -p run build
+cd oko && yarn && yarn ci build_pkgs && yarn ci build_cs
 ```
+
+This installs dependencies and builds core packages and Cait Sith. See [Local CI helpers (yarn ci)](#local-ci-helpers-yarn-ci) below for detailed descriptions of each command.
 
 ## keyshare node
 
@@ -63,13 +83,19 @@ cd oko/key_share_node/docker
 cp env.example .env
 ```
 
-1. **Create encryption secret file** (32-byte hex string, you can use any random value):
+1. **Prepare the encryption secret file:**
+
+Create a secure encryption secret file at your desired location. This file will
+be used to encrypt user key shares within the Key Share Node. **You can use any
+random value you choose** - this will be referenced later in the
+`ENCRYPTION_SECRET_FILE_PATH` environment variable.
+
+**Create the encryption secret file:**
 
 ```bash
 # Generate a random 32-byte (256-bit) encryption secret as hex and save it to a file
 sudo mkdir -p /opt/key_share_node
 openssl rand -hex 32 | tr -d '\n' | sudo tee /opt/key_share_node/encryption_secret.txt >/dev/null
-sudo chmod 600 /opt/key_share_node/encryption_secret.txt
 ```
 
 2. **Create required directories and set proper permissions**:
@@ -254,7 +280,7 @@ ES_PASSWORD=pw                     # Elasticsearch password (optional)
 
 ```bash
 # Migrate database schema
-USE_ENV=true yarn workspace @oko-wallet/ewallet-pg-interface migrate
+USE_ENV=true yarn workspace @oko-wallet/oko-pg-interface migrate
 ```
 
 See [Database Seeding](#database-seeding) below for seeding instructions.
@@ -300,7 +326,7 @@ To seed the database with initial data, run the following command from the proje
 ```bash
 cd oko
 # Replace DB_* values with those from your backend/docker/.env file
-DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
+DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 ```
 
 **For Option B (Local):**
@@ -308,7 +334,7 @@ DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewa
 ```bash
 cd oko
 # Uses environment variables from ~/.oko/oko_api_server.env
-USE_ENV=true TARGET=dev yarn workspace @oko-wallet/ewallet-pg-interface seed
+USE_ENV=true TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 ```
 
 ## oko_attached (embedded app)
@@ -319,9 +345,7 @@ cd oko
 yarn workspace @oko-wallet/ewallet-attached create_env
 # Example values:
 # SERVER_PORT=3201
-# VITE_EWALLET_API_ENDPOINT=http://localhost:4200
-# VITE_CREDENTIAL_VAULT_API_ENDPOINT=http://localhost:4201
-# VITE_CREDENTIAL_VAULT_API_ENDPOINT_2=http://localhost:4202
+# VITE_OKO_API_ENDPOINT=http://localhost:4200
 # VITE_DEMO_WEB_ORIGIN=http://localhost:3200  # host app origin embedding the iframe
 
 yarn workspace @oko-wallet/ewallet-attached dev
@@ -338,7 +362,7 @@ cd oko
 yarn workspace @oko-wallet/demo-web create_env
 # Example values:
 # SERVER_PORT=3200
-# NEXT_PUBLIC_KEPLR_EWALLET_SDK_ENDPOINT=http://localhost:3201  # oko_attached URL
+# NEXT_PUBLIC_OKO_SDK_ENDPOINT=http://localhost:3201  # oko_attached URL
 
 yarn workspace @oko-wallet/demo-web dev
 ```
@@ -353,7 +377,7 @@ cd oko
 yarn workspace @oko-wallet/customer-dashboard create_env
 # Example values:
 # SERVER_PORT=3203
-# NEXT_PUBLIC_EWALLET_API_ENDPOINT=http://localhost:4200
+# NEXT_PUBLIC_OKO_API_ENDPOINT=http://localhost:4200
 
 yarn workspace @oko-wallet/customer-dashboard dev
 ```
@@ -367,7 +391,7 @@ cd oko
 yarn workspace @oko-wallet/ewallet-admin-web create_env
 # Example values:
 # SERVER_PORT=3204
-# NEXT_PUBLIC_EWALLET_API_ENDPOINT=http://localhost:4200
+# NEXT_PUBLIC_OKO_API_ENDPOINT=http://localhost:4200
 
 yarn workspace @oko-wallet/ewallet-admin-web dev
 ```
@@ -400,24 +424,23 @@ Open: `http://localhost:3204`
 
 Use `yarn ci` at each workspace root to speed up repetitive local tasks. Arguments are forwarded to the internal CLI.
 
-### oko root (SDK/keyshare node)
+### oko root
 
-- Build packages: `cd oko && yarn ci build_pkgs`
+- Build packages: `yarn ci build_pkgs`
   - Builds in order: stdlib, dotenv, SDK (core/cosmos/eth), crypto/bytes, ksn-interface, tecdsa-interface
-- Typecheck: `cd oko && yarn ci typecheck`
-- keyshare node DB migration: `cd oko && yarn ci db_migrate --use-env-file`
+  - Required for all services that depend on these core packages
+- Build Cait Sith: `yarn ci build_cs`
+  - Builds Rust addon (required for `oko_api` TSS operations: triples, presign, sign)
+  - Builds WASM (required for `oko_attached` client-side TSS operations: keygen, combine, reshare, signing)
+  - Copies WASM into `oko_attached/public/pkg/`
+- Typecheck: `yarn ci typecheck`
+- keyshare node DB migration: `yarn ci db_migrate_ksn --use-env-file`
   - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate per-node DBs
   - Without it, uses local defaults (`localhost:5432`, `key_share_node_dev*`)
-
-### oko-internal root (backend/apps/oko_attached)
-
-- DB migration: `cd oko-internal && yarn ci db_migrate --use-env`
+- DB migration: `yarn ci db_migrate_api --use-env`
   - With `--use-env`, uses `~/.oko/oko_api_server.env`
   - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates with test config
-- DB seed: `cd oko-internal && yarn ci db_seed --use-env --target dev`
+- DB seed: `yarn ci db_seed_api --use-env --target dev`
   - `--target` supports `dev | prod` (use `dev` for local)
-- Build/copy Cait Sith (prepare embedded WASM): `cd oko-internal && yarn ci build_cs`
-  - Builds addon/wasm and copies wasm into `ewallet_attached`
-- Typecheck: `cd oko-internal && yarn ci typecheck`
 
 Note: `yarn ci` is a thin wrapper around `yarn --cwd ./internals/ci run start <command>`. Run `yarn ci --help` to list available commands.

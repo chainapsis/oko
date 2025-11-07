@@ -1,11 +1,11 @@
 import { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   AdminLoginRequest,
   AdminLoginResponse,
   AdminLogoutResponse,
-} from "@oko-wallet/ewallet-types/admin";
-import { getAdminByEmail } from "@oko-wallet/ewallet-pg-interface/admin_users";
+} from "@oko-wallet/oko-types/admin";
+import { getAdminByEmail } from "@oko-wallet/oko-pg-interface/admin_users";
 import { comparePassword } from "@oko-wallet/crypto-js";
 
 import { generateAdminToken } from "@oko-wallet-admin-api/auth";
@@ -17,7 +17,7 @@ export async function login(
     secret: string;
     expires_in: string;
   },
-): Promise<EwalletApiResponse<AdminLoginResponse>> {
+): Promise<OkoApiResponse<AdminLoginResponse>> {
   try {
     const getAdminRes = await getAdminByEmail(db, body.email);
     if (getAdminRes.success === false) {
@@ -96,7 +96,7 @@ export async function login(
 export async function logout(
   db: Pool,
   token?: string,
-): Promise<EwalletApiResponse<AdminLogoutResponse>> {
+): Promise<OkoApiResponse<AdminLogoutResponse>> {
   try {
     if (token) {
       return {

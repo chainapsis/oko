@@ -1,10 +1,10 @@
-import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/ewallet-types/tss";
+import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
 import type {
   NodeNameAndEndpoint,
   PointNumArr,
   RunExpandSharesResult,
   UserKeySharePointByNode,
-} from "@oko-wallet/ewallet-types/user_key_share";
+} from "@oko-wallet/oko-types/user_key_share";
 import type { Result } from "@oko-wallet/stdlib-js";
 import {
   doSendResharedUserKeyShares,
@@ -13,10 +13,10 @@ import {
 } from "@oko-wallet-attached/requests/ks_node";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
-import type { ReshareRequest } from "@oko-wallet/ewallet-types/user";
+import type { ReshareRequest } from "@oko-wallet/oko-types/user";
 
 import { hashKeyshareNodeNames } from "./hash";
-import { makeAuthorizedKeplrApiRequest } from "@oko-wallet-attached/requests/ewallet_api";
+import { makeAuthorizedOkoApiRequest } from "@oko-wallet-attached/requests/oko_api";
 
 export async function reshareUserKeyShares(
   publicKey: Bytes33,
@@ -118,7 +118,7 @@ export async function reshareUserKeyShares(
     };
   }
 
-  const updateWalletStatusRes = await makeAuthorizedKeplrApiRequest<
+  const updateWalletStatusRes = await makeAuthorizedOkoApiRequest<
     ReshareRequest,
     void
   >("user/reshare", idToken, {

@@ -21,6 +21,10 @@ export default defineConfig({
   resolve: {
     alias: {
       "@oko-wallet-attached": path.resolve(__dirname, "./src"),
+      "@oko-wallet-common-ui/": path.resolve(
+        __dirname,
+        "../../ui/oko_common_ui/src",
+      ),
     },
   },
   plugins: [

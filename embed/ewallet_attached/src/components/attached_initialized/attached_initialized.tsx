@@ -1,7 +1,7 @@
 "use client";
 
 import { type FC, type PropsWithChildren } from "react";
-import { ThemeProvider } from "@oko-wallet/ewallet-common-ui/theme";
+import { ThemeProvider } from "@oko-wallet/oko-common-ui/theme";
 
 import { useInitializeApp } from "./use_initialize_app";
 

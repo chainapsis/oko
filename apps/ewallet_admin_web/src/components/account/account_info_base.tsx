@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./account_info_base.module.scss";
 import { Avatar } from "./avatar";

@@ -2,21 +2,21 @@ import type { Response, Router } from "express";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
-} from "@oko-wallet/ewallet-types/admin";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   Customer,
   CustomerWithAPIKeys,
   DeleteCustomerAndCustomerDashboardUsersRequest,
   DeleteCustomerAndCustomerDashboardUsersResponse,
-} from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/customers";
 import multer from "multer";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   AdminAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   CreateCustomerWithDashboardUserRequestSchema,
   CreateCustomerSuccessResponseSchema,
@@ -25,7 +25,7 @@ import {
   CustomerIdParamSchema,
   GetCustomerSuccessResponseSchema,
   DeleteCustomerSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/oko_admin";
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 
 import {
   adminAuthMiddleware,
@@ -101,7 +101,7 @@ export function setCustomerRoutes(router: Router) {
       req: AuthenticatedAdminRequest<CreateCustomerWithDashboardUserRequest> & {
         file?: Express.Multer.File;
       },
-      res: Response<EwalletApiResponse<CreateCustomerResponse>>,
+      res: Response<OkoApiResponse<CreateCustomerResponse>>,
     ) => {
       const body = req.body;
       const state = req.app.locals;
@@ -195,7 +195,7 @@ export function setCustomerRoutes(router: Router) {
     async (
       req: AuthenticatedAdminRequest,
       res: Response<
-        EwalletApiResponse<{
+        OkoApiResponse<{
           customerWithAPIKeysList: CustomerWithAPIKeys[];
           pagination: {
             total: number;
@@ -291,7 +291,7 @@ export function setCustomerRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest,
-      res: Response<EwalletApiResponse<Customer>>,
+      res: Response<OkoApiResponse<Customer>>,
     ) => {
       const state = req.app.locals;
       const { customer_id: customerId } = req.params;
@@ -370,7 +370,7 @@ export function setCustomerRoutes(router: Router) {
     async (
       req: AuthenticatedAdminRequest<DeleteCustomerAndCustomerDashboardUsersRequest>,
       res: Response<
-        EwalletApiResponse<DeleteCustomerAndCustomerDashboardUsersResponse>
+        OkoApiResponse<DeleteCustomerAndCustomerDashboardUsersResponse>
       >,
     ) => {
       const state = req.app.locals;

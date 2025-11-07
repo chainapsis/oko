@@ -1,8 +1,8 @@
 "use client";
 
-import { MenuItem } from "@oko-wallet/ewallet-common-ui/menu";
-import { HomeOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/home_outlined";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
+import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { paths } from "@oko-wallet-ct-dashboard/paths";
 import styles from "./left_bar.module.scss";

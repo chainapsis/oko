@@ -24,7 +24,7 @@
     "baseUrl": ".",
     "paths": {
       "@oko-wallet-tss-api/*": ["./src/*"],
-      "@oko-wallet-types/*": ["../../common/ewallet_types/src/*"]
+      "@oko-wallet-types/*": ["../../common/oko_types/src/*"]
     }
   },
   "include": ["src/**/*"],

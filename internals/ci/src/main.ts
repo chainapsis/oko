@@ -23,9 +23,23 @@ async function main() {
   // internals2
   command.command("build_cs").action(buildCs);
 
-  command.command("db_migrate_api").action(DbMigrateAPI);
+  command
+    .command("db_migrate_api")
+    .option(
+      "--use-env-file",
+      "use env file config instead of test config",
+      false,
+    )
+    .action(DbMigrateAPI);
 
-  command.command("db_seed_api").action(DbSeedAPI);
+  command
+    .command("db_seed_api")
+    .option(
+      "--use-env-file",
+      "use env file config instead of test config",
+      false,
+    )
+    .action(DbSeedAPI);
 
   command
     .command("db_migrate_ksn")

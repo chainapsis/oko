@@ -1,15 +1,15 @@
 import { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import { randomBytes } from "crypto";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
-} from "@oko-wallet/ewallet-types/admin";
+} from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
   CustomerWithAPIKeys,
-} from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/customers";
 import { uploadToS3 } from "@oko-wallet/aws";
 import { hashPassword } from "@oko-wallet/crypto-js";
 import {
@@ -18,20 +18,20 @@ import {
   getCustomersCount,
   deleteCustomer,
   getCustomer,
-} from "@oko-wallet/ewallet-pg-interface/customers";
+} from "@oko-wallet/oko-pg-interface/customers";
 import {
   insertAPIKey,
   getAPIKeysByCustomerIdsMap,
   updateAPIKeyStatusByCustomerId,
-} from "@oko-wallet/ewallet-pg-interface/api_keys";
+} from "@oko-wallet/oko-pg-interface/api_keys";
 import {
   deleteCustomerDashboardUserByCustomerId,
   insertCustomerDashboardUser,
-} from "@oko-wallet/ewallet-pg-interface/customer_dashboard_users";
+} from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   APIKey,
   InsertCustomerDashboardUserRequest,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 export async function createCustomer(
   db: Pool,
@@ -45,7 +45,7 @@ export async function createCustomer(
     };
     logo?: { buffer: Buffer; originalname: string } | null;
   },
-): Promise<EwalletApiResponse<CreateCustomerResponse>> {
+): Promise<OkoApiResponse<CreateCustomerResponse>> {
   try {
     let logo_url: string | null = null;
     if (opts.logo) {
@@ -149,7 +149,7 @@ export async function getCustomerList(
   limit: number,
   offset: number,
 ): Promise<
-  EwalletApiResponse<{
+  OkoApiResponse<{
     customerWithAPIKeysList: CustomerWithAPIKeys[];
     pagination: {
       total: number;
@@ -221,7 +221,7 @@ export async function getCustomerList(
 export async function getCustomerById(
   db: Pool,
   customer_id: string,
-): Promise<EwalletApiResponse<Customer>> {
+): Promise<OkoApiResponse<Customer>> {
   try {
     const customerRes = await getCustomer(db, customer_id);
     if (customerRes.success === false) {
@@ -254,7 +254,7 @@ export async function deleteCustomerAndUsers(
   db: Pool,
   customer_id: string,
 ): Promise<
-  EwalletApiResponse<{
+  OkoApiResponse<{
     customer_id: string;
     customer_dashboard_user_ids: string[];
   }>

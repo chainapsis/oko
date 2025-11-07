@@ -2,13 +2,13 @@ import request from "supertest";
 import { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import { KNOWN_HASH_FROM_0000 } from "@oko-wallet/crypto-js";
-import { insertCustomer } from "@oko-wallet/ewallet-pg-interface/customers";
-import { insertCustomerDashboardUser } from "@oko-wallet/ewallet-pg-interface/customer_dashboard_users";
+import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
+import { insertCustomerDashboardUser } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import {
   type CustomerDashboardUser,
   type PasswordHash,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
-import { type Customer } from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/ct_dashboard";
+import { type Customer } from "@oko-wallet/oko-types/customers";
 import * as dotenv from "dotenv";
 import path from "path";
 import { createPgConn } from "@oko-wallet/postgres-lib";

@@ -21,8 +21,8 @@
     ],
     "paths": {
       "@oko-wallet-admin/*": ["./src/*"],
-      "@oko-wallet-common-ui/*": ["../../ui/ewallet_common_ui/src/*"],
-      "@oko-wallet-types/*": ["../../common/ewallet_types/src/*"]
+      "@oko-wallet-common-ui/*": ["../../ui/oko_common_ui/src/*"],
+      "@oko-wallet-types/*": ["../../common/oko_types/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

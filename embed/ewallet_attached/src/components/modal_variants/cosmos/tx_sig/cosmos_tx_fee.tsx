@@ -1,7 +1,7 @@
 import type { FC } from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { ChainInfoForAttachedModal } from "@oko-wallet/oko-sdk-core";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import cn from "classnames";
 import type { StdSignDoc } from "@keplr-wallet/types";
 

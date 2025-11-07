@@ -1,5 +1,5 @@
 import type { Router, Response } from "express";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetTssSessionListRequest,
   GetTssSessionListResponse,
@@ -7,19 +7,19 @@ import type {
   SetTssAllActivationSettingRequest,
   SetTssAllActivationSettingResponse,
 } from "@oko-wallet-types/admin";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   AdminAuthHeaderSchema,
   ErrorResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   GetTssSessionListRequestSchema,
   GetTssSessionListSuccessResponseSchema,
   GetTssAllActivationSettingSuccessResponseSchema,
   SetTssAllActivationSettingRequestSchema,
   SetTssAllActivationSettingSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/oko_admin";
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 
 import {
   adminAuthMiddleware,
@@ -83,7 +83,7 @@ export function setTssRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<GetTssSessionListRequest>,
-      res: Response<EwalletApiResponse<GetTssSessionListResponse>>,
+      res: Response<OkoApiResponse<GetTssSessionListResponse>>,
     ) => {
       const state = req.app.locals as any;
 
@@ -140,7 +140,7 @@ export function setTssRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest,
-      res: Response<EwalletApiResponse<GetTssAllActivationSettingResponse>>,
+      res: Response<OkoApiResponse<GetTssAllActivationSettingResponse>>,
     ) => {
       const state = req.app.locals as any;
 
@@ -212,7 +212,7 @@ export function setTssRoutes(router: Router) {
     adminAuthMiddleware,
     async (
       req: AuthenticatedAdminRequest<SetTssAllActivationSettingRequest>,
-      res: Response<EwalletApiResponse<SetTssAllActivationSettingResponse>>,
+      res: Response<OkoApiResponse<SetTssAllActivationSettingResponse>>,
     ) => {
       const state = req.app.locals as any;
 

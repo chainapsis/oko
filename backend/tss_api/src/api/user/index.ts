@@ -2,26 +2,26 @@ import { Pool } from "pg";
 import {
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
 import type {
   CheckEmailResponse,
   ReshareReason,
   SignInResponse,
   User,
-} from "@oko-wallet/ewallet-types/user";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import { getUserByEmail } from "@oko-wallet/ewallet-pg-interface/ewallet_users";
+} from "@oko-wallet/oko-types/user";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { getUserByEmail } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   getActiveKSNodes,
   getWalletKSNodesByWalletId,
   getKSNodesByServerUrl,
   upsertWalletKSNodes,
-} from "@oko-wallet/ewallet-pg-interface/ks_nodes";
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 import type {
   WalletKSNodeWithNodeNameAndServerUrl,
   WalletKSNodeStatus,
-} from "@oko-wallet/ewallet-types/tss";
-import { getKeyShareNodeMeta } from "@oko-wallet/ewallet-pg-interface/key_share_node_meta";
+} from "@oko-wallet/oko-types/tss";
+import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { Wallet } from "@oko-wallet-types/wallets";
 import type { NodeNameAndEndpoint } from "@oko-wallet-types/user_key_share";
 import type { Bytes33 } from "@oko-wallet/bytes";
@@ -36,7 +36,7 @@ export async function signIn(
     secret: string;
     expires_in: string;
   },
-): Promise<EwalletApiResponse<SignInResponse>> {
+): Promise<OkoApiResponse<SignInResponse>> {
   try {
     const getUserRes = await getUserByEmail(db, email);
     if (getUserRes.success === false) {
@@ -111,7 +111,7 @@ export async function signIn(
 export async function checkEmail(
   db: Pool,
   email: string,
-): Promise<EwalletApiResponse<CheckEmailResponse>> {
+): Promise<OkoApiResponse<CheckEmailResponse>> {
   try {
     // Check if user exists and has an active wallet
     const getUserRes = await getUserByEmail(db, email);
@@ -267,7 +267,7 @@ export async function updateWalletKSNodesForReshare(
   email: string,
   public_key: Bytes33,
   reshared_key_shares: NodeNameAndEndpoint[],
-): Promise<EwalletApiResponse<void>> {
+): Promise<OkoApiResponse<void>> {
   try {
     const getUserRes = await getUserByEmail(db, email);
     if (getUserRes.success === false) {

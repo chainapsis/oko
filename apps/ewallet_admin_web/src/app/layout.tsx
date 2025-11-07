@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 
 import "./globals.scss";
-import "@oko-wallet/ewallet-common-ui/styles/colors.scss";
-import "@oko-wallet/ewallet-common-ui/styles/typography.scss";
-import "@oko-wallet/ewallet-common-ui/styles/shadow.scss";
+import "@oko-wallet/oko-common-ui/styles/colors.scss";
+import "@oko-wallet/oko-common-ui/styles/typography.scss";
+import "@oko-wallet/oko-common-ui/styles/shadow.scss";
 
 import { Auth } from "@oko-wallet-admin/components/auth";
 import { MainFrame } from "@oko-wallet-admin/components/main_frame/main_frame";

@@ -1,6 +1,6 @@
 import React from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import { type Address } from "viem";
 
 import styles from "./address_info.module.scss";

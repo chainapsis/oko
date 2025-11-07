@@ -9,7 +9,7 @@ import { wasmModule } from "@oko-wallet/cait-sith-keplr-wasm";
 import type {
   SignStep1Body,
   SignStep2Body,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export type RunSignError = { type: "aborted" } | { type: "error"; msg: string };

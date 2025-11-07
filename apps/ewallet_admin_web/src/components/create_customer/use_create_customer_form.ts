@@ -4,8 +4,8 @@ import { useMutation } from "@tanstack/react-query";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
-} from "@oko-wallet/ewallet-types/admin";
-import { type EwalletApiSuccessResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/admin";
+import { type OkoApiSuccessResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
   isValidEmail,
@@ -59,7 +59,7 @@ export function useCreateCustomerForm() {
   };
 
   const mutation = useMutation<
-    EwalletApiSuccessResponse<CreateCustomerResponse> | undefined,
+    OkoApiSuccessResponse<CreateCustomerResponse> | undefined,
     any,
     CreateCustomerWithDashboardUserRequest
   >({

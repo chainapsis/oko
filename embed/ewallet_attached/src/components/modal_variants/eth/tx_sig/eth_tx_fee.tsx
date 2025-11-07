@@ -1,7 +1,7 @@
 import type { FC } from "react";
 import type { EthereumTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import cn from "classnames";
 
 import styles from "./eth_tx_fee.module.scss";

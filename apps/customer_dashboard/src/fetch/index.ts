@@ -1,2 +1,1 @@
-export const EWALLET_API_ENDPOINT =
-  process.env.NEXT_PUBLIC_EWALLET_API_ENDPOINT;
+export const OKO_API_ENDPOINT = process.env.NEXT_PUBLIC_OKO_API_ENDPOINT;

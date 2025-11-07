@@ -1,5 +1,5 @@
-import { EthereumIcon } from "@oko-wallet/ewallet-common-ui/icons/ethereum_icon";
-import { CosmosIcon } from "@oko-wallet/ewallet-common-ui/icons/cosmos_icon";
+import { EthereumIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_icon";
+import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
 
 export const FRAMEWORKS = [{ name: "React" }] as const;
 

@@ -1,9 +1,9 @@
 import { useRouter } from "next/navigation";
-import { LogoutIcon } from "@oko-wallet/ewallet-common-ui/icons/logout";
-import { EditIcon } from "@oko-wallet/ewallet-common-ui/icons/edit";
-import { ThreeDotsVerticalIcon } from "@oko-wallet/ewallet-common-ui/icons/three_dots_vertical";
-import { AnchoredMenu } from "@oko-wallet/ewallet-common-ui/anchored_menu";
-import { SidebarAccountInfo } from "@oko-wallet/ewallet-common-ui/sidebar_account_info";
+import { LogoutIcon } from "@oko-wallet/oko-common-ui/icons/logout";
+import { EditIcon } from "@oko-wallet/oko-common-ui/icons/edit";
+import { ThreeDotsVerticalIcon } from "@oko-wallet/oko-common-ui/icons/three_dots_vertical";
+import { AnchoredMenu } from "@oko-wallet/oko-common-ui/anchored_menu";
+import { SidebarAccountInfo } from "@oko-wallet/oko-common-ui/sidebar_account_info";
 
 import styles from "./account_info_with_sub_menu.module.scss";
 import { paths } from "@oko-wallet-ct-dashboard/paths";

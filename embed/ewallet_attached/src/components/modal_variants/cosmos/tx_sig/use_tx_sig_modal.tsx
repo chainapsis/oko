@@ -13,7 +13,7 @@ import {
   extractAuthInfoFromSignDoc,
 } from "@oko-wallet/oko-sdk-cosmos";
 import { AuthInfo } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
-import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import type { AminoMsg } from "@cosmjs/amino";
 import type { Any } from "cosmjs-types/google/protobuf/any";
 

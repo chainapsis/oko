@@ -3,13 +3,13 @@ import { z } from "zod";
 import type {
   PostLogBody,
   PostLogResponse,
-} from "@oko-wallet/ewallet-types/log";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/log";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 export function ingestLog(
   log: PostLogBody,
   clientLogger: Logger,
-): EwalletApiResponse<PostLogResponse> {
+): OkoApiResponse<PostLogResponse> {
   try {
     let parsedLog;
     try {

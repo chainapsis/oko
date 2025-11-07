@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 // import { useSearchParams } from "next/navigation";
-import type { SignInSilentlyResponse } from "@oko-wallet/ewallet-types/user";
+import type { SignInSilentlyResponse } from "@oko-wallet/oko-types/user";
 import type { OkoWalletMsgInit } from "@oko-wallet/oko-sdk-core";
-import type { Theme } from "@oko-wallet/ewallet-common-ui/theme";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import { initKeplrWasm } from "@oko-wallet-attached/wasm";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { useAppState } from "@oko-wallet-attached/store/app";
-import { makeAuthorizedKeplrApiRequest } from "@oko-wallet-attached/requests/ewallet_api";
+import { makeAuthorizedOkoApiRequest } from "@oko-wallet-attached/requests/oko_api";
 import { determineTheme, setColorScheme } from "./color_scheme";
 import { makeMsgHandler } from "@oko-wallet-attached/window_msgs";
 import {
@@ -157,12 +157,13 @@ async function silentlyRefreshAuthToken(
   setAuthToken: (hostOrigin: string, token: string | null) => void,
 ) {
   if (authToken) {
-    const res = await makeAuthorizedKeplrApiRequest<
-      any,
-      SignInSilentlyResponse
-    >("user/signin_silently", authToken, {
-      token: authToken,
-    });
+    const res = await makeAuthorizedOkoApiRequest<any, SignInSilentlyResponse>(
+      "user/signin_silently",
+      authToken,
+      {
+        token: authToken,
+      },
+    );
 
     if (!res.success) {
       console.error("Error logging in, err: %s", res.err);

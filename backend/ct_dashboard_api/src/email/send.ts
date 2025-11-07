@@ -1,14 +1,14 @@
 import {
   createEmailVerification,
   getLatestPendingVerification,
-} from "@oko-wallet/ewallet-pg-interface/email_verifications";
-import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/ewallet-pg-interface/customer_dashboard_users";
+} from "@oko-wallet/oko-pg-interface/email_verifications";
+import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   SendVerificationRequest,
   SendVerificationResponse,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 import { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
   generateVerificationCode,
@@ -22,7 +22,7 @@ import {
 export async function sendEmailVerificationCode(
   db: Pool,
   request: SendVerificationRequest,
-): Promise<EwalletApiResponse<SendVerificationResponse>> {
+): Promise<OkoApiResponse<SendVerificationResponse>> {
   if (!request.email) {
     return {
       success: false,

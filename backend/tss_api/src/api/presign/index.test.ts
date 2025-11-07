@@ -16,13 +16,13 @@ import type {
   TriplesStep7Request,
   TriplesStep8Request,
   TriplesStep9Request,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   PresignStageStatus,
   TriplesStageStatus,
   TssSessionState,
   TssStageType,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import { Participant } from "@oko-wallet/tecdsa-interface";
 import type {
   TECDSAPresignState,
@@ -49,14 +49,14 @@ import {
   createTssSession,
   createTssStage,
   getTssStageWithSessionData,
-} from "@oko-wallet/ewallet-pg-interface/tss";
+} from "@oko-wallet/oko-pg-interface/tss";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import type { WalletStatus } from "@oko-wallet/ewallet-types/wallets";
-import { insertKSNode } from "@oko-wallet/ewallet-pg-interface/ks_nodes";
-import { insertCustomer } from "@oko-wallet/ewallet-pg-interface/customers";
-import { createUser } from "@oko-wallet/ewallet-pg-interface/ewallet_users";
-import { createWallet } from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
-import { insertKeyShareNodeMeta } from "@oko-wallet/ewallet-pg-interface/key_share_node_meta";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
+import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
+import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
+import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";

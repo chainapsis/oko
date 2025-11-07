@@ -1,8 +1,8 @@
 import React from "react";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
-import { ArrowRightOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/arrow_right_outlined";
-import { BookOpenIcon } from "@oko-wallet/ewallet-common-ui/icons/book_open";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { ArrowRightOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/arrow_right_outlined";
+import { BookOpenIcon } from "@oko-wallet/oko-common-ui/icons/book_open";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { Widget } from "../widget_components";
 import styles from "./docs_widget.module.scss";
@@ -12,7 +12,7 @@ export const DocsWidget: React.FC = () => {
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
 
   const handleOpenDocs = () => {
-    window.open(process.env.NEXT_PUBLIC_KEPLR_EWALLET_DOCS_ENDPOINT, "_blank");
+    window.open(process.env.NEXT_PUBLIC_OKO_DOCS_ENDPOINT, "_blank");
   };
 
   return (

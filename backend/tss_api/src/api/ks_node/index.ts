@@ -1,5 +1,5 @@
 import type { Bytes33 } from "@oko-wallet/bytes";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { KeyShareNode } from "@oko-wallet-types/tss";
 
 import { requestCheckKeyShare } from "@oko-wallet-tss-api/requests";
@@ -8,7 +8,7 @@ export async function checkKeyShareFromKSNodes(
   userEmail: string,
   publicKey: Bytes33,
   targetKSNodes: KeyShareNode[],
-): Promise<EwalletApiResponse<{ nodeIds: string[] }>> {
+): Promise<OkoApiResponse<{ nodeIds: string[] }>> {
   try {
     const nodeServerUrls: string[] = [];
     const nodeIds: string[] = [];

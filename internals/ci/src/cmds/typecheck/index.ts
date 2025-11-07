@@ -17,12 +17,12 @@ export async function typeCheck(..._args: any[]) {
     paths.sdk_eth,
     paths.ksn_server,
     paths.sandbox_simple_host,
-    paths.ewallet_api_server,
+    paths.oko_api_server,
     paths.tss_api,
     paths.admin_api,
     paths.ct_dashboard_api,
     paths.ewallet_attached,
-    paths.ewallet_pg_interface,
+    paths.oko_pg_interface,
     paths.demo_web,
     paths.ewallet_admin_web,
     paths.ct_dashboard_web,
@@ -49,23 +49,34 @@ export async function typeCheck(..._args: any[]) {
       chalk.bold.green("Success"),
       `All ${pkgPaths.length} ok!`,
     );
-  } catch (err) {
-    console.log("error", err);
+  } catch (err: any) {
+    console.log("%s type checking, err: %s", chalk.red.bold("Error"), err);
+
+    // TODO: @elden stop workers
+    for (let idx = 0; idx < workers.length; idx += 1) {
+      workers[idx];
+    }
   }
 }
 
 export async function spawnWorker(workerName: string, pkgPaths: string[]) {
-  const threadPath = join(__dirname, "./thread.ts");
-  console.log("thread path: %s", threadPath);
+  const scriptPath = join(__dirname, "./worker.ts");
 
   const p1 = new Promise((resolve, reject) => {
+    console.log(
+      "Spawn worker (%s), checking %s pkgs, script path: %s",
+      workerName,
+      pkgPaths.length,
+      scriptPath,
+    );
+
     const worker = new Worker(
       // NOTE:Register runtime hook, if not, scripts in a worker thread run on
       // NodeJS runtime, not TSX (or any TypeScript runtime).
       `import('tsx/esm/api')
         .then(({ register }) => {
           register();
-          import('${threadPath}')
+          import('${scriptPath}')
         })`,
       {
         workerData: pkgPaths,

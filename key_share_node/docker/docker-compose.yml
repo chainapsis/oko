@@ -2,8 +2,6 @@ services:
   key_share_node_pg:
     image: postgres:17.4
     restart: unless-stopped
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
@@ -18,9 +16,9 @@ services:
     build:
       context: ../../
       dockerfile: key_share_node/docker/key_share_node.Dockerfile
+      network: host
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
-    platform: linux/amd64
     restart: unless-stopped
     environment:
       PORT: ${SERVER_PORT}

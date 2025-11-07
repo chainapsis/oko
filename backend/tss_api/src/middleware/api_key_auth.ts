@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import { getAPIKeyByHashedKey } from "@oko-wallet/ewallet-pg-interface/api_keys";
+import { getAPIKeyByHashedKey } from "@oko-wallet/oko-pg-interface/api_keys";
 
 export interface APIKeyAuthenticatedRequest<T = any> extends Request {
   body: T;

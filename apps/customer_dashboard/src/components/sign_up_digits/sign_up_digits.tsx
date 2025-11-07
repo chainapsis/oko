@@ -1,8 +1,8 @@
 "use client";
 
 import React from "react";
-import { OtpInput } from "@oko-wallet/ewallet-common-ui/otp_input";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { useSignUpDigits } from "./use_sign_up_digits";
 import styles from "./sign_up_digits.module.scss";

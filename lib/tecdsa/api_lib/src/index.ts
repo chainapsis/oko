@@ -46,17 +46,17 @@ import type {
   SignStep2Body,
   AbortTssSessionBody,
   AbortTssSessionResponse,
-} from "@oko-wallet/ewallet-types/tss";
-import { type SignInResponse } from "@oko-wallet/ewallet-types/user";
+} from "@oko-wallet/oko-types/tss";
+import { type SignInResponse } from "@oko-wallet/oko-types/user";
 import {
   type ErrorCode,
-  type EwalletApiErrorResponse,
-  type EwalletApiResponse,
-} from "@oko-wallet/ewallet-types/api_response";
+  type OkoApiErrorResponse,
+  type OkoApiResponse,
+} from "@oko-wallet/oko-types/api_response";
 
-/* NOTE - The error type returned by the middleware is not compatible with EwalletApiErrorResponse.
+/* NOTE - The error type returned by the middleware is not compatible with OkoApiErrorResponse.
    So we use a separate function to handle it.
-   If the error type is modified in the middleware to be compatible with EwalletApiErrorResponse,
+   If the error type is modified in the middleware to be compatible with OkoApiErrorResponse,
    this code should be deleted @retto
 */
 interface MiddlewareErrorResponse {
@@ -91,7 +91,7 @@ function mapStatusToErrorCode(status: number): ErrorCode {
 function normalizeErrorResponse(
   status: number,
   responseBody: any,
-): EwalletApiErrorResponse {
+): OkoApiErrorResponse {
   if (isMiddlewareError(responseBody)) {
     return {
       success: false,
@@ -152,7 +152,7 @@ async function makePostRequest<T, R>(
     try {
       const error = await ret.json();
 
-      const errorResponse: EwalletApiErrorResponse = normalizeErrorResponse(
+      const errorResponse: OkoApiErrorResponse = normalizeErrorResponse(
         ret.status,
         error,
       );
@@ -182,7 +182,7 @@ export async function reqKeygen(
   payload: KeygenBody,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<SignInResponse> = await makePostRequest(
+  const resp: OkoApiResponse<SignInResponse> = await makePostRequest(
     endpoint,
     "keygen",
     payload,
@@ -198,7 +198,7 @@ export async function reqTriplesStep1(
   apiKey: string,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep1Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep1Response> = await makePostRequest(
     endpoint,
     "triples/step1",
     payload,
@@ -213,7 +213,7 @@ export async function reqTriplesStep2(
   payload: TriplesStep2Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep2Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep2Response> = await makePostRequest(
     endpoint,
     "triples/step2",
     payload,
@@ -228,7 +228,7 @@ export async function reqTriplesStep3(
   payload: TriplesStep3Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep3Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep3Response> = await makePostRequest(
     endpoint,
     "triples/step3",
     payload,
@@ -243,7 +243,7 @@ export async function reqTriplesStep4(
   payload: TriplesStep4Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep4Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep4Response> = await makePostRequest(
     endpoint,
     "triples/step4",
     payload,
@@ -258,7 +258,7 @@ export async function reqTriplesStep5(
   payload: TriplesStep5Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep5Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep5Response> = await makePostRequest(
     endpoint,
     "triples/step5",
     payload,
@@ -273,7 +273,7 @@ export async function reqTriplesStep6(
   payload: TriplesStep6Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep6Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep6Response> = await makePostRequest(
     endpoint,
     "triples/step6",
     payload,
@@ -288,7 +288,7 @@ export async function reqTriplesStep7(
   payload: TriplesStep7Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep7Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep7Response> = await makePostRequest(
     endpoint,
     "triples/step7",
     payload,
@@ -303,7 +303,7 @@ export async function reqTriplesStep8(
   payload: TriplesStep8Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep8Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep8Response> = await makePostRequest(
     endpoint,
     "triples/step8",
     payload,
@@ -318,7 +318,7 @@ export async function reqTriplesStep9(
   payload: TriplesStep9Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep9Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep9Response> = await makePostRequest(
     endpoint,
     "triples/step9",
     payload,
@@ -333,7 +333,7 @@ export async function reqTriplesStep10(
   payload: TriplesStep10Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep10Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep10Response> = await makePostRequest(
     endpoint,
     "triples/step10",
     payload,
@@ -348,7 +348,7 @@ export async function reqTriplesStep11(
   payload: TriplesStep11Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<TriplesStep11Response> = await makePostRequest(
+  const resp: OkoApiResponse<TriplesStep11Response> = await makePostRequest(
     endpoint,
     "triples/step11",
     payload,
@@ -363,7 +363,7 @@ export async function reqPresignStep1(
   payload: PresignStep1Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<PresignStep1Response> = await makePostRequest(
+  const resp: OkoApiResponse<PresignStep1Response> = await makePostRequest(
     endpoint,
     "presign/step1",
     payload,
@@ -378,7 +378,7 @@ export async function reqPresignStep2(
   payload: PresignStep2Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<PresignStep2Response> = await makePostRequest(
+  const resp: OkoApiResponse<PresignStep2Response> = await makePostRequest(
     endpoint,
     "presign/step2",
     payload,
@@ -393,7 +393,7 @@ export async function reqPresignStep3(
   payload: PresignStep3Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<PresignStep3Response> = await makePostRequest(
+  const resp: OkoApiResponse<PresignStep3Response> = await makePostRequest(
     endpoint,
     "presign/step3",
     payload,
@@ -408,7 +408,7 @@ export async function reqSignStep1(
   payload: SignStep1Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<SignStep1Response> = await makePostRequest(
+  const resp: OkoApiResponse<SignStep1Response> = await makePostRequest(
     endpoint,
     "sign/step1",
     payload,
@@ -423,7 +423,7 @@ export async function reqSignStep2(
   payload: SignStep2Body,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<SignStep2Response> = await makePostRequest(
+  const resp: OkoApiResponse<SignStep2Response> = await makePostRequest(
     endpoint,
     "sign/step2",
     payload,
@@ -499,7 +499,7 @@ export async function reqAbortTssSession(
   payload: AbortTssSessionBody,
   authToken: string,
 ) {
-  const resp: EwalletApiResponse<AbortTssSessionResponse> =
+  const resp: OkoApiResponse<AbortTssSessionResponse> =
     await makePostRequest(
       endpoint,
       "session/abort",

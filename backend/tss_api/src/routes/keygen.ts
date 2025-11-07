@@ -1,15 +1,15 @@
 import type { Response, Router } from "express";
-import type { KeygenBody } from "@oko-wallet/ewallet-types/tss";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import type { SignInResponse } from "@oko-wallet/ewallet-types/user";
+import type { KeygenBody } from "@oko-wallet/oko-types/tss";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { SignInResponse } from "@oko-wallet/oko-types/user";
 import {
   ErrorResponseSchema,
   GoogleAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
-import { SignInSuccessResponseSchema } from "@oko-wallet/ewallet-api-openapi/tss";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
-import { KeygenRequestSchema } from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/common";
+import { SignInSuccessResponseSchema } from "@oko-wallet/oko-api-openapi/tss";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { KeygenRequestSchema } from "@oko-wallet/oko-api-openapi/tss";
 
 import { runKeygen } from "@oko-wallet-tss-api/api/keygen";
 import {
@@ -80,7 +80,7 @@ export function setKeygenRoutes(router: Router) {
     [googleAuthMiddleware, tssActivateMiddleware],
     async (
       req: GoogleAuthenticatedRequest<KeygenBody>,
-      res: Response<EwalletApiResponse<SignInResponse>>,
+      res: Response<OkoApiResponse<SignInResponse>>,
     ) => {
       const state = req.app.locals;
       const googleUser = res.locals.google_user;

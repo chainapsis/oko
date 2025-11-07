@@ -3,9 +3,9 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { ChevronLeftIcon } from "@oko-wallet/ewallet-common-ui/icons/chevron_left";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 
 import { ResetPassword } from "@oko-wallet-ct-dashboard/components/reset_password/reset_password";
 import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";

@@ -1,12 +1,12 @@
 import React from "react";
 import cn from "classnames";
-import { GoogleIcon } from "@oko-wallet/ewallet-common-ui/icons/google_icon";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { TelegramIcon } from "@oko-wallet/ewallet-common-ui/icons/telegram_icon";
-import { XIcon } from "@oko-wallet/ewallet-common-ui/icons/x_icon";
-import { AppleIcon } from "@oko-wallet/ewallet-common-ui/icons/apple_icon";
-import { MailboxIcon } from "@oko-wallet/ewallet-common-ui/icons/mailbox";
+import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
+import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
+import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
+import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 
 import { Widget } from "../widget_components";
 import styles from "./auth_progress_widget.module.scss";

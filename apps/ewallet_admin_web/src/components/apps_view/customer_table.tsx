@@ -2,7 +2,7 @@ import { createColumnHelper, flexRender } from "@tanstack/react-table";
 import Link from "next/link";
 import { type FC } from "react";
 import { useRouter } from "next/navigation";
-import { type CustomerWithAPIKeys } from "@oko-wallet/ewallet-types/customers";
+import { type CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
 import {
   Table,
   TableBody,
@@ -10,9 +10,9 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@oko-wallet/ewallet-common-ui/table";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
+} from "@oko-wallet/oko-common-ui/table";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import styles from "./customer_table.module.scss";
 import { useGetCustomerListWithAPIKeys } from "./use_get_customer";

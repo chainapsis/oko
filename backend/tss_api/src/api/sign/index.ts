@@ -1,7 +1,7 @@
 import {
   createTssStage,
   getTssStageWithSessionData,
-} from "@oko-wallet/ewallet-pg-interface/tss";
+} from "@oko-wallet/oko-pg-interface/tss";
 import type {
   SignStep1Request,
   SignStep1Response,
@@ -9,19 +9,19 @@ import type {
   SignStep2Response,
   PresignStageData,
   SignStageData,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   PresignStageStatus,
   SignStageStatus,
   TssSessionState,
   TssStageType,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import { Pool } from "pg";
 import {
   runSignServerStep1V2,
   runSignServerStep2,
 } from "@oko-wallet/cait-sith-keplr-addon/src/server";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
   updateTssStageWithSessionState,
@@ -33,7 +33,7 @@ import {
 export async function runSignStep1(
   db: Pool,
   signStep1Request: SignStep1Request,
-): Promise<EwalletApiResponse<SignStep1Response>> {
+): Promise<OkoApiResponse<SignStep1Response>> {
   try {
     const { email, wallet_id, session_id, msg, msgs_1 } = signStep1Request;
 
@@ -147,7 +147,7 @@ export async function runSignStep1(
 export async function runSignStep2(
   db: Pool,
   signStep2Request: SignStep2Request,
-): Promise<EwalletApiResponse<SignStep2Response>> {
+): Promise<OkoApiResponse<SignStep2Response>> {
   try {
     const { email, wallet_id, session_id, sign_output } = signStep2Request;
 

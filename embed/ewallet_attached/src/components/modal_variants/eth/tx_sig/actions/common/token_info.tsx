@@ -1,7 +1,7 @@
 import React from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Tooltip } from "@oko-wallet/ewallet-common-ui/tooltip";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import { createPublicClient, http, type Address, type Chain } from "viem";
 import type { AppCurrency } from "@keplr-wallet/types";
 

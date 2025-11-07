@@ -1,4 +1,4 @@
-import type { ErrorCode } from "@oko-wallet/ewallet-types/api_response";
+import type { ErrorCode } from "@oko-wallet/oko-types/api_response";
 
 export const ErrorCodeMap: Record<ErrorCode, number> = {
   FORBIDDEN: 400,

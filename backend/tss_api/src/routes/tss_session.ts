@@ -1,19 +1,19 @@
 import type { Response, Router } from "express";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
+} from "@oko-wallet/oko-api-openapi/common";
 import {
   AbortTssSessionRequestSchema,
   AbortTssSessionSuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/tss";
 import type {
   AbortTssSessionBody,
   AbortTssSessionResponse,
-} from "@oko-wallet/ewallet-types/tss";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+} from "@oko-wallet/oko-types/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { registry } from "@oko-wallet/oko-api-openapi";
 
 import {
   sendResponseWithNewToken,
@@ -89,7 +89,7 @@ export function setTssSessionRoutes(router: Router) {
     userJwtMiddleware,
     async (
       req: UserAuthenticatedRequest<AbortTssSessionBody>,
-      res: Response<EwalletApiResponse<AbortTssSessionResponse>>,
+      res: Response<OkoApiResponse<AbortTssSessionResponse>>,
     ) => {
       const state = req.app.locals;
       const user = res.locals.user;

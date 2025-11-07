@@ -2,8 +2,6 @@ services:
   pg_local:
     image: postgres:17.4
     restart: unless-stopped
-    ports:
-      - "5432:5432"
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -12,15 +10,15 @@ services:
       PGTZ: "UTC"
     volumes:
       - ${PG_DATA_DIR}:/var/lib/postgresql/data
-      - ../ewallet_pg_interface/scripts/migrate/migrate.sql:/docker-entrypoint-initdb.d/migrate.sql
+      - ../oko_pg_interface/scripts/migrate/migrate.sql:/docker-entrypoint-initdb.d/migrate.sql
 
-  ewallet_api_server:
+  oko_api_server:
     build:
       context: ../../
       dockerfile: backend/docker/oko_api_server.Dockerfile
+      network: host
     ports:
       - "${SERVER_PORT}:${SERVER_PORT}"
-    platform: linux/amd64
     restart: unless-stopped
     environment:
       SERVER_PORT: ${SERVER_PORT}

@@ -1,4 +1,4 @@
-import type { NodeNameAndEndpoint } from "@oko-wallet/ewallet-types/user_key_share";
+import type { NodeNameAndEndpoint } from "@oko-wallet/oko-types/user_key_share";
 
 export type RequestSplitSharesError =
   | {

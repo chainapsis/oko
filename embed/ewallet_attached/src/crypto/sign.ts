@@ -8,7 +8,7 @@ import { reqAbortTssSession } from "@oko-wallet/api-lib";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
 
-import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/ewallet_api";
+import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
 export async function makeSignOutput(
   hash: Uint8Array,

@@ -1,6 +1,6 @@
 import swaggerUi from "swagger-ui-express";
 import type { Express } from "express";
-import { getOpenApiDocument } from "@oko-wallet/ewallet-api-openapi";
+import { getOpenApiDocument } from "@oko-wallet/oko-api-openapi";
 
 export function installSwaggerDocs(app: Express) {
   console.log("Installing Swagger with Zod");

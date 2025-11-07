@@ -1,11 +1,11 @@
 import jwt from "jsonwebtoken";
-import type { TokenResult } from "@oko-wallet/ewallet-types/auth";
+import type { TokenResult } from "@oko-wallet/oko-types/auth";
 import type {
   CustomerTokenPayload,
   GenerateCustomerTokenArgs,
   VerifyCustomerTokenArgs,
   CustomerVerifyResult,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import { CUSTOMER_ISSUER, CUSTOMER_AUDIENCE } from "../constants";

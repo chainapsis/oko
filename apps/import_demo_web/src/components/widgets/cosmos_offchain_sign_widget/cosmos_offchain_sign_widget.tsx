@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { CosmosIcon } from "@oko-wallet/ewallet-common-ui/icons/cosmos_icon";
+import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
 
 import { SignWidget } from "@oko-wallet-import-demo-web/components/widgets/sign_widget/sign_widget";
 import { useSDKState } from "@oko-wallet-import-demo-web/state/sdk";

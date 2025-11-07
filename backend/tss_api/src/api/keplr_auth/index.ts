@@ -1,11 +1,11 @@
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
-import type { TokenResult } from "@oko-wallet/ewallet-types/auth";
+import type { TokenResult } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   GenerateUserTokenArgs,
   UserTokenPayload,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 
 import type { UserTokenJWTPayload, VerifyUserTokenResult } from "./types";
 

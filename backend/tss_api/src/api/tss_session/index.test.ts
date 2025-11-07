@@ -1,22 +1,22 @@
 import { Pool } from "pg";
-import type { AbortTssSessionRequest } from "@oko-wallet/ewallet-types/tss";
-import { TssSessionState } from "@oko-wallet/ewallet-types/tss";
+import type { AbortTssSessionRequest } from "@oko-wallet/oko-types/tss";
+import { TssSessionState } from "@oko-wallet/oko-types/tss";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import type { WalletStatus } from "@oko-wallet/ewallet-types/wallets";
-import { createTssSession } from "@oko-wallet/ewallet-pg-interface/tss";
-import { insertCustomer } from "@oko-wallet/ewallet-pg-interface/customers";
-import { createWallet } from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
-import { createUser } from "@oko-wallet/ewallet-pg-interface/ewallet_users";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
+import { createTssSession } from "@oko-wallet/oko-pg-interface/tss";
+import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
+import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   TssStageType,
   TriplesStageStatus,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import {
   napiRunTriples2ClientStep1,
   napiRunTriples2ClientStep2,
 } from "@oko-wallet/cait-sith-keplr-addon/addon";
 import { Participant } from "@oko-wallet/tecdsa-interface";
-import { insertKeyShareNodeMeta } from "@oko-wallet/ewallet-pg-interface/key_share_node_meta";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";

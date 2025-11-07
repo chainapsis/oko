@@ -9951,11 +9951,12 @@ __metadata:
   dependencies:
     "@oko-wallet/aws": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/ewallet-api-openapi": "workspace:*"
-    "@oko-wallet/ewallet-api-server-state": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
     "@oko-wallet/ks-node-health": "workspace:*"
+    "@oko-wallet/oko-api-error-codes": "workspace:*"
+    "@oko-wallet/oko-api-openapi": "workspace:*"
+    "@oko-wallet/oko-api-server-state": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/cors": "npm:*"
@@ -9992,7 +9993,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/api-lib@workspace:lib/tecdsa/api_lib"
   dependencies:
-    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@types/node": "npm:*"
     "@types/react": "npm:*"
     "@types/react-dom": "npm:*"
@@ -10111,7 +10112,7 @@ __metadata:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/bytes": "npm:0.0.3-alpha.49"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.15"
     "@types/node": "npm:*"
@@ -10177,10 +10178,11 @@ __metadata:
   resolution: "@oko-wallet/ct-dashboard-api@workspace:backend/ct_dashboard_api"
   dependencies:
     "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/ewallet-api-openapi": "workspace:*"
-    "@oko-wallet/ewallet-api-server-state": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/oko-api-error-codes": "workspace:*"
+    "@oko-wallet/oko-api-openapi": "workspace:*"
+    "@oko-wallet/oko-api-server-state": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/cors": "npm:*"
@@ -10218,7 +10220,7 @@ __metadata:
     "@floating-ui/dom": "npm:*"
     "@floating-ui/react": "npm:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.12"
-    "@oko-wallet/ewallet-common-ui": "workspace:*"
+    "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.27"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
@@ -10243,7 +10245,7 @@ __metadata:
     "@cosmjs/proto-signing": "npm:^0.33.1"
     "@keplr-wallet/proto-types": "npm:^0.12.250"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ewallet-common-ui": "workspace:*"
+    "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.112"
     "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
@@ -10320,8 +10322,8 @@ __metadata:
   resolution: "@oko-wallet/ewallet-admin-web@workspace:apps/ewallet_admin_web"
   dependencies:
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ewallet-common-ui": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
+    "@oko-wallet/oko-common-ui": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
@@ -10337,63 +10339,6 @@ __metadata:
     tsx: "npm:*"
     typescript: "npm:*"
     zustand: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-api-error-codes@workspace:*, @oko-wallet/ewallet-api-error-codes@workspace:backend/oko_api/error_codes":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-api-error-codes@workspace:backend/oko_api/error_codes"
-  dependencies:
-    "@oko-wallet/ewallet-types": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
-    jest: "npm:*"
-    ts-jest: "npm:*"
-    tsconfig-paths: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
-    uuid: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-api-openapi@workspace:*, @oko-wallet/ewallet-api-openapi@workspace:backend/openapi":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-api-openapi@workspace:backend/openapi"
-  dependencies:
-    "@asteasolutions/zod-to-openapi": "npm:*"
-    typescript: "npm:*"
-    zod: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-api-server-state@workspace:*, @oko-wallet/ewallet-api-server-state@workspace:backend/ewallet_api_server_state":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-api-server-state@workspace:backend/ewallet_api_server_state"
-  dependencies:
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@types/express": "npm:*"
-    "@types/jest": "npm:*"
-    "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
-    "@types/node": "npm:*"
-    "@types/supertest": "npm:*"
-    cors: "npm:*"
-    dotenv: "npm:*"
-    express: "npm:*"
-    helmet: "npm:*"
-    jest: "npm:*"
-    jsonwebtoken: "npm:*"
-    morgan: "npm:*"
-    pg: "npm:*"
-    supertest: "npm:*"
-    ts-jest: "npm:*"
-    typescript: "npm:*"
-    uuid: "npm:*"
-    winston: "npm:*"
-    winston-elasticsearch: "npm:*"
   languageName: unknown
   linkType: soft
 
@@ -10421,8 +10366,8 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ewallet-common-ui": "workspace:*"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.40"
+    "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.112"
     "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
@@ -10460,70 +10405,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/ewallet-common-ui@workspace:*, @oko-wallet/ewallet-common-ui@workspace:ui/ewallet_common_ui":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-common-ui@workspace:ui/ewallet_common_ui"
-  dependencies:
-    "@floating-ui/dom": "npm:*"
-    "@floating-ui/react": "npm:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@types/node": "npm:*"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
-    classnames: "npm:*"
-    next: "npm:*"
-    react: "npm:*"
-    react-dom: "npm:*"
-    sass: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-pg-interface@workspace:*, @oko-wallet/ewallet-pg-interface@workspace:backend/ewallet_pg_interface":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-pg-interface@workspace:backend/ewallet_pg_interface"
-  dependencies:
-    "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
-    "@oko-wallet/cait-sith-keplr-express": "workspace:*"
-    "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ewallet-types": "workspace:*"
-    "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
-    jest: "npm:*"
-    pg: "npm:*"
-    pgsql-parser: "npm:^17.7.8"
-    ts-jest: "npm:*"
-    tsconfig-paths: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
-    uuid: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/ewallet-types@workspace:*, @oko-wallet/ewallet-types@workspace:common/ewallet_types":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-types@workspace:common/ewallet_types"
-  dependencies:
-    "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
-    "@oko-wallet/cait-sith-keplr-express": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.15"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
-    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
-    "@typescript-eslint/parser": "npm:^7.16.1"
-    tsconfig-paths: "npm:*"
-    typescript: "npm:*"
-    viem: "npm:*"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/import-demo-web@workspace:apps/import_demo_web":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/import-demo-web@workspace:apps/import_demo_web"
@@ -10531,7 +10412,7 @@ __metadata:
     "@cosmjs/proto-signing": "npm:^0.33.1"
     "@keplr-wallet/proto-types": "npm:^0.12.250"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ewallet-common-ui": "workspace:*"
+    "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.112"
     "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
@@ -10597,8 +10478,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ks-node-health@workspace:backend/ks_node_health"
   dependencies:
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     pg: "npm:*"
     typescript: "npm:*"
@@ -10658,10 +10539,10 @@ __metadata:
   resolution: "@oko-wallet/log-api@workspace:backend/log_api"
   dependencies:
     "@oko-wallet/bytes": "npm:0.0.3-alpha.49"
-    "@oko-wallet/ewallet-api-error-codes": "workspace:*"
-    "@oko-wallet/ewallet-api-server-state": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/oko-api-error-codes": "workspace:*"
+    "@oko-wallet/oko-api-server-state": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/cors": "npm:*"
@@ -10695,6 +10576,63 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/oko-api-error-codes@workspace:*, @oko-wallet/oko-api-error-codes@workspace:backend/oko_api/error_codes":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-api-error-codes@workspace:backend/oko_api/error_codes"
+  dependencies:
+    "@oko-wallet/oko-types": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@types/jest": "npm:*"
+    "@types/node": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:*"
+    "@typescript-eslint/parser": "npm:*"
+    jest: "npm:*"
+    ts-jest: "npm:*"
+    tsconfig-paths: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    uuid: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/oko-api-openapi@workspace:*, @oko-wallet/oko-api-openapi@workspace:backend/openapi":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-api-openapi@workspace:backend/openapi"
+  dependencies:
+    "@asteasolutions/zod-to-openapi": "npm:*"
+    typescript: "npm:*"
+    zod: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/oko-api-server-state@workspace:*, @oko-wallet/oko-api-server-state@workspace:backend/oko_api_server_state":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-api-server-state@workspace:backend/oko_api_server_state"
+  dependencies:
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@types/express": "npm:*"
+    "@types/jest": "npm:*"
+    "@types/jsonwebtoken": "npm:*"
+    "@types/morgan": "npm:*"
+    "@types/node": "npm:*"
+    "@types/supertest": "npm:*"
+    cors: "npm:*"
+    dotenv: "npm:*"
+    express: "npm:*"
+    helmet: "npm:*"
+    jest: "npm:*"
+    jsonwebtoken: "npm:*"
+    morgan: "npm:*"
+    pg: "npm:*"
+    supertest: "npm:*"
+    ts-jest: "npm:*"
+    typescript: "npm:*"
+    uuid: "npm:*"
+    winston: "npm:*"
+    winston-elasticsearch: "npm:*"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/oko-api-server@workspace:backend/oko_api/server":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-server@workspace:backend/oko_api/server"
@@ -10703,12 +10641,12 @@ __metadata:
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/ct-dashboard-api": "workspace:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ewallet-api-openapi": "workspace:*"
-    "@oko-wallet/ewallet-api-server-state": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
     "@oko-wallet/ks-node-health": "workspace:*"
     "@oko-wallet/log-api": "workspace:*"
+    "@oko-wallet/oko-api-openapi": "workspace:*"
+    "@oko-wallet/oko-api-server-state": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@oko-wallet/tss-api": "workspace:*"
     "@types/cors": "npm:*"
@@ -10740,6 +10678,52 @@ __metadata:
     typescript: "npm:*"
     uuid: "npm:*"
     zod: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/oko-common-ui@workspace:*, @oko-wallet/oko-common-ui@workspace:ui/oko_common_ui":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-common-ui@workspace:ui/oko_common_ui"
+  dependencies:
+    "@floating-ui/dom": "npm:*"
+    "@floating-ui/react": "npm:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@types/node": "npm:*"
+    "@types/react": "npm:*"
+    "@types/react-dom": "npm:*"
+    classnames: "npm:*"
+    next: "npm:*"
+    react: "npm:*"
+    react-dom: "npm:*"
+    sass: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/oko-pg-interface@workspace:*, @oko-wallet/oko-pg-interface@workspace:backend/oko_pg_interface":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-pg-interface@workspace:backend/oko_pg_interface"
+  dependencies:
+    "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
+    "@oko-wallet/cait-sith-keplr-express": "workspace:*"
+    "@oko-wallet/crypto-js": "workspace:*"
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
+    "@oko-wallet/oko-types": "workspace:*"
+    "@oko-wallet/postgres-lib": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@types/jest": "npm:*"
+    "@types/node": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:*"
+    "@typescript-eslint/parser": "npm:*"
+    jest: "npm:*"
+    pg: "npm:*"
+    pgsql-parser: "npm:^17.7.8"
+    ts-jest: "npm:*"
+    tsconfig-paths: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    uuid: "npm:*"
   languageName: unknown
   linkType: soft
 
@@ -10847,6 +10831,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/oko-types@workspace:*, @oko-wallet/oko-types@workspace:common/oko_types":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-types@workspace:common/oko_types"
+  dependencies:
+    "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
+    "@oko-wallet/cait-sith-keplr-express": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.15"
+    "@types/jest": "npm:*"
+    "@types/node": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
+    "@typescript-eslint/parser": "npm:^7.16.1"
+    tsconfig-paths: "npm:*"
+    typescript: "npm:*"
+    viem: "npm:*"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/postgres-lib@workspace:*, @oko-wallet/postgres-lib@workspace:lib/postgres_lib":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/postgres-lib@workspace:lib/postgres_lib"
@@ -10854,8 +10856,8 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
     "@oko-wallet/cait-sith-keplr-express": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^4.17.20"
@@ -10947,12 +10949,12 @@ __metadata:
     "@oko-wallet/bytes": "npm:0.0.3-alpha.49"
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/ewallet-api-error-codes": "workspace:*"
-    "@oko-wallet/ewallet-api-openapi": "workspace:*"
-    "@oko-wallet/ewallet-api-server-state": "workspace:*"
-    "@oko-wallet/ewallet-pg-interface": "workspace:*"
-    "@oko-wallet/ewallet-types": "workspace:*"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.40"
+    "@oko-wallet/oko-api-error-codes": "workspace:*"
+    "@oko-wallet/oko-api-openapi": "workspace:*"
+    "@oko-wallet/oko-api-server-state": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.15"

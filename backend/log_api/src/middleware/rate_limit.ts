@@ -1,4 +1,4 @@
-import type { EwalletApiErrorResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiErrorResponse } from "@oko-wallet/oko-types/api_response";
 import rateLimit from "express-rate-limit";
 
 export interface RateLimitMiddlewareOption {
@@ -7,7 +7,7 @@ export interface RateLimitMiddlewareOption {
 }
 
 export function rateLimitMiddleware(option: RateLimitMiddlewareOption) {
-  const message: EwalletApiErrorResponse = {
+  const message: OkoApiErrorResponse = {
     success: false,
     code: "RATE_LIMIT_EXCEEDED",
     msg: `Too many requests, please try again after ${option.windowSeconds} seconds`,

@@ -1,7 +1,7 @@
 import React from "react";
-import { HomeOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/home_outlined";
-import { ChartOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/chart_outlined";
-import { UsersIcon } from "@oko-wallet/ewallet-common-ui/icons/users";
+import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
+import { ChartOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/chart_outlined";
+import { UsersIcon } from "@oko-wallet/oko-common-ui/icons/users";
 
 import { paths } from "@oko-wallet-admin/paths";
 import { Navigation, type NavigationItem } from "./navigation";

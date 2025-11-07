@@ -1,8 +1,8 @@
 import React from "react";
-import { GoogleIcon } from "@oko-wallet/ewallet-common-ui/icons/google_icon";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { DoorOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/door_outlined";
+import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { DoorOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/door_outlined";
 import { MailboxIcon } from "@oko-wallet-common-ui/icons/mailbox";
 import { TelegramIcon } from "@oko-wallet-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet-common-ui/icons/x_icon";

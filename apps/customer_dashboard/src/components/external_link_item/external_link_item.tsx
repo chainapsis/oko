@@ -1,7 +1,7 @@
 import { FC } from "react";
 import Link from "next/link";
-import { ExternalLinkOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/external_link_outlined";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./external_link_item.module.scss";
 

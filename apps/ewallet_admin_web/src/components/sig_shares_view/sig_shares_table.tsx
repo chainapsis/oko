@@ -2,7 +2,7 @@ import React from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
-import { type TssSessionWithCustomerAndUser } from "@oko-wallet/ewallet-types/tss";
+import { type TssSessionWithCustomerAndUser } from "@oko-wallet/oko-types/tss";
 import {
   Table,
   TableBody,
@@ -10,7 +10,7 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@oko-wallet/ewallet-common-ui/table";
+} from "@oko-wallet/oko-common-ui/table";
 
 import styles from "./sig_shares_table.module.scss";
 import { useGetTSSSessionsList } from "./use_get_tss_sessions";

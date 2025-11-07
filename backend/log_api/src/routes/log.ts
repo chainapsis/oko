@@ -1,11 +1,11 @@
 import type { Response, Router, Request } from "express";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { Logger } from "winston";
 import type {
   PostLogBody,
   PostLogResponse,
-} from "@oko-wallet/ewallet-types/log";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+} from "@oko-wallet/oko-types/log";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
 import { ingestLog } from "@oko-wallet-log-api/api/log";
 import { rateLimitMiddleware } from "@oko-wallet-log-api/middleware/rate_limit";
@@ -16,7 +16,7 @@ export function setLogRoutes(router: Router, clientLogger: Logger) {
     rateLimitMiddleware({ windowSeconds: 60, maxRequests: 100 }),
     async (
       req: Request<any, any, PostLogBody>,
-      res: Response<EwalletApiResponse<PostLogResponse>>,
+      res: Response<OkoApiResponse<PostLogResponse>>,
     ) => {
       const ingestLogRes = ingestLog(req.body, clientLogger);
       if (ingestLogRes.success === false) {

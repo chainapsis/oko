@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useState } from "react";
-import { EyeIcon } from "@oko-wallet/ewallet-common-ui/icons/eye";
-import { EyeOffIcon } from "@oko-wallet/ewallet-common-ui/icons/eye_off";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Input } from "@oko-wallet/ewallet-common-ui/input";
+import { EyeIcon } from "@oko-wallet/oko-common-ui/icons/eye";
+import { EyeOffIcon } from "@oko-wallet/oko-common-ui/icons/eye_off";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Input } from "@oko-wallet/oko-common-ui/input";
 
 import { AccountForm } from "@oko-wallet-ct-dashboard/ui";
 import { useResetPasswordForm } from "./use_reset_password_form";

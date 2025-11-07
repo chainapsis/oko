@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import { paths } from "@oko-wallet-admin/paths";
 import { useGetCustomerListWithAPIKeys } from "./use_get_customer";

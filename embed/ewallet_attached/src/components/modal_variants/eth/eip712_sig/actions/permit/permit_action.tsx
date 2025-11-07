@@ -1,9 +1,9 @@
 import { Fragment, type FC } from "react";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
-import { ArrowUpRightIcon } from "@oko-wallet/ewallet-common-ui/icons/arrow_up_right";
-import { Tooltip } from "@oko-wallet/ewallet-common-ui/tooltip";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import { ArrowUpRightIcon } from "@oko-wallet/oko-common-ui/icons/arrow_up_right";
+import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
 import { createPublicClient, getAddress, http, stringify } from "viem";
 import type { TypedDataDefinition, Address, Chain } from "viem";
 

@@ -11,8 +11,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@oko-wallet/ewallet-common-ui": "workspace:*",
-    "@oko-wallet/ewallet-pg-interface": "workspace:*",
+    "@oko-wallet/oko-common-ui": "workspace:*",
+    "@oko-wallet/oko-pg-interface": "workspace:*",
     "@tanstack/react-query": "*",
     "@tanstack/react-table": "*",
     "next": "^15.4.5",

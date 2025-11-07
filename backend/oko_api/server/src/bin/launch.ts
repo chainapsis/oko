@@ -3,7 +3,7 @@ loadEnv(ENV_FILE_NAME);
 import {
   type ServerState,
   makeServerState,
-} from "@oko-wallet/ewallet-api-server-state";
+} from "@oko-wallet/oko-api-server-state";
 import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 
 import { makeApp } from "@oko-wallet-api/app";

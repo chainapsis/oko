@@ -1,11 +1,11 @@
-import type { CreateCustomerWithDashboardUserRequest } from "@oko-wallet/ewallet-types/admin";
+import type { CreateCustomerWithDashboardUserRequest } from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
   CustomerWithAPIKeys,
-} from "@oko-wallet/ewallet-types/customers";
+} from "@oko-wallet/oko-types/customers";
 
 import { errorHandle } from "@oko-wallet-admin/fetch/utils";
-import { EWALLET_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
 export async function getCustomerListWithAPIKeys({
   token,
@@ -25,7 +25,7 @@ export async function getCustomerListWithAPIKeys({
     };
   }>(() =>
     fetch(
-      `${EWALLET_ADMIN_API_ENDPOINT_V1}/customer/get_customer_list?limit=${limit}&offset=${offset}`,
+      `${OKO_ADMIN_API_ENDPOINT_V1}/customer/get_customer_list?limit=${limit}&offset=${offset}`,
       {
         method: "GET",
         headers: {
@@ -45,15 +45,12 @@ export async function getCustomer({
   customer_id: string;
 }) {
   return errorHandle<Customer>(() =>
-    fetch(
-      `${EWALLET_ADMIN_API_ENDPOINT_V1}/customer/get_customer/${customer_id}`,
-      {
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/customer/get_customer/${customer_id}`, {
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ),
+    }),
   );
 }
 
@@ -82,7 +79,7 @@ export async function addCustomer({
   }
 
   return errorHandle<any>(() =>
-    fetch(`${EWALLET_ADMIN_API_ENDPOINT_V1}/customer/create_customer`, {
+    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/customer/create_customer`, {
       method: "POST",
       headers: {
         // browser automatically sets multipart/form-data
@@ -102,7 +99,7 @@ export async function deleteCustomerAndCTDUsers({
 }) {
   return errorHandle<any>(() =>
     fetch(
-      `${EWALLET_ADMIN_API_ENDPOINT_V1}/customer/delete_customer/${customer_id}`,
+      `${OKO_ADMIN_API_ENDPOINT_V1}/customer/delete_customer/${customer_id}`,
       {
         method: "POST",
         headers: {

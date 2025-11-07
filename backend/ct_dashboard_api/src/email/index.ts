@@ -3,7 +3,7 @@ import type {
   SendEmailOptions,
   EmailResult,
   SMTPConfig,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 export function sendEmailWithTransporter(
   transporter: nodemailer.Transporter,

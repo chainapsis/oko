@@ -2,7 +2,7 @@
 
 import React from "react";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
-import type { KSNodeWithHealthCheck } from "@oko-wallet/ewallet-types/tss";
+import type { KSNodeWithHealthCheck } from "@oko-wallet/oko-types/tss";
 import {
   Table,
   TableBody,
@@ -10,8 +10,8 @@ import {
   TableHead,
   TableHeaderCell,
   TableRow,
-} from "@oko-wallet/ewallet-common-ui/table";
-import { Toggle } from "@oko-wallet/ewallet-common-ui/toggle";
+} from "@oko-wallet/oko-common-ui/table";
+import { Toggle } from "@oko-wallet/oko-common-ui/toggle";
 import { useRouter } from "next/navigation";
 import { Button } from "@oko-wallet-common-ui/button/button";
 

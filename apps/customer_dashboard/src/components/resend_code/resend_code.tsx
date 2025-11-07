@@ -1,5 +1,5 @@
 import { memo, useState } from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./resend_code.module.scss";
 import { requestSendVerificationCode } from "@oko-wallet-ct-dashboard/fetch/users";

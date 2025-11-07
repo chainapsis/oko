@@ -1,9 +1,9 @@
 import React, { type ReactElement, useState, useRef, useEffect } from "react";
-import { Button } from "@oko-wallet/ewallet-common-ui/button";
-import { InfoCircleIcon } from "@oko-wallet/ewallet-common-ui/icons/info_circle";
-import { LoadingIcon } from "@oko-wallet/ewallet-common-ui/icons/loading";
-import { CheckCircleOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/check_circle_outlined";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { InfoCircleIcon } from "@oko-wallet/oko-common-ui/icons/info_circle";
+import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
+import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { Widget } from "@oko-wallet-demo-web/components/widgets/widget_components";
 import styles from "./sign_widget.module.scss";

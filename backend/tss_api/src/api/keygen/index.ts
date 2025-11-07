@@ -2,27 +2,27 @@ import { Pool } from "pg";
 import {
   createUser,
   getUserByEmail,
-} from "@oko-wallet/ewallet-pg-interface/ewallet_users";
+} from "@oko-wallet/oko-pg-interface/ewallet_users";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptData } from "@oko-wallet/crypto-js";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import {
   type WalletStatus,
   type Wallet,
-} from "@oko-wallet/ewallet-types/wallets";
-import type { KeygenRequest } from "@oko-wallet/ewallet-types/tss";
-import type { SignInResponse, User } from "@oko-wallet/ewallet-types/user";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+} from "@oko-wallet/oko-types/wallets";
+import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
+import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
 import {
   createWalletKSNodes,
   getActiveKSNodes,
-} from "@oko-wallet/ewallet-pg-interface/ks_nodes";
-import { getKeyShareNodeMeta } from "@oko-wallet/ewallet-pg-interface/key_share_node_meta";
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
+import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
 import { checkKeyShareFromKSNodes } from "@oko-wallet-tss-api/api/ks_node";
@@ -35,7 +35,7 @@ export async function runKeygen(
   },
   keygenRequest: KeygenRequest,
   encryptionSecret: string,
-): Promise<EwalletApiResponse<SignInResponse>> {
+): Promise<OkoApiResponse<SignInResponse>> {
   try {
     const { email, keygen_2 } = keygenRequest;
 

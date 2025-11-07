@@ -1,17 +1,17 @@
 import { Pool } from "pg";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import { createUser } from "@oko-wallet/ewallet-pg-interface/ewallet_users";
-import type { WalletStatus } from "@oko-wallet/ewallet-types/wallets";
-import { type KeyShareNode } from "@oko-wallet/ewallet-types/tss";
+import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
+import { type KeyShareNode } from "@oko-wallet/oko-types/tss";
 import {
   insertKSNode,
   createWalletKSNodes,
-} from "@oko-wallet/ewallet-pg-interface/ks_nodes";
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 import {
   createWallet,
   updateWalletStatus,
-} from "@oko-wallet/ewallet-pg-interface/ewallet_wallets";
-import { insertKeyShareNodeMeta } from "@oko-wallet/ewallet-pg-interface/key_share_node_meta";
+} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";

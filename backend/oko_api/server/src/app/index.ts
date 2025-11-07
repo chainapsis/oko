@@ -2,7 +2,7 @@ import express from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
-import type { ServerState } from "@oko-wallet/ewallet-api-server-state";
+import type { ServerState } from "@oko-wallet/oko-api-server-state";
 
 import { setRoutes } from "@oko-wallet-api/routes";
 import { installSwaggerDocs } from "@oko-wallet-api/openapi";

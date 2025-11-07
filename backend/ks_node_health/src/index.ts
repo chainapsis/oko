@@ -3,8 +3,8 @@ import type { Result } from "@oko-wallet/stdlib-js";
 import {
   createKSNodeHealthChecks,
   getAllKSNodes,
-} from "@oko-wallet/ewallet-pg-interface/ks_nodes";
-import type { KSNodeHealthCheckStatus } from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
+import type { KSNodeHealthCheckStatus } from "@oko-wallet/oko-types/tss";
 
 export async function processKSNodeHealthChecks(
   db: Pool | PoolClient,

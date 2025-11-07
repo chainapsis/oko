@@ -2,8 +2,8 @@
 
 import { type FC } from "react";
 import cn from "classnames";
-import { MenuItem } from "@oko-wallet/ewallet-common-ui/menu";
-import { HomeOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/home_outlined";
+import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
+import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
 
 import styles from "./left_bar.module.scss";
 import { BetaAccessCard } from "./beta_access_card/beta_access_card";

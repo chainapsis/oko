@@ -1,8 +1,8 @@
 import { FC } from "react";
 import Link from "next/link";
-import { ArrowRightOutlinedIcon } from "@oko-wallet/ewallet-common-ui/icons/arrow_right_outlined";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Spacing } from "@oko-wallet/ewallet-common-ui/spacing";
+import { ArrowRightOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/arrow_right_outlined";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 
 import styles from "./home_banner.module.scss";
 

@@ -1,6 +1,6 @@
 import React, { type ReactElement } from "react";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Tooltip } from "@oko-wallet/ewallet-common-ui/tooltip";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
 
 import styles from "./address_row.module.scss";
 

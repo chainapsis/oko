@@ -2,7 +2,7 @@ import React from "react";
 import type { Msg } from "@keplr-wallet/types";
 import { Bech32Address } from "@keplr-wallet/cosmos";
 import { MsgSend as ThorMsgSend } from "@keplr-wallet/proto-types/thorchain/v1/types/msg_send";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import styles from "./messages.module.scss";
 import type {

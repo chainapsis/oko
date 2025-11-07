@@ -1,22 +1,22 @@
 import type { Pool } from "pg";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetTssSessionListRequest,
   GetTssSessionListResponse,
   GetTssAllActivationSettingResponse,
   SetTssAllActivationSettingRequest,
   SetTssAllActivationSettingResponse,
-} from "@oko-wallet/ewallet-types/admin";
-import { getTssSessions } from "@oko-wallet/ewallet-pg-interface/tss";
+} from "@oko-wallet/oko-types/admin";
+import { getTssSessions } from "@oko-wallet/oko-pg-interface/tss";
 import {
   getTssActivationSetting as getTssAllActivationSettingPG,
   setTssActivationSetting as setTssAllActivationSettingPG,
-} from "@oko-wallet/ewallet-pg-interface/tss_activate";
+} from "@oko-wallet/oko-pg-interface/tss_activate";
 
 export async function getTssSessionList(
   db: Pool,
   body: GetTssSessionListRequest,
-): Promise<EwalletApiResponse<GetTssSessionListResponse>> {
+): Promise<OkoApiResponse<GetTssSessionListResponse>> {
   try {
     let { limit, offset, node_id } = body;
     if (!limit || !offset) {
@@ -70,7 +70,7 @@ export async function getTssSessionList(
 
 export async function getTssAllActivationSetting(
   db: Pool,
-): Promise<EwalletApiResponse<GetTssAllActivationSettingResponse>> {
+): Promise<OkoApiResponse<GetTssAllActivationSettingResponse>> {
   try {
     const getTssActivationRes = await getTssAllActivationSettingPG(
       db,
@@ -110,7 +110,7 @@ export async function getTssAllActivationSetting(
 export async function setTssAllActivationSetting(
   db: Pool,
   body: SetTssAllActivationSettingRequest,
-): Promise<EwalletApiResponse<SetTssAllActivationSettingResponse>> {
+): Promise<OkoApiResponse<SetTssAllActivationSettingResponse>> {
   try {
     const { is_enabled } = body;
     if (typeof is_enabled !== "boolean") {

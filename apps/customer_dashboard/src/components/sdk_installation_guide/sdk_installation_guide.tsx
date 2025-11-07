@@ -2,9 +2,9 @@
 
 import { FC } from "react";
 import cn from "classnames";
-import { CommandBlock } from "@oko-wallet/ewallet-common-ui/command_block";
-import { Toggle } from "@oko-wallet/ewallet-common-ui/toggle";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
+import { CommandBlock } from "@oko-wallet/oko-common-ui/command_block";
+import { Toggle } from "@oko-wallet/oko-common-ui/toggle";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { FRAMEWORKS, AVAILABLE_NETWORKS, EVM_CLIENT_LIBS } from "./configs";
 import { generateInstallCommand } from "./generate_install_command";

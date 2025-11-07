@@ -2,7 +2,7 @@ import React from "react";
 import {
   Typography,
   type BaseTypographyProps,
-} from "@oko-wallet/ewallet-common-ui/typography";
+} from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./avatar.module.scss";
 

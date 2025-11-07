@@ -1,9 +1,9 @@
-import { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   ChangePasswordResponse,
   LoginResponse,
   SendVerificationResponse,
-} from "@oko-wallet/ewallet-types/ct_dashboard";
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 import { errorHandle } from "./utils";
 import { CUSTOMER_V1_ENDPOINT } from "./customers";
@@ -11,7 +11,7 @@ import { CUSTOMER_V1_ENDPOINT } from "./customers";
 export async function requestSignIn(
   email: string,
   password: string,
-): Promise<EwalletApiResponse<LoginResponse>> {
+): Promise<OkoApiResponse<LoginResponse>> {
   return errorHandle<LoginResponse>(() =>
     fetch(`${CUSTOMER_V1_ENDPOINT}/customer/auth/signin`, {
       method: "POST",
@@ -25,7 +25,7 @@ export async function requestSignIn(
 
 export async function requestSendVerificationCode(
   email: string,
-): Promise<EwalletApiResponse<SendVerificationResponse>> {
+): Promise<OkoApiResponse<SendVerificationResponse>> {
   return errorHandle<SendVerificationResponse>(() =>
     fetch(`${CUSTOMER_V1_ENDPOINT}/customer/auth/send-code`, {
       method: "POST",
@@ -40,7 +40,7 @@ export async function requestSendVerificationCode(
 export async function requestVerifyCodeAndLogin(
   email: string,
   code: string,
-): Promise<EwalletApiResponse<LoginResponse>> {
+): Promise<OkoApiResponse<LoginResponse>> {
   return errorHandle<LoginResponse>(() =>
     fetch(`${CUSTOMER_V1_ENDPOINT}/customer/auth/verify-login`, {
       method: "POST",
@@ -57,7 +57,7 @@ export async function requestChangePassword(
   originalPassword: string,
   newPassword: string,
   token: string,
-): Promise<EwalletApiResponse<ChangePasswordResponse>> {
+): Promise<OkoApiResponse<ChangePasswordResponse>> {
   return errorHandle<any>(() =>
     fetch(`${CUSTOMER_V1_ENDPOINT}/customer/auth/change-password`, {
       method: "POST",

@@ -2,8 +2,8 @@ import React, { useMemo, type FC } from "react";
 import type { Coin } from "@keplr-wallet/types";
 import { CoinPretty } from "@keplr-wallet/unit";
 import { Bech32Address, ChainIdHelper } from "@keplr-wallet/cosmos";
-import { Typography } from "@oko-wallet/ewallet-common-ui/typography";
-import { Skeleton } from "@oko-wallet/ewallet-common-ui/skeleton";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import styles from "../messages.module.scss";

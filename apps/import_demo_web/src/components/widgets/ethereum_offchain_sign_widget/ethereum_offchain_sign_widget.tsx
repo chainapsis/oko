@@ -1,5 +1,5 @@
 import React from "react";
-import { EthereumBlueIcon } from "@oko-wallet/ewallet-common-ui/icons/ethereum_blue_icon";
+import { EthereumBlueIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_blue_icon";
 import { isAddressEqual, recoverMessageAddress } from "viem";
 
 import { SignWidget } from "@oko-wallet-import-demo-web/components/widgets/sign_widget/sign_widget";

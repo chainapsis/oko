@@ -45,8 +45,18 @@ const provider = await ethWallet.getEthereumProvider();
 
 ```
 POST /tss/v1/user/signin
-Body: { "credential": "google-oauth-token" }
-Response: { "jwt": "eyJ...", "user": { "email": "user@example.com" } }
+Headers: Authorization: Bearer <Google ID Token>
+Response: {
+  "success": true,
+  "data": {
+    "token": "eyJ...",
+    "user": {
+      "email": "user@example.com",
+      "wallet_id": "...",
+      "public_key": "..."
+    }
+  }
+}
 ```
 
 ### Step 2: Key Generation (First Time Only)
@@ -64,12 +74,12 @@ For new users, distributed key shares are created:
 1. POST /tss/v1/keygen
    - Creates distributed key shares
    - No single party knows the complete private key
-   - Stores encrypted shares in credential vault
+   - Stores encrypted shares in key share nodes
 
 2. Database Updates:
-   - wallets table: new entry with public key
-   - key_shares table: encrypted key material
-   - users table: user account information
+   - ewallet_wallets table: new entry with public key
+   - wallet_ks_nodes table: key share node assignments
+   - ewallet_users table: user account information
 ```
 
 **User Experience:**
@@ -165,15 +175,20 @@ POST /tss/v1/presign
 3. **Final Signature**
 
 ```
-POST /tss/v1/sign
+POST /tss/v1/sign/step1, /tss/v1/sign/step2
+Headers: Authorization: Bearer <JWT Token>
 Body: {
-  "message_hash": "0x1234...",
-  "presign_data": "...",
-  "key_shares": "..."
+  "session_id": "...",
+  "msg": [...],
+  "msgs_1": {...}
 }
 Response: {
-  "signature": { "r": "0x...", "s": "0x...", "v": 28 }
+  "success": true,
+  "data": {
+    "sign_output": { "r": [...], "s": [...] }
+  }
 }
+Note: Sign endpoint uses a two-step protocol (step1 and step2)
 ```
 
 **User Experience Timeline:**

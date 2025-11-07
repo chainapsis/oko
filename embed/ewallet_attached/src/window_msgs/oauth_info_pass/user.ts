@@ -2,22 +2,22 @@ import type {
   CheckEmailRequest,
   CheckEmailResponse,
   SignInResponse,
-} from "@oko-wallet/ewallet-types/user";
+} from "@oko-wallet/oko-types/user";
 import type {
   KeygenBody,
   KeyShareNodeMetaWithNodeStatusInfo,
   WalletKSNodeStatus,
-} from "@oko-wallet/ewallet-types/tss";
+} from "@oko-wallet/oko-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
 
 import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
 import {
-  makeAuthorizedKeplrApiRequest,
-  makeKeplrApiRequest,
+  makeAuthorizedOkoApiRequest,
+  makeOkoApiRequest,
   TSS_V1_ENDPOINT,
-} from "@oko-wallet-attached/requests/ewallet_api";
+} from "@oko-wallet-attached/requests/oko_api";
 import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
 import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
 import type { FetchError } from "@oko-wallet-attached/requests/types";
@@ -38,7 +38,7 @@ export async function handleExistingUser(
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   // 1. sign in to api server
-  const signInRes = await makeAuthorizedKeplrApiRequest<any, SignInResponse>(
+  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
     "user/signin",
     idToken,
     {},
@@ -258,7 +258,7 @@ export async function handleReshare(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
-  const signInRes = await makeAuthorizedKeplrApiRequest<any, SignInResponse>(
+  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
     "user/signin",
     idToken,
     {},
@@ -327,8 +327,8 @@ export async function handleReshare(
 
 export async function checkUserExists(
   email: string,
-): Promise<Result<EwalletApiResponse<CheckEmailResponse>, FetchError>> {
-  const res = await makeKeplrApiRequest<CheckEmailRequest, CheckEmailResponse>(
+): Promise<Result<OkoApiResponse<CheckEmailResponse>, FetchError>> {
+  const res = await makeOkoApiRequest<CheckEmailRequest, CheckEmailResponse>(
     "user/check",
     {
       email,

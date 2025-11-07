@@ -5,9 +5,7 @@ declare global {
     interface ProcessEnv {
       SERVER_PORT: string;
 
-      VITE_EWALLET_API_ENDPOINT: string;
-      VITE_CREDENTIAL_VAULT_API_ENDPOINT: string;
-      VITE_CREDENTIAL_VAULT_API_ENDPOINT_2: string;
+      VITE_OKO_API_ENDPOINT: string;
       VITE_DEMO_WEB_ORIGIN: string;
       VITE_KEPLR_API_ENDPOINT: string;
       VITE_TX_INTERPRETER_API_ENDPOINT: string;
@@ -23,9 +21,7 @@ declare global {
     readonly VITE_APP_TITLE: string;
 
     SERVER_PORT: string;
-    VITE_EWALLET_API_ENDPOINT: string;
-    VITE_CREDENTIAL_VAULT_API_ENDPOINT: string;
-    VITE_CREDENTIAL_VAULT_API_ENDPOINT_2: string;
+    VITE_OKO_API_ENDPOINT: string;
     VITE_DEMO_WEB_ORIGIN: string;
     VITE_KEPLR_API_ENDPOINT: string;
     VITE_TX_INTERPRETER_API_ENDPOINT: string;
@@ -33,4 +29,4 @@ declare global {
   }
 }
 
-export { };
+export {};

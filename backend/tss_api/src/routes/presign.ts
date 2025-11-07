@@ -6,14 +6,14 @@ import type {
   PresignStep2Response,
   PresignStep3Body,
   PresignStep3Response,
-} from "@oko-wallet/ewallet-types/tss";
-import type { EwalletApiResponse } from "@oko-wallet/ewallet-types/api_response";
-import { ErrorCodeMap } from "@oko-wallet/ewallet-api-error-codes";
+} from "@oko-wallet/oko-types/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
-} from "@oko-wallet/ewallet-api-openapi/common";
-import { registry } from "@oko-wallet/ewallet-api-openapi";
+} from "@oko-wallet/oko-api-openapi/common";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   PresignStep1RequestSchema,
   PresignStep1SuccessResponseSchema,
@@ -21,7 +21,7 @@ import {
   PresignStep2SuccessResponseSchema,
   PresignStep3RequestSchema,
   PresignStep3SuccessResponseSchema,
-} from "@oko-wallet/ewallet-api-openapi/tss";
+} from "@oko-wallet/oko-api-openapi/tss";
 
 import {
   runPresignStep1,
@@ -94,7 +94,7 @@ export function setPresignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep1Body>,
-      res: Response<EwalletApiResponse<PresignStep1Response>>,
+      res: Response<OkoApiResponse<PresignStep1Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -180,7 +180,7 @@ export function setPresignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep2Body>,
-      res: Response<EwalletApiResponse<PresignStep2Response>>,
+      res: Response<OkoApiResponse<PresignStep2Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
@@ -262,7 +262,7 @@ export function setPresignRoutes(router: Router) {
     [userJwtMiddleware, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep3Body>,
-      res: Response<EwalletApiResponse<PresignStep3Response>>,
+      res: Response<OkoApiResponse<PresignStep3Response>>,
     ) => {
       const state = req.app.locals as any;
       const user = res.locals.user;
