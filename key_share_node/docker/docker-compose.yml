@@ -2,6 +2,8 @@ services:
   key_share_node_pg:
     image: postgres:17.4
     restart: unless-stopped
+    ports:
+      - "5432:5432"
     environment:
       POSTGRES_USER: ${DB_USER}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
