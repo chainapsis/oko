@@ -13,7 +13,7 @@
 ## Change type (select all that apply)
 - [ ] Fix (bug fix)
 - [ ] Feature (new)
-- [ ] Refactor/Performance
+- [ ] Refactor/Enhancement
 - [ ] Docs
 - [ ] Chore (maintenance)
 - [ ] Breaking (compatibility impact)
