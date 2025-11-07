@@ -39,3 +39,16 @@ cd oko
 
 Please **do not** open public issues for security vulnerabilities. See
 `SECURITY.md`.
+
+## Commit message convention
+
+In most cases, the commit message should be structured as follows:
+
+```
+<scope>: <description>
+```
+
+1. scope: A package or module that is most relevant to the commit. Please choose
+   one that you think is the most helpful to convey your intent of the commit
+   message. e.g., `crypto`, `demo_web`.
+2. Commit message title of length equal to or less than 80 characters.
