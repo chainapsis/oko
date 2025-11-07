@@ -75,3 +75,11 @@ body:
       label: Environment
       placeholder: OS/Browser/Device/Runtime (e.g., macOS 14.5, Chrome 129, \
         NodeJS 22.10.0)
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched for existing bug report.
+          required: true
