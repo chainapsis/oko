@@ -1,13 +1,16 @@
 # Contributing to Oko
 
-Oko prioritizes **correctness** and **reliability**. Small, well-tested PRs are easier to review and ship.
+Oko prioritizes **correctness** and **reliability**. Small, well-tested PRs are
+easier to review and ship.
 
 ## Ground rules
+
 - Follow existing **validation/testing patterns**.
 - Keep PRs **small and focused**; avoid mixing unrelated changes.
 - Update docs and examples when behavior changes.
 
 ## Quick start
+
 ```bash
 # 1) Fork and clone
 git clone https://github.com/chainapsis/oko.git
@@ -15,19 +18,24 @@ cd oko
 
 # 2) Install & run & CI
 #    See https://docs.oko.app/docs/v0/standalone/self-hosting-standalone for setup and execution steps.
-````
+```
 
 ## Tests
 
-* Cover new/changed logic with unit/integration tests.
-* Run locally and ensure CI is green.
+- Cover new/changed logic with unit/integration tests.
+- Run locally and ensure CI is green.
 
 ## Linting & style
 
-* Oko uses Biome for formatting and linting.
-* Editor setup guides: https://biomejs.dev/guides/editors/first-party-extensions/ (VSCode, IntelliJ, Zed) and https://biomejs.dev/guides/editors/third-party-extensions/ (other IDEs).
-* `biome format` updates source files; `biome check` runs the same formatting validations plus lint checks.
+- Oko uses Biome for formatting and linting.
+- Editor setup guides:
+  https://biomejs.dev/guides/editors/first-party-extensions/ (VSCode, IntelliJ,
+  Zed) and https://biomejs.dev/guides/editors/third-party-extensions/ (other
+  IDEs).
+- `biome format` updates source files; `biome check` runs the same formatting
+  validations plus lint checks.
 
 ## Security
 
-Please **do not** open public issues for security vulnerabilities. See `SECURITY.md`.
+Please **do not** open public issues for security vulnerabilities. See
+`SECURITY.md`.
