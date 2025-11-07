@@ -9989,9 +9989,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/api-lib@workspace:*, @oko-wallet/api-lib@workspace:lib/tecdsa/api_lib":
+"@oko-wallet/api-lib@workspace:*, @oko-wallet/api-lib@workspace:crypto/tecdsa/api_lib":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/api-lib@workspace:lib/tecdsa/api_lib"
+  resolution: "@oko-wallet/api-lib@workspace:crypto/tecdsa/api_lib"
   dependencies:
     "@oko-wallet/oko-types": "workspace:*"
     "@types/node": "npm:*"
@@ -10033,9 +10033,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-addon@workspace:*, @oko-wallet/cait-sith-keplr-addon@workspace:lib/tecdsa/cait_sith_keplr_addon":
+"@oko-wallet/cait-sith-keplr-addon@workspace:*, @oko-wallet/cait-sith-keplr-addon@workspace:crypto/tecdsa/cait_sith_keplr_addon":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-addon@workspace:lib/tecdsa/cait_sith_keplr_addon"
+  resolution: "@oko-wallet/cait-sith-keplr-addon@workspace:crypto/tecdsa/cait_sith_keplr_addon"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
@@ -10068,9 +10068,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-express@workspace:*, @oko-wallet/cait-sith-keplr-express@workspace:lib/tecdsa/cait_sith_keplr_express":
+"@oko-wallet/cait-sith-keplr-express@workspace:*, @oko-wallet/cait-sith-keplr-express@workspace:crypto/tecdsa/cait_sith_keplr_express":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-express@workspace:lib/tecdsa/cait_sith_keplr_express"
+  resolution: "@oko-wallet/cait-sith-keplr-express@workspace:crypto/tecdsa/cait_sith_keplr_express"
   dependencies:
     "@eslint/js": "npm:^9.23.0"
     "@oko-wallet/api-lib": "workspace:*"
@@ -10105,9 +10105,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-hooks@workspace:*, @oko-wallet/cait-sith-keplr-hooks@workspace:lib/tecdsa/cait_sith_keplr_hooks":
+"@oko-wallet/cait-sith-keplr-hooks@workspace:*, @oko-wallet/cait-sith-keplr-hooks@workspace:crypto/tecdsa/cait_sith_keplr_hooks":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-hooks@workspace:lib/tecdsa/cait_sith_keplr_hooks"
+  resolution: "@oko-wallet/cait-sith-keplr-hooks@workspace:crypto/tecdsa/cait_sith_keplr_hooks"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/bytes": "npm:0.0.3-alpha.49"
@@ -10127,9 +10127,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/cait-sith-keplr-wasm@workspace:*, @oko-wallet/cait-sith-keplr-wasm@workspace:lib/tecdsa/cait_sith_keplr_wasm":
+"@oko-wallet/cait-sith-keplr-wasm@workspace:*, @oko-wallet/cait-sith-keplr-wasm@workspace:crypto/tecdsa/cait_sith_keplr_wasm":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/cait-sith-keplr-wasm@workspace:lib/tecdsa/cait_sith_keplr_wasm"
+  resolution: "@oko-wallet/cait-sith-keplr-wasm@workspace:crypto/tecdsa/cait_sith_keplr_wasm"
   dependencies:
     "@types/node": "npm:^20"
     prettier: "npm:^3.5.3"
@@ -17232,9 +17232,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"addon@workspace:lib/tecdsa/cait_sith_keplr_addon/addon":
+"addon@workspace:crypto/tecdsa/cait_sith_keplr_addon/addon":
   version: 0.0.0-use.local
-  resolution: "addon@workspace:lib/tecdsa/cait_sith_keplr_addon/addon"
+  resolution: "addon@workspace:crypto/tecdsa/cait_sith_keplr_addon/addon"
   dependencies:
     "@napi-rs/cli": "npm:^2.18.4"
     ava: "npm:^6.0.1"
@@ -19700,9 +19700,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"client_example@workspace:lib/tecdsa/client_example":
+"client_example@workspace:crypto/tecdsa/client_example":
   version: 0.0.0-use.local
-  resolution: "client_example@workspace:lib/tecdsa/client_example"
+  resolution: "client_example@workspace:crypto/tecdsa/client_example"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
@@ -37151,9 +37151,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"server_example@workspace:lib/tecdsa/server_example":
+"server_example@workspace:crypto/tecdsa/server_example":
   version: 0.0.0-use.local
-  resolution: "server_example@workspace:lib/tecdsa/server_example"
+  resolution: "server_example@workspace:crypto/tecdsa/server_example"
   dependencies:
     "@eslint/js": "npm:^9.23.0"
     "@oko-wallet/api-lib": "workspace:*"
