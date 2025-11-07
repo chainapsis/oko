@@ -7,7 +7,7 @@
 ## Summary
 <!-- What changed, why it changed, and the impact on users/system. -->
 
-## Links (Issue References, etc)
+## Links (Issue References, etc, if there's any)
 <!-- List related issues or PRs (e.g., Closes #123; Related #456). -->
 
 ## Change type (select all that apply)
