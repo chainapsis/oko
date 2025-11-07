@@ -10155,9 +10155,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/crypto-js@workspace:*, @oko-wallet/crypto-js@workspace:lib/crypto_js":
+"@oko-wallet/crypto-js@workspace:*, @oko-wallet/crypto-js@workspace:crypto/crypto_js":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/crypto-js@workspace:lib/crypto_js"
+  resolution: "@oko-wallet/crypto-js@workspace:crypto/crypto_js"
   dependencies:
     "@jest/globals": "npm:*"
     "@noble/hashes": "npm:^1.8.0"
@@ -10985,9 +10985,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/vite-test@workspace:lib/crypto_js/tests/vite":
+"@oko-wallet/vite-test@workspace:crypto/crypto_js/tests/vite":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/vite-test@workspace:lib/crypto_js/tests/vite"
+  resolution: "@oko-wallet/vite-test@workspace:crypto/crypto_js/tests/vite"
   dependencies:
     "@oko-wallet/crypto-js": "workspace:*"
     typescript: "npm:~5.8.3"
