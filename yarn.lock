@@ -10317,31 +10317,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/ewallet-admin-web@workspace:apps/ewallet_admin_web":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ewallet-admin-web@workspace:apps/ewallet_admin_web"
-  dependencies:
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@tanstack/react-query": "npm:*"
-    "@tanstack/react-table": "npm:*"
-    "@types/node": "npm:*"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
-    next: "npm:^15.4.5"
-    react: "npm:*"
-    react-dom: "npm:*"
-    react-hook-form: "npm:*"
-    react-intl: "npm:*"
-    sass: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
-    zustand: "npm:*"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/import-demo-web@workspace:apps/import_demo_web":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/import-demo-web@workspace:apps/import_demo_web"
@@ -10510,6 +10485,31 @@ __metadata:
     winston: "npm:*"
     winston-elasticsearch: "npm:*"
     zod: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/oko-admin-web@workspace:apps/oko_admin_web":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-admin-web@workspace:apps/oko_admin_web"
+  dependencies:
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
+    "@oko-wallet/oko-common-ui": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@tanstack/react-query": "npm:*"
+    "@tanstack/react-table": "npm:*"
+    "@types/node": "npm:*"
+    "@types/react": "npm:*"
+    "@types/react-dom": "npm:*"
+    next: "npm:^15.4.5"
+    react: "npm:*"
+    react-dom: "npm:*"
+    react-hook-form: "npm:*"
+    react-intl: "npm:*"
+    sass: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    zustand: "npm:*"
   languageName: unknown
   linkType: soft
 

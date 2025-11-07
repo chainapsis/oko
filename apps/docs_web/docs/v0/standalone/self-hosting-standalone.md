@@ -388,12 +388,12 @@ Open: `http://localhost:3203`
 
 ```bash
 cd oko
-yarn workspace @oko-wallet/ewallet-admin-web create_env
+yarn workspace @oko-wallet/oko-admin-web create_env
 # Example values:
 # SERVER_PORT=3204
 # NEXT_PUBLIC_OKO_API_ENDPOINT=http://localhost:4200
 
-yarn workspace @oko-wallet/ewallet-admin-web dev
+yarn workspace @oko-wallet/oko-admin-web dev
 ```
 
 Open: `http://localhost:3204`

@@ -35,7 +35,7 @@
       "ui/oko_common_ui",
       "apps/demo_web",
       "apps/import_demo_web",
-      "apps/ewallet_admin_web",
+      "apps/oko_admin_web",
       "apps/customer_dashboard",
       "apps/docs_web",
       "common/oko_types",

@@ -6,7 +6,7 @@ import { makeLogRouter } from "@oko-wallet/log-api";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
-  app.use("/ewallet_admin/v1", makeEWalletAdminRouter());
+  app.use("/oko_admin/v1", makeEWalletAdminRouter());
   app.use("/tss/v1", makeTssRouter());
   app.use(
     "/log/v1",

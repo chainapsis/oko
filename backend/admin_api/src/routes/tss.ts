@@ -34,7 +34,7 @@ import {
 export function setTssRoutes(router: Router) {
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/tss/get_tss_session_list",
+    path: "/oko_admin/v1/tss/get_tss_session_list",
     tags: ["Admin"],
     summary: "Get tss sessions with pagination",
     description: "Retrieves a list of TSS sessions with next/prev pagination",
@@ -99,7 +99,7 @@ export function setTssRoutes(router: Router) {
 
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/tss/get_tss_all_activation_setting",
+    path: "/oko_admin/v1/tss/get_tss_all_activation_setting",
     tags: ["Admin"],
     summary: "Get TSS activation setting",
     description: "Retrieves the current TSS activation setting",
@@ -156,7 +156,7 @@ export function setTssRoutes(router: Router) {
 
   registry.registerPath({
     method: "post",
-    path: "/ewallet_admin/v1/tss/set_tss_all_activation_setting",
+    path: "/oko_admin/v1/tss/set_tss_all_activation_setting",
     tags: ["Admin"],
     summary: "Set TSS activation setting",
     description: "Enable or disable TSS functionality for all users",

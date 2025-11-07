@@ -11,7 +11,7 @@ import { paths } from "@oko-wallet-admin/paths";
 import { useLogin } from "./use_login";
 import { useToast } from "../toast/use_toast";
 
-const REMEMBERED_EMAIL_KEY = "ewallet_admin_remembered_email";
+const REMEMBERED_EMAIL_KEY = "oko_admin_remembered_email";
 
 export const LoginForm = () => {
   const [email, setEmail] = useState("");

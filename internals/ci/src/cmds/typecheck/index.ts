@@ -24,7 +24,7 @@ export async function typeCheck(..._args: any[]) {
     paths.oko_attached,
     paths.oko_pg_interface,
     paths.demo_web,
-    paths.ewallet_admin_web,
+    paths.oko_admin_web,
     paths.ct_dashboard_web,
   ];
 
