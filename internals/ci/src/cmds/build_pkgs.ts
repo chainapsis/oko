@@ -30,6 +30,7 @@ export function doBuildPkgs() {
     const coreRet = spawnSync("yarn", ["run", "build"], {
       cwd: path,
       stdio: "inherit",
+      shell: true,
     });
 
     const name = getPkgName(path);
