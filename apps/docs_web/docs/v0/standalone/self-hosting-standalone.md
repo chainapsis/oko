@@ -55,7 +55,7 @@ functionality.
 ## Prerequisites
 
 - OS: Oko supports only Linux/macOS. On Windows, use WSL2.
-- Node 22 + Yarn 4'
+- Node 22 + Yarn 4
 - Rust toolchain (via rustup)
 - Docker + Docker Compose (recommended for keyshare node in production)
 - PostgreSQL 17+ (non-Docker setups only; separate DBs for keyshare node and
