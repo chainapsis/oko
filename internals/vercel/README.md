@@ -3,7 +3,7 @@
 This is for internal use only.
 
 ```sh
-vercel link --yes --scope=keplrwallet --project=ewallet-demo-web
+vercel link --yes --scope=keplrwallet --project=oko-demo-web
 ```
 
 ### Wasm
