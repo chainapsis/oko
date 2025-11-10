@@ -4,7 +4,7 @@ import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
+import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
@@ -68,7 +68,7 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
           <Typography size="xs" color="quaternary" weight="medium">
             Sign with
           </Typography>
-          <OkoProductLogoIcon width={43} height={20} theme={theme} />
+          <OkoLogoIcon width={47} height={18} theme={theme} />
         </div>
       </CommonModal>
 

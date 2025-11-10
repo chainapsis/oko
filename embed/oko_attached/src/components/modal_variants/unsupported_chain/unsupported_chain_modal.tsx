@@ -4,7 +4,7 @@ import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
+import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 
 import styles from "./unsupported_chain_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
@@ -80,8 +80,8 @@ export const UnsupportedChainModal: FC<ErrorModalProps> = ({
           </Button>
         </div>
 
-        <div className={styles.productLogoIconContainer}>
-          <OkoProductLogoIcon width={43} height={20} theme={theme} />
+        <div className={styles.okoLogoIconContainer}>
+          <OkoLogoIcon width={47} height={18} theme={theme} />
         </div>
       </CommonModal>
     </div>

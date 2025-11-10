@@ -9,8 +9,8 @@ import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
 import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
-import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
+import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 
 import styles from "./login_widget.module.scss";
 
@@ -31,10 +31,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
   return (
     <Fragment>
       <div className={styles.logoWrapper}>
-        <Typography size="sm" weight="medium" color="primary">
-          Login or sign up
-        </Typography>
-        <Logo theme={"light"} width={115} height={44} />
+        <Logo theme={"light"} width={84} height={32} />
       </div>
 
       <Button
@@ -104,9 +101,9 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
 
       <div className={styles.getSupportRow}>
         <div className={styles.byKeplrRow}>
-          <OkoProductLogoIcon width={43.26} height={20} theme={"light"} />
-          <Typography size="xs" weight="medium" color="secondary">
-            by Keplr
+          <OkoLogoIcon width={47} height={18} theme={"light"} />
+          <Typography size="sm" weight="medium" color="secondary">
+            Oko
           </Typography>
         </div>
         <a
