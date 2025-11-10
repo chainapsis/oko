@@ -32,15 +32,21 @@ export async function typeCheck(..._args: any[]) {
 
   const chunckedPaths = chunkArr(pkgPaths, WORKER_COUNT);
 
-  let workers = [];
+  const proms: Promise<number>[] = [];
+  const workers: Worker[] = [];
   for (let idx = 0; idx < chunckedPaths.length; idx += 1) {
-    const worker = spawnWorker(`worker-${idx}`, chunckedPaths[idx]);
+    const { worker, promise } = spawnWorker(
+      `worker-${idx}`,
+      chunckedPaths[idx],
+    );
+
+    proms.push(promise);
     workers.push(worker);
   }
 
   try {
     const since = Date.now();
-    await Promise.all(workers);
+    await Promise.all(proms);
     const now = Date.now();
 
     console.log("Took %sms", now - since);
@@ -52,37 +58,36 @@ export async function typeCheck(..._args: any[]) {
   } catch (err: any) {
     console.log("%s type checking, err: %s", chalk.red.bold("Error"), err);
 
-    // TODO: @elden stop workers
     for (let idx = 0; idx < workers.length; idx += 1) {
-      workers[idx];
+      workers[idx].terminate();
     }
   }
 }
 
-export async function spawnWorker(workerName: string, pkgPaths: string[]) {
+export function spawnWorker(workerName: string, pkgPaths: string[]) {
   const scriptPath = join(__dirname, "./worker.ts");
   const scriptUrl = pathToFileURL(scriptPath).href;
 
-  const p1 = new Promise((resolve, reject) => {
+  const worker = new Worker(
+    // NOTE: Register runtime hook, if not, scripts in a worker thread run on
+    // NodeJS runtime, not TSX (or any TypeScript runtime).
+    `import('tsx/esm/api')
+        .then(({ register }) => {
+          register();
+          import('${scriptUrl}')
+        })`,
+    {
+      workerData: pkgPaths,
+      eval: true,
+    },
+  );
+
+  const promise = new Promise<number>((resolve, reject) => {
     console.log(
       "Spawn worker (%s), checking %s pkgs, script path: %s",
       workerName,
       pkgPaths.length,
       scriptUrl,
-    );
-
-    const worker = new Worker(
-      // NOTE:Register runtime hook, if not, scripts in a worker thread run on
-      // NodeJS runtime, not TSX (or any TypeScript runtime).
-      `import('tsx/esm/api')
-        .then(({ register }) => {
-          register();
-          import('${scriptUrl}')
-        })`,
-      {
-        workerData: pkgPaths,
-        eval: true,
-      },
     );
 
     worker.on("message", (msg) => {
@@ -100,7 +105,7 @@ export async function spawnWorker(workerName: string, pkgPaths: string[]) {
     });
   });
 
-  return p1;
+  return { worker, promise };
 }
 
 function chunkArr(arr: any[], chunkCount: number) {
