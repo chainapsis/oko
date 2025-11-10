@@ -30,10 +30,10 @@
 }
 
 .logoResponsive {
-  width: 74px;
+  width: auto;
   height: 32px;
   flex-shrink: 0;
-  aspect-ratio: 37/16;
+  // aspect-ratio: 37/16;
 
   // TODO: new logo responsive size is required
   // @media (min-width: $desktop_min_width) {

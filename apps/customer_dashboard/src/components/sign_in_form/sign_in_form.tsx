@@ -30,7 +30,7 @@ export const SignInForm: React.FC = () => {
     <Card className={styles.loginCard} variant="elevated" padding="lg">
       <div className={styles.cardHeader}>
         {/* NOTE: theme is hardcoded to light for now */}
-        <Logo theme={"light"} />
+        <Logo theme={"light"} width={58} height={22} />
       </div>
 
       <AccountForm

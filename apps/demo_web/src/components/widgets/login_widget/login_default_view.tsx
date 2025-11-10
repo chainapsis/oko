@@ -34,7 +34,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
         <Typography size="sm" weight="medium" color="primary">
           Login or sign up
         </Typography>
-        <Logo theme={"light"} />
+        <Logo theme={"light"} width={115} height={44} />
       </div>
 
       <Button
