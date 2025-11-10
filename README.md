@@ -1,9 +1,9 @@
 <a href="https://demo.oko.app/">
   <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_product_logo_light.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_product_logo_dark.svg">
-    <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_product_logo_light.svg" alt="Logo"
-    style="width: 240px; height: auto;">
+    <source media="(prefers-color-scheme: light)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg">
+    <source media="(prefers-color-scheme: dark)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_dark.svg">
+    <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg" alt="Logo"
+    style="width: 240px; height: auto; margin-bottom: 16px;">
   </picture>
 </a>
 
@@ -22,8 +22,6 @@ integrating the security of blockchain wallets directly into web or mobile apps.
 [View Demo](https://demo.oko.app)
 
 ## Oko SDK
-
-<!-- TODO: update sdk names and links -->
 
 | Packages                                         | Latest                                                                                                                                  |
 | ------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
