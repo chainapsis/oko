@@ -27,13 +27,8 @@ cd oko
 
 ## Linting & style
 
-- Oko uses Biome for formatting and linting.
-- Editor setup guides:
-  https://biomejs.dev/guides/editors/first-party-extensions/ (VSCode, IntelliJ,
-  Zed) and https://biomejs.dev/guides/editors/third-party-extensions/ (other
-  IDEs).
-- `biome format` updates source files; `biome check` runs the same formatting
-  validations plus lint checks.
+- Oko uses a number of code formatters including _Biome_, _Prettier_, and
+  _rust_analyzer_.
 
 ## Security
 
@@ -48,7 +43,9 @@ In most cases, the commit message should be structured as follows:
 <scope>: <description>
 ```
 
-1. scope: A package or module that is most relevant to the commit. Please choose
-   one that you think is the most helpful to convey your intent of the commit
-   message. e.g., `crypto`, `demo_web`.
-2. Commit message title of length equal to or less than 80 characters.
+1. **scope**: A package or module that is most relevant to the commit. Please
+   choose one that you think is the most helpful to convey your intent of the
+   commit message. e.g., `crypto`, `demo_web`.
+2. **description**: A phrase that starts with a lowercase letter (adn often
+   verb).
+3. Commit message title is of length equal to or less than 80 characters.

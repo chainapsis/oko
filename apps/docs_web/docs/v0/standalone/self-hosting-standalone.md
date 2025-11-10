@@ -4,27 +4,44 @@ title: Self-Hosting Guide
 
 ## Overview
 
-This guide explains how to self-host Oko in a standalone setup. It covers how to run each service locally or on servers and the recommended boot order.
+This guide explains how to self-host Oko in a standalone setup. It covers how to
+run each service locally or on servers and the recommended boot order.
 
 ## Components (to run)
 
 ### keyshare node (`oko/key_share_node`)
 
-Stores encrypted SSS shares of the user's first TSS share. Multiple nodes (2-3 recommended) each store one SSS share, ensuring no single node can reconstruct the user's share. Provides these shares to users during login for reconstruction.
+Stores encrypted SSS shares of the user's first TSS share. Multiple nodes (2-3
+recommended) each store one SSS share, ensuring no single node can reconstruct
+the user's share. Provides these shares to users during login for
+reconstruction.
 
 ### oko_api (`oko/backend/oko_api/server`)
 
-The main API server that orchestrates the system. Stores the user's second TSS share encrypted in its database. Performs distributed TSS transaction signing with the client (which holds the first TSS share) without ever reconstructing the full private key. Manages customer organizations, wallets, user accounts, Google OAuth authentication, JWT token issuance, and provides REST APIs for dashboards and admin functions.
+The main API server that orchestrates the system. Stores the user's second TSS
+share encrypted in its database. Performs distributed TSS transaction signing
+with the client (which holds the first TSS share) without ever reconstructing
+the full private key. Manages customer organizations, wallets, user accounts,
+Google OAuth authentication, JWT token issuance, and provides REST APIs for
+dashboards and admin functions.
 
 ### oko_attached (`oko/embed/oko_attached`)
 
-Client-side web application running in an iframe that provides the user interface for wallet operations. Handles key generation, manages the user's first TSS share locally, and coordinates with `oko_api` for transaction signing. Communicates with host applications via `postMessage` API to expose wallet functionality.
+Client-side web application running in an iframe that provides the user
+interface for wallet operations. Handles key generation, manages the user's
+first TSS share locally, and coordinates with `oko_api` for transaction signing.
+Communicates with host applications via `postMessage` API to expose wallet
+functionality.
 
 ### Apps (`oko/apps`)
 
-- **demo_web**: A test application demonstrating how to integrate Oko wallet functionality into a dApp using the SDK
-- **customer_dashboard**: A web interface for customers to manage their API keys, view usage statistics, and configure their organization settings
-- **oko_admin_web**: An administrative interface for system administrators to manage customers, monitor key share nodes, configure system settings, and oversee the entire Oko infrastructure
+- **demo_web**: A test application demonstrating how to integrate Oko wallet
+  functionality into a dApp using the SDK
+- **customer_dashboard**: A web interface for customers to manage their API
+  keys, view usage statistics, and configure their organization settings
+- **oko_admin_web**: An administrative interface for system administrators to
+  manage customers, monitor key share nodes, configure system settings, and
+  oversee the entire Oko infrastructure
 
 ## Default Ports (customizable)
 
@@ -37,10 +54,12 @@ Client-side web application running in an iframe that provides the user interfac
 
 ## Prerequisites
 
+- OS: Oko supports only Linux/macOS. On Windows, use WSL2.
 - Node 22 + Yarn 4
 - Rust toolchain (via rustup)
 - Docker + Docker Compose (recommended for keyshare node in production)
-- PostgreSQL 17+ (non-Docker setups only; separate DBs for keyshare node and oko_api; or separate DB names on the same server)
+- PostgreSQL 17+ (non-Docker setups only; separate DBs for keyshare node and
+  oko_api; or separate DB names on the same server)
 - Build tools for native Node addons (make, gcc/g++, and Python 3 for node-gyp)
   - Ubuntu/Debian:
     ```bash
@@ -72,7 +91,9 @@ cd oko
 cd oko && yarn && yarn ci build_pkgs && yarn ci build_cs
 ```
 
-This installs dependencies and builds core packages and Cait Sith. See [Local CI helpers (yarn ci)](#local-ci-helpers-yarn-ci) below for detailed descriptions of each command.
+This installs dependencies and builds core packages and Cait Sith. See
+[Local CI helpers (yarn ci)](#local-ci-helpers-yarn-ci) below for detailed
+descriptions of each command.
 
 ## keyshare node
 
@@ -164,7 +185,7 @@ Health check: `curl http://localhost:4201/status`
 Option A — Docker Compose (recommended)
 
 ```
-cd oko/backend/docker
+cd oko/internals/docker
 cp env.example .env
 ```
 
@@ -222,7 +243,8 @@ docker compose ps
 curl http://localhost:4200/
 ```
 
-The database will be automatically migrated on first startup. See [Database Seeding](#database-seeding) below for seeding instructions.
+The database will be automatically migrated on first startup. See
+[Database Seeding](#database-seeding) below for seeding instructions.
 
 Option B — Local (dev)
 
@@ -307,19 +329,24 @@ curl http://localhost:4200/
 
 ### Database Seeding
 
-After the database migration is complete, you can seed the database with initial development/test data.
+After the database migration is complete, you can seed the database with initial
+development/test data.
 
 Seeding populates the database with:
 
-- **Admin user**: Admin account for oko_admin_web (`admin@keplr.app` / password: `0000`)
+- **Admin user**: Admin account for oko_admin_web (`admin@keplr.app` / password:
+  `0000`)
 - **Customer**: Demo customer record (`demo_web`)
-- **Customer dashboard user**: User for customer_dashboard (`demo@keplr.app` / password: `00000000`)
+- **Customer dashboard user**: User for customer_dashboard (`demo@keplr.app` /
+  password: `00000000`)
 - **API keys**: API keys for customer authentication
-- **Key share nodes**: Key share node server URLs (dev: `http://localhost:4201`, `http://localhost:4202`)
+- **Key share nodes**: Key share node server URLs (dev: `http://localhost:4201`,
+  `http://localhost:4202`)
 - **Key share node metadata**: SSS threshold configuration (default: 2)
 - **TSS activation settings**: Master switch for TSS operations
 
-To seed the database with initial data, run the following command from the project root:
+To seed the database with initial data, run the following command from the
+project root:
 
 **For Option A (Docker Compose):**
 
@@ -351,7 +378,9 @@ yarn workspace @oko-wallet/oko-attached create_env
 yarn workspace @oko-wallet/oko-attached dev
 ```
 
-Open the printed dev URL. This is an independent app that runs inside an iframe (not a traditional UI "widget"). The host app should iframe `http://localhost:3201/` and pass a `host_origin` parameter for initialization.
+Open the printed dev URL. This is an independent app that runs inside an iframe
+(not a traditional UI "widget"). The host app should iframe
+`http://localhost:3201/` and pass a `host_origin` parameter for initialization.
 
 ## Apps (oko/apps)
 
@@ -409,38 +438,49 @@ Open: `http://localhost:3204`
 ## Troubleshooting
 
 - Port conflicts: change ports in env files and restart
-- SMTP: for local, use sandbox/dummy values (missing required fields can block server startup)
+- SMTP: for local, use sandbox/dummy values (missing required fields can block
+  server startup)
 - CORS: oko_api allows all origins by default; restrict origins in production
-- keyshare node permissions: with Docker, ensure `DUMP_DIR`/`LOG_DIR` are writable by UID 1000
+- keyshare node permissions: with Docker, ensure `DUMP_DIR`/`LOG_DIR` are
+  writable by UID 1000
 
 ## Production Tips
 
 - Terminate TLS with a reverse proxy (Nginx/Caddy) and lock down allowed origins
 - Multi-node keyshare node (e.g., 2-of-3), retain/monitor dump directory
-- Strong secrets (ADMIN_PASSWORD, ENCRYPTION_SECRET, JWT_SECRET, etc.) and a secret manager (KMS/Secret Manager)
+- Strong secrets (ADMIN_PASSWORD, ENCRYPTION_SECRET, JWT_SECRET, etc.) and a
+  secret manager (KMS/Secret Manager)
 - Managed/dedicated Postgres with automated backups and recovery plan
 
 ## Local CI helpers (yarn ci)
 
-Use `yarn ci` at each workspace root to speed up repetitive local tasks. Arguments are forwarded to the internal CLI.
+Use `yarn ci` at each workspace root to speed up repetitive local tasks.
+Arguments are forwarded to the internal CLI.
 
 ### oko root
 
 - Build packages: `yarn ci build_pkgs`
-  - Builds in order: stdlib, dotenv, SDK (core/cosmos/eth), crypto/bytes, ksn-interface, tecdsa-interface
+  - Builds in order: stdlib, dotenv, SDK (core/cosmos/eth), crypto/bytes,
+    ksn-interface, tecdsa-interface
   - Required for all services that depend on these core packages
 - Build Cait Sith: `yarn ci build_cs`
-  - Builds Rust addon (required for `oko_api` TSS operations: triples, presign, sign)
-  - Builds WASM (required for `oko_attached` client-side TSS operations: keygen, combine, reshare, signing)
+  - Builds Rust addon (required for `oko_api` TSS operations: triples, presign,
+    sign)
+  - Builds WASM (required for `oko_attached` client-side TSS operations: keygen,
+    combine, reshare, signing)
   - Copies WASM into `oko_attached/public/pkg/`
 - Typecheck: `yarn ci typecheck`
 - keyshare node DB migration: `yarn ci db_migrate_ksn --use-env-file`
-  - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate per-node DBs
+  - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate
+    per-node DBs
   - Without it, uses local defaults (`localhost:5432`, `key_share_node_dev*`)
 - DB migration: `yarn ci db_migrate_api --use-env`
   - With `--use-env`, uses `~/.oko/oko_api_server.env`
-  - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates with test config
+  - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates
+    with test config
 - DB seed: `yarn ci db_seed_api --use-env --target dev`
   - `--target` supports `dev | prod` (use `dev` for local)
 
-Note: `yarn ci` is a thin wrapper around `yarn --cwd ./internals/ci run start <command>`. Run `yarn ci --help` to list available commands.
+Note: `yarn ci` is a thin wrapper around
+`yarn --cwd ./internals/ci run start <command>`. Run `yarn ci --help` to list
+available commands.
