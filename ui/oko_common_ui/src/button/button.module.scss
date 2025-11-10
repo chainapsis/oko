@@ -6,7 +6,6 @@
   border-radius: var(--radius-md, 8px);
   transition: background 0.2s ease;
 
-  border: none !important;
   outline: none;
   cursor: pointer;
 
@@ -34,68 +33,77 @@
     line-height: var(--font-line-height-md);
   }
 
-  &.disabled {
-    background: var(--bg-disabled);
-    color: var(--text-disabled);
-    border: 1px solid var(--border-disabled_subtle);
-    box-shadow: 0px 1px 2px 0px rgba(10, 13, 18, 0.05);
-    pointer-events: none;
-    cursor: not-allowed;
-  }
-
   &.ghost {
     background: transparent;
     color: var(--text-primary);
     border: none;
     box-shadow: none;
 
-    &.loading {
+    &.loading:not(.disabled) {
       pointer-events: none;
+    }
+
+    &.disabled {
+      color: var(--fg-disabled);
+      border: none;
+      box-shadow: none;
+      cursor: not-allowed;
     }
   }
 
   &.primary {
+    color: white;
     background: var(--bg-brand-solid);
-    border: 2px solid rgba(255, 255, 255, 0.12);
-
+    border: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow: var(--shadow-xs-skeuomorphic);
 
-    color: white;
-
-    // TODO: Need to review brand color tokens
     [data-theme="dark"] &:not(.disabled) {
       color: var(--gray-800);
     }
 
-    [data-theme="dark"] &.disabled {
-      background: var(--white);
-      color: var(--brand-300);
-    }
-
-    &:hover {
+    &:hover:not(.disabled) {
       background: var(--bg-brand-solid-hover);
     }
 
-    &.loading {
+    &.loading:not(.disabled) {
       pointer-events: none;
       background: var(--bg-brand-solid-hover);
+    }
+
+    &.disabled {
+      background: var(--bg-disabled);
+      color: var(--text-disabled);
+      border: 1px solid var(--border-disabled_subtle);
+      box-shadow: var(--shadow-xs);
+      cursor: not-allowed;
+    }
+
+    [data-theme="dark"] &.disabled {
+      background: var(--brand-200);
+      color: var(--brand-300);
     }
   }
 
   &.secondary {
-    background: var(--bg-primary);
     color: var(--text-primary);
+    background: var(--bg-primary);
     border: 1px solid var(--border-primary);
-
     box-shadow: var(--shadow-xs-skeuomorphic);
 
-    &:hover {
+    &:hover:not(.disabled) {
       background: var(--bg-primary-hover);
     }
 
-    &.loading {
+    &.loading:not(.disabled) {
       pointer-events: none;
       background: var(--bg-primary-hover);
+    }
+
+    &.disabled {
+      color: var(--fg-disabled);
+      border: 1px solid var(--border-disabled_subtle);
+      box-shadow: var(--shadow-xs);
+      cursor: not-allowed;
     }
   }
 
