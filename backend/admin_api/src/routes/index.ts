@@ -1,7 +1,7 @@
 import express from "express";
 
 import { setCustomerRoutes } from "@oko-wallet-admin-api/routes/customer";
-import { setWalletRoutes } from "@oko-wallet-admin-api/routes/ewallet_wallet";
+import { setWalletRoutes } from "@oko-wallet-admin-api/routes/wallet";
 import { setUserRoutes } from "@oko-wallet-admin-api/routes/user";
 import { setTssRoutes } from "@oko-wallet-admin-api/routes/tss";
 import { setKSNodeRoutes } from "@oko-wallet-admin-api/routes/ks_node";

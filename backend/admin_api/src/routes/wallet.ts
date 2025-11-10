@@ -19,7 +19,7 @@ import {
   adminAuthMiddleware,
   type AuthenticatedAdminRequest,
 } from "@oko-wallet-admin-api/middleware";
-import { getWalletList } from "@oko-wallet-admin-api/api/ewallet_wallet";
+import { getWalletList } from "@oko-wallet-admin-api/api/wallet";
 
 export function setWalletRoutes(router: Router) {
   registry.registerPath({
