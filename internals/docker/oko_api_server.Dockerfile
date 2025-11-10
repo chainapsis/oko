@@ -47,6 +47,12 @@ RUN yarn workspaces focus @oko-wallet/dotenv
 WORKDIR /home/node/oko/lib/dotenv
 RUN yarn run build
 
+# Build crypto/bytes
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/bytes
+WORKDIR /home/node/oko/crypto/bytes
+RUN yarn run build
+
 WORKDIR /home/node/oko
 
 # Install dependencies for oko_api_server
