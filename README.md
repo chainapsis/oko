@@ -52,8 +52,8 @@ TBD
 
 ## License
 
-Distributed under the GPL v3 License. See
-[GPL V3 License](https://opensource.org/license/gpl-3-0) for more information.
+Distributed under the Apache License 2.0. See
+[Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0) for more information.
 
 ## Development
 
