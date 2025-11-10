@@ -3,7 +3,7 @@
     <source media="(prefers-color-scheme: light)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg">
     <source media="(prefers-color-scheme: dark)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_dark.svg">
     <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg" alt="Logo"
-    style="width: 240px; height: auto; margin-bottom: 16px;">
+    style="width: 240px; height: auto;">
   </picture>
 </a>
 
