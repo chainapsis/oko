@@ -49,6 +49,7 @@ const config: Config = {
         content:
           "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-og-image.png",
       },
+      { name: "algolia-site-verification", content: "3DDD6577E7B1AAA8" },
     ],
     navbar: {
       logo: {
@@ -102,6 +103,12 @@ const config: Config = {
       theme: prismThemes.github,
       darkTheme: prismThemes.dracula,
       additionalLanguages: ["bash"],
+    },
+    algolia: {
+      appId: "XFC1T7WVOO",
+      // Public API key: it is safe to commit it
+      apiKey: "84cedabc63e83c9aaea60a9066222a2e",
+      indexName: "oko",
     },
   } satisfies Preset.ThemeConfig,
   themes: ["@signalwire/docusaurus-theme-llms-txt"],
