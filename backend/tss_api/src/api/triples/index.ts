@@ -24,10 +24,7 @@ import type {
   TriplesStep9Response,
   TriplesStageData,
 } from "@oko-wallet/oko-types/tss";
-import {
-  TriplesStageStatus,
-  TssStageType,
-} from "@oko-wallet/oko-types/tss";
+import { TriplesStageStatus, TssStageType } from "@oko-wallet/oko-types/tss";
 import {
   createTssSession,
   createTssStage,

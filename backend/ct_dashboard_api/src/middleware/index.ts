@@ -59,11 +59,9 @@ export async function customerJwtMiddleware(
     next();
     return;
   } catch (error) {
-    res
-      .status(500)
-      .json({
-        error: `Token validation failed: ${error instanceof Error ? error.message : String(error)}`,
-      });
+    res.status(500).json({
+      error: `Token validation failed: ${error instanceof Error ? error.message : String(error)}`,
+    });
     return;
   }
 }

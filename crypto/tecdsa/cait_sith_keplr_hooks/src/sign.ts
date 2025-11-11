@@ -6,10 +6,7 @@ import type {
 } from "@oko-wallet/tecdsa-interface";
 import { reqSignStep1, reqSignStep2 } from "@oko-wallet/api-lib";
 import { wasmModule } from "@oko-wallet/cait-sith-keplr-wasm";
-import type {
-  SignStep1Body,
-  SignStep2Body,
-} from "@oko-wallet/oko-types/tss";
+import type { SignStep1Body, SignStep2Body } from "@oko-wallet/oko-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export type RunSignError = { type: "aborted" } | { type: "error"; msg: string };

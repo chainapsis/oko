@@ -38,14 +38,14 @@ export function SiweSignWidget() {
     if (!signature) return;
     try {
       await navigator.clipboard.writeText(signature);
-    } catch { }
+    } catch {}
   };
 
   const copyMessage = async () => {
     if (!signedMessage) return;
     try {
       await navigator.clipboard.writeText(signedMessage);
-    } catch { }
+    } catch {}
   };
 
   const resetSiweSign = () => {

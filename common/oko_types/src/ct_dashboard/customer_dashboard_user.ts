@@ -1,7 +1,4 @@
-import type {
-  Customer,
-  CustomerStatus,
-} from "@oko-wallet/oko-types/customers";
+import type { Customer, CustomerStatus } from "@oko-wallet/oko-types/customers";
 
 export type CustomerDashboardUserStatus = "ACTIVE" | "DELETED";
 
