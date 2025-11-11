@@ -1,39 +1,14 @@
 import express from "express";
-import type { Response, Router, Request } from "express";
-import type {
-  CreateCustomerResponse,
-  CreateCustomerWithDashboardUserRequest,
-} from "@oko-wallet/oko-types/admin";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  Customer,
-  CustomerWithAPIKeys,
-  DeleteCustomerAndCustomerDashboardUsersRequest,
-  DeleteCustomerAndCustomerDashboardUsersResponse,
-} from "@oko-wallet/oko-types/customers";
 import multer from "multer";
 import {
   GetWalletListRequestSchema,
   GetWalletListSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   AdminAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
-import type {
-  GetAllKSNodeResponse,
-  CreateKSNodeResponse,
-  DeactivateKSNodeRequest,
-  DeactivateKSNodeResponse,
-  GetKSNodeByIdRequest,
-  GetKSNodeByIdResponse,
-  UpdateKSNodeRequest,
-  UpdateKSNodeResponse,
-  ActivateKSNodeRequest,
-  ActivateKSNodeResponse,
-} from "@oko-wallet/oko-types/admin";
 import {
   GetTssSessionListSuccessResponseSchema,
   GetTssAllActivationSettingSuccessResponseSchema,
@@ -50,28 +25,13 @@ import {
   DeleteCustomerSuccessResponseSchema,
   GetTssSessionListRequestSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
-import type {
-  AdminLoginRequest,
-  AdminLoginResponse,
-  AdminLogoutResponse,
-} from "@oko-wallet/oko-types/admin";
 import {
   LoginRequestSchema,
   AdminLoginSuccessResponseSchema,
   AdminLogoutSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
 
-import { login, logout } from "@oko-wallet-admin-api/api/user";
-import {
-  adminAuthMiddleware,
-  type AuthenticatedAdminRequest,
-} from "@oko-wallet-admin-api/middleware";
-import {
-  createCustomer,
-  getCustomerList,
-  getCustomerById,
-  deleteCustomerAndUsers,
-} from "@oko-wallet-admin-api/api/customer";
+import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware";
 import { create_customer } from "./create_customer";
 import { get_customer_list } from "./get_customer_list";
 import { get_customer } from "./get_customer";
