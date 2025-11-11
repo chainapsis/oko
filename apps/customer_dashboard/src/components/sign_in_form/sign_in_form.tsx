@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
@@ -30,7 +30,7 @@ export const SignInForm: React.FC = () => {
     <Card className={styles.loginCard} variant="elevated" padding="lg">
       <div className={styles.cardHeader}>
         {/* NOTE: theme is hardcoded to light for now */}
-        <Logo theme={"light"} width={58} height={22} />
+        <Logo theme={"light"} />
       </div>
 
       <AccountForm

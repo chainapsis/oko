@@ -1,7 +1,7 @@
 @use "../../styles/viewport.module.scss" as *;
 
 .wrapper {
-  height: 64px;
+  height: 54px;
   display: flex;
   flex-shrink: 0;
   flex-grow: 0;
@@ -31,7 +31,7 @@
 
 .logoResponsive {
   width: auto;
-  height: 32px;
+  height: 22px;
   flex-shrink: 0;
   // aspect-ratio: 37/16;
 
