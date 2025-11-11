@@ -3,8 +3,6 @@ import type { MakeTxSignSigData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
@@ -14,6 +12,7 @@ import { EthereumTxFee } from "./eth_tx_fee";
 import { EthereumTxSignatureContent } from "./ethereum_tx_signature_content";
 import { useEthereumTxActions } from "./hooks/use_ethereum_tx_actions";
 import { trackTxButtonEvent } from "@oko-wallet-attached/analytics/events";
+import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
 export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
   getIsAborted,
@@ -112,12 +111,7 @@ export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
         </div>
         <Spacing height={12} />
 
-        <div className={styles.signWithKeplrBox}>
-          <Typography size="xs" color="quaternary" weight="medium">
-            Sign with
-          </Typography>
-          <OkoLogoIcon width={47} height={18} theme={theme} />
-        </div>
+        <SignWithOkoBox theme={theme} />
       </CommonModal>
 
       {isDemo && <DemoView />}
