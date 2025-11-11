@@ -28,7 +28,14 @@
   "linter": {
     "enabled": false,
     "rules": {
-      "recommended": true
+      "recommended": true,
+      "style": {
+        "noNonNullAssertion": "off",
+        "useTemplate": "off"
+      },
+      "suspicious": {
+        "noExplicitAny": "off"
+      }
     }
   },
   "javascript": {
@@ -79,10 +86,11 @@
           "recommended": true,
           "style": {
             "useConst": "error",
-            "useImportType": "off"
+            "useImportType": "off",
+            "noNonNullAssertion": "off"
           },
           "suspicious": {
-            "noExplicitAny": "warn"
+            "noExplicitAny": "off"
           },
           "correctness": {
             "noUnusedVariables": "error"
