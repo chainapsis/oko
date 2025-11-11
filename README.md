@@ -1,9 +1,11 @@
+## Oko
+
 <a href="https://demo.oko.app/">
   <picture>
     <source media="(prefers-color-scheme: light)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg">
     <source media="(prefers-color-scheme: dark)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_dark.svg">
     <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg" alt="Logo"
-    style="width: 240px; height: auto;">
+    style="width: 180px; height: auto;">
   </picture>
 </a>
 
@@ -53,7 +55,8 @@ TBD
 ## License
 
 Distributed under the Apache License 2.0. See
-[Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0) for more information.
+[Apache 2.0 License](https://www.apache.org/licenses/LICENSE-2.0) for more
+information.
 
 ## Development
 
