@@ -19,8 +19,9 @@ export const navigationItems: NavigationItem[] = [
   },
   {
     label: "Manage Users",
-    route: paths.user_list,
+    route: "manage-users-menu",
     icon: <UsersIcon color="var(--gray-400)" className={styles.icon} />,
+    subItems: [{ label: "User List", route: paths.user_list }],
   },
   {
     label: "Sig Shares",
