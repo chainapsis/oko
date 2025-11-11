@@ -88,7 +88,7 @@
     color: var(--text-primary);
     background: var(--bg-primary);
     border: 1px solid var(--border-primary);
-    box-shadow: var(--shadow-xs-skeuomorphic);
+    box-shadow: var(--shadow-xs);
 
     &:hover:not(.disabled) {
       background: var(--bg-primary-hover);
@@ -102,7 +102,6 @@
     &.disabled {
       color: var(--fg-disabled);
       border: 1px solid var(--border-disabled_subtle);
-      box-shadow: var(--shadow-xs);
       cursor: not-allowed;
     }
   }
