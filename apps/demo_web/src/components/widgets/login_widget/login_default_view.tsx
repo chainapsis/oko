@@ -100,12 +100,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
       <Spacing height={28} />
 
       <div className={styles.getSupportRow}>
-        <div className={styles.byKeplrRow}>
-          <OkoLogoIcon width={47} height={18} theme={"light"} />
-          <Typography size="sm" weight="medium" color="secondary">
-            Oko
-          </Typography>
-        </div>
+        <OkoLogoIcon width={37} height={14} theme={"light"} />
         <a
           href="https://help.keplr.app/"
           target="_blank"
