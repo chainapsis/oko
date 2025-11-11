@@ -1,4 +1,4 @@
-## Oko
+# Oko
 
 <a href="https://demo.oko.app/">
   <picture>
