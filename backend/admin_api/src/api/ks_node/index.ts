@@ -49,7 +49,7 @@ export async function getAllKSNodes(
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to get ksNodes: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to get ksNodes, err: ${error}`,
     };
   }
 }
@@ -80,11 +80,11 @@ export async function getKSNodeById(
       success: true,
       data: { ksNode: getKSNodeRes.data },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to get ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to get ksNode: err: ${err}`,
     };
   }
 }
@@ -122,11 +122,11 @@ export async function createKSNode(
       success: true,
       data: { node_id },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to create ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to create ksNode, err: ${err}`,
     };
   }
 }
@@ -178,11 +178,11 @@ export async function deactivateKSNode(
       success: true,
       data: { node_id: body.node_id },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to deactivate ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to deactivate ksNode, err: ${err}`,
     };
   }
 }
@@ -234,11 +234,11 @@ export async function activateKSNode(
       success: true,
       data: { node_id: body.node_id },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to activate ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to activate ksNode, err: ${err}`,
     };
   }
 }
@@ -271,11 +271,11 @@ export async function updateKSNode(
       success: true,
       data: { node_id },
     };
-  } catch (error) {
+  } catch (err) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to update ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to update ksNode: ${err}`,
     };
   }
 }
@@ -315,11 +315,11 @@ export async function deleteKSNode(
       success: true,
       data: { node_id: body.node_id },
     };
-  } catch (error) {
+  } catch (err) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to delete ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to delete ksNode: ${err}`,
     };
   }
 }
