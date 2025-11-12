@@ -10135,6 +10135,7 @@ __metadata:
     "@types/node": "npm:*"
     "@types/react": "npm:*"
     "@types/react-dom": "npm:*"
+    auth0-js: "npm:^9.28.1"
     dotenv: "npm:*"
     next: "npm:^15.4.5"
     react: "npm:*"
