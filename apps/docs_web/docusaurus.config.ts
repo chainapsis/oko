@@ -108,7 +108,7 @@ const config: Config = {
       appId: "XFC1T7WVOO",
       // Public API key: it is safe to commit it
       apiKey: "84cedabc63e83c9aaea60a9066222a2e",
-      indexName: "oko",
+      indexName: "Oko Docs",
     },
   } satisfies Preset.ThemeConfig,
   themes: ["@signalwire/docusaurus-theme-llms-txt"],
