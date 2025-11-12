@@ -85,7 +85,7 @@ export const paths = (function () {
     "../../../backend/ct_dashboard_api",
   );
 
-  const dockerfiles = path.join(__dirname, "../../docker/dockerfiles");
+  const dockerfiles = path.join(__dirname, "../../docker");
 
   return {
     root,
