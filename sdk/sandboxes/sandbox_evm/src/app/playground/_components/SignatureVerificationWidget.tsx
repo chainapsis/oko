@@ -270,7 +270,7 @@ function TypedDataVerifier() {
     try {
       const t = JSON.parse(typedDataTypes);
       if (t && typeof t === "object") return t as Record<string, any>;
-    } catch { }
+    } catch {}
     return {} as Record<string, any>;
   })();
 
