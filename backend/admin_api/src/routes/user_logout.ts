@@ -1,27 +1,13 @@
-import type { Router, Response, Request } from "express";
-import type {
-  AdminLoginRequest,
-  AdminLoginResponse,
-  AdminLogoutResponse,
-} from "@oko-wallet/oko-types/admin";
+import type { Response } from "express";
+import type { AdminLogoutResponse } from "@oko-wallet/oko-types/admin";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/oko-api-openapi";
-import {
-  ErrorResponseSchema,
-  AdminAuthHeaderSchema,
-} from "@oko-wallet/oko-api-openapi/common";
-import {
-  LoginRequestSchema,
-  AdminLoginSuccessResponseSchema,
-  AdminLogoutSuccessResponseSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
 
-import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware";
-import { login, logout } from "@oko-wallet-admin-api/api/user";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { logout } from "@oko-wallet-admin-api/api/user";
 
 export async function user_logout(
-  req: Request,
+  req: AuthenticatedAdminRequest,
   res: Response<OkoApiResponse<AdminLogoutResponse>>,
 ) {
   const state = req.app.locals;
@@ -32,7 +18,7 @@ export async function user_logout(
       ? authHeader.substring(7)
       : undefined;
 
-  const result = await logout(state.db, token);
+  const result = await logout(state.db, token, req.auditContext);
   if (result.success === false) {
     res.status(ErrorCodeMap[result.code] ?? 500).json(result);
     return;

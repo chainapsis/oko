@@ -1,33 +1,11 @@
-import type { Response, Router } from "express";
+import type { Response } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  GetAllKSNodeResponse,
-  CreateKSNodeResponse,
-  DeactivateKSNodeRequest,
-  DeactivateKSNodeResponse,
-  GetKSNodeByIdRequest,
-  GetKSNodeByIdResponse,
-  UpdateKSNodeRequest,
-  UpdateKSNodeResponse,
-  ActivateKSNodeRequest,
-  ActivateKSNodeResponse,
-} from "@oko-wallet/oko-types/admin";
+import type { CreateKSNodeResponse } from "@oko-wallet/oko-types/admin";
 import type { CreateKSNodeRequest } from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import {
-  adminAuthMiddleware,
-  type AuthenticatedAdminRequest,
-} from "@oko-wallet-admin-api/middleware";
-import {
-  getAllKSNodes,
-  createKSNode,
-  deactivateKSNode,
-  getKSNodeById,
-  updateKSNode,
-  activateKSNode,
-  deleteKSNode,
-} from "@oko-wallet-admin-api/api/ks_node";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { createKSNode } from "@oko-wallet-admin-api/api/ks_node";
 
 export async function create_ks_node(
   req: AuthenticatedAdminRequest<CreateKSNodeRequest>,
@@ -35,7 +13,7 @@ export async function create_ks_node(
 ) {
   const state = req.app.locals;
 
-  const result = await createKSNode(state.db, req.body);
+  const result = await createKSNode(state.db, req.body, req.auditContext);
   if (!result.success) {
     res.status(ErrorCodeMap[result.code] ?? 500).json(result);
     return;

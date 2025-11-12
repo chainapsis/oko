@@ -32,6 +32,7 @@ import type {
   APIKey,
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
+import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
 
 export async function createCustomer(
   db: Pool,
@@ -45,7 +46,10 @@ export async function createCustomer(
     };
     logo?: { buffer: Buffer; originalname: string } | null;
   },
+  auditContext?: { adminUserId?: string; request?: any; requestId?: string },
 ): Promise<OkoApiResponse<CreateCustomerResponse>> {
+  const context = { db, ...auditContext };
+
   try {
     let logo_url: string | null = null;
     if (opts.logo) {
@@ -58,6 +62,16 @@ export async function createCustomer(
         body: opts.logo.buffer,
       });
       if (uploadRes.success === false) {
+        await createAuditLog(
+          context,
+          "create",
+          "customer",
+          undefined,
+          undefined,
+          { email: body.email, label: body.label },
+          "failure",
+          `Failed to upload logo to S3: ${uploadRes.err}`,
+        );
         return {
           success: false,
           code: "UNKNOWN_ERROR",
@@ -113,8 +127,8 @@ export async function createCustomer(
 
       await client.query("COMMIT");
 
-      return {
-        success: true,
+      const result = {
+        success: true as const,
         data: {
           customer_id,
           label: insertCustomerRes.data.label,
@@ -125,8 +139,35 @@ export async function createCustomer(
           message: "Customer created successfully",
         },
       };
+
+      await createAuditLog(
+        context,
+        "create",
+        "customer",
+        customer_id,
+        [
+          { field: "label", from: null, to: body.label },
+          { field: "url", from: null, to: body.url || null },
+          { field: "logo_url", from: null, to: logo_url },
+          { field: "status", from: null, to: "ACTIVE" },
+        ],
+        { email: body.email, label: body.label, url: body.url },
+        "success",
+      );
+
+      return result;
     } catch (error) {
       await client.query("ROLLBACK");
+      await createAuditLog(
+        context,
+        "create",
+        "customer",
+        undefined,
+        undefined,
+        { email: body.email, label: body.label },
+        "failure",
+        `Failed to create customer: ${error instanceof Error ? error.message : String(error)}`,
+      );
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -136,6 +177,16 @@ export async function createCustomer(
       client.release();
     }
   } catch (err) {
+    await createAuditLog(
+      context,
+      "create",
+      "customer",
+      undefined,
+      undefined,
+      { email: body.email, label: body.label },
+      "failure",
+      `Failed to create customer: ${err instanceof Error ? err.message : String(err)}`,
+    );
     return {
       success: false,
       code: "UNKNOWN_ERROR",
@@ -253,12 +304,15 @@ export async function getCustomerById(
 export async function deleteCustomerAndUsers(
   db: Pool,
   customer_id: string,
+  auditContext?: { adminUserId?: string; request?: any; requestId?: string },
 ): Promise<
   OkoApiResponse<{
     customer_id: string;
     customer_dashboard_user_ids: string[];
   }>
 > {
+  const context = { db, ...auditContext };
+
   try {
     const client = await db.connect();
     try {
@@ -290,16 +344,41 @@ export async function deleteCustomerAndUsers(
 
       await client.query("COMMIT");
 
-      return {
-        success: true,
+      const result = {
+        success: true as const,
         data: {
           customer_id: deleteCustomerRes.data.customer_id,
           customer_dashboard_user_ids:
             deleteCustomerDashboardUserRes.data.customer_dashboard_user_ids,
         },
       };
+
+      await createAuditLog(
+        context,
+        "delete",
+        "customer",
+        customer_id,
+        [
+          { field: "status", from: "ACTIVE", to: "DELETED" },
+          { field: "api_keys_status", from: "ACTIVE", to: "INACTIVE" },
+        ],
+        { customer_id },
+        "success",
+      );
+
+      return result;
     } catch (error) {
       await client.query("ROLLBACK");
+      await createAuditLog(
+        context,
+        "delete",
+        "customer",
+        customer_id,
+        undefined,
+        undefined,
+        "failure",
+        `Failed to delete customer and users: ${error instanceof Error ? error.message : String(error)}`,
+      );
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -309,6 +388,16 @@ export async function deleteCustomerAndUsers(
       client.release();
     }
   } catch (err) {
+    await createAuditLog(
+      context,
+      "delete",
+      "customer",
+      customer_id,
+      undefined,
+      undefined,
+      "failure",
+      `Failed to delete customer and users: ${err instanceof Error ? err.message : String(err)}`,
+    );
     return {
       success: false,
       code: "UNKNOWN_ERROR",

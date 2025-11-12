@@ -1,35 +1,10 @@
-import type { Router, Response } from "express";
+import type { Response } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  GetTssSessionListRequest,
-  GetTssSessionListResponse,
-  GetTssAllActivationSettingResponse,
-  SetTssAllActivationSettingRequest,
-  SetTssAllActivationSettingResponse,
-} from "@oko-wallet-types/admin";
+import type { GetTssAllActivationSettingResponse } from "@oko-wallet-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/oko-api-openapi";
-import {
-  AdminAuthHeaderSchema,
-  ErrorResponseSchema,
-} from "@oko-wallet/oko-api-openapi/common";
-import {
-  GetTssSessionListRequestSchema,
-  GetTssSessionListSuccessResponseSchema,
-  GetTssAllActivationSettingSuccessResponseSchema,
-  SetTssAllActivationSettingRequestSchema,
-  SetTssAllActivationSettingSuccessResponseSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
 
-import {
-  adminAuthMiddleware,
-  type AuthenticatedAdminRequest,
-} from "@oko-wallet-admin-api/middleware";
-import {
-  getTssSessionList,
-  getTssAllActivationSetting,
-  setTssAllActivationSetting,
-} from "@oko-wallet-admin-api/api/tss";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { getTssAllActivationSetting } from "@oko-wallet-admin-api/api/tss";
 
 export async function get_tss_all_activation_setting(
   req: AuthenticatedAdminRequest,

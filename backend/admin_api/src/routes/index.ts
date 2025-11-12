@@ -24,6 +24,8 @@ import {
   GetCustomerSuccessResponseSchema,
   DeleteCustomerSuccessResponseSchema,
   GetTssSessionListRequestSchema,
+  GetAuditLogsQuerySchema,
+  GetAuditLogsCountQuerySchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
 import {
   LoginRequestSchema,
@@ -49,6 +51,8 @@ import { deactivate_ks_node } from "./deactivate_ks_node";
 import { delete_ks_node } from "./delete_ks_node";
 import { update_ks_node } from "./update_ks_node";
 import { activate_ks_node } from "./activate_ks_node";
+import { get_audit_logs } from "./get_audit_logs";
+import { get_audit_logs_count } from "./get_audit_logs_count";
 
 export function makeEWalletAdminRouter() {
   const router = express.Router();
@@ -592,6 +596,132 @@ export function makeEWalletAdminRouter() {
     adminAuthMiddleware,
     activate_ks_node,
   );
+
+  registry.registerPath({
+    method: "get",
+    path: "/oko_admin/v1/audit/logs",
+    tags: ["Admin"],
+    summary: "Get audit logs",
+    description: "Retrieves audit logs with filtering and pagination",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      query: GetAuditLogsQuerySchema,
+    },
+    responses: {
+      200: {
+        description: "Audit logs retrieved successfully",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                success: { type: "boolean" },
+                data: {
+                  type: "array",
+                  items: {
+                    type: "object",
+                    properties: {
+                      id: { type: "string" },
+                      occurred_at: { type: "string", format: "date-time" },
+                      request_id: { type: "string" },
+                      actor: { type: "string" },
+                      actor_ip: { type: "string" },
+                      user_agent: { type: "string" },
+                      source: { type: "string" },
+                      action: { type: "string" },
+                      target_type: { type: "string" },
+                      target_id: { type: "string" },
+                      changes: {
+                        type: "array",
+                        items: {
+                          type: "object",
+                          properties: {
+                            field: { type: "string" },
+                            from: {},
+                            to: {},
+                          },
+                        },
+                      },
+                      params: { type: "object" },
+                      outcome: {
+                        type: "string",
+                        enum: ["success", "failure", "denied"],
+                      },
+                      error: { type: "string" },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.get("/audit/logs", adminAuthMiddleware, get_audit_logs);
+
+  registry.registerPath({
+    method: "get",
+    path: "/oko_admin/v1/audit/logs/count",
+    tags: ["Admin"],
+    summary: "Get audit logs count",
+    description: "Retrieves count of audit logs matching filters",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      query: GetAuditLogsCountQuerySchema,
+    },
+    responses: {
+      200: {
+        description: "Audit logs count retrieved successfully",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                success: { type: "boolean" },
+                data: { type: "integer" },
+              },
+            },
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.get("/audit/logs/count", adminAuthMiddleware, get_audit_logs_count);
 
   return router;
 }

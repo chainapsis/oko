@@ -9,6 +9,8 @@ import { getAdminByEmail } from "@oko-wallet/oko-pg-interface/admin_users";
 import { comparePassword } from "@oko-wallet/crypto-js";
 
 import { generateAdminToken } from "@oko-wallet-admin-api/auth";
+import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
+import type { AuditContext } from "@oko-wallet-admin-api/utils/audit";
 
 export async function login(
   db: Pool,
@@ -17,6 +19,7 @@ export async function login(
     secret: string;
     expires_in: string;
   },
+  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<AdminLoginResponse>> {
   try {
     const getAdminRes = await getAdminByEmail(db, body.email);
@@ -74,6 +77,18 @@ export async function login(
       };
     }
 
+    if (auditContext) {
+      await createAuditLog(
+        auditContext,
+        "login",
+        "user",
+        admin.user_id,
+        undefined,
+        { email: body.email, role: admin.role },
+        "success",
+      );
+    }
+
     return {
       success: true,
       data: {
@@ -96,8 +111,21 @@ export async function login(
 export async function logout(
   db: Pool,
   token?: string,
+  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<AdminLogoutResponse>> {
   try {
+    if (auditContext) {
+      await createAuditLog(
+        auditContext,
+        "logout",
+        "user",
+        auditContext.adminUserId,
+        undefined,
+        { has_token: !!token },
+        "success",
+      );
+    }
+
     if (token) {
       return {
         success: true,
@@ -115,6 +143,18 @@ export async function logout(
       };
     }
   } catch (error) {
+    if (auditContext) {
+      await createAuditLog(
+        auditContext,
+        "logout",
+        "user",
+        auditContext?.adminUserId,
+        undefined,
+        undefined,
+        "failure",
+        `Failed to logout: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
     return {
       success: false,
       code: "UNKNOWN_ERROR",

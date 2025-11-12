@@ -5,6 +5,7 @@
     "./admin": "./src/admin/index.ts",
     "./api_response": "./src/api_response/index.ts",
     "./auth": "./src/auth/index.ts",
+    "./audit": "./src/audit/index.ts",
     "./crypto": "./src/crypto/index.ts",
     "./ct_dashboard": "./src/ct_dashboard/index.ts",
     "./customers": "./src/customers/index.ts",

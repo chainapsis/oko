@@ -3,22 +3,10 @@ import type {
   GetWalletListRequest,
   GetWalletListResponse,
 } from "@oko-wallet-types/admin";
-import type { Response, Router } from "express";
+import type { Response } from "express";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/oko-api-openapi";
-import {
-  AdminAuthHeaderSchema,
-  ErrorResponseSchema,
-} from "@oko-wallet/oko-api-openapi/common";
-import {
-  GetWalletListRequestSchema,
-  GetWalletListSuccessResponseSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
 
-import {
-  adminAuthMiddleware,
-  type AuthenticatedAdminRequest,
-} from "@oko-wallet-admin-api/middleware";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
 import { getWalletList } from "@oko-wallet-admin-api/api/wallet";
 
 export async function get_wallet_list(
