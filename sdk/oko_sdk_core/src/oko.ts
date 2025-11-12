@@ -6,6 +6,7 @@ import { getPublicKey } from "./methods/get_public_key";
 import { getEmail } from "./methods/get_email";
 import { closeModal } from "./methods/close_modal";
 import { on } from "./methods/on";
+import { startEmailSignIn } from "./methods/start_email_sign_in";
 import type { OkoWalletInterface } from "./types";
 import { init } from "./static/init";
 import { OkoWallet } from "./constructor";
@@ -21,6 +22,7 @@ ptype.signIn = signIn;
 ptype.signOut = signOut;
 ptype.getPublicKey = getPublicKey;
 ptype.getEmail = getEmail;
+ptype.startEmailSignIn = startEmailSignIn;
 ptype.on = on;
 
 export { OkoWallet };

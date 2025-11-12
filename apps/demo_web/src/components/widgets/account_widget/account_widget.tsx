@@ -4,18 +4,29 @@ import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 import { AuthProgressWidget } from "./auth_progress_widget";
 import { AccountInfoWidget } from "./account_info_widget";
-import { LoginWidget } from "../login_widget/login_widget";
+import {
+  type EmailLoginState,
+  LoginWidget,
+} from "../login_widget/login_widget";
 
 type SigningInState =
   | { status: "ready" }
   | { status: "signing-in" }
   | { status: "failed"; error: string };
 
+const initialEmailLoginState: EmailLoginState = {
+  stage: "enter-email",
+  email: "",
+};
+
 export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
   const [signingInState, setSigningInState] = useState<SigningInState>({
     status: "ready",
   });
+  const [emailLoginState, setEmailLoginState] = useState<EmailLoginState>(
+    initialEmailLoginState,
+  );
 
   const { email, publicKey, isSignedIn } = useUserInfoState();
 
@@ -30,6 +41,37 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   ) {
     if (!okoWallet) {
       console.error("eWallet is not initialized");
+      return;
+    }
+
+    if (method === "email") {
+      const targetEmail = email?.trim() ?? "";
+
+      if (!targetEmail) {
+        return;
+      }
+
+      setEmailLoginState({
+        stage: "sending-code",
+        email: targetEmail,
+      });
+
+      try {
+        await okoWallet.startEmailSignIn(targetEmail);
+
+        setEmailLoginState({
+          stage: "receive-code",
+          email: targetEmail,
+        });
+      } catch (error: any) {
+        console.error("Failed to send Auth0 email code", error);
+
+        setEmailLoginState({
+          stage: "enter-email",
+          email: targetEmail,
+        });
+      }
+
       return;
     }
 
@@ -94,7 +136,20 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     );
   }
 
-  return <LoginWidget onSignIn={handleSignIn} />;
+  function handleEmailChange(inputEmail: string) {
+    setEmailLoginState({
+      stage: "enter-email",
+      email: inputEmail,
+    });
+  }
+
+  return (
+    <LoginWidget
+      onSignIn={handleSignIn}
+      emailLoginState={emailLoginState}
+      onEmailChange={handleEmailChange}
+    />
+  );
 };
 
 export interface AccountWidgetProps {}

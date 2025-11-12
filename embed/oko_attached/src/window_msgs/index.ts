@@ -8,6 +8,7 @@ import { handleSignOut } from "./sign_out";
 import { handleGetEmail } from "./get_email";
 import { handleGetCosmosChain } from "./get_cosmos_chain_info";
 import { handleOAuthInfoPass } from "./oauth_info_pass";
+import { handleAuth0EmailSendCode } from "./auth0/email_send_code";
 import { handleGetEthChain } from "./get_eth_chain_info";
 
 export function makeMsgHandler() {
@@ -76,6 +77,11 @@ export function makeMsgHandler() {
 
       case "oauth_info_pass": {
         await handleOAuthInfoPass(ctx, message);
+        break;
+      }
+
+      case "auth0_email_send_code": {
+        await handleAuth0EmailSendCode(ctx, message);
         break;
       }
 

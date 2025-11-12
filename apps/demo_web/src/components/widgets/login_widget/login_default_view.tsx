@@ -1,4 +1,4 @@
-import { type FC, Fragment, useState } from "react";
+import { type FC, Fragment } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
@@ -13,20 +13,27 @@ import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 
 import styles from "./login_widget.module.scss";
+import type { EmailLoginState } from "./login_widget";
 
 export interface LoginDefaultViewProps {
   onSignIn: (
     method: "email" | "google" | "telegram" | "x" | "apple",
     email?: string,
   ) => void;
+  emailLoginState: EmailLoginState;
+  onEmailChange: (email: string) => void;
   onShowSocials: () => void;
 }
 
 export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
   onSignIn,
+  emailLoginState,
+  onEmailChange,
   onShowSocials,
 }) => {
-  const [email, setEmail] = useState("");
+  const { stage, email } = emailLoginState;
+  const isSending = stage === "sending-code";
+  const isNextDisabled = isSending || email.trim().length === 0;
 
   return (
     <Fragment>
@@ -57,17 +64,18 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           <MailboxIcon size={20} color={"var(--fg-quaternary)"} />
           <input
             placeholder="your@email.com"
-            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            onChange={(e) => onEmailChange(e.target.value)}
             className={styles.emailInput}
             type="email"
-            disabled={true}
+            disabled={isSending}
           />
           <Button
             variant="ghost"
             size="md"
             className={styles.loginButton}
             onClick={() => onSignIn("email", email)}
-            disabled={true} // TODO: Remove this once we have email login implemented
+            disabled={isNextDisabled}
           >
             Next
           </Button>
