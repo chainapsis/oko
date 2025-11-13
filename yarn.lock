@@ -36752,9 +36752,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sandbox-evm@workspace:sandboxes/sandbox_evm":
+"sandbox-evm@workspace:sandbox/sandbox_evm":
   version: 0.0.0-use.local
-  resolution: "sandbox-evm@workspace:sandboxes/sandbox_evm"
+  resolution: "sandbox-evm@workspace:sandbox/sandbox_evm"
   dependencies:
     "@heroicons/react": "npm:~2.1.5"
     "@keplr-wallet/proto-types": "npm:^0.12.250"
@@ -36794,9 +36794,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"sandbox_simple_host@workspace:sandboxes/sandbox_simple_host":
+"sandbox_simple_host@workspace:sandbox/sandbox_simple_host":
   version: 0.0.0-use.local
-  resolution: "sandbox_simple_host@workspace:sandboxes/sandbox_simple_host"
+  resolution: "sandbox_simple_host@workspace:sandbox/sandbox_simple_host"
   dependencies:
     "@cosmjs/stargate": "npm:^0.34.0"
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"

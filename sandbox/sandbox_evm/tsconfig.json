@@ -20,8 +20,8 @@
     ],
     "paths": {
       "@oko-wallet-sandbox-evm/*": ["./src/*"],
-      "@oko-wallet-sdk-core/*": ["../../oko_sdk_core/src/*"],
-      "@oko-wallet-sdk-eth/*": ["../../oko_sdk_variants/eth/src/*"]
+      "@oko-wallet-sdk-core/*": ["../oko_sdk_core/src/*"],
+      "@oko-wallet-sdk-eth/*": ["../oko_sdk_variants/eth/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
