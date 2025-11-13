@@ -13,7 +13,7 @@ export async function get_audit_logs_count(
   const state = req.app.locals;
   const db = state.db as Pool;
   try {
-    const params: Omit<AuditEventFilter, "limit" | "offset"> = {};
+    const params: AuditEventFilter = {};
 
     if (req.query.target_type) {
       params.target_type = req.query.target_type as string;

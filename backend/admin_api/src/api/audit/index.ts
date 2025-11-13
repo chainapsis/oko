@@ -1,6 +1,6 @@
 import { Pool } from "pg";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { AuditEvent, AuditEventFilter } from "@oko-wallet/oko-types/admin";
+import type { AuditEventFilter } from "@oko-wallet/oko-types/admin";
 import type {
   GetAuditLogsResponse,
   GetAuditLogsCountResponse,
@@ -41,7 +41,7 @@ export async function getAuditLogs(
 
 export async function getAuditLogsCount(
   db: Pool,
-  filter: Omit<AuditEventFilter, "limit" | "offset">,
+  filter: AuditEventFilter,
 ): Promise<OkoApiResponse<GetAuditLogsCountResponse>> {
   try {
     const getAuditEventsCountRes = await getAuditEventsCount(db, filter);

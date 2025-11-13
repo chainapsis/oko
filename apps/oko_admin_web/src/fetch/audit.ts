@@ -1,6 +1,5 @@
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
-  AuditEvent,
   AuditEventFilter,
   GetAuditLogsResponse,
   GetAuditLogsCountResponse,
@@ -40,7 +39,7 @@ export const getAuditLogs = async (
 };
 
 export const getAuditLogsCount = async (
-  filter: Omit<AuditEventFilter, "limit" | "offset">,
+  filter: AuditEventFilter,
   token?: string,
 ): Promise<OkoApiResponse<GetAuditLogsCountResponse>> => {
   const params = new URLSearchParams();
