@@ -13,12 +13,16 @@ export async function createAuditEvent(
 ): Promise<Result<AuditEvent, string>> {
   const query = `
 INSERT INTO audit_event (
-  id, occurred_at, request_id, actor, actor_ip, user_agent,
-  source, action, target_type, target_id, changes, params, outcome, error
+  id, occurred_at, request_id, actor,
+  actor_ip, user_agent, source, action,
+  target_type, target_id, changes, params,
+  outcome, error
 )
 VALUES (
-  $1, $2, $3, $4, $5, $6,
-  $7, $8, $9, $10, $11, $12, $13, $14
+  $1, $2, $3, $4,
+  $5, $6, $7, $8,
+  $9, $10, $11, $12,
+  $13, $14
 )
 RETURNING *
 `;
