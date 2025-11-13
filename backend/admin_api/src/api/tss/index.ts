@@ -116,25 +116,6 @@ export async function setTssAllActivationSetting(
 ): Promise<OkoApiResponse<SetTssAllActivationSettingResponse>> {
   try {
     const { is_enabled } = body;
-    if (typeof is_enabled !== "boolean") {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "policy_update",
-          "policy",
-          "tss_all",
-          undefined,
-          { is_enabled },
-          "denied",
-          "is_enabled must be a boolean value",
-        );
-      }
-      return {
-        success: false,
-        code: "INVALID_REQUEST",
-        msg: "is_enabled must be a boolean value",
-      };
-    }
 
     const getTssActivationRes = await getTssAllActivationSettingPG(
       db,
@@ -150,18 +131,6 @@ export async function setTssAllActivationSetting(
 
     const tssActivationSetting = getTssActivationRes.data;
     if (!tssActivationSetting) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "policy_update",
-          "policy",
-          "tss_all",
-          undefined,
-          { is_enabled },
-          "failure",
-          "TSS activation setting not found",
-        );
-      }
       return {
         success: false,
         code: "TSS_ACTIVATION_SETTING_NOT_FOUND",
@@ -177,35 +146,11 @@ export async function setTssAllActivationSetting(
       tssActivationSetting.activation_key,
     );
     if (setTssActivationRes.success === false) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "policy_update",
-          "policy",
-          "tss_all",
-          [{ field: "is_enabled", from: oldValue, to: is_enabled }],
-          { is_enabled },
-          "failure",
-          `Failed to set tss activation setting: ${setTssActivationRes.err}`,
-        );
-      }
       return {
         success: false,
         code: "UNKNOWN_ERROR",
         msg: `Failed to set tss activation setting: ${setTssActivationRes.err}`,
       };
-    }
-
-    if (auditContext) {
-      await createAuditLog(
-        auditContext,
-        "policy_update",
-        "policy",
-        "tss_all",
-        [{ field: "is_enabled", from: oldValue, to: is_enabled }],
-        { is_enabled },
-        "success",
-      );
     }
 
     return {

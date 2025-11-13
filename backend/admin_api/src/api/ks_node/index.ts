@@ -100,18 +100,6 @@ export async function createKSNode(
     const { node_name, server_url } = body;
 
     if (!node_name || !server_url) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "create",
-          "node",
-          undefined,
-          undefined,
-          { node_name, server_url },
-          "denied",
-          "node_name and server_url are required",
-        );
-      }
       return {
         success: false,
         code: "INVALID_REQUEST",
@@ -121,18 +109,6 @@ export async function createKSNode(
 
     const insertKSNodeRes = await insertKSNode(db, node_name, server_url);
     if (insertKSNodeRes.success === false) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "create",
-          "node",
-          undefined,
-          undefined,
-          { node_name, server_url },
-          "failure",
-          `Failed to create ksNode: ${insertKSNodeRes.err}`,
-        );
-      }
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -144,22 +120,6 @@ export async function createKSNode(
 
     // trigger KS node health check
     processKSNodeHealthChecks(db);
-
-    if (auditContext) {
-      await createAuditLog(
-        auditContext,
-        "create",
-        "node",
-        node_id,
-        [
-          { field: "node_name", from: null, to: node_name },
-          { field: "server_url", from: null, to: server_url },
-          { field: "status", from: null, to: "ACTIVE" },
-        ],
-        { node_name, server_url },
-        "success",
-      );
-    }
 
     return {
       success: true,
@@ -235,18 +195,6 @@ export async function deactivateKSNode(
       "INACTIVE" as KSNodeStatus,
     );
     if (updateKSNodeStatusRes.success === false) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "deactivate",
-          "ks_node",
-          body.node_id,
-          [{ field: "status", from: getKSNodeRes.data.status, to: "INACTIVE" }],
-          undefined,
-          "failure",
-          `Failed to deactivate ksNode: ${updateKSNodeStatusRes.err}`,
-        );
-      }
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -295,18 +243,6 @@ export async function activateKSNode(
     }
 
     if (getKSNodeRes.data === null) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "activate",
-          "ks_node",
-          body.node_id,
-          undefined,
-          undefined,
-          "failure",
-          `KSNode not found: ${body.node_id}`,
-        );
-      }
       return {
         success: false,
         code: "KS_NODE_NOT_FOUND",
@@ -315,18 +251,6 @@ export async function activateKSNode(
     }
 
     if (getKSNodeRes.data.status === "ACTIVE") {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "activate",
-          "ks_node",
-          body.node_id,
-          undefined,
-          undefined,
-          "denied",
-          `KSNode already active: ${body.node_id}`,
-        );
-      }
       return {
         success: false,
         code: "KS_NODE_ALREADY_ACTIVE",
@@ -340,18 +264,6 @@ export async function activateKSNode(
       "ACTIVE" as KSNodeStatus,
     );
     if (updateKSNodeStatusRes.success === false) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "activate",
-          "ks_node",
-          body.node_id,
-          [{ field: "status", from: getKSNodeRes.data.status, to: "ACTIVE" }],
-          undefined,
-          "failure",
-          `Failed to activate ksNode: ${updateKSNodeStatusRes.err}`,
-        );
-      }
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -393,18 +305,6 @@ export async function updateKSNode(
     const { node_id, server_url } = body;
 
     if (!node_id || !server_url) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "update",
-          "ks_node",
-          node_id,
-          undefined,
-          undefined,
-          "denied",
-          "node_id and server_url are required",
-        );
-      }
       return {
         success: false,
         code: "INVALID_REQUEST",
@@ -421,18 +321,6 @@ export async function updateKSNode(
 
     const updateKSNodeRes = await updateKSNodeInfo(db, node_id, server_url);
     if (updateKSNodeRes.success === false) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "update",
-          "ks_node",
-          node_id,
-          undefined,
-          undefined,
-          "failure",
-          `Failed to update ksNode: ${updateKSNodeRes.err}`,
-        );
-      }
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -481,18 +369,6 @@ export async function deleteKSNode(
     }
 
     if (getKSNodeRes.data === null) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "delete",
-          "ks_node",
-          body.node_id,
-          undefined,
-          undefined,
-          "failure",
-          `KSNode not found: ${body.node_id}`,
-        );
-      }
       return {
         success: false,
         code: "KS_NODE_NOT_FOUND",
@@ -502,18 +378,6 @@ export async function deleteKSNode(
 
     const deleteRes = await deleteKSNodeById(db, body.node_id);
     if (deleteRes.success === false) {
-      if (auditContext) {
-        await createAuditLog(
-          auditContext,
-          "delete",
-          "ks_node",
-          body.node_id,
-          undefined,
-          undefined,
-          "failure",
-          `Failed to delete ksNode: ${deleteRes.err}`,
-        );
-      }
       return {
         success: false,
         code: "UNKNOWN_ERROR",

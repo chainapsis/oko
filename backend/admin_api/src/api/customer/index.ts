@@ -61,23 +61,15 @@ export async function createCustomer(
         key: `logos/${Date.now().toString()}-${opts.logo.originalname}`,
         body: opts.logo.buffer,
       });
-      if (uploadRes.success === false) {
-        await createAuditLog(
-          context,
-          "create",
-          "customer",
-          undefined,
-          undefined,
-          { email: body.email, label: body.label },
-          "failure",
-          `Failed to upload logo to S3: ${uploadRes.err}`,
-        );
+
+      if (!uploadRes.success) {
         return {
           success: false,
           code: "UNKNOWN_ERROR",
           msg: `Failed to upload logo to S3: ${uploadRes.err}`,
         };
       }
+
       logo_url = decodeURIComponent(uploadRes.data);
     }
 
@@ -140,34 +132,10 @@ export async function createCustomer(
         },
       };
 
-      await createAuditLog(
-        context,
-        "create",
-        "customer",
-        customer_id,
-        [
-          { field: "label", from: null, to: body.label },
-          { field: "url", from: null, to: body.url || null },
-          { field: "logo_url", from: null, to: logo_url },
-          { field: "status", from: null, to: "ACTIVE" },
-        ],
-        { email: body.email, label: body.label, url: body.url },
-        "success",
-      );
-
       return result;
     } catch (error) {
       await client.query("ROLLBACK");
-      await createAuditLog(
-        context,
-        "create",
-        "customer",
-        undefined,
-        undefined,
-        { email: body.email, label: body.label },
-        "failure",
-        `Failed to create customer: ${error instanceof Error ? error.message : String(error)}`,
-      );
+
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -177,16 +145,6 @@ export async function createCustomer(
       client.release();
     }
   } catch (err) {
-    await createAuditLog(
-      context,
-      "create",
-      "customer",
-      undefined,
-      undefined,
-      { email: body.email, label: body.label },
-      "failure",
-      `Failed to create customer: ${err instanceof Error ? err.message : String(err)}`,
-    );
     return {
       success: false,
       code: "UNKNOWN_ERROR",
@@ -353,32 +311,10 @@ export async function deleteCustomerAndUsers(
         },
       };
 
-      await createAuditLog(
-        context,
-        "delete",
-        "customer",
-        customer_id,
-        [
-          { field: "status", from: "ACTIVE", to: "DELETED" },
-          { field: "api_keys_status", from: "ACTIVE", to: "INACTIVE" },
-        ],
-        { customer_id },
-        "success",
-      );
-
       return result;
     } catch (error) {
       await client.query("ROLLBACK");
-      await createAuditLog(
-        context,
-        "delete",
-        "customer",
-        customer_id,
-        undefined,
-        undefined,
-        "failure",
-        `Failed to delete customer and users: ${error instanceof Error ? error.message : String(error)}`,
-      );
+
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -388,16 +324,6 @@ export async function deleteCustomerAndUsers(
       client.release();
     }
   } catch (err) {
-    await createAuditLog(
-      context,
-      "delete",
-      "customer",
-      customer_id,
-      undefined,
-      undefined,
-      "failure",
-      `Failed to delete customer and users: ${err instanceof Error ? err.message : String(err)}`,
-    );
     return {
       success: false,
       code: "UNKNOWN_ERROR",

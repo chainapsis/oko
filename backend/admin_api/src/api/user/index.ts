@@ -77,18 +77,6 @@ export async function login(
       };
     }
 
-    if (auditContext) {
-      await createAuditLog(
-        auditContext,
-        "login",
-        "user",
-        admin.user_id,
-        undefined,
-        { email: body.email, role: admin.role },
-        "success",
-      );
-    }
-
     return {
       success: true,
       data: {
@@ -114,18 +102,6 @@ export async function logout(
   auditContext?: AuditContext,
 ): Promise<OkoApiResponse<AdminLogoutResponse>> {
   try {
-    if (auditContext) {
-      await createAuditLog(
-        auditContext,
-        "logout",
-        "user",
-        auditContext.adminUserId,
-        undefined,
-        { has_token: !!token },
-        "success",
-      );
-    }
-
     if (token) {
       return {
         success: true,
@@ -143,18 +119,6 @@ export async function logout(
       };
     }
   } catch (error) {
-    if (auditContext) {
-      await createAuditLog(
-        auditContext,
-        "logout",
-        "user",
-        auditContext?.adminUserId,
-        undefined,
-        undefined,
-        "failure",
-        `Failed to logout: ${error instanceof Error ? error.message : String(error)}`,
-      );
-    }
     return {
       success: false,
       code: "UNKNOWN_ERROR",

@@ -87,6 +87,8 @@ export const paths = (function() {
 
   const dockerfiles = path.join(__dirname, "../../docker");
 
+  const dockerfiles_oko = path.join(__dirname, "../../docker/oko");
+
   return {
     root,
     stdlib,
@@ -113,5 +115,6 @@ export const paths = (function() {
     admin_api,
     ct_dashboard_api,
     dockerfiles,
+    dockerfiles_oko,
   };
 })();
