@@ -159,7 +159,7 @@ WHERE 1=1
 
 export async function getAuditEventsCount(
   db: Pool,
-  filter: Omit<AuditEventFilter, "limit" | "offset">,
+  filter: AuditEventFilter,
 ): Promise<Result<number, string>> {
   let query = `
 SELECT COUNT(*)
