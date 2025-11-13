@@ -20,7 +20,7 @@ import {
 
 export const CosmosOnchainSignWidget = () => {
   const { okoCosmos } = useOko();
-  const [signType, setSignType] = useState<"animo" | "direct">("direct");
+  const [signType, setSignType] = useState<"amino" | "direct">("direct");
 
   const directSignMutation = useMutation({
     mutationFn: async () => {
@@ -49,7 +49,7 @@ export const CosmosOnchainSignWidget = () => {
 
   const aminoSignMutation = useMutation({
     mutationFn: async () => {
-      console.log("handleClickCosmosSignAnimo()");
+      console.log("handleClickCosmosSignAmino()");
 
       if (okoCosmos === null) {
         throw new Error("CosmosEWallet is not initialized");
@@ -87,8 +87,8 @@ export const CosmosOnchainSignWidget = () => {
           Direct
         </button>
         <button
-          className={signType === "animo" ? styles.active : ""}
-          onClick={() => setSignType("animo")}
+          className={signType === "amino" ? styles.active : ""}
+          onClick={() => setSignType("amino")}
         >
           Animo
         </button>
