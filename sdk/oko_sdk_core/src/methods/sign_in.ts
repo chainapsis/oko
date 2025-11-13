@@ -14,6 +14,8 @@ const FIVE_MINS_MS = 5 * 60 * 1000;
 export async function signIn(this: OkoWalletInterface, type: "google") {
   await this.waitUntilInitialized;
 
+  // TODO: hyunjae
+
   // SDK takes oauth_sign_in_result msg from the popup window
   let signInRes: OkoWalletMsgOAuthSignInUpdate;
   try {

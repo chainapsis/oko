@@ -20,7 +20,8 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
         setIsSigningIn(true);
 
         const okoWallet = okoCosmos.okoWallet;
-        // await eWallet.signIn("google");
+
+        // TODO: @hyunjae
         okoWallet.signIn("google");
       }
     } catch (error) {
@@ -103,4 +104,4 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
   );
 };
 
-export interface LoginWidgetProps {}
+export interface LoginWidgetProps { }
