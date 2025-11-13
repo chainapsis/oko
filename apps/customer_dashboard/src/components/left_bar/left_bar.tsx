@@ -40,7 +40,7 @@ export const LeftBar = () => {
             )}
           />
 
-          <ExternalLinkItem href="https://help.keplr.app">
+          <ExternalLinkItem href="https://oko-wallet.canny.io/bug-reports">
             Get Support
           </ExternalLinkItem>
         </div>
