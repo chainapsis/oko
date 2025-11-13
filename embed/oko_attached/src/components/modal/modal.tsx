@@ -26,7 +26,7 @@ export const Modal: FC = () => {
     console.log("onOpenChange(): %s", open);
 
     if (modalRequest) {
-      // TODO: hyunjae
+      // TODO: @hyunjae
       const { modal_type, modal_id } = modalRequest.msg.payload;
       const { error } = useMemoryState.getState();
 
