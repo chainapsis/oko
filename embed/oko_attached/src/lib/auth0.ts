@@ -19,3 +19,30 @@ export function getAuth0WebAuth(): auth0.WebAuth {
 }
 
 export { AUTH0_DOMAIN, AUTH0_CLIENT_ID, AUTH0_CONNECTION };
+
+export async function sendAuth0EmailCode(email: string): Promise<void> {
+  const webAuth = getAuth0WebAuth();
+
+  return new Promise((resolve, reject) => {
+    webAuth.passwordlessStart(
+      {
+        connection: AUTH0_CONNECTION,
+        send: "code",
+        email,
+      },
+      (err) => {
+        if (err) {
+          reject(
+            err.description ??
+              err.error_description ??
+              err.error ??
+              "Failed to send Auth0 email code",
+          );
+          return;
+        }
+
+        resolve();
+      },
+    );
+  });
+}

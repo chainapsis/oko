@@ -35,8 +35,7 @@
   "dependencies": {
     "@keplr-wallet/types": "^0.12.257",
     "@oko-wallet/bytes": "0.0.3-alpha.49",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.31",
-    "auth0-js": "^9.29.0"
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.31"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "*",
