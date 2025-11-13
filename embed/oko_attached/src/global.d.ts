@@ -26,6 +26,7 @@ declare global {
     VITE_KEPLR_API_ENDPOINT: string;
     VITE_TX_INTERPRETER_API_ENDPOINT: string;
     VITE_AMPLITUDE_API_KEY: string;
+    VITE_IPFS_GATEWAY_URL: string;
   }
 }
 

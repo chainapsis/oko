@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import styles from "./navigation.module.scss";
@@ -20,31 +19,8 @@ export interface NavigationProps {
 }
 
 export const Navigation: React.FC<NavigationProps> = () => {
-  const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
   const router = useRouter();
   const pathname = usePathname();
-
-  useEffect(() => {
-    const newOpenMenus: Record<string, boolean> = {};
-    navigationItems.forEach((item) => {
-      if (item.subItems) {
-        const isCurrentPath = item.subItems.some(
-          (subItem) => pathname === subItem.route,
-        );
-        if (isCurrentPath) {
-          newOpenMenus[item.route] = true;
-        }
-      }
-    });
-    setOpenMenus(newOpenMenus);
-  }, [pathname]);
-
-  const toggleMenu = (route: string) => {
-    setOpenMenus((prev) => ({
-      ...prev,
-      [route]: !prev[route],
-    }));
-  };
 
   return (
     <div className={styles.wrapper}>
@@ -53,27 +29,20 @@ export const Navigation: React.FC<NavigationProps> = () => {
           return (
             // has sub items
             <div key={item.route}>
-              <NavItem
-                kind="trigger"
-                // TODO: @elden
-                onClick={() => toggleMenu(item.route)}
-                icon={item.icon}
-              >
+              <NavItem kind="trigger" icon={item.icon}>
                 {item.label}
               </NavItem>
-              {openMenus[item.route] && (
-                <NavMenu>
-                  {item.subItems.map((subItem) => (
-                    <NavItem
-                      key={subItem.route}
-                      onClick={() => router.push(subItem.route)}
-                      active={pathname === subItem.route}
-                    >
-                      {subItem.label}
-                    </NavItem>
-                  ))}
-                </NavMenu>
-              )}
+              <NavMenu>
+                {item.subItems.map((subItem) => (
+                  <NavItem
+                    key={subItem.route}
+                    onClick={() => router.push(subItem.route)}
+                    active={pathname === subItem.route}
+                  >
+                    {subItem.label}
+                  </NavItem>
+                ))}
+              </NavMenu>
             </div>
           );
         } else {

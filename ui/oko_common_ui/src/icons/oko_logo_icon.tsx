@@ -4,8 +4,8 @@ import { s3BucketURL } from "./paths";
 import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
 
 export const OkoLogoIcon: React.FC<OkoLogoIconProps> = ({
-  width = 102,
-  height = 44,
+  width = 84,
+  height = 32,
   className,
   theme,
 }) => {

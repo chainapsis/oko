@@ -9,6 +9,7 @@ import {
   useGetENSName,
   useGetENSAvatar,
 } from "@oko-wallet-attached/web3/ethereum/queries";
+import { convertIpfsUrl } from "@oko-wallet-attached/utils/url";
 
 export interface AddressInfoProps {
   address: Address;
@@ -33,7 +34,7 @@ export const AddressInfo: React.FC<AddressInfoProps> = ({ address }) => {
     <div className={styles.addressInfo}>
       {ensName ? (
         <Avatar
-          src={ensAvatar as string | undefined}
+          src={ensAvatar ? convertIpfsUrl(ensAvatar) : undefined}
           alt={ensName ?? "unknown"}
           size="sm"
           variant="rounded"

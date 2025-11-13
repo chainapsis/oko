@@ -1,6 +1,4 @@
-export type OkoApiResponse<T> =
-  | OkoApiSuccessResponse<T>
-  | OkoApiErrorResponse;
+export type OkoApiResponse<T> = OkoApiSuccessResponse<T> | OkoApiErrorResponse;
 
 export interface OkoApiSuccessResponse<T> {
   success: true;

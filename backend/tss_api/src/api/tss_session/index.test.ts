@@ -7,10 +7,7 @@ import { createTssSession } from "@oko-wallet/oko-pg-interface/tss";
 import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
 import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
 import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
-import {
-  TssStageType,
-  TriplesStageStatus,
-} from "@oko-wallet/oko-types/tss";
+import { TssStageType, TriplesStageStatus } from "@oko-wallet/oko-types/tss";
 import {
   napiRunTriples2ClientStep1,
   napiRunTriples2ClientStep2,

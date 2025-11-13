@@ -25,6 +25,8 @@ import {
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import type { KSNodeStatus } from "@oko-wallet-types/tss";
 import { processKSNodeHealthChecks } from "@oko-wallet/ks-node-health";
+import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
+import type { AuditContext } from "@oko-wallet-admin-api/utils/audit";
 
 export async function getAllKSNodes(
   db: Pool,
@@ -49,7 +51,7 @@ export async function getAllKSNodes(
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to get ksNodes: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to get ksNodes, err: ${error}`,
     };
   }
 }
@@ -80,11 +82,11 @@ export async function getKSNodeById(
       success: true,
       data: { ksNode: getKSNodeRes.data },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to get ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to get ksNode: err: ${err}`,
     };
   }
 }
@@ -92,6 +94,7 @@ export async function getKSNodeById(
 export async function createKSNode(
   db: Pool,
   body: CreateKSNodeRequest,
+  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<CreateKSNodeResponse>> {
   try {
     const { node_name, server_url } = body;
@@ -122,11 +125,11 @@ export async function createKSNode(
       success: true,
       data: { node_id },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to create ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to create ksNode, err: ${err}`,
     };
   }
 }
@@ -134,6 +137,7 @@ export async function createKSNode(
 export async function deactivateKSNode(
   db: Pool,
   body: DeactivateKSNodeRequest,
+  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<DeactivateKSNodeResponse>> {
   try {
     const getKSNodeRes = await getKSNodeByIdFromPG(db, body.node_id);
@@ -146,6 +150,18 @@ export async function deactivateKSNode(
     }
 
     if (getKSNodeRes.data === null) {
+      if (auditContext) {
+        await createAuditLog(
+          auditContext,
+          "deactivate",
+          "ks_node",
+          body.node_id,
+          undefined,
+          undefined,
+          "failure",
+          `KSNode not found: ${body.node_id}`,
+        );
+      }
       return {
         success: false,
         code: "KS_NODE_NOT_FOUND",
@@ -154,6 +170,18 @@ export async function deactivateKSNode(
     }
 
     if (getKSNodeRes.data.status === "INACTIVE") {
+      if (auditContext) {
+        await createAuditLog(
+          auditContext,
+          "deactivate",
+          "ks_node",
+          body.node_id,
+          undefined,
+          undefined,
+          "denied",
+          `KSNode already inactive: ${body.node_id}`,
+        );
+      }
       return {
         success: false,
         code: "KS_NODE_ALREADY_INACTIVE",
@@ -174,15 +202,27 @@ export async function deactivateKSNode(
       };
     }
 
+    if (auditContext) {
+      await createAuditLog(
+        auditContext,
+        "disable",
+        "node",
+        body.node_id,
+        [{ field: "status", from: getKSNodeRes.data.status, to: "INACTIVE" }],
+        { node_id: body.node_id },
+        "success",
+      );
+    }
+
     return {
       success: true,
       data: { node_id: body.node_id },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to deactivate ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to deactivate ksNode, err: ${err}`,
     };
   }
 }
@@ -190,6 +230,7 @@ export async function deactivateKSNode(
 export async function activateKSNode(
   db: Pool,
   body: ActivateKSNodeRequest,
+  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<ActivateKSNodeResponse>> {
   try {
     const getKSNodeRes = await getKSNodeByIdFromPG(db, body.node_id);
@@ -230,15 +271,27 @@ export async function activateKSNode(
       };
     }
 
+    if (auditContext) {
+      await createAuditLog(
+        auditContext,
+        "enable",
+        "node",
+        body.node_id,
+        [{ field: "status", from: getKSNodeRes.data.status, to: "ACTIVE" }],
+        { node_id: body.node_id },
+        "success",
+      );
+    }
+
     return {
       success: true,
       data: { node_id: body.node_id },
     };
-  } catch (error) {
+  } catch (err: any) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to activate ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to activate ksNode, err: ${err}`,
     };
   }
 }
@@ -246,6 +299,7 @@ export async function activateKSNode(
 export async function updateKSNode(
   db: Pool,
   body: UpdateKSNodeRequest,
+  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<UpdateKSNodeResponse>> {
   try {
     const { node_id, server_url } = body;
@@ -258,6 +312,13 @@ export async function updateKSNode(
       };
     }
 
+    // Get current node info for audit trail
+    const getCurrentNodeRes = await getKSNodeByIdFromPG(db, node_id);
+    const oldServerUrl =
+      getCurrentNodeRes.success && getCurrentNodeRes.data
+        ? getCurrentNodeRes.data.server_url
+        : undefined;
+
     const updateKSNodeRes = await updateKSNodeInfo(db, node_id, server_url);
     if (updateKSNodeRes.success === false) {
       return {
@@ -267,15 +328,27 @@ export async function updateKSNode(
       };
     }
 
+    if (auditContext) {
+      await createAuditLog(
+        auditContext,
+        "update",
+        "node",
+        node_id,
+        [{ field: "server_url", from: oldServerUrl, to: server_url }],
+        { node_id, server_url },
+        "success",
+      );
+    }
+
     return {
       success: true,
       data: { node_id },
     };
-  } catch (error) {
+  } catch (err) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to update ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to update ksNode: ${err}`,
     };
   }
 }
@@ -283,6 +356,7 @@ export async function updateKSNode(
 export async function deleteKSNode(
   db: Pool,
   body: DeleteKSNodeRequest,
+  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<DeleteKSNodeResponse>> {
   try {
     const getKSNodeRes = await getKSNodeByIdFromPG(db, body.node_id);
@@ -311,15 +385,27 @@ export async function deleteKSNode(
       };
     }
 
+    if (auditContext) {
+      await createAuditLog(
+        auditContext,
+        "delete",
+        "node",
+        body.node_id,
+        [{ field: "deleted_at", from: null, to: new Date().toISOString() }],
+        { node_id: body.node_id },
+        "success",
+      );
+    }
+
     return {
       success: true,
       data: { node_id: body.node_id },
     };
-  } catch (error) {
+  } catch (err) {
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to delete ksNode: ${error instanceof Error ? error.message : String(error)}`,
+      msg: `Failed to delete ksNode: ${err}`,
     };
   }
 }

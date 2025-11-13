@@ -1,7 +1,7 @@
 @use "../../styles/viewport.module.scss" as *;
 
 .wrapper {
-  height: 64px;
+  height: 54px;
   display: flex;
   flex-shrink: 0;
   flex-grow: 0;
@@ -30,10 +30,10 @@
 }
 
 .logoResponsive {
-  width: 74px;
-  height: 32px;
+  width: auto;
+  height: 22px;
   flex-shrink: 0;
-  aspect-ratio: 37/16;
+  // aspect-ratio: 37/16;
 
   // TODO: new logo responsive size is required
   // @media (min-width: $desktop_min_width) {

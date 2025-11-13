@@ -25,7 +25,7 @@ export const metadata: Metadata = {
   title: "Oko Demo",
   description: "Oko Demo",
   icons: {
-    icon: "/favicon.png",
+    icon: "/oko_favicon.png",
   },
   openGraph: {
     type: "website",

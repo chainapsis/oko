@@ -3,8 +3,6 @@ import type { MakeEIP712SigData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
@@ -12,6 +10,7 @@ import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/
 import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
 import { useEIP712SigModal } from "./hooks/use_eip712_sig_modal";
 import { EthereumEip712SignatureContent } from "./ethereum_eip712_signature_content";
+import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
 export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
   getIsAborted,
@@ -64,12 +63,7 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
         </div>
         <Spacing height={12} />
 
-        <div className={styles.signWithKeplrBox}>
-          <Typography size="xs" color="quaternary" weight="medium">
-            Sign with
-          </Typography>
-          <OkoProductLogoIcon width={43} height={20} theme={theme} />
-        </div>
+        <SignWithOkoBox theme={theme} />
       </CommonModal>
 
       {isDemo && <DemoView />}

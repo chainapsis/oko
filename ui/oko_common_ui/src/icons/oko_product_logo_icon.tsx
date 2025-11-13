@@ -3,6 +3,9 @@ import React from "react";
 import { s3BucketURL } from "./paths";
 import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
 
+/**
+ * @deprecated Use OkoLogoIcon instead
+ */
 export const OkoProductLogoIcon: React.FC<OkoProductLogoIconProps> = ({
   width = 323.702,
   height = 128,

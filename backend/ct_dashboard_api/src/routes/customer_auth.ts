@@ -98,10 +98,7 @@ export function setCustomerAuthRoutes(router: Router) {
   });
   router.post(
     "/customer/auth/send-code",
-    async (
-      req,
-      res: Response<OkoApiResponse<SendVerificationResponse>>,
-    ) => {
+    async (req, res: Response<OkoApiResponse<SendVerificationResponse>>) => {
       try {
         const state = req.app.locals;
         const request: SendVerificationRequest = {

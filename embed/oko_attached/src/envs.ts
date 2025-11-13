@@ -10,5 +10,6 @@ export const envSchema = z.object({
   VITE_DEMO_WEB_ORIGIN: z.string(),
   VITE_KEPLR_API_ENDPOINT: z.string(),
   VITE_TX_INTERPRETER_API_ENDPOINT: z.string(),
-  VITE_AMPLITUDE_API_KEY: z.string(),
+  VITE_AMPLITUDE_API_KEY: z.string().optional().default(""),
+  VITE_IPFS_GATEWAY_URL: z.string().optional().default(""),
 });

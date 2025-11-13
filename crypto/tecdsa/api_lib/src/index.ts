@@ -499,13 +499,12 @@ export async function reqAbortTssSession(
   payload: AbortTssSessionBody,
   authToken: string,
 ) {
-  const resp: OkoApiResponse<AbortTssSessionResponse> =
-    await makePostRequest(
-      endpoint,
-      "session/abort",
-      payload,
-      undefined,
-      authToken,
-    );
+  const resp: OkoApiResponse<AbortTssSessionResponse> = await makePostRequest(
+    endpoint,
+    "session/abort",
+    payload,
+    undefined,
+    authToken,
+  );
   return resp;
 }

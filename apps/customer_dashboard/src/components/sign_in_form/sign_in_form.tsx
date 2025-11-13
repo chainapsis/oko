@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";

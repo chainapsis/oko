@@ -6,10 +6,7 @@ import {
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptData } from "@oko-wallet/crypto-js";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
-import {
-  type WalletStatus,
-  type Wallet,
-} from "@oko-wallet/oko-types/wallets";
+import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
 import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";

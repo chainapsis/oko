@@ -8,8 +8,9 @@ export default function Page() {
       <DashboardHeader />
 
       <div className={styles.body}>
-        <div className={styles.rectangleSection}></div>
-        <SignInForm />
+        <div className={styles.formFrame}>
+          <SignInForm />
+        </div>
       </div>
     </div>
   );
