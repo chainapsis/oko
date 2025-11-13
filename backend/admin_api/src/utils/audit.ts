@@ -9,6 +9,14 @@ export interface AuditContext {
   requestId?: string;
 }
 
+export function resolveAuditActorId(context: AuditContext): string {
+  if (context.adminUserId) {
+    return `admin:${context.adminUserId}`;
+  } else {
+    return "system";
+  }
+}
+
 export async function createAuditLog(
   context: AuditContext,
   action: string,
@@ -21,7 +29,7 @@ export async function createAuditLog(
 ) {
   const auditData: CreateAuditEventRequest = {
     request_id: context.requestId || uuidv4(),
-    actor: context.adminUserId ? `admin:${context.adminUserId}` : "system",
+    actor: resolveAuditActorId(context),
     actor_ip: context.request?.ip || undefined,
     user_agent: context.request?.get?.("User-Agent") || undefined,
     source: context.request ? "admin_ui" : "job",
