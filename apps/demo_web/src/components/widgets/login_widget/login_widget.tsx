@@ -18,12 +18,20 @@ export interface LoginWidgetProps {
   ) => void;
   emailLoginState: EmailLoginState;
   onEmailChange: (email: string) => void;
+  onVerifyEmailCode: (code: string) => void;
+  emailStatusMessage?: string | null;
+  emailErrorMessage?: string | null;
+  isEmailVerificationInProgress?: boolean;
 }
 
 export const LoginWidget: React.FC<LoginWidgetProps> = ({
   onSignIn,
   emailLoginState,
   onEmailChange,
+  onVerifyEmailCode,
+  emailStatusMessage,
+  emailErrorMessage,
+  isEmailVerificationInProgress,
 }) => {
   const [showSocials, setShowSocials] = useState(false);
 
@@ -36,6 +44,10 @@ export const LoginWidget: React.FC<LoginWidgetProps> = ({
             emailLoginState={emailLoginState}
             onEmailChange={onEmailChange}
             onShowSocials={() => setShowSocials(true)}
+            onVerifyEmailCode={onVerifyEmailCode}
+            statusMessage={emailStatusMessage}
+            errorMessage={emailErrorMessage}
+            isVerifyingCode={isEmailVerificationInProgress}
           />
         ) : (
           <LoginSocialsView

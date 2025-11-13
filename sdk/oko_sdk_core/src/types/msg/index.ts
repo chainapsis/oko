@@ -60,6 +60,21 @@ export type OkoWalletMsgAuth0EmailSendCodeAck = {
   payload: Result<null, string>;
 };
 
+export type OkoWalletMsgAuth0EmailVerify = {
+  target: "oko_attached";
+  msg_type: "auth0_email_verify";
+  payload: {
+    email: string;
+    code: string;
+  };
+};
+
+export type OkoWalletMsgAuth0EmailVerifyAck = {
+  target: "oko_sdk";
+  msg_type: "auth0_email_verify_ack";
+  payload: Result<null, string>;
+};
+
 export type OkoWalletMsgOAuthInfoPass = {
   target: "oko_attached";
   msg_type: "oauth_info_pass";
@@ -183,6 +198,8 @@ export type OkoWalletMsg =
   | OkoWalletMsgOAuthSignInUpdateAck
   | OkoWalletMsgAuth0EmailSendCode
   | OkoWalletMsgAuth0EmailSendCodeAck
+  | OkoWalletMsgAuth0EmailVerify
+  | OkoWalletMsgAuth0EmailVerifyAck
   | OkoWalletMsgOAuthInfoPass
   | OkoWalletMsgOAuthInfoPassAck
   | OkoWalletMsgSignOut

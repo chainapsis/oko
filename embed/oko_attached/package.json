@@ -47,7 +47,7 @@
     "@tanstack/react-router": "^1.131.49",
     "@tanstack/react-router-devtools": "^1.131.49",
     "@tanstack/router-plugin": "^1.131.49",
-    "auth0-js": "^9.28.1",
+    "auth0-js": "^9.29.0",
     "bitcoinjs-lib": "^6.1.7",
     "chalk": "*",
     "cosmjs-types": "^0.9.0",

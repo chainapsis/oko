@@ -27,6 +27,13 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   const [emailLoginState, setEmailLoginState] = useState<EmailLoginState>(
     initialEmailLoginState,
   );
+  const [emailStatusMessage, setEmailStatusMessage] = useState<string | null>(
+    null,
+  );
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string | null>(
+    null,
+  );
+  const [isVerifyingCode, setIsVerifyingCode] = useState(false);
 
   const { email, publicKey, isSignedIn } = useUserInfoState();
 
@@ -48,9 +55,12 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       const targetEmail = email?.trim() ?? "";
 
       if (!targetEmail) {
+        setEmailErrorMessage("email is required");
         return;
       }
 
+      setEmailErrorMessage(null);
+      setEmailStatusMessage("Sending authentication code...");
       setEmailLoginState({
         stage: "sending-code",
         email: targetEmail,
@@ -63,6 +73,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
           stage: "receive-code",
           email: targetEmail,
         });
+        setEmailStatusMessage("Authentication code sent to your email.");
       } catch (error: any) {
         console.error("Failed to send Auth0 email code", error);
 
@@ -70,6 +81,12 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
           stage: "enter-email",
           email: targetEmail,
         });
+        const message =
+          error instanceof Error
+            ? error.message
+            : "Failed to send authentication code";
+        setEmailErrorMessage(message);
+        setEmailStatusMessage(null);
       }
 
       return;
@@ -141,6 +158,48 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       stage: "enter-email",
       email: inputEmail,
     });
+    setEmailStatusMessage(null);
+    setEmailErrorMessage(null);
+    setIsVerifyingCode(false);
+  }
+
+  async function handleVerifyEmailCode(code: string) {
+    if (!okoWallet) {
+      console.error("eWallet is not initialized");
+      return;
+    }
+
+    const targetEmail = emailLoginState.email.trim();
+    if (!targetEmail) {
+      setEmailErrorMessage("email is required");
+      return;
+    }
+
+    if (!code.trim()) {
+      setEmailErrorMessage("authentication code is required");
+      return;
+    }
+
+    try {
+      setEmailErrorMessage(null);
+      setEmailStatusMessage("Verifying authentication code...");
+      setIsVerifyingCode(true);
+
+      await okoWallet.completeEmailSignIn(targetEmail, code.trim());
+
+      setEmailStatusMessage("Authentication code verified");
+      setEmailErrorMessage(null);
+    } catch (error: any) {
+      console.error("Failed to verify Auth0 email code", error);
+      const message =
+        error instanceof Error
+          ? error.message
+          : "Failed to verify authentication code";
+      setEmailErrorMessage(message);
+      setEmailStatusMessage(null);
+    } finally {
+      setIsVerifyingCode(false);
+    }
   }
 
   return (
@@ -148,6 +207,10 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       onSignIn={handleSignIn}
       emailLoginState={emailLoginState}
       onEmailChange={handleEmailChange}
+      onVerifyEmailCode={handleVerifyEmailCode}
+      emailStatusMessage={emailStatusMessage}
+      emailErrorMessage={emailErrorMessage}
+      isEmailVerificationInProgress={isVerifyingCode}
     />
   );
 };

@@ -1,5 +1,5 @@
 import type { OkoWalletInterface } from "@oko-wallet-sdk-core/types";
-import { OKO_ATTACHED_TARGET } from "@oko-wallet-sdk-core/window_msg/target";
+import { sendAuth0EmailCode } from "@oko-wallet-sdk-core/auth/auth0";
 
 export async function startEmailSignIn(
   this: OkoWalletInterface,
@@ -7,19 +7,14 @@ export async function startEmailSignIn(
 ): Promise<void> {
   await this.waitUntilInitialized;
 
-  const res = await this.sendMsgToIframe({
-    target: OKO_ATTACHED_TARGET,
-    msg_type: "auth0_email_send_code",
-    payload: { email },
-  });
-
-  if (res.msg_type !== "auth0_email_send_code_ack") {
-    throw new Error(
-      `unexpected message type: ${res.msg_type} (expected auth0_email_send_code_ack)`,
-    );
-  }
-
-  if (!res.payload.success) {
-    throw new Error(res.payload.err ?? "failed to send auth0 email code");
+  try {
+    await sendAuth0EmailCode(email);
+  } catch (error: any) {
+    const errorMessage =
+      error?.description ??
+      error?.error_description ??
+      error?.message ??
+      "Failed to send Auth0 email code";
+    throw new Error(errorMessage);
   }
 }
