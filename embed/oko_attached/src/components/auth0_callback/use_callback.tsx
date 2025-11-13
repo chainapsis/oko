@@ -1,25 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { getAuth0WebAuth } from "@oko-wallet-attached/config/auth0";
 
 interface TokensState {
   idToken: string | null;
   accessToken: string | null;
   state: string | null;
-}
-
-function parseHashParams(hash: string): Record<string, string> {
-  const params: Record<string, string> = {};
-  const hashString = hash.startsWith("#") ? hash.substring(1) : hash;
-
-  hashString.split("&").forEach((part) => {
-    const [key, value] = part.split("=");
-    if (key && value) {
-      params[key] = decodeURIComponent(value);
-    }
-  });
-
-  return params;
 }
 
 export function useAuth0Callback(): {
@@ -36,30 +23,33 @@ export function useAuth0Callback(): {
       return;
     }
 
-    try {
-      const params = parseHashParams(hash);
+    const webAuth = getAuth0WebAuth();
 
+    webAuth.parseHash({ hash }, (err, result) => {
       window.history.replaceState(
         {},
         document.title,
         window.location.pathname + window.location.search,
       );
 
-      if (params.error) {
+      if (err) {
         setError(
-          params.error_description || params.error || "Auth0 callback error",
+          err.error_description ??
+            err.description ??
+            err.error ??
+            "Auth0 callback error",
         );
         return;
       }
 
-      const idToken = params.id_token || null;
-      const accessToken = params.access_token || null;
-      const state = params.state || null;
-
-      if (!idToken) {
+      if (!result || !result.idToken) {
         setError("Missing id_token in callback");
         return;
       }
+
+      const idToken = result.idToken || null;
+      const accessToken = result.accessToken || null;
+      const state = result.state || null;
 
       setTokens({
         idToken,
@@ -73,9 +63,7 @@ export function useAuth0Callback(): {
         accessToken,
         state,
       });
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to parse callback");
-    }
+    });
   }, []);
 
   return { error, tokens };

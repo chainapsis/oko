@@ -5,7 +5,7 @@ import type {
 
 import { OKO_SDK_TARGET } from "./target";
 import type { MsgEventContext } from "./types";
-import { sendAuth0EmailCode } from "@oko-wallet-attached/lib/auth0";
+import { getAuth0WebAuth, AUTH0_CONNECTION } from "@oko-wallet-attached/config/auth0";
 
 export async function handleAuth0EmailSendCode(
   ctx: MsgEventContext,
@@ -22,7 +22,30 @@ export async function handleAuth0EmailSendCode(
       throw new Error("Email is required for Auth0 email sign in");
     }
 
-    await sendAuth0EmailCode(email);
+    const webAuth = getAuth0WebAuth();
+
+    await new Promise<void>((resolve, reject) => {
+      webAuth.passwordlessStart(
+        {
+          connection: AUTH0_CONNECTION,
+          send: "code",
+          email,
+        },
+        (err) => {
+          if (err) {
+            reject(
+              err.description ??
+                err.error_description ??
+                err.error ??
+                "Failed to send Auth0 email code",
+            );
+            return;
+          }
+
+          resolve();
+        },
+      );
+    });
 
     payload = {
       success: true,

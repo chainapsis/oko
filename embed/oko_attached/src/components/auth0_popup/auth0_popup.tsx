@@ -14,7 +14,7 @@ import { setColorScheme } from "@oko-wallet-attached/components/attached_initial
 import {
   getAuth0WebAuth,
   AUTH0_CONNECTION,
-} from "@oko-wallet-attached/lib/auth0";
+} from "@oko-wallet-attached/config/auth0";
 
 export const Auth0Popup: React.FC = () => {
   const [theme, setTheme] = useState<Theme>("light");
