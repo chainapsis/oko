@@ -28,18 +28,9 @@ export const LeftBar = () => {
         <AccountInfoWithSubMenu />
 
         <div>
-          <InfoModal
-            title="Feature Request"
-            content="Please reach out to our parternship channel."
-            renderTrigger={({ onOpen }) => (
-              <button className={styles.featureRequestButton} onClick={onOpen}>
-                <Typography size="sm" weight="semibold" color="secondary">
-                  Feature Request
-                </Typography>
-              </button>
-            )}
-          />
-
+          <ExternalLinkItem href="https://oko-wallet.canny.io/feature-requests">
+            Feature Request
+          </ExternalLinkItem>
           <ExternalLinkItem href="https://oko-wallet.canny.io/bug-reports">
             Get Support
           </ExternalLinkItem>
