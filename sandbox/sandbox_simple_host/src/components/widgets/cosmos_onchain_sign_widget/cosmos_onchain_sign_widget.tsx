@@ -90,7 +90,7 @@ export const CosmosOnchainSignWidget = () => {
           className={signType === "amino" ? styles.active : ""}
           onClick={() => setSignType("amino")}
         >
-          Animo
+          Amino
         </button>
       </div>
       <SignWidget
