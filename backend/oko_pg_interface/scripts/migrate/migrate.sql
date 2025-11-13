@@ -293,15 +293,3 @@ CREATE INDEX ON audit_event (occurred_at DESC);
 CREATE INDEX ON audit_event (target_type, target_id, occurred_at DESC);
 CREATE INDEX ON audit_event (action, occurred_at DESC);
 CREATE UNIQUE INDEX audit_event_unique_req ON audit_event (request_id, action, target_type, target_id);
-
--- append-only (block UPDATE/DELETE)
-CREATE OR REPLACE FUNCTION audit_event_block_mod() RETURNS trigger AS $$
-BEGIN
-  RAISE EXCEPTION 'audit_event is append-only';
-END; $$ LANGUAGE plpgsql;
-
-CREATE TRIGGER audit_event_block_u BEFORE UPDATE ON audit_event
-FOR EACH STATEMENT EXECUTE FUNCTION audit_event_block_mod();
-
-CREATE TRIGGER audit_event_block_d BEFORE DELETE ON audit_event
-FOR EACH STATEMENT EXECUTE FUNCTION audit_event_block_mod();
