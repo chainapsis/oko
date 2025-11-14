@@ -3,8 +3,7 @@ import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
 
 import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
-
-const COSMOS_CHAIN_ID = "cosmoshub-4";
+import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants";
 
 export const CosmosOffChainSignWidget = () => {
   const okoCosmos = useSDKState((state) => state.oko_cosmos);
