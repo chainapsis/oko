@@ -14,6 +14,7 @@ import {
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
 import type { ReshareRequestBody } from "@oko-wallet/oko-types/user";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 
 import { hashKeyshareNodeNames } from "./hash";
 import { makeAuthorizedOkoApiRequest } from "@oko-wallet-attached/requests/oko_api";
@@ -22,6 +23,7 @@ export async function reshareUserKeyShares(
   publicKey: Bytes33,
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: OAuthProvider,
 ): Promise<Result<string, string>> {
   const splitKSNodes = keyshareNodeMeta.nodes.filter(
     (n) => n.wallet_status === "ACTIVE",
@@ -45,7 +47,7 @@ export async function reshareUserKeyShares(
     idToken,
     splitKSNodes,
     keyshareNodeMeta.threshold,
-    "google",
+    authType,
   );
   if (!splitKeySharesRes.success) {
     const error = splitKeySharesRes.err;
@@ -96,7 +98,7 @@ export async function reshareUserKeyShares(
           idToken,
           publicKey,
           keyShareByNode.share,
-          "google",
+          authType,
         );
       } else {
         return doSendResharedUserKeyShares(
@@ -104,7 +106,7 @@ export async function reshareUserKeyShares(
           idToken,
           publicKey,
           keyShareByNode.share,
-          "google",
+          authType,
         );
       }
     }),
@@ -125,7 +127,7 @@ export async function reshareUserKeyShares(
     ReshareRequestBody,
     void
   >("user/reshare", idToken, {
-    auth_type: "google",
+    auth_type: authType,
     public_key: publicKey.toHex(),
     reshared_key_shares: resharedKeyShares.map((keyShare) => keyShare.node),
   });

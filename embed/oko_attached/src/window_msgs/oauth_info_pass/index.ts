@@ -4,6 +4,7 @@ import type {
   OkoWalletMsgOAuthSignInUpdate,
   OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 
 import {
   OKO_ATTACHED_POPUP,
@@ -26,6 +27,10 @@ import {
   setUserId,
   setUserProperties,
 } from "@oko-wallet-attached/analytics/amplitude";
+import {
+  AUTH0_CLIENT_ID,
+  AUTH0_DOMAIN,
+} from "@oko-wallet-attached/config/auth0";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
@@ -34,6 +39,7 @@ export async function handleOAuthInfoPass(
   const { port } = ctx;
   const appState = useAppState.getState();
   const hostOrigin = message.payload.target_origin;
+  const authType: OAuthProvider = message.payload.auth_type ?? "google";
 
   let hasSignedIn = false;
   let isNewUser = false;
@@ -59,7 +65,7 @@ export async function handleOAuthInfoPass(
     }
 
     const idToken = message.payload.id_token;
-    const tokenInfo = await verifyGoogleIdToken(idToken);
+    const tokenInfo = await getTokenInfo(authType, idToken);
     if (tokenInfo.nonce !== nonceRegistered) {
       await bail(message, { type: "vendor_token_verification_failed" });
       return;
@@ -108,6 +114,7 @@ export async function handleOAuthInfoPass(
       const signInRes = await handleNewUser(
         idToken,
         userExists.keyshare_node_meta,
+        authType,
       );
       if (!signInRes.success) {
         await bail(message, signInRes.err);
@@ -132,6 +139,7 @@ export async function handleOAuthInfoPass(
         const signInRes = await handleReshare(
           idToken,
           userExists.keyshare_node_meta,
+          authType,
         );
         console.log(
           "[attached] handleReshare result: %s",
@@ -153,6 +161,7 @@ export async function handleOAuthInfoPass(
         const signInRes = await handleExistingUser(
           idToken,
           userExists.keyshare_node_meta,
+          authType,
         );
         if (!signInRes.success) {
           await bail(message, signInRes.err);
@@ -186,7 +195,7 @@ export async function handleOAuthInfoPass(
         setUserId(wallet.walletId);
         if (isNewUser) {
           setUserProperties({
-            authType: "google",
+            authType,
             createdOrigin: hostOrigin,
           });
         }
@@ -214,6 +223,110 @@ async function verifyGoogleIdToken(idToken: string): Promise<GoogleTokenInfo> {
   }
 
   return await response.json();
+}
+
+type NormalizedTokenInfo = {
+  provider: OAuthProvider;
+  email: string;
+  email_verified: boolean;
+  nonce?: string;
+  name?: string;
+  sub?: string;
+};
+
+async function getTokenInfo(
+  authType: OAuthProvider,
+  idToken: string,
+): Promise<NormalizedTokenInfo> {
+  if (authType === "auth0") {
+    const payload = decodeAuth0IdToken(idToken);
+
+    if (payload.iss !== `https://${AUTH0_DOMAIN}/`) {
+      throw new Error("Invalid Auth0 token issuer");
+    }
+
+    const audiences = Array.isArray(payload.aud)
+      ? payload.aud
+      : [payload.aud];
+    if (!audiences.filter(Boolean).includes(AUTH0_CLIENT_ID)) {
+      throw new Error("Invalid Auth0 token audience");
+    }
+
+    const exp =
+      typeof payload.exp === "string"
+        ? Number(payload.exp)
+        : payload.exp ?? null;
+    if (exp && Math.floor(Date.now() / 1000) >= exp) {
+      throw new Error("Auth0 token has expired");
+    }
+
+    if (!payload.email) {
+      throw new Error("Auth0 token missing email claim");
+    }
+
+    const emailVerified =
+      payload.email_verified === true || payload.email_verified === "true";
+
+    return {
+      provider: "auth0",
+      email: payload.email,
+      email_verified: emailVerified,
+      nonce: payload.nonce,
+      name: typeof payload.name === "string" ? payload.name : undefined,
+      sub: payload.sub,
+    };
+  }
+
+  const tokenInfo = await verifyGoogleIdToken(idToken);
+  const emailVerified = tokenInfo.email_verified === "true";
+
+  return {
+    provider: "google",
+    email: tokenInfo.email,
+    email_verified: emailVerified,
+    nonce: tokenInfo.nonce,
+    name: tokenInfo.name,
+    sub: tokenInfo.sub,
+  };
+}
+
+const textDecoder = new TextDecoder();
+
+interface Auth0IdTokenPayload {
+  email?: string;
+  email_verified?: string | boolean;
+  nonce?: string;
+  name?: string;
+  sub?: string;
+  iss?: string;
+  aud?: string | string[];
+  exp?: number | string;
+}
+
+function decodeAuth0IdToken(idToken: string): Auth0IdTokenPayload {
+  const segments = idToken.split(".");
+  if (segments.length < 2) {
+    throw new Error("Invalid Auth0 id_token");
+  }
+
+  const payloadJson = base64UrlDecode(segments[1]);
+  return JSON.parse(payloadJson) as Auth0IdTokenPayload;
+}
+
+function base64UrlDecode(input: string): string {
+  let base64 = input.replace(/-/g, "+").replace(/_/g, "/");
+  const pad = base64.length % 4;
+  if (pad) {
+    base64 += "=".repeat(4 - pad);
+  }
+
+  const binary = atob(base64);
+  const bytes = new Uint8Array(binary.length);
+  for (let i = 0; i < binary.length; i += 1) {
+    bytes[i] = binary.charCodeAt(i);
+  }
+
+  return textDecoder.decode(bytes);
 }
 
 async function bail(message: OkoWalletMsgOAuthInfoPass, err: OAuthSignInError) {

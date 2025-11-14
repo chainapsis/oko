@@ -50,11 +50,11 @@ async function tryAuth0EmailSignIn(
     payload: nonce,
   });
 
-  const oauthState: OAuthState & { email: string; provider: string } = {
+  const oauthState: OAuthState & { email: string } = {
     apiKey,
     targetOrigin: window.location.origin,
     email,
-    provider: "auth0_email",
+    provider: "auth0",
   };
   const oauthStateString = JSON.stringify(oauthState);
 

@@ -90,6 +90,7 @@ async function tryGoogleSignIn(
   const oauthState: OAuthState = {
     apiKey,
     targetOrigin: window.location.origin,
+    provider: "google",
   };
   const oauthStateString = JSON.stringify(oauthState);
 

@@ -23,25 +23,19 @@ export const Auth0Callback: React.FC = () => {
     setTheme(theme);
   }, []);
 
-  const { error, tokens } = useAuth0Callback();
+  const { error } = useAuth0Callback();
 
   return (
     <div className={`${styles.wrapper} ${styles.wrapperForSystemTheme}`}>
       <OkoLogoIcon width={115} height={44} theme={theme} />
       <Spacing height={56} />
-      {error ? (
-        <ErrorMessage error={error} />
-      ) : (
-        <SuccessMessage tokens={tokens} />
-      )}
+      {error ? <ErrorMessage error={error} /> : <SuccessMessage />}
       <Spacing height={60} />
     </div>
   );
 };
 
-const SuccessMessage: React.FC<{
-  tokens: { idToken: string | null; accessToken: string | null } | null;
-}> = ({ tokens }) => {
+const SuccessMessage: React.FC = () => {
   return (
     <>
       <LoadingIcon
@@ -54,14 +48,10 @@ const SuccessMessage: React.FC<{
       <Typography size="lg" weight="medium" color="secondary">
         Redirecting...
       </Typography>
-      {tokens ? (
-        <>
-          <Spacing height={16} />
-          <Typography size="xs" weight="medium" color="secondary">
-            Received Auth0 tokens. Completing sign-in...
-          </Typography>
-        </>
-      ) : null}
+      <Spacing height={16} />
+      <Typography size="xs" weight="medium" color="secondary">
+        Received Auth0 tokens. Completing sign-in...
+      </Typography>
     </>
   );
 };
