@@ -10243,6 +10243,7 @@ __metadata:
     "@types/express": "npm:^4.17.20"
     "@types/express-rate-limit": "npm:^6.0.2"
     "@types/jest": "npm:^29.5.13"
+    "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/pg": "npm:^8"
@@ -10260,6 +10261,7 @@ __metadata:
     express-rate-limit: "npm:^8.0.1"
     helmet: "npm:^8.0.0"
     jest: "npm:*"
+    jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
     supertest: "npm:*"
@@ -15104,7 +15106,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:*":
+"@types/jsonwebtoken@npm:*, @types/jsonwebtoken@npm:^9.0.7":
   version: 9.0.10
   resolution: "@types/jsonwebtoken@npm:9.0.10"
   dependencies:
@@ -28373,7 +28375,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:*":
+"jsonwebtoken@npm:*, jsonwebtoken@npm:^9.0.2":
   version: 9.0.2
   resolution: "jsonwebtoken@npm:9.0.2"
   dependencies:

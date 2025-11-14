@@ -86,6 +86,7 @@ export async function handleExistingUser(
     idToken,
     keyshareNodeMeta.nodes,
     keyshareNodeMeta.threshold,
+    "google",
   );
   if (!requestSharesRes.success) {
     const error = requestSharesRes.err;
@@ -214,6 +215,7 @@ export async function handleNewUser(
         idToken,
         publicKey,
         keyShareByNode.share,
+        "google",
       ),
     ),
   );

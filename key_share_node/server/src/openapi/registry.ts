@@ -9,11 +9,11 @@ extendZodWithOpenApi(z);
 
 export const registry = new OpenAPIRegistry();
 
-registry.registerComponent("securitySchemes", "googleAuth", {
+registry.registerComponent("securitySchemes", "oauthAuth", {
   type: "http",
   scheme: "bearer",
   bearerFormat: "JWT",
-  description: "Google OAuth bearer token",
+  description: "OAuth bearer token (Google or Auth0)",
 });
 
 export function getOpenApiDocument() {

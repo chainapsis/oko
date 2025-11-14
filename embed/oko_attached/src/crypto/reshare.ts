@@ -45,6 +45,7 @@ export async function reshareUserKeyShares(
     idToken,
     splitKSNodes,
     keyshareNodeMeta.threshold,
+    "google",
   );
   if (!splitKeySharesRes.success) {
     const error = splitKeySharesRes.err;
@@ -95,6 +96,7 @@ export async function reshareUserKeyShares(
           idToken,
           publicKey,
           keyShareByNode.share,
+          "google",
         );
       } else {
         return doSendResharedUserKeyShares(
@@ -102,6 +104,7 @@ export async function reshareUserKeyShares(
           idToken,
           publicKey,
           keyShareByNode.share,
+          "google",
         );
       }
     }),
