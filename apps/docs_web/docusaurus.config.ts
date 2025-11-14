@@ -91,8 +91,8 @@ const config: Config = {
           title: "Need Help?",
           items: [
             {
-              label: "Keplr Helpdesk",
-              href: "https://help.keplr.app/",
+              label: "Oko integration support",
+              href: "https://oko-wallet.canny.io/integration-support-inquiries",
             },
           ],
         },
