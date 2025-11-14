@@ -50,7 +50,8 @@ provided.
 
 ## Security
 
-TBD
+Please see [security.md](security.md) for our security policy and how to
+report vulnerabilities.
 
 ## License
 
