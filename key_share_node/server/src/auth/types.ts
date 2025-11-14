@@ -1,3 +1,12 @@
+export type OAuthProvider = "google" | "auth0";
+
+export interface OAuthUser {
+  type: OAuthProvider;
+  email: string;
+  name?: string;
+  sub: string;
+}
+
 export type OAuthValidationFail =
   | {
       type: "client_id_not_same";

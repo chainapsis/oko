@@ -1,6 +1,11 @@
 import { registry } from "../registry";
 import { z } from "zod";
 
+const oauthProviderSchema = z
+  .enum(["google", "auth0"])
+  .describe("OAuth provider type")
+  .openapi({ example: "google" });
+
 const curveTypeSchema = z
   .enum(["secp256k1"])
   .describe("The curve type for the key share");
@@ -19,6 +24,7 @@ export const RegisterKeyShareBodySchema = registry.register(
   "RegisterKeyShareBody",
   z
     .object({
+      auth_type: oauthProviderSchema,
       curve_type: curveTypeSchema,
       public_key: publicKeySchema,
       share: shareSchema,
@@ -32,6 +38,7 @@ export const GetKeyShareRequestBodySchema = registry.register(
   "GetKeyShareRequestBody",
   z
     .object({
+      auth_type: oauthProviderSchema,
       public_key: publicKeySchema,
     })
     .openapi("GetKeyShareRequestBody", {
@@ -87,6 +94,7 @@ export const ReshareKeyShareBodySchema = registry.register(
   "ReshareKeyShareBody",
   z
     .object({
+      auth_type: oauthProviderSchema,
       curve_type: curveTypeSchema,
       public_key: publicKeySchema,
       share: shareSchema.describe(

@@ -11,7 +11,7 @@ import type {
   KeygenStep5V2Request,
 } from "@oko-wallet/tecdsa-interface";
 import type {
-  KeygenBody,
+  KeygenRequestBody,
   PresignStep1Response,
   PresignStep2Response,
   PresignStep3Response,
@@ -179,7 +179,7 @@ async function makePostRequest<T, R>(
 
 export async function reqKeygen(
   endpoint: string,
-  payload: KeygenBody,
+  payload: KeygenRequestBody,
   authToken: string,
 ) {
   const resp: OkoApiResponse<SignInResponse> = await makePostRequest(

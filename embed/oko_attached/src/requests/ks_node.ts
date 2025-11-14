@@ -1,5 +1,6 @@
 import { type GetKeyShareResponse } from "@oko-wallet/ksn-interface/key_share";
 import type { NodeStatusInfo } from "@oko-wallet/oko-types/tss";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 import type {
   Point256,
   UserKeySharePointByNode,
@@ -19,6 +20,7 @@ export async function requestSplitShares(
   idToken: string,
   allNodes: NodeStatusInfo[],
   threshold: number,
+  authType: OAuthProvider = "google",
 ): Promise<Result<UserKeySharePointByNode[], RequestSplitSharesError>> {
   const shuffledNodes = [...allNodes];
   for (let i = shuffledNodes.length - 1; i > 0; i -= 1) {
@@ -32,7 +34,9 @@ export async function requestSplitShares(
 
   while (succeeded.length < threshold && nodesToTry.length > 0) {
     const results = await Promise.allSettled(
-      nodesToTry.map((node) => requestSplitShare(publicKey, idToken, node)),
+      nodesToTry.map((node) =>
+        requestSplitShare(publicKey, idToken, node, authType),
+      ),
     );
 
     const failedNodes: NodeStatusInfo[] = [];
@@ -90,6 +94,7 @@ export async function requestSplitShare(
   publicKey: Bytes33,
   idToken: string,
   node: NodeStatusInfo,
+  authType: OAuthProvider,
   maxRetries: number = 2,
 ): Promise<Result<UserKeySharePointByNode, string>> {
   let attempt = 0;
@@ -102,6 +107,7 @@ export async function requestSplitShare(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          auth_type: authType,
           public_key: publicKey.toHex(),
         }),
       });
@@ -174,6 +180,7 @@ export async function doSendUserKeyShares(
   idToken: string,
   publicKey: Bytes33,
   serverShare: Point256,
+  authType: OAuthProvider,
 ): Promise<Result<void, string>> {
   try {
     const serverShareString = encodePoint256ToKeyShareString(serverShare);
@@ -184,6 +191,7 @@ export async function doSendUserKeyShares(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        auth_type: authType,
         curve_type: "secp256k1",
         public_key: publicKey.toHex(),
         share: serverShareString,
@@ -229,6 +237,7 @@ export async function doSendResharedUserKeyShares(
   idToken: string,
   publicKey: Bytes33,
   resharedKeyShare: Point256,
+  authType: OAuthProvider,
 ): Promise<Result<void, string>> {
   try {
     const response = await fetch(`${ksNodeEndpoint}/keyshare/v1/reshare`, {
@@ -238,6 +247,7 @@ export async function doSendResharedUserKeyShares(
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
+        auth_type: authType,
         curve_type: "secp256k1",
         public_key: publicKey.toHex(),
         share: encodePoint256ToKeyShareString(resharedKeyShare),

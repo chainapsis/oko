@@ -1,6 +1,9 @@
+export type OAuthProvider = "google" | "auth0";
+
 export type OAuthState = {
   apiKey: string;
   targetOrigin: string;
+  provider?: OAuthProvider;
 };
 
 export enum RedirectUriSearchParamsKey {
@@ -12,4 +15,5 @@ export interface OAuthPayload {
   id_token: string;
   api_key: string;
   target_origin: string;
+  auth_type: OAuthProvider;
 }

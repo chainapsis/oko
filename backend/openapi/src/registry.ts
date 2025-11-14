@@ -31,11 +31,12 @@ registry.registerComponent("securitySchemes", "userAuth", {
   description: "End-user bearer token. Use: 'Authorization: Bearer <JWT>'",
 });
 
-registry.registerComponent("securitySchemes", "googleAuth", {
+registry.registerComponent("securitySchemes", "oauthAuth", {
   type: "http",
   scheme: "bearer",
   bearerFormat: "JWT",
-  description: "Google OAuth bearer token. Use: 'Authorization: Bearer <JWT>'",
+  description:
+    "OAuth bearer token (Google or Auth0). Use: 'Authorization: Bearer <JWT>'",
 });
 
 registry.registerComponent("securitySchemes", "apiKeyAuth", {
