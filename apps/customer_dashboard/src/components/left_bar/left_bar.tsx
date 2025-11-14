@@ -2,13 +2,11 @@
 
 import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
 import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { paths } from "@oko-wallet-ct-dashboard/paths";
 import styles from "./left_bar.module.scss";
 import { AccountInfoWithSubMenu } from "../account_info_with_sub_menu/account_info_with_sub_menu";
 import { ExternalLinkItem } from "../external_link_item/external_link_item";
-import { InfoModal } from "../info_modal/info_modal";
 
 export const LeftBar = () => {
   return (
@@ -28,19 +26,15 @@ export const LeftBar = () => {
         <AccountInfoWithSubMenu />
 
         <div>
-          <InfoModal
-            title="Feature Request"
-            content="Please reach out to our parternship channel."
-            renderTrigger={({ onOpen }) => (
-              <button className={styles.featureRequestButton} onClick={onOpen}>
-                <Typography size="sm" weight="semibold" color="secondary">
-                  Feature Request
-                </Typography>
-              </button>
-            )}
-          />
+          <ExternalLinkItem
+            href={process.env.NEXT_PUBLIC_OKO_FEATURE_REQUEST_ENDPOINT}
+          >
+            Feature Request
+          </ExternalLinkItem>
 
-          <ExternalLinkItem href="https://help.keplr.app">
+          <ExternalLinkItem
+            href={process.env.NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT}
+          >
             Get Support
           </ExternalLinkItem>
         </div>
