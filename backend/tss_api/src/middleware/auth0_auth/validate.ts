@@ -44,7 +44,6 @@ export async function validateAuth0IdToken(
 ): Promise<Result<Auth0UserInfo, string>> {
   try {
     const decoded = jwt.decode(args.idToken, { complete: true });
-
     if (!decoded || typeof decoded === "string") {
       return {
         success: false,
@@ -53,7 +52,6 @@ export async function validateAuth0IdToken(
     }
 
     const header = decoded.header as JwtHeader;
-
     if (!header.kid) {
       return {
         success: false,
@@ -62,7 +60,6 @@ export async function validateAuth0IdToken(
     }
 
     const jwk = await getSigningKey(args.domain, header.kid);
-
     if (!jwk) {
       return {
         success: false,
@@ -158,7 +155,6 @@ async function getSigningKey(
     return match;
   }
 
-  // Cache might be stale. Refetch once.
   const freshKeys = await getJwks(domain, { forceRefresh: true });
   return freshKeys.find((key) => key.kid === kid) ?? null;
 }

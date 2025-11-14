@@ -46,10 +46,9 @@ export async function auth0AuthMiddleware(
 
     res.locals.auth0_user = result.data;
     next();
-  } catch (error) {
-    console.error("Auth0 token validation error:", error);
+  } catch (error: any) {
     res.status(500).json({
-      error: `Auth0 token validation failed: ${error instanceof Error ? error.message : String(error)}`,
+      error: `Auth0 token validation failed: ${error}`,
     });
   }
 }
