@@ -4,13 +4,13 @@ import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
 
 import styles from "./error_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import type { AppError } from "@oko-wallet-attached/errors";
+import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
 function isAppErrorFn(error: unknown): error is AppError {
   return typeof error === "object" && error !== null && "type" in error;
@@ -118,9 +118,7 @@ export const ErrorModal: FC<ErrorModalProps> = ({ error }) => {
         </div>
         <Spacing height={12} />
 
-        <div className={styles.productLogoIconContainer}>
-          <OkoProductLogoIcon width={43} height={20} theme={theme} />
-        </div>
+        <SignWithOkoBox theme={theme} hideText={true} />
       </CommonModal>
     </div>
   );

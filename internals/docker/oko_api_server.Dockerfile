@@ -35,6 +35,24 @@ RUN yarn workspaces focus addon
 WORKDIR /home/node/oko/crypto/tecdsa/cait_sith_keplr_addon/addon
 RUN yarn run build
 
+# Build stdlib-js
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/stdlib-js
+WORKDIR /home/node/oko/lib/stdlib_js
+RUN yarn run build
+
+# Build dotenv (depends on stdlib-js)
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/dotenv
+WORKDIR /home/node/oko/lib/dotenv
+RUN yarn run build
+
+# Build crypto/bytes
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/bytes
+WORKDIR /home/node/oko/crypto/bytes
+RUN yarn run build
+
 WORKDIR /home/node/oko
 
 # Install dependencies for oko_api_server

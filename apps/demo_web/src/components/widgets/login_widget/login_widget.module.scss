@@ -42,7 +42,8 @@
 
 .getSupportRow {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
   width: 100%;
 
   .supportLink {
@@ -63,14 +64,6 @@
 
 .socialIconWrapper > * + * {
   margin-left: -2px;
-}
-
-.byKeplrRow {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 2px;
-  flex: 1 0 0;
 }
 
 .backRow {

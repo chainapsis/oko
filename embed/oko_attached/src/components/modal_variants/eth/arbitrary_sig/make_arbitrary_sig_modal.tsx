@@ -3,8 +3,6 @@ import type { MakeArbitrarySigData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
@@ -12,6 +10,7 @@ import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/
 import { useArbitrarySigModal } from "./hooks/use_arbitrary_sig_modal";
 import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
 import { EthereumArbitrarySignatureContent } from "./ethereum_arbitrary_signature_content";
+import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
 export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
   getIsAborted,
@@ -64,13 +63,7 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
         </div>
         <Spacing height={12} />
 
-        {/* TODO: separate a standalone component for this */}
-        <div className={styles.signWithKeplrBox}>
-          <Typography size="xs" color="quaternary" weight="medium">
-            Sign with
-          </Typography>
-          <OkoProductLogoIcon width={43} height={20} theme={theme} />
-        </div>
+        <SignWithOkoBox theme={theme} />
       </CommonModal>
 
       {isDemo && <DemoView />}

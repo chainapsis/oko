@@ -7,4 +7,5 @@ export const paths = {
   ks_nodes_edit: "/keyshare_nodes/edit",
   sign_in: "/users/sign_in",
   user_list: "/users/list",
+  audit_logs: "/audit_logs",
 };

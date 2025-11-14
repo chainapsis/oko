@@ -56,5 +56,6 @@ export function signTest(
     throw new Error("sign failed. big_r or s do not match");
   }
 
-  runVerify(fullSignature0, clientState.keygenOutput?.public_key!, msg);
+  const output = clientState.keygenOutput!;
+  runVerify(fullSignature0, output.public_key, msg);
 }

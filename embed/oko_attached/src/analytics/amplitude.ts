@@ -5,7 +5,7 @@ let isInitialized = false;
 export function initAmplitude(): void {
   const apiKey = import.meta.env.VITE_AMPLITUDE_API_KEY;
 
-  if (!apiKey) {
+  if (!apiKey || apiKey.trim() === "") {
     console.warn("[attached] Amplitude. API key not found");
 
     return;

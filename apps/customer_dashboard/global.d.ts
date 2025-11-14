@@ -13,6 +13,8 @@ declare global {
       NEXT_PUBLIC_OKO_API_ENDPOINT: string;
       NEXT_PUBLIC_OKO_DOCS_ENDPOINT: string;
       NEXT_PUBLIC_OKO_DEMO_ENDPOINT: string;
+      NEXT_PUBLIC_OKO_FEATURE_REQUEST_ENDPOINT: string;
+      NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT: string;
     }
   }
 }

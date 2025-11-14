@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const paths = (function () {
+export const paths = (function() {
   const root = path.join(__dirname, "../../../");
 
   const ksn_interface = path.join(
@@ -34,7 +34,7 @@ export const paths = (function () {
 
   const sandbox_simple_host = path.join(
     __dirname,
-    "../../../sdk/sandboxes/sandbox_simple_host/",
+    "../../../sandbox/sandbox_simple_host/",
   );
 
   const crypto_bytes = path.join(__dirname, "../../../crypto/bytes/");
@@ -85,7 +85,9 @@ export const paths = (function () {
     "../../../backend/ct_dashboard_api",
   );
 
-  const dockerfiles = path.join(__dirname, "../../docker/dockerfiles");
+  const dockerfiles = path.join(__dirname, "../../docker");
+
+  const dockerfiles_oko = path.join(__dirname, "../../docker/oko");
 
   return {
     root,
@@ -113,5 +115,6 @@ export const paths = (function () {
     admin_api,
     ct_dashboard_api,
     dockerfiles,
+    dockerfiles_oko,
   };
 })();

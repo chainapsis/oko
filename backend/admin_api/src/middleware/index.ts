@@ -1,11 +1,15 @@
 import type { Request, Response, NextFunction } from "express";
+import { v4 as uuidv4 } from "uuid";
 
 import { verifyAdminToken } from "@oko-wallet-admin-api/auth";
+import type { AuditContext } from "@oko-wallet-admin-api/utils/audit";
 
-export type AuthenticatedAdminRequest<T = any> = Request<any, any, T, any>;
+export type AuthenticatedAdminRequest<T = any> = Request<any, any, T, any> & {
+  auditContext?: AuditContext;
+};
 
 export function adminAuthMiddleware(
-  req: Request,
+  req: Request & { auditContext?: AuditContext },
   res: Response,
   next: NextFunction,
 ) {
@@ -43,6 +47,15 @@ export function adminAuthMiddleware(
     role: verifyResult.data.role,
     type: verifyResult.data.type,
   };
+
+  const auditContext: AuditContext = {
+    db: req.app.locals.db,
+    adminUserId: verifyResult.data.sub,
+    request: req,
+    requestId: uuidv4(),
+  };
+
+  req.auditContext = auditContext;
   next();
   return;
 }

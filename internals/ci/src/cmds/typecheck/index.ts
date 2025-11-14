@@ -56,7 +56,11 @@ export async function typeCheck(..._args: any[]) {
       `All ${pkgPaths.length} ok!`,
     );
   } catch (err: any) {
-    console.log("%s type checking, err: %s", chalk.red.bold("Error"), err);
+    console.log(
+      "%s type checking, terminating all workers, original error: %s",
+      chalk.red.bold("Error"),
+      err,
+    );
 
     for (let idx = 0; idx < workers.length; idx += 1) {
       workers[idx].terminate();

@@ -19,8 +19,9 @@ export const navigationItems: NavigationItem[] = [
   },
   {
     label: "Manage Users",
-    route: paths.user_list,
+    route: "manage-users-menu",
     icon: <UsersIcon color="var(--gray-400)" className={styles.icon} />,
+    subItems: [{ label: "User List", route: paths.user_list }],
   },
   {
     label: "Sig Shares",
@@ -42,5 +43,11 @@ export const navigationItems: NavigationItem[] = [
         route: paths.ks_nodes_create,
       },
     ],
+  },
+  {
+    label: "Audit Logs",
+    route: "audit-logs",
+    icon: <ChartOutlinedIcon color="var(--gray-400)" className={styles.icon} />,
+    subItems: [{ label: "Audit History", route: paths.audit_logs }],
   },
 ];

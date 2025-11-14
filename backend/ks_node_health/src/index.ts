@@ -48,9 +48,7 @@ export async function processKSNodeHealthChecks(
   };
 }
 
-export async function requestKSNodeHealthCheck(
-  cvEndpoint: string,
-): Promise<boolean> {
+async function requestKSNodeHealthCheck(cvEndpoint: string): Promise<boolean> {
   try {
     const response = await fetch(`${cvEndpoint}/`);
     if (response.status !== 200) {

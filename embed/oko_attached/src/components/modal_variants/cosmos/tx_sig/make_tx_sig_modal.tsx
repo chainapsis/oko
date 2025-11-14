@@ -3,8 +3,6 @@ import type { CosmosTxSigData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OkoProductLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_product_logo_icon";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
@@ -14,6 +12,7 @@ import { CosmosTxSignatureContent } from "./cosmos_tx_signature_content";
 import { CosmosTxFee } from "./cosmos_tx_fee";
 import { extractMsgsFromSignDoc } from "@oko-wallet-attached/web3/cosmos/sign_doc";
 import { trackTxButtonEvent } from "@oko-wallet-attached/analytics/events";
+import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
 export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
   getIsAborted,
@@ -125,12 +124,7 @@ export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
         </div>
         <Spacing height={12} />
 
-        <div className={styles.signWithKeplrBox}>
-          <Typography size="xs" color="quaternary" weight="medium">
-            Sign with
-          </Typography>
-          <OkoProductLogoIcon width={43} height={20} theme={theme} />
-        </div>
+        <SignWithOkoBox theme={theme} />
       </>
     );
   } else {

@@ -1,0 +1,45 @@
+.wrapper {
+  flex-grow: 1;
+  display: flex;
+  padding: 0px 40px;
+  padding-bottom: 40px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 32px;
+  overflow: auto;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  border: 1px solid var(--gray-200);
+  width: 100%;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.tableContainer {
+  background-color: var(--white);
+  border-radius: 0.5rem;
+  border: 1px solid var(--gray-200);
+  overflow: hidden;
+  width: 100%;
+}
+
+.emptyContainer {
+  width: 100%;
+}
+
+.paginationContainer {
+  display: flex;
+  justify-content: center;
+}

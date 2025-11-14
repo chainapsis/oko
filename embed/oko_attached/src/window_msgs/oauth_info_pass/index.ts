@@ -74,6 +74,8 @@ export async function handleOAuthInfoPass(
 
     const userExistsRes = await checkUserExists(tokenInfo.email);
     if (!userExistsRes.success) {
+      console.log(22, userExistsRes);
+
       await bail(message, {
         type: "check_user_request_fail",
         error: userExistsRes.err.toString(),
@@ -215,8 +217,6 @@ async function verifyGoogleIdToken(idToken: string): Promise<GoogleTokenInfo> {
 }
 
 async function bail(message: OkoWalletMsgOAuthInfoPass, err: OAuthSignInError) {
-  // TODO: Error handling @elden
-  //
   postLog(
     {
       level: "error",
