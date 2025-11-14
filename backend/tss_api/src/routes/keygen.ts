@@ -5,7 +5,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { SignInResponse } from "@oko-wallet/oko-types/user";
 import {
   ErrorResponseSchema,
-  GoogleAuthHeaderSchema,
+  OAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import { SignInSuccessResponseSchema } from "@oko-wallet/oko-api-openapi/tss";
 import { registry } from "@oko-wallet/oko-api-openapi";
@@ -13,9 +13,9 @@ import { KeygenRequestSchema } from "@oko-wallet/oko-api-openapi/tss";
 
 import { runKeygen } from "@oko-wallet-tss-api/api/keygen";
 import {
-  type GoogleAuthenticatedRequest,
-  googleAuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/google_auth";
+  type OAuthAuthenticatedRequest,
+  oauthMiddleware,
+} from "@oko-wallet-tss-api/middleware/oauth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 
 export function setKeygenRoutes(router: Router) {
@@ -27,9 +27,9 @@ export function setKeygenRoutes(router: Router) {
     description:
       "Creates user and wallet entities by mapping the received key share \
     with the user's email",
-    security: [{ googleAuth: [] }],
+    security: [{ oauthAuth: [] }],
     request: {
-      headers: GoogleAuthHeaderSchema,
+      headers: OAuthHeaderSchema,
       body: {
         required: true,
         content: {
@@ -49,7 +49,7 @@ export function setKeygenRoutes(router: Router) {
         },
       },
       401: {
-        description: "Unauthorized - Invalid or missing Google OAuth token",
+        description: "Unauthorized - Invalid or missing OAuth token",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -77,14 +77,23 @@ export function setKeygenRoutes(router: Router) {
   });
   router.post(
     "/keygen",
-    [googleAuthMiddleware, tssActivateMiddleware],
+    [oauthMiddleware, tssActivateMiddleware],
     async (
-      req: GoogleAuthenticatedRequest<KeygenBody>,
+      req: OAuthAuthenticatedRequest<KeygenBody>,
       res: Response<OkoApiResponse<SignInResponse>>,
     ) => {
       const state = req.app.locals;
-      const googleUser = res.locals.google_user;
+      const oauthUser = res.locals.oauth_user;
       const body = req.body;
+
+      if (!oauthUser?.email) {
+        res.status(401).json({
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "User email not found",
+        });
+        return;
+      }
 
       const jwtConfig = {
         secret: state.jwt_secret,
@@ -95,7 +104,7 @@ export function setKeygenRoutes(router: Router) {
         state.db,
         jwtConfig,
         {
-          email: googleUser.email.toLowerCase(),
+          email: oauthUser.email.toLowerCase(),
           keygen_2: body.keygen_2,
         },
         state.encryption_secret,

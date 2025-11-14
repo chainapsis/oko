@@ -13,7 +13,7 @@ import {
 } from "@oko-wallet-attached/requests/ks_node";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
-import type { ReshareRequest } from "@oko-wallet/oko-types/user";
+import type { ReshareRequestBody } from "@oko-wallet/oko-types/user";
 
 import { hashKeyshareNodeNames } from "./hash";
 import { makeAuthorizedOkoApiRequest } from "@oko-wallet-attached/requests/oko_api";
@@ -119,9 +119,10 @@ export async function reshareUserKeyShares(
   }
 
   const updateWalletStatusRes = await makeAuthorizedOkoApiRequest<
-    ReshareRequest,
+    ReshareRequestBody,
     void
   >("user/reshare", idToken, {
+    auth_type: "google",
     public_key: publicKey.toHex(),
     reshared_key_shares: resharedKeyShares.map((keyShare) => keyShare.node),
   });

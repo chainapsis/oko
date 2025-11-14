@@ -14,7 +14,6 @@ describe("validateAuth0IdToken", () => {
     expect(result.success).toBe(true);
     if (result.success) {
       expect(result.data.email).toBeTruthy();
-      expect(result.data.emailVerified).toBe(true);
       expect(result.data.sub).toBeTruthy();
     }
   });

@@ -13,7 +13,7 @@ await jest.unstable_mockModule("@oko-wallet-tss-api/api/keygen", () => ({
   runKeygen: mockRunKeygen,
 }));
 
-const mockGoogleAuthMiddleware = jest.fn((req: any, res: any, next: any) => {
+const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
   if (!req.headers.authorization) {
     return res
       .status(401)
@@ -28,7 +28,11 @@ const mockGoogleAuthMiddleware = jest.fn((req: any, res: any, next: any) => {
   if (token === "invalid_token") {
     return res.status(401).json({ error: "Invalid token" });
   }
-  res.locals.google_user = {
+  if (!req.body?.auth_type) {
+    return res.status(400).json({ error: "auth_type is required in request body" });
+  }
+  res.locals.oauth_user = {
+    type: req.body.auth_type,
     email: "test@example.com",
     name: "Test User",
     sub: "test123",
@@ -37,10 +41,10 @@ const mockGoogleAuthMiddleware = jest.fn((req: any, res: any, next: any) => {
 });
 
 await jest.unstable_mockModule(
-  "@oko-wallet-tss-api/middleware/google_auth",
+  "@oko-wallet-tss-api/middleware/oauth",
   () => ({
-    googleAuthMiddleware: (req: any, res: any, next: any) =>
-      mockGoogleAuthMiddleware(req, res, next),
+    oauthMiddleware: (req: any, res: any, next: any) =>
+      mockOauthMiddleware(req, res, next),
   }),
 );
 
@@ -87,6 +91,7 @@ describe("keygen_route_test", () => {
   const invalidToken = "invalid_token";
 
   const testKeygenBody = {
+    auth_type: "google",
     keygen_2: {
       private_share: "test_private_share",
       public_key: "test_public_key",

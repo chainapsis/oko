@@ -21,7 +21,7 @@ import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
 const SSS_THRESHOLD = 2;
 
-const mockGoogleAuthMiddleware = jest.fn((req: any, res: any, next: any) => {
+const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
   if (!req.headers.authorization) {
     return res
       .status(401)
@@ -36,7 +36,11 @@ const mockGoogleAuthMiddleware = jest.fn((req: any, res: any, next: any) => {
   if (token === "invalid_token") {
     return res.status(401).json({ error: "Invalid token" });
   }
-  res.locals.google_user = {
+  if (!req.body?.auth_type) {
+    return res.status(400).json({ error: "auth_type is required in request body" });
+  }
+  res.locals.oauth_user = {
+    type: req.body.auth_type,
     email: "test@example.com",
     name: "Test User",
     sub: "test123",
@@ -45,10 +49,10 @@ const mockGoogleAuthMiddleware = jest.fn((req: any, res: any, next: any) => {
 });
 
 await jest.unstable_mockModule(
-  "@oko-wallet-tss-api/middleware/google_auth",
+  "@oko-wallet-tss-api/middleware/oauth",
   () => ({
-    googleAuthMiddleware: (req: any, res: any, next: any) =>
-      mockGoogleAuthMiddleware(req, res, next),
+    oauthMiddleware: (req: any, res: any, next: any) =>
+      mockOauthMiddleware(req, res, next),
   }),
 );
 
@@ -254,7 +258,9 @@ describe("user_route_test", () => {
     const invalidToken = "invalid_token";
 
     it("should return 401 when no authorization header is provided", async () => {
-      const response = await request(app).post(testEndpoint);
+      const response = await request(app)
+        .post(testEndpoint)
+        .send({ auth_type: "google" });
 
       expect(response.status).toBe(401);
       expect(response.body.error).toBe(
@@ -265,7 +271,8 @@ describe("user_route_test", () => {
     it("should return 401 when invalid token is provided", async () => {
       const response = await request(app)
         .post(testEndpoint)
-        .set("Authorization", `Bearer ${invalidToken}`);
+        .set("Authorization", `Bearer ${invalidToken}`)
+        .send({ auth_type: "google" });
 
       expect(response.status).toBe(401);
       expect(response.body.error).toBe("Invalid token");
@@ -274,7 +281,8 @@ describe("user_route_test", () => {
     it("should return 404 when user does not exist", async () => {
       const response = await request(app)
         .post(testEndpoint)
-        .set("Authorization", `Bearer ${validToken}`);
+        .set("Authorization", `Bearer ${validToken}`)
+        .send({ auth_type: "google" });
 
       expect(response.status).toBe(404);
       expect(response.body).toEqual({
@@ -294,7 +302,8 @@ describe("user_route_test", () => {
 
       const response = await request(app)
         .post(testEndpoint)
-        .set("Authorization", `Bearer ${validToken}`);
+        .set("Authorization", `Bearer ${validToken}`)
+        .send({ auth_type: "google" });
 
       expect(response.status).toBe(404);
       expect(response.body).toEqual({
@@ -335,7 +344,8 @@ describe("user_route_test", () => {
 
       const response = await request(app)
         .post(testEndpoint)
-        .set("Authorization", `Bearer ${validToken}`);
+        .set("Authorization", `Bearer ${validToken}`)
+        .send({ auth_type: "google" });
 
       expect(response.status).toBe(404);
       expect(response.body).toEqual({
@@ -367,7 +377,8 @@ describe("user_route_test", () => {
 
       const response = await request(app)
         .post(testEndpoint)
-        .set("Authorization", `Bearer ${validToken}`);
+        .set("Authorization", `Bearer ${validToken}`)
+        .send({ auth_type: "google" });
 
       expect(response.status).toBe(200);
       expect(response.body.success).toBe(true);

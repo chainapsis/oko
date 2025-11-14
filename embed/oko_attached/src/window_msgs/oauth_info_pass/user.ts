@@ -4,7 +4,7 @@ import type {
   SignInResponse,
 } from "@oko-wallet/oko-types/user";
 import type {
-  KeygenBody,
+  KeygenRequestBody,
   KeyShareNodeMetaWithNodeStatusInfo,
   WalletKSNodeStatus,
 } from "@oko-wallet/oko-types/tss";
@@ -41,7 +41,9 @@ export async function handleExistingUser(
   const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
     "user/signin",
     idToken,
-    {},
+    {
+      auth_type: "google",
+    },
   );
   if (!signInRes.success) {
     console.error("[attached] sign in failed, err: %s", signInRes.err);
@@ -228,7 +230,8 @@ export async function handleNewUser(
     };
   }
 
-  const keygenRequest: KeygenBody = {
+  const keygenRequest: KeygenRequestBody = {
+    auth_type: "google",
     keygen_2: {
       public_key: publicKey.toHex(),
       private_share: keygen_2.tss_private_share.toHex(),
@@ -261,7 +264,9 @@ export async function handleReshare(
   const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
     "user/signin",
     idToken,
-    {},
+    {
+      auth_type: "google",
+    },
   );
   if (!signInRes.success) {
     console.error("[attached] sign in failed, err: %s", signInRes.err);

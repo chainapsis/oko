@@ -9,32 +9,42 @@ import {
   auth0AuthMiddleware,
 } from "@oko-wallet-tss-api/middleware/auth0_auth";
 
-export interface OAuthAuthenticatedRequest<T = {}> extends Request {
-  body: { authType: "google" | "auth0" } & T;
+export type OAuthProvider = "google" | "auth0";
+
+export interface OAuthBody {
+  auth_type: OAuthProvider;
 }
 
+export type OAuthAuthenticatedRequest<T = {}> = Request<
+  any,
+  any,
+  OAuthBody & T
+>;
+
 export async function oauthMiddleware(
-  req: Request,
+  req: OAuthAuthenticatedRequest,
   res: Response,
   next: NextFunction,
 ) {
-  const authType = req.body?.authType;
+  const authType = req.body?.auth_type as OAuthProvider | undefined;
 
   if (!authType) {
     res.status(400).json({
-      error: "authType is required in request body",
+      error: "auth_type is required in request body",
     });
     return;
   }
 
   if (authType === "google") {
     return googleAuthMiddleware(req as GoogleAuthenticatedRequest, res, next);
-  } else if (authType === "auth0") {
-    return auth0AuthMiddleware(req as Auth0AuthenticatedRequest, res, next);
-  } else {
-    res.status(400).json({
-      error: `Invalid authType: ${authType}. Must be 'google' or 'auth0'`,
-    });
-    return;
   }
+
+  if (authType === "auth0") {
+    return auth0AuthMiddleware(req as Auth0AuthenticatedRequest, res, next);
+  }
+
+  res.status(400).json({
+    error: `Invalid auth_type: ${authType}. Must be 'google' or 'auth0'`,
+  });
+  return;
 }
