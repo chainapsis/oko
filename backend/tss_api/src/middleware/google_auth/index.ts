@@ -45,7 +45,8 @@ export async function googleAuthMiddleware(
       return;
     }
 
-    res.locals.google_user = {
+    res.locals.oauth_user = {
+      type: "google",
       email: result.data.email,
       name: result.data.name,
       sub: result.data.sub,

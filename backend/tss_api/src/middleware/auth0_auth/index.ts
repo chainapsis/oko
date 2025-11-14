@@ -49,7 +49,8 @@ export async function auth0AuthMiddleware(
       return;
     }
 
-    res.locals.auth0_user = {
+    res.locals.oauth_user = {
+      type: "auth0",
       email: result.data.email,
       name: result.data.name,
       sub: result.data.sub,
