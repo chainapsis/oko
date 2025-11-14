@@ -47,7 +47,7 @@ const config: Config = {
       {
         name: "og:image",
         content:
-          "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-og-image.png",
+          "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-docs-og-image.png",
       },
       { name: "algolia-site-verification", content: "3DDD6577E7B1AAA8" },
     ],

@@ -8,4 +8,6 @@ export const envSchema = z.object({
   NEXT_PUBLIC_OKO_API_ENDPOINT: z.string(),
   NEXT_PUBLIC_OKO_DEMO_ENDPOINT: z.string(),
   NEXT_PUBLIC_OKO_DOCS_ENDPOINT: z.string(),
+  NEXT_PUBLIC_OKO_FEATURE_REQUEST_ENDPOINT: z.string(),
+  NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT: z.string(),
 });

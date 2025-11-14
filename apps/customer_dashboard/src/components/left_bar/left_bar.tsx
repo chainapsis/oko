@@ -26,10 +26,15 @@ export const LeftBar = () => {
         <AccountInfoWithSubMenu />
 
         <div>
-          <ExternalLinkItem href="https://oko-wallet.canny.io/feature-requests">
+          <ExternalLinkItem
+            href={process.env.NEXT_PUBLIC_OKO_FEATURE_REQUEST_ENDPOINT}
+          >
             Feature Request
           </ExternalLinkItem>
-          <ExternalLinkItem href="https://oko-wallet.canny.io/bug-reports">
+
+          <ExternalLinkItem
+            href={process.env.NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT}
+          >
             Get Support
           </ExternalLinkItem>
         </div>
