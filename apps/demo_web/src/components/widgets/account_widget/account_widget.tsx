@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Buffer } from "buffer";
 
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
@@ -35,10 +36,14 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   );
   const [isVerifyingCode, setIsVerifyingCode] = useState(false);
 
-  const { email, publicKey, isSignedIn } = useUserInfoState();
+  const email = useUserInfoState((state) => state.email);
+  const publicKey = useUserInfoState((state) => state.publicKey);
+  const isSignedIn = useUserInfoState((state) => state.isSignedIn);
+  const setUserInfo = useUserInfoState((state) => state.setUserInfo);
+  const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
   // TODO: add other login methods, and update the type accordingly
-  const [loginMethod] = useState<
+  const [loginMethod, setLoginMethod] = useState<
     "email" | "google" | "telegram" | "x" | "apple"
   >("google");
 
@@ -46,6 +51,8 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     method: "email" | "google" | "telegram" | "x" | "apple",
     email?: string,
   ) {
+    setLoginMethod(method);
+
     if (!okoWallet) {
       console.error("eWallet is not initialized");
       return;
@@ -117,11 +124,19 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   }
 
   async function handleSignOut() {
-    if (okoWallet) {
-      await okoWallet.signOut();
-    } else {
+    if (!okoWallet) {
       console.error("EWallet is not initialized");
+      return;
     }
+
+    await okoWallet.signOut();
+    clearUserInfo();
+    setLoginMethod("google");
+    setSigningInState({ status: "ready" });
+    setEmailLoginState(initialEmailLoginState);
+    setEmailStatusMessage(null);
+    setEmailErrorMessage(null);
+    setIsVerifyingCode(false);
   }
 
   if (!okoWallet) {
@@ -169,6 +184,8 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       return;
     }
 
+    setLoginMethod("email");
+
     const targetEmail = emailLoginState.email.trim();
     if (!targetEmail) {
       setEmailErrorMessage("email is required");
@@ -181,14 +198,30 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     }
 
     try {
+      setSigningInState({ status: "signing-in" });
       setEmailErrorMessage(null);
       setEmailStatusMessage("Verifying authentication code...");
       setIsVerifyingCode(true);
 
       await okoWallet.completeEmailSignIn(targetEmail, code.trim());
 
+      const [userEmail, publicKeyBytes] = await Promise.all([
+        okoWallet.getEmail(),
+        okoWallet.getPublicKey(),
+      ]);
+
+      const publicKeyHex = publicKeyBytes
+        ? Buffer.from(publicKeyBytes).toString("hex")
+        : null;
+
+      setUserInfo({
+        email: userEmail ?? targetEmail,
+        publicKey: publicKeyHex,
+      });
+
       setEmailStatusMessage("Authentication code verified");
       setEmailErrorMessage(null);
+      setSigningInState({ status: "ready" });
     } catch (error: any) {
       console.error("Failed to verify Auth0 email code", error);
       const message =
@@ -197,6 +230,10 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
           : "Failed to verify authentication code";
       setEmailErrorMessage(message);
       setEmailStatusMessage(null);
+      setSigningInState({
+        status: "failed",
+        error: message,
+      });
     } finally {
       setIsVerifyingCode(false);
     }
