@@ -22,19 +22,10 @@ export async function auth0AuthMiddleware(
   }
 
   const idToken = authHeader.substring(7).trim();
-  const email = typeof req.body === "object" ? (req.body as any)?.email : null;
-
-  if (!email || typeof email !== "string") {
-    res.status(400).json({
-      error: "Request body must include email for Auth0 verification",
-    });
-    return;
-  }
 
   try {
     const result = await validateAuth0IdToken({
       idToken,
-      expectedEmail: email,
       clientId: AUTH0_CLIENT_ID,
       domain: AUTH0_DOMAIN,
     });
@@ -44,11 +35,32 @@ export async function auth0AuthMiddleware(
       return;
     }
 
-    res.locals.auth0_user = result.data;
+    if (!result.data) {
+      res.status(500).json({
+        error: "Internal server error: Token info missing after validation",
+      });
+      return;
+    }
+
+    if (!result.data.email || !result.data.sub) {
+      res.status(401).json({
+        error: "Unauthorized: Invalid token",
+      });
+      return;
+    }
+
+    res.locals.auth0_user = {
+      email: result.data.email,
+      name: result.data.name,
+      sub: result.data.sub,
+    };
+
     next();
-  } catch (error: any) {
+    return;
+  } catch (error) {
     res.status(500).json({
-      error: `Auth0 token validation failed: ${error}`,
+      error: `Auth0 token validation failed: ${error instanceof Error ? error.message : String(error)}`,
     });
+    return;
   }
 }

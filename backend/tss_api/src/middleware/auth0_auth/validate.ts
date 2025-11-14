@@ -11,19 +11,17 @@ interface Auth0IdTokenPayload extends JwtPayload {
 
 interface ValidateAuth0IdTokenArgs {
   idToken: string;
-  expectedEmail: string;
   clientId: string;
   domain: string;
+  expectedEmail?: string;
   expectedNonce?: string;
 }
 
 export interface Auth0UserInfo {
   email: string;
-  emailVerified: boolean;
   name?: string;
   sub: string;
   nonce?: string;
-  raw: Auth0IdTokenPayload;
 }
 
 interface Auth0Jwk extends JsonWebKey {
@@ -104,7 +102,10 @@ export async function validateAuth0IdToken(
       };
     }
 
-    if (normalizeEmail(payload.email) !== normalizeEmail(args.expectedEmail)) {
+    if (
+      args.expectedEmail &&
+      normalizeEmail(payload.email) !== normalizeEmail(args.expectedEmail)
+    ) {
       return {
         success: false,
         err: "Email mismatch between request and token",
@@ -122,11 +123,9 @@ export async function validateAuth0IdToken(
       success: true,
       data: {
         email: payload.email,
-        emailVerified: payload.email_verified,
         name: typeof payload.name === "string" ? payload.name : undefined,
         sub: payload.sub,
         nonce: payload.nonce,
-        raw: payload,
       },
     };
   } catch (error) {

@@ -5,7 +5,10 @@ import type {
 
 import { OKO_SDK_TARGET } from "./target";
 import type { MsgEventContext } from "./types";
-import { getAuth0WebAuth, AUTH0_CONNECTION } from "@oko-wallet-attached/config/auth0";
+import {
+  getAuth0WebAuth,
+  AUTH0_CONNECTION,
+} from "@oko-wallet-attached/config/auth0";
 
 export async function handleAuth0EmailSendCode(
   ctx: MsgEventContext,
@@ -69,5 +72,3 @@ export async function handleAuth0EmailSendCode(
 
   port.postMessage(ack);
 }
-
-
