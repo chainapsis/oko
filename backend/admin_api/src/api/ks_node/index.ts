@@ -24,9 +24,12 @@ import {
   deleteKSNodeById,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import type { KSNodeStatus } from "@oko-wallet-types/tss";
-import { processKSNodeHealthChecks } from "@oko-wallet/ks-node-health";
+
 import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
 import type { AuditContext } from "@oko-wallet-admin-api/utils/audit";
+import { healthCheckKSNode } from "./health";
+
+export * from "./health";
 
 export async function getAllKSNodes(
   db: Pool,
@@ -119,7 +122,7 @@ export async function createKSNode(
     const node_id = insertKSNodeRes.data.node_id;
 
     // trigger KS node health check
-    processKSNodeHealthChecks(db);
+    healthCheckKSNode(db);
 
     return {
       success: true,

@@ -1,0 +1,14 @@
+services:
+  pg_local:
+    image: postgres:17.4
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: ewallet_dev
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      TZ: "UTC"
+      PGTZ: "UTC"
+    volumes:
+      - /var/lib/postgresql/data

@@ -2,6 +2,7 @@ import { program } from "commander";
 
 import { typeCheck } from "./cmds/typecheck";
 import { buildPkgs } from "./cmds/build_pkgs";
+import { buildSDK } from "./cmds/build_sdk";
 import { version } from "./cmds/version";
 import { publish } from "./cmds/publish";
 import { dbMigrateKSN } from "./cmds/db_migrate_ksn";
@@ -15,6 +16,8 @@ async function main() {
   command.command("typecheck").action(typeCheck);
 
   command.command("build_pkgs").action(buildPkgs);
+
+  command.command("build_sdk").action(buildSDK);
 
   command.command("version").action(version);
 
