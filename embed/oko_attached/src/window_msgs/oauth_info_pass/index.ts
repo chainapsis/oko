@@ -36,19 +36,26 @@ export async function handleOAuthInfoPass(
 
   try {
     const context = await buildRequestContext(appState, message);
-    const flowOutcome = await processOAuthFlow(context);
+    const result = await processOAuthFlow(context);
 
-    persistFlowResult(
-      appState,
-      context.hostOrigin,
-      context.tokenInfo.email,
-      flowOutcome.data,
-    );
+    appState.setKeyshare_1(hostOrigin, result.data.keyshare_1);
+    appState.setAuthToken(hostOrigin, result.data.jwtToken);
+    appState.setWallet(hostOrigin, {
+      walletId: result.data.walletId,
+      publicKey: result.data.publicKey,
+      email: context.tokenInfo.email,
+    });
 
     hasSignedIn = true;
-    isNewUser = flowOutcome.isNewUser;
+    isNewUser = result.isNewUser;
 
-    await sendSuccessUpdate(context.hostOrigin);
+    const updateMsg: OkoWalletMsgOAuthSignInUpdate = {
+      target: OKO_SDK_TARGET,
+      msg_type: "oauth_sign_in_update",
+      payload: { success: true, data: null },
+    };
+
+    await sendMsgToWindow(window.parent, updateMsg, hostOrigin);
   } catch (error) {
     await bail(message, normalizeError(error));
     return;
@@ -62,36 +69,6 @@ export async function handleOAuthInfoPass(
       port,
     );
   }
-}
-
-function persistFlowResult(
-  appState: ReturnType<typeof useAppState.getState>,
-  hostOrigin: string,
-  email: string,
-  result: {
-    keyshare_1: string;
-    jwtToken: string;
-    walletId: string;
-    publicKey: string;
-  },
-) {
-  appState.setKeyshare_1(hostOrigin, result.keyshare_1);
-  appState.setAuthToken(hostOrigin, result.jwtToken);
-  appState.setWallet(hostOrigin, {
-    walletId: result.walletId,
-    publicKey: result.publicKey,
-    email,
-  });
-}
-
-async function sendSuccessUpdate(hostOrigin: string) {
-  const updateMsg: OkoWalletMsgOAuthSignInUpdate = {
-    target: OKO_SDK_TARGET,
-    msg_type: "oauth_sign_in_update",
-    payload: { success: true, data: null },
-  };
-
-  await sendMsgToWindow(window.parent, updateMsg, hostOrigin);
 }
 
 function finalizeFlow(
