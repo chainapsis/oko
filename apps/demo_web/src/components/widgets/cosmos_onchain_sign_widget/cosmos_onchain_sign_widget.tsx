@@ -15,7 +15,7 @@ import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
 import styles from "./cosmos_onchain_sign_widget.module.scss";
 import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
-import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants";
+import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants/cosmos";
 
 const TOKEN_MINIMAL_DENOM = "uatom";
 

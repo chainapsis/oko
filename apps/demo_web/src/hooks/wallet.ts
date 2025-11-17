@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants";
+import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants/cosmos";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 
