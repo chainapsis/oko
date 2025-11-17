@@ -29,7 +29,7 @@ export const Navigation: React.FC<NavigationProps> = () => {
           return (
             // has sub items
             <div key={item.route}>
-              <NavItem kind="trigger" icon={item.icon}>
+              <NavItem kind="trigger" icon={item.icon} isParent>
                 {item.label}
               </NavItem>
               <NavMenu>
@@ -38,6 +38,7 @@ export const Navigation: React.FC<NavigationProps> = () => {
                     key={subItem.route}
                     onClick={() => router.push(subItem.route)}
                     active={pathname === subItem.route}
+                    isParent={false}
                   >
                     {subItem.label}
                   </NavItem>
