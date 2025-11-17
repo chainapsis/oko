@@ -6,7 +6,7 @@ import {
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import type { KSNodeHealthCheckStatus } from "@oko-wallet/oko-types/tss";
 
-export async function processKSNodeHealthChecks(
+export async function healthCheckKSNode(
   db: Pool | PoolClient,
 ): Promise<Result<number, string>> {
   const getAllKSNodesRes = await getAllKSNodes(db);

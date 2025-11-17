@@ -9833,7 +9833,6 @@ __metadata:
   dependencies:
     "@oko-wallet/aws": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/ks-node-health": "workspace:*"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
@@ -10272,18 +10271,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/ks-node-health@workspace:*, @oko-wallet/ks-node-health@workspace:backend/ks_node_health":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/ks-node-health@workspace:backend/ks_node_health"
-  dependencies:
-    "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/oko-types": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    pg: "npm:*"
-    typescript: "npm:*"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/ksn-interface@npm:0.0.2-alpha.40":
   version: 0.0.2-alpha.40
   resolution: "@oko-wallet/ksn-interface@npm:0.0.2-alpha.40"
@@ -10464,7 +10451,6 @@ __metadata:
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/ct-dashboard-api": "workspace:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.10"
-    "@oko-wallet/ks-node-health": "workspace:*"
     "@oko-wallet/log-api": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
