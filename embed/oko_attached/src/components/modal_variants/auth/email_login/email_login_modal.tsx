@@ -90,7 +90,13 @@ export const EmailLoginModal: FC<EmailLoginModalProps> = ({
             placeholder="name@company.com"
             value={email}
             onChange={(event) => setEmail(event.target.value)}
-            error={!email ? undefined : isEmailValid ? undefined : "Enter a valid email."}
+            error={
+              !email
+                ? undefined
+                : isEmailValid
+                  ? undefined
+                  : "Enter a valid email."
+            }
             resetError={resetError}
             fullWidth
             autoFocus
@@ -189,7 +195,11 @@ export const EmailLoginModal: FC<EmailLoginModalProps> = ({
       )}
 
       {errorMessage && (
-        <Typography size="sm" color="error-primary" className={styles.errorText}>
+        <Typography
+          size="sm"
+          color="error-primary"
+          className={styles.errorText}
+        >
           {errorMessage}
         </Typography>
       )}
