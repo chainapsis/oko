@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     siteName: "Oko Demo",
     images: [
       {
-        url: "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-og-image.png",
+        url: "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-demo-og-image.png",
       },
     ],
   },
