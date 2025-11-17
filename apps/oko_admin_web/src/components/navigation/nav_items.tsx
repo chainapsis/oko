@@ -39,6 +39,10 @@ export const navigationItems: NavigationItem[] = [
         route: paths.ks_nodes,
       },
       {
+        label: "Health Checks",
+        route: paths.ks_nodes_health,
+      },
+      {
         label: "Add New Node",
         route: paths.ks_nodes_create,
       },

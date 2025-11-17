@@ -3,6 +3,7 @@ export const paths = {
   apps_create: "/apps/create",
   sig_shares: "/sig_shares/history",
   ks_nodes: "/keyshare_nodes",
+  ks_nodes_health: "/keyshare_nodes/health",
   ks_nodes_create: "/keyshare_nodes/create",
   ks_nodes_edit: "/keyshare_nodes/edit",
   sign_in: "/users/sign_in",
