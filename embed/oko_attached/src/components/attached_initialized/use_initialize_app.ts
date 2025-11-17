@@ -97,7 +97,7 @@ export function useInitializeApp() {
         console.log(
           "[attached] old theme: %s, resolved theme: %s",
           oldTheme,
-          resolvedTheme,
+          _theme,
         );
         setResolvedTheme(_theme);
 
