@@ -85,7 +85,7 @@ async function tryAuth0EmailSignIn(
   const popup = window.open(
     popupUrl.toString(),
     "auth0_email_oauth",
-    "width=500,height=600",
+    "width=1200,height=800",
   );
 
   if (!popup) {
