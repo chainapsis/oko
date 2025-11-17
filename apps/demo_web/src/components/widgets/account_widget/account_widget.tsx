@@ -1,6 +1,4 @@
 import React, { useState } from "react";
-import { Buffer } from "buffer";
-
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 import { AuthProgressWidget } from "./auth_progress_widget";
@@ -39,7 +37,6 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   const email = useUserInfoState((state) => state.email);
   const publicKey = useUserInfoState((state) => state.publicKey);
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
-  const setUserInfo = useUserInfoState((state) => state.setUserInfo);
   const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
   // TODO: add other login methods, and update the type accordingly
@@ -204,20 +201,6 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       setIsVerifyingCode(true);
 
       await okoWallet.completeEmailSignIn(targetEmail, code.trim());
-
-      const [userEmail, publicKeyBytes] = await Promise.all([
-        okoWallet.getEmail(),
-        okoWallet.getPublicKey(),
-      ]);
-
-      const publicKeyHex = publicKeyBytes
-        ? Buffer.from(publicKeyBytes).toString("hex")
-        : null;
-
-      setUserInfo({
-        email: userEmail ?? targetEmail,
-        publicKey: publicKeyHex,
-      });
 
       setEmailStatusMessage("Authentication code verified");
       setEmailErrorMessage(null);

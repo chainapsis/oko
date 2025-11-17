@@ -103,13 +103,12 @@ async function verifyAuth0IdToken(
     throw new Error("Auth0 token missing email claim");
   }
 
-  if (payload.nonce !== nonce) {
-    throw new Error("Auth0 token nonce mismatch");
-  }
-
-  // @TODO
   if (!payload.email_verified) {
     throw new Error("Auth0 token email not verified");
+  }
+
+  if (payload.nonce !== nonce) {
+    throw new Error("Auth0 token nonce mismatch");
   }
 
   return payload;

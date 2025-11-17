@@ -3,8 +3,11 @@ import type {
   OkoWalletMsg,
   OkoWalletMsgOAuthSignInUpdate,
   OAuthState,
+  OkoWalletMsgOAuthSignInUpdateAck,
 } from "@oko-wallet-sdk-core/types";
 import { OKO_ATTACHED_TARGET } from "@oko-wallet-sdk-core/window_msg/target";
+
+const FIVE_MINS_MS = 5 * 60 * 1000;
 
 export async function completeEmailSignIn(
   this: OkoWalletInterface,
@@ -23,6 +26,19 @@ export async function completeEmailSignIn(
 
   if (!result.payload.success) {
     throw new Error(result.payload.err.type);
+  }
+
+  const publicKey = await this.getPublicKey();
+  const userEmail = await this.getEmail();
+
+  if (publicKey && userEmail) {
+    console.log("[oko] emit CORE__accountsChanged (auth0 email)");
+
+    this.eventEmitter.emit({
+      type: "CORE__accountsChanged",
+      email: userEmail,
+      publicKey,
+    });
   }
 }
 
@@ -84,13 +100,6 @@ async function tryAuth0EmailSignIn(
   return new Promise<OkoWalletMsgOAuthSignInUpdate>((resolve, reject) => {
     let timeout: number;
 
-    function cleanup() {
-      window.removeEventListener("message", onMessage);
-      if (timeout) {
-        clearTimeout(timeout);
-      }
-    }
-
     function onMessage(event: MessageEvent) {
       if (event.ports.length < 1) {
         return;
@@ -102,7 +111,7 @@ async function tryAuth0EmailSignIn(
       if (data.msg_type === "oauth_sign_in_update") {
         console.log("[oko] oauth_sign_in_update recv, %o", data);
 
-        const msg: OkoWalletMsg = {
+        const msg: OkoWalletMsgOAuthSignInUpdateAck = {
           target: "oko_attached",
           msg_type: "oauth_sign_in_update_ack",
           payload: null,
@@ -123,7 +132,24 @@ async function tryAuth0EmailSignIn(
 
     timeout = window.setTimeout(() => {
       cleanup();
-      reject(new Error("Timeout waiting for Auth0 email sign in"));
-    }, 300000); // 5 minutes
+      reject(new Error("Timeout: no response within 5 minutes"));
+      closePopup(popup);
+    }, FIVE_MINS_MS);
+
+    function cleanup() {
+      console.log("[oko] clean up oauth sign in listener");
+
+      // window.clearTimeout(focusTimer);
+      // window.removeEventListener("focus", onFocus);
+
+      window.clearTimeout(timeout);
+      window.removeEventListener("message", onMessage);
+    }
   });
+}
+
+function closePopup(popup: Window) {
+  if (popup && !popup.closed) {
+    popup.close();
+  }
 }
