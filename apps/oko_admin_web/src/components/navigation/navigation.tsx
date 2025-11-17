@@ -14,9 +14,7 @@ export interface NavigationItem {
   subItems?: Array<{ label: string; route: string }>;
 }
 
-export interface NavigationProps {
-  // items: NavigationItem[];
-}
+export interface NavigationProps {}
 
 export const Navigation: React.FC<NavigationProps> = () => {
   const router = useRouter();
