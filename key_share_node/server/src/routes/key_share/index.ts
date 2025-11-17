@@ -21,8 +21,10 @@ import {
   type AuthenticatedRequest,
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
-import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
+import type {
+  ResponseLocal,
+  KSNodeRequest,
+} from "@oko-wallet-ksn-server/routes/io";
 import { registry } from "@oko-wallet-ksn-server/openapi/registry";
 import {
   CheckKeyShareRequestBodySchema,

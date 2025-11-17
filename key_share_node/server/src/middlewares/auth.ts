@@ -1,7 +1,7 @@
 import type { Request, Response, NextFunction } from "express";
 import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
-import type { OAuthProvider } from "@oko-wallet-ksn-server/auth/types";
 
+import type { OAuthProvider } from "@oko-wallet-ksn-server/auth/types";
 import {
   validateAuth0Token,
   validateGoogleOAuthToken,
