@@ -1,6 +1,6 @@
 import type { Pool } from "pg";
 import type { Logger } from "winston";
-import { processKSNodeHealthChecks } from "@oko-wallet/ks-node-health";
+import { healthCheckKSNode } from "@oko-wallet/admin-api/api";
 
 import { getSecondsFromNow, sleep } from "@oko-wallet-api/utils";
 
@@ -22,8 +22,7 @@ export async function startKSNodeHealthCheckRuntime(
     try {
       const start = Date.now();
 
-      const processKSNodeHealthChecksRes =
-        await processKSNodeHealthChecks(pool);
+      const processKSNodeHealthChecksRes = await healthCheckKSNode(pool);
       const duration = getSecondsFromNow(start);
 
       if (processKSNodeHealthChecksRes.success === false) {

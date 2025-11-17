@@ -31,7 +31,6 @@
       "backend/oko_pg_interface",
       "backend/admin_api",
       "backend/tss_api",
-      "backend/ks_node_health",
       "backend/openapi",
       "embed/oko_attached",
       "ui/oko_common_ui",

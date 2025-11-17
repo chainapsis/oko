@@ -62,7 +62,7 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
       <Spacing height={32} />
 
       <a
-        href="https://help.keplr.app/"
+        href="https://oko-wallet.canny.io/bug-reports"
         target="_blank"
         rel="noopener noreferrer"
         className={styles.supportLink}

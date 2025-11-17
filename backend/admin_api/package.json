@@ -1,14 +1,16 @@
 {
   "name": "@oko-wallet/admin-api",
-  "main": "./src/index.ts",
   "type": "module",
   "scripts": {
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
+  "exports": {
+    ".": "./src/index.ts",
+    "./api": "./src/api/index.ts"
+  },
   "dependencies": {
     "@oko-wallet/aws": "workspace:*",
     "@oko-wallet/crypto-js": "workspace:*",
-    "@oko-wallet/ks-node-health": "workspace:*",
     "@oko-wallet/oko-api-error-codes": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-api-server-state": "workspace:*",

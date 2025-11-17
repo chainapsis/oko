@@ -2,7 +2,7 @@ import { jest } from "@jest/globals";
 import { Pool } from "pg";
 import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import { processKSNodeHealthChecks } from "@oko-wallet/ks-node-health";
+import { healthCheckKSNode } from "@oko-wallet/admin-api/api";
 
 import { testPgConfig } from "@oko-wallet-api/database/test_config";
 import { resetPgDatabase } from "@oko-wallet-api/testing/database";
@@ -94,7 +94,7 @@ describe("ks_node_health_check_test", () => {
         }
       });
 
-      const result = await processKSNodeHealthChecks(pool);
+      const result = await healthCheckKSNode(pool);
 
       expect(result.success).toBe(true);
       if (result.success === false) {
@@ -138,7 +138,7 @@ describe("ks_node_health_check_test", () => {
     });
 
     it("should handle empty ks node list", async () => {
-      const result = await processKSNodeHealthChecks(pool);
+      const result = await healthCheckKSNode(pool);
 
       expect(result.success).toBe(true);
       if (result.success === false) {
@@ -169,7 +169,7 @@ describe("ks_node_health_check_test", () => {
         }),
       );
 
-      const result = await processKSNodeHealthChecks(pool);
+      const result = await healthCheckKSNode(pool);
 
       expect(result.success).toBe(true);
       if (result.success === false) {
