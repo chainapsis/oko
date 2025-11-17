@@ -1,5 +1,10 @@
 export interface ResponseLocals {
-  google_user: GoogleUser;
+  oauth_user?: OAuthUser;
 }
 
-export interface GoogleUser {}
+export interface OAuthUser {
+  type: "google" | "auth0";
+  email: string;
+  name?: string;
+  sub: string;
+}

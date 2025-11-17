@@ -60,12 +60,12 @@ export const UserAuthHeaderSchema = z.object({
     }),
 });
 
-export const GoogleAuthHeaderSchema = z.object({
+export const OAuthHeaderSchema = z.object({
   Authorization: z
     .string()
     .regex(/^Bearer\s[\w-]+\.[\w-]+\.[\w-]+$/)
     .openapi({
-      description: "Google OAuth bearer token",
+      description: "OAuth bearer token (Google or Auth0)",
       example: "Bearer ya29.a0AWY7C...",
       param: {
         name: "Authorization",

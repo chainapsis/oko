@@ -34,6 +34,8 @@ export interface OkoWalletInterface {
   signOut: () => Promise<void>;
   getPublicKey: () => Promise<string | null>;
   getEmail: () => Promise<string | null>;
+  startEmailSignIn: (email: string) => Promise<void>;
+  completeEmailSignIn: (email: string, code: string) => Promise<void>;
   on: (handlerDef: OkoWalletCoreEventHandler2) => void;
 }
 

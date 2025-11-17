@@ -1,3 +1,5 @@
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+
 export interface MsgEventContext {
   port: MessagePort;
   hostOrigin: string;
@@ -26,9 +28,30 @@ export interface GoogleTokenInfo {
   typ: string;
 }
 
+export interface Auth0TokenInfo {
+  email: string;
+  email_verified: boolean;
+  nonce: string;
+  name: string;
+  sub: string;
+  iss: string;
+  aud: string | string[];
+  exp: number;
+}
+
+export interface TokenInfo {
+  provider: OAuthProvider;
+  email: string;
+  email_verified: boolean;
+  nonce?: string;
+  name?: string;
+  sub?: string;
+}
+
 export interface UserSignInResult {
   publicKey: string;
   walletId: string;
   jwtToken: string;
   keyshare_1: string;
+  isNewUser: boolean;
 }

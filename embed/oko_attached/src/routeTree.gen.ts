@@ -11,6 +11,8 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoogleCallbackIndexRouteImport } from './routes/google/callback/index'
+import { Route as Auth0PopupIndexRouteImport } from './routes/auth0/popup/index'
+import { Route as Auth0CallbackIndexRouteImport } from './routes/auth0/callback/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,30 +24,53 @@ const GoogleCallbackIndexRoute = GoogleCallbackIndexRouteImport.update({
   path: '/google/callback/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Auth0PopupIndexRoute = Auth0PopupIndexRouteImport.update({
+  id: '/auth0/popup/',
+  path: '/auth0/popup/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Auth0CallbackIndexRoute = Auth0CallbackIndexRouteImport.update({
+  id: '/auth0/callback/',
+  path: '/auth0/callback/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth0/callback': typeof Auth0CallbackIndexRoute
+  '/auth0/popup': typeof Auth0PopupIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth0/callback': typeof Auth0CallbackIndexRoute
+  '/auth0/popup': typeof Auth0PopupIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth0/callback/': typeof Auth0CallbackIndexRoute
+  '/auth0/popup/': typeof Auth0PopupIndexRoute
   '/google/callback/': typeof GoogleCallbackIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/google/callback'
+  fullPaths: '/' | '/auth0/callback' | '/auth0/popup' | '/google/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/google/callback'
-  id: '__root__' | '/' | '/google/callback/'
+  to: '/' | '/auth0/callback' | '/auth0/popup' | '/google/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/auth0/callback/'
+    | '/auth0/popup/'
+    | '/google/callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  Auth0CallbackIndexRoute: typeof Auth0CallbackIndexRoute
+  Auth0PopupIndexRoute: typeof Auth0PopupIndexRoute
   GoogleCallbackIndexRoute: typeof GoogleCallbackIndexRoute
 }
 
@@ -65,11 +90,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoogleCallbackIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth0/popup/': {
+      id: '/auth0/popup/'
+      path: '/auth0/popup'
+      fullPath: '/auth0/popup'
+      preLoaderRoute: typeof Auth0PopupIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth0/callback/': {
+      id: '/auth0/callback/'
+      path: '/auth0/callback'
+      fullPath: '/auth0/callback'
+      preLoaderRoute: typeof Auth0CallbackIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  Auth0CallbackIndexRoute: Auth0CallbackIndexRoute,
+  Auth0PopupIndexRoute: Auth0PopupIndexRoute,
   GoogleCallbackIndexRoute: GoogleCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport
