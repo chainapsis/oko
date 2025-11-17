@@ -10134,7 +10134,6 @@ __metadata:
     "@types/node": "npm:*"
     "@types/react": "npm:*"
     "@types/react-dom": "npm:*"
-    auth0-js: "npm:^9.28.1"
     dotenv: "npm:*"
     next: "npm:^15.4.5"
     react: "npm:*"
@@ -17899,7 +17898,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"auth0-js@npm:^9.28.1, auth0-js@npm:^9.29.0":
+"auth0-js@npm:^9.29.0":
   version: 9.29.0
   resolution: "auth0-js@npm:9.29.0"
   dependencies:
