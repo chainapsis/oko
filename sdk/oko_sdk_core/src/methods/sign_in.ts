@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 import { OKO_ATTACHED_TARGET } from "@oko-wallet-sdk-core/window_msg/target";
 import type {
   OkoWalletInterface,
@@ -5,27 +7,27 @@ import type {
   OkoWalletMsg,
   OkoWalletMsgOAuthSignInUpdateAck,
   OkoWalletMsgOAuthSignInUpdate,
+  OkoWalletMsgOpenModal,
 } from "@oko-wallet-sdk-core/types";
 import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
 import { GOOGLE_CLIENT_ID } from "@oko-wallet-sdk-core/auth/google";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 
-export async function signIn(this: OkoWalletInterface, type: "google") {
+export async function signIn(
+  this: OkoWalletInterface,
+  type: "google" | "email",
+) {
   await this.waitUntilInitialized;
 
-  // TODO: @hyunjae
-
-  // SDK takes oauth_sign_in_result msg from the popup window
-  let signInRes: OkoWalletMsgOAuthSignInUpdate;
   try {
     switch (type) {
       case "google": {
-        signInRes = await tryGoogleSignIn(
-          this.sdkEndpoint,
-          this.apiKey,
-          this.sendMsgToIframe.bind(this),
-        );
+        await handleGoogleSignIn(this);
+        break;
+      }
+      case "email": {
+        await handleEmailSignIn(this);
         break;
       }
       default:
@@ -34,19 +36,6 @@ export async function signIn(this: OkoWalletInterface, type: "google") {
   } catch (err) {
     throw new Error(`Sign in error, err: ${err}`);
   }
-
-  if (!signInRes.payload.success) {
-    throw new Error(`sign in fail, err: ${signInRes.payload.err}`);
-  }
-
-  // const msg: EWalletMsg = {
-  //   target: "oko_attached",
-  //   msg_type: "oauth_sign_in",
-  //   payload: signInRes.payload.data,
-  // };
-  //
-  // // SDK sends "oauth_sign_in" msg to attached w/ oauth payload
-  // await this.sendMsgToIframe(msg);
 
   const publicKey = await this.getPublicKey();
   const email = await this.getEmail();
@@ -59,6 +48,55 @@ export async function signIn(this: OkoWalletInterface, type: "google") {
       email,
       publicKey,
     });
+  }
+}
+
+async function handleGoogleSignIn(okoWallet: OkoWalletInterface) {
+  const signInRes = await tryGoogleSignIn(
+    okoWallet.sdkEndpoint,
+    okoWallet.apiKey,
+    okoWallet.sendMsgToIframe.bind(okoWallet),
+  );
+
+  if (!signInRes.payload.success) {
+    throw new Error(`sign in fail, err: ${signInRes.payload.err}`);
+  }
+}
+
+async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
+  const modalMsg: OkoWalletMsgOpenModal = {
+    target: OKO_ATTACHED_TARGET,
+    msg_type: "open_modal",
+    payload: {
+      modal_type: "auth/email_login",
+      modal_id: uuidv4(),
+      data: { email_hint: null },
+    },
+  };
+
+  const result = await okoWallet.openModal(modalMsg);
+  if (!result.success) {
+    throw new Error(result.err.type);
+  }
+
+  const payload = result.data;
+  if (payload.modal_type !== "auth/email_login") {
+    throw new Error("Invalid email modal response");
+  }
+
+  switch (payload.type) {
+    case "approve": {
+      return;
+    }
+    case "reject": {
+      throw new Error("email_login_rejected");
+    }
+    case "error": {
+      throw new Error(payload.error.type);
+    }
+    default: {
+      throw new Error("Unknown email modal response type");
+    }
   }
 }
 

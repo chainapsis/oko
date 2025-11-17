@@ -7,27 +7,32 @@ import { useUserInfoState } from "@/state/user_info";
 import { useAddresses } from "@/hooks/use_addresses";
 import { CosmosAccountsModal } from "@/components/cosmos_accounts_modal/cosmos_accounts_modal";
 
+type SignInStrategy = "google" | "email";
+
 export const LoginWidget: FC<LoginWidgetProps> = () => {
   const { okoCosmos } = useOko();
   const [isSigningIn, setIsSigningIn] = useState(false);
+  const [signInStrategy, setSignInStrategy] = useState<SignInStrategy | null>(
+    null,
+  );
   const { isSignedIn, email, publicKey } = useUserInfoState();
   const { cosmosAddress, ethAddress } = useAddresses();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSignIn = async () => {
+  const handleSignIn = async (strategy: SignInStrategy) => {
+    if (!okoCosmos) {
+      return;
+    }
+
     try {
-      if (okoCosmos) {
-        setIsSigningIn(true);
-
-        const okoWallet = okoCosmos.okoWallet;
-
-        // TODO: @hyunjae
-        okoWallet.signIn("google");
-      }
+      setIsSigningIn(true);
+      setSignInStrategy(strategy);
+      await okoCosmos.okoWallet.signIn(strategy);
     } catch (error) {
-      console.error(error);
+      console.error(`[sandbox] ${strategy} sign in failed`, error);
     } finally {
       setIsSigningIn(false);
+      setSignInStrategy(null);
     }
   };
 
@@ -41,8 +46,13 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
     return (
       <Widget>
         <div className={styles.signingInWrapper}>
-          <div className={styles.googleCircle}>google</div>
-          <p>Signing in</p>
+          <div className={styles.googleCircle}>
+            {signInStrategy === "email" ? "email" : "google"}
+          </div>
+          <p>
+            Signing in{" "}
+            {signInStrategy === "email" ? "(email iframe)" : "(Google OAuth)"}
+          </p>
         </div>
       </Widget>
     );
@@ -93,7 +103,20 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
     <Widget>
       <div className={styles.container}>
         <div className={styles.logoWrapper}>logo</div>
-        <button onClick={handleSignIn}>Google Login</button>
+        <button
+          onClick={() => handleSignIn("google")}
+          disabled={isSigningIn}
+          data-testid="google-login-btn"
+        >
+          Google Login
+        </button>
+        <button
+          onClick={() => handleSignIn("email")}
+          disabled={isSigningIn}
+          data-testid="email-login-btn"
+        >
+          Email Login (dummy)
+        </button>
         <div className={styles.walletBoxRow}>
           {/* <WalletBox icon={<KeplrIcon />} label="Keplr" /> */}
           {/* <WalletBox icon={<MetamaskIcon />} label="Metamask" /> */}
