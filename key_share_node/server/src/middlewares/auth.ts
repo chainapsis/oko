@@ -48,19 +48,21 @@ export async function bearerTokenMiddleware(
 
   try {
     let result;
-
-    if (authType === "google") {
-      result = await validateGoogleOAuthToken(idToken);
-    } else if (authType === "auth0") {
-      result = await validateAuth0Token(idToken);
-    } else {
-      const errorRes: KSNodeApiErrorResponse = {
-        success: false,
-        code: "UNAUTHORIZED",
-        msg: `Invalid auth_type: ${authType}. Must be 'google' or 'auth0'`,
-      };
-      res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
-      return;
+    switch (authType) {
+      case "google":
+        result = await validateGoogleOAuthToken(idToken);
+        break;
+      case "auth0":
+        result = await validateAuth0Token(idToken);
+        break;
+      default:
+        const errorRes: KSNodeApiErrorResponse = {
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: `Invalid auth_type: ${authType}. Must be 'google' or 'auth0'`,
+        };
+        res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+        return;
     }
 
     if (!result.success) {

@@ -35,16 +35,15 @@ export async function oauthMiddleware(
     return;
   }
 
-  if (authType === "google") {
-    return googleAuthMiddleware(req as GoogleAuthenticatedRequest, res, next);
+  switch (authType) {
+    case "google":
+      return googleAuthMiddleware(req as GoogleAuthenticatedRequest, res, next);
+    case "auth0":
+      return auth0AuthMiddleware(req as Auth0AuthenticatedRequest, res, next);
+    default:
+      res.status(400).json({
+        error: `Invalid auth_type: ${authType}. Must be 'google' or 'auth0'`,
+      });
+      return;
   }
-
-  if (authType === "auth0") {
-    return auth0AuthMiddleware(req as Auth0AuthenticatedRequest, res, next);
-  }
-
-  res.status(400).json({
-    error: `Invalid auth_type: ${authType}. Must be 'google' or 'auth0'`,
-  });
-  return;
 }
