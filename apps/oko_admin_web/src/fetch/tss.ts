@@ -6,7 +6,7 @@ import type {
   SetTssAllActivationSettingResponse,
 } from "@oko-wallet/oko-types/admin";
 
-import { errorHandle } from "@oko-wallet-admin/fetch/utils";
+import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
 export async function getTSSSessionsList({
@@ -26,27 +26,29 @@ export async function getTSSSessionsList({
     node_id,
   };
 
-  return errorHandle<GetTssSessionListResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/tss/get_tss_session_list`, {
+  return doFetch<GetTssSessionListResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/tss/get_tss_session_list`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }
 
 export async function getTssAllActivationSetting({ token }: { token: string }) {
-  return errorHandle<GetTssAllActivationSettingResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/tss/get_tss_all_activation_setting`, {
+  return doFetch<GetTssAllActivationSettingResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/tss/get_tss_all_activation_setting`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }),
+    },
   );
 }
 
@@ -61,14 +63,15 @@ export async function setTssAllActivationSetting({
     is_enabled,
   };
 
-  return errorHandle<SetTssAllActivationSettingResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/tss/set_tss_all_activation_setting`, {
+  return doFetch<SetTssAllActivationSettingResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/tss/set_tss_all_activation_setting`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }

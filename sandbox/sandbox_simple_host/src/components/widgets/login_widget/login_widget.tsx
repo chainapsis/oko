@@ -19,7 +19,7 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
   const { cosmosAddress, ethAddress } = useAddresses();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSignIn = async (strategy: SignInStrategy) => {
+  async function handleSignIn(strategy: SignInStrategy) {
     if (!okoCosmos) {
       return;
     }
@@ -34,7 +34,7 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
       setIsSigningIn(false);
       setSignInStrategy(null);
     }
-  };
+  }
 
   const handleSignOut = async () => {
     if (okoCosmos) {

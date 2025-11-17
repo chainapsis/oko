@@ -11,7 +11,7 @@ import type {
   UpdateKSNodeResponse,
 } from "@oko-wallet/oko-types/admin";
 
-import { errorHandle } from "@oko-wallet-admin/fetch/utils";
+import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
 export type GetKSNodesParams = {
@@ -51,27 +51,29 @@ export type ActivateKSNodeParams = {
 };
 
 export async function getAllKeyShareNodes({ token }: GetKSNodesParams) {
-  return errorHandle<GetAllKSNodeResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_all_ks_nodes`, {
+  return doFetch<GetAllKSNodeResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_all_ks_nodes`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }),
+    },
   );
 }
 
 export async function getKSNodeById({ token, node_id }: GetKSNodeByIdParams) {
-  return errorHandle<GetKSNodeByIdResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ks_node_by_id`, {
+  return doFetch<GetKSNodeByIdResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ks_node_by_id`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ node_id }),
-    }),
+    },
   );
 }
 
@@ -85,15 +87,16 @@ export async function createKeyShareNode({
     server_url,
   };
 
-  return errorHandle<CreateKSNodeResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/create_ks_node`, {
+  return doFetch<CreateKSNodeResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/create_ks_node`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }
 
@@ -105,15 +108,16 @@ export async function deactivateKeyShareNode({
     node_id,
   };
 
-  return errorHandle<DeactivateKSNodeResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/deactivate_ks_node`, {
+  return doFetch<DeactivateKSNodeResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/deactivate_ks_node`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }
 
@@ -125,15 +129,16 @@ export async function deleteKeyShareNode({
     node_id,
   };
 
-  return errorHandle<DeleteKSNodeResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/delete_ks_node`, {
+  return doFetch<DeleteKSNodeResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/delete_ks_node`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }
 
@@ -147,15 +152,16 @@ export async function updateKeyShareNode({
     server_url,
   };
 
-  return errorHandle<UpdateKSNodeResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/update_ks_node`, {
+  return doFetch<UpdateKSNodeResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/update_ks_node`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }
 
@@ -167,14 +173,15 @@ export async function activateKeyShareNode({
     node_id,
   };
 
-  return errorHandle<{ node_id: string }>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/activate_ks_node`, {
+  return doFetch<{ node_id: string }>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/activate_ks_node`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }

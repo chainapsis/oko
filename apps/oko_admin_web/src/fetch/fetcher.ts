@@ -9,11 +9,14 @@ function checkIsTokenInvalid(errorCode: string, status: number) {
 
 let resetTimeout: NodeJS.Timeout | null = null;
 
-export async function errorHandle<T>(
-  fetchCall: () => Promise<Response>,
+export async function doFetch<T>(
+  // fetchCall: () => Promise<Response>,
+  input: RequestInfo | URL,
+  init?: RequestInit,
 ): Promise<OkoApiResponse<T>> {
   try {
-    const response = await fetchCall();
+    // const response = await fetchCall();
+    const response = await fetch(input, init);
     const data = await response.json();
 
     if (!response.ok || !data.success) {
