@@ -1,79 +1,68 @@
+import type { Result } from "@oko-wallet/stdlib-js";
 import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
-import type { GoogleTokenInfo } from "@oko-wallet-attached/window_msgs/types";
 
+import type {
+  GoogleTokenInfo,
+  Auth0TokenInfo,
+  TokenInfo,
+} from "@oko-wallet-attached/window_msgs/types";
 import {
   AUTH0_CLIENT_ID,
   AUTH0_DOMAIN,
 } from "@oko-wallet-attached/config/auth0";
 
-export interface NormalizedTokenInfo {
-  provider: OAuthProvider;
-  email: string;
-  email_verified: boolean;
-  nonce?: string;
-  name?: string;
-  sub?: string;
-}
-
-export async function getTokenInfo(
+export async function verifyIdToken(
   authType: OAuthProvider,
   idToken: string,
-): Promise<NormalizedTokenInfo> {
-  if (authType === "auth0") {
-    const payload = decodeAuth0IdToken(idToken);
-
-    if (payload.iss !== `https://${AUTH0_DOMAIN}/`) {
-      throw new Error("Invalid Auth0 token issuer");
+  nonce: string,
+): Promise<Result<TokenInfo, string>> {
+  try {
+    if (authType === "auth0") {
+      const auth0TokenInfo = await verifyAuth0IdToken(idToken, nonce);
+      return {
+        success: true,
+        data: {
+          provider: "auth0",
+          email: auth0TokenInfo.email,
+          email_verified: auth0TokenInfo.email_verified,
+          nonce: auth0TokenInfo.nonce,
+          name: auth0TokenInfo.name,
+          sub: auth0TokenInfo.sub,
+        },
+      };
     }
 
-    const audiences = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
-    if (!audiences.filter(Boolean).includes(AUTH0_CLIENT_ID)) {
-      throw new Error("Invalid Auth0 token audience");
+    if (authType === "google") {
+      const googleTokenInfo = await verifyGoogleIdToken(idToken, nonce);
+      return {
+        success: true,
+        data: {
+          provider: "google",
+          email: googleTokenInfo.email,
+          email_verified: googleTokenInfo.email_verified === "true",
+          nonce: googleTokenInfo.nonce,
+          name: googleTokenInfo.name,
+          sub: googleTokenInfo.sub,
+        },
+      };
     }
-
-    const exp =
-      typeof payload.exp === "string"
-        ? Number(payload.exp)
-        : (payload.exp ?? null);
-    if (exp && Math.floor(Date.now() / 1000) >= exp) {
-      throw new Error("Auth0 token has expired");
-    }
-
-    if (!payload.email) {
-      throw new Error("Auth0 token missing email claim");
-    }
-
-    const emailVerified =
-      payload.email_verified === true || payload.email_verified === "true";
 
     return {
-      provider: "auth0",
-      email: payload.email,
-      email_verified: emailVerified,
-      nonce: payload.nonce,
-      name: typeof payload.name === "string" ? payload.name : undefined,
-      sub: payload.sub,
+      success: false,
+      err: `Invalid authentication type: ${authType}`,
     };
-  }
-
-  if (authType !== "google") {
-    const tokenInfo = await verifyGoogleIdToken(idToken);
-    const emailVerified = tokenInfo.email_verified === "true";
-
+  } catch (error) {
     return {
-      provider: "google",
-      email: tokenInfo.email,
-      email_verified: emailVerified,
-      nonce: tokenInfo.nonce,
-      name: tokenInfo.name,
-      sub: tokenInfo.sub,
+      success: false,
+      err: `Failed to verify id token: ${error}`,
     };
   }
-
-  throw new Error(`Invalid authentication type: ${authType}`);
 }
 
-async function verifyGoogleIdToken(idToken: string): Promise<GoogleTokenInfo> {
+async function verifyGoogleIdToken(
+  idToken: string,
+  nonce: string,
+): Promise<GoogleTokenInfo> {
   const response = await fetch(
     `https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,
   );
@@ -82,44 +71,73 @@ async function verifyGoogleIdToken(idToken: string): Promise<GoogleTokenInfo> {
     throw new Error(`Google authentication is invalid. Please sign in again.`);
   }
 
-  return (await response.json()) as GoogleTokenInfo;
+  const googleTokenInfo = (await response.json()) as GoogleTokenInfo;
+  if (googleTokenInfo.nonce !== nonce) {
+    throw new Error("Google token nonce mismatch");
+  }
+
+  return googleTokenInfo;
 }
 
-const textDecoder = new TextDecoder();
+async function verifyAuth0IdToken(
+  idToken: string,
+  nonce: string,
+): Promise<Auth0TokenInfo> {
+  const payload = decodeAuth0IdToken(idToken);
 
-interface Auth0IdTokenPayload {
-  email?: string;
-  email_verified?: string | boolean;
-  nonce?: string;
-  name?: string;
-  sub?: string;
-  iss?: string;
-  aud?: string | string[];
-  exp?: number | string;
+  if (payload.iss !== `https://${AUTH0_DOMAIN}/`) {
+    throw new Error("Invalid Auth0 token issuer");
+  }
+
+  const audiences = Array.isArray(payload.aud) ? payload.aud : [payload.aud];
+  if (!audiences.filter(Boolean).includes(AUTH0_CLIENT_ID)) {
+    throw new Error("Invalid Auth0 token audience");
+  }
+
+  const exp = Number(payload.exp);
+  if (exp && Math.floor(Date.now() / 1000) >= exp) {
+    throw new Error("Auth0 token has expired");
+  }
+
+  if (!payload.email) {
+    throw new Error("Auth0 token missing email claim");
+  }
+
+  if (payload.nonce !== nonce) {
+    throw new Error("Auth0 token nonce mismatch");
+  }
+
+  // @TODO
+  if (!payload.email_verified) {
+    throw new Error("Auth0 token email not verified");
+  }
+
+  return payload;
 }
 
-function decodeAuth0IdToken(idToken: string): Auth0IdTokenPayload {
+function decodeAuth0IdToken(idToken: string): Auth0TokenInfo {
   const segments = idToken.split(".");
   if (segments.length < 2) {
     throw new Error("Invalid Auth0 id_token");
   }
 
-  const payloadJson = base64UrlDecode(segments[1]);
-  return JSON.parse(payloadJson) as Auth0IdTokenPayload;
-}
+  const textDecoder = new TextDecoder();
 
-function base64UrlDecode(input: string): string {
-  let base64 = input.replace(/-/g, "+").replace(/_/g, "/");
-  const pad = base64.length % 4;
-  if (pad) {
-    base64 += "=".repeat(4 - pad);
+  try {
+    let base64 = segments[1].replace(/-/g, "+").replace(/_/g, "/");
+    const pad = base64.length % 4;
+    if (pad) {
+      base64 += "=".repeat(4 - pad);
+    }
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i += 1) {
+      bytes[i] = binary.charCodeAt(i);
+    }
+
+    const payloadJson = textDecoder.decode(bytes);
+    return JSON.parse(payloadJson) as Auth0TokenInfo;
+  } catch (error) {
+    throw new Error(`Failed to decode Auth0 id_token: ${error}`);
   }
-
-  const binary = atob(base64);
-  const bytes = new Uint8Array(binary.length);
-  for (let i = 0; i < binary.length; i += 1) {
-    bytes[i] = binary.charCodeAt(i);
-  }
-
-  return textDecoder.decode(bytes);
 }

@@ -138,6 +138,7 @@ export async function handleExistingUser(
           walletId: signInResp.user.wallet_id,
           jwtToken: signInResp.token,
           keyshare_1: keyshare_1_res.data,
+          isNewUser: false,
         },
       };
     }
@@ -177,6 +178,7 @@ user pk: ${signInResp.user.public_key}`,
       walletId: signInResp.user.wallet_id,
       jwtToken: signInResp.token,
       keyshare_1: keyshare_1_res.data,
+      isNewUser: false,
     },
   };
 }
@@ -259,6 +261,7 @@ export async function handleNewUser(
       walletId: reqKeygenRes.data.user.wallet_id,
       jwtToken: reqKeygenRes.data.token,
       keyshare_1: keygen_1.tss_private_share.toHex(),
+      isNewUser: true,
     },
   };
 }
@@ -334,6 +337,7 @@ export async function handleReshare(
       walletId: signInResp.user.wallet_id,
       jwtToken: signInResp.token,
       keyshare_1: keyshare_1_res.data,
+      isNewUser: false,
     },
   };
 }

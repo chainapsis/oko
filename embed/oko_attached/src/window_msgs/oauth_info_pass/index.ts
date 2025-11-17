@@ -1,3 +1,4 @@
+import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   OkoWalletMsgOAuthInfoPass,
   OkoWalletMsgOAuthInfoPassAck,
@@ -17,11 +18,16 @@ import {
   setUserProperties,
 } from "@oko-wallet-attached/analytics/amplitude";
 import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
-import { buildRequestContext } from "./context";
-import { handleExistingUser, handleNewUser, handleReshare } from "./user";
-import type { OAuthRequestContext } from "./context";
-
+import {
+  checkUserExists,
+  handleExistingUser,
+  handleNewUser,
+  handleReshare,
+} from "./user";
 import { bail } from "./errors";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+import { verifyIdToken } from "./token";
+import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
@@ -29,25 +35,101 @@ export async function handleOAuthInfoPass(
 ): Promise<void> {
   const { port } = ctx;
   const appState = useAppState.getState();
+  const hostOrigin = message.payload.target_origin;
 
   let hasSignedIn = false;
   let isNewUser = false;
-  const hostOrigin = message.payload.target_origin;
 
   try {
-    const context = await buildRequestContext(appState, message);
-    const result = await processOAuthFlow(context);
+    if (message.msg_type !== "oauth_info_pass") {
+      await bail(message, {
+        type: "invalid_msg_type",
+        msg_type: message.msg_type,
+      });
+      return;
+    }
 
-    appState.setKeyshare_1(hostOrigin, result.data.keyshare_1);
-    appState.setAuthToken(hostOrigin, result.data.jwtToken);
+    if (!appState.getHostOriginList().includes(hostOrigin)) {
+      await bail(message, { type: "origin_not_registered" });
+      return;
+    }
+
+    const nonceRegistered = appState.getNonce(hostOrigin);
+    if (!nonceRegistered) {
+      await bail(message, { type: "nonce_missing" });
+      return;
+    }
+
+    const apiKey = message.payload.api_key;
+    if (!apiKey) {
+      await bail(message, { type: "api_key_missing" });
+      return;
+    }
+    appState.setApiKey(hostOrigin, apiKey);
+
+    const authType: OAuthProvider = message.payload.auth_type;
+    const idToken = message.payload.id_token;
+
+    const tokenInfoRes = await verifyIdToken(
+      authType,
+      idToken,
+      nonceRegistered,
+    );
+    if (!tokenInfoRes.success) {
+      await bail(message, { type: "vendor_token_verification_failed" });
+      return;
+    }
+    const tokenInfo = tokenInfoRes.data;
+
+    const userExistsRes = await checkUserExists(tokenInfo.email);
+    if (!userExistsRes.success) {
+      console.log("checkUserExists failed", userExistsRes);
+      await bail(message, {
+        type: "check_user_request_fail",
+        error: userExistsRes.err.toString(),
+      });
+      return;
+    }
+
+    const userExistsResp = userExistsRes.data;
+    if (!userExistsResp.success) {
+      await bail(message, {
+        type: "check_user_request_fail",
+        error: userExistsResp.msg,
+      });
+      return;
+    }
+    const userExists = userExistsResp.data;
+
+    // Highest-priority guard: global active nodes below threshold → block all flows
+    if (userExists.active_nodes_below_threshold) {
+      await bail(message, {
+        type: "active_nodes_below_threshold",
+      });
+      return;
+    }
+
+    const handleUserSignInRes = await handleUserSignIn(
+      idToken,
+      userExists,
+      authType,
+    );
+    if (!handleUserSignInRes.success) {
+      await bail(message, handleUserSignInRes.err);
+      return;
+    }
+
+    const signInResult = handleUserSignInRes.data;
+    appState.setKeyshare_1(hostOrigin, signInResult.keyshare_1);
+    appState.setAuthToken(hostOrigin, signInResult.jwtToken);
     appState.setWallet(hostOrigin, {
-      walletId: result.data.walletId,
-      publicKey: result.data.publicKey,
-      email: context.tokenInfo.email,
+      walletId: signInResult.walletId,
+      publicKey: signInResult.publicKey,
+      email: tokenInfo.email,
     });
 
     hasSignedIn = true;
-    isNewUser = result.isNewUser;
+    isNewUser = signInResult.isNewUser;
 
     const updateMsg: OkoWalletMsgOAuthSignInUpdate = {
       target: OKO_SDK_TARGET,
@@ -56,102 +138,78 @@ export async function handleOAuthInfoPass(
     };
 
     await sendMsgToWindow(window.parent, updateMsg, hostOrigin);
-  } catch (error) {
-    await bail(message, normalizeError(error));
+  } catch (error: any) {
+    await bail(message, { type: "unknown", error: error.toString() });
     return;
   } finally {
-    finalizeFlow(
-      appState,
-      hostOrigin,
-      hasSignedIn,
-      isNewUser,
-      message.payload.auth_type ?? "google",
-      port,
-    );
-  }
-}
-
-function finalizeFlow(
-  appState: ReturnType<typeof useAppState.getState>,
-  hostOrigin: string,
-  hasSignedIn: boolean,
-  isNewUser: boolean,
-  authType: "google" | "auth0",
-  port: MessagePort,
-) {
-  if (hasSignedIn) {
-    const wallet = appState.getWallet(hostOrigin);
-    if (wallet?.walletId) {
-      setUserId(wallet.walletId);
-      if (isNewUser) {
-        setUserProperties({
-          authType,
-          createdOrigin: hostOrigin,
-        });
+    if (hasSignedIn) {
+      const wallet = appState.getWallet(hostOrigin);
+      if (wallet?.walletId) {
+        setUserId(wallet.walletId);
+        if (isNewUser) {
+          setUserProperties({
+            authType: message.payload.auth_type,
+            createdOrigin: hostOrigin,
+          });
+        }
       }
     }
+
+    const infoPassAck: OkoWalletMsgOAuthInfoPassAck = {
+      target: OKO_ATTACHED_POPUP,
+      msg_type: "oauth_info_pass_ack",
+      payload: null,
+    };
+
+    port.postMessage(infoPassAck);
+    appState.setNonce(hostOrigin, null);
   }
-
-  const infoPassAck: OkoWalletMsgOAuthInfoPassAck = {
-    target: OKO_ATTACHED_POPUP,
-    msg_type: "oauth_info_pass_ack",
-    payload: null,
-  };
-
-  port.postMessage(infoPassAck);
-  appState.setNonce(hostOrigin, null);
 }
 
-function normalizeError(error: unknown): OAuthSignInError {
-  if (error && typeof error === "object" && "type" in error) {
-    return error as OAuthSignInError;
-  }
-
-  return {
-    type: "unknown",
-    error: error instanceof Error ? error.message : String(error),
-  };
-}
-
-export interface OAuthFlowResult {
-  data: UserSignInResult;
-  isNewUser: boolean;
-}
-
-export async function processOAuthFlow(
-  context: OAuthRequestContext,
-): Promise<OAuthFlowResult> {
-  const { idToken, authType, userExists } = context;
+export async function handleUserSignIn(
+  idToken: string,
+  userExists: CheckEmailResponse,
+  authType: OAuthProvider,
+): Promise<Result<UserSignInResult, OAuthSignInError>> {
   const meta = userExists.keyshare_node_meta;
 
+  // use user sign up flow
   if (!userExists.exists) {
     const signInRes = await handleNewUser(idToken, meta, authType);
     if (!signInRes.success) {
-      throw signInRes.err;
+      return {
+        success: false,
+        err: signInRes.err,
+      };
     }
     return {
+      success: true,
       data: signInRes.data,
-      isNewUser: true,
     };
   }
-
-  if (userExists.needs_reshare) {
-    const signInRes = await handleReshare(idToken, meta, authType);
-    if (!signInRes.success) {
-      throw signInRes.err;
+  // existing user sign in or reshare flow
+  else {
+    // reshare flow
+    if (userExists.needs_reshare) {
+      const signInRes = await handleReshare(idToken, meta, authType);
+      if (!signInRes.success) {
+        throw signInRes.err;
+      }
+      return {
+        success: true,
+        data: signInRes.data,
+      };
     }
-    return {
-      data: signInRes.data,
-      isNewUser: false,
-    };
+    // sign in flow
+    else {
+      const signInRes = await handleExistingUser(idToken, meta, authType);
+      if (!signInRes.success) {
+        throw signInRes.err;
+      }
+      return {
+        success: true,
+        data: signInRes.data,
+      };
+    }
   }
-
-  const signInRes = await handleExistingUser(idToken, meta, authType);
-  if (!signInRes.success) {
-    throw signInRes.err;
-  }
-  return {
-    data: signInRes.data,
-    isNewUser: false,
-  };
 }
