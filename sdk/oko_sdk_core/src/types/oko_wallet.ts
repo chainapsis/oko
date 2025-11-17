@@ -20,6 +20,8 @@ export interface OkoWalletInterface {
   state: OkoWalletState;
   apiKey: string;
   iframe: HTMLIFrameElement;
+  activePopupId: string | null;
+  activePopupWindow: Window | null;
   sdkEndpoint: string;
   eventEmitter: EventEmitter3<OkoWalletCoreEvent2, OkoWalletCoreEventHandler2>;
   origin: string;

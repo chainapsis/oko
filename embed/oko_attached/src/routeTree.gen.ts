@@ -10,11 +10,17 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as GoogleCallbackIndexRouteImport } from './routes/google/callback/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginIndexRoute = LoginIndexRouteImport.update({
+  id: '/login/',
+  path: '/login/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoogleCallbackIndexRoute = GoogleCallbackIndexRouteImport.update({
@@ -25,27 +31,31 @@ const GoogleCallbackIndexRoute = GoogleCallbackIndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/login/': typeof LoginIndexRoute
   '/google/callback/': typeof GoogleCallbackIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/google/callback'
+  fullPaths: '/' | '/login' | '/google/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/google/callback'
-  id: '__root__' | '/' | '/google/callback/'
+  to: '/' | '/login' | '/google/callback'
+  id: '__root__' | '/' | '/login/' | '/google/callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  LoginIndexRoute: typeof LoginIndexRoute
   GoogleCallbackIndexRoute: typeof GoogleCallbackIndexRoute
 }
 
@@ -56,6 +66,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login/': {
+      id: '/login/'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/google/callback/': {
@@ -70,6 +87,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  LoginIndexRoute: LoginIndexRoute,
   GoogleCallbackIndexRoute: GoogleCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport

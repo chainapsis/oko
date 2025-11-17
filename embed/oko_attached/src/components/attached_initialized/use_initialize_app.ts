@@ -63,18 +63,24 @@ export function useInitializeApp() {
         const searchParams = new URLSearchParams(window.location.search);
 
         const hostOrigin = searchParams.get("host_origin");
+        const isPopupContext = window.parent === window && !!window.opener;
+        const canNotifyParent = window.parent !== window;
+
         if (hostOrigin === null) {
-          const msg: OkoWalletMsgInit = {
-            target: "oko_sdk",
-            msg_type: "init",
-            payload: {
-              success: false,
-              err: "Host origin missing in searchParams",
-            },
-          };
+          if (canNotifyParent) {
+            const msg: OkoWalletMsgInit = {
+              target: "oko_sdk",
+              msg_type: "init",
+              payload: {
+                success: false,
+                err: "Host origin missing in searchParams",
+              },
+            };
 
-          await sendMsgToWindow(window.parent, msg, "*");
+            await sendMsgToWindow(window.parent, msg, "*");
+          }
 
+          console.error("[attached] host origin missing in search params");
           return;
         }
 
@@ -115,8 +121,15 @@ export function useInitializeApp() {
           },
         };
 
-        await sendInitMsg(hostOrigin, initMsg);
-        console.log("[attached] init success, wallet: %s", wallet?.email);
+        if (canNotifyParent) {
+          await sendInitMsg(hostOrigin, initMsg);
+          console.log("[attached] init success, wallet: %s", wallet?.email);
+        } else if (isPopupContext) {
+          console.log(
+            "[attached] popup context initialized for %s",
+            hostOrigin,
+          );
+        }
       } catch (err: any) {
         postLog(
           {
@@ -127,15 +140,17 @@ export function useInitializeApp() {
           { console: true },
         );
 
-        const initErrorMsg: OkoWalletMsgInit = {
-          target: "oko_sdk",
-          msg_type: "init",
-          payload: {
-            success: false,
-            err: err.message,
-          },
-        };
-        sendInitMsg("*", initErrorMsg);
+        if (window.parent !== window) {
+          const initErrorMsg: OkoWalletMsgInit = {
+            target: "oko_sdk",
+            msg_type: "init",
+            payload: {
+              success: false,
+              err: err.message,
+            },
+          };
+          sendInitMsg("*", initErrorMsg);
+        }
       }
     }
 
@@ -146,6 +161,11 @@ export function useInitializeApp() {
 }
 
 function sendInitMsg(hostOrigin: string, msg: OkoWalletMsgInit) {
+  if (window.parent === window) {
+    console.warn("[attached] no parent window to send init msg");
+    return Promise.resolve(msg);
+  }
+
   console.log(`[attached] sending init msg, payload: %o`, msg.payload);
 
   return sendMsgToWindow(window.parent, msg, hostOrigin);
