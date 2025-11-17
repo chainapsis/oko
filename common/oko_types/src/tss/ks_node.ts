@@ -18,6 +18,8 @@ export interface KeyShareNode {
   updated_at: string;
 }
 
+export interface KsNodeHealthCheck {}
+
 export interface NodeStatusInfo {
   name: string;
   endpoint: string;

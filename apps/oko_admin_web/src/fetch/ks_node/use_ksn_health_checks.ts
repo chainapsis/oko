@@ -1,19 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getAllKeyShareNodes } from "@oko-wallet-admin/fetch/ks_node";
 import { useAppState } from "@oko-wallet-admin/state";
+import { doFetch } from "../fetcher";
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "..";
 
 export function useKSNHealthChecks() {
   const { token } = useAppState();
 
   return useQuery({
-    queryKey: ["all-ks-nodes"],
+    queryKey: ["ksn-health-checks"],
     queryFn: async () => {
       if (!token) {
         throw new Error("Token is not found");
       }
 
-      const response = await getAllKeyShareNodes({ token });
+      const response = await doFetch<any>(
+        `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ks_node_by_id`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}),
+        },
+      );
 
       if (!response.success) {
         throw new Error(response.msg);

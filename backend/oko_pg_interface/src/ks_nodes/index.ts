@@ -8,6 +8,7 @@ import {
   type KSNodeWithHealthCheck,
   type WalletKSNodeWithNodeNameAndServerUrl,
   type WalletKSNodeStatus,
+  type KsNodeHealthCheck,
 } from "@oko-wallet/oko-types/tss";
 
 export async function getKSNodeById(
@@ -179,9 +180,9 @@ export async function createWalletKSNodes(
     const placeholders: string[] = [];
     const values: any[] = [];
     for (let i = 0; i < nodeIds.length; i++) {
-      const placeholderIndex = i * 3 + 1;
+      const placeholderIdx = i * 3 + 1;
       placeholders.push(
-        `($${placeholderIndex}, $${placeholderIndex + 1}, $${placeholderIndex + 2})`,
+        `($${placeholderIdx}, $${placeholderIdx + 1}, $${placeholderIdx + 2})`,
       );
       values.push(uuidv4(), walletId, nodeIds[i]);
     }
@@ -270,6 +271,30 @@ VALUES ${placeholders.join(",")}
     return {
       success: true,
       data: void 0,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function selectKSNodeHealthChecks(
+  db: Pool | PoolClient,
+): Promise<Result<KsNodeHealthCheck[], string>> {
+  const query = `
+SELECT *
+FROM ks_node_health_checks
+LIMIT 30;
+`;
+
+  try {
+    await db.query(query);
+
+    return {
+      success: true,
+      data: [],
     };
   } catch (error) {
     return {

@@ -50,19 +50,6 @@ export type ActivateKSNodeParams = {
   node_id: string;
 };
 
-export async function getAllKeyShareNodes({ token }: GetKSNodesParams) {
-  return doFetch<GetAllKSNodeResponse>(
-    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_all_ks_nodes`,
-    {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
-}
-
 export async function getKSNodeById({ token, node_id }: GetKSNodeByIdParams) {
   return doFetch<GetKSNodeByIdResponse>(
     `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ks_node_by_id`,

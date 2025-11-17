@@ -17,28 +17,9 @@ import { useToggleTssAllActivation } from "./use_toggle_tss_all_activation";
 export const KeyshareNodesHealthView: FC = () => {
   // const router = useRouter();
   //
-  // const { data } = useAllKeyShareNodes();
+  const { data } = useAllKeyShareNodes();
   // const { data: tssAllActivationData } = useGetTssAllActivationSetting();
   // const toggleAllTssActivation = useToggleTssAllActivation();
-  //
-  // const handleToggleTssActivation = () => {
-  //   const currentStatus =
-  //     tssAllActivationData?.tss_activation_setting?.is_enabled;
-  //
-  //   if (currentStatus) {
-  //     if (
-  //       confirm(
-  //         "Are you sure you want to deactivate all TSS features?\nThis will affect all users.",
-  //       )
-  //     ) {
-  //       toggleAllTssActivation.mutate(!currentStatus);
-  //     }
-  //   } else {
-  //     toggleAllTssActivation.mutate(!currentStatus);
-  //   }
-  // };
-  //
-  // const isActivated = tssAllActivationData?.tss_activation_setting?.is_enabled;
 
   return (
     <div className={styles.wrapper}>
