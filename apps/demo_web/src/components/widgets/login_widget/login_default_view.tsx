@@ -10,7 +10,7 @@ import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
 import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
-import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
+import { OkoLogoWithNameIcon } from "@oko-wallet-common-ui/icons/oko_logo_with_name_icon";
 
 import styles from "./login_widget.module.scss";
 import type { EmailLoginState } from "./login_widget";
@@ -168,7 +168,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
       <Spacing height={28} />
 
       <div className={styles.getSupportRow}>
-        <OkoLogoIcon width={37} height={14} theme={"light"} />
+        <OkoLogoWithNameIcon width={52} height={20} theme={"light"} />
         <a
           href="https://oko-wallet.canny.io/bug-reports"
           target="_blank"
