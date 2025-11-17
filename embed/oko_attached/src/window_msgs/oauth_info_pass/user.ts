@@ -4,10 +4,11 @@ import type {
   SignInResponse,
 } from "@oko-wallet/oko-types/user";
 import type {
-  KeygenBody,
+  KeygenRequestBody,
   KeyShareNodeMetaWithNodeStatusInfo,
   WalletKSNodeStatus,
 } from "@oko-wallet/oko-types/tss";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
@@ -36,12 +37,15 @@ import { Bytes } from "@oko-wallet/bytes";
 export async function handleExistingUser(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: OAuthProvider,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   // 1. sign in to api server
   const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
     "user/signin",
     idToken,
-    {},
+    {
+      auth_type: authType,
+    },
   );
   if (!signInRes.success) {
     console.error("[attached] sign in failed, err: %s", signInRes.err);
@@ -84,6 +88,7 @@ export async function handleExistingUser(
     idToken,
     keyshareNodeMeta.nodes,
     keyshareNodeMeta.threshold,
+    authType,
   );
   if (!requestSharesRes.success) {
     const error = requestSharesRes.err;
@@ -112,6 +117,7 @@ export async function handleExistingUser(
         publicKey,
         idToken,
         updatedNodeMeta,
+        authType,
       );
       if (keyshare_1_res.success === false) {
         console.error("[attached] reshare failed, err: %s", keyshare_1_res.err);
@@ -132,6 +138,7 @@ export async function handleExistingUser(
           walletId: signInResp.user.wallet_id,
           jwtToken: signInResp.token,
           keyshare_1: keyshare_1_res.data,
+          isNewUser: false,
         },
       };
     }
@@ -171,6 +178,7 @@ user pk: ${signInResp.user.public_key}`,
       walletId: signInResp.user.wallet_id,
       jwtToken: signInResp.token,
       keyshare_1: keyshare_1_res.data,
+      isNewUser: false,
     },
   };
 }
@@ -178,6 +186,7 @@ user pk: ${signInResp.user.public_key}`,
 export async function handleNewUser(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: OAuthProvider,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   // TODO: @jinwoo, (wip) importing secret key
   // const keygenRes = keygenOptions?.secretKeyImport
@@ -212,6 +221,7 @@ export async function handleNewUser(
         idToken,
         publicKey,
         keyShareByNode.share,
+        authType,
       ),
     ),
   );
@@ -228,7 +238,8 @@ export async function handleNewUser(
     };
   }
 
-  const keygenRequest: KeygenBody = {
+  const keygenRequest: KeygenRequestBody = {
+    auth_type: authType,
     keygen_2: {
       public_key: publicKey.toHex(),
       private_share: keygen_2.tss_private_share.toHex(),
@@ -250,6 +261,7 @@ export async function handleNewUser(
       walletId: reqKeygenRes.data.user.wallet_id,
       jwtToken: reqKeygenRes.data.token,
       keyshare_1: keygen_1.tss_private_share.toHex(),
+      isNewUser: true,
     },
   };
 }
@@ -257,11 +269,14 @@ export async function handleNewUser(
 export async function handleReshare(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: OAuthProvider,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
     "user/signin",
     idToken,
-    {},
+    {
+      auth_type: authType,
+    },
   );
   if (!signInRes.success) {
     console.error("[attached] sign in failed, err: %s", signInRes.err);
@@ -301,6 +316,7 @@ export async function handleReshare(
     publicKey,
     idToken,
     keyshareNodeMeta,
+    authType,
   );
   if (keyshare_1_res.success === false) {
     console.error("[attached] reshare failed, err: %s", keyshare_1_res.err);
@@ -321,6 +337,7 @@ export async function handleReshare(
       walletId: signInResp.user.wallet_id,
       jwtToken: signInResp.token,
       keyshare_1: keyshare_1_res.data,
+      isNewUser: false,
     },
   };
 }

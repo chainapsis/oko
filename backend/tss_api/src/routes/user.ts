@@ -10,12 +10,15 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
-  GoogleAuthHeaderSchema,
+  OAuthHeaderSchema,
+  SuccessResponseSchema,
   UserAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import {
   CheckEmailRequestSchema,
   CheckEmailSuccessResponseSchema,
+  ReshareRequestSchema,
+  SignInRequestSchema,
   SignInSilentlySuccessResponseSchema,
   SignInSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
@@ -23,16 +26,16 @@ import { Bytes } from "@oko-wallet/bytes";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
 import {
-  type GoogleAuthenticatedRequest,
-  googleAuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/google_auth";
-import {
   signIn,
   checkEmail,
   updateWalletKSNodesForReshare,
 } from "@oko-wallet-tss-api/api/user";
 import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
+import {
+  type OAuthAuthenticatedRequest,
+  oauthMiddleware,
+} from "@oko-wallet-tss-api/middleware/oauth";
 
 export function setUserRoutes(router: Router) {
   registry.registerPath({
@@ -118,12 +121,20 @@ export function setUserRoutes(router: Router) {
     method: "post",
     path: "/tss/v1/user/signin",
     tags: ["TSS"],
-    summary: "Sign in with Google OAuth",
+    summary: "Sign in with OAuth",
     description:
-      "Authenticates user using Google OAuth token and returns user information with JWT token",
-    security: [{ googleAuth: [] }],
+      "Authenticates user using Google or Auth0 OAuth token and returns user information with JWT token",
+    security: [{ oauthAuth: [] }],
     request: {
-      headers: GoogleAuthHeaderSchema,
+      headers: OAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: SignInRequestSchema,
+          },
+        },
+      },
     },
     responses: {
       200: {
@@ -135,7 +146,7 @@ export function setUserRoutes(router: Router) {
         },
       },
       401: {
-        description: "Unauthorized - Invalid or missing Google OAuth token",
+        description: "Unauthorized - Invalid or missing OAuth token or auth_type",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -162,15 +173,26 @@ export function setUserRoutes(router: Router) {
   });
   router.post(
     "/user/signin",
-    [googleAuthMiddleware, tssActivateMiddleware],
+    [oauthMiddleware, tssActivateMiddleware],
     async (
-      req: GoogleAuthenticatedRequest,
+      req: OAuthAuthenticatedRequest,
       res: Response<OkoApiResponse<SignInResponse>>,
     ) => {
       const state = req.app.locals;
-      const googleUser = res.locals.google_user;
+      const oauthUser = res.locals.oauth_user;
 
-      const signInRes = await signIn(state.db, googleUser.email.toLowerCase(), {
+      if (!oauthUser?.email) {
+        res.status(401).json({
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "User email not found",
+        });
+        return;
+      }
+
+      const userEmail = oauthUser.email.toLowerCase();
+
+      const signInRes = await signIn(state.db, userEmail, {
         secret: state.jwt_secret,
         expires_in: state.jwt_expires_in,
       });
@@ -307,16 +329,80 @@ export function setUserRoutes(router: Router) {
     },
   );
 
+  registry.registerPath({
+    method: "post",
+    path: "/tss/v1/user/reshare",
+    tags: ["TSS"],
+    summary: "Reshare wallet key shares",
+    description:
+      "Updates wallet key share nodes after unrecoverable data loss using provided reshared shares",
+    security: [{ oauthAuth: [] }],
+    request: {
+      headers: OAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: ReshareRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Reshare request accepted",
+        content: {
+          "application/json": {
+            schema: SuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request body",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing OAuth token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+
   router.post(
     "/user/reshare",
-    [googleAuthMiddleware, tssActivateMiddleware],
+    [oauthMiddleware, tssActivateMiddleware],
     async (
-      req: GoogleAuthenticatedRequest<ReshareRequest>,
+      req: OAuthAuthenticatedRequest<ReshareRequest>,
       res: Response<OkoApiResponse<void>>,
     ) => {
       const state = req.app.locals;
-      const googleUser = res.locals.google_user;
+      const oauthUser = res.locals.oauth_user;
       const { public_key, reshared_key_shares } = req.body;
+
+      if (!oauthUser?.email) {
+        res.status(401).json({
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "User email not found",
+        });
+        return;
+      }
 
       const publicKeyRes = Bytes.fromHexString(public_key, 33);
       if (publicKeyRes.success === false) {
@@ -328,7 +414,7 @@ export function setUserRoutes(router: Router) {
         return;
       }
 
-      if (reshared_key_shares.length === 0) {
+      if (!reshared_key_shares?.length) {
         res.status(400).json({
           success: false,
           code: "INVALID_REQUEST",
@@ -339,7 +425,7 @@ export function setUserRoutes(router: Router) {
 
       const reshareRes = await updateWalletKSNodesForReshare(
         state.db,
-        googleUser.email.toLowerCase(),
+        oauthUser.email.toLowerCase(),
         publicKeyRes.data,
         reshared_key_shares,
       );

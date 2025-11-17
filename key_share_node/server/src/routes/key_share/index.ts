@@ -21,8 +21,10 @@ import {
   type AuthenticatedRequest,
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
-import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
+import type {
+  ResponseLocal,
+  KSNodeRequest,
+} from "@oko-wallet-ksn-server/routes/io";
 import { registry } from "@oko-wallet-ksn-server/openapi/registry";
 import {
   CheckKeyShareRequestBodySchema,
@@ -44,7 +46,7 @@ export function makeKeyshareRouter() {
     tags: ["Key Share"],
     summary: "Register a new key share",
     description: "Register a new key share for the authenticated user.",
-    security: [{ googleAuth: [] }],
+    security: [{ oauthAuth: [] }],
     request: {
       body: {
         required: true,
@@ -141,7 +143,7 @@ export function makeKeyshareRouter() {
       req: AuthenticatedRequest<RegisterKeyShareBody>,
       res: Response<KSNodeApiResponse<void>, ResponseLocal>,
     ) => {
-      const googleUser = res.locals.google_user;
+      const oauthUser = res.locals.oauth_user;
       const state = req.app.locals;
       const body = req.body;
 
@@ -168,7 +170,7 @@ export function makeKeyshareRouter() {
       const registerKeyShareRes = await registerKeyShare(
         state.db,
         {
-          email: googleUser.email,
+          email: oauthUser.email,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,
           share: shareBytes,
@@ -197,7 +199,7 @@ export function makeKeyshareRouter() {
     tags: ["Key Share"],
     summary: "Get a key share",
     description: "Retrieve a key share for the authenticated user.",
-    security: [{ googleAuth: [] }],
+    security: [{ oauthAuth: [] }],
     request: {
       body: {
         required: true,
@@ -281,7 +283,7 @@ export function makeKeyshareRouter() {
       req: AuthenticatedRequest<GetKeyShareRequestBody>,
       res: Response<KSNodeApiResponse<GetKeyShareResponse>>,
     ) => {
-      const googleUser = res.locals.google_user;
+      const oauthUser = res.locals.oauth_user;
       const state = req.app.locals;
 
       const publicKeyBytesRes = Bytes.fromHexString(req.body.public_key, 33);
@@ -296,7 +298,7 @@ export function makeKeyshareRouter() {
       const getKeyShareRes = await getKeyShare(
         state.db,
         {
-          email: googleUser.email,
+          email: oauthUser.email,
           public_key: publicKeyBytesRes.data,
         },
         state.encryptionSecret,
@@ -412,7 +414,7 @@ export function makeKeyshareRouter() {
     summary: "Create or update a key share",
     description:
       "Creates a new key share if it does not exist, or updates an existing key share with a new encrypted share.",
-    security: [{ googleAuth: [] }],
+    security: [{ oauthAuth: [] }],
     request: {
       body: {
         required: true,
@@ -531,7 +533,7 @@ export function makeKeyshareRouter() {
       req: AuthenticatedRequest<ReshareKeyShareBody>,
       res: Response<KSNodeApiResponse<void>, ResponseLocal>,
     ) => {
-      const googleUser = res.locals.google_user;
+      const oauthUser = res.locals.oauth_user;
       const state = req.app.locals;
       const body = req.body;
 
@@ -558,7 +560,7 @@ export function makeKeyshareRouter() {
       const reshareKeyShareRes = await reshareKeyShare(
         state.db,
         {
-          email: googleUser.email,
+          email: oauthUser.email,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,
           share: shareBytes,

@@ -1,3 +1,4 @@
+import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   OkoWalletMsgOAuthInfoPass,
   OkoWalletMsgOAuthInfoPassAck,
@@ -5,27 +6,28 @@ import type {
   OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
 
+import { sendMsgToWindow } from "../send";
 import {
   OKO_ATTACHED_POPUP,
   OKO_SDK_TARGET,
 } from "@oko-wallet-attached/window_msgs/target";
+import type { MsgEventContext } from "@oko-wallet-attached/window_msgs/types";
 import { useAppState } from "@oko-wallet-attached/store/app";
-import { postLog } from "@oko-wallet-attached/requests/logging";
-import type {
-  GoogleTokenInfo,
-  MsgEventContext,
-} from "@oko-wallet-attached/window_msgs/types";
+import {
+  setUserId,
+  setUserProperties,
+} from "@oko-wallet-attached/analytics/amplitude";
+import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
 import {
   checkUserExists,
   handleExistingUser,
   handleNewUser,
   handleReshare,
 } from "./user";
-import { sendMsgToWindow } from "../send";
-import {
-  setUserId,
-  setUserProperties,
-} from "@oko-wallet-attached/analytics/amplitude";
+import { bail } from "./errors";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+import { verifyIdToken } from "./token";
+import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
@@ -58,24 +60,30 @@ export async function handleOAuthInfoPass(
       return;
     }
 
-    const idToken = message.payload.id_token;
-    const tokenInfo = await verifyGoogleIdToken(idToken);
-    if (tokenInfo.nonce !== nonceRegistered) {
-      await bail(message, { type: "vendor_token_verification_failed" });
-      return;
-    }
-
-    const apiKey = message.payload?.api_key;
+    const apiKey = message.payload.api_key;
     if (!apiKey) {
       await bail(message, { type: "api_key_missing" });
       return;
     }
     appState.setApiKey(hostOrigin, apiKey);
 
+    const authType: OAuthProvider = message.payload.auth_type;
+    const idToken = message.payload.id_token;
+
+    const tokenInfoRes = await verifyIdToken(
+      authType,
+      idToken,
+      nonceRegistered,
+    );
+    if (!tokenInfoRes.success) {
+      await bail(message, { type: "vendor_token_verification_failed" });
+      return;
+    }
+    const tokenInfo = tokenInfoRes.data;
+
     const userExistsRes = await checkUserExists(tokenInfo.email);
     if (!userExistsRes.success) {
-      console.log(22, userExistsRes);
-
+      console.log("checkUserExists failed", userExistsRes);
       await bail(message, {
         type: "check_user_request_fail",
         error: userExistsRes.err.toString(),
@@ -84,7 +92,6 @@ export async function handleOAuthInfoPass(
     }
 
     const userExistsResp = userExistsRes.data;
-
     if (!userExistsResp.success) {
       await bail(message, {
         type: "check_user_request_fail",
@@ -92,7 +99,6 @@ export async function handleOAuthInfoPass(
       });
       return;
     }
-
     const userExists = userExistsResp.data;
 
     // Highest-priority guard: global active nodes below threshold → block all flows
@@ -103,71 +109,27 @@ export async function handleOAuthInfoPass(
       return;
     }
 
-    // new user sign up flow
-    if (!userExists.exists) {
-      const signInRes = await handleNewUser(
-        idToken,
-        userExists.keyshare_node_meta,
-      );
-      if (!signInRes.success) {
-        await bail(message, signInRes.err);
-        return;
-      }
-      const result = signInRes.data;
-      appState.setKeyshare_1(hostOrigin, result.keyshare_1);
-      appState.setAuthToken(hostOrigin, result.jwtToken);
-      appState.setWallet(hostOrigin, {
-        walletId: result.walletId,
-        publicKey: result.publicKey,
-        email: tokenInfo.email,
-      });
+    const handleUserSignInRes = await handleUserSignIn(
+      idToken,
+      userExists,
+      authType,
+    );
+    if (!handleUserSignInRes.success) {
+      await bail(message, handleUserSignInRes.err);
+      return;
+    }
 
-      hasSignedIn = true;
-      isNewUser = true;
-    }
-    // existing user sign in or reshare flow
-    else {
-      // reshare flow
-      if (userExists.needs_reshare) {
-        const signInRes = await handleReshare(
-          idToken,
-          userExists.keyshare_node_meta,
-        );
-        console.log(
-          "[attached] handleReshare result: %s",
-          JSON.stringify(signInRes, null, 2),
-        );
-        if (!signInRes.success) {
-          await bail(message, signInRes.err);
-          return;
-        }
-        const result = signInRes.data;
-        appState.setKeyshare_1(hostOrigin, result.keyshare_1);
-        appState.setAuthToken(hostOrigin, result.jwtToken);
-        appState.setWallet(hostOrigin, {
-          walletId: result.walletId,
-          publicKey: result.publicKey,
-          email: tokenInfo.email,
-        });
-      } else {
-        const signInRes = await handleExistingUser(
-          idToken,
-          userExists.keyshare_node_meta,
-        );
-        if (!signInRes.success) {
-          await bail(message, signInRes.err);
-          return;
-        }
-        const result = signInRes.data;
-        appState.setKeyshare_1(hostOrigin, result.keyshare_1);
-        appState.setAuthToken(hostOrigin, result.jwtToken);
-        appState.setWallet(hostOrigin, {
-          walletId: result.walletId,
-          publicKey: result.publicKey,
-          email: tokenInfo.email,
-        });
-      }
-    }
+    const signInResult = handleUserSignInRes.data;
+    appState.setKeyshare_1(hostOrigin, signInResult.keyshare_1);
+    appState.setAuthToken(hostOrigin, signInResult.jwtToken);
+    appState.setWallet(hostOrigin, {
+      walletId: signInResult.walletId,
+      publicKey: signInResult.publicKey,
+      email: tokenInfo.email,
+    });
+
+    hasSignedIn = true;
+    isNewUser = signInResult.isNewUser;
 
     const updateMsg: OkoWalletMsgOAuthSignInUpdate = {
       target: OKO_SDK_TARGET,
@@ -186,12 +148,13 @@ export async function handleOAuthInfoPass(
         setUserId(wallet.walletId);
         if (isNewUser) {
           setUserProperties({
-            authType: "google",
+            authType: message.payload.auth_type,
             createdOrigin: hostOrigin,
           });
         }
       }
     }
+
     const infoPassAck: OkoWalletMsgOAuthInfoPassAck = {
       target: OKO_ATTACHED_POPUP,
       msg_type: "oauth_info_pass_ack",
@@ -199,45 +162,54 @@ export async function handleOAuthInfoPass(
     };
 
     port.postMessage(infoPassAck);
-
     appState.setNonce(hostOrigin, null);
   }
 }
 
-async function verifyGoogleIdToken(idToken: string): Promise<GoogleTokenInfo> {
-  const response = await fetch(
-    `https://oauth2.googleapis.com/tokeninfo?id_token=${idToken}`,
-  );
+export async function handleUserSignIn(
+  idToken: string,
+  userExists: CheckEmailResponse,
+  authType: OAuthProvider,
+): Promise<Result<UserSignInResult, OAuthSignInError>> {
+  const meta = userExists.keyshare_node_meta;
 
-  if (!response.ok) {
-    throw new Error(`Google authentication is invalid. Please sign in again.`);
+  // use user sign up flow
+  if (!userExists.exists) {
+    const signInRes = await handleNewUser(idToken, meta, authType);
+    if (!signInRes.success) {
+      return {
+        success: false,
+        err: signInRes.err,
+      };
+    }
+    return {
+      success: true,
+      data: signInRes.data,
+    };
   }
-
-  return await response.json();
-}
-
-async function bail(message: OkoWalletMsgOAuthInfoPass, err: OAuthSignInError) {
-  postLog(
-    {
-      level: "error",
-      message: "[attached] handling oauth sign-in fail",
-      error: {
-        name: "oauth_sign_in_error",
-        message: JSON.stringify(err),
-      },
-    },
-    { console: true },
-  );
-
-  const updateMsg: OkoWalletMsgOAuthSignInUpdate = {
-    target: OKO_SDK_TARGET,
-    msg_type: "oauth_sign_in_update",
-    payload: { success: false, err },
-  };
-
-  // NOTE: The origin here is taken from the payload because sometimes that
-  // callback comes from a different window in the attached. In that case,
-  // `event.origin` comes from the origin of the attached
-  const hostOrigin = message.payload.target_origin;
-  await sendMsgToWindow(window.parent, updateMsg, hostOrigin);
+  // existing user sign in or reshare flow
+  else {
+    // reshare flow
+    if (userExists.needs_reshare) {
+      const signInRes = await handleReshare(idToken, meta, authType);
+      if (!signInRes.success) {
+        throw signInRes.err;
+      }
+      return {
+        success: true,
+        data: signInRes.data,
+      };
+    }
+    // sign in flow
+    else {
+      const signInRes = await handleExistingUser(idToken, meta, authType);
+      if (!signInRes.success) {
+        throw signInRes.err;
+      }
+      return {
+        success: true,
+        data: signInRes.data,
+      };
+    }
+  }
 }

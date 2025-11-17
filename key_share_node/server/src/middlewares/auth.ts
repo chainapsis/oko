@@ -1,18 +1,20 @@
 import type { Request, Response, NextFunction } from "express";
 import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 
-import { validateOAuthToken } from "@oko-wallet-ksn-server/auth";
+import type { OAuthProvider } from "@oko-wallet-ksn-server/auth/types";
+import {
+  validateAuth0Token,
+  validateGoogleOAuthToken,
+} from "@oko-wallet-ksn-server/auth";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
 
-export interface AuthenticatedRequest<T = any> extends Request {
-  user?: {
-    email: string;
-    name: string;
-    sub: string;
-  };
-  body: T;
-}
+type OAuthBody = {
+  auth_type?: OAuthProvider;
+};
+
+export interface AuthenticatedRequest<T = any>
+  extends Request<any, any, T & OAuthBody> {}
 
 export async function bearerTokenMiddleware(
   req: AuthenticatedRequest,
@@ -20,6 +22,7 @@ export async function bearerTokenMiddleware(
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
+  const authType = req.body?.auth_type;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     const errorRes: KSNodeApiErrorResponse = {
@@ -33,8 +36,34 @@ export async function bearerTokenMiddleware(
 
   const idToken = authHeader.substring(7); // skip "Bearer "
 
+  if (!authType) {
+    const errorRes: KSNodeApiErrorResponse = {
+      success: false,
+      code: "UNAUTHORIZED",
+      msg: "auth_type is required in request body",
+    };
+    res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+    return;
+  }
+
   try {
-    const result = await validateOAuthToken(idToken);
+    let result;
+    switch (authType) {
+      case "google":
+        result = await validateGoogleOAuthToken(idToken);
+        break;
+      case "auth0":
+        result = await validateAuth0Token(idToken);
+        break;
+      default:
+        const errorRes: KSNodeApiErrorResponse = {
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: `Invalid auth_type: ${authType}. Must be 'google' or 'auth0'`,
+        };
+        res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+        return;
+    }
 
     if (!result.success) {
       const errorRes: KSNodeApiErrorResponse = {
@@ -66,7 +95,8 @@ export async function bearerTokenMiddleware(
       return;
     }
 
-    res.locals.google_user = {
+    res.locals.oauth_user = {
+      type: authType,
       email: result.data.email,
       name: result.data.name,
       sub: result.data.sub,
