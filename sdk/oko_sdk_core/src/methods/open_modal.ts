@@ -161,8 +161,10 @@ function sendMsgToPopupWindow(
     }
 
     const channel = new MessageChannel();
+    let resolved = false;
+
     const closeWatcher = window.setInterval(() => {
-      if (popupWindow.closed) {
+      if (popupWindow.closed && !resolved) {
         cleanup();
         reject(new Error("Popup closed before responding"));
       }
@@ -171,13 +173,36 @@ function sendMsgToPopupWindow(
     function cleanup() {
       channel.port1.close();
       window.clearInterval(closeWatcher);
+      window.removeEventListener("message", onPostMessage);
     }
 
+    // Handle response via MessageChannel port (preferred method)
     channel.port1.onmessage = (event: MessageEvent) => {
       const data = event.data as OkoWalletMsg;
+      resolved = true;
       cleanup();
       resolve(data);
     };
+
+    // Also handle response via regular postMessage (fallback for Auth0 callback)
+    function onPostMessage(event: MessageEvent) {
+      if (event.origin !== targetOrigin) {
+        return;
+      }
+
+      const data = event.data as OkoWalletMsg;
+      if (
+        data.target === "oko_sdk" &&
+        data.msg_type === "open_modal_ack" &&
+        data.payload?.modal_id === msg.payload.modal_id
+      ) {
+        resolved = true;
+        cleanup();
+        resolve(data);
+      }
+    }
+
+    window.addEventListener("message", onPostMessage);
 
     try {
       popupWindow.postMessage(msg, targetOrigin, [channel.port2]);
