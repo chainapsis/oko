@@ -1,6 +1,6 @@
 import React from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
+import { OkoLogoWithNameIcon } from "@oko-wallet-common-ui/icons/oko_logo_with_name_icon";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import styles from "./sign_with_oko_box.module.scss";
@@ -16,7 +16,9 @@ export const SignWithOkoBox: React.FC<SignWithOkoBoxProps> = ({
           Sign with
         </Typography>
       )}
-      <OkoLogoIcon width={37} height={14} theme={theme} />
+      <div className={styles.logoContainer}>
+        <OkoLogoWithNameIcon width={39} height={16} theme={theme} />
+      </div>
     </div>
   );
 };
