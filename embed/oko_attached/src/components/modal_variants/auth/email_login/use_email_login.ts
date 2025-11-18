@@ -201,15 +201,6 @@ export function useEmailLogin({
     }
   };
 
-  const redirectToVerificationRoute = (host: string) => {
-    const url = new URL("/auth0/popup", window.location.origin);
-    url.searchParams.set("email", email.trim());
-    url.searchParams.set("code", otpDigits.join(""));
-    url.searchParams.set("nonce", oauthContext!.nonce);
-    url.searchParams.set("state", oauthContext!.state);
-    window.location.assign(url.toString());
-  };
-
   const handleResendCode = async () => {
     if (resendTimer > 0 || isSubmitting || !hostOrigin) {
       if (!hostOrigin) {
@@ -267,7 +258,30 @@ export function useEmailLogin({
       console.warn(`${LOG_PREFIX} failed to set session storage`, error);
     }
 
-    redirectToVerificationRoute(hostOrigin);
+    webAuth.passwordlessLogin(
+      {
+        connection: AUTH0_CONNECTION,
+        email: email.trim(),
+        verificationCode: otpDigits.join(""),
+        redirectUri: `${window.location.origin}/auth0/callback`,
+        responseType: "token id_token",
+        scope: "openid profile email",
+        nonce: oauthContext!.nonce,
+        state: oauthContext!.state,
+      },
+      (err) => {
+        if (err) {
+          console.error(`${LOG_PREFIX} passwordlessLogin error`, err);
+          setErrorMessage(
+            err.error_description ??
+              err.description ??
+              err.error ??
+              "Failed to verify the code",
+          );
+          setIsSubmitting(false);
+        }
+      },
+    );
   };
 
   const handleBack = () => {

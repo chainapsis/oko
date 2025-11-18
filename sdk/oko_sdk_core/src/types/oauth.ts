@@ -4,6 +4,7 @@ export type OAuthState = {
   apiKey: string;
   targetOrigin: string;
   provider?: OAuthProvider;
+  modalId?: string;
 };
 
 export enum RedirectUriSearchParamsKey {

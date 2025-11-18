@@ -83,6 +83,7 @@ async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
     apiKey: okoWallet.apiKey,
     targetOrigin: window.location.origin,
     provider: "auth0",
+    modalId,
   };
   const oauthStateString = JSON.stringify(oauthState);
 
@@ -111,29 +112,60 @@ async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
   };
 
   const result = await okoWallet.openModal(modalMsg);
+  console.log("[oko] open modal result: %o", result);
   if (!result.success) {
     throw new Error(result.err.type);
   }
 
-  const payload = result.data;
-  if (payload.modal_type !== "auth/email_login") {
-    throw new Error("Invalid email modal response");
-  }
+  return new Promise<OkoWalletMsgOAuthSignInUpdate>((resolve, reject) => {
+    let timeout: number;
 
-  switch (payload.type) {
-    case "approve": {
-      return;
+    function onMessage(event: MessageEvent) {
+      if (event.ports.length < 1) {
+        return;
+      }
+
+      const port = event.ports[0];
+      const data = event.data as OkoWalletMsg;
+
+      if (data.msg_type === "oauth_sign_in_update") {
+        console.log("[oko] oauth_sign_in_update recv, %o", data);
+
+        const msg: OkoWalletMsgOAuthSignInUpdateAck = {
+          target: "oko_attached",
+          msg_type: "oauth_sign_in_update_ack",
+          payload: null,
+        };
+
+        port.postMessage(msg);
+
+        if (data.payload.success) {
+          resolve(data);
+        } else {
+          reject(new Error(data.payload.err.type));
+        }
+
+        cleanup();
+      }
     }
-    case "reject": {
-      throw new Error("email_login_rejected");
+    window.addEventListener("message", onMessage);
+
+    timeout = window.setTimeout(() => {
+      cleanup();
+      reject(new Error("Timeout: no response within 5 minutes"));
+      okoWallet.closeModal();
+    }, FIVE_MINS_MS);
+
+    function cleanup() {
+      console.log("[oko] clean up oauth sign in listener");
+
+      // window.clearTimeout(focusTimer);
+      // window.removeEventListener("focus", onFocus);
+
+      window.clearTimeout(timeout);
+      window.removeEventListener("message", onMessage);
     }
-    case "error": {
-      throw new Error(payload.error.type);
-    }
-    default: {
-      throw new Error("Unknown email modal response type");
-    }
-  }
+  });
 }
 
 async function tryGoogleSignIn(
