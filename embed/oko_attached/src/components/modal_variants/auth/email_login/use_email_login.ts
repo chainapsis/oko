@@ -1,16 +1,19 @@
 import { useEffect, useMemo, useState } from "react";
 
-import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
+import type {
+  EmailLoginModalPayload,
+  OAuthState,
+} from "@oko-wallet/oko-sdk-core";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import {
-  persistEmailLoginResult,
-  requestEmailLoginCode,
-  verifyEmailLoginCode,
-} from "@oko-wallet-attached/features/email_login";
+  getAuth0WebAuth,
+  AUTH0_CONNECTION,
+} from "@oko-wallet-attached/config/auth0";
 
 const CODE_LENGTH = 6;
 const RESEND_COOLDOWN_SECONDS = 30;
 const LOG_PREFIX = "[attached][email_login]";
+const EMAIL_STORAGE_KEY = "oko_email_login_pending_email";
 
 export type EmailLoginModalStep = "enter_email" | "verify_code";
 
@@ -50,6 +53,22 @@ export function useEmailLogin({
   const closeModal = useMemoryState((state) => state.closeModal);
   const hostOrigin = useMemoryState((state) => state.hostOrigin);
 
+  const oauthContext = data.oauth ?? null;
+  const parsedOAuthState = useMemo<OAuthState | null>(() => {
+    if (!oauthContext?.state) {
+      return null;
+    }
+
+    try {
+      return JSON.parse(oauthContext.state) as OAuthState;
+    } catch (error) {
+      console.error(`${LOG_PREFIX} failed to parse oauth state`, error);
+      return null;
+    }
+  }, [oauthContext]);
+
+  const webAuth = useMemo(() => getAuth0WebAuth(), []);
+
   const [step, setStep] = useState<EmailLoginModalStep>("enter_email");
   const [email, setEmail] = useState(data.email_hint ?? "");
   const [otpDigits, setOtpDigits] = useState<string[]>(
@@ -88,6 +107,55 @@ export function useEmailLogin({
 
   const resetError = () => setErrorMessage(null);
 
+  const ensureOAuthContext = () => {
+    if (!oauthContext || !parsedOAuthState) {
+      console.error(`${LOG_PREFIX} missing oauth context for email login`);
+      setErrorMessage(
+        "Email login is not available right now. Please try again.",
+      );
+      return false;
+    }
+
+    if (!parsedOAuthState.apiKey || !parsedOAuthState.targetOrigin) {
+      console.error(
+        `${LOG_PREFIX} oauth state missing api key or target origin`,
+      );
+      setErrorMessage(
+        "Email login is not available right now. Please try again.",
+      );
+      return false;
+    }
+
+    return true;
+  };
+
+  const requestCode = async () => {
+    return new Promise<void>((resolve, reject) => {
+      webAuth.passwordlessStart(
+        {
+          connection: AUTH0_CONNECTION,
+          email: email.trim(),
+          send: "code",
+        },
+        (err) => {
+          if (err) {
+            reject(
+              new Error(
+                err.error_description ??
+                  err.description ??
+                  err.error ??
+                  "Failed to request code",
+              ),
+            );
+            return;
+          }
+
+          resolve();
+        },
+      );
+    });
+  };
+
   const handleClose = () => {
     console.log(`${LOG_PREFIX} modal closed by user`);
     closeModal({
@@ -106,6 +174,9 @@ export function useEmailLogin({
       setErrorMessage("Missing host origin");
       return;
     }
+    if (!ensureOAuthContext()) {
+      return;
+    }
 
     try {
       setIsSubmitting(true);
@@ -114,10 +185,7 @@ export function useEmailLogin({
         `${LOG_PREFIX} submitting email for code request`,
         email.trim(),
       );
-      await requestEmailLoginCode({
-        email: email.trim(),
-        hostOrigin,
-      });
+      await requestCode();
       setStep("verify_code");
       setInfoMessage(
         "We sent a 6-digit verification code to your email address.",
@@ -133,11 +201,23 @@ export function useEmailLogin({
     }
   };
 
+  const redirectToVerificationRoute = (host: string) => {
+    const url = new URL("/auth0/popup", window.location.origin);
+    url.searchParams.set("email", email.trim());
+    url.searchParams.set("code", otpDigits.join(""));
+    url.searchParams.set("nonce", oauthContext!.nonce);
+    url.searchParams.set("state", oauthContext!.state);
+    window.location.assign(url.toString());
+  };
+
   const handleResendCode = async () => {
     if (resendTimer > 0 || isSubmitting || !hostOrigin) {
       if (!hostOrigin) {
         console.warn(`${LOG_PREFIX} missing host origin for resend`);
       }
+      return;
+    }
+    if (!ensureOAuthContext()) {
       return;
     }
     try {
@@ -148,10 +228,7 @@ export function useEmailLogin({
         email.trim(),
         `(host: ${hostOrigin})`,
       );
-      await requestEmailLoginCode({
-        email: email.trim(),
-        hostOrigin,
-      });
+      await requestCode();
       setInfoMessage("A new code was sent.");
       setResendTimer(RESEND_COOLDOWN_SECONDS);
     } catch (err: any) {
@@ -173,41 +250,24 @@ export function useEmailLogin({
       setErrorMessage("Enter the 6-digit verification code.");
       return;
     }
+    if (!ensureOAuthContext()) {
+      return;
+    }
 
-    const code = otpDigits.join("");
+    setIsSubmitting(true);
+    setErrorMessage(null);
+    setInfoMessage("Finish verification in the secure Auth0 window.");
+    console.log(
+      `${LOG_PREFIX} verifying code for ${email.trim()} (host: ${hostOrigin})`,
+    );
 
     try {
-      setIsSubmitting(true);
-      setErrorMessage(null);
-      console.log(
-        `${LOG_PREFIX} verifying code for ${email.trim()} (host: ${hostOrigin})`,
-      );
-      const result = await verifyEmailLoginCode({
-        email: email.trim(),
-        code,
-        hostOrigin,
-      });
-      persistEmailLoginResult(hostOrigin, result);
-      console.log(`${LOG_PREFIX} email verification success`, result.email);
-      closeModal({
-        modal_type: "auth/email_login",
-        modal_id: modalId,
-        type: "approve",
-        data: {
-          email: result.email,
-        },
-      });
-    } catch (err: any) {
-      const message =
-        err instanceof Error ? err.message : "Failed to verify the code.";
-      console.error(
-        `${LOG_PREFIX} verification failed for ${email.trim()}`,
-        err,
-      );
-      setErrorMessage(message);
-    } finally {
-      setIsSubmitting(false);
+      window.sessionStorage.setItem(EMAIL_STORAGE_KEY, email.trim());
+    } catch (error) {
+      console.warn(`${LOG_PREFIX} failed to set session storage`, error);
     }
+
+    redirectToVerificationRoute(hostOrigin);
   };
 
   const handleBack = () => {

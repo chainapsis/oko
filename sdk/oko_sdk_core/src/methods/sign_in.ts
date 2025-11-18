@@ -63,14 +63,50 @@ async function handleGoogleSignIn(okoWallet: OkoWalletInterface) {
   }
 }
 
+function generateNonce() {
+  return Array.from(crypto.getRandomValues(new Uint8Array(8)))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
 async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
+  const nonce = generateNonce();
+  const nonceAckPromise = okoWallet.sendMsgToIframe({
+    target: OKO_ATTACHED_TARGET,
+    msg_type: "set_oauth_nonce",
+    payload: nonce,
+  });
+
+  const modalId = uuidv4();
+
+  const oauthState: OAuthState = {
+    apiKey: okoWallet.apiKey,
+    targetOrigin: window.location.origin,
+    provider: "auth0",
+  };
+  const oauthStateString = JSON.stringify(oauthState);
+
+  const nonceAck = await nonceAckPromise;
+  if (
+    nonceAck.msg_type !== "set_oauth_nonce_ack" ||
+    !nonceAck.payload.success
+  ) {
+    throw new Error("Failed to set nonce for email oauth sign in");
+  }
+
   const modalMsg: OkoWalletMsgOpenModal = {
     target: OKO_ATTACHED_TARGET,
     msg_type: "open_modal",
     payload: {
       modal_type: "auth/email_login",
-      modal_id: uuidv4(),
-      data: { email_hint: null },
+      modal_id: modalId,
+      data: {
+        email_hint: null,
+        oauth: {
+          nonce,
+          state: oauthStateString,
+        },
+      },
     },
   };
 

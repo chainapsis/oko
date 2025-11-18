@@ -3,6 +3,10 @@ export interface EmailLoginModalPayload {
   modal_id: string;
   data: {
     email_hint?: string | null;
+    oauth?: {
+      nonce: string;
+      state: string;
+    };
   };
 }
 
