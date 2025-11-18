@@ -18,7 +18,12 @@ export interface KeyShareNode {
   updated_at: string;
 }
 
-export interface KsNodeHealthCheck {}
+export type KsNodeHealthStatus = "HEALTHY" | "UNHEALTHY";
+
+export interface KsNodeHealthCheck {
+  node_id: string;
+  status: KsNodeHealthStatus;
+}
 
 export interface NodeStatusInfo {
   name: string;

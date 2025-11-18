@@ -5,7 +5,11 @@ import {
   getAllKSNodes,
   selectKSNodeHealthChecks,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
-import type { KSNodeHealthCheckStatus } from "@oko-wallet/oko-types/tss";
+import type {
+  KSNodeHealthCheck,
+  KsNodeHealthCheck,
+  KSNodeHealthCheckStatus,
+} from "@oko-wallet/oko-types/tss";
 
 export async function healthCheckKSNode(
   db: Pool | PoolClient,
@@ -19,22 +23,22 @@ export async function healthCheckKSNode(
   }
 
   const nodes = getAllKSNodesRes.data;
-  const healthCheckResults: {
-    nodeId: string;
-    status: KSNodeHealthCheckStatus;
-  }[] = await Promise.all(
+
+  const healthChecks = await Promise.all(
     nodes.map(async (node) => {
       const isHealthy = await requestKSNodeHealthCheck(node.server_url);
-      return {
-        nodeId: node.node_id,
+      const check: KsNodeHealthCheck = {
+        node_id: node.node_id,
         status: isHealthy ? "HEALTHY" : "UNHEALTHY",
       };
+
+      return check;
     }),
   );
 
   const createKSNodeHealthChecksRes = await createKSNodeHealthChecks(
     db,
-    healthCheckResults,
+    healthChecks,
   );
   if (createKSNodeHealthChecksRes.success === false) {
     return {
@@ -45,7 +49,7 @@ export async function healthCheckKSNode(
 
   return {
     success: true,
-    data: healthCheckResults.length,
+    data: healthChecks.length,
   };
 }
 
@@ -64,41 +68,17 @@ async function requestKSNodeHealthCheck(cvEndpoint: string): Promise<boolean> {
 
 export async function getKSNHealthChecks(
   db: Pool | PoolClient,
-): Promise<Result<number, string>> {
-  const getAllKSNodesRes = await selectKSNodeHealthChecks(db);
-  if (getAllKSNodesRes.success === false) {
+): Promise<Result<any, string>> {
+  const healthChecksRes = await selectKSNodeHealthChecks(db);
+  if (healthChecksRes.success === false) {
     return {
       success: false,
-      err: `Failed to get all ksNodes: ${getAllKSNodesRes.err}`,
-    };
-  }
-
-  const nodes = getAllKSNodesRes.data;
-  const healthCheckResults: {
-    nodeId: string;
-    status: KSNodeHealthCheckStatus;
-  }[] = await Promise.all(
-    nodes.map(async (node) => {
-      return {
-        nodeId: "",
-        status: "HEALTHY",
-      };
-    }),
-  );
-
-  const createKSNodeHealthChecksRes = await createKSNodeHealthChecks(
-    db,
-    healthCheckResults,
-  );
-  if (createKSNodeHealthChecksRes.success === false) {
-    return {
-      success: false,
-      err: `Failed to create ksNode health checks: ${createKSNodeHealthChecksRes.err}`,
+      err: `Failed to get ksn health checks: ${healthChecksRes.err}`,
     };
   }
 
   return {
     success: true,
-    data: healthCheckResults.length,
+    data: healthChecksRes.data,
   };
 }

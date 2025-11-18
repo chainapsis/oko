@@ -19,6 +19,10 @@ export interface GetKSNodeByIdResponse {
   ksNode: KeyShareNode;
 }
 
+export interface GetKSNHealthChecksResponse {
+  health_checks: {}[];
+}
+
 export interface CreateKSNodeRequest {
   node_name: string;
   server_url: string;

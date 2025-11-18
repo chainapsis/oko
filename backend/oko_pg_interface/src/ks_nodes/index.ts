@@ -239,7 +239,7 @@ WHERE wk.wallet_id = $1
 
 export async function createKSNodeHealthChecks(
   db: Pool | PoolClient,
-  healthChecks: { nodeId: string; status: KSNodeHealthCheckStatus }[],
+  healthChecks: KsNodeHealthCheck[],
 ): Promise<Result<void, string>> {
   if (healthChecks.length === 0) {
     return {
@@ -255,7 +255,7 @@ export async function createKSNodeHealthChecks(
     placeholders.push(
       `($${placeholderIndex}, $${placeholderIndex + 1}, $${placeholderIndex + 2})`,
     );
-    values.push(uuidv4(), healthChecks[i].nodeId, healthChecks[i].status);
+    values.push(uuidv4(), healthChecks[i].node_id, healthChecks[i].status);
   }
 
   const query = `
