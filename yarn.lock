@@ -10008,9 +10008,9 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.15"
     "@tanstack/react-query": "npm:*"
-    "@tanstack/react-router": "npm:^1.131.49"
-    "@tanstack/react-router-devtools": "npm:^1.131.49"
-    "@tanstack/router-plugin": "npm:^1.131.49"
+    "@tanstack/react-router": "npm:^1.136.8"
+    "@tanstack/react-router-devtools": "npm:^1.136.8"
+    "@tanstack/router-plugin": "npm:^1.136.8"
     "@types/auth0-js": "npm:^9.21.6"
     "@types/node": "npm:*"
     "@types/react": "npm:*"
@@ -13553,7 +13553,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router-devtools@npm:^1.131.49":
+"@tanstack/react-router-devtools@npm:^1.136.8":
   version: 1.136.8
   resolution: "@tanstack/react-router-devtools@npm:1.136.8"
   dependencies:
@@ -13571,7 +13571,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-router@npm:^1.131.49":
+"@tanstack/react-router@npm:^1.136.8":
   version: 1.136.8
   resolution: "@tanstack/react-router@npm:1.136.8"
   dependencies:
@@ -13663,7 +13663,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/router-plugin@npm:^1.131.49":
+"@tanstack/router-plugin@npm:^1.136.8":
   version: 1.136.8
   resolution: "@tanstack/router-plugin@npm:1.136.8"
   dependencies:
