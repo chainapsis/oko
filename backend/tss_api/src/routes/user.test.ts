@@ -37,7 +37,9 @@ const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
     return res.status(401).json({ error: "Invalid token" });
   }
   if (!req.body?.auth_type) {
-    return res.status(400).json({ error: "auth_type is required in request body" });
+    return res
+      .status(400)
+      .json({ error: "auth_type is required in request body" });
   }
   res.locals.oauth_user = {
     type: req.body.auth_type,
@@ -48,13 +50,10 @@ const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
   next();
 });
 
-await jest.unstable_mockModule(
-  "@oko-wallet-tss-api/middleware/oauth",
-  () => ({
-    oauthMiddleware: (req: any, res: any, next: any) =>
-      mockOauthMiddleware(req, res, next),
-  }),
-);
+await jest.unstable_mockModule("@oko-wallet-tss-api/middleware/oauth", () => ({
+  oauthMiddleware: (req: any, res: any, next: any) =>
+    mockOauthMiddleware(req, res, next),
+}));
 
 async function setUpKSNodes(pool: Pool): Promise<KeyShareNode[]> {
   const ksNodeNames = ["ksNode1", "ksNode2"];
