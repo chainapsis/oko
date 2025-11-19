@@ -1,6 +1,14 @@
 import { Router, type Response } from "express";
-import type { Customer } from "@oko-wallet/oko-types/customers";
-import { getCustomerByUserId } from "@oko-wallet/oko-pg-interface/customers";
+import multer from "multer";
+import type {
+  Customer,
+  UpdateCustomerInfoRequest,
+  UpdateCustomerInfoResponse,
+} from "@oko-wallet/oko-types/customers";
+import {
+  getCustomerByUserId,
+  updateCustomerInfo,
+} from "@oko-wallet/oko-pg-interface/customers";
 import { getAPIKeysByCustomerId } from "@oko-wallet/oko-pg-interface/api_keys";
 import type { APIKey } from "@oko-wallet/oko-types/ct_dashboard";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
@@ -12,6 +20,7 @@ import {
   GetCustomerApiKeysSuccessResponseSchema,
   GetCustomerInfoSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/ct_dashboard";
+import { uploadToS3 } from "@oko-wallet/aws";
 
 import {
   customerJwtMiddleware,
@@ -211,6 +220,210 @@ export function setCustomerRoutes(router: Router) {
           code: "UNKNOWN_ERROR",
           msg: "Internal server error",
         });
+      }
+    },
+  );
+
+  // Multer middleware for file upload
+  const upload = multer();
+
+  // OpenAPI registration for update_info endpoint
+  registry.registerPath({
+    method: "post",
+    path: "/customer_dashboard/v1/customer/update_info",
+    tags: ["Customer Dashboard"],
+    summary: "Update customer information",
+    description: "Updates customer label and/or logo. Logo is uploaded to S3.",
+    security: [{ customerAuth: [] }],
+    request: {
+      headers: CustomerAuthHeaderSchema,
+      body: {
+        content: {
+          "multipart/form-data": {
+            schema: {
+              type: "object",
+              properties: {
+                label: {
+                  type: "string",
+                  description: "Customer/Team name",
+                },
+                logo: {
+                  type: "string",
+                  format: "binary",
+                  description: "Logo image file",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Customer information updated successfully",
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                success: { type: "boolean" },
+                data: {
+                  type: "object",
+                  properties: {
+                    message: { type: "string" },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+      400: {
+        description: "Invalid input",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "User not authenticated",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Customer not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+
+  router.post(
+    "/customer/update_info",
+    customerJwtMiddleware,
+    upload.single("logo"),
+    async (
+      req: CustomerAuthenticatedRequest<UpdateCustomerInfoRequest> & {
+        file?: Express.Multer.File;
+      },
+      res: Response<OkoApiResponse<UpdateCustomerInfoResponse>>,
+    ) => {
+      try {
+        const state = req.app.locals as any;
+        const userId = res.locals.user_id;
+        const { label } = req.body;
+
+        // 1. Get customer by user_id
+        const customerRes = await getCustomerByUserId(state.db, userId);
+
+        if (!customerRes.success) {
+          res.status(500).json({
+            success: false,
+            code: "UNKNOWN_ERROR",
+            msg: customerRes.err,
+          });
+          return;
+        }
+
+        if (customerRes.data === null) {
+          res.status(404).json({
+            success: false,
+            code: "CUSTOMER_NOT_FOUND",
+            msg: "Customer not found",
+          });
+          return;
+        }
+
+        // 2. Upload logo to S3 if file is provided
+        let logo_url: string | null = null;
+        if (req.file) {
+          const uploadRes = await uploadToS3({
+            region: state.s3_region,
+            accessKeyId: state.s3_access_key_id,
+            secretAccessKey: state.s3_secret_access_key,
+            bucket: state.s3_bucket,
+            key: `logos/${Date.now().toString()}-${req.file.originalname}`,
+            body: req.file.buffer,
+            contentType: req.file.mimetype,
+          });
+
+          if (!uploadRes.success) {
+            res.status(500).json({
+              success: false,
+              code: "IMAGE_UPLOAD_FAILED",
+              msg: `Failed to upload logo: ${uploadRes.err}`,
+            });
+            return;
+          }
+
+          logo_url = decodeURIComponent(uploadRes.data);
+        }
+
+        // 3. Build updates object
+        const updates: { label?: string; logo_url?: string | null } = {};
+        if (label !== undefined && label.trim() !== "") {
+          updates.label = label;
+        }
+        if (logo_url !== null) {
+          updates.logo_url = logo_url;
+        }
+
+        // 4. Check if there are any updates
+        if (Object.keys(updates).length === 0) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_REQUEST",
+            msg: "No updates provided",
+          });
+          return;
+        }
+
+        // 5. Update customer info in database
+        const updateRes = await updateCustomerInfo(
+          state.db,
+          customerRes.data.customer_id,
+          updates,
+        );
+
+        if (!updateRes.success) {
+          res.status(500).json({
+            success: false,
+            code: "UNKNOWN_ERROR",
+            msg: updateRes.err,
+          });
+          return;
+        }
+
+        res.status(200).json({
+          success: true,
+          data: {
+            message: "Customer information updated successfully",
+          },
+        });
+        return;
+      } catch (error) {
+        console.error("Update customer info error:", error);
+        res.status(500).json({
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: "Internal server error",
+        });
+        return;
       }
     },
   );

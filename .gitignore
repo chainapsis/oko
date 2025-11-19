@@ -398,6 +398,8 @@ $RECYCLE.BIN/
 
 # Claude
 .claude/
+.plans/
+.tasks/
 
 # vscode
 .vscode/

@@ -196,14 +196,78 @@ LIMIT 1
   }
 }
 
+export async function updateCustomerInfo(
+  db: Pool | PoolClient,
+  customerId: string,
+  updates: {
+    label?: string;
+    logo_url?: string | null;
+  },
+): Promise<Result<Customer, string>> {
+  try {
+    const updateFields: string[] = [];
+    const values: any[] = [];
+    let paramIndex = 1;
+
+    if (updates.label !== undefined) {
+      updateFields.push(`label = $${paramIndex}`);
+      values.push(updates.label);
+      paramIndex++;
+    }
+
+    if (updates.logo_url !== undefined) {
+      updateFields.push(`logo_url = $${paramIndex}`);
+      values.push(updates.logo_url);
+      paramIndex++;
+    }
+
+    if (updateFields.length === 0) {
+      return {
+        success: false,
+        err: "No fields to update",
+      };
+    }
+
+    // Add updated_at
+    updateFields.push("updated_at = now()");
+
+    // Add customer_id to values
+    values.push(customerId);
+
+    const query = `
+UPDATE customers
+SET ${updateFields.join(", ")}
+WHERE customer_id = $${paramIndex} AND status = 'ACTIVE'
+RETURNING *
+`;
+
+    const result = await db.query<Customer>(query, values);
+
+    const row = result.rows[0];
+    if (!row) {
+      return {
+        success: false,
+        err: `Customer not found or inactive, customer_id: ${customerId}`,
+      };
+    }
+
+    return { success: true, data: row };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
 export async function deleteCustomer(
   db: Pool | PoolClient,
   request: DeleteCustomerRequest,
 ): Promise<Result<DeleteCustomerResponse, string>> {
   const query = `
 UPDATE customers
-SET 
-  status = 'DELETED', 
+SET
+  status = 'DELETED',
   updated_at = now()
 WHERE customer_id = $1 AND status = 'ACTIVE'
 RETURNING customer_id, status

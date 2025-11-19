@@ -6,6 +6,7 @@
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
+    "@oko-wallet/aws": "workspace:*",
     "@oko-wallet/crypto-js": "workspace:*",
     "@oko-wallet/oko-api-error-codes": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
@@ -20,6 +21,7 @@
     "helmet": "*",
     "jsonwebtoken": "*",
     "morgan": "*",
+    "multer": "*",
     "nodemailer": "^7.0.4",
     "pg": "*",
     "swagger-ui-express": "*",
@@ -32,6 +34,7 @@
     "@types/jest": "*",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
+    "@types/multer": "*",
     "@types/node": "*",
     "@types/nodemailer": "^6.4.17",
     "@types/supertest": "*",
