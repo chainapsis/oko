@@ -22,9 +22,6 @@ export const Modal: FC = () => {
 
   const { closeModal, clearError } = useMemoryState();
 
-  // Check if we're in a popup context
-  const isPopup = window.location.pathname.includes("/login");
-
   function onOpenChange(open: boolean) {
     console.log("onOpenChange(): %s", open);
 
@@ -51,8 +48,7 @@ export const Modal: FC = () => {
   const { refs, context } = useFloating({
     open: isOpen,
     onOpenChange,
-    // In popup, don't use floating positioning
-    placement: isPopup ? undefined : "bottom",
+    placement: "bottom",
   });
 
   const click = useClick(context);
@@ -73,33 +69,18 @@ export const Modal: FC = () => {
 
   return (
     <>
-      {!isPopup && (
-        <button
-          ref={refs.setReference}
-          className={styles.invisible}
-          {...getReferenceProps()}
-        />
-      )}
+      <button
+        ref={refs.setReference}
+        className={styles.invisible}
+        {...getReferenceProps()}
+      />
       <FloatingPortal>
         {isOpen && (
           <FloatingOverlay className={styles.overlay} lockScroll>
             <FloatingFocusManager context={context} initialFocus={-1}>
               <div
                 className={styles.floatingWrapper}
-                ref={isPopup ? undefined : refs.setFloating}
-                style={
-                  isPopup
-                    ? {
-                        position: "fixed",
-                        top: "50%",
-                        left: "50%",
-                        transform: "translate(-50%, -50%)",
-                        maxWidth: "90vw",
-                        maxHeight: "90vh",
-                        overflow: "auto",
-                      }
-                    : undefined
-                }
+                ref={refs.setFloating}
                 aria-labelledby={headingId}
                 aria-describedby={descriptionId}
                 {...getFloatingProps()}

@@ -107,6 +107,14 @@ export async function handleAuth0Callback(): Promise<
     };
   }
 
+  if (!oauthState.provider) {
+    console.error("[attached] Missing provider for Auth0 callback");
+    return {
+      success: false,
+      err: { type: "params_not_sufficient" },
+    };
+  }
+
   const payload: OAuthPayload = {
     access_token: accessToken,
     id_token: idToken,
@@ -166,7 +174,7 @@ async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
 function sendApproveAckToSDK(oauthState: OAuthState, email: string) {
   const payload: EmailLoginModalApproveAckPayload = {
     modal_type: "auth/email_login",
-    popup_id: oauthState.popupId!,
+    modal_id: oauthState.popupId!,
     type: "approve",
     data: {
       email,
@@ -186,7 +194,7 @@ function sendApproveAckToSDK(oauthState: OAuthState, email: string) {
 function sendErrorAckToSDK(oauthState: OAuthState, message: string) {
   const payload: EmailLoginModalErrorAckPayload = {
     modal_type: "auth/email_login",
-    popup_id: oauthState.popupId!,
+    modal_id: oauthState.popupId!,
     type: "error",
     error: {
       type: "verification_failed",

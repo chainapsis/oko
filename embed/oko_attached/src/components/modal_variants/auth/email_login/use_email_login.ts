@@ -160,7 +160,7 @@ export function useEmailLogin({
     console.log(`${LOG_PREFIX} modal closed by user`);
     closeModal({
       modal_type: "auth/email_login",
-      popup_id: modalId,
+      modal_id: modalId,
       type: "reject",
     });
   };
