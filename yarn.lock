@@ -10058,6 +10058,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ct-dashboard-api@workspace:backend/ct_dashboard_api"
   dependencies:
+    "@oko-wallet/aws": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
@@ -10071,6 +10072,7 @@ __metadata:
     "@types/jest": "npm:*"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
+    "@types/multer": "npm:*"
     "@types/node": "npm:*"
     "@types/nodemailer": "npm:^6.4.17"
     "@types/supertest": "npm:*"
@@ -10083,6 +10085,7 @@ __metadata:
     jest: "npm:*"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
+    multer: "npm:*"
     nodemailer: "npm:^7.0.4"
     pg: "npm:*"
     supertest: "npm:*"
@@ -15176,7 +15179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/multer@npm:^2.0.0":
+"@types/multer@npm:*, @types/multer@npm:^2.0.0":
   version: 2.0.0
   resolution: "@types/multer@npm:2.0.0"
   dependencies:
@@ -31135,7 +31138,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multer@npm:^2.0.2":
+"multer@npm:*, multer@npm:^2.0.2":
   version: 2.0.2
   resolution: "multer@npm:2.0.2"
   dependencies:
