@@ -9641,7 +9641,7 @@ __metadata:
     "@docusaurus/types": "npm:3.9.2"
     "@mdx-js/react": "npm:^3.0.0"
     "@signalwire/docusaurus-plugin-llms-txt": "npm:2.0.0-alpha.7"
-    "@signalwire/docusaurus-theme-llms-txt": "npm:1.0.0-alpha.8"
+    "@signalwire/docusaurus-theme-llms-txt": "npm:1.0.0-alpha.9"
     clsx: "npm:^2.0.0"
     prism-react-renderer: "npm:^2.3.0"
     react: "npm:^19.0.0"
@@ -12103,9 +12103,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@signalwire/docusaurus-theme-llms-txt@npm:1.0.0-alpha.8":
-  version: 1.0.0-alpha.8
-  resolution: "@signalwire/docusaurus-theme-llms-txt@npm:1.0.0-alpha.8"
+"@signalwire/docusaurus-theme-llms-txt@npm:1.0.0-alpha.9":
+  version: 1.0.0-alpha.9
+  resolution: "@signalwire/docusaurus-theme-llms-txt@npm:1.0.0-alpha.9"
   dependencies:
     "@docusaurus/core": "npm:^3.0.0"
     "@docusaurus/theme-common": "npm:^3.0.0"
@@ -12114,7 +12114,7 @@ __metadata:
   peerDependencies:
     react: ^18.0.0
     react-dom: ^18.0.0
-  checksum: 10c0/5255153f3e7adc70197ad5fab3758fc403ac59ff7917eb858257222ef42fbb00258ff9428aa7d5ecda02c0949b1c11203d1a678d85862b61b1ff1ac4382b3291
+  checksum: 10c0/7a64fffff57c260af915458c76ed951dd81ee988c91fd33531670d36c9d98ef29b2f1ec9edf3a22ce66ab0bab9a54b430ee95df6a4fb2be72ffa87d7b426983c
   languageName: node
   linkType: hard
 

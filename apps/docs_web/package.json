@@ -18,7 +18,7 @@
     "@docusaurus/preset-classic": "3.9.2",
     "@mdx-js/react": "^3.0.0",
     "@signalwire/docusaurus-plugin-llms-txt": "2.0.0-alpha.7",
-    "@signalwire/docusaurus-theme-llms-txt": "1.0.0-alpha.8",
+    "@signalwire/docusaurus-theme-llms-txt": "1.0.0-alpha.9",
     "clsx": "^2.0.0",
     "prism-react-renderer": "^2.3.0",
     "react": "^19.0.0",
