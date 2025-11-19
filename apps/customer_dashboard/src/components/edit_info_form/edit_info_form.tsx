@@ -49,10 +49,11 @@ export const EditInfoForm = () => {
 
   // File upload handler with proper validation
   const handleLogoUpload = async (file: File) => {
-    // Check file type (no SVG)
-    if (!file.type.startsWith("image/") || file.type === "image/svg+xml") {
+    // Check file type (no SVG, no GIF)
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
       setError(
-        "Only image files (PNG, JPG, GIF, WebP) are allowed. SVG is not supported.",
+        "Only PNG, JPG, and WebP image files are allowed. SVG and GIF are not supported.",
       );
       return;
     }
@@ -210,7 +211,7 @@ export const EditInfoForm = () => {
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
+          accept="image/png,image/jpeg,image/jpg,image/webp"
           onChange={handleFileSelect}
           style={{ display: "none" }}
           disabled={isLoading}

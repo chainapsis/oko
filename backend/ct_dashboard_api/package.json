@@ -24,6 +24,7 @@
     "multer": "*",
     "nodemailer": "^7.0.4",
     "pg": "*",
+    "sharp": "0.33.4",
     "swagger-ui-express": "*",
     "uuid": "*",
     "zod": "*"

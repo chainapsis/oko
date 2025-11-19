@@ -1,5 +1,7 @@
 import { Router, type Response } from "express";
 import multer from "multer";
+import sharp from "sharp";
+import { randomUUID } from "crypto";
 import type {
   Customer,
   UpdateCustomerInfoRequest,
@@ -224,8 +226,62 @@ export function setCustomerRoutes(router: Router) {
     },
   );
 
-  // Multer middleware for file upload
-  const upload = multer();
+  // Multer middleware for file upload with size limit
+  const upload = multer({
+    limits: {
+      fileSize: 1 * 1024 * 1024, // 1MB limit
+      files: 1, // Only 1 file allowed
+      fields: 3, // Max 3 fields (label, delete_logo, logo)
+    },
+    fileFilter: (req, file, cb) => {
+      // Check file type (no SVG, no GIF)
+      const allowedMimeTypes = [
+        "image/png",
+        "image/jpeg",
+        "image/jpg",
+        "image/webp",
+      ];
+
+      if (!allowedMimeTypes.includes(file.mimetype)) {
+        cb(
+          new Error("Invalid file type. Only PNG, JPG, and WebP are allowed."),
+        );
+        return;
+      }
+
+      cb(null, true);
+    },
+  });
+
+  // Multer error handling middleware
+  const handleMulterError = (req: any, res: Response, next: any) => {
+    upload.single("logo")(req, res, (err) => {
+      if (err instanceof multer.MulterError) {
+        if (err.code === "LIMIT_FILE_SIZE") {
+          res.status(400).json({
+            success: false,
+            code: "FILE_TOO_LARGE",
+            msg: "File size must be under 1 MB.",
+          });
+          return;
+        }
+        res.status(400).json({
+          success: false,
+          code: "FILE_UPLOAD_ERROR",
+          msg: err.message,
+        });
+        return;
+      } else if (err) {
+        res.status(400).json({
+          success: false,
+          code: "INVALID_FILE_TYPE",
+          msg: err.message,
+        });
+        return;
+      }
+      next();
+    });
+  };
 
   // OpenAPI registration for update_info endpoint
   registry.registerPath({
@@ -250,12 +306,12 @@ export function setCustomerRoutes(router: Router) {
                 logo: {
                   type: "string",
                   format: "binary",
-                  description: "Logo image file (128×128 px, under 1 MB, no SVG)",
+                  description:
+                    "Logo image file (128×128 px, under 1 MB, no SVG)",
                 },
                 delete_logo: {
-                  type: "string",
-                  enum: ["true"],
-                  description: "Set to 'true' to delete existing logo",
+                  type: "boolean",
+                  description: "Set to true to delete existing logo",
                 },
               },
             },
@@ -321,7 +377,7 @@ export function setCustomerRoutes(router: Router) {
   router.post(
     "/customer/update_info",
     customerJwtMiddleware,
-    upload.single("logo"),
+    handleMulterError,
     async (
       req: CustomerAuthenticatedRequest<UpdateCustomerInfoRequest> & {
         file?: Express.Multer.File;
@@ -333,7 +389,8 @@ export function setCustomerRoutes(router: Router) {
         const userId = res.locals.user_id;
         const { label, delete_logo } = req.body;
 
-        // 1. Get customer by user_id
+        const shouldDeleteLogo = delete_logo === "true";
+
         const customerRes = await getCustomerByUserId(state.db, userId);
 
         if (!customerRes.success) {
@@ -354,25 +411,52 @@ export function setCustomerRoutes(router: Router) {
           return;
         }
 
-        // 2. Handle logo update/deletion
         let logo_url: string | null = null;
         let shouldUpdateLogo = false;
 
-        // If delete_logo flag is set, mark for deletion
-        if (delete_logo === "true") {
+        if (shouldDeleteLogo) {
           logo_url = null;
           shouldUpdateLogo = true;
-        }
-        // Otherwise, upload new logo if file is provided
-        else if (req.file) {
+        } else if (req.file) {
+          // Validate, re-encode, and strip metadata with sharp
+          let processedBuffer: Buffer;
+          try {
+            const metadata = await sharp(req.file.buffer).metadata();
+
+            if (metadata.width !== 128 || metadata.height !== 128) {
+              res.status(400).json({
+                success: false,
+                code: "IMAGE_UPLOAD_FAILED",
+                msg: "Image must be exactly 128×128 pixels.",
+              });
+              return;
+            }
+
+            // Re-encode to PNG, remove EXIF/metadata, ensure 128x128
+            processedBuffer = await sharp(req.file.buffer)
+              .resize(128, 128, { fit: "cover" })
+              .png({ quality: 90 })
+              .toBuffer();
+          } catch (error) {
+            res.status(400).json({
+              success: false,
+              code: "IMAGE_UPLOAD_FAILED",
+              msg: "Invalid image file.",
+            });
+            return;
+          }
+
+          // Generate safe S3 key (always PNG now)
+          const safeKey = `logos/${customerRes.data.customer_id}-${Date.now()}-${randomUUID()}.png`;
+
           const uploadRes = await uploadToS3({
             region: state.s3_region,
             accessKeyId: state.s3_access_key_id,
             secretAccessKey: state.s3_secret_access_key,
             bucket: state.s3_bucket,
-            key: `logos/${Date.now().toString()}-${req.file.originalname}`,
-            body: req.file.buffer,
-            contentType: req.file.mimetype,
+            key: safeKey,
+            body: processedBuffer,
+            contentType: "image/png", // Always PNG
           });
 
           if (!uploadRes.success) {
@@ -384,20 +468,41 @@ export function setCustomerRoutes(router: Router) {
             return;
           }
 
-          logo_url = decodeURIComponent(uploadRes.data);
+          // Don't decode - use URL as-is from S3
+          logo_url = uploadRes.data;
           shouldUpdateLogo = true;
         }
 
-        // 3. Build updates object
+        if (label !== undefined) {
+          const trimmedLabel = label.trim();
+
+          if (trimmedLabel === "") {
+            res.status(400).json({
+              success: false,
+              code: "INVALID_REQUEST",
+              msg: "Label cannot be empty or whitespace only.",
+            });
+            return;
+          }
+
+          if (trimmedLabel.length < 1 || trimmedLabel.length > 64) {
+            res.status(400).json({
+              success: false,
+              code: "INVALID_REQUEST",
+              msg: "Label must be between 1 and 64 characters.",
+            });
+            return;
+          }
+        }
+
         const updates: { label?: string; logo_url?: string | null } = {};
         if (label !== undefined && label.trim() !== "") {
-          updates.label = label;
+          updates.label = label.trim();
         }
         if (shouldUpdateLogo) {
           updates.logo_url = logo_url;
         }
 
-        // 4. Check if there are any updates
         if (Object.keys(updates).length === 0) {
           res.status(400).json({
             success: false,
@@ -407,7 +512,6 @@ export function setCustomerRoutes(router: Router) {
           return;
         }
 
-        // 5. Update customer info in database
         const updateRes = await updateCustomerInfo(
           state.db,
           customerRes.data.customer_id,

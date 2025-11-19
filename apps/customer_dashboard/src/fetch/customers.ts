@@ -82,7 +82,6 @@ export async function requestUpdateCustomerInfo({
     fetch(`${CUSTOMER_V1_ENDPOINT}/customer/update_info`, {
       method: "POST",
       headers: {
-        // browser automatically sets multipart/form-data with boundary
         Authorization: `Bearer ${token}`,
       },
       body: formData,

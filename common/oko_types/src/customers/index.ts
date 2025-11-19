@@ -28,6 +28,7 @@ export interface CustomerWithAPIKeys {
 
 export interface UpdateCustomerInfoRequest {
   label?: string;
+  delete_logo?: string; // "true" to delete logo
   // logo file is handled separately via multipart/form-data
 }
 
