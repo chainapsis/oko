@@ -1,9 +1,7 @@
 import { Buffer } from "buffer";
 
 import {
-  retry,
   simpleFetch,
-  TendermintTxTracer,
 } from "@oko-wallet-sdk-cosmos/utils";
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
@@ -12,10 +10,6 @@ export async function sendTx(
   chainId: string,
   tx: unknown,
   mode: "async" | "sync" | "block",
-  options: {
-    silent?: boolean;
-    onFulfill?: (tx: any) => void;
-  },
 ): Promise<Uint8Array> {
   const chainInfoList = await this.getCosmosChainInfo();
   const chainInfo = chainInfoList.find((info) => info.chainId === chainId);
@@ -66,39 +60,6 @@ export async function sendTx(
     }
 
     const txHash = Buffer.from(txResponse.txhash, "hex");
-
-    retry(
-      () => {
-        return new Promise<void>((resolve, reject) => {
-          const txTracer = new TendermintTxTracer(chainInfo.rpc, "/websocket");
-          txTracer.addEventListener("close", () => {
-            setTimeout(() => {
-              reject();
-            }, 500);
-          });
-          txTracer.addEventListener("error", () => {
-            reject();
-          });
-          txTracer.traceTx(txHash).then((tx) => {
-            txTracer.close();
-
-            if (options.onFulfill) {
-              if (!tx.hash) {
-                tx.hash = txHash;
-              }
-              options.onFulfill(tx);
-            }
-
-            resolve();
-          });
-        });
-      },
-      {
-        maxRetries: 10,
-        waitMsAfterError: 10 * 1000, // 10sec
-        maxWaitMsAfterError: 5 * 60 * 1000, // 5min
-      },
-    );
 
     return txHash;
   } catch (err: any) {
