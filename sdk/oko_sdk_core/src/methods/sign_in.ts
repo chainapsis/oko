@@ -77,13 +77,13 @@ async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
     payload: nonce,
   });
 
-  const popupId = uuidv4();
+  const modalId = uuidv4();
 
   const oauthState: OAuthState = {
     apiKey: okoWallet.apiKey,
     targetOrigin: window.location.origin,
     provider: "auth0",
-    popupId,
+    modalId,
   };
   const oauthStateString = JSON.stringify(oauthState);
 
@@ -100,7 +100,7 @@ async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
     msg_type: "open_modal",
     payload: {
       modal_type: "auth/email_login",
-      modal_id: popupId,
+      modal_id: modalId,
       data: {
         email_hint: null,
         oauth: {

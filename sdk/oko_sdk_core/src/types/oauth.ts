@@ -4,7 +4,7 @@ export type OAuthState = {
   apiKey: string;
   targetOrigin: string;
   provider: OAuthProvider;
-  popupId?: string;
+  modalId?: string;
 };
 
 export enum RedirectUriSearchParamsKey {

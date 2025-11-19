@@ -64,7 +64,7 @@ export async function handleAuth0Callback(): Promise<
   const stateString = parsedHash.state;
 
   const searchParams = new URLSearchParams(window.location.search);
-  const popupIdFromQuery = searchParams.get("popup_id");
+  const modalIdFromQuery = searchParams.get("modal_id");
   const hostOriginFromQuery = searchParams.get("host_origin");
 
   if (!accessToken || !idToken || !stateString) {
@@ -92,15 +92,15 @@ export async function handleAuth0Callback(): Promise<
     };
   }
 
-  if (!oauthState.popupId && popupIdFromQuery) {
-    oauthState.popupId = popupIdFromQuery;
+  if (!oauthState.modalId && modalIdFromQuery) {
+    oauthState.modalId = modalIdFromQuery;
   }
   if (!oauthState.targetOrigin && hostOriginFromQuery) {
     oauthState.targetOrigin = hostOriginFromQuery;
   }
 
-  if (!oauthState.popupId) {
-    console.error("[attached] Missing popupId for Auth0 callback");
+  if (!oauthState.modalId) {
+    console.error("[attached] Missing modalId for Auth0 callback");
     return {
       success: false,
       err: { type: "params_not_sufficient" },
@@ -174,7 +174,7 @@ async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
 function sendApproveAckToSDK(oauthState: OAuthState, email: string) {
   const payload: EmailLoginModalApproveAckPayload = {
     modal_type: "auth/email_login",
-    modal_id: oauthState.popupId!,
+    modal_id: oauthState.modalId!,
     type: "approve",
     data: {
       email,
@@ -194,7 +194,7 @@ function sendApproveAckToSDK(oauthState: OAuthState, email: string) {
 function sendErrorAckToSDK(oauthState: OAuthState, message: string) {
   const payload: EmailLoginModalErrorAckPayload = {
     modal_type: "auth/email_login",
-    modal_id: oauthState.popupId!,
+    modal_id: oauthState.modalId!,
     type: "error",
     error: {
       type: "verification_failed",

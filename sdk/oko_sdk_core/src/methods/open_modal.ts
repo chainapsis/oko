@@ -74,9 +74,9 @@ export async function openModal(
 }
 
 function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
-  const popupId = `oko_popup_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const modalId = `oko_modal_${Date.now()}_${Math.random().toString(36).slice(2)}`;
   const url = new URL("/login", this.sdkEndpoint);
-  url.searchParams.set("popup_id", popupId);
+  url.searchParams.set("modal_id", modalId);
   url.searchParams.set("host_origin", window.location.origin);
 
   const width = 480;
@@ -86,7 +86,7 @@ function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
 
   const popupWindow = window.open(
     url.toString(),
-    popupId,
+    modalId,
     `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`,
   );
 
@@ -97,14 +97,14 @@ function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
   const popupOrigin = new URL(this.sdkEndpoint).origin;
 
   return {
-    id: popupId,
+    id: modalId,
     popupWindow,
-    waitUntilReady: waitForPopupReady(popupId, popupWindow, popupOrigin),
+    waitUntilReady: waitForPopupReady(modalId, popupWindow, popupOrigin),
   };
 }
 
 function waitForPopupReady(
-  popupId: string,
+  modalId: string,
   popupWindow: Window,
   popupOrigin: string,
 ) {
@@ -135,13 +135,13 @@ function waitForPopupReady(
       const data = event.data as {
         target?: string;
         msg_type?: string;
-        payload?: { popup_id?: string };
+        payload?: { modal_id?: string };
       };
 
       if (
         data?.target === "oko_attached_popup" &&
         data.msg_type === "popup_ready" &&
-        data.payload?.popup_id === popupId
+        data.payload?.modal_id === modalId
       ) {
         cleanup();
         resolve();
@@ -156,7 +156,7 @@ function sendMsgToPopupWindow(
   popupWindow: Window,
   msg: OkoWalletMsgOpenModal,
   sdkEndpoint: string,
-  popupId: string,
+  modalId: string,
 ) {
   const targetOrigin = new URL(sdkEndpoint).origin;
 
@@ -201,10 +201,15 @@ function sendMsgToPopupWindow(
         data.target === "oko_sdk" &&
         data.msg_type === "open_modal_ack" &&
         data.payload?.modal_type === "auth/email_login" &&
-        "popup_id" in data.payload &&
-        (data.payload.popup_id ===
-          ("popup_id" in msg.payload ? msg.payload.popup_id : popupId) ||
-          data.payload.popup_id === popupId)
+        "modal_id" in data.payload &&
+        (() => {
+          const expectedModalId =
+            "modal_id" in msg.payload ? msg.payload.modal_id : modalId;
+          return (
+            data.payload.modal_id === expectedModalId ||
+            data.payload.modal_id === modalId
+          );
+        })()
       ) {
         resolved = true;
         cleanup();

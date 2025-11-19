@@ -67,10 +67,10 @@ const InlineOnlyNotice: FC = () => (
 function useNotifyPopupReady() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
-    const popupId = params.get("popup_id");
+    const modalId = params.get("modal_id");
     const hostOrigin = params.get("host_origin");
 
-    if (!popupId || !hostOrigin || !window.opener) {
+    if (!modalId || !hostOrigin || !window.opener) {
       return;
     }
 
@@ -78,7 +78,7 @@ function useNotifyPopupReady() {
       {
         target: "oko_attached_popup",
         msg_type: "popup_ready",
-        payload: { popup_id: popupId },
+        payload: { modal_id: modalId },
       },
       hostOrigin,
     );

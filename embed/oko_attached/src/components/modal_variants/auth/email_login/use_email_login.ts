@@ -259,15 +259,15 @@ export function useEmailLogin({
     }
 
     const urlParams = new URLSearchParams(window.location.search);
-    const popupId = urlParams.get("popup_id");
-    if (!popupId) {
-      setErrorMessage("Missing popup_id");
+    const modalIdFromQuery = urlParams.get("modal_id");
+    if (!modalIdFromQuery) {
+      setErrorMessage("Missing modal_id");
       setIsSubmitting(false);
       return;
     }
 
     const callbackUrl = new URL(`${window.location.origin}/auth0/callback`);
-    callbackUrl.searchParams.set("popup_id", popupId);
+    callbackUrl.searchParams.set("modal_id", modalIdFromQuery);
 
     webAuth.passwordlessLogin(
       {
