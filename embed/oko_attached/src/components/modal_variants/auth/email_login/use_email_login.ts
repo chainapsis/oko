@@ -160,7 +160,7 @@ export function useEmailLogin({
     console.log(`${LOG_PREFIX} modal closed by user`);
     closeModal({
       modal_type: "auth/email_login",
-      modal_id: modalId,
+      popup_id: modalId,
       type: "reject",
     });
   };
@@ -258,12 +258,23 @@ export function useEmailLogin({
       console.warn(`${LOG_PREFIX} failed to set session storage`, error);
     }
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const popupId = urlParams.get("popup_id");
+    if (!popupId) {
+      setErrorMessage("Missing popup_id");
+      setIsSubmitting(false);
+      return;
+    }
+
+    const callbackUrl = new URL(`${window.location.origin}/auth0/callback`);
+    callbackUrl.searchParams.set("popup_id", popupId);
+
     webAuth.passwordlessLogin(
       {
         connection: AUTH0_CONNECTION,
         email: email.trim(),
         verificationCode: otpDigits.join(""),
-        redirectUri: `${window.location.origin}/auth0/callback`,
+        redirectUri: callbackUrl.toString(),
         responseType: "token id_token",
         scope: "openid profile email",
         nonce: oauthContext!.nonce,

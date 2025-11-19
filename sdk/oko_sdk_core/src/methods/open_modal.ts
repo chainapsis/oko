@@ -45,7 +45,12 @@ export async function openModal(
 
     const openModalAck = await Promise.race([
       needsPopup && popupContext
-        ? sendMsgToPopupWindow(popupContext.popupWindow, msg, this.sdkEndpoint)
+        ? sendMsgToPopupWindow(
+            popupContext.popupWindow,
+            msg,
+            this.sdkEndpoint,
+            popupContext.id,
+          )
         : this.sendMsgToIframe(msg),
       timeoutPromise,
     ]);
@@ -151,6 +156,7 @@ function sendMsgToPopupWindow(
   popupWindow: Window,
   msg: OkoWalletMsgOpenModal,
   sdkEndpoint: string,
+  popupId: string,
 ) {
   const targetOrigin = new URL(sdkEndpoint).origin;
 
@@ -176,7 +182,7 @@ function sendMsgToPopupWindow(
       window.removeEventListener("message", onPostMessage);
     }
 
-    // Handle response via MessageChannel port (preferred method)
+    // Handle response via MessageChannel port
     channel.port1.onmessage = (event: MessageEvent) => {
       const data = event.data as OkoWalletMsg;
       resolved = true;
@@ -194,7 +200,11 @@ function sendMsgToPopupWindow(
       if (
         data.target === "oko_sdk" &&
         data.msg_type === "open_modal_ack" &&
-        data.payload?.modal_id === msg.payload.modal_id
+        data.payload?.modal_type === "auth/email_login" &&
+        "popup_id" in data.payload &&
+        (data.payload.popup_id ===
+          ("popup_id" in msg.payload ? msg.payload.popup_id : popupId) ||
+          data.payload.popup_id === popupId)
       ) {
         resolved = true;
         cleanup();

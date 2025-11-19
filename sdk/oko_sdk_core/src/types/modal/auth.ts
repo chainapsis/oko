@@ -1,6 +1,6 @@
 export interface EmailLoginModalPayload {
   modal_type: "auth/email_login";
-  modal_id: string;
+  popup_id: string;
   data: {
     email_hint?: string | null;
     oauth?: {
@@ -16,20 +16,20 @@ export interface EmailLoginModalResult {
 
 export type EmailLoginModalApproveAckPayload = {
   modal_type: "auth/email_login";
-  modal_id: string;
+  popup_id: string;
   type: "approve";
   data: EmailLoginModalResult;
 };
 
 export type EmailLoginModalRejectAckPayload = {
   modal_type: "auth/email_login";
-  modal_id: string;
+  popup_id: string;
   type: "reject";
 };
 
 export type EmailLoginModalErrorAckPayload = {
   modal_type: "auth/email_login";
-  modal_id: string;
+  popup_id: string;
   type: "error";
   error: EmailLoginModalError;
 };

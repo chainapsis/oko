@@ -16,8 +16,6 @@ import { sendOAuthPayloadToEmbeddedWindow } from "@oko-wallet-attached/component
 
 const EMAIL_STORAGE_KEY = "oko_email_login_pending_email";
 
-type OAuthStateWithModal = OAuthState & { modalId?: string };
-
 export function useAuth0Callback(): { error: string | null } {
   const [error, setError] = useState<string | null>(null);
 
@@ -66,7 +64,7 @@ export async function handleAuth0Callback(): Promise<
   const stateString = parsedHash.state;
 
   const searchParams = new URLSearchParams(window.location.search);
-  const modalIdFromQuery = searchParams.get("modal_id");
+  const popupIdFromQuery = searchParams.get("popup_id");
   const hostOriginFromQuery = searchParams.get("host_origin");
 
   if (!accessToken || !idToken || !stateString) {
@@ -76,7 +74,7 @@ export async function handleAuth0Callback(): Promise<
     };
   }
 
-  let oauthState: OAuthStateWithModal;
+  let oauthState: OAuthState;
   try {
     oauthState = JSON.parse(stateString) as OAuthState;
   } catch (error) {
@@ -94,15 +92,15 @@ export async function handleAuth0Callback(): Promise<
     };
   }
 
-  if (!oauthState.modalId && modalIdFromQuery) {
-    oauthState.modalId = modalIdFromQuery;
+  if (!oauthState.popupId && popupIdFromQuery) {
+    oauthState.popupId = popupIdFromQuery;
   }
   if (!oauthState.targetOrigin && hostOriginFromQuery) {
     oauthState.targetOrigin = hostOriginFromQuery;
   }
 
-  if (!oauthState.modalId) {
-    console.error("[attached] Missing modalId for Auth0 callback");
+  if (!oauthState.popupId) {
+    console.error("[attached] Missing popupId for Auth0 callback");
     return {
       success: false,
       err: { type: "params_not_sufficient" },
@@ -114,23 +112,26 @@ export async function handleAuth0Callback(): Promise<
     id_token: idToken,
     api_key: oauthState.apiKey,
     target_origin: oauthState.targetOrigin,
-    auth_type: oauthState.provider ?? "auth0",
+    auth_type: oauthState.provider,
   };
 
   const email = consumePendingEmail() ?? "";
   const sendRes = await sendOAuthPayloadToEmbeddedWindow(payload);
   if (!sendRes.success) {
-    notifySDKWithError(oauthState, describeCallbackError(sendRes.err));
+    const message =
+      "error" in sendRes.err
+        ? `${sendRes.err.type}: ${sendRes.err.error}`
+        : sendRes.err.type;
+    sendErrorAckToSDK(oauthState, message);
     return sendRes;
   }
 
-  notifySDKWithSuccess(oauthState, email);
+  sendApproveAckToSDK(oauthState, email);
   return { success: true, data: void 0 };
 }
 
 async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
   const hash = window.location.hash;
-
   if (!hash || hash.length < 2) {
     throw new Error("Missing callback parameters.");
   }
@@ -144,6 +145,7 @@ async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
           new Error(
             err.error_description ??
               err.description ??
+              err.errorDescription ??
               err.error ??
               "Auth0 callback error",
           ),
@@ -161,52 +163,30 @@ async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
   });
 }
 
-function notifySDKWithSuccess(oauthState: OAuthStateWithModal, email: string) {
-  if (!window.opener) {
-    console.error("[Auth0Callback] Cannot notify SDK: opener missing");
-    return;
-  }
-
-  if (!oauthState.modalId || !oauthState.targetOrigin) {
-    console.error("[Auth0Callback] Cannot notify SDK: oauth state incomplete");
-    return;
-  }
-
+function sendApproveAckToSDK(oauthState: OAuthState, email: string) {
   const payload: EmailLoginModalApproveAckPayload = {
     modal_type: "auth/email_login",
-    modal_id: oauthState.modalId,
+    popup_id: oauthState.popupId!,
     type: "approve",
     data: {
       email,
     },
   };
 
-  console.log("[attached] notifySDKWithError: %o", payload);
-
-  window.opener.postMessage(
+  window.opener!.postMessage(
     {
       target: "oko_sdk",
       msg_type: "open_modal_ack",
       payload,
     },
-    oauthState.targetOrigin,
+    oauthState.targetOrigin!,
   );
 }
 
-function notifySDKWithError(oauthState: OAuthStateWithModal, message: string) {
-  if (!window.opener) {
-    console.error("[Auth0Callback] Cannot notify SDK: opener missing");
-    return;
-  }
-
-  if (!oauthState.modalId || !oauthState.targetOrigin) {
-    console.error("[Auth0Callback] Cannot notify SDK: oauth state incomplete");
-    return;
-  }
-
+function sendErrorAckToSDK(oauthState: OAuthState, message: string) {
   const payload: EmailLoginModalErrorAckPayload = {
     modal_type: "auth/email_login",
-    modal_id: oauthState.modalId,
+    popup_id: oauthState.popupId!,
     type: "error",
     error: {
       type: "verification_failed",
@@ -214,13 +194,13 @@ function notifySDKWithError(oauthState: OAuthStateWithModal, message: string) {
     },
   };
 
-  window.opener.postMessage(
+  window.opener!.postMessage(
     {
       target: "oko_sdk",
       msg_type: "open_modal_ack",
       payload,
     },
-    oauthState.targetOrigin,
+    oauthState.targetOrigin!,
   );
 }
 
@@ -231,19 +211,6 @@ function consumePendingEmail(): string | null {
       window.sessionStorage.removeItem(EMAIL_STORAGE_KEY);
       return value;
     }
-  } catch {
-    // ignore
-  }
+  } catch {}
   return null;
-}
-
-function describeCallbackError(error: HandleCallbackError): string {
-  switch (error.type) {
-    case "msg_pass_fail":
-      return `Failed to deliver login result: ${error.error}`;
-    case "wrong_ack_type":
-      return `Unexpected response type: ${error.msg_type}`;
-    default:
-      return error.type;
-  }
 }
