@@ -4,4 +4,5 @@ export const paths = {
   sign_up_digits: "/users/sign_up/digits",
   change_password: "/users/reset_password?after_login=true",
   reset_password: "/users/reset_password",
+  edit_info: "/edit-info",
 };

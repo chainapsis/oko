@@ -44,6 +44,14 @@ export const AccountInfoWithSubMenu = () => {
       }
       menuItems={[
         {
+          id: "edit-info",
+          label: "Edit Info",
+          icon: <EditIcon size={16} />,
+          onClick: () => {
+            router.push(paths.edit_info);
+          },
+        },
+        {
           id: "change-password",
           label: "Change Password",
           icon: <EditIcon size={16} />,
