@@ -282,19 +282,28 @@ VALUES ${placeholders.join(",")}
 
 export async function selectKSNodeHealthChecks(
   db: Pool | PoolClient,
+  pageIdx: number,
+  pageSize: number,
 ): Promise<Result<KsNodeHealthCheck[], string>> {
+  const offset = pageIdx + pageSize;
+
   const query = `
 SELECT *
 FROM ks_node_health_checks
-LIMIT 30;
+OFFSET $1
+LIMIT $2;
 `;
 
   try {
-    await db.query(query);
+    const result = await db.query(query, [offset, pageSize]);
+    const ret = result.rows.map((r) => ({
+      node_id: r.node_id,
+      status: r.status,
+    }));
 
     return {
       success: true,
-      data: [],
+      data: ret,
     };
   } catch (error) {
     return {

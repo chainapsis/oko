@@ -53,6 +53,7 @@ import { update_ks_node } from "./update_ks_node";
 import { activate_ks_node } from "./activate_ks_node";
 import { get_audit_logs } from "./get_audit_logs";
 import { get_audit_logs_count } from "./get_audit_logs_count";
+import { get_ksn_health_checks } from "./get_ksn_health_checks";
 
 export function makeEWalletAdminRouter() {
   const router = express.Router();
@@ -595,6 +596,12 @@ export function makeEWalletAdminRouter() {
     "/ks_node/activate_ks_node",
     adminAuthMiddleware,
     activate_ks_node,
+  );
+
+  router.post(
+    "/ks_node/get_ksn_health_checks",
+    adminAuthMiddleware,
+    get_ksn_health_checks,
   );
 
   registry.registerPath({

@@ -15,7 +15,7 @@ export function useKSNHealthChecks() {
       }
 
       const response = await doFetch<any>(
-        `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ks_node_by_id`,
+        `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ksn_health_checks`,
         {
           method: "POST",
           headers: {

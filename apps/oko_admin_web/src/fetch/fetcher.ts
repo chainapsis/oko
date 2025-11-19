@@ -21,7 +21,10 @@ export async function doFetch<T>(
 
     if (!response.ok || !data.success) {
       if (checkIsTokenInvalid(data.code, response.status)) {
-        if (resetTimeout) clearTimeout(resetTimeout);
+        if (resetTimeout) {
+          clearTimeout(resetTimeout);
+        }
+
         resetTimeout = setTimeout(() => {
           useAppState.getState().resetUserState();
           resetTimeout = null;
