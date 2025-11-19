@@ -1,6 +1,6 @@
 export interface EmailLoginModalPayload {
   modal_type: "auth/email_login";
-  popup_id: string;
+  modal_id: string;
   data: {
     email_hint?: string | null;
     oauth?: {

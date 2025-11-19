@@ -100,7 +100,7 @@ async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
     msg_type: "open_modal",
     payload: {
       modal_type: "auth/email_login",
-      popup_id: popupId,
+      modal_id: popupId,
       data: {
         email_hint: null,
         oauth: {
