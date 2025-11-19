@@ -250,7 +250,12 @@ export function setCustomerRoutes(router: Router) {
                 logo: {
                   type: "string",
                   format: "binary",
-                  description: "Logo image file",
+                  description: "Logo image file (128×128 px, under 1 MB, no SVG)",
+                },
+                delete_logo: {
+                  type: "string",
+                  enum: ["true"],
+                  description: "Set to 'true' to delete existing logo",
                 },
               },
             },
@@ -326,7 +331,7 @@ export function setCustomerRoutes(router: Router) {
       try {
         const state = req.app.locals as any;
         const userId = res.locals.user_id;
-        const { label } = req.body;
+        const { label, delete_logo } = req.body;
 
         // 1. Get customer by user_id
         const customerRes = await getCustomerByUserId(state.db, userId);
@@ -349,9 +354,17 @@ export function setCustomerRoutes(router: Router) {
           return;
         }
 
-        // 2. Upload logo to S3 if file is provided
+        // 2. Handle logo update/deletion
         let logo_url: string | null = null;
-        if (req.file) {
+        let shouldUpdateLogo = false;
+
+        // If delete_logo flag is set, mark for deletion
+        if (delete_logo === "true") {
+          logo_url = null;
+          shouldUpdateLogo = true;
+        }
+        // Otherwise, upload new logo if file is provided
+        else if (req.file) {
           const uploadRes = await uploadToS3({
             region: state.s3_region,
             accessKeyId: state.s3_access_key_id,
@@ -372,6 +385,7 @@ export function setCustomerRoutes(router: Router) {
           }
 
           logo_url = decodeURIComponent(uploadRes.data);
+          shouldUpdateLogo = true;
         }
 
         // 3. Build updates object
@@ -379,7 +393,7 @@ export function setCustomerRoutes(router: Router) {
         if (label !== undefined && label.trim() !== "") {
           updates.label = label;
         }
-        if (logo_url !== null) {
+        if (shouldUpdateLogo) {
           updates.logo_url = logo_url;
         }
 

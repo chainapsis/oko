@@ -57,12 +57,18 @@
   border-radius: 12px;
   border: 1px solid #eaecf0;
   cursor: pointer;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 
   &:hover {
     border-color: #d0d5dd;
+  }
+
+  &.dragging {
+    border-color: #7f56d9;
+    border-width: 2px;
+    background-color: rgba(127, 86, 217, 0.05);
   }
 }
 

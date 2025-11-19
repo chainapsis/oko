@@ -53,10 +53,12 @@ export async function requestUpdateCustomerInfo({
   token,
   label,
   logoFile,
+  deleteLogo,
 }: {
   token: string;
   label?: string;
   logoFile?: File | null;
+  deleteLogo?: boolean;
 }) {
   // Note: Reasons for using FormData:
   // - Need to send file upload (logo) and text data together
@@ -69,6 +71,11 @@ export async function requestUpdateCustomerInfo({
 
   if (logoFile) {
     formData.append("logo", logoFile);
+  }
+
+  // Send delete_logo flag to indicate logo should be removed
+  if (deleteLogo) {
+    formData.append("delete_logo", "true");
   }
 
   return errorHandle<UpdateCustomerInfoResponse>(() =>

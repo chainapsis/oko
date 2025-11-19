@@ -28,21 +28,50 @@ export const EditInfoForm = () => {
   );
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [shouldDeleteLogo, setShouldDeleteLogo] = useState(false);
 
-  // File upload handler (following admin web pattern)
-  const handleLogoUpload = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      setError("Only image files can be uploaded.");
+  // Validate image dimensions (128x128)
+  const validateImageDimensions = (file: File): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+        resolve(img.width === 128 && img.height === 128);
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(img.src);
+        resolve(false);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  // File upload handler with proper validation
+  const handleLogoUpload = async (file: File) => {
+    // Check file type (no SVG)
+    if (!file.type.startsWith("image/") || file.type === "image/svg+xml") {
+      setError(
+        "Only image files (PNG, JPG, GIF, WebP) are allowed. SVG is not supported.",
+      );
       return;
     }
 
-    // File size validation (5MB limit for customer dashboard)
-    if (file.size > 5 * 1024 * 1024) {
-      setError("File size must be less than 5MB.");
+    // File size validation (1MB limit)
+    if (file.size > 1 * 1024 * 1024) {
+      setError("File size must be under 1 MB.");
+      return;
+    }
+
+    // Validate dimensions (128x128)
+    const isValidDimensions = await validateImageDimensions(file);
+    if (!isValidDimensions) {
+      setError("Image must be exactly 128×128 pixels.");
       return;
     }
 
     setError(null);
+    setShouldDeleteLogo(false);
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -53,10 +82,11 @@ export const EditInfoForm = () => {
     setLogoFile(file);
   };
 
-  // File remove handler (following admin web pattern)
+  // File remove handler - completely remove logo
   const handleLogoRemove = () => {
-    setPreviewUrl(customer.data?.logo_url ?? null); // Restore original logo
+    setPreviewUrl(null);
     setLogoFile(null);
+    setShouldDeleteLogo(true); // Mark for deletion
     setError(null);
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -74,6 +104,35 @@ export const EditInfoForm = () => {
     fileInputRef.current?.click();
   };
 
+  // Drag and drop handlers
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      handleLogoUpload(file);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -84,7 +143,7 @@ export const EditInfoForm = () => {
 
     // Check for changes
     const hasLabelChange = label !== customer.data?.label;
-    const hasLogoChange = logoFile !== null;
+    const hasLogoChange = logoFile !== null || shouldDeleteLogo;
 
     if (!hasLabelChange && !hasLogoChange) {
       setError("No changes to save.");
@@ -99,6 +158,7 @@ export const EditInfoForm = () => {
         token,
         label: hasLabelChange ? label : undefined,
         logoFile: logoFile,
+        deleteLogo: shouldDeleteLogo,
       });
 
       if (result.success) {
@@ -122,7 +182,7 @@ export const EditInfoForm = () => {
   };
 
   const hasChanges =
-    label !== customer.data?.label || logoFile !== null;
+    label !== customer.data?.label || logoFile !== null || shouldDeleteLogo;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -136,30 +196,34 @@ export const EditInfoForm = () => {
         className={styles.input}
       />
 
-      {/* Logo Upload (following admin web pattern) */}
+      {/* Logo Upload with drag & drop */}
       <div className={styles.appLogoUploadWrapper}>
         <label className={styles.appLogoUploadLabel}>
           <span className={styles.appLogoUploadLabelText}>App Logo</span>
         </label>
         <p className={styles.appLogoUploadDescription}>
-          Image with a 2:1 aspect ratio and with a size of 180px x 90px. SVGs
-          are not allowed.
+          App logo file in 128×128 px size, under 1 MB, and not in SVG format.
+          Drag and drop or click to upload.
         </p>
 
         {/* Hidden file input */}
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+          accept="image/png,image/jpeg,image/jpg,image/gif,image/webp"
           onChange={handleFileSelect}
           style={{ display: "none" }}
           disabled={isLoading}
         />
 
-        {/* Clickable upload area */}
+        {/* Clickable upload area with drag & drop */}
         <div
-          className={styles.appLogoUploadInput}
+          className={`${styles.appLogoUploadInput} ${isDragging ? styles.dragging : ""}`}
           onClick={handleUploadClick}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
         >
           {previewUrl ? (
             <div className={styles.logoPreview}>
