@@ -1,13 +1,6 @@
 # Oko
 
-<a href="https://demo.oko.app/">
-  <picture>
-    <source media="(prefers-color-scheme: light)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg">
-    <source media="(prefers-color-scheme: dark)" srcset="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_dark.svg">
-    <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/icons/oko_logo_light.svg" alt="Logo"
-    style="width: 180px; height: auto;">
-  </picture>
-</a>
+[![Oko Wallet](https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-github-readme.png)](https://demo.oko.app)
 
 Crypto wallet seamlessly built in your apps.
 
