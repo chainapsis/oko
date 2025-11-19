@@ -310,8 +310,9 @@ export function setCustomerRoutes(router: Router) {
                     "Logo image file (128×128 px, under 1 MB, no SVG)",
                 },
                 delete_logo: {
-                  type: "boolean",
-                  description: "Set to true to delete existing logo",
+                  type: "string",
+                  enum: ["true"],
+                  description: "Set to 'true' to delete existing logo",
                 },
               },
             },
