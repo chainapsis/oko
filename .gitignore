@@ -410,6 +410,7 @@ $RECYCLE.BIN/
 # AI Agent plan
 .plan
 AGENTS.md
+.tasks
 
 # Postgres
 pg_data/

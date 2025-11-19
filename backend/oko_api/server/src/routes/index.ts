@@ -3,11 +3,13 @@ import { makeCustomerRouter } from "@oko-wallet/ct-dashboard-api";
 import { makeEWalletAdminRouter } from "@oko-wallet/admin-api";
 import { makeTssRouter } from "@oko-wallet/tss-api";
 import { makeLogRouter } from "@oko-wallet/log-api";
+import { makeCrRouter } from "@oko-wallet/cr-api";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
   app.use("/oko_admin/v1", makeEWalletAdminRouter());
   app.use("/tss/v1", makeTssRouter());
+  app.use("/cr/v1", makeCrRouter());
   app.use(
     "/log/v1",
     makeLogRouter({

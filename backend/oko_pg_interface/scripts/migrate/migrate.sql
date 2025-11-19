@@ -306,3 +306,35 @@ CREATE TABLE public.wallet_ks_nodes (
 );
 CREATE INDEX idx_wallet_ks_nodes_node_id ON public.wallet_ks_nodes USING btree (node_id);
 CREATE INDEX idx_wallet_ks_nodes_wallet_id ON public.wallet_ks_nodes USING btree (wallet_id);
+
+
+-- public.oko_server_ecdsa_keypairs definition
+
+-- Drop table
+
+-- DROP TABLE public.oko_server_ecdsa_keypairs;
+
+CREATE TABLE public.oko_server_ecdsa_keypairs (
+	id SERIAL PRIMARY KEY,
+	private_key TEXT NOT NULL,
+	public_key VARCHAR(66) NOT NULL,
+	active BOOLEAN NOT NULL DEFAULT true,
+	created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+	rotated_at TIMESTAMPTZ NULL,
+);
+
+-- Only one active keypair at a time (partial unique index)
+CREATE UNIQUE INDEX idx_oko_ecdsa_active
+  ON oko_server_ecdsa_keypairs(active)
+  WHERE active = true;
+
+-- Index for key rotation queries (find old/rotated keys)
+CREATE INDEX idx_oko_ecdsa_created_at
+  ON oko_server_ecdsa_keypairs(created_at DESC);
+
+-- Index for finding keys by public key (for verification)
+CREATE INDEX idx_oko_ecdsa_public_key
+  ON oko_server_ecdsa_keypairs(public_key);
+
+-- Only one active keypair at a time
+CREATE UNIQUE INDEX oko_server_ecdsa_keypairs_active_unique ON public.oko_server_ecdsa_keypairs (active) WHERE active = true;
