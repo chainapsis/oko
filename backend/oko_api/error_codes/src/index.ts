@@ -36,5 +36,6 @@ export const ErrorCodeMap: Record<ErrorCode, number> = {
   KS_NODE_NOT_FOUND: 404,
   KS_NODE_ALREADY_INACTIVE: 400,
   KS_NODE_ALREADY_ACTIVE: 400,
+  IMAGE_UPLOAD_FAILED: 500,
   UNKNOWN_ERROR: 500,
 };

@@ -104,4 +104,4 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
   );
 };
 
-export interface LoginWidgetProps { }
+export interface LoginWidgetProps {}

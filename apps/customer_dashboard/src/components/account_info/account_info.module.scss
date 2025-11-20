@@ -8,6 +8,14 @@
 .customerInfo {
   display: flex;
   align-items: center;
+
+  // Resize logo to 40x40
+  img {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    object-fit: cover;
+  }
 }
 
 .fallbackImageText {
@@ -19,7 +27,7 @@
   justify-content: center;
   align-items: center;
 
-  border-radius: 999px;
+  border-radius: 8px;
   border: 1px solid var(--gray-200);
   background: var(--bg-tertiary);
 

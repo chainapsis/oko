@@ -25,3 +25,13 @@ export interface CustomerWithAPIKeys {
   customer: Customer;
   api_keys: APIKey[];
 }
+
+export interface UpdateCustomerInfoRequest {
+  label?: string;
+  delete_logo?: string; // "true" to delete logo
+  // logo file is handled separately via multipart/form-data
+}
+
+export interface UpdateCustomerInfoResponse {
+  message: string;
+}

@@ -27,6 +27,7 @@ export const AccountInfoWithSubMenu = () => {
           email={user?.email ?? ""}
           label={customer.data?.label ?? ""}
           logoImageUrl={customer.data?.logo_url ?? ""}
+          className={styles.sidebarTrigger}
           TopRightIcon={
             <span className={styles.iconWrapper}>
               <ThreeDotsVerticalIcon color="var(--fg-quaternary)" size={16} />
@@ -43,6 +44,14 @@ export const AccountInfoWithSubMenu = () => {
         />
       }
       menuItems={[
+        {
+          id: "edit-info",
+          label: "Edit Info",
+          icon: <EditIcon size={16} />,
+          onClick: () => {
+            router.push(paths.edit_info);
+          },
+        },
         {
           id: "change-password",
           label: "Change Password",
