@@ -130,11 +130,26 @@ export async function handleAuth0Callback(): Promise<
       "error" in sendRes.err
         ? `${sendRes.err.type}: ${sendRes.err.error}`
         : sendRes.err.type;
-    sendErrorAckToSDK(oauthState, message);
+    sendAckToSDK(oauthState, {
+      modal_type: "auth/email_login",
+      modal_id: oauthState.modalId!,
+      type: "error",
+      error: {
+        type: "verification_failed",
+        message,
+      },
+    });
     return sendRes;
   }
 
-  sendApproveAckToSDK(oauthState, email);
+  sendAckToSDK(oauthState, {
+    modal_type: "auth/email_login",
+    modal_id: oauthState.modalId!,
+    type: "approve",
+    data: {
+      email,
+    },
+  });
   return { success: true, data: void 0 };
 }
 
@@ -171,37 +186,10 @@ async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
   });
 }
 
-function sendApproveAckToSDK(oauthState: OAuthState, email: string) {
-  const payload: EmailLoginModalApproveAckPayload = {
-    modal_type: "auth/email_login",
-    modal_id: oauthState.modalId!,
-    type: "approve",
-    data: {
-      email,
-    },
-  };
-
-  window.opener!.postMessage(
-    {
-      target: "oko_sdk",
-      msg_type: "open_modal_ack",
-      payload,
-    },
-    oauthState.targetOrigin!,
-  );
-}
-
-function sendErrorAckToSDK(oauthState: OAuthState, message: string) {
-  const payload: EmailLoginModalErrorAckPayload = {
-    modal_type: "auth/email_login",
-    modal_id: oauthState.modalId!,
-    type: "error",
-    error: {
-      type: "verification_failed",
-      message,
-    },
-  };
-
+function sendAckToSDK(
+  oauthState: OAuthState,
+  payload: EmailLoginModalApproveAckPayload | EmailLoginModalErrorAckPayload,
+) {
   window.opener!.postMessage(
     {
       target: "oko_sdk",
