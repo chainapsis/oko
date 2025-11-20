@@ -74,10 +74,10 @@ async function tryAuth0EmailSignIn(
   const oauthSignInUpdateWaiter = waitForOAuthSignInUpdate(okoWallet);
 
   const result = await okoWallet.openModal(modalMsg);
-  console.log("[oko] open modal result: %o", result);
+  console.log("[oko] email sign in open modal result: %o", result);
   if (!result.success) {
     oauthSignInUpdateWaiter.cancel();
-    throw new Error(result.err.type);
+    throw new Error(`email sign in open modal failed, err: ${result.err.type}`);
   }
 
   return await oauthSignInUpdateWaiter.promise;
@@ -143,4 +143,3 @@ function waitForOAuthSignInUpdate(okoWallet: OkoWalletInterface) {
     },
   };
 }
-

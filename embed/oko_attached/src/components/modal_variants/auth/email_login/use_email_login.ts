@@ -5,10 +5,11 @@ import type {
   OAuthState,
 } from "@oko-wallet/oko-sdk-core";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import { getAuth0WebAuth } from "@oko-wallet-attached/config/auth0";
 import {
-  getAuth0WebAuth,
-  AUTH0_CONNECTION,
-} from "@oko-wallet-attached/config/auth0";
+  sendEmailOTPCode,
+  verifyEmailOTPCode,
+} from "@oko-wallet-attached/lib/auth0";
 
 const CODE_LENGTH = 6;
 const RESEND_COOLDOWN_SECONDS = 30;
@@ -129,33 +130,6 @@ export function useEmailLogin({
     return true;
   };
 
-  const requestCode = async () => {
-    return new Promise<void>((resolve, reject) => {
-      webAuth.passwordlessStart(
-        {
-          connection: AUTH0_CONNECTION,
-          email: email.trim(),
-          send: "code",
-        },
-        (err) => {
-          if (err) {
-            reject(
-              new Error(
-                err.error_description ??
-                  err.description ??
-                  err.error ??
-                  "Failed to request code",
-              ),
-            );
-            return;
-          }
-
-          resolve();
-        },
-      );
-    });
-  };
-
   const handleClose = () => {
     console.log(`${LOG_PREFIX} modal closed by user`);
     closeModal({
@@ -185,7 +159,10 @@ export function useEmailLogin({
         `${LOG_PREFIX} submitting email for code request`,
         email.trim(),
       );
-      await requestCode();
+      await sendEmailOTPCode({
+        webAuth,
+        email: email.trim(),
+      });
       setStep("verify_code");
       setInfoMessage(
         "We sent a 6-digit verification code to your email address.",
@@ -219,7 +196,10 @@ export function useEmailLogin({
         email.trim(),
         `(host: ${hostOrigin})`,
       );
-      await requestCode();
+      await sendEmailOTPCode({
+        webAuth,
+        email: email.trim(),
+      });
       setInfoMessage("A new code was sent.");
       setResendTimer(RESEND_COOLDOWN_SECONDS);
     } catch (err: any) {
@@ -269,30 +249,19 @@ export function useEmailLogin({
     const callbackUrl = new URL(`${window.location.origin}/auth0/callback`);
     callbackUrl.searchParams.set("modal_id", modalIdFromQuery);
 
-    webAuth.passwordlessLogin(
-      {
-        connection: AUTH0_CONNECTION,
-        email: email.trim(),
-        verificationCode: otpDigits.join(""),
-        redirectUri: callbackUrl.toString(),
-        responseType: "token id_token",
-        scope: "openid profile email",
-        nonce: oauthContext!.nonce,
-        state: oauthContext!.state,
+    verifyEmailOTPCode({
+      webAuth,
+      email: email.trim(),
+      verificationCode: otpDigits.join(""),
+      callbackUrl: callbackUrl.toString(),
+      nonce: oauthContext!.nonce,
+      state: oauthContext!.state,
+      onError: (err) => {
+        console.error(`${LOG_PREFIX} passwordlessLogin error`, err);
+        setErrorMessage(err.message);
+        setIsSubmitting(false);
       },
-      (err) => {
-        if (err) {
-          console.error(`${LOG_PREFIX} passwordlessLogin error`, err);
-          setErrorMessage(
-            err.error_description ??
-              err.description ??
-              err.error ??
-              "Failed to verify the code",
-          );
-          setIsSubmitting(false);
-        }
-      },
-    );
+    });
   };
 
   const handleBack = () => {
