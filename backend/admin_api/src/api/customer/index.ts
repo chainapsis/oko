@@ -1,6 +1,7 @@
 import { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
-import { randomBytes } from "crypto";
+import { randomBytes, randomUUID } from "crypto";
+import sharp from "sharp";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   CreateCustomerResponse,
@@ -51,15 +52,86 @@ export async function createCustomer(
   const context = { db, ...auditContext };
 
   try {
+    if (!body.label || body.label.trim().length === 0) {
+      return {
+        success: false,
+        code: "INVALID_REQUEST",
+        msg: "Label is required",
+      };
+    }
+
+    if (body.label.length > 64) {
+      return {
+        success: false,
+        code: "INVALID_REQUEST",
+        msg: "Label must be 64 characters or less",
+      };
+    }
+
+    const labelRegex = /^[a-zA-Z0-9\s\-_\.]+$/;
+    if (!labelRegex.test(body.label)) {
+      return {
+        success: false,
+        code: "INVALID_REQUEST",
+        msg: "Label contains invalid characters",
+      };
+    }
+
+    const customer_id = uuidv4();
+
     let logo_url: string | null = null;
     if (opts.logo) {
+      let metadata;
+      try {
+        metadata = await sharp(opts.logo.buffer).metadata();
+      } catch (err) {
+        return {
+          success: false,
+          code: "IMAGE_UPLOAD_FAILED",
+          msg: "Invalid image file",
+        };
+      }
+
+      if (!metadata.width || !metadata.height) {
+        return {
+          success: false,
+          code: "IMAGE_UPLOAD_FAILED",
+          msg: "Could not determine image dimensions",
+        };
+      }
+
+      if (metadata.width !== 128 || metadata.height !== 128) {
+        return {
+          success: false,
+          code: "IMAGE_UPLOAD_FAILED",
+          msg: "Image must be exactly 128x128 pixels",
+        };
+      }
+
+      let processedBuffer: Buffer;
+      try {
+        processedBuffer = await sharp(opts.logo.buffer)
+          .resize(128, 128, { fit: "cover" })
+          .png({ quality: 90 })
+          .toBuffer();
+      } catch (err) {
+        return {
+          success: false,
+          code: "IMAGE_UPLOAD_FAILED",
+          msg: "Failed to process image",
+        };
+      }
+
+      const safeKey = `logos/${customer_id}-${Date.now()}-${randomUUID()}.png`;
+
       const uploadRes = await uploadToS3({
         region: opts.s3.region,
         accessKeyId: opts.s3.accessKeyId,
         secretAccessKey: opts.s3.secretAccessKey,
         bucket: opts.s3.bucket,
-        key: `logos/${Date.now().toString()}-${opts.logo.originalname}`,
-        body: opts.logo.buffer,
+        key: safeKey,
+        body: processedBuffer,
+        contentType: "image/png",
       });
 
       if (!uploadRes.success) {
@@ -70,14 +142,12 @@ export async function createCustomer(
         };
       }
 
-      logo_url = decodeURIComponent(uploadRes.data);
+      logo_url = uploadRes.data;
     }
 
     const client = await db.connect();
     try {
       await client.query("BEGIN");
-
-      const customer_id = uuidv4();
       const api_key = randomBytes(32).toString("hex");
       const user_id = uuidv4();
 
