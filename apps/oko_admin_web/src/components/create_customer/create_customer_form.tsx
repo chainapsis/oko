@@ -21,10 +21,15 @@ export const CreateCustomerForm: React.FC = () => {
     mutation,
     errors,
     logoPreview,
+    isDragging,
     handleSubmit,
     register,
     handleLogoUpload,
     handleLogoRemove,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
   } = useCreateCustomerForm();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,19 +105,26 @@ export const CreateCustomerForm: React.FC = () => {
           <span className={styles.appLogoUploadLabelText}>App Logo</span>
         </label>
         <p className={styles.appLogoUploadDescription}>
-          Image with a 2:1 aspect ratio and with a size of 180px x 90px. SVGs
-          are not allowed.
+          Image with 128×128 pixels and under 1 MB. PNG, JPG, JPEG, and WebP
+          only. SVG and GIF are not allowed.
         </p>
 
         <input
           ref={fileInputRef}
           type="file"
-          accept="image/jpeg,image/jpg,image/png,image/gif,image/webp"
+          accept="image/png,image/jpeg,image/jpg,image/webp"
           onChange={handleFileSelect}
           style={{ display: "none" }}
         />
 
-        <div className={styles.appLogoUploadInput} onClick={handleUploadClick}>
+        <div
+          className={`${styles.appLogoUploadInput} ${isDragging ? styles.dragging : ""}`}
+          onClick={handleUploadClick}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
           {logoPreview ? (
             <div className={styles.logoPreview}>
               <img

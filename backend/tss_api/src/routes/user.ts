@@ -146,7 +146,8 @@ export function setUserRoutes(router: Router) {
         },
       },
       401: {
-        description: "Unauthorized - Invalid or missing OAuth token or auth_type",
+        description:
+          "Unauthorized - Invalid or missing OAuth token or auth_type",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,

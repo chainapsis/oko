@@ -1,12 +1,13 @@
-.wrapper {
+.form {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 32px;
+  width: 100%;
 }
 
-.inputCustomWidth {
-  width: 320px;
+.input {
+  width: 100%;
 }
 
 .plusIcon {
@@ -31,7 +32,6 @@
   font-style: normal;
   font-weight: 500;
   line-height: 20px;
-  width: 413px;
 }
 
 .appLogoUploadLabel {
@@ -57,7 +57,7 @@
   border-radius: 12px;
   border: 1px solid #eaecf0;
   cursor: pointer;
-  transition: border-color 0.2s ease;
+  transition: all 0.2s ease;
   position: relative;
   overflow: hidden;
 
@@ -66,8 +66,9 @@
   }
 
   &.dragging {
-    border-color: var(--border-brand);
-    background-color: var(--bg-brand-secondary);
+    border-color: #7f56d9;
+    border-width: 2px;
+    background-color: rgba(127, 86, 217, 0.05);
   }
 }
 
@@ -110,4 +111,16 @@
 .xCloseIcon {
   width: 16px;
   height: 16px;
+}
+
+.error {
+  color: var(--text-error, #d92d20);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.submitButton {
+  width: 100%;
+  margin-top: 8px;
 }

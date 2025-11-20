@@ -85,10 +85,6 @@ export interface OkoCosmosWalletInterface {
     chainId: string,
     tx: unknown,
     mode: "async" | "sync" | "block",
-    options: {
-      silent?: boolean;
-      onFulfill?: (tx: any) => void;
-    },
   ) => Promise<Uint8Array>;
 
   signAmino: (

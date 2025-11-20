@@ -69,10 +69,7 @@ export async function handleGoogleCallback(): Promise<
     const sendRes = await sendOAuthPayloadToEmbeddedWindow(payload);
 
     if (!sendRes.success) {
-      console.error(
-        "[attached] send oauth result fail, err: %o",
-        sendRes.err,
-      );
+      console.error("[attached] send oauth result fail, err: %o", sendRes.err);
       return sendRes;
     }
   } else {

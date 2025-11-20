@@ -19,6 +19,7 @@ import { useAppState } from "@oko-wallet-admin/state";
 export function useCreateCustomerForm() {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const {
     register,
@@ -28,14 +29,38 @@ export function useCreateCustomerForm() {
   } = useForm<CreateCustomerWithDashboardUserRequest>();
   const { token } = useAppState();
 
-  const handleLogoUpload = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Only image files can be uploaded.");
+  const validateImageDimensions = (file: File): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+        resolve(img.width === 128 && img.height === 128);
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(img.src);
+        resolve(false);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const handleLogoUpload = async (file: File) => {
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      alert(
+        "Only PNG, JPG, JPEG, and WebP files are allowed. SVG and GIF are not supported.",
+      );
       return;
     }
 
     if (file.size > 1 * 1024 * 1024) {
       alert("File size must be less than 1MB.");
+      return;
+    }
+
+    const isValidDimensions = await validateImageDimensions(file);
+    if (!isValidDimensions) {
+      alert("Image must be exactly 128×128 pixels.");
       return;
     }
 
@@ -55,6 +80,34 @@ export function useCreateCustomerForm() {
     setLogoFile(null);
     if (fileInputRef?.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      await handleLogoUpload(files[0]);
     }
   };
 
@@ -134,9 +187,14 @@ export function useCreateCustomerForm() {
     mutation,
     errors,
     logoPreview,
+    isDragging,
     handleSubmit,
     register,
     handleLogoUpload,
     handleLogoRemove,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
   };
 }

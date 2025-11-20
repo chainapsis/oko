@@ -33,4 +33,3 @@ export async function bail(
   const hostOrigin = message.payload.target_origin;
   await sendMsgToWindow(window.parent, updateMsg, hostOrigin);
 }
-
