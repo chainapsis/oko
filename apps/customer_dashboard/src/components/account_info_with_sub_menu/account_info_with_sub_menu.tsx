@@ -27,6 +27,7 @@ export const AccountInfoWithSubMenu = () => {
           email={user?.email ?? ""}
           label={customer.data?.label ?? ""}
           logoImageUrl={customer.data?.logo_url ?? ""}
+          className={styles.sidebarTrigger}
           TopRightIcon={
             <span className={styles.iconWrapper}>
               <ThreeDotsVerticalIcon color="var(--fg-quaternary)" size={16} />

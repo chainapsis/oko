@@ -8,6 +8,20 @@
   top: -1px;
   left: -1px;
   cursor: default;
+
+  img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover;
+  }
+}
+
+.sidebarTrigger {
+  img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover;
+  }
 }
 
 .iconWrapper {
