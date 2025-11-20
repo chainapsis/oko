@@ -63,14 +63,27 @@ async function handleGoogleSignIn(okoWallet: OkoWalletInterface) {
   }
 }
 
+async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
+  const signInRes = await tryAuth0EmailSignIn(okoWallet);
+
+  if (!signInRes.payload.success) {
+    throw new Error(
+      `sign in fail, err: ${signInRes.payload.err?.type ?? "unknown"}`,
+    );
+  }
+}
+
 function generateNonce() {
   return Array.from(crypto.getRandomValues(new Uint8Array(8)))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
 
-async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
+async function tryAuth0EmailSignIn(
+  okoWallet: OkoWalletInterface,
+): Promise<OkoWalletMsgOAuthSignInUpdate> {
   const nonce = generateNonce();
+
   const nonceAckPromise = okoWallet.sendMsgToIframe({
     target: OKO_ATTACHED_TARGET,
     msg_type: "set_oauth_nonce",
@@ -86,6 +99,8 @@ async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
     modalId,
   };
   const oauthStateString = JSON.stringify(oauthState);
+
+  console.debug("[oko] oauthStateString: %s", oauthStateString);
 
   const nonceAck = await nonceAckPromise;
   if (
@@ -138,9 +153,7 @@ async function tryGoogleSignIn(
   console.debug("[oko] window host: %s", window.location.host);
   console.debug("[oko] redirectUri: %s", redirectUri);
 
-  const nonce = Array.from(crypto.getRandomValues(new Uint8Array(8)))
-    .map((b) => b.toString(16).padStart(2, "0"))
-    .join("");
+  const nonce = generateNonce();
 
   const nonceAckPromise = sendMsgToIframe({
     target: OKO_ATTACHED_TARGET,
