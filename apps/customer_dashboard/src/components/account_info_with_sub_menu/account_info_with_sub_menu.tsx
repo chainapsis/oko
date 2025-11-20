@@ -1,6 +1,7 @@
 import { useRouter } from "next/navigation";
 import { LogoutIcon } from "@oko-wallet/oko-common-ui/icons/logout";
 import { EditIcon } from "@oko-wallet/oko-common-ui/icons/edit";
+import { PasswordIcon } from "@oko-wallet/oko-common-ui/icons/password";
 import { ThreeDotsVerticalIcon } from "@oko-wallet/oko-common-ui/icons/three_dots_vertical";
 import { AnchoredMenu } from "@oko-wallet/oko-common-ui/anchored_menu";
 import { SidebarAccountInfo } from "@oko-wallet/oko-common-ui/sidebar_account_info";
@@ -55,7 +56,7 @@ export const AccountInfoWithSubMenu = () => {
         {
           id: "change-password",
           label: "Change Password",
-          icon: <EditIcon size={16} />,
+          icon: <PasswordIcon size={16} />,
           onClick: () => {
             router.push(paths.change_password);
           },
