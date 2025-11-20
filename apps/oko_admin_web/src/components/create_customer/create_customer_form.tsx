@@ -21,10 +21,15 @@ export const CreateCustomerForm: React.FC = () => {
     mutation,
     errors,
     logoPreview,
+    isDragging,
     handleSubmit,
     register,
     handleLogoUpload,
     handleLogoRemove,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
   } = useCreateCustomerForm();
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,7 +116,14 @@ export const CreateCustomerForm: React.FC = () => {
           style={{ display: "none" }}
         />
 
-        <div className={styles.appLogoUploadInput} onClick={handleUploadClick}>
+        <div
+          className={`${styles.appLogoUploadInput} ${isDragging ? styles.dragging : ""}`}
+          onClick={handleUploadClick}
+          onDragEnter={handleDragEnter}
+          onDragLeave={handleDragLeave}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+        >
           {logoPreview ? (
             <div className={styles.logoPreview}>
               <img

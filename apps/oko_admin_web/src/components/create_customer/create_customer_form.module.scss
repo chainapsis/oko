@@ -64,6 +64,11 @@
   &:hover {
     border-color: #d0d5dd;
   }
+
+  &.dragging {
+    border-color: var(--border-brand);
+    background-color: var(--bg-brand-secondary);
+  }
 }
 
 .logoPreview {

@@ -19,6 +19,7 @@ import { useAppState } from "@oko-wallet-admin/state";
 export function useCreateCustomerForm() {
   const [logoPreview, setLogoPreview] = useState<string | null>(null);
   const [logoFile, setLogoFile] = useState<File | null>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const {
     register,
@@ -77,6 +78,34 @@ export function useCreateCustomerForm() {
     setLogoFile(null);
     if (fileInputRef?.current) {
       fileInputRef.current.value = "";
+    }
+  };
+
+  const handleDragEnter = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+  };
+
+  const handleDrop = async (e: React.DragEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setIsDragging(false);
+
+    const files = e.dataTransfer.files;
+    if (files.length > 0) {
+      await handleLogoUpload(files[0]);
     }
   };
 
@@ -156,9 +185,14 @@ export function useCreateCustomerForm() {
     mutation,
     errors,
     logoPreview,
+    isDragging,
     handleSubmit,
     register,
     handleLogoUpload,
     handleLogoRemove,
+    handleDragEnter,
+    handleDragLeave,
+    handleDragOver,
+    handleDrop,
   };
 }
