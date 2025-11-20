@@ -41,7 +41,7 @@ import {
 import {
   customerJwtMiddleware,
   type CustomerAuthenticatedRequest,
-} from "@oko-wallet-ctd-api/middleware";
+} from "@oko-wallet-ctd-api/middleware/auth";
 
 export function setCustomerAuthRoutes(router: Router) {
   registry.registerPath({

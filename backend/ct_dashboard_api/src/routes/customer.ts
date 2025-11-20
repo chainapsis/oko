@@ -1,8 +1,6 @@
 import { Router, type Response } from "express";
-import multer from "multer";
 import sharp from "sharp";
 import { randomUUID } from "crypto";
-import rateLimit from "express-rate-limit";
 import type {
   Customer,
   UpdateCustomerInfoRequest,
@@ -28,21 +26,11 @@ import { uploadToS3 } from "@oko-wallet/aws";
 import {
   customerJwtMiddleware,
   type CustomerAuthenticatedRequest,
-} from "@oko-wallet-ctd-api/middleware";
+} from "@oko-wallet-ctd-api/middleware/auth";
+import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
+import { multerMiddleware } from "@oko-wallet-ctd-api/middleware/multer";
 
 export function setCustomerRoutes(router: Router) {
-  const customerUpdateLimiter = rateLimit({
-    windowMs: 10 * 60 * 1000, // 10 minutes
-    max: 20,
-    standardHeaders: "draft-7",
-    legacyHeaders: false,
-    message: {
-      success: false,
-      code: "RATE_LIMIT_EXCEEDED",
-      msg: "Too many requests, please try again later.",
-    },
-  });
-
   registry.registerPath({
     method: "post",
     path: "/customer_dashboard/v1/customer/info",
@@ -239,63 +227,6 @@ export function setCustomerRoutes(router: Router) {
     },
   );
 
-  // Multer middleware for file upload with size limit
-  const upload = multer({
-    limits: {
-      fileSize: 1 * 1024 * 1024, // 1MB limit
-      files: 1, // Only 1 file allowed
-      fields: 3, // Max 3 fields (label, delete_logo, logo)
-    },
-    fileFilter: (req, file, cb) => {
-      // Check file type (no SVG, no GIF)
-      const allowedMimeTypes = [
-        "image/png",
-        "image/jpeg",
-        "image/jpg",
-        "image/webp",
-      ];
-
-      if (!allowedMimeTypes.includes(file.mimetype)) {
-        cb(
-          new Error("Invalid file type. Only PNG, JPG, and WebP are allowed."),
-        );
-        return;
-      }
-
-      cb(null, true);
-    },
-  });
-
-  // Multer error handling middleware
-  const handleMulterError = (req: any, res: Response, next: any) => {
-    upload.single("logo")(req, res, (err) => {
-      if (err instanceof multer.MulterError) {
-        if (err.code === "LIMIT_FILE_SIZE") {
-          res.status(400).json({
-            success: false,
-            code: "FILE_TOO_LARGE",
-            msg: "File size must be under 1 MB.",
-          });
-          return;
-        }
-        res.status(400).json({
-          success: false,
-          code: "FILE_UPLOAD_ERROR",
-          msg: err.message,
-        });
-        return;
-      } else if (err) {
-        res.status(400).json({
-          success: false,
-          code: "INVALID_FILE_TYPE",
-          msg: err.message,
-        });
-        return;
-      }
-      next();
-    });
-  };
-
   // OpenAPI registration for update_info endpoint
   registry.registerPath({
     method: "post",
@@ -390,9 +321,9 @@ export function setCustomerRoutes(router: Router) {
 
   router.post(
     "/customer/update_info",
-    customerUpdateLimiter,
+    rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
     customerJwtMiddleware,
-    handleMulterError,
+    multerMiddleware,
     async (
       req: CustomerAuthenticatedRequest<UpdateCustomerInfoRequest> & {
         file?: Express.Multer.File;
