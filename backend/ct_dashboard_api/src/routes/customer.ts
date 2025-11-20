@@ -2,6 +2,7 @@ import { Router, type Response } from "express";
 import multer from "multer";
 import sharp from "sharp";
 import { randomUUID } from "crypto";
+import rateLimit from "express-rate-limit";
 import type {
   Customer,
   UpdateCustomerInfoRequest,
@@ -30,6 +31,18 @@ import {
 } from "@oko-wallet-ctd-api/middleware";
 
 export function setCustomerRoutes(router: Router) {
+  const customerUpdateLimiter = rateLimit({
+    windowMs: 10 * 60 * 1000, // 10 minutes
+    max: 20,
+    standardHeaders: "draft-7",
+    legacyHeaders: false,
+    message: {
+      success: false,
+      code: "RATE_LIMIT_EXCEEDED",
+      msg: "Too many requests, please try again later.",
+    },
+  });
+
   registry.registerPath({
     method: "post",
     path: "/customer_dashboard/v1/customer/info",
@@ -377,6 +390,7 @@ export function setCustomerRoutes(router: Router) {
 
   router.post(
     "/customer/update_info",
+    customerUpdateLimiter,
     customerJwtMiddleware,
     handleMulterError,
     async (

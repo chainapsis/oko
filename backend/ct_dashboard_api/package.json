@@ -18,6 +18,7 @@
     "cors": "*",
     "dotenv": "*",
     "express": "*",
+    "express-rate-limit": "8.2.1",
     "helmet": "*",
     "jsonwebtoken": "*",
     "morgan": "*",
