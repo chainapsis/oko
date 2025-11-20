@@ -47,7 +47,9 @@ export function useCreateCustomerForm() {
   const handleLogoUpload = async (file: File) => {
     const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
     if (!allowedTypes.includes(file.type)) {
-      alert("Only PNG, JPG, JPEG, and WebP files are allowed. SVG and GIF are not supported.");
+      alert(
+        "Only PNG, JPG, JPEG, and WebP files are allowed. SVG and GIF are not supported.",
+      );
       return;
     }
 

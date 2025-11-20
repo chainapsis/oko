@@ -105,7 +105,8 @@ export const CreateCustomerForm: React.FC = () => {
           <span className={styles.appLogoUploadLabelText}>App Logo</span>
         </label>
         <p className={styles.appLogoUploadDescription}>
-          Image with 128×128 pixels and under 1 MB. PNG, JPG, JPEG, and WebP only. SVG and GIF are not allowed.
+          Image with 128×128 pixels and under 1 MB. PNG, JPG, JPEG, and WebP
+          only. SVG and GIF are not allowed.
         </p>
 
         <input

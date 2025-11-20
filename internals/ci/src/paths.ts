@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const paths = (function() {
+export const paths = (function () {
   const root = path.join(__dirname, "../../../");
 
   const ksn_interface = path.join(
