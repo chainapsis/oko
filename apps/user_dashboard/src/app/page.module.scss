@@ -1,0 +1,24 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  min-width: 100vw;
+  overflow-y: hidden;
+  flex-grow: 1;
+}
+
+.homeBanners {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  margin-top: 1.75rem;
+  position: relative;
+  left: -12px;
+}
