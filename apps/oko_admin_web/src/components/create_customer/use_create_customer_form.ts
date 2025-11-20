@@ -28,14 +28,36 @@ export function useCreateCustomerForm() {
   } = useForm<CreateCustomerWithDashboardUserRequest>();
   const { token } = useAppState();
 
-  const handleLogoUpload = (file: File) => {
-    if (!file.type.startsWith("image/")) {
-      alert("Only image files can be uploaded.");
+  const validateImageDimensions = (file: File): Promise<boolean> => {
+    return new Promise((resolve) => {
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(img.src);
+        resolve(img.width === 128 && img.height === 128);
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(img.src);
+        resolve(false);
+      };
+      img.src = URL.createObjectURL(file);
+    });
+  };
+
+  const handleLogoUpload = async (file: File) => {
+    const allowedTypes = ["image/png", "image/jpeg", "image/jpg", "image/webp"];
+    if (!allowedTypes.includes(file.type)) {
+      alert("Only PNG, JPG, JPEG, and WebP files are allowed. SVG and GIF are not supported.");
       return;
     }
 
     if (file.size > 1 * 1024 * 1024) {
       alert("File size must be less than 1MB.");
+      return;
+    }
+
+    const isValidDimensions = await validateImageDimensions(file);
+    if (!isValidDimensions) {
+      alert("Image must be exactly 128×128 pixels.");
       return;
     }
 
