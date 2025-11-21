@@ -331,7 +331,7 @@ export function makeEWalletAdminRouter() {
 
   registry.registerPath({
     method: "post",
-    path: "/oko_admin/v1/customer/resend_customer_user_password/{customer_id}",
+    path: "/oko_admin/v1/customer/resend_customer_user_password",
     tags: ["Admin"],
     summary: "Resend customer user password",
     description:
@@ -339,7 +339,6 @@ export function makeEWalletAdminRouter() {
     security: [{ adminAuth: [] }],
     request: {
       headers: AdminAuthHeaderSchema,
-      params: CustomerIdParamSchema,
       body: {
         required: true,
         content: {
@@ -393,7 +392,7 @@ export function makeEWalletAdminRouter() {
     },
   });
   router.post(
-    "/customer/resend_customer_user_password/:customer_id",
+    "/customer/resend_customer_user_password",
     adminAuthMiddleware,
     resend_customer_user_password,
   );

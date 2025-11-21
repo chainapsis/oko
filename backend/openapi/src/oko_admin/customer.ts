@@ -253,6 +253,9 @@ export const DeleteCustomerSuccessResponseSchema = registry.register(
 export const ResendCustomerUserPasswordRequestSchema = registry.register(
   "ResendCustomerUserPasswordRequest",
   z.object({
+    customer_id: z.string().openapi({
+      description: "Customer ID",
+    }),
     email: z.string().email().openapi({
       description: "Email address of the customer dashboard user",
     }),

@@ -1,4 +1,8 @@
 import type { Response } from "express";
+import type {
+  ResendCustomerUserPasswordRequest,
+  ResendCustomerUserPasswordResponse,
+} from "@oko-wallet/oko-types/admin";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
@@ -6,16 +10,11 @@ import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware
 import { resendCustomerUserPassword } from "@oko-wallet-admin-api/api/customer";
 
 export async function resend_customer_user_password(
-  req: AuthenticatedAdminRequest<{ email: string }>,
-  res: Response<
-    OkoApiResponse<{
-      message: string;
-    }>
-  >,
+  req: AuthenticatedAdminRequest<ResendCustomerUserPasswordRequest>,
+  res: Response<OkoApiResponse<ResendCustomerUserPasswordResponse>>,
 ) {
   const state = req.app.locals;
-  const { customer_id: customerId } = req.params;
-  const { email } = req.body;
+  const { customer_id: customerId, email } = req.body;
 
   if (!customerId) {
     res.status(400).json({
@@ -47,8 +46,10 @@ export async function resend_customer_user_password(
 
   const resendPasswordRes = await resendCustomerUserPassword(
     state.db,
-    customerId,
-    email,
+    {
+      customer_id: customerId,
+      email,
+    },
     {
       email: {
         fromEmail: state.from_email,
@@ -75,4 +76,3 @@ export async function resend_customer_user_password(
   });
   return;
 }
-

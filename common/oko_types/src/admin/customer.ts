@@ -29,3 +29,12 @@ export type DeleteCustomerResponse = {
   customer_id: string;
   status: CustomerStatus;
 };
+
+export interface ResendCustomerUserPasswordRequest {
+  customer_id: string;
+  email: string;
+}
+
+export interface ResendCustomerUserPasswordResponse {
+  message: string;
+}

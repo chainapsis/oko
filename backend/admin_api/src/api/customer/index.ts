@@ -6,6 +6,8 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
+  ResendCustomerUserPasswordRequest,
+  ResendCustomerUserPasswordResponse,
   SMTPConfig,
 } from "@oko-wallet/oko-types/admin";
 import type {
@@ -426,21 +428,16 @@ export async function deleteCustomerAndUsers(
 
 export async function resendCustomerUserPassword(
   db: Pool,
-  customer_id: string,
-  email: string,
+  body: ResendCustomerUserPasswordRequest,
   opts: {
     email: {
       fromEmail: string;
       smtpConfig: SMTPConfig;
     };
   },
-): Promise<
-  OkoApiResponse<{
-    message: string;
-  }>
-> {
+): Promise<OkoApiResponse<ResendCustomerUserPasswordResponse>> {
   try {
-    const userResult = await getCTDUserWithCustomerByEmail(db, email);
+    const userResult = await getCTDUserWithCustomerByEmail(db, body.email);
     if (userResult.success === false) {
       return {
         success: false,
@@ -457,7 +454,7 @@ export async function resendCustomerUserPassword(
       };
     }
 
-    if (userResult.data.customer_id !== customer_id) {
+    if (userResult.data.customer_id !== body.customer_id) {
       return {
         success: false,
         code: "USER_NOT_FOUND",
@@ -477,7 +474,7 @@ export async function resendCustomerUserPassword(
     const password = generatePassword();
 
     const sendEmailRes = await sendCustomerUserPasswordEmail(
-      email,
+      body.email,
       password,
       user.label,
       opts.email.fromEmail,
@@ -498,7 +495,7 @@ export async function resendCustomerUserPassword(
     });
     if (updatePasswordRes.success === false) {
       console.error(
-        `Failed to update password after email sent for customer ${customer_id}, user ${user.user.user_id}: ${updatePasswordRes.err}`,
+        `Failed to update password after email sent for customer ${body.customer_id}, user ${user.user.user_id}: ${updatePasswordRes.err}`,
       );
       return {
         success: false,
