@@ -17,9 +17,11 @@
     "./ewallet_wallets": "./src/ewallet_wallets/index.ts",
     "./tss": "./src/tss/index.ts",
     "./tss_activate": "./src/tss_activate/index.ts",
-    "./key_share_node_meta": "./src/key_share_node_meta/index.ts"
+    "./key_share_node_meta": "./src/key_share_node_meta/index.ts",
+    "./ecdsa_keypairs": "./src/ecdsa_keypairs/index.ts"
   },
   "dependencies": {
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.49",
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
     "@oko-wallet/crypto-js": "workspace:*",
