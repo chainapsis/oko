@@ -47,6 +47,15 @@ export async function create_customer(
         secretAccessKey: state.s3_secret_access_key,
         bucket: state.s3_bucket,
       },
+      email: {
+        fromEmail: state.from_email,
+        smtpConfig: {
+          smtp_host: state.smtp_host,
+          smtp_port: state.smtp_port,
+          smtp_user: state.smtp_user,
+          smtp_pass: state.smtp_pass,
+        },
+      },
       logo: req.file
         ? { buffer: req.file.buffer, originalname: req.file.originalname }
         : null,

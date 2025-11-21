@@ -6,6 +6,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
+  SMTPConfig,
 } from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
@@ -34,6 +35,9 @@ import type {
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
 
+import { generatePassword } from "@oko-wallet-admin-api/utils/password";
+import { sendCustomerPasswordEmail } from "@oko-wallet-admin-api/email";
+
 export async function createCustomer(
   db: Pool,
   body: CreateCustomerWithDashboardUserRequest,
@@ -43,6 +47,10 @@ export async function createCustomer(
       accessKeyId: string;
       secretAccessKey: string;
       bucket: string;
+    };
+    email: {
+      fromEmail: string;
+      smtpConfig: SMTPConfig;
     };
     logo?: { buffer: Buffer; originalname: string } | null;
   },
@@ -146,6 +154,7 @@ export async function createCustomer(
     try {
       await client.query("BEGIN");
       const api_key = randomBytes(32).toString("hex");
+      const password = generatePassword();
       const user_id = uuidv4();
 
       const insertAPIKeyRes = await insertAPIKey(client, customer_id, api_key);
@@ -153,7 +162,7 @@ export async function createCustomer(
         throw new Error(`Failed to insert API key: ${insertAPIKeyRes.err}`);
       }
 
-      const password_hash = await hashPassword(body.password);
+      const password_hash = await hashPassword(password);
       const customerDashboardUser: InsertCustomerDashboardUserRequest = {
         user_id,
         customer_id,
@@ -182,6 +191,19 @@ export async function createCustomer(
       const insertCustomerRes = await insertCustomer(client, customer);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to create customer: ${insertCustomerRes.err}`);
+      }
+
+      const sendCustomerPasswordEmailRes = await sendCustomerPasswordEmail(
+        body.email,
+        password,
+        body.label,
+        opts.email.fromEmail,
+        opts.email.smtpConfig,
+      );
+      if (sendCustomerPasswordEmailRes.success === false) {
+        throw new Error(
+          `Failed to send customer password email: ${sendCustomerPasswordEmailRes.error}`,
+        );
       }
 
       await client.query("COMMIT");
