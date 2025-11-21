@@ -10,7 +10,7 @@ import {
   testEmailConnection,
   sendEmailWithTransporter,
   getTransporter,
-} from "@oko-wallet/admin-api/email";
+} from "../email";
 
 dotenv.config({
   path: path.resolve(__dirname, "../../.env.local"),

@@ -1,5 +1,5 @@
 import type { EmailResult, SMTPConfig } from "@oko-wallet/oko-types/admin";
-import { sendEmail } from "@oko-wallet/admin-api/email";
+import { sendEmail } from "@oko-wallet-admin-api/email";
 
 export function generateVerificationCode(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
