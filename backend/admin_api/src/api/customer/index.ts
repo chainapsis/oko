@@ -28,7 +28,9 @@ import {
 } from "@oko-wallet/oko-pg-interface/api_keys";
 import {
   deleteCustomerDashboardUserByCustomerId,
+  getCTDUserWithCustomerByEmail,
   insertCustomerDashboardUser,
+  updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   APIKey,
@@ -417,6 +419,104 @@ export async function deleteCustomerAndUsers(
       success: false,
       code: "UNKNOWN_ERROR",
       msg: `Failed to delete customer and users: ${err instanceof Error ? err.message : String(err)}`,
+    };
+  }
+}
+
+export async function resendCustomerUserPassword(
+  db: Pool,
+  customer_id: string,
+  email: string,
+  opts: {
+    email: {
+      fromEmail: string;
+      smtpConfig: SMTPConfig;
+    };
+  },
+): Promise<
+  OkoApiResponse<{
+    message: string;
+  }>
+> {
+  try {
+    const userResult = await getCTDUserWithCustomerByEmail(db, email);
+    if (userResult.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get customer dashboard user: ${userResult.err}`,
+      };
+    }
+
+    if (userResult.data === null) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: "Customer dashboard user not found",
+      };
+    }
+
+    if (userResult.data.customer_id !== customer_id) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: "Customer dashboard user not found for the given customer_id",
+      };
+    }
+
+    const user = userResult.data;
+    if (user.user.is_email_verified !== false) {
+      return {
+        success: false,
+        code: "EMAIL_ALREADY_VERIFIED",
+        msg: "Email is already verified. Password resend is only available for unverified accounts.",
+      };
+    }
+
+    const password = generatePassword();
+
+    const sendEmailRes = await sendCustomerPasswordEmail(
+      email,
+      password,
+      user.label,
+      opts.email.fromEmail,
+      opts.email.smtpConfig,
+    );
+    if (sendEmailRes.success === false) {
+      return {
+        success: false,
+        code: "FAILED_TO_SEND_EMAIL",
+        msg: `Failed to send password email: ${sendEmailRes.error}`,
+      };
+    }
+
+    const password_hash = await hashPassword(password);
+    const updatePasswordRes = await updateCustomerDashboardUserPassword(db, {
+      user_id: user.user.user_id,
+      password_hash,
+    });
+    if (updatePasswordRes.success === false) {
+      console.error(
+        `Failed to update password after email sent for customer ${customer_id}, user ${user.user.user_id}: ${updatePasswordRes.err}`,
+      );
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to update password: ${updatePasswordRes.err}`,
+      };
+    }
+
+    return {
+      success: true,
+      data: {
+        message: "Password has been reset and sent to email",
+      },
+    };
+  } catch (err) {
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: `Failed to resend customer user password: ${err instanceof Error ? err.message : String(err)}`,
     };
   }
 }
