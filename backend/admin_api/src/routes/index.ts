@@ -33,7 +33,7 @@ import {
   AdminLogoutSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
 
-import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware";
+import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware/auth";
 import { create_customer } from "./create_customer";
 import { get_customer_list } from "./get_customer_list";
 import { get_customer } from "./get_customer";
