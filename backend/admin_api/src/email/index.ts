@@ -84,7 +84,7 @@ export async function testEmailConnection(
   }
 }
 
-export async function sendCustomerPasswordEmail(
+export async function sendCustomerUserPasswordEmail(
   email: string,
   password: string,
   customer_label: string,

@@ -23,6 +23,8 @@ import {
   CustomerIdParamSchema,
   GetCustomerSuccessResponseSchema,
   DeleteCustomerSuccessResponseSchema,
+  ResendCustomerUserPasswordRequestSchema,
+  ResendCustomerUserPasswordSuccessResponseSchema,
   GetTssSessionListRequestSchema,
   GetAuditLogsQuerySchema,
   GetAuditLogsCountQuerySchema,
@@ -38,6 +40,7 @@ import { create_customer } from "./create_customer";
 import { get_customer_list } from "./get_customer_list";
 import { get_customer } from "./get_customer";
 import { delete_customer } from "./delete_customer";
+import { resend_customer_user_password } from "./resend_customer_user_password";
 import { user_login } from "./user_login";
 import { user_logout } from "./user_logout";
 import { get_tss_session_list } from "./get_tss_session_list";
@@ -324,6 +327,75 @@ export function makeEWalletAdminRouter() {
     "/customer/delete_customer/:customer_id",
     adminAuthMiddleware,
     delete_customer,
+  );
+
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/customer/resend_customer_user_password/{customer_id}",
+    tags: ["Admin"],
+    summary: "Resend customer user password",
+    description:
+      "Resends the initial password email to a customer dashboard user. Only available for unverified accounts.",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      params: CustomerIdParamSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: ResendCustomerUserPasswordRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Password email sent successfully",
+        content: {
+          "application/json": {
+            schema: ResendCustomerUserPasswordSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "User not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/customer/resend_customer_user_password/:customer_id",
+    adminAuthMiddleware,
+    resend_customer_user_password,
   );
 
   registry.registerPath({

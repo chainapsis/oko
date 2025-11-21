@@ -38,7 +38,7 @@ import type {
 } from "@oko-wallet/oko-types/ct_dashboard";
 
 import { generatePassword } from "@oko-wallet-admin-api/utils/password";
-import { sendCustomerPasswordEmail } from "@oko-wallet-admin-api/email";
+import { sendCustomerUserPasswordEmail } from "@oko-wallet-admin-api/email";
 
 export async function createCustomer(
   db: Pool,
@@ -195,16 +195,17 @@ export async function createCustomer(
         throw new Error(`Failed to create customer: ${insertCustomerRes.err}`);
       }
 
-      const sendCustomerPasswordEmailRes = await sendCustomerPasswordEmail(
-        body.email,
-        password,
-        body.label,
-        opts.email.fromEmail,
-        opts.email.smtpConfig,
-      );
-      if (sendCustomerPasswordEmailRes.success === false) {
+      const sendCustomerUserPasswordEmailRes =
+        await sendCustomerUserPasswordEmail(
+          body.email,
+          password,
+          body.label,
+          opts.email.fromEmail,
+          opts.email.smtpConfig,
+        );
+      if (sendCustomerUserPasswordEmailRes.success === false) {
         throw new Error(
-          `Failed to send customer password email: ${sendCustomerPasswordEmailRes.error}`,
+          `Failed to send customer password email: ${sendCustomerUserPasswordEmailRes.error}`,
         );
       }
 
@@ -475,7 +476,7 @@ export async function resendCustomerUserPassword(
 
     const password = generatePassword();
 
-    const sendEmailRes = await sendCustomerPasswordEmail(
+    const sendEmailRes = await sendCustomerUserPasswordEmail(
       email,
       password,
       user.label,

@@ -249,3 +249,32 @@ export const DeleteCustomerSuccessResponseSchema = registry.register(
     data: DeleteCustomerAndCustomerDashboardUsersResponseSchema,
   }),
 );
+
+export const ResendCustomerUserPasswordRequestSchema = registry.register(
+  "ResendCustomerUserPasswordRequest",
+  z.object({
+    email: z.string().email().openapi({
+      description: "Email address of the customer dashboard user",
+    }),
+  }),
+);
+
+export const ResendCustomerUserPasswordResponseSchema = registry.register(
+  "ResendCustomerUserPasswordResponse",
+  z.object({
+    message: z.string().openapi({
+      description: "Success message",
+    }),
+  }),
+);
+
+export const ResendCustomerUserPasswordSuccessResponseSchema =
+  registry.register(
+    "ResendCustomerUserPasswordSuccessResponse",
+    z.object({
+      success: z.literal(true).openapi({
+        description: "Indicates the request succeeded",
+      }),
+      data: ResendCustomerUserPasswordResponseSchema,
+    }),
+  );
