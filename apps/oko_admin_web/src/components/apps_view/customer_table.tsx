@@ -36,9 +36,11 @@ const createColumns = (
 ) => [
   columnHelper.accessor(
     (row) => {
+      console.log(row.customer.logo_url);
       return {
         customer_id: row.customer.customer_id,
         label: row.customer.label,
+        logo_url: row.customer.logo_url,
       };
     },
     {
@@ -46,7 +48,11 @@ const createColumns = (
       header: "App Name",
       cell: (info) => (
         <Link href={`/apps/${info.getValue().customer_id}`}>
-          <AccountInfoBase username={info.getValue().label} email="" />
+          <AccountInfoBase
+            username={info.getValue().label}
+            email=""
+            avatarUrl={info.getValue().logo_url ?? undefined}
+          />
         </Link>
       ),
     },

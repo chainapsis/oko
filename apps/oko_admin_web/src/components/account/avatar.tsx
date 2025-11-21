@@ -42,12 +42,13 @@ export const Avatar: React.FC<AvatarProps> = ({ src, fallback, alt }) => {
 
   return (
     <div className={styles.wrapper}>
-      <Image
+      <img
         src={imgSrc}
         width={40}
         height={40}
         alt={alt}
         onError={handleError}
+        className={styles.image}
       />
     </div>
   );
