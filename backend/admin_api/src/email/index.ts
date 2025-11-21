@@ -107,27 +107,466 @@ If you didn't request this account, please ignore this email.
   `;
 
   const html = `
-<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2>Initial Password for ${escapedCustomerLabel}</h2>
-  <p>Please log in with your email and the initial password below to activate your account:</p>
-
-  <div style="background-color: #f5f5f5; padding: 20px; text-align: center; margin: 20px 0;">
-    <span style="font-size: 28px; font-weight: bold; letter-spacing: 2px; color: #333;">
-      ${escapedPassword}
-    </span>
-  </div>
-
-  <ol style="color: #444; line-height: 1.6; padding-left: 18px;">
-    <li>Visit <a href="https://dapp.oko.app/" target="_blank" rel="noreferrer">https://dapp.oko.app/</a>.</li>
-    <li>Sign in with your email and the initial password below.</li>
-    <li>Complete the email verification flow.</li>
-    <li>Update your password immediately after verification.</li>
-  </ol>
-
-  <p style="color: #999; font-size: 12px;">
-    If you didn't request this account, please ignore this email.
-  </p>
-</div>
+    <!DOCTYPE html>
+    <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
+    <head>
+      <meta charset="utf-8">
+      <meta name="x-apple-disable-message-reformatting">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="format-detection" content="telephone=no, date=no, address=no, email=no, url=no">
+      <meta name="color-scheme" content="light dark">
+      <meta name="supported-color-schemes" content="light dark">
+      <!--[if mso]>
+          <noscript>
+            <xml>
+              <o:OfficeDocumentSettings
+                xmlns:o="urn:schemas-microsoft-com:office:office"
+              >
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+              </o:OfficeDocumentSettings>
+            </xml>
+          </noscript>
+          <style>
+            td,
+            th,
+            div,
+            p,
+            a,
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6 {
+              font-family: "Segoe UI", sans-serif;
+              mso-line-height-rule: exactly;
+            }
+          </style>
+        <![endif]-->
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;600&display=swap" rel="stylesheet" media="screen">
+      <style>
+        @media (max-width: 600px) {
+          .sm-px-4 {
+            padding-left: 16px !important;
+            padding-right: 16px !important
+          }
+          .sm-py-6 {
+            padding-top: 24px !important;
+            padding-bottom: 24px !important
+          }
+        }
+      </style>
+    </head>
+    <body style="margin: 0; width: 100%; padding: 0; -webkit-font-smoothing: antialiased; word-break: break-word">
+      <div role="article" aria-roledescription="email" aria-label lang="en">
+        <div class="sm-px-4" style="background-color: #ededed; font-family: Inter, ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif">
+          <table align="center" role="presentation" cellpadding="0" cellspacing="0" style="width: 100%">
+            <tr>
+              <td class="sm-py-6" style="padding-top: 32px; padding-bottom: 32px">
+                <table align="center" role="presentation" cellpadding="0" cellspacing="0" style="margin-left: auto; margin-right: auto; width: 600px; max-width: 100%; border-spacing: 0">
+                  <tr>
+                    <td style="padding: 0">
+                      <table role="presentation" style="width: 100%; border-radius: 28px; background-color: #ededed; border-spacing: 0" cellpadding="0" cellspacing="0">
+                        <tr>
+                          <td style="padding: 8px">
+                            <div style="position: relative; width: 100%">
+                              <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/oko-header.png" width="584" alt="OKO header" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
+                              <div style="
+                                position: absolute;
+                                top: 50%;
+                                left: 50%;
+                                transform: translate(-50%, -50%);
+                                width: 360px;
+                                max-width: 360px;
+                                text-align: center;
+                              ">
+                                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing: 0">
+                                  <tr>
+                                    <td align="center">
+                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-top.svg" width="64" height="25" alt="OKO" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td height="16" style="
+                                      height: 16px;
+                                      line-height: 16px;
+                                      font-size: 0;
+                                    ">
+                                      &nbsp;
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td align="center">
+                                      <p style="
+                                        margin: 0;
+                                        font-family: Inter, Arial, sans-serif;
+                                        font-weight: 600;
+                                        font-size: 40px;
+                                        line-height: 100%;
+                                        letter-spacing: -0.03em;
+                                        color: #fffffe;
+                                      ">
+                                        Welcome to Oko
+                                      </p>
+                                    </td>
+                                  </tr>
+                                </table>
+                              </div>
+                            </div>
+                            <div style="height: 972px; width: 100%">
+                              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border-spacing: 0">
+                                <tr>
+                                  <td align="center" valign="top" style="padding-top: 32px">
+                                    <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="border-spacing: 0; width: 360px; max-width: 100%">
+                                      <tr>
+                                        <td valign="top" style="height: 793px">
+                                          <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 793px; width: 360px; max-width: 100%">
+                                            <tr>
+                                              <td>
+                                                <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                  Hi there,
+                                                  <br>
+                                                  <br>
+                                                  Welcome to Oko, and thanks for
+                                                  integrating with us!
+                                                </p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td height="33.72" style="
+                                                height: 33.72px;
+                                                line-height: 33.72px;
+                                                font-size: 0;
+                                              ">
+                                                &nbsp;
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                  You can now log in to the Oko dApp
+                                                  Dashboard using the email address
+                                                  you shared with us and the temporary
+                                                  password below.
+                                                </p>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td height="32" style="
+                                                height: 32px;
+                                                line-height: 32px;
+                                                font-size: 0;
+                                              ">
+                                                &nbsp;
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 295px; width: 360px; max-width: 100%">
+                                                  <tr>
+                                                    <td style="padding: 48px 32px; height: 295px; box-sizing: border-box; position: relative; border-radius: 16px; background-color: #fffffe">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-left.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; top: 10px; left: 10px">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-right.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; top: 10px; right: 10px">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-left.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; bottom: 10px; left: 10px">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-right.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; bottom: 10px; right: 10px">
+                                                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing: 0">
+                                                        <tr>
+                                                          <td>
+                                                            <table role="presentation" width="296" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 64px; margin-left: auto; margin-right: auto; width: 296px; max-width: 100%">
+                                                              <tr>
+                                                                <td style="height: 26px">
+                                                                  <p style="font-family: Inter, Arial,
+                                                                      sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; text-align: center; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                                    Your temporary
+                                                                    password is
+                                                                  </p>
+                                                                </td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td height="8" style="
+                                                                  height: 8px;
+                                                                  line-height: 8px;
+                                                                  font-size: 0;
+                                                                ">
+                                                                  &nbsp;
+                                                                </td>
+                                                              </tr>
+                                                              <tr>
+                                                                <td style="height: 30px">
+                                                                  <p style="font-family: Inter, Arial,
+                                                                      sans-serif; letter-spacing: -0.01em; color: #1c1b1f; text-transform: capitalize; margin: 0; text-align: center; font-size: 20px; font-weight: 600; line-height: 150%">
+                                                                      ${escapedPassword}
+                                                                  </p>
+                                                                </td>
+                                                              </tr>
+                                                            </table>
+                                                          </td>
+                                                        </tr>
+                                                      </table>
+                                                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing: 0">
+                                                        <tr>
+                                                          <td height="24" style="
+                                                            height: 24px;
+                                                            line-height: 24px;
+                                                            font-size: 0;
+                                                          ">
+                                                            &nbsp;
+                                                          </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="center">
+                                                            <table role="presentation" width="109" cellpadding="0" cellspacing="0" style="
+                                                              width: 109px;
+                                                              border-spacing: 0;
+                                                            ">
+                                                              <tr>
+                                                                <td align="center" bgcolor="#1c1b1f" style="
+                                                                  background-color: #1c1b1f;
+                                                                  border-radius: 222px;
+                                                                  height: 45px;
+                                                                ">
+                                                                  <a href="{{ signInUrl }}" style="
+                                                                    display: inline-block;
+                                                                    padding: 12px 32px;
+                                                                    font-family:
+                                                                      Inter, Arial,
+                                                                      sans-serif;
+                                                                    font-weight: 500;
+                                                                    font-size: 14px;
+                                                                    line-height: 150%;
+                                                                    letter-spacing: -0.01em;
+                                                                    color: #fffffe;
+                                                                    text-decoration: none;
+                                                                    text-align: center;
+                                                                  ">
+                                                                    Sign In
+                                                                  </a>
+                                                                </td>
+                                                              </tr>
+                                                            </table>
+                                                          </td>
+                                                        </tr>
+                                                      </table>
+                                                      <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing: 0">
+                                                        <tr>
+                                                          <td height="24" style="
+                                                            height: 24px;
+                                                            line-height: 24px;
+                                                            font-size: 0;
+                                                          ">
+                                                            &nbsp;
+                                                          </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td align="center">
+                                                            <table role="presentation" width="296" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 42px; width: 296px; max-width: 100%">
+                                                              <tr>
+                                                                <td>
+                                                                  <p style="font-family: Inter, Arial,
+                                                                      sans-serif; letter-spacing: -0.01em; color: rgba(
+                                                                      28,
+                                                                      27,
+                                                                      31,
+                                                                      0.5
+                                                                    ); margin: 0; text-align: center; font-size: 14px; font-weight: 500; line-height: 150%">
+                                                                    Please sign in and
+                                                                    update your
+                                                                    password after
+                                                                    your first login.
+                                                                  </p>
+                                                                </td>
+                                                              </tr>
+                                                            </table>
+                                                          </td>
+                                                        </tr>
+                                                      </table>
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td height="32" style="
+                                                height: 32px;
+                                                line-height: 32px;
+                                                font-size: 0;
+                                              ">
+                                                &nbsp;
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="border-spacing: 0; width: 360px; max-width: 100%">
+                                                  <tr>
+                                                    <td>
+                                                      <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                        Here are a few links that may
+                                                        help during integration:
+                                                      </p>
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td height="16" style="
+                                                      height: 16px;
+                                                      line-height: 16px;
+                                                      font-size: 0;
+                                                    ">
+                                                      &nbsp;
+                                                    </td>
+                                                  </tr>
+                                                  <tr>
+                                                    <td>
+                                                      <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="
+                                                        width: 360px;
+                                                        border-spacing: 0;
+                                                      ">
+                                                        <tr>
+                                                          <td width="16" style="
+                                                            width: 16px;
+                                                            padding-right: 12px;
+                                                          ">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-demo.svg" width="16" height="16" alt="Demo" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                          </td>
+                                                          <td>
+                                                            <a href="https://demo.oko.app/" style="font-family: Inter, Arial,
+                                                                sans-serif; letter-spacing: -0.01em; color: #1c1b1f; font-size: 16px; font-weight: 500; line-height: 160%; text-decoration: underline">
+                                                              Demo
+                                                            </a>
+                                                          </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="8" colspan="2" style="
+                                                            height: 8px;
+                                                            line-height: 8px;
+                                                            font-size: 0;
+                                                          ">
+                                                            &nbsp;
+                                                          </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td width="16" style="
+                                                            width: 16px;
+                                                            padding-right: 12px;
+                                                          ">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-docs.svg" width="16" height="16" alt="Docs" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                          </td>
+                                                          <td>
+                                                            <a href="https://docs.oko.app/docs" style="font-family: Inter, Arial,
+                                                                sans-serif; letter-spacing: -0.01em; color: #1c1b1f; font-size: 16px; font-weight: 500; line-height: 160%; text-decoration: underline">
+                                                              Docs
+                                                            </a>
+                                                          </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td height="8" colspan="2" style="
+                                                            height: 8px;
+                                                            line-height: 8px;
+                                                            font-size: 0;
+                                                          ">
+                                                            &nbsp;
+                                                          </td>
+                                                        </tr>
+                                                        <tr>
+                                                          <td width="16" style="
+                                                            width: 16px;
+                                                            padding-right: 12px;
+                                                          ">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-inquiries.svg" width="16" height="16" alt="Integration Inquiries" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                          </td>
+                                                          <td>
+                                                            <a href="https://oko-wallet.canny.io/integration-support-inquiries" style="font-family: Inter, Arial,
+                                                                sans-serif; letter-spacing: -0.01em; color: #1c1b1f; font-size: 16px; font-weight: 500; line-height: 160%; text-decoration: underline">
+                                                              Integration Inquiries
+                                                            </a>
+                                                          </td>
+                                                        </tr>
+                                                      </table>
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td height="32" style="
+                                                height: 32px;
+                                                line-height: 32px;
+                                                font-size: 0;
+                                              ">
+                                                &nbsp;
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 26px; width: 360px; max-width: 100%">
+                                                  <tr>
+                                                    <td>
+                                                      <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                        Thanks!
+                                                      </p>
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td height="32" style="
+                                                height: 32px;
+                                                line-height: 32px;
+                                                font-size: 0;
+                                              ">
+                                                &nbsp;
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 26px; width: 360px; max-width: 100%">
+                                                  <tr>
+                                                    <td align="center">
+                                                      <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; text-align: center; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                        Oko Team
+                                                      </p>
+                                                    </td>
+                                                  </tr>
+                                                </table>
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td height="33.72" style="
+                                                height: 33.72px;
+                                                line-height: 33.72px;
+                                                font-size: 0;
+                                              ">
+                                                &nbsp;
+                                              </td>
+                                            </tr>
+                                            <tr>
+                                              <td align="center">
+                                                <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-footer.svg" width="64" height="25" alt="OKO" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                    </table>
+                                  </td>
+                                </tr>
+                              </table>
+                            </div>
+                          </td>
+                        </tr>
+                      </table>
+                    </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </body>
+    </html>
   `;
 
   console.info(
