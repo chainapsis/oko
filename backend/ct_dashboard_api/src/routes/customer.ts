@@ -247,6 +247,10 @@ export function setCustomerRoutes(router: Router) {
                   type: "string",
                   description: "Customer/Team name",
                 },
+                url: {
+                  type: "string",
+                  description: "App URL",
+                },
                 logo: {
                   type: "string",
                   format: "binary",
@@ -333,7 +337,7 @@ export function setCustomerRoutes(router: Router) {
       try {
         const state = req.app.locals as any;
         const userId = res.locals.user_id;
-        const { label, delete_logo } = req.body;
+        const { label, url, delete_logo } = req.body;
 
         const shouldDeleteLogo = delete_logo === "true";
 
@@ -441,9 +445,16 @@ export function setCustomerRoutes(router: Router) {
           }
         }
 
-        const updates: { label?: string; logo_url?: string | null } = {};
+        const updates: {
+          label?: string;
+          url?: string | null;
+          logo_url?: string | null;
+        } = {};
         if (label !== undefined && label.trim() !== "") {
           updates.label = label.trim();
+        }
+        if (url !== undefined) {
+          updates.url = url.trim() === "" ? null : url.trim();
         }
         if (shouldUpdateLogo) {
           updates.logo_url = logo_url;
