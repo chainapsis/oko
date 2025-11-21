@@ -201,6 +201,7 @@ export async function updateCustomerInfo(
   customerId: string,
   updates: {
     label?: string;
+    url?: string | null;
     logo_url?: string | null;
   },
 ): Promise<Result<Customer, string>> {
@@ -212,6 +213,12 @@ export async function updateCustomerInfo(
     if (updates.label !== undefined) {
       updateFields.push(`label = $${paramIndex}`);
       values.push(updates.label);
+      paramIndex++;
+    }
+
+    if (updates.url !== undefined) {
+      updateFields.push(`url = $${paramIndex}`);
+      values.push(updates.url);
       paramIndex++;
     }
 
