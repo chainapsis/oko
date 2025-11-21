@@ -13,10 +13,10 @@
 export default {
   build: {
     content: ["emails/**/*.html"],
-    static: {
-      source: ["images/**/*.*"],
-      destination: "images",
-    },
+    // static: {
+    //   source: ["images/**/*.*"],
+    //   destination: "images",
+    // },
   },
   baseURL: {
     url: "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/",
