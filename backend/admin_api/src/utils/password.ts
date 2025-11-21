@@ -1,5 +1,16 @@
 import { randomBytes } from "crypto";
 
+function getRandomChar(charset: string): string {
+  const maxValidByte = Math.floor(256 / charset.length) * charset.length;
+  while (true) {
+    const byte = randomBytes(1)[0];
+    if (byte >= maxValidByte) {
+      continue;
+    }
+    return charset[byte % charset.length];
+  }
+}
+
 export function generatePassword(length: number = 16): string {
   const lower = "abcdefghijklmnopqrstuvwxyz";
   const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -8,9 +19,9 @@ export function generatePassword(length: number = 16): string {
   const charset = lower + upper + numbers;
 
   const requiredChars = [
-    lower[randomBytes(1)[0] % lower.length],
-    upper[randomBytes(1)[0] % upper.length],
-    numbers[randomBytes(1)[0] % numbers.length],
+    getRandomChar(lower),
+    getRandomChar(upper),
+    getRandomChar(numbers),
   ];
 
   const remainingLength = length - requiredChars.length;
