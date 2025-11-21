@@ -452,16 +452,15 @@ Open: `http://localhost:3204`
   secret manager (KMS/Secret Manager)
 - Managed/dedicated Postgres with automated backups and recovery plan
 
-## Local CI helpers (yarn ci)
+## CI/CD script
 
-Use `yarn ci` at each workspace root to speed up repetitive local tasks.
-Arguments are forwarded to the internal CLI.
+Execute `yarn ci` at the workspace root to conduct CI/CD operations. CLI
+Arguments are forwarded to the operation script.
 
-### oko root
+### Workspace root
 
 - Build packages: `yarn ci build_pkgs`
-  - Builds in order: stdlib, dotenv, SDK (core/cosmos/eth), crypto/bytes,
-    ksn-interface, tecdsa-interface
+  - Packages are built in the right order
   - Required for all services that depend on these core packages
 - Build Cait Sith: `yarn ci build_cs`
   - Builds Rust addon (required for `oko_api` TSS operations: triples, presign,
@@ -474,11 +473,11 @@ Arguments are forwarded to the internal CLI.
   - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate
     per-node DBs
   - Without it, uses local defaults (`localhost:5432`, `key_share_node_dev*`)
-- DB migration: `yarn ci db_migrate_api --use-env`
-  - With `--use-env`, uses `~/.oko/oko_api_server.env`
+- DB migration: `yarn ci db_migrate_api --use-env-file`
+  - With `--use-env-file`, uses `~/.oko/oko_api_server.env`
   - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates
     with test config
-- DB seed: `yarn ci db_seed_api --use-env --target dev`
+- DB seed: `yarn ci db_seed_api --use-env-file --target dev`
   - `--target` supports `dev | prod` (use `dev` for local)
 
 Note: `yarn ci` is a thin wrapper around

@@ -15,11 +15,13 @@ export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
 
   if (options.useEnvFile === false) {
     console.log("Starting pg_local container");
+
     const pgLocalComposeFile = path.join(
       paths.dockerfiles,
       "pg_local",
       "docker-compose.yml",
     );
+
     const dockerComposeRet = spawnSync(
       "docker",
       ["compose", "-f", pgLocalComposeFile, "up", "-d"],
@@ -28,8 +30,15 @@ export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
         stdio: "inherit",
       },
     );
-    expectSuccess(dockerComposeRet, "docker compose failed");
-    await waitForPgContainer(pgLocalComposeFile);
+
+    if (dockerComposeRet.status === 0) {
+      await waitForPgContainer(pgLocalComposeFile);
+    } else {
+      console.log(
+        "pg_local is not spanwed but we will continue as there is a change \
+        that some other pg instance may be running",
+      );
+    }
   }
 
   const migrateRet = spawnSync("yarn", ["run", "migrate"], {
