@@ -145,9 +145,6 @@ export const CreateCustomerWithDashboardUserRequestSchema = registry.register(
     email: z.email().openapi({
       description: "Customer email address",
     }),
-    password: z.string().min(4).openapi({
-      description: "Customer password",
-    }),
     label: z.string().openapi({
       description: "Customer label or name",
     }),
@@ -252,3 +249,35 @@ export const DeleteCustomerSuccessResponseSchema = registry.register(
     data: DeleteCustomerAndCustomerDashboardUsersResponseSchema,
   }),
 );
+
+export const ResendCustomerUserPasswordRequestSchema = registry.register(
+  "ResendCustomerUserPasswordRequest",
+  z.object({
+    customer_id: z.string().openapi({
+      description: "Customer ID",
+    }),
+    email: z.string().email().openapi({
+      description: "Email address of the customer dashboard user",
+    }),
+  }),
+);
+
+export const ResendCustomerUserPasswordResponseSchema = registry.register(
+  "ResendCustomerUserPasswordResponse",
+  z.object({
+    message: z.string().openapi({
+      description: "Success message",
+    }),
+  }),
+);
+
+export const ResendCustomerUserPasswordSuccessResponseSchema =
+  registry.register(
+    "ResendCustomerUserPasswordSuccessResponse",
+    z.object({
+      success: z.literal(true).openapi({
+        description: "Indicates the request succeeded",
+      }),
+      data: ResendCustomerUserPasswordResponseSchema,
+    }),
+  );

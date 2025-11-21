@@ -6,6 +6,9 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
+  ResendCustomerUserPasswordRequest,
+  ResendCustomerUserPasswordResponse,
+  SMTPConfig,
 } from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
@@ -27,13 +30,17 @@ import {
 } from "@oko-wallet/oko-pg-interface/api_keys";
 import {
   deleteCustomerDashboardUserByCustomerId,
+  getCTDUserWithCustomerByEmail,
   insertCustomerDashboardUser,
+  updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   APIKey,
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
-import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
+
+import { generatePassword } from "@oko-wallet-admin-api/utils/password";
+import { sendCustomerUserPasswordEmail } from "@oko-wallet-admin-api/email";
 
 export async function createCustomer(
   db: Pool,
@@ -45,12 +52,14 @@ export async function createCustomer(
       secretAccessKey: string;
       bucket: string;
     };
+    email: {
+      fromEmail: string;
+      smtpConfig: SMTPConfig;
+    };
     logo?: { buffer: Buffer; originalname: string } | null;
   },
-  auditContext?: { adminUserId?: string; request?: any; requestId?: string },
+  _auditContext?: { adminUserId?: string; request?: any; requestId?: string },
 ): Promise<OkoApiResponse<CreateCustomerResponse>> {
-  const context = { db, ...auditContext };
-
   try {
     if (!body.label || body.label.trim().length === 0) {
       return {
@@ -149,6 +158,7 @@ export async function createCustomer(
     try {
       await client.query("BEGIN");
       const api_key = randomBytes(32).toString("hex");
+      const password = generatePassword();
       const user_id = uuidv4();
 
       const insertAPIKeyRes = await insertAPIKey(client, customer_id, api_key);
@@ -156,7 +166,7 @@ export async function createCustomer(
         throw new Error(`Failed to insert API key: ${insertAPIKeyRes.err}`);
       }
 
-      const password_hash = await hashPassword(body.password);
+      const password_hash = await hashPassword(password);
       const customerDashboardUser: InsertCustomerDashboardUserRequest = {
         user_id,
         customer_id,
@@ -185,6 +195,20 @@ export async function createCustomer(
       const insertCustomerRes = await insertCustomer(client, customer);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to create customer: ${insertCustomerRes.err}`);
+      }
+
+      const sendCustomerUserPasswordEmailRes =
+        await sendCustomerUserPasswordEmail(
+          body.email,
+          password,
+          body.label,
+          opts.email.fromEmail,
+          opts.email.smtpConfig,
+        );
+      if (sendCustomerUserPasswordEmailRes.success === false) {
+        throw new Error(
+          `Failed to send customer password email: ${sendCustomerUserPasswordEmailRes.error}`,
+        );
       }
 
       await client.query("COMMIT");
@@ -398,6 +422,99 @@ export async function deleteCustomerAndUsers(
       success: false,
       code: "UNKNOWN_ERROR",
       msg: `Failed to delete customer and users: ${err instanceof Error ? err.message : String(err)}`,
+    };
+  }
+}
+
+export async function resendCustomerUserPassword(
+  db: Pool,
+  body: ResendCustomerUserPasswordRequest,
+  opts: {
+    email: {
+      fromEmail: string;
+      smtpConfig: SMTPConfig;
+    };
+  },
+): Promise<OkoApiResponse<ResendCustomerUserPasswordResponse>> {
+  try {
+    const userResult = await getCTDUserWithCustomerByEmail(db, body.email);
+    if (userResult.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get customer dashboard user: ${userResult.err}`,
+      };
+    }
+
+    if (userResult.data === null) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: "Customer dashboard user not found",
+      };
+    }
+
+    if (userResult.data.customer_id !== body.customer_id) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: "Customer dashboard user not found for the given customer_id",
+      };
+    }
+
+    const user = userResult.data;
+    if (user.user.is_email_verified !== false) {
+      return {
+        success: false,
+        code: "EMAIL_ALREADY_VERIFIED",
+        msg: "Email is already verified. Password resend is only available for unverified accounts.",
+      };
+    }
+
+    const password = generatePassword();
+
+    const sendEmailRes = await sendCustomerUserPasswordEmail(
+      body.email,
+      password,
+      user.label,
+      opts.email.fromEmail,
+      opts.email.smtpConfig,
+    );
+    if (sendEmailRes.success === false) {
+      return {
+        success: false,
+        code: "FAILED_TO_SEND_EMAIL",
+        msg: `Failed to send password email: ${sendEmailRes.error}`,
+      };
+    }
+
+    const password_hash = await hashPassword(password);
+    const updatePasswordRes = await updateCustomerDashboardUserPassword(db, {
+      user_id: user.user.user_id,
+      password_hash,
+    });
+    if (updatePasswordRes.success === false) {
+      console.error(
+        `Failed to update password after email sent for customer ${body.customer_id}, user ${user.user.user_id}: ${updatePasswordRes.err}`,
+      );
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to update password: ${updatePasswordRes.err}`,
+      };
+    }
+
+    return {
+      success: true,
+      data: {
+        message: "Password has been reset and sent to email",
+      },
+    };
+  } catch (err) {
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: `Failed to resend customer user password: ${err instanceof Error ? err.message : String(err)}`,
     };
   }
 }

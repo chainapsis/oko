@@ -1,51 +1,5 @@
-import nodemailer from "nodemailer";
-import type {
-  SendEmailOptions,
-  EmailResult,
-  SMTPConfig,
-} from "@oko-wallet/oko-types/ct_dashboard";
-
-export function sendEmailWithTransporter(
-  transporter: nodemailer.Transporter,
-  options: SendEmailOptions,
-): Promise<nodemailer.SentMessageInfo> {
-  return transporter.sendMail(options);
-}
-
-export async function sendEmail(
-  options: SendEmailOptions,
-  smtp_config: SMTPConfig,
-): Promise<EmailResult> {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: smtp_config.smtp_host,
-      port: smtp_config.smtp_port,
-      auth: {
-        user: smtp_config.smtp_user,
-        pass: smtp_config.smtp_pass,
-      },
-      secure: false, // false for 587(SMRTTLS)
-    });
-    const info = await transporter.sendMail({
-      from: options.from,
-      to: options.to,
-      subject: options.subject,
-      text: options.text,
-      html: options.html,
-    });
-
-    return {
-      success: true,
-      messageId: info.messageId,
-    };
-  } catch (error) {
-    console.error("Email send error:", error);
-    return {
-      success: false,
-      error: `Email send error: ${error instanceof Error ? error.message : String(error)}`,
-    };
-  }
-}
+import type { EmailResult, SMTPConfig } from "@oko-wallet/oko-types/admin";
+import { sendEmail } from "@oko-wallet-admin-api/email";
 
 export function generateVerificationCode(): string {
   return Math.floor(100000 + Math.random() * 900000).toString();
@@ -59,6 +13,7 @@ export async function sendVerificationEmail(
   email_verification_expiration_minutes: number,
   smtp_config: SMTPConfig,
 ): Promise<EmailResult> {
+  // @TODO: email template should be updated
   const subject = `Verification Code for ${customer_label}`;
 
   const text = `
@@ -104,40 +59,4 @@ If you didn't request this code, please ignore this email.
     },
     smtp_config,
   );
-}
-
-// Test SMTP connection and transporter
-export function getTransporter(
-  host: string,
-  port: number,
-  user: string,
-  pass: string,
-): nodemailer.Transporter {
-  return nodemailer.createTransport({
-    host,
-    port,
-    auth: {
-      user,
-      pass,
-    },
-    secure: false, // false for 587(SMRTTLS)
-  });
-}
-
-// FOR TEST
-export async function testEmailConnection(
-  host: string,
-  port: number,
-  user: string,
-  pass: string,
-): Promise<boolean> {
-  try {
-    const transporter = getTransporter(host, port, user, pass);
-    await transporter.verify();
-    console.log("SMTP connection verified");
-    return true;
-  } catch (error) {
-    console.error("SMTP connection failed:", error);
-    return false;
-  }
 }

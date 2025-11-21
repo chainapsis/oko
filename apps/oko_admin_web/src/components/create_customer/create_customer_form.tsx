@@ -90,16 +90,6 @@ export const CreateCustomerForm: React.FC = () => {
         error={errors.email?.message}
       />
 
-      <Input
-        {...register("password")}
-        requiredSymbol
-        label="Password"
-        placeholder="********"
-        type="password"
-        className={styles.inputCustomWidth}
-        error={errors.password?.message}
-      />
-
       <div className={styles.appLogoUploadWrapper}>
         <label htmlFor="appLogoUpload" className={styles.appLogoUploadLabel}>
           <span className={styles.appLogoUploadLabelText}>App Logo</span>
