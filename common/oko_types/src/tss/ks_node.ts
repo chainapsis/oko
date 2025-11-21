@@ -20,10 +20,10 @@ export interface KeyShareNode {
 
 export type KsNodeHealthStatus = "HEALTHY" | "UNHEALTHY";
 
-export interface KsNodeHealthCheck {
-  node_id: string;
-  status: KsNodeHealthStatus;
-}
+// export interface KsNodeHealthCheck {
+//   node_id: string;
+//   status: KsNodeHealthStatus;
+// }
 
 export interface NodeStatusInfo {
   name: string;
@@ -60,11 +60,17 @@ export interface KSNodeHealthCheck {
   check_id: string;
   node_id: string;
   status: KSNodeHealthCheckStatus;
-  created_at: string;
-  updated_at: string;
+  // created_at: string;
+  // updated_at: string;
 }
 
-export type KSNodeWithHealthCheck = KeyShareNode & {
+export type KSNodeWithHealthCheck = {
+  node_id: string;
+  node_name: string;
+  status: KSNodeStatus;
+  server_url: string;
+  created_at: string;
+  updated_at: string;
   health_check_status: KSNodeHealthCheckStatus | null;
   health_checked_at: string | null;
 };

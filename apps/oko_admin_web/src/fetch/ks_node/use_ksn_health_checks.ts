@@ -1,4 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
+import type { PaginationState } from "@tanstack/react-table";
 
 import { useAppState } from "@oko-wallet-admin/state";
 import { doFetch } from "../fetcher";
@@ -10,19 +11,18 @@ import type {
 
 const PAGE_SIZE = 20;
 
-export function useKSNHealthChecks(pageIdx: number) {
+export function useKSNHealthChecks(pagination: PaginationState) {
   const { token } = useAppState();
 
   return useQuery({
-    queryKey: ["ksn-health-checks"],
+    queryKey: ["ksn-health-checks", pagination],
     queryFn: async () => {
       if (!token) {
         throw new Error("Token is not found");
       }
 
       const req: GetKSNHealthChecksRequest = {
-        pageIdx,
-        pageSize: PAGE_SIZE,
+        ...pagination,
       };
 
       const response = await doFetch<GetKSNHealthChecksResponse>(

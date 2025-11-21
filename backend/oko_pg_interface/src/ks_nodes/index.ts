@@ -2,13 +2,12 @@ import { Pool, type PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import type { Result } from "@oko-wallet/stdlib-js";
 import {
-  type KSNodeHealthCheckStatus,
   type KSNodeStatus,
   type KeyShareNode,
   type KSNodeWithHealthCheck,
   type WalletKSNodeWithNodeNameAndServerUrl,
   type WalletKSNodeStatus,
-  type KsNodeHealthCheck,
+  type KSNodeHealthCheck,
 } from "@oko-wallet/oko-types/tss";
 
 export async function getKSNodeById(
@@ -239,7 +238,7 @@ WHERE wk.wallet_id = $1
 
 export async function createKSNodeHealthChecks(
   db: Pool | PoolClient,
-  healthChecks: KsNodeHealthCheck[],
+  healthChecks: KSNodeHealthCheck[],
 ): Promise<Result<void, string>> {
   if (healthChecks.length === 0) {
     return {
@@ -285,7 +284,7 @@ export async function selectKSNodeHealthChecks(
   pageIdx: number,
   pageSize: number,
 ): Promise<
-  Result<{ health_checks: KsNodeHealthCheck[]; has_next: boolean }, string>
+  Result<{ health_checks: KSNodeHealthCheck[]; has_next: boolean }, string>
 > {
   const offset = pageIdx * pageSize;
 
@@ -301,6 +300,7 @@ LIMIT $2;
   try {
     const result = await db.query(query, [offset, pageSize + 1]);
     const ret = result.rows.map((r) => ({
+      check_id: r.check_id,
       node_id: r.node_id,
       status: r.status,
     }));

@@ -22,7 +22,7 @@ export async function get_ksn_health_checks(
 
   const result = await getKSNHealthChecks(
     state.db,
-    req.body.pageIdx,
+    req.body.pageIndex,
     req.body.pageSize,
   );
 

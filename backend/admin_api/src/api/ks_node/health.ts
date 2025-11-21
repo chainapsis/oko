@@ -5,9 +5,9 @@ import {
   getAllKSNodes,
   selectKSNodeHealthChecks,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
+import { v4 as uuidv4 } from "uuid";
 import type {
   KSNodeHealthCheck,
-  KsNodeHealthCheck,
   KSNodeHealthCheckStatus,
 } from "@oko-wallet/oko-types/tss";
 
@@ -27,7 +27,9 @@ export async function healthCheckKSNode(
   const healthChecks = await Promise.all(
     nodes.map(async (node) => {
       const isHealthy = await requestKSNodeHealthCheck(node.server_url);
-      const check: KsNodeHealthCheck = {
+
+      const check: KSNodeHealthCheck = {
+        check_id: uuidv4(),
         node_id: node.node_id,
         status: isHealthy ? "HEALTHY" : "UNHEALTHY",
       };

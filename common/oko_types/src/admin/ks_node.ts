@@ -1,5 +1,6 @@
 import {
   type KeyShareNode,
+  type KSNodeHealthCheck,
   type KSNodeWithHealthCheck,
 } from "@oko-wallet-types/tss";
 
@@ -20,12 +21,12 @@ export interface GetKSNodeByIdResponse {
 }
 
 export interface GetKSNHealthChecksRequest {
-  pageIdx: number;
+  pageIndex: number;
   pageSize: number;
 }
 
 export interface GetKSNHealthChecksResponse {
-  health_checks: {}[];
+  health_checks: KSNodeHealthCheck[];
 }
 
 export interface CreateKSNodeRequest {
