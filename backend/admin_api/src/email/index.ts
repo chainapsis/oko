@@ -93,9 +93,11 @@ export async function sendCustomerPasswordEmail(
 ) {
   // @TODO: email template should be updated
   const subject = `Initial Password for ${customer_label}`;
+  const escapedPassword = he.escape(password);
+  const escapedCustomerLabel = he.escape(customer_label);
 
   const text = `
-Your initial password for ${customer_label}: ${password}
+Your initial password for ${escapedCustomerLabel}: ${escapedPassword}
 
 1. Visit https://dapp.oko.app/ and sign in with your email.
 2. Use the password above to log in and complete email verification.
@@ -104,10 +106,9 @@ Your initial password for ${customer_label}: ${password}
 If you didn't request this account, please ignore this email.
   `;
 
-  const escapedPassword = he.escape(password);
   const html = `
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-  <h2>Initial Password for ${customer_label}</h2>
+  <h2>Initial Password for ${escapedCustomerLabel}</h2>
   <p>Please log in with your email and the initial password below to activate your account:</p>
 
   <div style="background-color: #f5f5f5; padding: 20px; text-align: center; margin: 20px 0;">
