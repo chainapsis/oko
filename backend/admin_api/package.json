@@ -22,6 +22,7 @@
     "cors": "*",
     "dotenv": "*",
     "express": "*",
+    "he": "^1.2.0",
     "helmet": "*",
     "jsonwebtoken": "*",
     "morgan": "*",

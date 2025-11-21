@@ -9707,6 +9707,7 @@ __metadata:
     cors: "npm:*"
     dotenv: "npm:*"
     express: "npm:*"
+    he: "npm:^1.2.0"
     helmet: "npm:*"
     jest: "npm:*"
     jsonwebtoken: "npm:*"

@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import he from "he";
 import type {
   SendEmailOptions,
   EmailResult,
@@ -103,6 +104,7 @@ Your initial password for ${customer_label}: ${password}
 If you didn't request this account, please ignore this email.
   `;
 
+  const escapedPassword = he.escape(password);
   const html = `
 <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
   <h2>Welcome to ${customer_label}</h2>
@@ -110,7 +112,7 @@ If you didn't request this account, please ignore this email.
 
   <div style="background-color: #f5f5f5; padding: 20px; text-align: center; margin: 20px 0;">
     <span style="font-size: 28px; font-weight: bold; letter-spacing: 2px; color: #333;">
-      ${password}
+      ${escapedPassword}
     </span>
   </div>
 

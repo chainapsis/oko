@@ -33,7 +33,6 @@ import type {
   APIKey,
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
-import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
 
 export async function createCustomer(
   db: Pool,
@@ -47,10 +46,8 @@ export async function createCustomer(
     };
     logo?: { buffer: Buffer; originalname: string } | null;
   },
-  auditContext?: { adminUserId?: string; request?: any; requestId?: string },
+  _auditContext?: { adminUserId?: string; request?: any; requestId?: string },
 ): Promise<OkoApiResponse<CreateCustomerResponse>> {
-  const context = { db, ...auditContext };
-
   try {
     if (!body.label || body.label.trim().length === 0) {
       return {
