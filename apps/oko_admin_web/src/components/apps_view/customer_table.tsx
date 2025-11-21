@@ -51,9 +51,7 @@ const createColumns = (
           <AccountInfoBase
             username={info.getValue().label}
             email=""
-            avatarUrl={
-              decodeURIComponent(info.getValue().logo_url ?? "") ?? undefined
-            }
+            avatarUrl={info.getValue().logo_url ?? undefined}
           />
         </Link>
       ),
