@@ -19,6 +19,11 @@ export interface GetKSNodeByIdResponse {
   ksNode: KeyShareNode;
 }
 
+export interface GetKSNHealthChecksRequest {
+  pageIdx: number;
+  pageSize: number;
+}
+
 export interface GetKSNHealthChecksResponse {
   health_checks: {}[];
 }

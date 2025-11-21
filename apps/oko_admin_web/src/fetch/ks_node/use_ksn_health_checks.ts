@@ -3,8 +3,14 @@ import { useQuery } from "@tanstack/react-query";
 import { useAppState } from "@oko-wallet-admin/state";
 import { doFetch } from "../fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "..";
+import type {
+  GetKSNHealthChecksRequest,
+  GetKSNHealthChecksResponse,
+} from "@oko-wallet-types/admin";
 
-export function useKSNHealthChecks() {
+const PAGE_SIZE = 20;
+
+export function useKSNHealthChecks(pageIdx: number) {
   const { token } = useAppState();
 
   return useQuery({
@@ -14,7 +20,12 @@ export function useKSNHealthChecks() {
         throw new Error("Token is not found");
       }
 
-      const response = await doFetch<any>(
+      const req: GetKSNHealthChecksRequest = {
+        pageIdx,
+        pageSize: PAGE_SIZE,
+      };
+
+      const response = await doFetch<GetKSNHealthChecksResponse>(
         `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_ksn_health_checks`,
         {
           method: "POST",
@@ -22,7 +33,7 @@ export function useKSNHealthChecks() {
             "content-type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({}),
+          body: JSON.stringify(req),
         },
       );
 

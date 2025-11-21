@@ -3,7 +3,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { useAppState } from "@oko-wallet-admin/state";
 
 function checkIsTokenInvalid(errorCode: string, status: number) {
-  //TODO 이후 token 만료시 적절한 code를 보내서 수정 필요
+  // TODO: we need to handle token expiration later on
   return errorCode === "INVALID_TOKEN" && status === 401;
 }
 
@@ -15,7 +15,6 @@ export async function doFetch<T>(
   init?: RequestInit,
 ): Promise<OkoApiResponse<T>> {
   try {
-    // const response = await fetchCall();
     const response = await fetch(input, init);
     const data = await response.json();
 

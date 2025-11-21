@@ -1,6 +1,7 @@
 import type { Response } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
+  GetKSNHealthChecksRequest,
   GetKSNHealthChecksResponse,
   GetKSNodeByIdRequest,
   GetKSNodeByIdResponse,
@@ -14,12 +15,17 @@ import {
 } from "@oko-wallet-admin-api/api/ks_node";
 
 export async function get_ksn_health_checks(
-  req: AuthenticatedAdminRequest,
+  req: AuthenticatedAdminRequest<GetKSNHealthChecksRequest>,
   res: Response<OkoApiResponse<GetKSNHealthChecksResponse>>,
 ) {
   const state = req.app.locals;
 
-  const result = await getKSNHealthChecks(state.db);
+  const result = await getKSNHealthChecks(
+    state.db,
+    req.body.pageIdx,
+    req.body.pageSize,
+  );
+
   if (!result.success) {
     // res.status(ErrorCodeMap[result.code] ?? 500).json(result);
     return;

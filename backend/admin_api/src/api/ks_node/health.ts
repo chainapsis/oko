@@ -68,21 +68,19 @@ async function requestKSNodeHealthCheck(cvEndpoint: string): Promise<boolean> {
 
 export async function getKSNHealthChecks(
   db: Pool | PoolClient,
+  pageIdx: number,
+  pageSize: number,
 ): Promise<Result<any, string>> {
-  const pageIdx = 0;
-  const pageSize = 20;
-
-  console.log(123);
-
   const healthChecksRes = await selectKSNodeHealthChecks(db, pageIdx, pageSize);
+
+  console.log(11, healthChecksRes);
+
   if (healthChecksRes.success === false) {
     return {
       success: false,
       err: `Failed to get ksn health checks: ${healthChecksRes.err}`,
     };
   }
-
-  console.log(22, healthChecksRes.data);
 
   return {
     success: true,

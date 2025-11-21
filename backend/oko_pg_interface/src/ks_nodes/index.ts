@@ -284,8 +284,10 @@ export async function selectKSNodeHealthChecks(
   db: Pool | PoolClient,
   pageIdx: number,
   pageSize: number,
-): Promise<Result<KsNodeHealthCheck[], string>> {
-  const offset = pageIdx + pageSize;
+): Promise<
+  Result<{ health_checks: KsNodeHealthCheck[]; has_next: boolean }, string>
+> {
+  const offset = pageIdx * pageSize;
 
   const query = `
 SELECT *
@@ -294,16 +296,21 @@ OFFSET $1
 LIMIT $2;
 `;
 
+  console.log(11, pageIdx, pageSize, offset);
+
   try {
-    const result = await db.query(query, [offset, pageSize]);
+    const result = await db.query(query, [offset, pageSize + 1]);
     const ret = result.rows.map((r) => ({
       node_id: r.node_id,
       status: r.status,
     }));
 
+    const has_next = ret.length > pageSize;
+    ret.pop();
+
     return {
       success: true,
-      data: ret,
+      data: { health_checks: ret, has_next },
     };
   } catch (error) {
     return {
