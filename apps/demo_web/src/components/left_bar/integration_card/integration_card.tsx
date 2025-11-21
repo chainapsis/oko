@@ -45,7 +45,7 @@ export const IntegrationCard: FC<IntegrationCardProps> = ({ onClose }) => {
           size="sm"
           weight="semibold"
           color="primary"
-          href={process.env.NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT}
+          href={process.env.NEXT_PUBLIC_OKO_GET_INTEGRATION_ENDPOINT}
           target="_blank"
           rel="noopener noreferrer"
         >
