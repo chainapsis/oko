@@ -50,7 +50,7 @@ function loadConfig(): CLIConfig {
       password: process.env.PGPASSWORD || "",
       ssl: process.env.PGSSL === "true",
     },
-    encryptionKeyPath: process.env.ENCRYPTION_KEY_PATH || "./.encryption-key",
+    encryptionKeyPath: process.env.ENCRYPTION_KEY_PATH || "~/.oko/",
   };
 }
 

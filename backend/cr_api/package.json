@@ -5,10 +5,10 @@
   "scripts": {
     "typecheck": "tsc --noEmit",
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest",
-    "ecdsa-keys": "tsx src/bin/ecdsa-keys.ts",
-    "ecdsa-keys:generate": "tsx src/bin/ecdsa-keys.ts generate",
-    "ecdsa-keys:rotate": "tsx src/bin/ecdsa-keys.ts rotate --backup-old",
-    "ecdsa-keys:show-public": "tsx src/bin/ecdsa-keys.ts show-public"
+    "keypair": "tsx src/bin/keypair.ts",
+    "keypair:generate": "tsx src/bin/keypair.ts generate",
+    "keypair:rotate": "tsx src/bin/keypair.ts rotate --backup-old",
+    "keypair:show-public": "tsx src/bin/keypair.ts show-public"
   },
   "dependencies": {
     "@noble/curves": "2.0.1",

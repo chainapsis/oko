@@ -8,12 +8,18 @@
  * Uses @oko-wallet/bytes for type-safe byte handling
  */
 
-import { secp256k1 } from "@noble/curves/secp256k1";
-import { sha256 } from "@noble/hashes/sha256";
-import { Bytes, type Bytes32, type Bytes33 } from "@oko-wallet/bytes";
+import type { ECDSASignOpts } from "@noble/curves/abstract/weierstrass.js";
+import { secp256k1 } from "@noble/curves/secp256k1.js";
+import { sha256 } from "@noble/hashes/sha2";
+import {
+  Bytes,
+  type Bytes32,
+  type Bytes33,
+  type Bytes64,
+} from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 
-export interface ECDSAKeypair {
+export interface EcdsaKeypair {
   privateKey: Bytes32;
   publicKey: Bytes33;
 }
@@ -22,13 +28,11 @@ export interface ECDSAKeypair {
  * Generate a new ECDSA keypair using secp256k1 curve
  * @returns Keypair with private key (32 bytes) and compressed public key (33 bytes)
  */
-export function generateECDSAKeypair(): Result<ECDSAKeypair, string> {
+export function generateECDSAKeypair(): Result<EcdsaKeypair, string> {
   try {
-    // Generate random private key
-    const privateKeyBytes = secp256k1.utils.randomPrivateKey();
+    const keygen = secp256k1.keygen();
 
-    // Parse private key
-    const privateKeyResult = Bytes.fromUint8Array(privateKeyBytes, 32);
+    const privateKeyResult = Bytes.fromUint8Array(keygen.secretKey, 32);
     if (!privateKeyResult.success) {
       return {
         success: false,
@@ -36,11 +40,7 @@ export function generateECDSAKeypair(): Result<ECDSAKeypair, string> {
       };
     }
 
-    // Generate compressed public key
-    const publicKeyBytes = secp256k1.getPublicKey(privateKeyBytes, true);
-
-    // Parse public key
-    const publicKeyResult = Bytes.fromUint8Array(publicKeyBytes, 33);
+    const publicKeyResult = Bytes.fromUint8Array(keygen.publicKey, 33);
     if (!publicKeyResult.success) {
       return {
         success: false,
@@ -63,6 +63,28 @@ export function generateECDSAKeypair(): Result<ECDSAKeypair, string> {
   }
 }
 
+export interface EcdsaSignature {
+  v: 0 | 1;
+  r: Bytes32;
+  s: Bytes32;
+}
+
+export function convertEcdsaSignatureToBytes(
+  signature: EcdsaSignature,
+): Bytes<65> {
+  const bytes = new Uint8Array(65);
+  bytes[0] = signature.v;
+  bytes.set(signature.r.toUint8Array(), 1);
+  bytes.set(signature.s.toUint8Array(), 33);
+  const result = Bytes.fromUint8Array(bytes, 65);
+  if (!result.success) {
+    throw new Error(
+      `Failed to convert ECDSA signature to bytes: ${result.err}`,
+    );
+  }
+  return result.data;
+}
+
 /**
  * Sign a message using ECDSA (secp256k1)
  * @param message - Message to sign (will be hashed with SHA-256)
@@ -72,19 +94,48 @@ export function generateECDSAKeypair(): Result<ECDSAKeypair, string> {
 export function signMessage(
   message: string,
   privateKey: Bytes32,
-): Result<string, string> {
+  opts: ECDSASignOpts = {
+    format: "recovered",
+  },
+): Result<EcdsaSignature, string> {
   try {
-    // Hash the message
     const messageHash = sha256(new TextEncoder().encode(message));
 
-    // Sign the hash
-    const signature = secp256k1.sign(messageHash, privateKey.toUint8Array());
+    const signature = secp256k1.sign(
+      messageHash,
+      privateKey.toUint8Array(),
+      opts,
+    );
 
-    // Return compact signature (64 bytes: r + s)
-    const compactSig = signature.toCompactRawBytes();
+    const r = Bytes.fromUint8Array(signature.slice(1, 33), 32);
+    if (!r.success) {
+      return {
+        success: false,
+        err: `Failed to parse r: ${r.err}`,
+      };
+    }
+    const s = Bytes.fromUint8Array(signature.slice(33, 65), 32);
+    if (!s.success) {
+      return {
+        success: false,
+        err: `Failed to parse s: ${s.err}`,
+      };
+    }
+
+    if (signature[0] !== 0 && signature[0] !== 1) {
+      return {
+        success: false,
+        err: `Invalid recovery byte: ${signature[0]}`,
+      };
+    }
+
     return {
       success: true,
-      data: Buffer.from(compactSig).toString("hex"),
+      data: {
+        v: signature[0],
+        r: r.data,
+        s: s.data,
+      },
     };
   } catch (error) {
     return {
@@ -103,7 +154,7 @@ export function signMessage(
  */
 export function verifySignature(
   message: string,
-  signatureHex: string,
+  signature: EcdsaSignature,
   publicKey: Bytes33,
 ): Result<boolean, string> {
   try {
@@ -146,51 +197,51 @@ export function verifySignature(
  * @param publicKey - Compressed public key (33 bytes)
  * @returns True if valid, false otherwise
  */
-export function isValidPublicKey(publicKey: Bytes33): boolean {
-  try {
-    const bytes = publicKey.toUint8Array();
+// export function isValidPublicKey(publicKey: Bytes33): boolean {
+//   try {
+//     const bytes = publicKey.toUint8Array();
 
-    // Check length
-    if (bytes.length !== 33) {
-      return false;
-    }
+//     // Check length
+//     if (bytes.length !== 33) {
+//       return false;
+//     }
 
-    // Check first byte (0x02 or 0x03 for compressed)
-    if (bytes[0] !== 0x02 && bytes[0] !== 0x03) {
-      return false;
-    }
+//     // Check first byte (0x02 or 0x03 for compressed)
+//     if (bytes[0] !== 0x02 && bytes[0] !== 0x03) {
+//       return false;
+//     }
 
-    // Try to parse as point (will throw if invalid)
-    secp256k1.ProjectivePoint.fromHex(publicKey.toHex());
+//     // Try to parse as point (will throw if invalid)
+//     secp256k1.ProjectivePoint.fromHex(publicKey.toHex());
 
-    return true;
-  } catch {
-    return false;
-  }
-}
+//     return true;
+//   } catch {
+//     return false;
+//   }
+// }
 
 /**
  * Validate if a private key is valid secp256k1 private key
  * @param privateKey - Private key (32 bytes)
  * @returns True if valid, false otherwise
  */
-export function isValidPrivateKey(privateKey: Bytes32): boolean {
-  try {
-    const bytes = privateKey.toUint8Array();
+// export function isValidPrivateKey(privateKey: Bytes32): boolean {
+//   try {
+//     const bytes = privateKey.toUint8Array();
 
-    // Check length
-    if (bytes.length !== 32) {
-      return false;
-    }
+//     // Check length
+//     if (bytes.length !== 32) {
+//       return false;
+//     }
 
-    // Check if it's within valid range (1 to n-1, where n is the curve order)
-    const keyBigInt = privateKey.toBigInt();
-    if (keyBigInt === BigInt(0) || keyBigInt >= secp256k1.CURVE.n) {
-      return false;
-    }
+//     // Check if it's within valid range (1 to n-1, where n is the curve order)
+//     const keyBigInt = privateKey.toBigInt();
+//     if (keyBigInt === BigInt(0) || keyBigInt >= secp256k1.CURVE.n) {
+//       return false;
+//     }
 
-    return true;
-  } catch {
-    return false;
-  }
-}
+//     return true;
+//   } catch {
+//     return false;
+//   }
+// }
