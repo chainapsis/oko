@@ -9921,6 +9921,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ct-dashboard-api@workspace:backend/ct_dashboard_api"
   dependencies:
+    "@oko-wallet/admin-api": "workspace:*"
     "@oko-wallet/aws": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
@@ -9937,7 +9938,6 @@ __metadata:
     "@types/morgan": "npm:*"
     "@types/multer": "npm:*"
     "@types/node": "npm:*"
-    "@types/nodemailer": "npm:^6.4.17"
     "@types/supertest": "npm:*"
     "@types/swagger-jsdoc": "npm:*"
     "@types/swagger-ui-express": "npm:*"
@@ -9950,7 +9950,6 @@ __metadata:
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
     multer: "npm:*"
-    nodemailer: "npm:^7.0.4"
     pg: "npm:*"
     sharp: "npm:0.33.4"
     supertest: "npm:*"
