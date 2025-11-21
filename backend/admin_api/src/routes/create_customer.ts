@@ -18,11 +18,11 @@ export async function create_customer(
   const body = req.body;
   const state = req.app.locals;
 
-  if (!body || !body.email || !body.password || !body.label) {
+  if (!body || !body.email || !body.label) {
     res.status(400).json({
       success: false,
-      code: "INVALID_EMAIL_OR_PASSWORD",
-      msg: "Email, password, and label are required",
+      code: "INVALID_EMAIL_OR_LABEL",
+      msg: "Email and label are required",
     });
     return;
   }
@@ -31,7 +31,7 @@ export async function create_customer(
   if (!emailRegex.test(body.email)) {
     res.status(400).json({
       success: false,
-      code: "INVALID_EMAIL_OR_PASSWORD",
+      code: "INVALID_EMAIL_OR_LABEL",
       msg: "Invalid email format",
     });
     return;

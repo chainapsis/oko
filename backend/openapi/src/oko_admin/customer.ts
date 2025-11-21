@@ -145,9 +145,6 @@ export const CreateCustomerWithDashboardUserRequestSchema = registry.register(
     email: z.email().openapi({
       description: "Customer email address",
     }),
-    password: z.string().min(4).openapi({
-      description: "Customer password",
-    }),
     label: z.string().openapi({
       description: "Customer label or name",
     }),

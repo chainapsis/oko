@@ -37,6 +37,7 @@
   "devDependencies": {
     "@types/cors": "*",
     "@types/express": "*",
+    "@types/he": "^1.2.0",
     "@types/jest": "*",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
