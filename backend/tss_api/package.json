@@ -7,7 +7,7 @@
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "0.0.3-alpha.49",
+    "@oko-wallet/bytes": "0.0.3-alpha.50",
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/crypto-js": "workspace:*",
     "@oko-wallet/ksn-interface": "0.0.2-alpha.40",

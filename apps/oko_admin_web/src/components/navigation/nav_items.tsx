@@ -4,7 +4,7 @@ import { ChartOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/chart_outline
 import { UsersIcon } from "@oko-wallet/oko-common-ui/icons/users";
 
 import { paths } from "@oko-wallet-admin/paths";
-import { Navigation, type NavigationItem } from "./navigation";
+import { type NavigationItem } from "./navigation";
 import styles from "./navigation.module.scss";
 
 export const navigationItems: NavigationItem[] = [
@@ -37,6 +37,10 @@ export const navigationItems: NavigationItem[] = [
       {
         label: "KeyShare Nodes",
         route: paths.ks_nodes,
+      },
+      {
+        label: "Health Checks",
+        route: paths.ks_nodes_health,
       },
       {
         label: "Add New Node",

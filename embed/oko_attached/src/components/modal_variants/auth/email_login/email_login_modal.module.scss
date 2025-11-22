@@ -1,0 +1,85 @@
+.modal {
+  width: min(480px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.subtitle {
+  margin-top: 4px;
+}
+
+.closeButton {
+  width: 32px;
+  height: 32px;
+  border-radius: 999px;
+  border: 1px solid var(--border-primary);
+  background: transparent;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+}
+
+.infoBanner {
+  border-radius: 12px;
+  border: 1px solid var(--border-brand, rgba(0, 110, 255, 0.24));
+  background: var(--bg-secondary);
+  padding: 12px 14px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.codeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.changeEmailButton {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  height: auto !important;
+}
+
+.resendRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--text-brand-primary, #0052ff);
+  cursor: pointer;
+
+  &:disabled {
+    color: var(--text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+.errorText {
+  text-align: center;
+}

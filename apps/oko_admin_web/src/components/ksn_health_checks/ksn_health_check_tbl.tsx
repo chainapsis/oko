@@ -1,0 +1,99 @@
+"use client";
+
+import { useMemo, useState, type FC } from "react";
+import {
+  createColumnHelper,
+  flexRender,
+  type ColumnDef,
+  type PaginationState,
+} from "@tanstack/react-table";
+import type {
+  KSNodeHealthCheck,
+  KSNodeWithHealthCheck,
+} from "@oko-wallet/oko-types/tss";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeaderCell,
+  TableRow,
+} from "@oko-wallet/oko-common-ui/table";
+import { useRouter } from "next/navigation";
+
+import styles from "./keyshare_nodes_table.module.scss";
+import { useTable } from "@oko-wallet-admin/components/table/use_table";
+import { useKSNHealthChecks } from "@oko-wallet-admin/fetch/ks_node/use_ksn_health_checks";
+
+const columnHelper = createColumnHelper<KSNodeHealthCheck>();
+
+const columns = [
+  columnHelper.accessor("status", {
+    cell: (info) => info.getValue(),
+  }),
+];
+
+export const KSNHealthCheckTable: FC = () => {
+  const router = useRouter();
+
+  const [pagination, setPagination] = useState<PaginationState>({
+    pageIndex: 0,
+    pageSize: 20,
+  });
+
+  const { data } = useKSNHealthChecks(pagination);
+
+  const table = useTable({
+    columns,
+    data: data?.health_checks ?? [],
+    // pagination,
+    // onPaginationChange,
+    pageCount: 1, // nodeData?.pagination?.total_pages ?? 0,
+    manualPagination: true,
+  });
+
+  // if (nodeData?.ksNodes.length === 0) {
+  //   return <EmptyState text="No Keyshare Nodes here yet." />;
+  // }
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.tableWrapper}>
+        <Table variant="bordered" noWrap>
+          <TableHead>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHeaderCell key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHeaderCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableHead>
+          <TableBody>
+            {table.getRowModel().rows.map((row) => (
+              <TableRow key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+      {/* <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      /> */}
+    </div>
+  );
+};

@@ -3,22 +3,27 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { useAppState } from "@oko-wallet-admin/state";
 
 function checkIsTokenInvalid(errorCode: string, status: number) {
-  //TODO 이후 token 만료시 적절한 code를 보내서 수정 필요
+  // TODO: we need to handle token expiration later on
   return errorCode === "INVALID_TOKEN" && status === 401;
 }
 
 let resetTimeout: NodeJS.Timeout | null = null;
 
-export async function errorHandle<T>(
-  fetchCall: () => Promise<Response>,
+export async function doFetch<T>(
+  // fetchCall: () => Promise<Response>,
+  input: RequestInfo | URL,
+  init?: RequestInit,
 ): Promise<OkoApiResponse<T>> {
   try {
-    const response = await fetchCall();
+    const response = await fetch(input, init);
     const data = await response.json();
 
     if (!response.ok || !data.success) {
       if (checkIsTokenInvalid(data.code, response.status)) {
-        if (resetTimeout) clearTimeout(resetTimeout);
+        if (resetTimeout) {
+          clearTimeout(resetTimeout);
+        }
+
         resetTimeout = setTimeout(() => {
           useAppState.getState().resetUserState();
           resetTimeout = null;

@@ -1,0 +1,75 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.nodeId {
+  cursor: pointer;
+}
+
+.tableWrapper {
+  border-radius: var(--radius-lg, 12px);
+  border: 1px solid var(--border-secondary);
+  width: 100%;
+  overflow-x: auto;
+}
+
+.customerLink {
+  text-decoration: underline;
+}
+
+.walletPublicKey {
+  word-break: break-all;
+  min-width: 180px;
+  max-width: 300px;
+}
+
+.status,
+.healthCheckStatus {
+  font-size: 12px;
+  font-weight: 500;
+  padding: 2px 6px;
+  border-radius: 4px;
+  white-space: nowrap;
+  display: inline-block;
+
+  &.active,
+  &.healthy {
+    color: var(--success-500);
+    background-color: var(--success-50);
+  }
+
+  &.inactive,
+  &.unhealthy {
+    color: var(--error-500);
+    background-color: var(--error-50);
+  }
+}
+
+.statusToggle {
+  display: flex;
+  justify-content: center;
+}
+
+.deleteButton {
+  display: flex;
+  justify-content: center;
+}
+
+.cellCenter {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.dangerButton {
+  background: var(--error-600) !important;
+  color: white !important;
+  border: 2px solid rgba(255, 255, 255, 0.12) !important;
+
+  &:hover {
+    background: var(--error-700) !important;
+  }
+}

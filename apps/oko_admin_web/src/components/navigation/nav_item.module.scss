@@ -7,7 +7,7 @@
 
   &.active {
     border-radius: 6px;
-    background: var(--bg-secondary);
+    background: var(--gray-200);
   }
 }
 
@@ -32,4 +32,12 @@
   font-style: normal;
   font-weight: 600;
   line-height: 22px;
+}
+
+.isParent {
+  cursor: default;
+
+  .text {
+    font-weight: 400;
+  }
 }

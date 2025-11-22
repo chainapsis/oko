@@ -4,7 +4,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { AuditEventFilter } from "@oko-wallet/oko-types/admin";
 import type { GetAuditLogsCountResponse } from "@oko-wallet/oko-types/admin";
 import { getAuditLogsCount } from "@oko-wallet-admin-api/api/audit";
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 
 export async function get_audit_logs_count(
   req: AuthenticatedAdminRequest,

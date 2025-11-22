@@ -23,6 +23,7 @@
 # misc
 .DS_Store
 *.pem
+.tanstack/
 
 # debug
 npm-debug.log*

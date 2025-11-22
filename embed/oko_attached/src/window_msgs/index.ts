@@ -9,7 +9,6 @@ import { handleGetEmail } from "./get_email";
 import { handleGetCosmosChain } from "./get_cosmos_chain_info";
 import { handleOAuthInfoPass } from "./oauth_info_pass";
 import { handleGetEthChain } from "./get_eth_chain_info";
-import { handleAuth0EmailSendCode } from "./auth0_email_send_code";
 
 export function makeMsgHandler() {
   return async function msgHandler(event: MessageEvent) {
@@ -57,11 +56,6 @@ export function makeMsgHandler() {
 
       case "open_modal": {
         await handleOpenModal(ctx, message);
-        break;
-      }
-
-      case "auth0_email_send_code": {
-        await handleAuth0EmailSendCode(ctx, message);
         break;
       }
 

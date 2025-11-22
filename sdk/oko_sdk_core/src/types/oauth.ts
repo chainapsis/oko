@@ -3,7 +3,8 @@ export type OAuthProvider = "google" | "auth0";
 export type OAuthState = {
   apiKey: string;
   targetOrigin: string;
-  provider?: OAuthProvider;
+  provider: OAuthProvider;
+  modalId?: string;
 };
 
 export enum RedirectUriSearchParamsKey {

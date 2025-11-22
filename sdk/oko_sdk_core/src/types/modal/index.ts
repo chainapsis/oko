@@ -10,12 +10,22 @@ import type {
   OtherModalPayload,
   OtherModalRejectAckPayload,
 } from "./other";
+import type {
+  EmailLoginModalApproveAckPayload,
+  EmailLoginModalErrorAckPayload,
+  EmailLoginModalPayload,
+  EmailLoginModalRejectAckPayload,
+} from "./auth";
 
 export * from "./common";
 export * from "./other";
 export * from "./make_sig";
+export * from "./auth";
 
-export type OpenModalPayload = MakeSigModalPayload | OtherModalPayload;
+export type OpenModalPayload =
+  | MakeSigModalPayload
+  | OtherModalPayload
+  | EmailLoginModalPayload;
 
 export type OpenModalAckPayload =
   | MakeSigModalApproveAckPayload
@@ -23,4 +33,7 @@ export type OpenModalAckPayload =
   | MakeSigModalErrorAckPayload
   | OtherModalApproveAckPayload
   | OtherModalRejectAckPayload
-  | OtherModalErrorAckPayload;
+  | OtherModalErrorAckPayload
+  | EmailLoginModalApproveAckPayload
+  | EmailLoginModalRejectAckPayload
+  | EmailLoginModalErrorAckPayload;

@@ -8,6 +8,7 @@ export interface NavItemProps {
   active?: boolean;
   icon?: React.ReactNode;
   children: React.ReactNode;
+  isParent?: boolean;
 }
 
 export const NavItem: React.FC<NavItemProps> = ({
@@ -16,12 +17,16 @@ export const NavItem: React.FC<NavItemProps> = ({
   active = false,
   icon,
   children,
+  isParent,
 }) => (
   <div
-    className={cn(styles.wrapper, styles[kind], { [styles.active]: active })}
+    className={cn(styles.wrapper, styles[kind], {
+      [styles.active]: active,
+      [styles.isParent]: !!isParent,
+    })}
     onClick={onClick}
     tabIndex={0}
-    role="button"
+    role={isParent ? "none" : "button"}
   >
     <div className={styles.content}>
       {icon}

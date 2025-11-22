@@ -3,7 +3,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { GetAllKSNodeResponse } from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getAllKSNodes } from "@oko-wallet-admin-api/api/ks_node";
 
 export async function get_all_ks_nodes(

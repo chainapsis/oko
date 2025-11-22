@@ -6,7 +6,7 @@ import type {
 } from "@oko-wallet-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { setTssAllActivationSetting } from "@oko-wallet-admin-api/api/tss";
 
 export async function set_tss_all_activation_setting(

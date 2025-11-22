@@ -5,11 +5,12 @@ import type {
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
-import { errorHandle } from "@oko-wallet-admin/fetch/utils";
+import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 
-export const postLoginAdmin = async (email: string, password: string) => {
-  return errorHandle<AdminLoginResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/user/login`, {
+export async function postLoginAdmin(email: string, password: string) {
+  return doFetch<AdminLoginResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/user/login`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -18,20 +19,21 @@ export const postLoginAdmin = async (email: string, password: string) => {
         email,
         password,
       }),
-    }),
+    },
   );
-};
+}
 
-export const postLogoutAdmin = async (
+export async function postLogoutAdmin(
   token?: string,
-): Promise<OkoApiResponse<AdminLogoutResponse>> => {
-  return errorHandle<AdminLogoutResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/user/logout`, {
+): Promise<OkoApiResponse<AdminLogoutResponse>> {
+  return doFetch<AdminLogoutResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/user/logout`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }),
+    },
   );
-};
+}

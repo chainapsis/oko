@@ -3,7 +3,7 @@ import type {
   GetWalletListResponse,
 } from "@oko-wallet/oko-types/admin";
 
-import { errorHandle } from "./utils";
+import { doFetch } from "./fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from ".";
 
 export async function getWalletList({
@@ -20,14 +20,15 @@ export async function getWalletList({
     offset,
   };
 
-  return errorHandle<GetWalletListResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/wallet/get_wallet_list`, {
+  return doFetch<GetWalletListResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/wallet/get_wallet_list`,
+    {
       method: "POST",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
-    }),
+    },
   );
 }
