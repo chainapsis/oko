@@ -1,5 +1,3 @@
-import type { KeplrEWalletInterface } from "@oko-wallet/oko-sdk-core";
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
