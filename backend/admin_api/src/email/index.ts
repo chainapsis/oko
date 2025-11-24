@@ -177,48 +177,7 @@ If you didn't request this account, please ignore this email.
                         <tr>
                           <td style="padding: 8px">
                             <div style="position: relative; width: 100%">
-                              <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/oko-header.png" width="584" alt="OKO header" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
-                              <div style="
-                                position: absolute;
-                                top: 50%;
-                                left: 50%;
-                                transform: translate(-50%, -50%);
-                                width: 360px;
-                                max-width: 360px;
-                                text-align: center;
-                              ">
-                                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing: 0">
-                                  <tr>
-                                    <td align="center">
-                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-top.svg" width="64" height="25" alt="OKO" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td height="16" style="
-                                      height: 16px;
-                                      line-height: 16px;
-                                      font-size: 0;
-                                    ">
-                                      &nbsp;
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td align="center">
-                                      <p style="
-                                        margin: 0;
-                                        font-family: Inter, Arial, sans-serif;
-                                        font-weight: 600;
-                                        font-size: 40px;
-                                        line-height: 100%;
-                                        letter-spacing: -0.03em;
-                                        color: #fffffe;
-                                      ">
-                                        Welcome to Oko
-                                      </p>
-                                    </td>
-                                  </tr>
-                                </table>
-                              </div>
+                              <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/header.png" width="584" alt="OKO header" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
                             </div>
                             <div style="height: 972px; width: 100%">
                               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border-spacing: 0">
@@ -272,10 +231,10 @@ If you didn't request this account, please ignore this email.
                                                 <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 295px; width: 360px; max-width: 100%">
                                                   <tr>
                                                     <td style="padding: 48px 32px; height: 295px; box-sizing: border-box; position: relative; border-radius: 16px; background-color: #fffffe">
-                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-left.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; top: 10px; left: 10px">
-                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-right.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; top: 10px; right: 10px">
-                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-left.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; bottom: 10px; left: 10px">
-                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-right.svg" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; bottom: 10px; right: 10px">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-left.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; top: 10px; left: 10px">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-right.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; top: 10px; right: 10px">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-left.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; bottom: 10px; left: 10px">
+                                                      <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-right.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px; position: absolute; bottom: 10px; right: 10px">
                                                       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-spacing: 0">
                                                         <tr>
                                                           <td>
@@ -302,7 +261,7 @@ If you didn't request this account, please ignore this email.
                                                                 <td style="height: 30px">
                                                                   <p style="font-family: Inter, Arial,
                                                                       sans-serif; letter-spacing: -0.01em; color: #1c1b1f; text-transform: capitalize; margin: 0; text-align: center; font-size: 20px; font-weight: 600; line-height: 150%">
-                                                                      ${escapedPassword}
+                                                                    ${escapedPassword}
                                                                   </p>
                                                                 </td>
                                                               </tr>
@@ -332,7 +291,7 @@ If you didn't request this account, please ignore this email.
                                                                   border-radius: 222px;
                                                                   height: 45px;
                                                                 ">
-                                                                  <a href="https://dapp.oko.app/" style="
+                                                                  <a href="{{ signInUrl }}" style="
                                                                     display: inline-block;
                                                                     padding: 12px 32px;
                                                                     font-family:
@@ -432,7 +391,7 @@ If you didn't request this account, please ignore this email.
                                                             width: 16px;
                                                             padding-right: 12px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-demo.svg" width="16" height="16" alt="Demo" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-demo.png" width="16" height="16" alt="Demo" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
                                                           </td>
                                                           <td>
                                                             <a href="https://demo.oko.app/" style="font-family: Inter, Arial,
@@ -455,7 +414,7 @@ If you didn't request this account, please ignore this email.
                                                             width: 16px;
                                                             padding-right: 12px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-docs.svg" width="16" height="16" alt="Docs" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-docs.png" width="16" height="16" alt="Docs" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
                                                           </td>
                                                           <td>
                                                             <a href="https://docs.oko.app/docs" style="font-family: Inter, Arial,
@@ -478,7 +437,7 @@ If you didn't request this account, please ignore this email.
                                                             width: 16px;
                                                             padding-right: 12px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-inquiries.svg" width="16" height="16" alt="Integration Inquiries" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-inquiries.png" width="16" height="16" alt="Integration Inquiries" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
                                                           </td>
                                                           <td>
                                                             <a href="https://oko-wallet.canny.io/integration-support-inquiries" style="font-family: Inter, Arial,
@@ -548,7 +507,7 @@ If you didn't request this account, please ignore this email.
                                             </tr>
                                             <tr>
                                               <td align="center">
-                                                <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-footer.svg" width="64" height="25" alt="OKO" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
+                                                <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-footer.png" width="64" height="25" alt="OKO" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
                                               </td>
                                             </tr>
                                           </table>
