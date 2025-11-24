@@ -27,7 +27,7 @@ import {
 import { OkoEIP1193Provider, RpcErrorCode } from "@oko-wallet-sdk-eth/provider";
 import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 
-describe("EWallet Provider - Viem Integration", () => {
+describe("Oko Provider - Viem Integration", () => {
   describe("Public Client - Live RPC", () => {
     let provider: OkoEIP1193Provider;
 

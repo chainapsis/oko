@@ -23,7 +23,7 @@ import {
 } from "@oko-wallet-sdk-eth/provider";
 import { ProviderEventEmitter } from "@oko-wallet-sdk-eth/provider/emitter";
 
-describe("EWallet Provider - Base", () => {
+describe("Oko Provider - Base", () => {
   describe("Basic Properties", () => {
     let provider: OkoEIP1193Provider;
     let mockServer: MockRpcServer;
