@@ -13,13 +13,13 @@ import {
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 describe("getAccounts", () => {
-  let mockCosmosEWallet: OkoCosmosWalletInterface;
+  let mockOkoCosmos: OkoCosmosWalletInterface;
   let mockGetPublicKey: jest.Mock<() => Promise<Uint8Array>>;
   let mockGetCosmosChainInfo: jest.Mock<() => Promise<ChainInfo[]>>;
 
   beforeEach(() => {
-    // Create a mock CosmosEWallet instance
-    mockCosmosEWallet = {} as OkoCosmosWalletInterface;
+    // Create a mock OkoCosmos instance
+    mockOkoCosmos = {} as OkoCosmosWalletInterface;
 
     // Create mock methods (default to Cosmos data)
     mockGetPublicKey = jest
@@ -30,8 +30,8 @@ describe("getAccounts", () => {
       .mockResolvedValue([cosmosHubChainInfo, initiaChainInfo]);
 
     // Assign mocks to the instance
-    mockCosmosEWallet.getPublicKey = mockGetPublicKey;
-    mockCosmosEWallet.getCosmosChainInfo = mockGetCosmosChainInfo;
+    mockOkoCosmos.getPublicKey = mockGetPublicKey;
+    mockOkoCosmos.getCosmosChainInfo = mockGetCosmosChainInfo;
 
     // Reset all mocks
     jest.clearAllMocks();
@@ -41,7 +41,7 @@ describe("getAccounts", () => {
     // Test only Cosmos Hub with cosmos-specific key
     mockGetCosmosChainInfo.mockResolvedValue([cosmosHubChainInfo]);
 
-    const result = await getAccounts.call(mockCosmosEWallet);
+    const result = await getAccounts.call(mockOkoCosmos);
 
     expect(result).toHaveLength(1);
 
@@ -62,7 +62,7 @@ describe("getAccounts", () => {
     mockGetPublicKey.mockResolvedValue(initiaPublicKey);
     mockGetCosmosChainInfo.mockResolvedValue([initiaChainInfo]);
 
-    const result = await getAccounts.call(mockCosmosEWallet);
+    const result = await getAccounts.call(mockOkoCosmos);
 
     expect(result).toHaveLength(1);
 
@@ -92,7 +92,7 @@ describe("getAccounts", () => {
     const error = new Error("Failed to get public key");
     mockGetPublicKey.mockRejectedValue(error);
 
-    await expect(getAccounts.call(mockCosmosEWallet)).rejects.toThrow(
+    await expect(getAccounts.call(mockOkoCosmos)).rejects.toThrow(
       "Failed to get public key",
     );
   });

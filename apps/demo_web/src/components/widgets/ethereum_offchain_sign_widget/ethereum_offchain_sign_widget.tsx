@@ -10,7 +10,7 @@ export const EthereumOffchainSignWidget = () => {
 
   const handleClickEthOffchainSign = async () => {
     if (okoEth === null) {
-      throw new Error("EthEWallet is not initialized");
+      throw new Error("okoEth is not initialized");
     }
 
     const message = "Welcome to Oko! 🚀 Try generating an MPC signature.";

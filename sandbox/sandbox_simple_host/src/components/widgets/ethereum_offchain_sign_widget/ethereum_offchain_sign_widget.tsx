@@ -15,7 +15,7 @@ export const EthereumOffchainSignWidget = () => {
 
   const handleClickEthOffchainSign = async () => {
     if (okoEth === null) {
-      console.error("EthEWallet is not initialized");
+      console.error("okoEth is not initialized");
       return;
     }
 
