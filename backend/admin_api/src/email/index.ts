@@ -91,12 +91,6 @@ export async function sendCustomerUserPasswordEmail(
   from_email: string,
   smtp_config: SMTPConfig,
 ) {
-  // @TODO: email template should be updated
-  // @TODO: Replace all SVG images (logo, icons, screws) with PNGs for better email client compatibility.
-  // @TODO: Rebuild the header area without position:absolute/transform; use table-based layout or a single baked header image.
-  // @TODO: Remove fixed heights (e.g., 972px, 793px, 295px) and let content size naturally for different email clients.
-  // @TODO: Verify that the Inter font/webfont usage is acceptable; ensure readable fallbacks for clients that block webfonts.
-
   const subject = `Initial Password for ${customer_label}`;
   const escapedPassword = he.escape(password);
   const escapedCustomerLabel = he.escape(customer_label);
