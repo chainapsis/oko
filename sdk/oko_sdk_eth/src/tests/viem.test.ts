@@ -603,13 +603,13 @@ describe("Oko Provider - Viem Integration", () => {
 
     // NOTE: disabled for now, as hardhat does not support EIP-7702
     // describe("Advanced Features", () => {
-    //   let aliceProvider: EWalletEIP1193Provider;
+    //   let aliceProvider: OkoEIP1193Provider;
     //   let publicClient: any;
     //   let walletClient: any;
     //   let txHelper: any;
 
     //   beforeAll(() => {
-    //     aliceProvider = new EWalletEIP1193Provider(
+    //     aliceProvider = new OkoEIP1193Provider(
     //       createProviderOptions([createChainParam(hardhatAlt)], alice),
     //     );
 

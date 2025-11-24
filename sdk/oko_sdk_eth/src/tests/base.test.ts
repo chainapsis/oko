@@ -342,7 +342,7 @@ describe("Oko Provider - Base", () => {
         const clientVersion = await publicProvider.request({
           method: "web3_clientVersion",
         });
-        expect(clientVersion).toContain("EWalletEIP1193Provider");
+        expect(clientVersion).toContain("OkoEIP1193Provider");
 
         const chainId = await publicProvider.request({ method: "eth_chainId" });
         expect(chainId).toBe(toHex(mainnet.id));
