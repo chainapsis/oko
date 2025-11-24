@@ -12,10 +12,6 @@ declare global {
     }
   }
 
-  interface Window {
-    __keplr_ewallet: KeplrEWalletInterface | null | undefined;
-  }
-
   interface ImportMetaEnv {
     readonly VITE_API_KEY: string;
     readonly VITE_APP_TITLE: string;
