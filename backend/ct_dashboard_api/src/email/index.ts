@@ -13,7 +13,6 @@ export async function sendVerificationEmail(
   email_verification_expiration_minutes: number,
   smtp_config: SMTPConfig,
 ): Promise<EmailResult> {
-  // @TODO: email template should be updated
   const subject = `Verification Code for ${customer_label}`;
 
   const text = `
