@@ -725,20 +725,26 @@ API services provide standard monitoring endpoints:
 From `sdk/oko_sdk_core/src/static/init.ts`:
 
 ```typescript
-import { KeplrEWallet } from "@oko-wallet/sdk-core";
+import { OkoWallet } from "@oko-wallet/oko-sdk-core";
 
 // Initialize with API configuration
-const wallet = await KeplrEWallet.init({
+const walletRes = OkoWallet.init({
   api_key: "your-api-key",
   // Additional configuration options
 });
+
+if (!walletRes.success) {
+  throw new Error("Failed to initialize Oko Wallet");
+}
+
+const wallet = walletRes.data;
 ```
 
 ### Blockchain-Specific SDKs
 
 **Cosmos Integration:**
 
-- CosmosEWallet class wraps TSS API calls
+- OkoCosmosWallet class wraps TSS API calls
 - Methods: `getAccounts()`, `signAmino()`, `signDirect()`
 - Chain registry integration for multi-chain support
 

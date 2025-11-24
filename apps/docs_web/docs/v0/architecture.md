@@ -109,11 +109,22 @@ Distributed Key Shares → Threshold Signature → Blockchain
 **For Ethereum:**
 
 ```typescript
-// Replace this:
-const provider = window.ethereum;
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
+import { createWalletClient, custom } from "viem";
 
-// With this:
-const provider = await initEWalletEIP1193Provider();
+// Initialize Oko Eth Wallet
+const okoEthRes = OkoEthWallet.init({
+  api_key: "your-api-key",
+});
+
+if (!okoEthRes.success) {
+  throw new Error("Failed to initialize Oko Eth Wallet");
+}
+
+const okoEth = okoEthRes.data;
+
+// Get provider
+const provider = await okoEth.getEthereumProvider();
 
 // Everything else stays the same
 const walletClient = createWalletClient({
@@ -124,8 +135,21 @@ const walletClient = createWalletClient({
 **For Cosmos:**
 
 ```typescript
-const cosmosWallet = await initCosmosEWallet();
-const accounts = await cosmosWallet.getAccounts();
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
+
+// Initialize Oko Cosmos Wallet
+const okoCosmosRes = OkoCosmosWallet.init({
+  api_key: "your-api-key",
+});
+
+if (!okoCosmosRes.success) {
+  throw new Error("Failed to initialize Oko Cosmos Wallet");
+}
+
+const okoCosmos = okoCosmosRes.data;
+
+// Get user accounts
+const accounts = await okoCosmos.getAccounts();
 ```
 
 ### Security Model
