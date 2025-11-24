@@ -92,7 +92,7 @@ If you didn't request this code, please ignore this email.
                             <div style="position: relative; width: 100%">
                               <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/code-header.png" width="584" alt="OKO header" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
                             </div>
-                            <div style="height: 633px; width: 100%">
+                            <div style="height: 685px; width: 100%">
                               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border-spacing: 0">
                                 <tr>
                                   <td align="center" valign="top" style="padding-top: 32px">
@@ -105,11 +105,27 @@ If you didn't request this code, please ignore this email.
                                                 <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="height: 454px; border-spacing: 0; opacity: 1; width: 360px; max-width: 100%">
                                                   <tr>
                                                     <td>
-                                                      <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
-                                                        The code is valid for
-                                                        ${email_verification_expiration_minutes}
-                                                        minutes for your security.
-                                                      </p>
+                                                      <table role="presentation" width="360" cellpadding="0" cellspacing="0" style="height: 156px; border-spacing: 0; opacity: 1; width: 360px; max-width: 100%">
+                                                        <tr>
+                                                          <td style="height: 156px">
+                                                            <p style="font-family: Inter, Arial,
+                                                                sans-serif; letter-spacing: -0.01em; color: #1c1b1f; text-align: center; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                              Hi there,
+                                                              <br>
+                                                              <br>
+                                                              Enter this code in the
+                                                              Oko dApp Dashboard to
+                                                              verify your email. You
+                                                              can update your password
+                                                              after verification.
+                                                              <br>
+                                                              The code is valid for
+                                                              <strong>${email_verification_expiration_minutes}
+                                                              minutes</strong>.
+                                                            </p>
+                                                          </td>
+                                                        </tr>
+                                                      </table>
                                                     </td>
                                                   </tr>
                                                   <tr>
@@ -123,13 +139,13 @@ If you didn't request this code, please ignore this email.
                                                   </tr>
                                                   <tr>
                                                     <td>
-                                                      <table role="presentation" width="360" align="center" cellpadding="0" cellspacing="0" style="border-spacing: 0; width: 360px; max-width: 100%">
+                                                      <table role="presentation" width="360" align="center" cellpadding="0" cellspacing="0" style="border-spacing: 0; height: 182px; width: 360px; max-width: 100%">
                                                         <tr>
                                                           <td style="
                                                             background-color: #ffffff;
                                                             border-radius: 16px;
                                                             width: 360px;
-                                                            height: 260px;
+                                                            height: 182px;
                                                             gap: 24px;
                                                             opacity: 1;
                                                           ">
@@ -154,7 +170,7 @@ If you didn't request this code, please ignore this email.
                                                             ">
                                                               <tr>
                                                                 <td align="center" style="
-                                                                  padding: 48px 32px;
+                                                                  padding: 0 32px;
                                                                 ">
                                                                   <table role="presentation" width="296" cellpadding="0" cellspacing="0" style="height: 164px; border-spacing: 0; margin-left: auto; margin-right: auto; width: 296px; max-width: 100%">
                                                                     <tr>
@@ -165,10 +181,7 @@ If you didn't request this code, please ignore this email.
                                                                             Arial,
                                                                             sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; text-align: center; font-size: 16px; font-weight: 500; line-height: 160%">
                                                                           Your 6-digit
-                                                                          code for
-                                                                          changing
-                                                                          your
-                                                                          password
+                                                                          code
                                                                         </p>
                                                                       </td>
                                                                     </tr>
@@ -244,10 +257,10 @@ If you didn't request this code, please ignore this email.
                                                   </tr>
                                                   <tr>
                                                     <td>
-                                                      <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
-                                                        If you didn't make this
-                                                        request, you can safely delete
-                                                        this email.
+                                                      <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; text-align: center; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
+                                                        If you did not request this
+                                                        code, you can ignore this
+                                                        message.
                                                       </p>
                                                     </td>
                                                   </tr>
