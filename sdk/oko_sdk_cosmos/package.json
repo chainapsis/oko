@@ -16,7 +16,6 @@
   "types": "./dist/index.d.ts",
   "keywords": [
     "keplr",
-    "ewallet",
     "oko",
     "cosmos",
     "blockchain",
