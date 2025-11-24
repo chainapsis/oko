@@ -25,7 +25,7 @@ export const customerLogoUpload = multer({
   },
 });
 
-export const multerMiddleware = (
+export const customerLogoUploadMiddleware = (
   req: Request,
   res: Response,
   next: NextFunction,

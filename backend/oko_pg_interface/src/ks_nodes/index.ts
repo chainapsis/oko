@@ -2,12 +2,12 @@ import { Pool, type PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import type { Result } from "@oko-wallet/stdlib-js";
 import {
-  type KSNodeHealthCheckStatus,
   type KSNodeStatus,
   type KeyShareNode,
   type KSNodeWithHealthCheck,
   type WalletKSNodeWithNodeNameAndServerUrl,
   type WalletKSNodeStatus,
+  type KSNodeHealthCheck,
 } from "@oko-wallet/oko-types/tss";
 
 export async function getKSNodeById(
@@ -179,9 +179,9 @@ export async function createWalletKSNodes(
     const placeholders: string[] = [];
     const values: any[] = [];
     for (let i = 0; i < nodeIds.length; i++) {
-      const placeholderIndex = i * 3 + 1;
+      const placeholderIdx = i * 3 + 1;
       placeholders.push(
-        `($${placeholderIndex}, $${placeholderIndex + 1}, $${placeholderIndex + 2})`,
+        `($${placeholderIdx}, $${placeholderIdx + 1}, $${placeholderIdx + 2})`,
       );
       values.push(uuidv4(), walletId, nodeIds[i]);
     }
@@ -238,7 +238,7 @@ WHERE wk.wallet_id = $1
 
 export async function createKSNodeHealthChecks(
   db: Pool | PoolClient,
-  healthChecks: { nodeId: string; status: KSNodeHealthCheckStatus }[],
+  healthChecks: KSNodeHealthCheck[],
 ): Promise<Result<void, string>> {
   if (healthChecks.length === 0) {
     return {
@@ -254,7 +254,7 @@ export async function createKSNodeHealthChecks(
     placeholders.push(
       `($${placeholderIndex}, $${placeholderIndex + 1}, $${placeholderIndex + 2})`,
     );
-    values.push(uuidv4(), healthChecks[i].nodeId, healthChecks[i].status);
+    values.push(uuidv4(), healthChecks[i].node_id, healthChecks[i].status);
   }
 
   const query = `
@@ -270,6 +270,47 @@ VALUES ${placeholders.join(",")}
     return {
       success: true,
       data: void 0,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function selectKSNodeHealthChecks(
+  db: Pool | PoolClient,
+  pageIdx: number,
+  pageSize: number,
+): Promise<
+  Result<{ health_checks: KSNodeHealthCheck[]; has_next: boolean }, string>
+> {
+  const offset = pageIdx * pageSize;
+
+  const query = `
+SELECT *
+FROM ks_node_health_checks
+OFFSET $1
+LIMIT $2;
+`;
+
+  console.log(11, pageIdx, pageSize, offset);
+
+  try {
+    const result = await db.query(query, [offset, pageSize + 1]);
+    const ret = result.rows.map((r) => ({
+      check_id: r.check_id,
+      node_id: r.node_id,
+      status: r.status,
+    }));
+
+    const has_next = ret.length > pageSize;
+    ret.pop();
+
+    return {
+      success: true,
+      data: { health_checks: ret, has_next },
     };
   } catch (error) {
     return {

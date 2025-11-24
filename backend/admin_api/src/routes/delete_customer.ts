@@ -6,7 +6,7 @@ import type {
 } from "@oko-wallet/oko-types/customers";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { deleteCustomerAndUsers } from "@oko-wallet-admin-api/api/customer";
 
 export async function delete_customer(

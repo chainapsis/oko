@@ -1,9 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { getAllKeyShareNodes } from "@oko-wallet-admin/fetch/ks_node";
+// import { getAllKeyShareNodes } from "@oko-wallet-admin/fetch/ks_node";
 import { useAppState } from "@oko-wallet-admin/state";
+import type { GetAllKSNodeResponse } from "@oko-wallet-types/admin";
 
-export const useAllKeyShareNodes = () => {
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "..";
+import { doFetch } from "../fetcher";
+import { type GetKSNodesParams } from "./";
+
+export function useAllKeyShareNodes() {
   const { token } = useAppState();
 
   return useQuery({
@@ -22,4 +27,17 @@ export const useAllKeyShareNodes = () => {
       return response.data;
     },
   });
-};
+}
+
+async function getAllKeyShareNodes({ token }: GetKSNodesParams) {
+  return doFetch<GetAllKSNodeResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/ks_node/get_all_ks_nodes`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    },
+  );
+}
