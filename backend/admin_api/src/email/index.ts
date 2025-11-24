@@ -299,7 +299,7 @@ If you didn't request this account, please ignore this email.
                                                                         border-radius: 222px;
                                                                         height: 45px;
                                                                       ">
-                                                                        <a href="{{ signInUrl }}" style="
+                                                                        <a href="https://dapp.oko.app" style="
                                                                           display: inline-block;
                                                                           padding: 12px 32px;
                                                                           font-family:
