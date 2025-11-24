@@ -22,6 +22,7 @@ export const EditInfoForm = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [label, setLabel] = useState(customer.data?.label ?? "");
+  const [url, setUrl] = useState(customer.data?.url ?? "");
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     customer.data?.logo_url ?? null,
@@ -144,9 +145,10 @@ export const EditInfoForm = () => {
 
     // Check for changes
     const hasLabelChange = label !== customer.data?.label;
+    const hasUrlChange = url !== (customer.data?.url ?? "");
     const hasLogoChange = logoFile !== null || shouldDeleteLogo;
 
-    if (!hasLabelChange && !hasLogoChange) {
+    if (!hasLabelChange && !hasUrlChange && !hasLogoChange) {
       setError("No changes to save.");
       return;
     }
@@ -158,6 +160,7 @@ export const EditInfoForm = () => {
       const result = await requestUpdateCustomerInfo({
         token,
         label: hasLabelChange ? label : undefined,
+        url: hasUrlChange ? url : undefined,
         logoFile: logoFile,
         deleteLogo: shouldDeleteLogo,
       });
@@ -183,7 +186,10 @@ export const EditInfoForm = () => {
   };
 
   const hasChanges =
-    label !== customer.data?.label || logoFile !== null || shouldDeleteLogo;
+    label !== customer.data?.label ||
+    url !== (customer.data?.url ?? "") ||
+    logoFile !== null ||
+    shouldDeleteLogo;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -194,6 +200,16 @@ export const EditInfoForm = () => {
         onChange={(e) => setLabel(e.target.value)}
         disabled={isLoading}
         placeholder="Team Name"
+        className={styles.input}
+      />
+
+      {/* App URL Input */}
+      <Input
+        label="App URL"
+        value={url}
+        onChange={(e) => setUrl(e.target.value)}
+        disabled={isLoading}
+        placeholder="https://example.com"
         className={styles.input}
       />
 
