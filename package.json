@@ -14,7 +14,6 @@
       "sandbox/sandbox_osmosis",
       "sandbox/sandbox_simple_host",
       "crypto/bytes",
-      "crypto/sss",
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",
       "crypto/crypto_js/tests/vite",

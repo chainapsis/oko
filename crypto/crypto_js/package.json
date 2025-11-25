@@ -4,9 +4,10 @@
   "main": "./src/index.ts",
   "dependencies": {
     "@noble/hashes": "^1.8.0",
+    "@oko-wallet/bytes": "workspace:*",
+    "@oko-wallet/stdlib-js": "workspace:*",
     "bcryptjs": "^3.0.2",
     "jest": "*",
-    "shamir-secret-sharing": "^0.0.4",
     "supertest": "*"
   },
   "devDependencies": {
