@@ -11,7 +11,11 @@ import {
 describe("x25519_keypair_test_1", () => {
   it("generate_eddsa_keypair", () => {
     const keypair = generateEddsaKeypair();
-    console.log(keypair);
+    expect(keypair.success).toBe(true);
+    if (!keypair.success) return;
+
+    expect(keypair.data.privateKey).toBeDefined();
+    expect(keypair.data.publicKey).toBeDefined();
   });
 });
 
@@ -49,7 +53,6 @@ describe("EdDSA signature and verification", () => {
       expect(sig2.success).toBe(true);
       if (!sig1.success || !sig2.success) return;
 
-      // 서명이 달라야 함
       const sig1Bytes = sig1.data.r.toHex() + sig1.data.s.toHex();
       const sig2Bytes = sig2.data.r.toHex() + sig2.data.s.toHex();
       expect(sig1Bytes).not.toBe(sig2Bytes);
@@ -296,6 +299,171 @@ describe("EdDSA signature and verification", () => {
 
       expect(sig1.data.r.toHex()).toBe(sig2.data.r.toHex());
       expect(sig1.data.s.toHex()).toBe(sig2.data.s.toHex());
+    });
+  });
+
+  describe("isValidPublicKey", () => {
+    it("should validate a valid public key", () => {
+      const keypair = generateEddsaKeypair();
+      expect(keypair.success).toBe(true);
+      if (!keypair.success) return;
+
+      const isValid = isValidPublicKey(keypair.data.publicKey);
+      expect(isValid.success).toBe(true);
+      if (!isValid.success) return;
+      expect(isValid.data).toBe(true);
+    });
+
+    it("should validate multiple generated public keys", () => {
+      for (let i = 0; i < 10; i++) {
+        const keypair = generateEddsaKeypair();
+        expect(keypair.success).toBe(true);
+        if (!keypair.success) continue;
+
+        const isValid = isValidPublicKey(keypair.data.publicKey);
+        expect(isValid.success).toBe(true);
+        if (!isValid.success) continue;
+        expect(isValid.data).toBe(true);
+      }
+    });
+
+    it("should check validity of all zeros public key", () => {
+      const zeroKey = Bytes.fromUint8Array(new Uint8Array(32).fill(0), 32);
+      expect(zeroKey.success).toBe(true);
+      if (!zeroKey.success) return;
+
+      const isValid = isValidPublicKey(zeroKey.data);
+      expect(isValid.success).toBe(true);
+      if (!isValid.success) return;
+      // Ed25519에서 all zeros는 유효할 수 있음
+      expect(typeof isValid.data).toBe("boolean");
+    });
+
+    it("should check validity of all ones public key", () => {
+      const onesKey = Bytes.fromUint8Array(new Uint8Array(32).fill(0xff), 32);
+      expect(onesKey.success).toBe(true);
+      if (!onesKey.success) return;
+
+      const isValid = isValidPublicKey(onesKey.data);
+      expect(isValid.success).toBe(true);
+      if (!isValid.success) return;
+      // Ed25519에서 all ones는 유효하지 않을 가능성이 높지만, 검증 자체는 성공해야 함
+      expect(typeof isValid.data).toBe("boolean");
+    });
+
+    it("should reject invalid public key with all 0xff", () => {
+      const randomBytes = new Uint8Array(32);
+      for (let i = 0; i < 32; i++) {
+        randomBytes[i] = 0xff;
+      }
+
+      const invalidKey = Bytes.fromUint8Array(randomBytes, 32);
+      expect(invalidKey.success).toBe(true);
+      if (!invalidKey.success) return;
+
+      const isValid = isValidPublicKey(invalidKey.data);
+      expect(isValid.success).toBe(true);
+      if (!isValid.success) return;
+      expect(isValid.data).toBe(false);
+    });
+
+    it("should handle edge case with specific patterns", () => {
+      // 다양한 패턴의 바이트 배열 테스트
+      const patterns = [
+        new Uint8Array(32).fill(1), // 모두 1
+        new Uint8Array(32).fill(127), // 모두 127
+        new Uint8Array(32).fill(128), // 모두 128
+        new Uint8Array(32).fill(255), // 모두 255
+      ];
+
+      for (const pattern of patterns) {
+        const key = Bytes.fromUint8Array(pattern, 32);
+        expect(key.success).toBe(true);
+        if (!key.success) continue;
+
+        const isValid = isValidPublicKey(key.data);
+        // 검증 함수는 항상 성공적으로 실행되어야 함
+        expect(isValid.success).toBe(true);
+        if (!isValid.success) continue;
+        // 결과는 유효하거나 유효하지 않을 수 있음
+        expect(typeof isValid.data).toBe("boolean");
+      }
+    });
+
+    it("should detect invalid public key that cannot verify signatures", () => {
+      const keypair = generateEddsaKeypair();
+      expect(keypair.success).toBe(true);
+      if (!keypair.success) return;
+
+      const message = "Test message";
+      const signature = signMessage(message, keypair.data.privateKey);
+      expect(signature.success).toBe(true);
+      if (!signature.success) return;
+
+      // 잘못된 공개키로는 검증 실패해야 함
+      const invalidKey = Bytes.fromUint8Array(
+        new Uint8Array(32).fill(0xaa),
+        32,
+      );
+      expect(invalidKey.success).toBe(true);
+      if (!invalidKey.success) return;
+
+      const verification = verifySignature(
+        message,
+        signature.data,
+        invalidKey.data,
+      );
+      expect(verification.success).toBe(true);
+      if (!verification.success) return;
+      // 잘못된 공개키로는 검증 실패
+      expect(verification.data).toBe(false);
+    });
+
+    it("should consistently validate the same public key", () => {
+      const keypair = generateEddsaKeypair();
+      expect(keypair.success).toBe(true);
+      if (!keypair.success) return;
+
+      // 같은 공개키를 여러 번 검증해도 같은 결과
+      const result1 = isValidPublicKey(keypair.data.publicKey);
+      const result2 = isValidPublicKey(keypair.data.publicKey);
+      const result3 = isValidPublicKey(keypair.data.publicKey);
+
+      expect(result1.success).toBe(true);
+      expect(result2.success).toBe(true);
+      expect(result3.success).toBe(true);
+
+      if (!result1.success || !result2.success || !result3.success) return;
+
+      expect(result1.data).toBe(result2.data);
+      expect(result2.data).toBe(result3.data);
+    });
+
+    it("should validate public key used in signature verification", () => {
+      const keypair = generateEddsaKeypair();
+      expect(keypair.success).toBe(true);
+      if (!keypair.success) return;
+
+      // 서명에 사용된 공개키는 반드시 유효해야 함
+      const isValid = isValidPublicKey(keypair.data.publicKey);
+      expect(isValid.success).toBe(true);
+      if (!isValid.success) return;
+      expect(isValid.data).toBe(true);
+
+      // 실제로 서명/검증이 작동하는지 확인
+      const message = "Test message";
+      const signature = signMessage(message, keypair.data.privateKey);
+      expect(signature.success).toBe(true);
+      if (!signature.success) return;
+
+      const verification = verifySignature(
+        message,
+        signature.data,
+        keypair.data.publicKey,
+      );
+      expect(verification.success).toBe(true);
+      if (!verification.success) return;
+      expect(verification.data).toBe(true);
     });
   });
 });
