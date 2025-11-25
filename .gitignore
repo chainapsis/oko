@@ -415,3 +415,6 @@ AGENTS.md
 
 # Postgres
 pg_data/
+
+cjs/
+esm/
