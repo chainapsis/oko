@@ -225,13 +225,6 @@ export class Bytes<N extends number> {
   toBigInt(): bigint {
     return BigInt(this.toHex(true));
   }
-
-  concatToUint8Array(other: Bytes<number>): Uint8Array {
-    const newBytes = new Uint8Array(this.length + other.length);
-    newBytes.set(this._bytes);
-    newBytes.set(other._bytes, this.length);
-    return newBytes;
-  }
 }
 
 // Type aliases for commonly used byte lengths
