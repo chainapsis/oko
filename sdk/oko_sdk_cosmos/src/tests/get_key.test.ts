@@ -15,13 +15,13 @@ import {
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 describe("getKey", () => {
-  let mockCosmosEWallet: OkoCosmosWalletInterface;
+  let mockOkoCosmos: OkoCosmosWalletInterface;
   let mockGetPublicKey: jest.Mock<() => Promise<Uint8Array>>;
   let mockGetCosmosChainInfo: jest.Mock<() => Promise<ChainInfo[]>>;
 
   beforeEach(() => {
-    // Create a mock CosmosEWallet instance
-    mockCosmosEWallet = {} as OkoCosmosWalletInterface;
+    // Create a mock OkoCosmos instance
+    mockOkoCosmos = {} as OkoCosmosWalletInterface;
 
     // Create mock methods (default to Cosmos data)
     mockGetPublicKey = jest
@@ -32,15 +32,15 @@ describe("getKey", () => {
       .mockResolvedValue([cosmosHubChainInfo, initiaChainInfo]);
 
     // Assign mocks to the instance
-    mockCosmosEWallet.getPublicKey = mockGetPublicKey;
-    mockCosmosEWallet.getCosmosChainInfo = mockGetCosmosChainInfo;
+    mockOkoCosmos.getPublicKey = mockGetPublicKey;
+    mockOkoCosmos.getCosmosChainInfo = mockGetCosmosChainInfo;
 
     // Reset all mocks
     jest.clearAllMocks();
   });
 
   it("should return correct key data for cosmoshub-4 with cosmos key", async () => {
-    const result = await getKey.call(mockCosmosEWallet, "cosmoshub-4");
+    const result = await getKey.call(mockOkoCosmos, "cosmoshub-4");
 
     expect(result).toEqual({
       bech32Address: expectedCosmosBech32Address,
@@ -61,7 +61,7 @@ describe("getKey", () => {
   it("should return correct key data for initia with ethereum-compatible key", async () => {
     mockGetPublicKey.mockResolvedValue(initiaPublicKey);
 
-    const result = await getKey.call(mockCosmosEWallet, "interwoven-1");
+    const result = await getKey.call(mockOkoCosmos, "interwoven-1");
 
     expect(result).toEqual({
       bech32Address: expectedInitiaBech32Address,
@@ -85,7 +85,7 @@ describe("getKey", () => {
 
   it("should throw error when chain is not found", async () => {
     await expect(
-      getKey.call(mockCosmosEWallet, "non-existent-chain"),
+      getKey.call(mockOkoCosmos, "non-existent-chain"),
     ).rejects.toThrow("Chain info not found");
 
     // Verify method calls
@@ -102,16 +102,16 @@ describe("getKey", () => {
 
     mockGetCosmosChainInfo.mockResolvedValue([invalidChainInfo]);
 
-    await expect(
-      getKey.call(mockCosmosEWallet, "invalid-chain"),
-    ).rejects.toThrow("Chain info not found");
+    await expect(getKey.call(mockOkoCosmos, "invalid-chain")).rejects.toThrow(
+      "Chain info not found",
+    );
   });
 
   it("should handle errors from getPublicKey gracefully", async () => {
     const error = new Error("Failed to get public key");
     mockGetPublicKey.mockRejectedValue(error);
 
-    await expect(getKey.call(mockCosmosEWallet, "cosmoshub-4")).rejects.toThrow(
+    await expect(getKey.call(mockOkoCosmos, "cosmoshub-4")).rejects.toThrow(
       "Failed to get public key",
     );
   });
@@ -120,13 +120,13 @@ describe("getKey", () => {
     const error = new Error("Failed to get chain info");
     mockGetCosmosChainInfo.mockRejectedValue(error);
 
-    await expect(getKey.call(mockCosmosEWallet, "cosmoshub-4")).rejects.toThrow(
+    await expect(getKey.call(mockOkoCosmos, "cosmoshub-4")).rejects.toThrow(
       "Failed to get chain info",
     );
   });
 
   it("should verify key structure for cosmos chain", async () => {
-    const result = await getKey.call(mockCosmosEWallet, "cosmoshub-4");
+    const result = await getKey.call(mockOkoCosmos, "cosmoshub-4");
 
     // Verify all required properties exist
     expect(result).toHaveProperty("bech32Address");
@@ -152,7 +152,7 @@ describe("getKey", () => {
   it("should verify key structure for ethereum-compatible chain", async () => {
     mockGetPublicKey.mockResolvedValue(initiaPublicKey);
 
-    const result = await getKey.call(mockCosmosEWallet, "interwoven-1");
+    const result = await getKey.call(mockOkoCosmos, "interwoven-1");
 
     // Verify ethereum-specific properties
     // expect(result.algo).toBe("ethsecp256k1");

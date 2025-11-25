@@ -175,7 +175,7 @@ function OkoProvider({ children }: { children: React.ReactNode }) {
       return;
     }
 
-    // sign-in via core eWallet (available from either instance)
+    // sign-in via core Oko wallet (available from either instance)
     const okoWallet = okoCosmos?.okoWallet ?? okoEth?.okoWallet;
     if (!okoWallet) {
       return;

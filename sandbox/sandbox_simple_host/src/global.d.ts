@@ -1,11 +1,3 @@
-import { KeplrEWallet } from "@oko-wallet/oko-sdk-core";
-
-// declare global {
-//   interface Window {
-//     // __oko: KeplrEWallet | null | undefined;
-//   }
-// }
-
 declare global {
   namespace NodeJS {
     export interface ProcessEnv {

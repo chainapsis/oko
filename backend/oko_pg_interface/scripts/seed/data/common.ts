@@ -106,7 +106,7 @@ export const createDummyTssSessionsRequest = (
   return ret;
 };
 
-export const createDummyEwalletUsers = (): string[] =>
+export const createDummyOkoUsers = (): string[] =>
   Array.from({ length: 15 }).map((_, i) => `testuser${i + 1}@test.com`);
 
 export const createTssActivationSettings = (): TssActivationSetting => ({

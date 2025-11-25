@@ -55,7 +55,7 @@ import { get_audit_logs } from "./get_audit_logs";
 import { get_audit_logs_count } from "./get_audit_logs_count";
 import { get_ksn_health_checks } from "./get_ksn_health_checks";
 
-export function makeEWalletAdminRouter() {
+export function makeOkoAdminRouter() {
   const router = express.Router();
 
   registry.registerPath({

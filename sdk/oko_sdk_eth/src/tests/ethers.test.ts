@@ -33,7 +33,7 @@ import {
 import { OkoEIP1193Provider } from "@oko-wallet-sdk-eth/provider";
 import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 
-describe("EWallet Provider - Ethers.js Integration", () => {
+describe("Oko Provider - Ethers.js Integration", () => {
   describe("BrowserProvider - Live RPC", () => {
     let provider: OkoEIP1193Provider;
 

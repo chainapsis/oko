@@ -18,7 +18,7 @@ export async function getPublicKey(
       return this.state.publicKey;
     }
 
-    console.log("[oko-cosmos] getPublicKey: getPublicKey from eWallet");
+    console.log("[oko-cosmos] getPublicKey: getPublicKey from Oko");
 
     const pk = await this.okoWallet.getPublicKey();
 

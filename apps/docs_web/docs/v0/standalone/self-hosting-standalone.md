@@ -195,7 +195,7 @@ cp env.example .env
 # Database Configuration
 DB_USER=postgres                    # PostgreSQL database username
 DB_PASSWORD=postgres                # PostgreSQL database password
-DB_NAME=ewallet_dev                 # PostgreSQL database name
+DB_NAME=oko_dev                 # PostgreSQL database name
 DB_PORT=5432                        # PostgreSQL database port
 DB_SSL=false                        # Enable/disable SSL connection (true/false)
 PG_DATA_DIR=./pg_data               # Host directory for PostgreSQL data persistence
@@ -259,7 +259,7 @@ yarn workspace @oko-wallet/oko-api-server create_env
 
 ```bash
 # Server Configuration
-SERVER_PORT=4200                    # Port number for the ewallet API server
+SERVER_PORT=4200                    # Port number for the oko API server
 
 # JWT Configuration
 JWT_SECRET=jwtsecret               # Secret key for JWT token signing
@@ -284,7 +284,7 @@ DB_HOST=localhost                  # PostgreSQL database host
 DB_PORT=5432                       # PostgreSQL database port
 DB_USER=postgres                   # PostgreSQL database username
 DB_PASSWORD=postgres               # PostgreSQL database password
-DB_NAME=ewallet_dev                # PostgreSQL database name
+DB_NAME=oko_dev                # PostgreSQL database name
 DB_SSL=false                       # Enable/disable SSL connection (true/false)
 
 # Encryption Configuration
@@ -353,7 +353,7 @@ project root:
 ```bash
 cd oko
 # Replace DB_* values with those from your backend/docker/.env file
-DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
+DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=oko_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 ```
 
 **For Option B (Local):**
