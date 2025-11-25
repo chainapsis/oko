@@ -28,7 +28,7 @@ import {
   type CustomerAuthenticatedRequest,
 } from "@oko-wallet-ctd-api/middleware/auth";
 import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
-import { multerMiddleware } from "@oko-wallet-ctd-api/middleware/multer";
+import { customerLogoUploadMiddleware } from "@oko-wallet-ctd-api/middleware/multer";
 
 export function setCustomerRoutes(router: Router) {
   registry.registerPath({
@@ -247,6 +247,10 @@ export function setCustomerRoutes(router: Router) {
                   type: "string",
                   description: "Customer/Team name",
                 },
+                url: {
+                  type: "string",
+                  description: "App URL",
+                },
                 logo: {
                   type: "string",
                   format: "binary",
@@ -323,7 +327,7 @@ export function setCustomerRoutes(router: Router) {
     "/customer/update_info",
     rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
     customerJwtMiddleware,
-    multerMiddleware,
+    customerLogoUploadMiddleware,
     async (
       req: CustomerAuthenticatedRequest<UpdateCustomerInfoRequest> & {
         file?: Express.Multer.File;
@@ -333,7 +337,7 @@ export function setCustomerRoutes(router: Router) {
       try {
         const state = req.app.locals as any;
         const userId = res.locals.user_id;
-        const { label, delete_logo } = req.body;
+        const { label, url, delete_logo } = req.body;
 
         const shouldDeleteLogo = delete_logo === "true";
 
@@ -441,9 +445,16 @@ export function setCustomerRoutes(router: Router) {
           }
         }
 
-        const updates: { label?: string; logo_url?: string | null } = {};
+        const updates: {
+          label?: string;
+          url?: string | null;
+          logo_url?: string | null;
+        } = {};
         if (label !== undefined && label.trim() !== "") {
           updates.label = label.trim();
+        }
+        if (url !== undefined) {
+          updates.url = url.trim() === "" ? null : url.trim();
         }
         if (shouldUpdateLogo) {
           updates.logo_url = logo_url;

@@ -1,0 +1,85 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  width: 100%;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.closeButton {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.subtitle {
+  margin-top: 8px;
+}
+
+.infoBanner {
+  border-radius: 12px;
+  border: 1px solid var(--border-brand, rgba(0, 110, 255, 0.24));
+  background: var(--bg-secondary);
+  padding: 12px 14px;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.codeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.changeEmailButton {
+  padding-left: 8px !important;
+  padding-right: 8px !important;
+  height: auto !important;
+}
+
+.resendRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--text-brand-primary, #0052ff);
+  cursor: pointer;
+
+  &:disabled {
+    color: var(--text-disabled);
+    cursor: not-allowed;
+  }
+}
+
+.error {
+  text-align: center;
+}

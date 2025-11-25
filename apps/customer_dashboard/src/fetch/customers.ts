@@ -52,11 +52,13 @@ export async function requestGetCustomerAPIKeys({
 export async function requestUpdateCustomerInfo({
   token,
   label,
+  url,
   logoFile,
   deleteLogo,
 }: {
   token: string;
   label?: string;
+  url?: string;
   logoFile?: File | null;
   deleteLogo?: boolean;
 }) {
@@ -69,11 +71,14 @@ export async function requestUpdateCustomerInfo({
     formData.append("label", label);
   }
 
+  if (url !== undefined) {
+    formData.append("url", url);
+  }
+
   if (logoFile) {
     formData.append("logo", logoFile);
   }
 
-  // Send delete_logo flag to indicate logo should be removed
   if (deleteLogo) {
     formData.append("delete_logo", "true");
   }

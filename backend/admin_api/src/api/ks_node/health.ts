@@ -3,8 +3,13 @@ import type { Result } from "@oko-wallet/stdlib-js";
 import {
   createKSNodeHealthChecks,
   getAllKSNodes,
+  selectKSNodeHealthChecks,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
-import type { KSNodeHealthCheckStatus } from "@oko-wallet/oko-types/tss";
+import { v4 as uuidv4 } from "uuid";
+import type {
+  KSNodeHealthCheck,
+  KSNodeHealthCheckStatus,
+} from "@oko-wallet/oko-types/tss";
 
 export async function healthCheckKSNode(
   db: Pool | PoolClient,
@@ -18,22 +23,24 @@ export async function healthCheckKSNode(
   }
 
   const nodes = getAllKSNodesRes.data;
-  const healthCheckResults: {
-    nodeId: string;
-    status: KSNodeHealthCheckStatus;
-  }[] = await Promise.all(
+
+  const healthChecks = await Promise.all(
     nodes.map(async (node) => {
       const isHealthy = await requestKSNodeHealthCheck(node.server_url);
-      return {
-        nodeId: node.node_id,
+
+      const check: KSNodeHealthCheck = {
+        check_id: uuidv4(),
+        node_id: node.node_id,
         status: isHealthy ? "HEALTHY" : "UNHEALTHY",
       };
+
+      return check;
     }),
   );
 
   const createKSNodeHealthChecksRes = await createKSNodeHealthChecks(
     db,
-    healthCheckResults,
+    healthChecks,
   );
   if (createKSNodeHealthChecksRes.success === false) {
     return {
@@ -44,7 +51,7 @@ export async function healthCheckKSNode(
 
   return {
     success: true,
-    data: healthCheckResults.length,
+    data: healthChecks.length,
   };
 }
 
@@ -59,4 +66,26 @@ async function requestKSNodeHealthCheck(cvEndpoint: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+export async function getKSNHealthChecks(
+  db: Pool | PoolClient,
+  pageIdx: number,
+  pageSize: number,
+): Promise<Result<any, string>> {
+  const healthChecksRes = await selectKSNodeHealthChecks(db, pageIdx, pageSize);
+
+  console.log(11, healthChecksRes);
+
+  if (healthChecksRes.success === false) {
+    return {
+      success: false,
+      err: `Failed to get ksn health checks: ${healthChecksRes.err}`,
+    };
+  }
+
+  return {
+    success: true,
+    data: healthChecksRes.data,
+  };
 }
