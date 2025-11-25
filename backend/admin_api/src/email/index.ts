@@ -171,7 +171,7 @@ If you didn't request this account, please ignore this email.
                         <tr>
                           <td style="padding: 8px">
                             <div style="position: relative; width: 100%">
-                              <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/header.png" width="584" alt="OKO header" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
+                              <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/header.png" width="584" alt="Red Oko header with 'Welcome to Oko' text" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
                             </div>
                             <div style="height: 972px; width: 100%">
                               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border-spacing: 0">
@@ -204,7 +204,7 @@ If you didn't request this account, please ignore this email.
                                             <tr>
                                               <td>
                                                 <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
-                                                  You can now log in to the Oko dApp
+                                                  You can now log in to the Oko dapp
                                                   Dashboard using the email address
                                                   you shared with us and the temporary
                                                   password below.
@@ -233,12 +233,12 @@ If you didn't request this account, please ignore this email.
                                                           <td align="left" style="
                                                             padding: 10px 0 0 10px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-left.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-left.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                           </td>
                                                           <td align="right" style="
                                                             padding: 10px 10px 0 0;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-right.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-right.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                           </td>
                                                         </tr>
                                                       </table>
@@ -368,12 +368,12 @@ If you didn't request this account, please ignore this email.
                                                           <td align="left" style="
                                                             padding: 0 0 10px 10px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-left.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-left.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                           </td>
                                                           <td align="right" style="
                                                             padding: 0 10px 10px 0;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-right.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-right.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                           </td>
                                                         </tr>
                                                       </table>
@@ -422,7 +422,7 @@ If you didn't request this account, please ignore this email.
                                                             width: 16px;
                                                             padding-right: 12px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-demo.png" width="16" height="16" alt="Demo" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-demo.png" width="16" height="16" alt="Demo icon" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
                                                           </td>
                                                           <td>
                                                             <a href="https://demo.oko.app/" style="font-family: Inter, Arial,
@@ -445,7 +445,7 @@ If you didn't request this account, please ignore this email.
                                                             width: 16px;
                                                             padding-right: 12px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-docs.png" width="16" height="16" alt="Docs" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-docs.png" width="16" height="16" alt="Docs icon" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
                                                           </td>
                                                           <td>
                                                             <a href="https://docs.oko.app/docs" style="font-family: Inter, Arial,
@@ -468,7 +468,7 @@ If you didn't request this account, please ignore this email.
                                                             width: 16px;
                                                             padding-right: 12px;
                                                           ">
-                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-inquiries.png" width="16" height="16" alt="Integration Inquiries" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
+                                                            <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/icon-inquiries.png" width="16" height="16" alt="Integration Inquiries icon" style="max-width: 100%; vertical-align: middle; display: block; width: 16px; height: 16px">
                                                           </td>
                                                           <td>
                                                             <a href="https://oko-wallet.canny.io/integration-support-inquiries" style="font-family: Inter, Arial,
@@ -538,7 +538,7 @@ If you didn't request this account, please ignore this email.
                                             </tr>
                                             <tr>
                                               <td align="center">
-                                                <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-footer.png" width="64" height="25" alt="OKO" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
+                                                <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-footer.png" width="64" height="25" alt="Gray Oko logo" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
                                               </td>
                                             </tr>
                                           </table>

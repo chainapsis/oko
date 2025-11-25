@@ -89,7 +89,7 @@ If you didn't request this code, please ignore this email.
                         <tr>
                           <td style="padding: 8px">
                             <div style="position: relative; width: 100%">
-                              <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/code-header.png" width="584" alt="OKO header" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
+                              <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/code-header.png" width="584" alt="Black Oko header with 'Verify your email to continue' text" style="vertical-align: middle; display: block; width: 584px; max-width: 100%; border-radius: 20px">
                             </div>
                             <div style="height: 685px; width: 100%">
                               <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="width: 100%; border-spacing: 0">
@@ -155,12 +155,12 @@ If you didn't request this code, please ignore this email.
                                                                 <td align="left" style="
                                                                   padding: 10px 0 0 10px;
                                                                 ">
-                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-left.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-left.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                                 </td>
                                                                 <td align="right" style="
                                                                   padding: 10px 10px 0 0;
                                                                 ">
-                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-right.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-top-right.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                                 </td>
                                                               </tr>
                                                             </table>
@@ -217,7 +217,7 @@ If you didn't request this code, please ignore this email.
                                                                       <td align="center" style="
                                                                         height: 24px;
                                                                       ">
-                                                                        <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/code-key-icon.png" width="24" height="24" alt="Key icon" style="max-width: 100%; vertical-align: middle; display: block; width: 24px; height: 24px">
+                                                                        <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/code-key-icon.png" width="24" height="24" alt="Code key icon" style="max-width: 100%; vertical-align: middle; display: block; width: 24px; height: 24px">
                                                                       </td>
                                                                     </tr>
                                                                   </table>
@@ -231,12 +231,12 @@ If you didn't request this code, please ignore this email.
                                                                 <td align="left" style="
                                                                   padding: 0 0 10px 10px;
                                                                 ">
-                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-left.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-left.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                                 </td>
                                                                 <td align="right" style="
                                                                   padding: 0 10px 10px 0;
                                                                 ">
-                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-right.png" width="16" height="16" alt style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
+                                                                  <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/screw-bottom-right.png" width="16" height="16" alt="Decorative layout screw" style="max-width: 100%; vertical-align: middle; display: block; border: 0; outline: none; text-decoration: none">
                                                                 </td>
                                                               </tr>
                                                             </table>
@@ -299,7 +299,7 @@ If you didn't request this code, please ignore this email.
                                             </tr>
                                             <tr>
                                               <td align="center">
-                                                <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-footer.png" width="64" height="25" alt="OKO" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
+                                                <img src="https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/email/light/logo-footer.png" width="64" height="25" alt="Gray Oko logo" style="max-width: 100%; vertical-align: middle; display: block; width: 64px; height: 25px">
                                               </td>
                                             </tr>
                                           </table>
