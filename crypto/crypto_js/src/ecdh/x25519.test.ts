@@ -1,7 +1,12 @@
 import { describe, expect, it } from "@jest/globals";
-
-import { generateEddsaKeypair, signMessage, verifySignature } from "./x25519";
 import { Bytes } from "@oko-wallet/bytes";
+
+import {
+  generateEddsaKeypair,
+  signMessage,
+  verifySignature,
+  isValidPublicKey,
+} from "./x25519";
 
 describe("x25519_keypair_test_1", () => {
   it("generate_eddsa_keypair", () => {
