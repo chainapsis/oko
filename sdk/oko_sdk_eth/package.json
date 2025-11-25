@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-eth",
-  "version": "0.0.6-rc.127",
+  "version": "0.0.6-rc.128",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
@@ -34,8 +34,8 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.114",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.32",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.115",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.33",
     "eventemitter3": "^5.0.1",
     "uuid": "*",
     "viem": "*"
