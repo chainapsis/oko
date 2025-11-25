@@ -96,7 +96,7 @@ export const CosmosOnchainCosmJsSignWidget = () => {
   const sendTokenAminoMutation = useMutation({
     mutationFn: async (): Promise<string> => {
       if (!okoCosmos || !aminoSigner) {
-        throw new Error("CosmosEWallet or aminoSigner is not found");
+        throw new Error("okoCosmos or aminoSigner is not found");
       }
 
       const { address, msgs } = await makeMockSendTokenAminoSignDoc(okoCosmos);
@@ -125,7 +125,7 @@ export const CosmosOnchainCosmJsSignWidget = () => {
   const sendTokenDirectMutation = useMutation({
     mutationFn: async (): Promise<string> => {
       if (!okoCosmos || !signer) {
-        throw new Error("CosmosEWallet or signer is not found");
+        throw new Error("okoCosmos or signer is not found");
       }
 
       const account = await okoCosmos.getKey(TEST_COSMOS_CHAIN_ID);

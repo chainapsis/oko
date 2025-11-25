@@ -12,7 +12,7 @@ export const CosmosOffChainSignWidget = () => {
     console.log("handleClickCosmosArbitrarySign()");
 
     if (okoCosmos === null) {
-      throw new Error("CosmosEWallet is not initialized");
+      throw new Error("okoCosmos is not initialized");
     }
 
     const account = await okoCosmos.getKey(COSMOS_CHAIN_ID);

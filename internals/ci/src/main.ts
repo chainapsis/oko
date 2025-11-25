@@ -11,7 +11,7 @@ import { DbSeedAPI } from "./cmds/db_seed_api";
 import { DbMigrateAPI } from "./cmds/db_migrate_api";
 
 async function main() {
-  const command = program.version("0.0.1").description("EWallet Public CI");
+  const command = program.version("0.0.1").description("Oko Public CI");
 
   command.command("typecheck").action(typeCheck);
 
