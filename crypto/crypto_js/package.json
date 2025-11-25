@@ -3,7 +3,7 @@
   "type": "module",
   "main": "./src/index.ts",
   "scripts": {
-    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" node ../../node_modules/jest/bin/jest.js"
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" ../../node_modules/.bin/jest"
   },
   "dependencies": {
     "@noble/curves": "2.0.1",
@@ -16,7 +16,7 @@
   "devDependencies": {
     "@jest/globals": "*",
     "@types/bcryptjs": "*",
-    "@types/jest": "29.7.0",
+    "@types/jest": "*",
     "@types/node": "*",
     "jest": "*",
     "ts-jest": "*",

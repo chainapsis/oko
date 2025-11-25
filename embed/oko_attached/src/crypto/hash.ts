@@ -7,8 +7,15 @@ export async function hashKeyshareNodeNames(
 ): Promise<Result<Bytes32[], string>> {
   const hashes = [];
   for (const name of keyshareNodeNames) {
-    const hash = sha256(name);
-    const hashU8Arr = new Uint8Array(hash);
+    const hashResult = sha256(name);
+    if (hashResult.success === false) {
+      return {
+        success: false,
+        err: hashResult.err,
+      };
+    }
+    const hash: Bytes32 = hashResult.data;
+    const hashU8Arr = new Uint8Array(hash.toUint8Array());
     // 1 bytes prefix for compatibility with a range of a secret key(0, n);
     // n is the order of a elliptic curve
     // this hash has 31 bytes(248 bits) as a entropy.

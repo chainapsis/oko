@@ -6,10 +6,11 @@
  * Uses @oko-wallet/bytes for type-safe byte handling
  */
 
-import { ed25519 } from "@noble/curves/ed25519.js";
-import { sha256 } from "@noble/hashes/sha2";
+import { ed25519 } from "@noble/curves/ed25519";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
+
+import { sha256 } from "../hash";
 
 export interface EddsaKeypair {
   privateKey: Bytes32;
@@ -102,10 +103,17 @@ export function signMessage(
   eddsaOpts: EddsaSignOpts = {},
 ): Result<EddsaSignature, string> {
   try {
-    const messageHash = sha256(new TextEncoder().encode(message));
+    const messageHashRes = sha256(message);
+    if (!messageHashRes.success) {
+      return {
+        success: false,
+        err: `Failed to hash message: ${messageHashRes.err}`,
+      };
+    }
+    const messageHash = messageHashRes.data;
 
     const signature = ed25519.sign(
-      messageHash,
+      messageHash.toUint8Array(),
       privateKey.toUint8Array(),
       eddsaOpts,
     );
@@ -154,7 +162,14 @@ export function verifySignature(
   publicKey: Bytes32,
 ): Result<boolean, string> {
   try {
-    const messageHash = sha256(new TextEncoder().encode(message));
+    const messageHashRes = sha256(message);
+    if (!messageHashRes.success) {
+      return {
+        success: false,
+        err: `Failed to hash message: ${messageHashRes.err}`,
+      };
+    }
+    const messageHash = messageHashRes.data;
 
     const signatureBytesResult = convertEddsaSignatureToBytes(sig);
     if (!signatureBytesResult.success) {
@@ -166,7 +181,7 @@ export function verifySignature(
 
     const isValid = ed25519.verify(
       signatureBytesResult.data.toUint8Array(),
-      messageHash,
+      messageHash.toUint8Array(),
       publicKey.toUint8Array(),
     );
 

@@ -1,19 +1,24 @@
-import { createDefaultEsmPreset } from "ts-jest";
-
-/** @type {import('ts-jest').JestConfigWithTsJest} */
 export default {
-  ...createDefaultEsmPreset(),
+  preset: "ts-jest/presets/default-esm",
+  extensionsToTreatAsEsm: [".ts"],
   testEnvironment: "node",
   modulePathIgnorePatterns: ["<rootDir>/dist/"],
-  extensionsToTreatAsEsm: [".ts"],
-  testSequencer: undefined,
+  moduleNameMapper: {
+    "^@noble/hashes/sha2(\\.js)?$": "@noble/hashes/sha2.js",
+    "^@noble/curves/ed25519(\\.js)?$": "@noble/curves/ed25519.js",
+    "^(\\.{1,2}/.*)\\.js$": "$1",
+  },
+  transformIgnorePatterns: [],
+  testTimeout: 60000,
   transform: {
-    "^.+\\.tsx?$": [
+    "^.+\\.(tsx?|mjs|js)$": [
       "ts-jest",
       {
         useESM: true,
+        tsconfig: {
+          allowJs: true,
+        },
       },
     ],
   },
-  transformIgnorePatterns: ["node_modules/(?!(@oko-wallet/.*|@noble/.*)/)"],
 };
