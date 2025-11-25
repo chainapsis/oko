@@ -10,7 +10,7 @@ for Cosmos ecosystem applications.
 
 <!-- prettier-ignore -->
 :::tip Get started faster
-Prefer a ready-to-run example? Try the **[Cosmos (Next.js) starter template](https://github.com/chainapsis/oko/tree/main/examples/cosmos-nextjs)**.  
+Prefer a ready-to-run example? Try the **[CosmosKit (Next.js) starter template](https://github.com/chainapsis/oko/tree/main/examples/cosmoskit-nextjs)**.
 :::
 
 ## Overview
@@ -74,11 +74,6 @@ export default function App({ Component, pageProps }) {
       chains={chains}
       assetLists={assets}
       wallets={[...okoWallets]}
-      walletConnectOptions={{
-        signClient: {
-          projectId: "your-wallet-connect-project-id",
-        },
-      }}
     >
       <Component {...pageProps} />
     </ChainProvider>
@@ -163,5 +158,5 @@ included.
 ## Resources
 
 - [Cosmos Kit Documentation](https://docs.hyperweb.io/cosmos-kit)
-- [Example Application](https://github.com/chainapsis/oko/tree/main/examples/cosmos-nextjs)
+- [Example Application](https://github.com/chainapsis/oko/tree/main/examples/cosmoskit-nextjs)
 - [Chain Registry](https://github.com/cosmos/chain-registry)
