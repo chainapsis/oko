@@ -8,9 +8,9 @@ import { Button } from "@oko-wallet/oko-common-ui/button";
 import { PlusIcon } from "@oko-wallet/oko-common-ui/icons/plus";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 
-import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
-import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
+import { useCustomerInfo } from "@oko-wallet-user-dashboard/hooks/use_customer_info";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
+import { requestUpdateCustomerInfo } from "@oko-wallet-user-dashboard/fetch/customers";
 import styles from "./edit_info_form.module.scss";
 
 export const EditInfoForm = () => {

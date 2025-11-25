@@ -2,10 +2,10 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
-import { paths } from "@oko-wallet-ct-dashboard/paths";
-import { PASSWORD_MIN_LENGTH } from "@oko-wallet-ct-dashboard/constants";
-import { requestChangePassword } from "@oko-wallet-ct-dashboard/fetch/users";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
+import { paths } from "@oko-wallet-user-dashboard/paths";
+import { PASSWORD_MIN_LENGTH } from "@oko-wallet-user-dashboard/constants";
+import { requestChangePassword } from "@oko-wallet-user-dashboard/fetch/users";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
 
 export type ResetPasswordInputs = {
   originalPassword: string;

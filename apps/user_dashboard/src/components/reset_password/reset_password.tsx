@@ -7,7 +7,7 @@ import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Input } from "@oko-wallet/oko-common-ui/input";
 
-import { AccountForm } from "@oko-wallet-ct-dashboard/ui";
+import { AccountForm } from "@oko-wallet-user-dashboard/ui";
 import { useResetPasswordForm } from "./use_reset_password_form";
 import styles from "./reset_password.module.scss";
 

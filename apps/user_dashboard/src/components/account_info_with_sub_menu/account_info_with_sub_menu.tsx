@@ -6,9 +6,9 @@ import { AnchoredMenu } from "@oko-wallet/oko-common-ui/anchored_menu";
 import { SidebarAccountInfo } from "@oko-wallet/oko-common-ui/sidebar_account_info";
 
 import styles from "./account_info_with_sub_menu.module.scss";
-import { paths } from "@oko-wallet-ct-dashboard/paths";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
-import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
+import { paths } from "@oko-wallet-user-dashboard/paths";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
+import { useCustomerInfo } from "@oko-wallet-user-dashboard/hooks/use_customer_info";
 
 export const AccountInfoWithSubMenu = () => {
   const router = useRouter();

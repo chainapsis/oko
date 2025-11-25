@@ -6,7 +6,7 @@ import "@oko-wallet/oko-common-ui/styles/colors.scss";
 import "@oko-wallet/oko-common-ui/styles/typography.scss";
 import "@oko-wallet/oko-common-ui/styles/shadow.scss";
 
-import { Providers } from "@oko-wallet-ct-dashboard/components/providers/providers";
+import { Providers } from "@oko-wallet-user-dashboard/components/providers/providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

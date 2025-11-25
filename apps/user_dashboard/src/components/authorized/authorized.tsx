@@ -3,8 +3,8 @@
 import { PropsWithChildren, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { paths } from "@oko-wallet-ct-dashboard/paths";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
+import { paths } from "@oko-wallet-user-dashboard/paths";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
 
 export const Authorized: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();

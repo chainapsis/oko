@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { paths } from "@oko-wallet-ct-dashboard/paths";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
-import { requestVerifyCodeAndLogin } from "@oko-wallet-ct-dashboard/fetch/users";
-import { SIX_DIGITS_REGEX } from "@oko-wallet-ct-dashboard/constants";
+import { paths } from "@oko-wallet-user-dashboard/paths";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
+import { requestVerifyCodeAndLogin } from "@oko-wallet-user-dashboard/fetch/users";
+import { SIX_DIGITS_REGEX } from "@oko-wallet-user-dashboard/constants";
 
 export function useSignUpDigits() {
   const router = useRouter();

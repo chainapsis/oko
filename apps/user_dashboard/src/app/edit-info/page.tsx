@@ -6,9 +6,9 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 
-import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
-import { Authorized } from "@oko-wallet-ct-dashboard/components/authorized/authorized";
-import { EditInfoForm } from "@oko-wallet-ct-dashboard/components/edit_info_form/edit_info_form";
+import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard_header/dashboard_header";
+import { Authorized } from "@oko-wallet-user-dashboard/components/authorized/authorized";
+import { EditInfoForm } from "@oko-wallet-user-dashboard/components/edit_info_form/edit_info_form";
 import styles from "./page.module.scss";
 
 export default function EditInfoPage() {

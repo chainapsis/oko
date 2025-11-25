@@ -5,14 +5,14 @@ import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
 import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
-import { AccountForm } from "@oko-wallet-ct-dashboard/ui";
+import { AccountForm } from "@oko-wallet-user-dashboard/ui";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { InfoModal } from "../info_modal/info_modal";
 
 import styles from "./sign_in_form.module.scss";
 import { useSignInForm } from "./use_sign_in_form";
-import { GET_EARLY_ACCESS_URL } from "@oko-wallet-ct-dashboard/constants";
+import { GET_EARLY_ACCESS_URL } from "@oko-wallet-user-dashboard/constants";
 
 export const SignInForm: React.FC = () => {
   const {

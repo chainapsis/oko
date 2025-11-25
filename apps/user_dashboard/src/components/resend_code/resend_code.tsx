@@ -2,8 +2,8 @@ import { memo, useState } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./resend_code.module.scss";
-import { requestSendVerificationCode } from "@oko-wallet-ct-dashboard/fetch/users";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
+import { requestSendVerificationCode } from "@oko-wallet-user-dashboard/fetch/users";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
 
 type ResendCodeProps = {
   disabled: boolean;

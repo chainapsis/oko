@@ -8,7 +8,7 @@ import { useSignUpDigits } from "./use_sign_up_digits";
 import styles from "./sign_up_digits.module.scss";
 import { ResendCode } from "../resend_code/resend_code";
 import { ExpiryTimer } from "../expiry_timer/expiry_timer";
-import { EMAIL_VERIFICATION_TIMER_SECONDS } from "@oko-wallet-ct-dashboard/constants";
+import { EMAIL_VERIFICATION_TIMER_SECONDS } from "@oko-wallet-user-dashboard/constants";
 
 export const SignUpDigits: React.FC = () => {
   const {

@@ -1,6 +1,6 @@
 import { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
 
 function checkIsTokenInvalid(errorCode: string, status: number) {
   // TODO 이후 token 만료시 적절한 code를 보내서 수정 필요

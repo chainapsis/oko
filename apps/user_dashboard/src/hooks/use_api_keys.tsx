@@ -1,8 +1,8 @@
-import { requestGetCustomerAPIKeys } from "@oko-wallet-ct-dashboard/fetch/customers";
+import { requestGetCustomerAPIKeys } from "@oko-wallet-user-dashboard/fetch/customers";
 import { useQuery } from "@tanstack/react-query";
 
 import { useCustomerInfo } from "./use_customer_info";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
 
 export const useAPIKeys = () => {
   const user = useAppState((state) => state.user);

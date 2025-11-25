@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 
-import { requestGetCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
+import { requestGetCustomerInfo } from "@oko-wallet-user-dashboard/fetch/customers";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
 
 export const useCustomerInfo = () => {
   const user = useAppState((state) => state.user);

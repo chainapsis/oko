@@ -11,7 +11,7 @@ import {
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 
-import { useAPIKeys } from "@oko-wallet-ct-dashboard/hooks/use_api_keys";
+import { useAPIKeys } from "@oko-wallet-user-dashboard/hooks/use_api_keys";
 import styles from "./api_key_list.module.scss";
 import { useAPIKeysTable } from "./use_api_keys_table";
 import { APIKeyItemRow } from "./api_key_item_row";

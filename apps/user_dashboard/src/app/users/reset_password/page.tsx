@@ -7,10 +7,10 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 
-import { ResetPassword } from "@oko-wallet-ct-dashboard/components/reset_password/reset_password";
-import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
+import { ResetPassword } from "@oko-wallet-user-dashboard/components/reset_password/reset_password";
+import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard_header/dashboard_header";
 import styles from "./page.module.scss";
-import { Authorized } from "@oko-wallet-ct-dashboard/components/authorized/authorized";
+import { Authorized } from "@oko-wallet-user-dashboard/components/authorized/authorized";
 
 export default function ResetPasswordPage() {
   const router = useRouter();

@@ -6,8 +6,8 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import Link from "next/link";
 
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
-import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
+import { useAppState } from "@oko-wallet-user-dashboard/state";
+import { useCustomerInfo } from "@oko-wallet-user-dashboard/hooks/use_customer_info";
 import styles from "./account_info.module.scss";
 
 export const AccountInfo: FC = () => {
