@@ -6,7 +6,7 @@ import type {
 } from "@oko-wallet/oko-types/admin";
 
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
-import { errorHandle } from "@oko-wallet-admin/fetch/utils";
+import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 
 export const getAuditLogs = async (
   filter: AuditEventFilter,
@@ -27,21 +27,22 @@ export const getAuditLogs = async (
   if (filter.limit) params.append("limit", filter.limit.toString());
   if (filter.offset) params.append("offset", filter.offset.toString());
 
-  return errorHandle<GetAuditLogsResponse>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/audit/logs?${params.toString()}`, {
+  return doFetch<GetAuditLogsResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/audit/logs?${params.toString()}`,
+    {
       method: "GET",
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }),
+    },
   );
 };
 
-export const getAuditLogsCount = async (
+export async function getAuditLogsCount(
   filter: AuditEventFilter,
   token?: string,
-): Promise<OkoApiResponse<GetAuditLogsCountResponse>> => {
+): Promise<OkoApiResponse<GetAuditLogsCountResponse>> {
   const params = new URLSearchParams();
 
   if (filter.target_type) params.append("target_type", filter.target_type);
@@ -55,16 +56,14 @@ export const getAuditLogsCount = async (
   if (filter.occurred_before)
     params.append("occurred_before", filter.occurred_before.toISOString());
 
-  return errorHandle<GetAuditLogsCountResponse>(() =>
-    fetch(
-      `${OKO_ADMIN_API_ENDPOINT_V1}/audit/logs/count?${params.toString()}`,
-      {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  return doFetch<GetAuditLogsCountResponse>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/audit/logs/count?${params.toString()}`,
+    {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ),
+    },
   );
-};
+}

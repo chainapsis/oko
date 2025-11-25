@@ -3,6 +3,14 @@
   backdrop-filter: blur(4px);
   display: grid;
   place-items: center;
+
+  /* In popup context, make overlay fullscreen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1000;
 }
 
 .floatingWrapper {

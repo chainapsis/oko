@@ -14,8 +14,18 @@ If you haven't built wasm before, in the workspace root,
 yarn ci build_cs
 ```
 
+#### Preview
+
 ```sh
 vercel link
 vercel build
 vercel deploy --prebuilt
+```
+
+#### Production
+
+```sh
+vercel link
+vercel build --prod
+vercel deploy --prebuilt --prod
 ```

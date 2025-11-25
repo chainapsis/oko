@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-core",
-  "version": "0.0.6-rc.113",
+  "version": "0.0.6-rc.114",
   "type": "module",
   "scripts": {
     "clean": "del-cli dist",

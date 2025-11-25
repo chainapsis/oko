@@ -2,6 +2,7 @@
   "packages": [
     "lib/stdlib_js",
     "lib/dotenv",
+    "sdk/oko_cosmos_kit",
     "sdk/oko_sdk_core",
     "sdk/oko_sdk_cosmos",
     "sdk/oko_sdk_eth",
