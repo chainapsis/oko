@@ -16,7 +16,7 @@
   "devDependencies": {
     "@jest/globals": "*",
     "@types/bcryptjs": "*",
-    "@types/jest": "*",
+    "@types/jest": "29.7.0",
     "@types/node": "*",
     "jest": "*",
     "ts-jest": "*",
