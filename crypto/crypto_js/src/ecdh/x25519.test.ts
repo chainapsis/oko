@@ -7,6 +7,7 @@ import {
   verifySignature,
   isValidPublicKey,
 } from "./x25519";
+import { deriveSessionKey } from "./key_derivation";
 
 describe("x25519_keypair_test_1", () => {
   it("generate_eddsa_keypair", () => {
@@ -193,7 +194,6 @@ describe("EdDSA signature and verification", () => {
       expect(signature.success).toBe(true);
       if (!signature.success) return;
 
-      // s 값을 변조
       const modifiedS = Bytes.fromUint8Array(new Uint8Array(32).fill(0xff), 32);
       expect(modifiedS.success).toBe(true);
       if (!modifiedS.success) return;
@@ -444,13 +444,11 @@ describe("EdDSA signature and verification", () => {
       expect(keypair.success).toBe(true);
       if (!keypair.success) return;
 
-      // 서명에 사용된 공개키는 반드시 유효해야 함
       const isValid = isValidPublicKey(keypair.data.publicKey);
       expect(isValid.success).toBe(true);
       if (!isValid.success) return;
       expect(isValid.data).toBe(true);
 
-      // 실제로 서명/검증이 작동하는지 확인
       const message = "Test message";
       const signature = signMessage(message, keypair.data.privateKey);
       expect(signature.success).toBe(true);
@@ -465,5 +463,22 @@ describe("EdDSA signature and verification", () => {
       if (!verification.success) return;
       expect(verification.data).toBe(true);
     });
+  });
+});
+
+describe("x25519_key_derivation_test", () => {
+  it("get_shared_secret", () => {
+    const keypair = generateEddsaKeypair();
+    expect(keypair.success).toBe(true);
+    if (!keypair.success) return;
+
+    const sharedSecret = deriveSessionKey(
+      keypair.data.privateKey,
+      keypair.data.publicKey,
+      "oko-v1",
+    );
+    expect(sharedSecret.success).toBe(true);
+    if (!sharedSecret.success) return;
+    expect(sharedSecret.data).toBeDefined();
   });
 });

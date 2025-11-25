@@ -2,7 +2,7 @@ import { sha256 as nobleSHA256 } from "@noble/hashes/sha2";
 import { type Result } from "@oko-wallet/stdlib-js";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 
-export function sha256(data: string | ArrayBuffer): Result<Bytes32, string> {
+export function sha256(data: string | Uint8Array): Result<Bytes32, string> {
   try {
     const encoder = new TextEncoder();
     const dataBuffer =
