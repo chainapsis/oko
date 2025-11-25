@@ -27,7 +27,7 @@ export const CosmosOnchainSignWidget = () => {
     console.log("handleClickCosmosSignDirect()");
 
     if (okoCosmos === null) {
-      throw new Error("CosmosEWallet is not initialized");
+      throw new Error("okoCosmos is not initialized");
     }
 
     const account = await okoCosmos.getKey(COSMOS_CHAIN_ID);
@@ -105,7 +105,7 @@ export const CosmosOnchainSignWidget = () => {
   const handleClickCosmosSignAmino = useCallback(async () => {
     console.info("handleClickCosmosSignAmino()");
     if (okoCosmos === null) {
-      throw new Error("CosmosEWallet is not initialized");
+      throw new Error("okoCosmos is not initialized");
     }
 
     const account = await okoCosmos.getKey(COSMOS_CHAIN_ID);

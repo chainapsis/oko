@@ -27,7 +27,7 @@ import {
 import { OkoEIP1193Provider, RpcErrorCode } from "@oko-wallet-sdk-eth/provider";
 import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 
-describe("EWallet Provider - Viem Integration", () => {
+describe("Oko Provider - Viem Integration", () => {
   describe("Public Client - Live RPC", () => {
     let provider: OkoEIP1193Provider;
 
@@ -603,13 +603,13 @@ describe("EWallet Provider - Viem Integration", () => {
 
     // NOTE: disabled for now, as hardhat does not support EIP-7702
     // describe("Advanced Features", () => {
-    //   let aliceProvider: EWalletEIP1193Provider;
+    //   let aliceProvider: OkoEIP1193Provider;
     //   let publicClient: any;
     //   let walletClient: any;
     //   let txHelper: any;
 
     //   beforeAll(() => {
-    //     aliceProvider = new EWalletEIP1193Provider(
+    //     aliceProvider = new OkoEIP1193Provider(
     //       createProviderOptions([createChainParam(hardhatAlt)], alice),
     //     );
 

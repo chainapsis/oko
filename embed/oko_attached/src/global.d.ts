@@ -1,5 +1,3 @@
-import type { KeplrEWalletInterface } from "@oko-wallet/oko-sdk-core";
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -10,10 +8,6 @@ declare global {
       VITE_KEPLR_API_ENDPOINT: string;
       VITE_TX_INTERPRETER_API_ENDPOINT: string;
     }
-  }
-
-  interface Window {
-    __keplr_ewallet: KeplrEWalletInterface | null | undefined;
   }
 
   interface ImportMetaEnv {

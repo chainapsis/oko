@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import { initWasm, isWasmInitialized } from "@oko-wallet/cait-sith-keplr-wasm";
-import * as wasmModule from "@kepl-ewallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
+import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
 
 import styles from "./wasm_example.module.css";
 import { Workflow } from "../workflow/workflow";

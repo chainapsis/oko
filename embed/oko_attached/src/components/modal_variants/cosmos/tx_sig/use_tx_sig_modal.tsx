@@ -90,7 +90,7 @@ export function useTxSigModal(
         ...signDoc,
         fee: {
           // XXX:
-          // 현재 payer, granter는 ewallet에서 지원되지 않는다.
+          // 현재 payer, granter는 Oko에서 지원되지 않는다.
           // 수수료 대납을 이용한 공격이 있을 수 있으므로 명시적으로
           // 비워놓도록 한다.
           granter: undefined,
@@ -115,7 +115,7 @@ export function useTxSigModal(
         ...authInfo,
         fee: {
           // XXX:
-          // 현재 payer, granter는 ewallet에서 지원되지 않는다.
+          // 현재 payer, granter는 Oko에서 지원되지 않는다.
           // 수수료 대납을 이용한 공격이 있을 수 있으므로 명시적으로
           // 비워놓도록 한다.
           payer: "",

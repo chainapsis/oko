@@ -31,7 +31,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     setLoginMethod(method);
 
     if (!okoWallet) {
-      console.error("eWallet is not initialized");
+      console.error("okoWallet is not initialized");
       return;
     }
 
@@ -61,7 +61,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
 
   async function handleSignOut() {
     if (!okoWallet) {
-      console.error("EWallet is not initialized");
+      console.error("okoWallet is not initialized");
       return;
     }
 

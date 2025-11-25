@@ -3,7 +3,7 @@ import { combine, persist } from "zustand/middleware";
 
 import { AppState, AppActions, AppUser } from "./types";
 
-const STORAGE_KEY = "ewallet";
+const STORAGE_KEY = "oko_wallet";
 
 export const useAppState = create(
   persist(
