@@ -40,4 +40,5 @@ export function decryptData(encryptedBase64: string, password: string): string {
   return decrypted.toString("utf8");
 }
 
+// only for testing purposes
 export const TEMP_ENC_SECRET = "temp_enc_secret";

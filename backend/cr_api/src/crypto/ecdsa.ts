@@ -8,7 +8,10 @@
  * Uses @oko-wallet/bytes for type-safe byte handling
  */
 
-import type { ECDSASignOpts } from "@noble/curves/abstract/weierstrass.js";
+import type {
+  ECDSASignOpts,
+  ECDSASigRecovered,
+} from "@noble/curves/abstract/weierstrass.js";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { sha256 } from "@noble/hashes/sha2";
 import { Bytes, type Bytes32, type Bytes33 } from "@oko-wallet/bytes";
@@ -107,20 +110,20 @@ export function signMessage(
   try {
     const messageHash = sha256(new TextEncoder().encode(message));
 
-    const signature = secp256k1.sign(
+    const signature: ECDSASigRecovered = secp256k1.sign(
       messageHash,
       privateKey.toUint8Array(),
       opts,
     );
 
-    const r = Bytes.fromUint8Array(signature.slice(1, 33), 32);
+    const r = Bytes.fromBigInt(signature.r, 32);
     if (!r.success) {
       return {
         success: false,
         err: `Failed to parse r: ${r.err}`,
       };
     }
-    const s = Bytes.fromUint8Array(signature.slice(33, 65), 32);
+    const s = Bytes.fromBigInt(signature.s, 32);
     if (!s.success) {
       return {
         success: false,
@@ -128,17 +131,17 @@ export function signMessage(
       };
     }
 
-    if (signature[0] !== 0 && signature[0] !== 1) {
+    if (signature.recovery !== 0 && signature.recovery !== 1) {
       return {
         success: false,
-        err: `Invalid recovery byte: ${signature[0]}`,
+        err: `Invalid recovery byte: ${signature.recovery}`,
       };
     }
 
     return {
       success: true,
       data: {
-        v: signature[0],
+        v: signature.recovery,
         r: r.data,
         s: s.data,
       },
@@ -156,7 +159,8 @@ export function signMessage(
  * @param message - Original message
  * @param signature - Hex-encoded signature (64 bytes compact format)
  * @param publicKey - Compressed public key (33 bytes)
- * @returns True if signature is valid, false otherwise
+ * @returns True if signature is valid, false otherwise(if verification fails or out of range error occurs)
+ * success: true, data: true -> signature is valid
  */
 export function verifySignature(
   message: string,
@@ -174,12 +178,11 @@ export function verifySignature(
       };
     }
 
-    // Create signature object from compact format
     const signature = secp256k1.Signature.fromBytes(
       signatureBytesResult.data.toUint8Array(),
+      "recovered",
     );
 
-    // Verify signature
     const isValid = secp256k1.verify(
       signature.toBytes(),
       messageHash,
