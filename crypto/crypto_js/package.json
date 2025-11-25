@@ -2,11 +2,15 @@
   "name": "@oko-wallet/crypto-js",
   "type": "module",
   "main": "./src/index.ts",
+  "scripts": {
+    "test": "NODE_OPTIONS=\"--experimental-vm-modules\" node ../../node_modules/jest/bin/jest.js"
+  },
   "dependencies": {
-    "@noble/hashes": "^1.8.0",
+    "@noble/curves": "2.0.1",
+    "@noble/hashes": "2.0.1",
+    "@oko-wallet/bytes": "workspace:*",
+    "@oko-wallet/stdlib-js": "workspace:*",
     "bcryptjs": "^3.0.2",
-    "jest": "*",
-    "shamir-secret-sharing": "^0.0.4",
     "supertest": "*"
   },
   "devDependencies": {
@@ -14,6 +18,7 @@
     "@types/bcryptjs": "*",
     "@types/jest": "*",
     "@types/node": "*",
+    "jest": "*",
     "ts-jest": "*",
     "typescript": "*"
   }

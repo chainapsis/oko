@@ -19,7 +19,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.33"
+    "@oko-wallet/stdlib-js": "workspace:*"
   },
   "devDependencies": {
     "@jest/globals": "*",
