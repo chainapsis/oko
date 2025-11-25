@@ -7,7 +7,7 @@
  */
 
 import { ed25519 } from "@noble/curves/ed25519.js";
-// import { sha256 } from "@noble/hashes/sha2";
+import { sha256 } from "@noble/hashes/sha2";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 
@@ -86,65 +86,59 @@ export function convertEddsaSignatureToBytes(
   }
 }
 
+export interface EddsaSignOpts {
+  context?: Uint8Array;
+}
+
 /**
  * Sign a message using ECDSA (secp256k1)
  * @param message - Message to sign (will be hashed with SHA-256)
  * @param privateKey - Private key (32 bytes)
  * @returns Hex-encoded signature (64 bytes compact format)
  */
-// export function signMessage(
-//   message: string,
-//   privateKey: Bytes32,
-//   opts: ECDSASignOpts = {
-//     format: "recovered",
-//   },
-// ): Result<EcdsaSignature, string> {
-//   try {
-//     const messageHash = sha256(new TextEncoder().encode(message));
+export function signMessage(
+  message: string,
+  privateKey: Bytes32,
+  eddsaOpts: EddsaSignOpts = {},
+): Result<EddsaSignature, string> {
+  try {
+    const messageHash = sha256(new TextEncoder().encode(message));
 
-//     const signature: ECDSASigRecovered = secp256k1.sign(
-//       messageHash,
-//       privateKey.toUint8Array(),
-//       opts,
-//     );
+    const signature = ed25519.sign(
+      messageHash,
+      privateKey.toUint8Array(),
+      eddsaOpts,
+    );
 
-//     const r = Bytes.fromBigInt(signature.r, 32);
-//     if (!r.success) {
-//       return {
-//         success: false,
-//         err: `Failed to parse r: ${r.err}`,
-//       };
-//     }
-//     const s = Bytes.fromBigInt(signature.s, 32);
-//     if (!s.success) {
-//       return {
-//         success: false,
-//         err: `Failed to parse s: ${s.err}`,
-//       };
-//     }
+    const r = Bytes.fromUint8Array(signature.slice(0, 32), 32);
+    if (!r.success) {
+      return {
+        success: false,
+        err: `Failed to parse r: ${r.err}`,
+      };
+    }
+    const s = Bytes.fromUint8Array(signature.slice(32, 64), 32);
+    if (!s.success) {
+      return {
+        success: false,
+        err: `Failed to parse s: ${s.err}`,
+      };
+    }
 
-//     if (signature.recovery !== 0 && signature.recovery !== 1) {
-//       return {
-//         success: false,
-//         err: `Invalid recovery byte: ${signature.recovery}`,
-//       };
-//     }
-
-//     return {
-//       success: true,
-//       data: {
-//         v: signature.recovery,
-//         r: r.data,
-//         s: s.data,
-//       },
-//     };
-//   } catch (error) {
-//     return {
-//       success: false,
-//       err: `Failed to sign message: ${String(error)}`,
-//     };
-//   }
-// }
+    return {
+      success: true,
+      data: {
+        r: r.data,
+        s: s.data,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: `Failed to sign message: ${String(error)}`,
+    };
+  }
+}
 
 /**
  * Verify an ECDSA signature
@@ -154,62 +148,60 @@ export function convertEddsaSignatureToBytes(
  * @returns True if signature is valid, false otherwise(if verification fails or out of range error occurs)
  * success: true, data: true -> signature is valid
  */
-// export function verifySignature(
-//   message: string,
-//   sig: EcdsaSignature,
-//   publicKey: Bytes33,
-// ): Result<boolean, string> {
-//   try {
-//     const messageHash = sha256(new TextEncoder().encode(message));
+export function verifySignature(
+  message: string,
+  sig: EddsaSignature,
+  publicKey: Bytes32,
+): Result<boolean, string> {
+  try {
+    const messageHash = sha256(new TextEncoder().encode(message));
 
-//     const signatureBytesResult = convertEcdsaSignatureToBytes(sig);
-//     if (!signatureBytesResult.success) {
-//       return {
-//         success: false,
-//         err: `Failed to convert ECDSA signature to bytes: ${signatureBytesResult.err}`,
-//       };
-//     }
+    const signatureBytesResult = convertEddsaSignatureToBytes(sig);
+    if (!signatureBytesResult.success) {
+      return {
+        success: false,
+        err: `Failed to convert ECDSA signature to bytes: ${signatureBytesResult.err}`,
+      };
+    }
 
-//     const signature = secp256k1.Signature.fromBytes(
-//       signatureBytesResult.data.toUint8Array(),
-//       "recovered",
-//     );
+    const isValid = ed25519.verify(
+      signatureBytesResult.data.toUint8Array(),
+      messageHash,
+      publicKey.toUint8Array(),
+    );
 
-//     const isValid = secp256k1.verify(
-//       signature.toBytes(),
-//       messageHash,
-//       publicKey.toUint8Array(),
-//     );
-
-//     return {
-//       success: true,
-//       data: isValid,
-//     };
-//   } catch (error) {
-//     return {
-//       success: false,
-//       err: `Failed to verify signature: ${String(error)}`,
-//     };
-//   }
-// }
+    return {
+      success: true,
+      data: isValid,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: `Failed to verify signature: ${String(error)}`,
+    };
+  }
+}
 
 /**
  * Validate if a public key is valid secp256k1 compressed public key
  * @param publicKey - Compressed public key (33 bytes)
  * @returns True if valid, false otherwise
+ * success: true, data: true -> public key is valid
  */
-// export function isValidPublicKey(publicKey: Bytes33): boolean {
-//   try {
-//     const bytes = publicKey.toUint8Array();
+export function isValidPublicKey(publicKey: Bytes32): Result<boolean, string> {
+  try {
+    const bytes = publicKey.toUint8Array();
 
-//     if (bytes[0] !== 0x02 && bytes[0] !== 0x03) {
-//       return false;
-//     }
+    const isValid = ed25519.utils.isValidPublicKey(bytes);
 
-//     secp256k1.Point.fromHex(publicKey.toHex());
-
-//     return true;
-//   } catch {
-//     return false;
-//   }
-// }
+    return {
+      success: true,
+      data: isValid,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: `Failed to validate public key: ${String(error)}`,
+    };
+  }
+}
