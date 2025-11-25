@@ -11,12 +11,7 @@
 import type { ECDSASignOpts } from "@noble/curves/abstract/weierstrass.js";
 import { secp256k1 } from "@noble/curves/secp256k1.js";
 import { sha256 } from "@noble/hashes/sha2";
-import {
-  Bytes,
-  type Bytes32,
-  type Bytes33,
-  type Bytes64,
-} from "@oko-wallet/bytes";
+import { Bytes, type Bytes32, type Bytes33 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export interface EcdsaKeypair {
@@ -71,18 +66,29 @@ export interface EcdsaSignature {
 
 export function convertEcdsaSignatureToBytes(
   signature: EcdsaSignature,
-): Bytes<65> {
-  const bytes = new Uint8Array(65);
-  bytes[0] = signature.v;
-  bytes.set(signature.r.toUint8Array(), 1);
-  bytes.set(signature.s.toUint8Array(), 33);
-  const result = Bytes.fromUint8Array(bytes, 65);
-  if (!result.success) {
-    throw new Error(
-      `Failed to convert ECDSA signature to bytes: ${result.err}`,
-    );
+): Result<Bytes<65>, string> {
+  try {
+    const bytes = new Uint8Array(65);
+    bytes[0] = signature.v;
+    bytes.set(signature.r.toUint8Array(), 1);
+    bytes.set(signature.s.toUint8Array(), 33);
+    const result = Bytes.fromUint8Array(bytes, 65);
+    if (!result.success) {
+      return {
+        success: false,
+        err: `Failed to convert ECDSA signature to bytes: ${result.err}`,
+      };
+    }
+    return {
+      success: true,
+      data: result.data as Bytes<65>,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: `Failed to convert ECDSA signature to bytes: ${String(error)}`,
+    };
   }
-  return result.data;
 }
 
 /**
@@ -148,30 +154,30 @@ export function signMessage(
 /**
  * Verify an ECDSA signature
  * @param message - Original message
- * @param signatureHex - Hex-encoded signature (64 bytes compact format)
+ * @param signature - Hex-encoded signature (64 bytes compact format)
  * @param publicKey - Compressed public key (33 bytes)
  * @returns True if signature is valid, false otherwise
  */
 export function verifySignature(
   message: string,
-  signature: EcdsaSignature,
+  sig: EcdsaSignature,
   publicKey: Bytes33,
 ): Result<boolean, string> {
   try {
-    // Hash the message
     const messageHash = sha256(new TextEncoder().encode(message));
 
-    // Parse signature from hex
-    const signatureBytes = Buffer.from(signatureHex, "hex");
-    if (signatureBytes.length !== 64) {
+    const signatureBytesResult = convertEcdsaSignatureToBytes(sig);
+    if (!signatureBytesResult.success) {
       return {
         success: false,
-        err: `Invalid signature length: expected 64 bytes, got ${signatureBytes.length}`,
+        err: `Failed to convert ECDSA signature to bytes: ${signatureBytesResult.err}`,
       };
     }
 
     // Create signature object from compact format
-    const signature = secp256k1.Signature.fromCompact(signatureBytes);
+    const signature = secp256k1.Signature.fromBytes(
+      signatureBytesResult.data.toUint8Array(),
+    );
 
     // Verify signature
     const isValid = secp256k1.verify(
@@ -197,51 +203,18 @@ export function verifySignature(
  * @param publicKey - Compressed public key (33 bytes)
  * @returns True if valid, false otherwise
  */
-// export function isValidPublicKey(publicKey: Bytes33): boolean {
-//   try {
-//     const bytes = publicKey.toUint8Array();
+export function isValidPublicKey(publicKey: Bytes33): boolean {
+  try {
+    const bytes = publicKey.toUint8Array();
 
-//     // Check length
-//     if (bytes.length !== 33) {
-//       return false;
-//     }
+    if (bytes[0] !== 0x02 && bytes[0] !== 0x03) {
+      return false;
+    }
 
-//     // Check first byte (0x02 or 0x03 for compressed)
-//     if (bytes[0] !== 0x02 && bytes[0] !== 0x03) {
-//       return false;
-//     }
+    secp256k1.Point.fromHex(publicKey.toHex());
 
-//     // Try to parse as point (will throw if invalid)
-//     secp256k1.ProjectivePoint.fromHex(publicKey.toHex());
-
-//     return true;
-//   } catch {
-//     return false;
-//   }
-// }
-
-/**
- * Validate if a private key is valid secp256k1 private key
- * @param privateKey - Private key (32 bytes)
- * @returns True if valid, false otherwise
- */
-// export function isValidPrivateKey(privateKey: Bytes32): boolean {
-//   try {
-//     const bytes = privateKey.toUint8Array();
-
-//     // Check length
-//     if (bytes.length !== 32) {
-//       return false;
-//     }
-
-//     // Check if it's within valid range (1 to n-1, where n is the curve order)
-//     const keyBigInt = privateKey.toBigInt();
-//     if (keyBigInt === BigInt(0) || keyBigInt >= secp256k1.CURVE.n) {
-//       return false;
-//     }
-
-//     return true;
-//   } catch {
-//     return false;
-//   }
-// }
+    return true;
+  } catch {
+    return false;
+  }
+}
