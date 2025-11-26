@@ -31,6 +31,7 @@ import {
 import {
   deleteCustomerDashboardUserByCustomerId,
   getCTDUserWithCustomerByEmail,
+  getCTDUsersByCustomerIds,
   insertCustomerDashboardUser,
   updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
@@ -271,15 +272,29 @@ export async function getCustomerList(
       };
     }
 
+    const customerIds = customersResult.data.map((c) => c.customer_id);
+
     const apiKeysByCustomerIdsMapRes = await getAPIKeysByCustomerIdsMap(
       db,
-      customersResult.data.map((c) => c.customer_id),
+      customerIds,
     );
     if (apiKeysByCustomerIdsMapRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
         msg: `Failed to get api keys by customer ids: ${apiKeysByCustomerIdsMapRes.err}`,
+      };
+    }
+
+    const ctdUsersByCustomerIdsRes = await getCTDUsersByCustomerIds(
+      db,
+      customerIds,
+    );
+    if (ctdUsersByCustomerIdsRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get customer dashboard users by customer ids: ${ctdUsersByCustomerIdsRes.err}`,
       };
     }
 
@@ -299,12 +314,21 @@ export async function getCustomerList(
     return {
       success: true,
       data: {
-        customerWithAPIKeysList: customersResult.data.map((customer) => ({
-          customer,
-          api_keys:
-            apiKeysByCustomerIdsMapRes.data.get(customer.customer_id) ||
-            ([] as APIKey[]),
-        })),
+        customerWithAPIKeysList: customersResult.data.map((customer) => {
+          const ctdUser = ctdUsersByCustomerIdsRes.data.get(
+            customer.customer_id,
+          );
+          return {
+            customer: {
+              ...customer,
+              email: ctdUser?.email,
+              is_email_verified: ctdUser?.is_email_verified ?? false,
+            },
+            api_keys:
+              apiKeysByCustomerIdsMapRes.data.get(customer.customer_id) ||
+              ([] as APIKey[]),
+          };
+        }),
         pagination: {
           total,
           current_page: currentPage,

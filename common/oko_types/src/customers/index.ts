@@ -10,6 +10,11 @@ export interface Customer {
   logo_url: string | null;
 }
 
+export interface CustomerWithUserInfo extends Customer {
+  email?: string;
+  is_email_verified?: boolean;
+}
+
 export type GetCustomerRequest = { customer_id: string };
 
 export interface DeleteCustomerAndCustomerDashboardUsersRequest {
@@ -22,7 +27,7 @@ export interface DeleteCustomerAndCustomerDashboardUsersResponse {
 }
 
 export interface CustomerWithAPIKeys {
-  customer: Customer;
+  customer: CustomerWithUserInfo;
   api_keys: APIKey[];
 }
 

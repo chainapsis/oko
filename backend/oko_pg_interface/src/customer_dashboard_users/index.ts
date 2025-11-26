@@ -270,3 +270,45 @@ export async function deleteCustomerDashboardUserByCustomerId(
     };
   }
 }
+
+export async function getCTDUsersByCustomerIds(
+  db: Pool | PoolClient,
+  customerIds: string[],
+): Promise<
+  Result<Map<string, { email: string; is_email_verified: boolean }>, string>
+> {
+  if (customerIds.length === 0) {
+    return { success: true, data: new Map() };
+  }
+
+  const query = `
+  SELECT customer_id, email, is_email_verified
+  FROM customer_dashboard_users
+  WHERE customer_id = ANY($1::uuid[]) AND status = 'ACTIVE'
+  ORDER BY created_at ASC
+  `;
+
+  try {
+    const result = await db.query(query, [customerIds]);
+    const map = new Map<
+      string,
+      { email: string; is_email_verified: boolean }
+    >();
+
+    for (const row of result.rows) {
+      if (!map.has(row.customer_id)) {
+        map.set(row.customer_id, {
+          email: row.email,
+          is_email_verified: row.is_email_verified,
+        });
+      }
+    }
+
+    return { success: true, data: map };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
