@@ -3,14 +3,14 @@ import path from "path";
 import type {
   EmailResult,
   SendEmailOptions,
-} from "@oko-wallet/oko-types/ct_dashboard";
+} from "@oko-wallet/oko-types/admin";
 
 import {
   sendEmail,
   testEmailConnection,
   sendEmailWithTransporter,
   getTransporter,
-} from "@oko-wallet-ctd-api/email";
+} from "../email";
 
 dotenv.config({
   path: path.resolve(__dirname, "../../.env.local"),

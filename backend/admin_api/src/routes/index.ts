@@ -22,6 +22,8 @@ import {
   CustomerIdParamSchema,
   GetCustomerSuccessResponseSchema,
   DeleteCustomerSuccessResponseSchema,
+  ResendCustomerUserPasswordRequestSchema,
+  ResendCustomerUserPasswordSuccessResponseSchema,
   GetTssSessionListRequestSchema,
   GetAuditLogsQuerySchema,
   GetAuditLogsCountQuerySchema,
@@ -34,10 +36,12 @@ import {
 import { customerLogoUploadMiddleware } from "@oko-wallet-admin-api/middleware/multer";
 
 import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware/auth";
+import { typeformWebhookMiddleware } from "../middleware/typeform_webhook";
 import { create_customer } from "./create_customer";
 import { get_customer_list } from "./get_customer_list";
 import { get_customer } from "./get_customer";
 import { delete_customer } from "./delete_customer";
+import { resend_customer_user_password } from "./resend_customer_user_password";
 import { user_login } from "./user_login";
 import { user_logout } from "./user_logout";
 import { get_tss_session_list } from "./get_tss_session_list";
@@ -53,6 +57,7 @@ import { update_ks_node } from "./update_ks_node";
 import { activate_ks_node } from "./activate_ks_node";
 import { get_audit_logs } from "./get_audit_logs";
 import { get_audit_logs_count } from "./get_audit_logs_count";
+import { create_customer_by_typeform } from "./create_customer_by_typeform";
 import { get_ksn_health_checks } from "./get_ksn_health_checks";
 
 export function makeOkoAdminRouter() {
@@ -271,6 +276,74 @@ export function makeOkoAdminRouter() {
     "/customer/delete_customer/:customer_id",
     adminAuthMiddleware,
     delete_customer,
+  );
+
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/customer/resend_customer_user_password",
+    tags: ["Admin"],
+    summary: "Resend customer user password",
+    description:
+      "Resends the initial password email to a customer dashboard user. Only available for unverified accounts.",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: ResendCustomerUserPasswordRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Password email sent successfully",
+        content: {
+          "application/json": {
+            schema: ResendCustomerUserPasswordSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "User not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/customer/resend_customer_user_password",
+    adminAuthMiddleware,
+    resend_customer_user_password,
   );
 
   registry.registerPath({
@@ -728,6 +801,12 @@ export function makeOkoAdminRouter() {
     },
   });
   router.get("/audit/logs/count", adminAuthMiddleware, get_audit_logs_count);
+
+  router.post(
+    "/customer/create_customer_by_typeform",
+    typeformWebhookMiddleware,
+    create_customer_by_typeform,
+  );
 
   return router;
 }
