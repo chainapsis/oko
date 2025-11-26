@@ -1,16 +1,12 @@
 "use client";
 
-import { useMemo, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import {
   createColumnHelper,
   flexRender,
-  type ColumnDef,
   type PaginationState,
 } from "@tanstack/react-table";
-import type {
-  KSNodeHealthCheck,
-  KSNodeWithHealthCheck,
-} from "@oko-wallet/oko-types/tss";
+import type { KSNodeHealthCheck } from "@oko-wallet/oko-types/tss";
 import {
   Table,
   TableBody,
@@ -21,7 +17,7 @@ import {
 } from "@oko-wallet/oko-common-ui/table";
 import { useRouter } from "next/navigation";
 
-import styles from "./keyshare_nodes_table.module.scss";
+import styles from "./ksn_health_check_tbl.module.scss";
 import { useTable } from "@oko-wallet-admin/components/table/use_table";
 import { useKSNHealthChecks } from "@oko-wallet-admin/fetch/ks_node/use_ksn_health_checks";
 
