@@ -2,19 +2,43 @@
 
 [![Oko Wallet](https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-github-readme.png)](https://demo.oko.app)
 
-Crypto wallet seamlessly built in your apps.
+Oko is an open-source embedded wallet stack that gives developers full control
+over authentication, signing, and key management architecture.
 
-Using the latest advances in cryptography, Oko delivers a seamless experience by
-integrating the security of blockchain wallets directly into web or mobile apps.
+## Key Features and Architecture
 
-- 🔒**Enhanced Security**: Multi-party computation to generate signature
-- 🚀 **Better User Experience**: No browser extension, no secret phrases, sign
-  in with a social account.
-- ⚡**Developer Friendly**: Simple integration, wallet programmability
+Everything is fully open source and Apache-2.0 licensed:
 
-[Explore the docs »](https://docs.oko.app)
+- Non-custodial, based on Multi-Party Computation(MPC)
 
-[View Demo](https://demo.oko.app)
+- Key Management: Hybrid signing model utilizing TSS(Threshold Signature
+  Scheming) plus SSS(Shamir’s Secret Sharing)
+
+- Key Security: Signatures are generated via distributed key shares; private key
+  never reconstructed.
+
+- User Onboarding: Supports email/social logins; eliminates seed phrases and
+  browser extensions.
+
+- Unified Account: Unified global wallet address with native multichain support.
+
+- Modular Architecture: Orchestrator, adaptors, MPC services, and signing logic
+  are self-hostable and auditable.
+
+## Integration and Support
+
+- Official Integration: Access enterprise-grade key share infrastructure,
+  dedicated monitoring and operational support, and comprehensive Dapp Dashboard
+  and User Dashboard interfaces.
+
+- Self-Host (Open Source): Utilize the Apache 2.0 components for complete
+  architectural control and customization.
+
+To accelerate Official Integration, submit
+[the form](https://form.typeform.com/to/MxrBGq9b) and you’ll receive the next
+step by email.
+
+[Demo](https://demo.oko.app) | [Docs](https://docs.oko.app)
 
 ## Oko SDK
 
@@ -26,7 +50,8 @@ integrating the security of blockchain wallets directly into web or mobile apps.
 
 ## How it works
 
-TBD
+For a deeper dive into Oko’s architecture, check out the
+[official documentation](https://docs.oko.app/docs/v0/architecture).
 
 ## Running a key share node
 
@@ -43,8 +68,8 @@ provided.
 
 ## Security
 
-Please see [SECURITY.md](SECURITY.md) for our security policy and how to
-report vulnerabilities.
+Please see [SECURITY.md](SECURITY.md) for our security policy and how to report
+vulnerabilities.
 
 ## License
 
