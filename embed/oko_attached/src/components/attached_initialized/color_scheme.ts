@@ -11,6 +11,6 @@ export async function determineTheme(
   oldTheme: Theme | null,
 ): Promise<Theme> {
   // noop
-  // fetch ewallet api
+  // fetch Oko api
   return oldTheme || "dark";
 }

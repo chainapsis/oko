@@ -1,5 +1,4 @@
 import express from "express";
-import multer from "multer";
 import {
   GetWalletListRequestSchema,
   GetWalletListSuccessResponseSchema,
@@ -34,8 +33,10 @@ import {
   AdminLoginSuccessResponseSchema,
   AdminLogoutSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
+import { customerLogoUploadMiddleware } from "@oko-wallet-admin-api/middleware/multer";
 
-import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware";
+import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware/auth";
+import { typeformWebhookMiddleware } from "../middleware/typeform_webhook";
 import { create_customer } from "./create_customer";
 import { get_customer_list } from "./get_customer_list";
 import { get_customer } from "./get_customer";
@@ -57,64 +58,10 @@ import { activate_ks_node } from "./activate_ks_node";
 import { get_audit_logs } from "./get_audit_logs";
 import { get_audit_logs_count } from "./get_audit_logs_count";
 import { create_customer_by_typeform } from "./create_customer_by_typeform";
-import { typeformWebhookMiddleware } from "@oko-wallet-admin-api/middleware";
+import { get_ksn_health_checks } from "./get_ksn_health_checks";
 
-export function makeEWalletAdminRouter() {
+export function makeOkoAdminRouter() {
   const router = express.Router();
-
-  const upload = multer({
-    limits: {
-      fileSize: 1 * 1024 * 1024, // 1MB limit
-      files: 1,
-      fields: 5,
-    },
-    fileFilter: (req, file, cb) => {
-      const allowedMimeTypes = [
-        "image/png",
-        "image/jpeg",
-        "image/jpg",
-        "image/webp",
-      ];
-
-      if (!allowedMimeTypes.includes(file.mimetype)) {
-        cb(
-          new Error("Invalid file type. Only PNG, JPG, and WebP are allowed."),
-        );
-        return;
-      }
-
-      cb(null, true);
-    },
-  });
-
-  const handleMulterError = (req: any, res: any, next: any) => {
-    upload.single("logo")(req, res, (err) => {
-      if (err instanceof multer.MulterError) {
-        if (err.code === "LIMIT_FILE_SIZE") {
-          res.status(400).json({
-            success: false,
-            code: "FILE_TOO_LARGE",
-            msg: "File size must be under 1 MB.",
-          });
-          return;
-        }
-        res.status(400).json({
-          success: false,
-          code: "FILE_UPLOAD_ERROR",
-          msg: err.message,
-        });
-        return;
-      } else if (err) {
-        res.status(400).json({
-          success: false,
-          code: "INVALID_FILE_TYPE",
-          msg: err.message,
-        });
-        return;
-      }
-      next();
-    });
-  };
 
   registry.registerPath({
     method: "post",
@@ -171,7 +118,7 @@ export function makeEWalletAdminRouter() {
   router.post(
     "/customer/create_customer",
     adminAuthMiddleware,
-    handleMulterError,
+    customerLogoUploadMiddleware,
     create_customer,
   );
 
@@ -721,6 +668,12 @@ export function makeEWalletAdminRouter() {
     "/ks_node/activate_ks_node",
     adminAuthMiddleware,
     activate_ks_node,
+  );
+
+  router.post(
+    "/ks_node/get_ksn_health_checks",
+    adminAuthMiddleware,
+    get_ksn_health_checks,
   );
 
   registry.registerPath({

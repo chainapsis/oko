@@ -17,9 +17,9 @@ all user funds. This creates a fundamental security vulnerability:
 
 ## Oko's Solution: Multi-Party Computation
 
-Instead of one private key, Oko uses a **2-of-2 multi-party
-computation signing model** that distributes cryptographic control across
-multiple parties. No single entity can access user funds.
+Instead of one private key, Oko uses a **2-of-2 multi-party computation signing
+model** that distributes cryptographic control across multiple parties. No
+single entity can access user funds.
 
 ### How It Works
 
@@ -31,7 +31,8 @@ multiple parties. No single entity can access user funds.
 
 **Oko:**
 
-<img src="/img/oko-architecture.png" alt="Oko Architecture" style={{width: "100%", height: "auto", borderRadius: "8px"}} />
+<img src="/img/oko-architecture.png" alt="Oko Architecture"
+style={{width: "100%", height: "auto", borderRadius: "8px"}} />
 
 ```
 [Oko Key Share] + [User Key Share] → Sign Transaction
@@ -40,6 +41,20 @@ multiple parties. No single entity can access user funds.
 - **One key is managed by Oko**
 - **The user key is cryptographically protected** and requires coordination from
   a decentralized validator set to enable signing
+
+#### Key Share Lifecycle
+
+Oko operates a 2-of-2 signing scheme where one key share stays with the Oko
+infrastructure while the other belongs to the end user. The user share is
+immediately split with **Shamir Secret Sharing (SSS)** and each fragment is
+stored on independent **Key Share Nodes**. When the user logs in, the client
+authenticates with each node (by presenting OAuth tokens) so the nodes can
+verify the user and release their encrypted fragments. The fragments are
+recombined **exactly once** during sign-in, remain on-device, and still
+represent only half of the full private key. For transaction signing, both key
+shares participate in a threshold signature protocol to produce a standard
+secp256k1 signature. See [Threshold ECDSA Concepts](concepts/threshold-ecdsa.md)
+for details on the signing process.
 
 **The master key (or private key) is never reconstructed or revealed at any
 point.** This ensures users retain full control without compromising on
@@ -66,8 +81,7 @@ security, while eliminating the need to manage complex private keys themselves.
 
 ### ⚡ Simple Integration
 
-- **Drop-in replacement** - replace `window.ethereum` with Oko ethereum
-  provider
+- **Drop-in replacement** - replace `window.ethereum` with Oko ethereum provider
 - **Standard ECDSA signatures** - compatible with all existing blockchain
   infrastructure
 - **Multi-chain support** - Ethereum and Cosmos ecosystems
@@ -95,11 +109,22 @@ Distributed Key Shares → Threshold Signature → Blockchain
 **For Ethereum:**
 
 ```typescript
-// Replace this:
-const provider = window.ethereum;
+import { OkoEthWallet } from "@oko-wallet/oko-sdk-eth";
+import { createWalletClient, custom } from "viem";
 
-// With this:
-const provider = await initEWalletEIP1193Provider();
+// Initialize Oko Eth Wallet
+const okoEthRes = OkoEthWallet.init({
+  api_key: "your-api-key",
+});
+
+if (!okoEthRes.success) {
+  throw new Error("Failed to initialize Oko Eth Wallet");
+}
+
+const okoEth = okoEthRes.data;
+
+// Get provider
+const provider = await okoEth.getEthereumProvider();
 
 // Everything else stays the same
 const walletClient = createWalletClient({
@@ -110,8 +135,21 @@ const walletClient = createWalletClient({
 **For Cosmos:**
 
 ```typescript
-const cosmosWallet = await initCosmosEWallet();
-const accounts = await cosmosWallet.getAccounts();
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
+
+// Initialize Oko Cosmos Wallet
+const okoCosmosRes = OkoCosmosWallet.init({
+  api_key: "your-api-key",
+});
+
+if (!okoCosmosRes.success) {
+  throw new Error("Failed to initialize Oko Cosmos Wallet");
+}
+
+const okoCosmos = okoCosmosRes.data;
+
+// Get user accounts
+const accounts = await okoCosmos.getAccounts();
 ```
 
 ### Security Model

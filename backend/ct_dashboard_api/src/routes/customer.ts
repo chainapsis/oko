@@ -28,7 +28,7 @@ import {
   type CustomerAuthenticatedRequest,
 } from "@oko-wallet-ctd-api/middleware/auth";
 import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
-import { multerMiddleware } from "@oko-wallet-ctd-api/middleware/multer";
+import { customerLogoUploadMiddleware } from "@oko-wallet-ctd-api/middleware/multer";
 
 export function setCustomerRoutes(router: Router) {
   registry.registerPath({
@@ -327,7 +327,7 @@ export function setCustomerRoutes(router: Router) {
     "/customer/update_info",
     rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
     customerJwtMiddleware,
-    multerMiddleware,
+    customerLogoUploadMiddleware,
     async (
       req: CustomerAuthenticatedRequest<UpdateCustomerInfoRequest> & {
         file?: Express.Multer.File;

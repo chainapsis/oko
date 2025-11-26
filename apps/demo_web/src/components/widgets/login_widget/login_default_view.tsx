@@ -1,4 +1,4 @@
-import { type FC, Fragment, useEffect, useState } from "react";
+import { type FC, Fragment } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
@@ -13,46 +13,16 @@ import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 import { OkoLogoWithNameIcon } from "@oko-wallet-common-ui/icons/oko_logo_with_name_icon";
 
 import styles from "./login_widget.module.scss";
-import type { EmailLoginState } from "./login_widget";
 
 export interface LoginDefaultViewProps {
-  onSignIn: (
-    method: "email" | "google" | "telegram" | "x" | "apple",
-    email?: string,
-  ) => void;
-  emailLoginState: EmailLoginState;
-  onEmailChange: (email: string) => void;
+  onSignIn: (method: "google" | "telegram" | "x" | "apple") => void;
   onShowSocials: () => void;
-  onVerifyEmailCode: (code: string) => void;
-  statusMessage?: string | null;
-  errorMessage?: string | null;
-  isVerifyingCode?: boolean;
 }
 
 export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
   onSignIn,
-  emailLoginState,
-  onEmailChange,
   onShowSocials,
-  onVerifyEmailCode,
-  statusMessage,
-  errorMessage,
-  isVerifyingCode = false,
 }) => {
-  const { stage, email } = emailLoginState;
-  const [code, setCode] = useState("");
-  const isSending = stage === "sending-code";
-  const isAwaitingCode = stage === "receive-code";
-  const isNextDisabled =
-    isSending || isVerifyingCode || email.trim().length === 0;
-  const isVerifyDisabled = isVerifyingCode || code.trim().length === 0;
-
-  useEffect(() => {
-    if (stage === "enter-email") {
-      setCode("");
-    }
-  }, [stage]);
-
   return (
     <Fragment>
       <div className={styles.logoWrapper}>
@@ -82,64 +52,21 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           <MailboxIcon size={20} color={"var(--fg-quaternary)"} />
           <input
             placeholder="your@email.com"
-            value={email}
-            onChange={(e) => onEmailChange(e.target.value)}
+            value=""
+            readOnly
             className={styles.emailInput}
             type="email"
-            disabled={isSending || isVerifyingCode}
+            disabled
           />
           <Button
             variant="ghost"
             size="md"
             className={styles.loginButton}
-            onClick={() => onSignIn("email", email)}
-            disabled={isNextDisabled}
+            disabled
           >
-            {isSending ? "Sending..." : isAwaitingCode ? "Resend" : "Next"}
+            Next
           </Button>
         </div>
-
-        {isAwaitingCode ? (
-          <>
-            <Spacing height={12} />
-            <div className={styles.emailLoginMethod}>
-              <MailboxIcon size={20} color={"var(--fg-quaternary)"} />
-              <input
-                placeholder="123456"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-                className={styles.emailInput}
-                type="text"
-                inputMode="numeric"
-                disabled={isVerifyingCode}
-              />
-              <Button
-                variant="ghost"
-                size="md"
-                className={styles.loginButton}
-                onClick={() => onVerifyEmailCode(code)}
-                disabled={isVerifyDisabled}
-              >
-                {isVerifyingCode ? "Verifying..." : "Verify"}
-              </Button>
-            </div>
-          </>
-        ) : null}
-
-        {(statusMessage || errorMessage) && (
-          <div className={styles.statusMessage}>
-            {statusMessage ? (
-              <Typography size="xs" weight="medium" color="secondary">
-                {statusMessage}
-              </Typography>
-            ) : null}
-            {errorMessage ? (
-              <Typography size="xs" weight="medium" color="error-primary">
-                {errorMessage}
-              </Typography>
-            ) : null}
-          </div>
-        )}
 
         <Button
           variant="secondary"

@@ -4,7 +4,7 @@ import type {
   CustomerWithAPIKeys,
 } from "@oko-wallet/oko-types/customers";
 
-import { errorHandle } from "@oko-wallet-admin/fetch/utils";
+import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
 export async function getCustomerListWithAPIKeys({
@@ -16,24 +16,22 @@ export async function getCustomerListWithAPIKeys({
   limit?: number;
   offset?: number;
 }) {
-  return errorHandle<{
+  return doFetch<{
     customerWithAPIKeysList: CustomerWithAPIKeys[];
     pagination: {
       total: number;
       current_page: number;
       total_pages: number;
     };
-  }>(() =>
-    fetch(
-      `${OKO_ADMIN_API_ENDPOINT_V1}/customer/get_customer_list?limit=${limit}&offset=${offset}`,
-      {
-        method: "GET",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  }>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/customer/get_customer_list?limit=${limit}&offset=${offset}`,
+    {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ),
+    },
   );
 }
 
@@ -44,13 +42,14 @@ export async function getCustomer({
   token: string;
   customer_id: string;
 }) {
-  return errorHandle<Customer>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/customer/get_customer/${customer_id}`, {
+  return doFetch<Customer>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/customer/get_customer/${customer_id}`,
+    {
       headers: {
         "content-type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-    }),
+    },
   );
 }
 
@@ -77,16 +76,14 @@ export async function addCustomer({
     formData.append("logo", data.logo);
   }
 
-  return errorHandle<any>(() =>
-    fetch(`${OKO_ADMIN_API_ENDPOINT_V1}/customer/create_customer`, {
-      method: "POST",
-      headers: {
-        // browser automatically sets multipart/form-data
-        Authorization: `Bearer ${token}`,
-      },
-      body: formData,
-    }),
-  );
+  return doFetch<any>(`${OKO_ADMIN_API_ENDPOINT_V1}/customer/create_customer`, {
+    method: "POST",
+    headers: {
+      // browser automatically sets multipart/form-data
+      Authorization: `Bearer ${token}`,
+    },
+    body: formData,
+  });
 }
 
 export async function deleteCustomerAndCTDUsers({
@@ -96,16 +93,14 @@ export async function deleteCustomerAndCTDUsers({
   token: string;
   customer_id: string;
 }) {
-  return errorHandle<any>(() =>
-    fetch(
-      `${OKO_ADMIN_API_ENDPOINT_V1}/customer/delete_customer/${customer_id}`,
-      {
-        method: "POST",
-        headers: {
-          "content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  return doFetch<any>(
+    `${OKO_ADMIN_API_ENDPOINT_V1}/customer/delete_customer/${customer_id}`,
+    {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-    ),
+    },
   );
 }

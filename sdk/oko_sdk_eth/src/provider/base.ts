@@ -50,7 +50,7 @@ export class OkoEIP1193Provider
   private lastConnectedEmittedEvent: "connect" | "disconnect" | null;
 
   public readonly version: string = VERSION;
-  public readonly name: string = "EWalletEIP1193Provider";
+  public readonly name: string = "OkoEIP1193Provider";
 
   constructor(options: OkoEIP1193ProviderOptions) {
     super();

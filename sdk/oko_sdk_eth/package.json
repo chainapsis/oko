@@ -1,9 +1,16 @@
 {
   "name": "@oko-wallet/oko-sdk-eth",
-  "version": "0.0.6-rc.126",
+  "version": "0.0.6-rc.131",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "publishConfig": {
     "access": "public"
   },
@@ -13,7 +20,6 @@
   "keywords": [
     "keplr",
     "oko",
-    "ewallet",
     "ethereum",
     "blockchain",
     "wallet",
@@ -35,8 +41,8 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.113",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.32",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.116",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.34",
     "eventemitter3": "^5.0.1",
     "uuid": "*",
     "viem": "*"

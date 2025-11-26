@@ -19,7 +19,7 @@ export const EthereumOnchainSignWidget = () => {
 
   const handleClickEthOnchainSign = async () => {
     if (okoEth === null) {
-      throw new Error("EthEWallet is not initialized");
+      throw new Error("okoEth is not initialized");
     }
 
     const provider = await okoEth.getEthereumProvider();

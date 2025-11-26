@@ -7,7 +7,7 @@ import type {
   UserState,
 } from "@oko-wallet-admin/state/types";
 
-const STORAGE_KEY = "ewallet";
+const STORAGE_KEY = "oko_wallet";
 
 export const useAppState = create(
   persist(

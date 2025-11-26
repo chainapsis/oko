@@ -6,12 +6,18 @@ import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
 import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
 
 import styles from "./left_bar.module.scss";
-import { BetaAccessCard } from "./beta_access_card/beta_access_card";
+import { IntegrationCard } from "./integration_card/integration_card";
 import { useViewState } from "@oko-wallet-demo-web/state/view";
 
 export const LeftBar: FC = () => {
   const isLeftBarOpen = useViewState((state) => state.isLeftBarOpen);
   const toggleLeftBarOpen = useViewState((state) => state.toggleLeftBarOpen);
+  const showIntegrationCard = useViewState(
+    (state) => state.showIntegrationCard,
+  );
+  const hideIntegrationCard = useViewState(
+    (state) => state.hideIntegrationCard,
+  );
 
   return (
     <>
@@ -28,7 +34,9 @@ export const LeftBar: FC = () => {
           }
           active={true}
         />
-        <BetaAccessCard />
+        {showIntegrationCard && (
+          <IntegrationCard onClose={hideIntegrationCard} />
+        )}
       </ul>
     </>
   );

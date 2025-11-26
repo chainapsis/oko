@@ -5,41 +5,64 @@ sidebar_position: 1
 
 # Integration Overview
 
-Oko is currently in beta and only available to teams approved through
-our partnerships process. _If you'd like to integrate it into your dApp, please
-fill out and submit [this form](https://form.typeform.com/to/MxrBGq9b)._
+Oko can be used alongside existing wallet connection methods, including the
+Keplr browser extension and mobile app.
 
-## Compatibility
+Integration is simple. Just add social login to your onboarding flow and you’re
+ready to go. For now, we only support Google sign in and email login, but in
+upcoming updates, we’ll roll out additional social login providers (e.g., X,
+Discord, and Telegram) and also allow users to connect wallets they already have
+installed, such as Keplr and MetaMask.
 
-Oko can be used alongside existing wallet connection methods,
-including the Keplr browser extension and mobile app.
+## Integration Options
 
-Integration is simple. Just add Google Login to your onboarding flow to get
-started. Currently, only Google Login is supported, but upcoming updates will
-allow users to connect wallets they already have installed, such as Keplr and
-MetaMask.
+Oko can be adopted in two ways. Both paths are fully supported depending on the
+needs of your application.
 
-## Create an Account
+### 1. Self Host (Open source)
 
-Once your integration is confirmed, our Partnerships team will send you a
-temporary password to access the
-[_Oko dApp Dashboard_](https://dapp.oko.app). Use the email
-address you provided during the partnership process as your login ID. When you
-sign in for the first time, you'll receive a verification code via email. Enter
-the code to proceed, and you'll be prompted to set a new password.
+Use Oko’s Apache 2.0 licensed components to deploy and operate your own wallet
+infrastructure. This path is ideal for teams that want:
+
+- Full architectural control
+- On-premise deployment
+- The ability to customize key management, signing, and login flows
+
+If you’re planning to run it yourself, check out our
+[self hosting guide](../standalone/self-hosting-standalone.md) for a detailed
+walkthrough.
+
+### 2. Official Integration
+
+Teams seeking enterprise grade key share infrastructure and dedicated
+operational support can choose official integration. This option provides:
+
+- Enterprise grade key share infrastructure
+- Monitoring and operational support
+- Access to the Oko Dapp Dashboard and User Dashboard
+
+If you want to explore this option, submit
+[this form](https://form.typeform.com/to/MxrBGq9b). Next steps will be shared by
+email.
+
+## Get Started with Official Integration
+
+Once you submit [this form](https://form.typeform.com/to/MxrBGq9b), we will send
+you a temporary password via email to access
+the [Oko dApp Dashboard](https://dapp.oko.app). Use the email address you
+provided in the form as your login ID. When you sign in for the first time,
+you'll receive a verification code via email. Enter the code to proceed, and
+you'll be prompted to set a new password.
 
 At the time of login, you should be able to see the API key that has already
-been issued to you.
-
-After logging in, visit the _Initial Setup_ section to begin configuration.
-Detailed setup instructions are covered in the
-[Quick Start Guide](./quick-start.md).
+been issued to you. Detailed setup instructions are covered in
+the [Quick Start Guide](./quick-start.md).
 
 ## Why Choose Oko?
 
 Most wallets rely on a **single private key** that can be stolen, lost, or
-compromised. Oko uses **threshold signatures** to eliminate this
-single point of failure while providing a superior user experience.
+compromised. Oko uses **threshold signatures** to eliminate this single point of
+failure while providing a superior user experience.
 
 ### Traditional Wallets vs. Oko
 
@@ -61,5 +84,5 @@ single point of failure while providing a superior user experience.
 
 Want to see threshold signatures in action? Experience the difference firsthand:
 
-**[🚀 Try the Live Demo](https://demo.oko.app)** - Sign transactions
-without any wallet setup required
+**[🚀 Try the Live Demo](https://demo.oko.app)** - Sign transactions without any
+wallet setup required

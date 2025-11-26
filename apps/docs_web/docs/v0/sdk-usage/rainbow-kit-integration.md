@@ -54,7 +54,7 @@ function okoConnector(
   args: OkoEthWalletInitArgs,
 ): CreateConnectorFn {
   let okoEth: OkoEthWalletInterface | null = null;
-  let cachedProvider: EWalletEIP1193Provider | null = null;
+  let cachedProvider: OkoEIP1193Provider | null = null;
 
   async function initOkoEthOnce(): Promise<OkoEthWalletInterface> {
     if (okoEth) {

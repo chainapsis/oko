@@ -195,7 +195,7 @@ cp env.example .env
 # Database Configuration
 DB_USER=postgres                    # PostgreSQL database username
 DB_PASSWORD=postgres                # PostgreSQL database password
-DB_NAME=ewallet_dev                 # PostgreSQL database name
+DB_NAME=oko_dev                 # PostgreSQL database name
 DB_PORT=5432                        # PostgreSQL database port
 DB_SSL=false                        # Enable/disable SSL connection (true/false)
 PG_DATA_DIR=./pg_data               # Host directory for PostgreSQL data persistence
@@ -259,7 +259,7 @@ yarn workspace @oko-wallet/oko-api-server create_env
 
 ```bash
 # Server Configuration
-SERVER_PORT=4200                    # Port number for the ewallet API server
+SERVER_PORT=4200                    # Port number for the oko API server
 
 # JWT Configuration
 JWT_SECRET=jwtsecret               # Secret key for JWT token signing
@@ -284,7 +284,7 @@ DB_HOST=localhost                  # PostgreSQL database host
 DB_PORT=5432                       # PostgreSQL database port
 DB_USER=postgres                   # PostgreSQL database username
 DB_PASSWORD=postgres               # PostgreSQL database password
-DB_NAME=ewallet_dev                # PostgreSQL database name
+DB_NAME=oko_dev                # PostgreSQL database name
 DB_SSL=false                       # Enable/disable SSL connection (true/false)
 
 # Encryption Configuration
@@ -353,7 +353,7 @@ project root:
 ```bash
 cd oko
 # Replace DB_* values with those from your backend/docker/.env file
-DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=ewallet_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
+DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=oko_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 ```
 
 **For Option B (Local):**
@@ -452,16 +452,15 @@ Open: `http://localhost:3204`
   secret manager (KMS/Secret Manager)
 - Managed/dedicated Postgres with automated backups and recovery plan
 
-## Local CI helpers (yarn ci)
+## CI/CD script
 
-Use `yarn ci` at each workspace root to speed up repetitive local tasks.
-Arguments are forwarded to the internal CLI.
+Execute `yarn ci` at the workspace root to conduct CI/CD operations. CLI
+Arguments are forwarded to the operation script.
 
-### oko root
+### Workspace root
 
 - Build packages: `yarn ci build_pkgs`
-  - Builds in order: stdlib, dotenv, SDK (core/cosmos/eth), crypto/bytes,
-    ksn-interface, tecdsa-interface
+  - Packages are built in the right order
   - Required for all services that depend on these core packages
 - Build Cait Sith: `yarn ci build_cs`
   - Builds Rust addon (required for `oko_api` TSS operations: triples, presign,
@@ -474,11 +473,11 @@ Arguments are forwarded to the internal CLI.
   - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate
     per-node DBs
   - Without it, uses local defaults (`localhost:5432`, `key_share_node_dev*`)
-- DB migration: `yarn ci db_migrate_api --use-env`
-  - With `--use-env`, uses `~/.oko/oko_api_server.env`
+- DB migration: `yarn ci db_migrate_api --use-env-file`
+  - With `--use-env-file`, uses `~/.oko/oko_api_server.env`
   - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates
     with test config
-- DB seed: `yarn ci db_seed_api --use-env --target dev`
+- DB seed: `yarn ci db_seed_api --use-env-file --target dev`
   - `--target` supports `dev | prod` (use `dev` for local)
 
 Note: `yarn ci` is a thin wrapper around

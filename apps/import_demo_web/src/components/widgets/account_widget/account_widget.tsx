@@ -29,7 +29,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     email?: string,
   ) {
     if (!okoWallet) {
-      console.error("eWallet is not initialized");
+      console.error("okoWallet is not initialized");
       return;
     }
 
@@ -61,7 +61,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     if (okoWallet) {
       await okoWallet.signOut();
     } else {
-      console.error("EWallet is not initialized");
+      console.error("okoWallet is not initialized");
     }
   }
 

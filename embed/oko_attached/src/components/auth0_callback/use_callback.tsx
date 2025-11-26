@@ -2,12 +2,19 @@
 
 import { useEffect, useState } from "react";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { OAuthPayload, OAuthState } from "@oko-wallet/oko-sdk-core";
+import type {
+  EmailLoginModalApproveAckPayload,
+  EmailLoginModalErrorAckPayload,
+  OAuthPayload,
+  OAuthState,
+} from "@oko-wallet/oko-sdk-core";
 import type { Auth0DecodedHash } from "auth0-js";
 
 import { getAuth0WebAuth } from "@oko-wallet-attached/config/auth0";
 import type { HandleCallbackError } from "@oko-wallet-attached/components/google_callback/types";
 import { sendOAuthPayloadToEmbeddedWindow } from "@oko-wallet-attached/components/oauth_callback/send_oauth_payload";
+
+const EMAIL_STORAGE_KEY = "oko_email_login_pending_email";
 
 export function useAuth0Callback(): { error: string | null } {
   const [error, setError] = useState<string | null>(null);
@@ -56,6 +63,10 @@ export async function handleAuth0Callback(): Promise<
   const idToken = parsedHash.idToken;
   const stateString = parsedHash.state;
 
+  const searchParams = new URLSearchParams(window.location.search);
+  const modalIdFromQuery = searchParams.get("modal_id");
+  const hostOriginFromQuery = searchParams.get("host_origin");
+
   if (!accessToken || !idToken || !stateString) {
     return {
       success: false,
@@ -81,25 +92,69 @@ export async function handleAuth0Callback(): Promise<
     };
   }
 
+  if (!oauthState.modalId && modalIdFromQuery) {
+    oauthState.modalId = modalIdFromQuery;
+  }
+  if (!oauthState.targetOrigin && hostOriginFromQuery) {
+    oauthState.targetOrigin = hostOriginFromQuery;
+  }
+
+  if (!oauthState.modalId) {
+    console.error("[attached] Missing modalId for Auth0 callback");
+    return {
+      success: false,
+      err: { type: "params_not_sufficient" },
+    };
+  }
+
+  if (!oauthState.provider) {
+    console.error("[attached] Missing provider for Auth0 callback");
+    return {
+      success: false,
+      err: { type: "params_not_sufficient" },
+    };
+  }
+
   const payload: OAuthPayload = {
     access_token: accessToken,
     id_token: idToken,
     api_key: oauthState.apiKey,
     target_origin: oauthState.targetOrigin,
-    auth_type: oauthState.provider ?? "auth0",
+    auth_type: oauthState.provider,
   };
 
+  const email = consumePendingEmail() ?? "";
   const sendRes = await sendOAuthPayloadToEmbeddedWindow(payload);
   if (!sendRes.success) {
+    const message =
+      "error" in sendRes.err
+        ? `${sendRes.err.type}: ${sendRes.err.error}`
+        : sendRes.err.type;
+    sendAckToSDK(oauthState, {
+      modal_type: "auth/email_login",
+      modal_id: oauthState.modalId!,
+      type: "error",
+      error: {
+        type: "verification_failed",
+        message,
+      },
+    });
     return sendRes;
   }
 
+  sendAckToSDK(oauthState, {
+    modal_type: "auth/email_login",
+    modal_id: oauthState.modalId!,
+    type: "approve",
+    data: {
+      email,
+    },
+  });
   return { success: true, data: void 0 };
 }
 
 async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
   const hash = window.location.hash;
-
   if (!hash || hash.length < 2) {
     throw new Error("Missing callback parameters.");
   }
@@ -113,6 +168,7 @@ async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
           new Error(
             err.error_description ??
               err.description ??
+              err.errorDescription ??
               err.error ??
               "Auth0 callback error",
           ),
@@ -128,4 +184,29 @@ async function parseAuth0Hash(): Promise<Auth0DecodedHash> {
       resolve(result);
     });
   });
+}
+
+function sendAckToSDK(
+  oauthState: OAuthState,
+  payload: EmailLoginModalApproveAckPayload | EmailLoginModalErrorAckPayload,
+) {
+  window.opener!.postMessage(
+    {
+      target: "oko_sdk",
+      msg_type: "open_modal_ack",
+      payload,
+    },
+    oauthState.targetOrigin!,
+  );
+}
+
+function consumePendingEmail(): string | null {
+  try {
+    const value = window.sessionStorage.getItem(EMAIL_STORAGE_KEY);
+    if (value) {
+      window.sessionStorage.removeItem(EMAIL_STORAGE_KEY);
+      return value;
+    }
+  } catch {}
+  return null;
 }

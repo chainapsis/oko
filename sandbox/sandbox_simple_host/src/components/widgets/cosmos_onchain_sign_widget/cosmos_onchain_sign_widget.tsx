@@ -27,7 +27,7 @@ export const CosmosOnchainSignWidget = () => {
       console.log("handleClickCosmosSignDirect()");
 
       if (okoCosmos === null) {
-        throw new Error("CosmosEWallet is not initialized");
+        throw new Error("okoCosmos is not initialized");
       }
 
       const { mockSignDoc, address } =
@@ -52,7 +52,7 @@ export const CosmosOnchainSignWidget = () => {
       console.log("handleClickCosmosSignAmino()");
 
       if (okoCosmos === null) {
-        throw new Error("CosmosEWallet is not initialized");
+        throw new Error("okoCosmos is not initialized");
       }
 
       const { mockSignDoc, address } =

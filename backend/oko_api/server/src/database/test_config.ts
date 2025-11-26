@@ -1,7 +1,7 @@
 import type { PgDatabaseConfig } from ".";
 
 export const testPgConfig: PgDatabaseConfig = {
-  database: "ewallet_dev",
+  database: "oko_dev",
   host: "localhost",
   password: "postgres",
   user: "postgres",
