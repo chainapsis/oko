@@ -6837,18 +6837,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/test-sequencer@npm:29.7.0, @jest/test-sequencer@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "@jest/test-sequencer@npm:29.7.0"
-  dependencies:
-    "@jest/test-result": "npm:^29.7.0"
-    graceful-fs: "npm:^4.2.9"
-    jest-haste-map: "npm:^29.7.0"
-    slash: "npm:^3.0.0"
-  checksum: 10c0/593a8c4272797bb5628984486080cbf57aed09c7cfdc0a634e8c06c38c6bef329c46c0016e84555ee55d1cd1f381518cf1890990ff845524c1123720c8c1481b
-  languageName: node
-  linkType: hard
-
 "@jest/test-sequencer@npm:30.2.0":
   version: 30.2.0
   resolution: "@jest/test-sequencer@npm:30.2.0"
@@ -6858,6 +6846,18 @@ __metadata:
     jest-haste-map: "npm:30.2.0"
     slash: "npm:^3.0.0"
   checksum: 10c0/b8366e629b885bfc4b2b95f34f47405e70120eb8601f42de20ea4de308a5088d7bd9f535abf67a2a0d083a2b49864176e1333e036426a5d6b6bd02c1c4dda40b
+  languageName: node
+  linkType: hard
+
+"@jest/test-sequencer@npm:^29.7.0":
+  version: 29.7.0
+  resolution: "@jest/test-sequencer@npm:29.7.0"
+  dependencies:
+    "@jest/test-result": "npm:^29.7.0"
+    graceful-fs: "npm:^4.2.9"
+    jest-haste-map: "npm:^29.7.0"
+    slash: "npm:^3.0.0"
+  checksum: 10c0/593a8c4272797bb5628984486080cbf57aed09c7cfdc0a634e8c06c38c6bef329c46c0016e84555ee55d1cd1f381518cf1890990ff845524c1123720c8c1481b
   languageName: node
   linkType: hard
 
@@ -35820,7 +35820,6 @@ __metadata:
   dependencies:
     "@biomejs/biome": "npm:2.3.4"
     "@jest/globals": "npm:29.7.0"
-    "@jest/test-sequencer": "npm:29.7.0"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-replace": "npm:^6.0.2"
