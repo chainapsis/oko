@@ -9498,7 +9498,7 @@ __metadata:
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/stdlib-js": "workspace:*"
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
     "@types/jest": "npm:*"
