@@ -10089,6 +10089,7 @@ __metadata:
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
+    "@oko-wallet/proxy-api": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@oko-wallet/tss-api": "workspace:*"
     "@types/cors": "npm:*"
@@ -10465,6 +10466,25 @@ __metadata:
     typescript: "npm:*"
     uuid: "npm:*"
     zod: "npm:^3.25.76"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/proxy-api@workspace:*, @oko-wallet/proxy-api@workspace:backend/proxy_api":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/proxy-api@workspace:backend/proxy_api"
+  dependencies:
+    "@oko-wallet/oko-api-error-codes": "workspace:*"
+    "@oko-wallet/oko-api-openapi": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
+    "@types/express": "npm:*"
+    "@types/jest": "npm:*"
+    "@types/node": "npm:*"
+    "@types/supertest": "npm:*"
+    express: "npm:*"
+    jest: "npm:*"
+    supertest: "npm:*"
+    ts-jest: "npm:*"
+    typescript: "npm:*"
   languageName: unknown
   linkType: soft
 

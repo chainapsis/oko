@@ -15,7 +15,8 @@
     "./wallets": "./src/wallets/index.ts",
     "./user_key_share": "./src/user_key_share/index.ts",
     "./key_share_node_meta": "./src/key_share_node_meta/index.ts",
-    "./tss_activate": "./src/tss_activate/index.ts"
+    "./tss_activate": "./src/tss_activate/index.ts",
+    "./proxy": "./src/proxy/index.ts"
   },
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
