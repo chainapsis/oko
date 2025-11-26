@@ -25,9 +25,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     "google" | "telegram" | "x" | "apple"
   >("google");
 
-  async function handleSignIn(
-    method: "google" | "telegram" | "x" | "apple",
-  ) {
+  async function handleSignIn(method: "google" | "telegram" | "x" | "apple") {
     setLoginMethod(method);
 
     if (!okoWallet) {
@@ -35,14 +33,14 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       return;
     }
 
-    if (method !== "google") {
+    if (method !== "google" && method !== "x") {
       console.error("Unsupported login method atm: %s", method);
       return;
     }
 
     try {
       setSigningInState({ status: "signing-in" });
-      await okoWallet.signIn("google");
+      await okoWallet.signIn(method as "google" | "x");
 
       setSigningInState({ status: "ready" });
     } catch (error: any) {
@@ -100,11 +98,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     );
   }
 
-  return (
-    <LoginWidget
-      onSignIn={handleSignIn}
-    />
-  );
+  return <LoginWidget onSignIn={handleSignIn} />;
 };
 
 export interface AccountWidgetProps {}
