@@ -56,6 +56,8 @@ import { update_ks_node } from "./update_ks_node";
 import { activate_ks_node } from "./activate_ks_node";
 import { get_audit_logs } from "./get_audit_logs";
 import { get_audit_logs_count } from "./get_audit_logs_count";
+import { create_customer_by_typeform } from "./create_customer_by_typeform";
+import { typeformWebhookMiddleware } from "@oko-wallet-admin-api/middleware";
 
 export function makeEWalletAdminRouter() {
   const router = express.Router();
@@ -846,6 +848,12 @@ export function makeEWalletAdminRouter() {
     },
   });
   router.get("/audit/logs/count", adminAuthMiddleware, get_audit_logs_count);
+
+  router.post(
+    "/customer/create_customer_by_typeform",
+    typeformWebhookMiddleware,
+    create_customer_by_typeform,
+  );
 
   return router;
 }

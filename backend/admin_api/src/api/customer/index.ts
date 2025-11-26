@@ -41,6 +41,7 @@ import type {
 
 import { generatePassword } from "@oko-wallet-admin-api/utils/password";
 import { sendCustomerUserPasswordEmail } from "@oko-wallet-admin-api/email";
+import type { ExtractedTypeformData } from "./typefrom";
 
 export async function createCustomer(
   db: Pool,
@@ -517,4 +518,49 @@ export async function resendCustomerUserPassword(
       msg: `Failed to resend customer user password: ${err instanceof Error ? err.message : String(err)}`,
     };
   }
+}
+
+export async function createCustomerByTypeform(
+  db: Pool,
+  typeformData: ExtractedTypeformData,
+  opts: {
+    s3: {
+      region: string;
+      accessKeyId: string;
+      secretAccessKey: string;
+      bucket: string;
+    };
+    email: {
+      fromEmail: string;
+      smtpConfig: SMTPConfig;
+    };
+  },
+): Promise<OkoApiResponse<CreateCustomerResponse>> {
+  if (!typeformData.email) {
+    return {
+      success: false,
+      code: "INVALID_REQUEST",
+      msg: "Email is required",
+    };
+  }
+
+  if (!typeformData.appName) {
+    return {
+      success: false,
+      code: "INVALID_REQUEST",
+      msg: "App name is required",
+    };
+  }
+
+  const body: CreateCustomerWithDashboardUserRequest = {
+    email: typeformData.email,
+    label: typeformData.appName,
+    url: typeformData.appUrl || undefined,
+  };
+
+  return createCustomer(db, body, {
+    s3: opts.s3,
+    email: opts.email,
+    logo: null,
+  });
 }

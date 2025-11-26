@@ -59,3 +59,5 @@ export function adminAuthMiddleware(
   next();
   return;
 }
+
+export { typeformWebhookMiddleware } from "./typeform_webhook";
