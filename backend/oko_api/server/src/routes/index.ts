@@ -3,6 +3,7 @@ import { makeCustomerRouter } from "@oko-wallet/ct-dashboard-api";
 import { makeEWalletAdminRouter } from "@oko-wallet/admin-api";
 import { makeTssRouter } from "@oko-wallet/tss-api";
 import { makeLogRouter } from "@oko-wallet/log-api";
+import { makeProxyRouter } from "@oko-wallet/proxy-api";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
@@ -17,6 +18,8 @@ export function setRoutes(app: Express) {
       esPassword: app.locals.es_password,
     }),
   );
+
+  app.use("/proxy/v1", makeProxyRouter());
 
   app.get("/status", (_req, res) => {
     res.json({ gitHead: app.locals.git_hash });

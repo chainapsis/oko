@@ -1,0 +1,25 @@
+{
+  "name": "@oko-wallet/proxy-api",
+  "main": "./src/index.ts",
+  "type": "module",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "dependencies": {
+    "@oko-wallet/oko-api-error-codes": "workspace:*",
+    "@oko-wallet/oko-api-openapi": "workspace:*",
+    "@oko-wallet/oko-types": "workspace:*",
+    "express": "*"
+  },
+  "devDependencies": {
+    "@types/express": "*",
+    "@types/jest": "*",
+    "@types/node": "*",
+    "@types/supertest": "*",
+    "jest": "*",
+    "supertest": "*",
+    "ts-jest": "*",
+    "typescript": "*"
+  }
+}
