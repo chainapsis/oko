@@ -59,14 +59,6 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
         <CloseButtonIcon size={14} color="#535862" />
       </button>
       <div className={styles.body}>
-        {infoMessage && (
-          <div className={styles.infoBanner}>
-            <Typography size="sm" color="brand-primary">
-              {infoMessage}
-            </Typography>
-          </div>
-        )}
-
         {step === "enter_email" ? (
           <form className={styles.form} onSubmit={onSubmitEmail}>
             <div className={styles.fieldHeader}>
@@ -98,60 +90,52 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
               </button>
             </div>
 
-            {((email && !isEmailValid) || errorMessage) && (
+            {errorMessage && (
               <Typography size="sm" color="error-primary">
-                {!isEmailValid ? "Enter a valid email." : errorMessage}
+                {errorMessage}
               </Typography>
             )}
 
             <div className={styles.actions} />
           </form>
         ) : (
-          <form className={styles.form} onSubmit={onSubmitCode}>
-            <div className={styles.codeHeader}>
-              <div>
-                <Typography size="sm" color="secondary">
-                  Enter the 6-digit code sent to
-                </Typography>
-                <Typography size="md" weight="medium">
-                  {email}
-                </Typography>
+          <form className={`${styles.form} ${styles.otpForm}`} onSubmit={onSubmitCode}>
+            <div className={styles.otpPanel}>
+              <div className={styles.otpTitle}>Check your email</div>
+              <div className={styles.otpSubtitle}>
+                {`Enter the 6-digit code sent to ${email || "your email"}.`}
               </div>
-              <button
-                type="button"
-                className={styles.changeEmailButton}
-                onClick={handleBack}
-              >
-                Change
-              </button>
-            </div>
 
-            <OtpInput
-              length={6}
-              value={otpDigits}
-              onChange={(digits) => {
-                resetError();
-                setOtpDigits(digits);
-              }}
-              disabled={isSubmitting}
-              isError={!!errorMessage}
-            />
+              <div className={styles.otpInputRow}>
+                <OtpInput
+                  length={6}
+                  value={otpDigits}
+                  onChange={(digits) => {
+                    resetError();
+                    setOtpDigits(digits);
+                  }}
+                  disabled={isSubmitting}
+                  isError={!!errorMessage}
+                />
+              </div>
 
-            <div className={styles.resendRow}>
-              <Typography size="sm" color="secondary">
-                Didn&apos;t get the email?
-              </Typography>
-              <button
-                type="button"
-                className={styles.resendButton}
-                disabled={resendTimer > 0 || isSubmitting}
-                onClick={() => {
-                  resetError();
-                  void handleResendCode();
-                }}
-              >
-                {resendTimer > 0 ? `Resend in ${resendTimer}s` : "Resend code"}
-              </button>
+              <div className={styles.resendRow}>
+                <span className={styles.resendText}>Didn&apos;t get the code?</span>
+                <button
+                  type="button"
+                  className={styles.resendLink}
+                  disabled={resendTimer > 0 || isSubmitting}
+                  onClick={() => {
+                    resetError();
+                    void handleResendCode();
+                  }}
+                >
+                  Resend
+                </button>
+                {resendTimer > 0 && (
+                  <span className={styles.resendTimer}>{`${resendTimer}s`}</span>
+                )}
+              </div>
             </div>
 
             <div className={styles.actions} />

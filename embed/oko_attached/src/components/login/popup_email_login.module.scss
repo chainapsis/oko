@@ -31,19 +31,90 @@
   margin-top: 8px;
 }
 
-.infoBanner {
-  border-radius: 12px;
-  border: 1px solid var(--border-brand, rgba(0, 110, 255, 0.24));
-  background: var(--bg-secondary);
-  padding: 12px 14px;
-}
-
 .form {
   display: flex;
   flex-direction: column;
   gap: 20px;
   width: 100%;
   max-width: 420px;
+}
+
+.otpForm {
+  align-items: center;
+}
+
+.otpPanel {
+  width: 340px;
+  min-height: 202px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.otpTitle {
+  font-family: var(--font-family-body);
+  font-weight: 600;
+  font-size: var(--font-size-text-lg);
+  line-height: var(--line-height-text-lg);
+  letter-spacing: 0;
+  color: #16161b;
+  text-align: center;
+}
+
+.otpSubtitle {
+  margin-top: 0;
+  width: 340px;
+  min-height: 46px;
+  text-align: center;
+  font-family: Inter, var(--font-family-body);
+  font-weight: 400;
+  font-style: normal;
+  font-size: 15px;
+  line-height: 150%;
+  letter-spacing: -0.01em;
+  color: #16161b;
+}
+
+.otpInputRow {
+  margin-top: 0;
+}
+
+.otpInputRow :global(input[class*="otpInput"]) {
+  width: 48px;
+  height: 48px;
+  background: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  color: #d5d7da !important;
+  caret-color: #d5d7da !important;
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.08),
+    0 1px 1px rgba(15, 23, 42, 0.04);
+  font-family: var(--font-family-body) !important;
+  font-weight: 500 !important;
+  font-style: normal !important;
+  font-size: 36px !important;
+  line-height: 45px !important;
+  letter-spacing: -0.02em !important;
+  text-align: center !important;
+
+  &::placeholder {
+    color: #d5d7da !important;
+    opacity: 1 !important;
+    font-family: var(--font-family-body) !important;
+    font-weight: 500 !important;
+    font-style: normal !important;
+    font-size: 36px !important;
+    line-height: 45px !important;
+    letter-spacing: -0.02em !important;
+    text-align: center !important;
+  }
+
+  &.filled,
+  &.focused {
+    border: 1px solid #e2e8f0 !important;
+    color: #d5d7da !important;
+  }
 }
 
 .fieldHeader {
@@ -66,7 +137,8 @@
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   background: #ffffff;
-  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08),
+  box-shadow:
+    0 1px 2px rgba(15, 23, 42, 0.08),
     0 1px 1px rgba(15, 23, 42, 0.04);
 }
 
@@ -127,23 +199,50 @@
 
 .resendRow {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   gap: 8px;
+  width: 340px;
+  height: 20px;
+  margin-top: 20px;
 }
 
-.resendButton {
+.resendText {
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  font-size: var(--font-size-text-sm);
+  line-height: var(--line-height-text-sm);
+  letter-spacing: 0;
+  color: #16161b;
+}
+
+.resendLink {
   background: none;
   border: none;
   padding: 0;
   font: inherit;
-  color: var(--text-brand-primary, #0052ff);
+  font-family: var(--font-family-body);
+  font-weight: 600;
+  font-size: var(--font-size-text-sm);
+  line-height: var(--line-height-text-sm);
+  letter-spacing: 0;
+  text-decoration: underline;
+  color: #717680;
   cursor: pointer;
 
   &:disabled {
     color: var(--text-disabled);
     cursor: not-allowed;
   }
+}
+
+.resendTimer {
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  font-size: var(--font-size-text-sm);
+  line-height: var(--line-height-text-sm);
+  letter-spacing: 0;
+  color: #535862;
 }
 
 .error {
