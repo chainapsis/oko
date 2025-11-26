@@ -6,7 +6,7 @@ import type {
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware";
+import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { resendCustomerUserPassword } from "@oko-wallet-admin-api/api/customer";
 
 export async function resend_customer_user_password(

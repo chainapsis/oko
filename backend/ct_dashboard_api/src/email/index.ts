@@ -15,14 +15,6 @@ export async function sendVerificationEmail(
 ): Promise<EmailResult> {
   const subject = `Verification Code for ${customer_label}`;
 
-  const text = `
-Your verification code is: ${verification_code}
-
-This code will expire in ${email_verification_expiration_minutes} minutes.
-
-If you didn't request this code, please ignore this email.
-  `;
-
   const html = `
     <!DOCTYPE html>
     <html lang="en" xmlns:v="urn:schemas-microsoft-com:vml">
@@ -336,7 +328,6 @@ If you didn't request this code, please ignore this email.
       from: from_email,
       to: email,
       subject,
-      text,
       html,
     },
     smtp_config,

@@ -202,7 +202,6 @@ export async function createCustomer(
         await sendCustomerUserPasswordEmail(
           body.email,
           password,
-          body.label,
           opts.email.fromEmail,
           opts.email.smtpConfig,
         );
@@ -477,7 +476,6 @@ export async function resendCustomerUserPassword(
     const sendEmailRes = await sendCustomerUserPasswordEmail(
       body.email,
       password,
-      user.label,
       opts.email.fromEmail,
       opts.email.smtpConfig,
     );

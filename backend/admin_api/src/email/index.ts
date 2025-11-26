@@ -87,23 +87,11 @@ export async function testEmailConnection(
 export async function sendCustomerUserPasswordEmail(
   email: string,
   password: string,
-  customer_label: string,
   from_email: string,
   smtp_config: SMTPConfig,
 ) {
-  const subject = `Initial Password for ${customer_label}`;
+  const subject = "Temporary password for your Oko Dashboard login";
   const escapedPassword = he.escape(password);
-  const escapedCustomerLabel = he.escape(customer_label);
-
-  const text = `
-Your initial password for ${escapedCustomerLabel}: ${escapedPassword}
-
-1. Visit https://dapp.oko.app/ and sign in with your email.
-2. Use the password above to log in and complete email verification.
-3. Update your password immediately after verification.
-
-If you didn't request this account, please ignore this email.
-  `;
 
   const html = `
     <!DOCTYPE html>
@@ -575,7 +563,6 @@ If you didn't request this account, please ignore this email.
       from: from_email,
       to: email,
       subject,
-      text,
       html,
     },
     smtp_config,
