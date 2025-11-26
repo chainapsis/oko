@@ -2,13 +2,12 @@ import { type FC, type FormEvent } from "react";
 
 import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Button } from "@oko-wallet/oko-common-ui/button";
-import { Input } from "@oko-wallet/oko-common-ui/input";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
-import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
+import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
+import { CloseButtonIcon } from "@oko-wallet/oko-common-ui/icons/close_button_icon";
 
 import styles from "./popup_email_login.module.scss";
-import { useEmailLogin } from "@oko-wallet-attached/components/modal_variants/auth/email_login/use_email_login";
+import { useEmailLogin } from "@oko-wallet-attached/components/login/use_email_login";
 
 interface PopupEmailLoginProps {
   modalId: string;
@@ -51,29 +50,15 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
 
   return (
     <div className={styles.container}>
-      <header className={styles.header}>
-        <OkoLogoIcon width={110} height={42} />
-        <Button
-          variant="ghost"
-          size="md"
-          className={styles.closeButton}
-          onClick={handleClose}
-        >
-          Cancel
-        </Button>
-      </header>
-
+      <button
+        type="button"
+        className={styles.closeIconButton}
+        aria-label="Close email login"
+        onClick={handleClose}
+      >
+        <CloseButtonIcon size={14} color="#535862" />
+      </button>
       <div className={styles.body}>
-        <div>
-          <Typography tagType="h1" size="xl" weight="semibold">
-            Sign in with email
-          </Typography>
-          <Typography className={styles.subtitle} color="secondary" size="md">
-            Authenticate inside the secure Oko popup to keep your account
-            isolated from the host app.
-          </Typography>
-        </div>
-
         {infoMessage && (
           <div className={styles.infoBanner}>
             <Typography size="sm" color="brand-primary">
@@ -84,44 +69,42 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
 
         {step === "enter_email" ? (
           <form className={styles.form} onSubmit={onSubmitEmail}>
-            <Input
-              label="Email address"
-              name="oko-email"
-              type="email"
-              placeholder="name@company.com"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              error={
-                !email
-                  ? undefined
-                  : isEmailValid
-                    ? undefined
-                    : "Enter a valid email."
-              }
-              resetError={resetError}
-              fullWidth
-              autoFocus
-            />
-
-            <div className={styles.actions}>
-              <Button
-                variant="secondary"
-                type="button"
-                onClick={handleClose}
-                fullWidth
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={!isEmailValid}
-                isLoading={isSubmitting}
-                fullWidth
-              >
-                Continue
-              </Button>
+            <div className={styles.fieldHeader}>
+              <Typography size="sm" weight="medium">
+                Enter your email
+              </Typography>
             </div>
+
+            <div className={styles.emailRow}>
+              <MailboxIcon size={20} className={styles.emailIcon} />
+              <input
+                name="oko-email"
+                type="email"
+                placeholder="your@email.com"
+                value={email}
+                onChange={(event) => {
+                  resetError();
+                  setEmail(event.target.value);
+                }}
+                className={styles.emailInput}
+                autoFocus
+              />
+              <button
+                className={styles.nextButton}
+                type="submit"
+                disabled={!isEmailValid || isSubmitting}
+              >
+                Submit
+              </button>
+            </div>
+
+            {((email && !isEmailValid) || errorMessage) && (
+              <Typography size="sm" color="error-primary">
+                {!isEmailValid ? "Enter a valid email." : errorMessage}
+              </Typography>
+            )}
+
+            <div className={styles.actions} />
           </form>
         ) : (
           <form className={styles.form} onSubmit={onSubmitCode}>
@@ -134,15 +117,13 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
                   {email}
                 </Typography>
               </div>
-              <Button
+              <button
                 type="button"
-                variant="ghost"
-                size="md"
                 className={styles.changeEmailButton}
                 onClick={handleBack}
               >
                 Change
-              </Button>
+              </button>
             </div>
 
             <OtpInput
@@ -173,29 +154,11 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
               </button>
             </div>
 
-            <div className={styles.actions}>
-              <Button
-                variant="secondary"
-                type="button"
-                onClick={handleBack}
-                fullWidth
-              >
-                Back
-              </Button>
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={!isOtpComplete}
-                isLoading={isSubmitting}
-                fullWidth
-              >
-                Sign in
-              </Button>
-            </div>
+            <div className={styles.actions} />
           </form>
         )}
 
-        {errorMessage && (
+        {step !== "enter_email" && errorMessage && (
           <Typography size="sm" color="error-primary" className={styles.error}>
             {errorMessage}
           </Typography>

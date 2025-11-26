@@ -1,26 +1,30 @@
 .container {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-  width: 100%;
-  height: 100%;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.closeButton {
-  color: var(--text-secondary);
-  font-weight: 500;
+  position: relative;
 }
 
 .body {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  position: relative;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.closeIconButton {
+  position: fixed;
+  top: 24px;
+  right: 20px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  z-index: 2;
 }
 
 .subtitle {
@@ -37,13 +41,71 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.fieldHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-family-body);
+  font-weight: 500;
+  font-size: var(--font-size-text-sm);
+  line-height: var(--line-height-text-sm);
+  letter-spacing: 0;
+  color: #181d27;
+}
+
+.emailRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.08),
+    0 1px 1px rgba(15, 23, 42, 0.04);
+}
+
+.emailIcon {
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.emailInput {
+  flex: 1 0 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: #0f172a;
+  font-family: var(--font-family-body);
+  font-weight: 400;
+  font-style: normal;
+  font-size: var(--font-size-text-md);
+  line-height: var(--line-height-text-md);
+  letter-spacing: 0;
+
+  &::placeholder {
+    color: #717680;
+  }
+}
+
+.nextButton {
+  height: 22px !important;
+  padding: 0 4px !important;
+  color: #717680 !important;
+  margin-left: auto !important;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font: inherit;
 }
 
 .actions {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+  min-height: 12px;
 }
 
 .codeHeader {
@@ -54,9 +116,13 @@
 }
 
 .changeEmailButton {
-  padding-left: 8px !important;
-  padding-right: 8px !important;
-  height: auto !important;
+  padding-left: 8px;
+  padding-right: 8px;
+  height: auto;
+  background: none;
+  border: none;
+  color: var(--text-brand-primary, #0052ff);
+  cursor: pointer;
 }
 
 .resendRow {
