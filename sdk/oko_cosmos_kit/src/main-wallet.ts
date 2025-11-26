@@ -3,12 +3,12 @@ import {
   type DisconnectOptions,
   MainWalletBase,
   State,
-} from '@cosmos-kit/core';
-import { OkoCosmosWallet } from '@oko-wallet/oko-sdk-cosmos';
+} from "@cosmos-kit/core";
+import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
 
-import { OkoChainWallet } from './chain-wallet';
-import { OkoWalletClient } from './client';
-import type { OkoWalletInfo } from './types';
+import { OkoChainWallet } from "./chain-wallet";
+import { OkoWalletClient } from "./client";
+import type { OkoWalletInfo } from "./types";
 
 export class OkoMainWallet extends MainWalletBase {
   constructor(walletInfo: OkoWalletInfo) {
@@ -24,11 +24,11 @@ export class OkoMainWallet extends MainWalletBase {
 
     try {
       if (!options) {
-        throw new Error('Oko wallet options unset');
+        throw new Error("Oko wallet options unset");
       }
 
       if (!options.apiKey) {
-        throw new Error('Oko API key is required');
+        throw new Error("Oko API key is required");
       }
     } catch (error) {
       this.initClientError(error);
@@ -43,7 +43,7 @@ export class OkoMainWallet extends MainWalletBase {
       });
 
       if (!cosmosWallet.success) {
-        throw new Error('Failed to initialize OkoCosmosWallet');
+        throw new Error("Failed to initialize OkoCosmosWallet");
       }
 
       const publicKey = await cosmosWallet.data.okoWallet.getPublicKey();
@@ -51,13 +51,13 @@ export class OkoMainWallet extends MainWalletBase {
       if (!publicKey) {
         const loginProvider = options.loginProvider;
 
-        if (loginProvider === 'google') {
-          await cosmosWallet.data.okoWallet.signIn('google');
+        if (loginProvider === "google") {
+          await cosmosWallet.data.okoWallet.signIn("google");
         }
       }
 
       this.initClientDone(
-        new OkoWalletClient(cosmosWallet.data, options.loginProvider)
+        new OkoWalletClient(cosmosWallet.data, options.loginProvider),
       );
     } catch (error) {
       this.initClientError(error);
@@ -67,7 +67,7 @@ export class OkoMainWallet extends MainWalletBase {
   async disconnectAll(
     activeOnly?: boolean,
     exclude?: ChainName,
-    options?: DisconnectOptions
+    options?: DisconnectOptions,
   ): Promise<void> {
     if (this.client) {
       const okoClient = this.client as OkoWalletClient;

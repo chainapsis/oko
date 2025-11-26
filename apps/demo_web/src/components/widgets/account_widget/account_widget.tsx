@@ -25,9 +25,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     "google" | "telegram" | "x" | "apple"
   >("google");
 
-  async function handleSignIn(
-    method: "google" | "telegram" | "x" | "apple",
-  ) {
+  async function handleSignIn(method: "google" | "telegram" | "x" | "apple") {
     setLoginMethod(method);
 
     if (!okoWallet) {
@@ -100,11 +98,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     );
   }
 
-  return (
-    <LoginWidget
-      onSignIn={handleSignIn}
-    />
-  );
+  return <LoginWidget onSignIn={handleSignIn} />;
 };
 
 export interface AccountWidgetProps {}
