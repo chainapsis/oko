@@ -14,7 +14,7 @@ export async function hashKeyshareNodeNames(
         err: hashResult.err,
       };
     }
-    const hash: Bytes32 = hashResult.data;
+    const hash = hashResult.data;
     const hashU8Arr = new Uint8Array(hash.toUint8Array());
     // 1 bytes prefix for compatibility with a range of a secret key(0, n);
     // n is the order of a elliptic curve
