@@ -18,6 +18,8 @@
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",
       "crypto/crypto_js/tests/vite",
+      "crypto/common_crypto_js",
+      "crypto/common_crypto_js/tests/vite",
       "examples/cosmos-nextjs",
       "examples/evm-nextjs",
       "examples/evm-wagmi-nextjs",

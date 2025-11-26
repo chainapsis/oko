@@ -1,12 +1,12 @@
 /**
- * ECDSA Keypair Management using secp256k1 curve
+ * ed25519 Keypair Management
  * Used for signing rollback instructions in commit-reveal scheme
  *
  * Uses @noble/curves for cryptographic operations
  * Uses @oko-wallet/bytes for type-safe byte handling
  */
 
-import { ed25519 } from "@noble/curves/ed25519";
+import { ed25519 } from "@noble/curves/ed25519.js";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 
@@ -18,8 +18,8 @@ export interface EddsaKeypair {
 }
 
 /**
- * Generate a new ECDSA keypair using secp256k1 curve
- * @returns Keypair with private key (32 bytes) and compressed public key (33 bytes)
+ * Generate a new ed25519 keypair
+ * @returns Keypair with private key (32 bytes) and public key (32 bytes)
  */
 export function generateEddsaKeypair(): Result<EddsaKeypair, string> {
   try {
@@ -92,10 +92,10 @@ export interface EddsaSignOpts {
 }
 
 /**
- * Sign a message using ECDSA (secp256k1)
+ * Sign a message using ed25519
  * @param message - Message to sign (will be hashed with SHA-256)
  * @param privateKey - Private key (32 bytes)
- * @returns Hex-encoded signature (64 bytes compact format)
+ * @returns Signature (64 bytes compact format)
  */
 export function signMessage(
   message: string,
@@ -149,10 +149,10 @@ export function signMessage(
 }
 
 /**
- * Verify an ECDSA signature
+ * Verify an ed25519 signature
  * @param message - Original message
- * @param signature - Hex-encoded signature (64 bytes compact format)
- * @param publicKey - Compressed public key (33 bytes)
+ * @param signature - Signature (64 bytes compact format)
+ * @param publicKey - compressed public key (32 bytes)
  * @returns True if signature is valid, false otherwise(if verification fails or out of range error occurs)
  * success: true, data: true -> signature is valid
  */
@@ -198,8 +198,8 @@ export function verifySignature(
 }
 
 /**
- * Validate if a public key is valid secp256k1 compressed public key
- * @param publicKey - Compressed public key (33 bytes)
+ * Validate if a public key is valid ed25519 compressed public key
+ * @param publicKey - public key (32 bytes)
  * @returns True if valid, false otherwise
  * success: true, data: true -> public key is valid
  */

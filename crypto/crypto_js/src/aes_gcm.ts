@@ -1,3 +1,5 @@
+// TODO: Replace sync functions with async functions @chemonoworld
+
 import {
   randomBytes,
   pbkdf2Sync,
