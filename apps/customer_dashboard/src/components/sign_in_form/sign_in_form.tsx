@@ -12,7 +12,7 @@ import { InfoModal } from "../info_modal/info_modal";
 
 import styles from "./sign_in_form.module.scss";
 import { useSignInForm } from "./use_sign_in_form";
-import { GET_EARLY_ACCESS_URL } from "@oko-wallet-ct-dashboard/constants";
+import { GET_STARTED_URL } from "@oko-wallet-ct-dashboard/constants";
 
 export const SignInForm: React.FC = () => {
   const {
@@ -106,11 +106,11 @@ export const SignInForm: React.FC = () => {
           color="tertiary"
           className={styles.betaText}
         >
-          Oko is in beta.
+          Start your official integration to unlock all dashboard features!
         </Typography>
         <Typography
           tagType="a"
-          href={GET_EARLY_ACCESS_URL}
+          href={GET_STARTED_URL}
           target="_blank"
           rel="noopener noreferrer"
           size="sm"
@@ -118,7 +118,7 @@ export const SignInForm: React.FC = () => {
           color="tertiary"
           className={styles.earlyAccessLink}
         >
-          Get Early Access
+          Get Started
         </Typography>
       </div>
     </Card>
