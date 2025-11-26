@@ -40,15 +40,6 @@ step by email.
 
 [Demo](https://demo.oko.app) | [Docs](https://docs.oko.app)
 
-- 🔒**Enhanced Security**: Multi-party computation to generate signature
-- 🚀 **Better User Experience**: No browser extension, no secret phrases, sign
-  in with a social account.
-- ⚡**Developer Friendly**: Simple integration, wallet programmability
-
-[Explore the docs »](https://docs.oko.app)
-
-[View Demo](https://demo.oko.app)
-
 ## Oko SDK
 
 | Packages                                         | Latest                                                                                                                                  |
@@ -59,7 +50,8 @@ step by email.
 
 ## How it works
 
-TBD
+For a deeper dive into Oko’s architecture, check out the
+[official documentation](https://docs.oko.app/docs/v0/architecture).
 
 ## Running a key share node
 
