@@ -9485,6 +9485,7 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
+    "@types/he": "npm:^1.2.0"
     "@types/jest": "npm:*"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
@@ -9497,6 +9498,7 @@ __metadata:
     cors: "npm:*"
     dotenv: "npm:*"
     express: "npm:*"
+    he: "npm:^1.2.0"
     helmet: "npm:*"
     jest: "npm:*"
     jsonwebtoken: "npm:*"
@@ -9711,6 +9713,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ct-dashboard-api@workspace:backend/ct_dashboard_api"
   dependencies:
+    "@oko-wallet/admin-api": "workspace:*"
     "@oko-wallet/aws": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
@@ -9727,7 +9730,6 @@ __metadata:
     "@types/morgan": "npm:*"
     "@types/multer": "npm:*"
     "@types/node": "npm:*"
-    "@types/nodemailer": "npm:^6.4.17"
     "@types/supertest": "npm:*"
     "@types/swagger-jsdoc": "npm:*"
     "@types/swagger-ui-express": "npm:*"
@@ -9740,7 +9742,6 @@ __metadata:
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
     multer: "npm:*"
-    nodemailer: "npm:^7.0.4"
     pg: "npm:*"
     sharp: "npm:0.33.4"
     supertest: "npm:*"
@@ -14316,6 +14317,13 @@ __metadata:
   dependencies:
     "@types/unist": "npm:*"
   checksum: 10c0/3249781a511b38f1d330fd1e3344eed3c4e7ea8eff82e835d35da78e637480d36fad37a78be5a7aed8465d237ad0446abc1150859d0fde395354ea634decf9f7
+  languageName: node
+  linkType: hard
+
+"@types/he@npm:^1.2.0":
+  version: 1.2.3
+  resolution: "@types/he@npm:1.2.3"
+  checksum: 10c0/562e4ec00e31e3d464e79e6da4b8a5c21999d38ceca6a8facaa96e89c2d646f410bb58bb81f48a7472aeb4655ce40d27b7d77e5a4fa5a2d9caa0f3037caab5b7
   languageName: node
   linkType: hard
 

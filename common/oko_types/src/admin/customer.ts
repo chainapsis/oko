@@ -2,7 +2,6 @@ import type { CustomerStatus } from "@oko-wallet/oko-types/customers";
 
 export interface CreateCustomerUserRequest {
   email: string;
-  password: string;
 }
 
 export type CreateCustomerWithDashboardUserRequest =
@@ -30,3 +29,12 @@ export type DeleteCustomerResponse = {
   customer_id: string;
   status: CustomerStatus;
 };
+
+export interface ResendCustomerUserPasswordRequest {
+  customer_id: string;
+  email: string;
+}
+
+export interface ResendCustomerUserPasswordResponse {
+  message: string;
+}
