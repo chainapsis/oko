@@ -1,13 +1,13 @@
 import express, { type IRouter } from "express";
 
-import { setCustomerAuthRoutes } from "@oko-wallet-usrd-api/routes/customer_auth";
-import { setCustomerRoutes } from "@oko-wallet-usrd-api/routes/customer";
+import { setUserAuthRoutes } from "@oko-wallet-usrd-api/routes/user_auth";
+import { setUserRoutes } from "@oko-wallet-usrd-api/routes/user";
 
-export function makeCustomerRouter() {
+export function makeUserRouter() {
   const router = express.Router() as IRouter;
 
-  setCustomerAuthRoutes(router);
-  setCustomerRoutes(router);
+  setUserAuthRoutes(router);
+  setUserRoutes(router);
 
   return router;
 }

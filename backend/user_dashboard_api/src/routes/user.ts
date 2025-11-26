@@ -30,7 +30,7 @@ import {
 import { rateLimitMiddleware } from "@oko-wallet-usrd-api/middleware/rate_limit";
 import { multerMiddleware } from "@oko-wallet-usrd-api/middleware/multer";
 
-export function setCustomerRoutes(router: Router) {
+export function setUserRoutes(router: Router) {
   registry.registerPath({
     method: "post",
     path: "/customer_dashboard/v1/customer/info",

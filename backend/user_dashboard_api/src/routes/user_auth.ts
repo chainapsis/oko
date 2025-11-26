@@ -43,7 +43,7 @@ import {
   type CustomerAuthenticatedRequest,
 } from "@oko-wallet-usrd-api/middleware/auth";
 
-export function setCustomerAuthRoutes(router: Router) {
+export function setUserAuthRoutes(router: Router) {
   registry.registerPath({
     method: "post",
     path: "/customer_dashboard/v1/customer/auth/send-code",
