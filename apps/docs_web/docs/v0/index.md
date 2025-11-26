@@ -12,27 +12,30 @@ Welcome to Oko! 👋
     <img src="/img/oko-welcome.png" alt="Oko Welcome" style={{width: "100%", height: "auto", borderRadius: "8px"}} />
 </div>
 
-Web3 onboarding does not need to be complicated. Oko makes onboarding
-to your application easy, fast, and secure. No wallet installs, no recovery
-phrases, no friction.
+Web3 onboarding does not need to be complicated. Oko makes onboarding to your
+application easy, fast, and secure. No wallet installs, no recovery phrases, no
+friction. It is a fully open source embedded wallet stack that teams can self
+host, inspect, and customize from end to end.
 
-Using the latest advances in cryptography, Oko delivers a seamless
-experience by integrating the security of blockchain wallets directly into web
-or mobile apps. Users can sign up with **familiar login methods** (email,
-social, or SSO) while enjoying the benefits of true crypto ownership — secure
-transactions, asset custody, and compatibility with decentralized applications —
-all without the friction of **managing private keys or seed phrases**.
+Oko integrates the security of non custodial wallets directly into any web or
+mobile application. Users sign up with familiar login methods like email or
+social, while the wallet keys are protected by a distributed TSS plus SSS
+architecture. Private keys are never constructed, never stored, and never
+accessible by any single party.
 
 ## 🚀 Live Demo
 
 Experience Oko in action:
 
-- **[Demo Application](https://demo.oko.app)** - Explore the Oko
-  experience in a live demo
+- **[Demo Application](https://demo.oko.app)** - Explore the Oko experience in a
+  live demo
 
 ## Why Oko
 
-One of the biggest challenges in crypto is managing wallets across multiple chains. Keplr (the team behind Oko) has solved this with **a browser extension** that empowers users to securely self-custody their assets and connect effortlessly to dApps across ecosystems.
+One of the biggest challenges in crypto is managing wallets across multiple
+chains. Keplr (the team behind Oko) has solved this with **a browser extension**
+that empowers users to securely self-custody their assets and connect
+effortlessly to dApps across ecosystems.
 
 However, onboarding remains one of the biggest barriers for users who are less
 familiar with crypto. In Web3, the core advantage is that users bring their own
@@ -48,37 +51,36 @@ _interoperability across applications and blockchains_. They tend to create
 isolated accounts for each application, essentially reverting to a Web2-style
 model.
 
-**Oko** solves this problem. It delivers seamless onboarding while
-preserving true Web3 interoperability, allowing users to access multiple
-applications with the same wallet address.
-
-With secure architecture, intuitive UX, and native multichain support, Oko
-empowers both developers and users to build, transact, and scale with
-confidence.
+**Oko** solves this by providing an embedded onboarding flow that still
+preserves the interoperability of a global wallet address. Developers keep full
+control of the integration because everything from client to server is open
+source under Apache 2.0. Teams can run Oko entirely on their own infrastructure
+or choose official integration to use enterprise grade key share nodes and
+dashboards.
 
 ### Key Advantages
 
 **🔒 Enhanced Security**
 
 - **No single private key** - cryptographically impossible for any one party to
-  access funds
-- **2-of-2 multi-party computation** - distributed key management with no single
-  point of failure
-- **Decentralized validator coordination** - user key requires coordination from
-  validator set
+  access private key
+- **2-of-2 TSS + SSS MPC** - distributed key management with no single point of
+  failure
 - **Master key never reconstructed** - private key never revealed at any point
 
 **🚀 Better User Experience**
 
 - **No browser extensions** - embedded directly in your application
 - **No recovery phrases** - users don't need to manage complex private keys
-- **Google OAuth login** - familiar authentication flow
+- **Social login (e.g. Google OAuth)** - familiar authentication flow
 - **Cross-device compatibility** - works on mobile, desktop, any browser
-- **Cross-application interoperability** - same wallet address across multiple
-  Web3 apps
+- **Cross-application interoperability** - same, global wallet address across
+  multiple Web3 apps
 
 **⚡ Developer Benefits**
 
+- **Fully Open Source with Apache 2.0 License** - freedom to customize and self
+  host every layer
 - **Standard ECDSA signatures** - compatible with all existing blockchain
   infrastructure
 - **Multi-chain support** - Ethereum and Cosmos ecosystems
@@ -107,13 +109,16 @@ confidence.
 
 **Social login support**
 
-- Sign in with Google (OAuth)
-
-**Global wallet across all dApps**
+- Google OAuth
+- Email
+- Coming soon: Discord, Telegram, Twitter
 
 **Oko SDK**
 
-A lightweight client-side SDK for wallet initialization and Google Login integration — fully compatible with React. It lets you embed Oko's MPC-based wallet directly into your app without requiring users to install additional wallet extensions.
+A lightweight client-side SDK for wallet initialization and social login
+integration — fully compatible with React. It lets you embed Oko's MPC-based
+wallet directly into your app without requiring users to install additional
+wallet extensions.
 
 ## Getting Started
 
