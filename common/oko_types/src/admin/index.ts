@@ -5,3 +5,4 @@ export * from "./user";
 export * from "./ks_node";
 export * from "./wallet";
 export * from "./tss";
+export * from "./email";

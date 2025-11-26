@@ -21,6 +21,7 @@
     "cors": "*",
     "dotenv": "*",
     "express": "*",
+    "he": "^1.2.0",
     "helmet": "*",
     "jsonwebtoken": "*",
     "morgan": "*",
@@ -35,6 +36,7 @@
   "devDependencies": {
     "@types/cors": "*",
     "@types/express": "*",
+    "@types/he": "^1.2.0",
     "@types/jest": "*",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",

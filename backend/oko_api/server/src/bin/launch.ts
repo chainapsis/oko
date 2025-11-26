@@ -52,6 +52,7 @@ async function main() {
     es_username: envs.ES_USERNAME ?? null,
     es_password: envs.ES_PASSWORD ?? null,
     encryption_secret: envs.ENCRYPTION_SECRET!,
+    typeform_webhook_secret: envs.TYPEFORM_WEBHOOK_SECRET!,
   });
 
   const app = makeApp(state);

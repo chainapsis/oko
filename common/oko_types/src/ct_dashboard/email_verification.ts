@@ -1,3 +1,5 @@
+import type { SMTPConfig } from "../admin";
+
 export enum EmailVerificationStatus {
   PENDING = "PENDING",
   VERIFIED = "VERIFIED",
@@ -54,25 +56,4 @@ export interface SendVerificationRequest {
 
 export interface ChangePasswordResponse {
   message: string;
-}
-
-export interface SMTPConfig {
-  smtp_host: string;
-  smtp_port: number;
-  smtp_user: string;
-  smtp_pass: string;
-}
-
-export interface EmailResult {
-  success: boolean;
-  messageId?: string;
-  error?: string;
-}
-
-export interface SendEmailOptions {
-  from: string;
-  to: string;
-  subject: string;
-  text?: string;
-  html?: string;
 }

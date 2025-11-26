@@ -66,7 +66,6 @@ export async function addCustomer({
   const formData = new FormData();
 
   formData.append("email", data.email);
-  formData.append("password", data.password);
   formData.append("label", data.label);
 
   if (data.url) {
