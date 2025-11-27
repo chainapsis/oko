@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/stdlib-js",
-  "version": "0.0.2-rc.35",
+  "version": "0.0.2-rc.36",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
