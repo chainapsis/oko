@@ -135,18 +135,18 @@ export function setSocialLoginRoutes(router: Router) {
 
       const response = await getXUserInfo(accessToken);
 
-      if (response.status === 200) {
+      if (response.success) {
         res.status(200).json({
           success: true,
-          data: (await response.json()).data,
+          data: response.data,
         });
         return;
       }
 
-      res.status(response.status).json({
+      res.status(response.err.status).json({
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: await response.text(),
+        msg: response.err.text,
       });
     },
   );
