@@ -26,6 +26,7 @@ import {
   useTablePagination,
 } from "@oko-wallet-admin/components/table/use_table";
 import { APIKeyCell } from "./api_key_cell";
+import { UserEmailVerifiedCell } from "./user_email_verified_cell";
 
 const defaultData: CustomerWithAPIKeys[] = [];
 
@@ -69,6 +70,20 @@ const createColumns = (
       id: "api_keys",
       header: "API Key",
       cell: (info) => <APIKeyCell apiKeys={info.getValue()} />,
+    },
+  ),
+  columnHelper.accessor(
+    (row) =>
+      row.customer_dashboard_users.map((user) => {
+        return {
+          email: user.email,
+          is_email_verified: user.is_email_verified,
+        };
+      }),
+    {
+      id: "users",
+      header: "Users",
+      cell: (info) => <UserEmailVerifiedCell users={info.getValue()} />,
     },
   ),
   columnHelper.accessor((row) => row.customer.url, {

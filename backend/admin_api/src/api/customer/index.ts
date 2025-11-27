@@ -31,12 +31,13 @@ import {
 import {
   deleteCustomerDashboardUserByCustomerId,
   getCTDUserWithCustomerByEmail,
-  getCTDUsersByCustomerIds,
+  getCTDUsersByCustomerIdsMap,
   insertCustomerDashboardUser,
   updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   APIKey,
+  CustomerDashboardUser,
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
 
@@ -286,15 +287,15 @@ export async function getCustomerList(
       };
     }
 
-    const ctdUsersByCustomerIdsRes = await getCTDUsersByCustomerIds(
+    const ctdUsersByCustomerIdsMapRes = await getCTDUsersByCustomerIdsMap(
       db,
       customerIds,
     );
-    if (ctdUsersByCustomerIdsRes.success === false) {
+    if (ctdUsersByCustomerIdsMapRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to get customer dashboard users by customer ids: ${ctdUsersByCustomerIdsRes.err}`,
+        msg: `Failed to get customer dashboard users by customer ids: ${ctdUsersByCustomerIdsMapRes.err}`,
       };
     }
 
@@ -315,18 +316,16 @@ export async function getCustomerList(
       success: true,
       data: {
         customerWithAPIKeysList: customersResult.data.map((customer) => {
-          const ctdUser = ctdUsersByCustomerIdsRes.data.get(
-            customer.customer_id,
-          );
           return {
             customer: {
               ...customer,
-              email: ctdUser?.email,
-              is_email_verified: ctdUser?.is_email_verified ?? false,
             },
             api_keys:
               apiKeysByCustomerIdsMapRes.data.get(customer.customer_id) ||
               ([] as APIKey[]),
+            customer_dashboard_users:
+              ctdUsersByCustomerIdsMapRes.data.get(customer.customer_id) ||
+              ([] as CustomerDashboardUser[]),
           };
         }),
         pagination: {

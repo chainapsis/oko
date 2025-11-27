@@ -1,4 +1,5 @@
 import type { APIKey } from "../ct_dashboard/api_key";
+import type { CustomerDashboardUser } from "../ct_dashboard/customer_dashboard_user";
 
 export type CustomerStatus = "ACTIVE" | "DELETED";
 
@@ -8,11 +9,6 @@ export interface Customer {
   status: CustomerStatus;
   url: string | null;
   logo_url: string | null;
-}
-
-export interface CustomerWithUserInfo extends Customer {
-  email?: string;
-  is_email_verified?: boolean;
 }
 
 export type GetCustomerRequest = { customer_id: string };
@@ -27,7 +23,8 @@ export interface DeleteCustomerAndCustomerDashboardUsersResponse {
 }
 
 export interface CustomerWithAPIKeys {
-  customer: CustomerWithUserInfo;
+  customer: Customer;
+  customer_dashboard_users: CustomerDashboardUser[];
   api_keys: APIKey[];
 }
 
