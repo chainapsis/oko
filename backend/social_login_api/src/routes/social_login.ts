@@ -1,14 +1,13 @@
 import type { Response, Router, Request } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
-import { registry } from "@oko-wallet/oko-api-openapi";
 import type {
+  SocialLoginXVerifyUserResponse,
   SocialLoginXBody,
   SocialLoginXResponse,
 } from "@oko-wallet/oko-types/social_login";
 
 const X_SOCIAL_LOGIN_TOKEN_URL = "https://api.x.com/2/oauth2/token";
-const X_USER_INFO_URL = "https://api.twitter.com/2/users/me";
+const X_USER_INFO_URL = "https://api.x.com/2/users/me";
 
 export function setSocialLoginRoutes(router: Router) {
   // registry.registerPath({
@@ -103,6 +102,57 @@ export function setSocialLoginRoutes(router: Router) {
         res.status(200).json({
           success: true,
           data: await response.json(),
+        });
+        return;
+      }
+
+      res.status(response.status).json({
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: await response.text(),
+      });
+    },
+  );
+
+  router.get(
+    "/x/verify-user",
+    async (
+      req: Request<any, any, null>,
+      res: Response<OkoApiResponse<SocialLoginXVerifyUserResponse>>,
+    ) => {
+      const authHeader = req.headers.authorization;
+
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+        res.status(400).json({
+          success: false,
+          code: "INVALID_REQUEST",
+          msg: "Missing or invalid Authorization header",
+        });
+        return;
+      }
+
+      const accessToken = authHeader.replace("Bearer ", "");
+
+      if (!accessToken) {
+        res.status(400).json({
+          success: false,
+          code: "INVALID_REQUEST",
+          msg: "Access token is not set",
+        });
+        return;
+      }
+
+      const response = await fetch(X_USER_INFO_URL, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      if (response.status === 200) {
+        res.status(200).json({
+          success: true,
+          data: (await response.json()).data,
         });
         return;
       }
