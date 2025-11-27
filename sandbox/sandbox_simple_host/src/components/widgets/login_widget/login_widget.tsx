@@ -117,6 +117,36 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
         >
           Email Login (dummy)
         </button>
+        <button
+          onClick={() => {
+            const width = 440;
+            const height = 285;
+            const left = (window.screen.width - width) / 2;
+            const top = (window.screen.height - height) / 2;
+            window.open(
+              "http://localhost:3201/error-dev",
+              "ErrorPopup",
+              `width=${width},height=${height},left=${left},top=${top}`,
+            );
+          }}
+        >
+          Open Error Popup
+        </button>
+        <button
+          onClick={() => {
+            const width = 440;
+            const height = 285;
+            const left = (window.screen.width - width) / 2;
+            const top = (window.screen.height - height) / 2;
+            window.open(
+              "http://localhost:3201/loading-dev",
+              "LoadingPopup",
+              `width=${width},height=${height},left=${left},top=${top}`,
+            );
+          }}
+        >
+          Open Loading Popup
+        </button>
         <div className={styles.walletBoxRow}>
           {/* <WalletBox icon={<KeplrIcon />} label="Keplr" /> */}
           {/* <WalletBox icon={<MetamaskIcon />} label="Metamask" /> */}
@@ -127,4 +157,4 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
   );
 };
 
-export interface LoginWidgetProps {}
+export interface LoginWidgetProps { }

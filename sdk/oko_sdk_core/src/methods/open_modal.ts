@@ -80,14 +80,14 @@ function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
   url.searchParams.set("host_origin", window.location.origin);
 
   const width = 440;
-  const height = 284;
+  const height = 285;
   const left = Math.max((window.screen.width - width) / 2, 0);
   const top = Math.max((window.screen.height - height) / 2, 0);
 
   const popupWindow = window.open(
     url.toString(),
     modalId,
-    `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`,
+    `width=${width},height=${height},left=${left},top=${top},resizable=yes`,
   );
 
   if (!popupWindow) {

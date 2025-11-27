@@ -4,7 +4,7 @@ import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
-import { CloseButtonIcon } from "@oko-wallet/oko-common-ui/icons/close_button_icon";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
 
 import styles from "./popup_email_login.module.scss";
 import { useEmailLogin } from "@oko-wallet-attached/components/login/use_email_login";
@@ -50,96 +50,97 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
 
   return (
     <div className={styles.container}>
-      <button
-        type="button"
-        className={styles.closeIconButton}
-        aria-label="Close email login"
-        onClick={handleClose}
-      >
-        <CloseButtonIcon size={14} color="#535862" />
-      </button>
       <div className={styles.body}>
         {step === "enter_email" ? (
-          <form className={styles.form} onSubmit={onSubmitEmail}>
-            <div className={styles.fieldHeader}>
-              <Typography size="sm" weight="medium">
-                Enter your email
-              </Typography>
+          <div className={styles.card}>
+            <div className={styles.cardTop}>
+              <Logo theme="light" />
+              <div className={styles.fieldHeader}>Enter your email to continue</div>
             </div>
+            <div className={styles.cardBottom}>
+              <form className={styles.form} onSubmit={onSubmitEmail}>
+                <div className={styles.emailRow}>
+                  <div className={styles.emailInner}>
+                    <MailboxIcon size={20} className={styles.emailIcon} />
+                    <input
+                      name="oko-email"
+                      type="email"
+                      placeholder="your@email.com"
+                      value={email}
+                      onChange={(event) => {
+                        resetError();
+                        setEmail(event.target.value);
+                      }}
+                      className={styles.emailInput}
+                      autoFocus
+                    />
+                    <button
+                      className={styles.nextButton}
+                      type="submit"
+                      disabled={!isEmailValid || isSubmitting}
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </div>
 
-            <div className={styles.emailRow}>
-              <MailboxIcon size={20} className={styles.emailIcon} />
-              <input
-                name="oko-email"
-                type="email"
-                placeholder="your@email.com"
-                value={email}
-                onChange={(event) => {
-                  resetError();
-                  setEmail(event.target.value);
-                }}
-                className={styles.emailInput}
-                autoFocus
-              />
-              <button
-                className={styles.nextButton}
-                type="submit"
-                disabled={!isEmailValid || isSubmitting}
-              >
-                Submit
-              </button>
-            </div>
-
-            {errorMessage && (
-              <Typography size="sm" color="error-primary">
-                {errorMessage}
-              </Typography>
-            )}
-
-            <div className={styles.actions} />
-          </form>
-        ) : (
-          <form className={`${styles.form} ${styles.otpForm}`} onSubmit={onSubmitCode}>
-            <div className={styles.otpPanel}>
-              <div className={styles.otpTitle}>Check your email</div>
-              <div className={styles.otpSubtitle}>
-                {`Enter the 6-digit code sent to ${email || "your email"}.`}
-              </div>
-
-              <div className={styles.otpInputRow}>
-                <OtpInput
-                  length={6}
-                  value={otpDigits}
-                  onChange={(digits) => {
-                    resetError();
-                    setOtpDigits(digits);
-                  }}
-                  disabled={isSubmitting}
-                  isError={!!errorMessage}
-                />
-              </div>
-
-              <div className={styles.resendRow}>
-                <span className={styles.resendText}>Didn&apos;t get the code?</span>
-                <button
-                  type="button"
-                  className={styles.resendLink}
-                  disabled={resendTimer > 0 || isSubmitting}
-                  onClick={() => {
-                    resetError();
-                    void handleResendCode();
-                  }}
-                >
-                  Resend
-                </button>
-                {resendTimer > 0 && (
-                  <span className={styles.resendTimer}>{`${resendTimer}s`}</span>
+                {errorMessage && (
+                  <Typography size="sm" color="error-primary">
+                    {errorMessage}
+                  </Typography>
                 )}
-              </div>
-            </div>
 
-            <div className={styles.actions} />
-          </form>
+                <div className={styles.actions} />
+              </form>
+            </div>
+          </div>
+        ) : (
+          <div className={styles.otpShell}>
+            <form
+              className={`${styles.form} ${styles.otpForm}`}
+              onSubmit={onSubmitCode}
+            >
+              <div className={styles.otpPanel}>
+                <div className={styles.otpTitle}>Check your email</div>
+                <div className={styles.otpSubtitle}>
+                  {`Enter the 6-digit code sent to ${email || "your email"}.`}
+                </div>
+
+                <div className={styles.otpInputRow}>
+                  <OtpInput
+                    length={6}
+                    value={otpDigits}
+                    onChange={(digits) => {
+                      resetError();
+                      setOtpDigits(digits);
+                    }}
+                    disabled={isSubmitting}
+                    isError={!!errorMessage}
+                  />
+                </div>
+
+                <div className={styles.resendRow}>
+                  <span className={styles.resendText}>Didn&apos;t get the code?</span>
+                  <button
+                    type="button"
+                    className={styles.resendLink}
+                    disabled={resendTimer > 0 || isSubmitting}
+                    onClick={() => {
+                      resetError();
+                      void handleResendCode();
+                    }}
+                  >
+                    Resend
+                  </button>
+                  {resendTimer > 0 && (
+                    <span className={styles.resendTimer}>{`${resendTimer}s`}</span>
+                  )}
+                </div>
+              </div>
+
+              <div className={styles.actions} />
+            </form>
+          </div>
         )}
 
         {step !== "enter_email" && errorMessage && (

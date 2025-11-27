@@ -41079,6 +41079,22 @@ __metadata:
   languageName: node
   linkType: hard
 
+"zen-observable-ts@npm:^1.1.0":
+  version: 1.2.5
+  resolution: "zen-observable-ts@npm:1.2.5"
+  dependencies:
+    zen-observable: "npm:0.8.15"
+  checksum: 10c0/21d586f3d0543e1d6f05d9333a137b407dbf337907c1ee1c2fa7a7da044f7e1262e4baf4ef8902f230c6f5acb561047659eb7df73df33307233cc451efe46db1
+  languageName: node
+  linkType: hard
+
+"zen-observable@npm:0.8.15":
+  version: 0.8.15
+  resolution: "zen-observable@npm:0.8.15"
+  checksum: 10c0/71cc2f2bbb537300c3f569e25693d37b3bc91f225cefce251a71c30bc6bb3e7f8e9420ca0eb57f2ac9e492b085b8dfa075fd1e8195c40b83c951dd59c6e4fbf8
+  languageName: node
+  linkType: hard
+
 "zod@npm:*, zod@npm:4.1.12, zod@npm:^4.0.14, zod@npm:^4.1.5, zod@npm:^4.1.8":
   version: 4.1.12
   resolution: "zod@npm:4.1.12"

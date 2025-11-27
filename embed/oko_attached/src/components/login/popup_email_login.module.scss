@@ -5,26 +5,24 @@
 .body {
   display: flex;
   flex-direction: column;
-  gap: 24px;
   position: relative;
   align-items: center;
-  padding-top: 40px;
+  padding-top: 0;
+  justify-content: center;
+  min-height: 284px;
 }
 
-.closeIconButton {
-  position: fixed;
-  top: 24px;
-  right: 20px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  padding: 0;
-  display: inline-flex;
+.card {
+  width: 376px;
+  min-width: 360px;
+  min-height: 220px;
+  border-radius: 12px;
+  background: #fafafa;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
-  width: 24px;
-  height: 24px;
-  z-index: 2;
+  gap: 0;
+  padding: 0;
 }
 
 .subtitle {
@@ -34,9 +32,9 @@
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
   width: 100%;
   max-width: 420px;
+  align-items: center;
 }
 
 .otpForm {
@@ -45,7 +43,6 @@
 
 .otpPanel {
   width: 340px;
-  min-height: 202px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -64,8 +61,6 @@
 
 .otpSubtitle {
   margin-top: 0;
-  width: 340px;
-  min-height: 46px;
   text-align: center;
   font-family: Inter, var(--font-family-body);
   font-weight: 400;
@@ -122,9 +117,9 @@
   align-items: center;
   justify-content: center;
   font-family: var(--font-family-body);
-  font-weight: 500;
-  font-size: var(--font-size-text-sm);
-  line-height: var(--line-height-text-sm);
+  font-weight: 600;
+  font-size: var(--font-size-text-md);
+  line-height: var(--line-height-text-md);
   letter-spacing: 0;
   color: #181d27;
 }
@@ -132,14 +127,24 @@
 .emailRow {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
+  justify-content: center;
+  padding: 0 12px;
+  width: 336px;
+  height: 42px;
   border-radius: 12px;
   border: 1px solid #e2e8f0;
   background: #ffffff;
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.08),
     0 1px 1px rgba(15, 23, 42, 0.04);
+}
+
+.emailInner {
+  width: 308px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .emailIcon {
@@ -169,15 +174,15 @@
   height: 22px !important;
   padding: 0 4px !important;
   color: #717680 !important;
-  margin-left: auto !important;
   background: none;
   border: none;
   cursor: pointer;
   font: inherit;
+  flex-shrink: 0;
 }
 
 .actions {
-  min-height: 12px;
+  min-height: 32px;
 }
 
 .codeHeader {
@@ -204,7 +209,6 @@
   gap: 8px;
   width: 340px;
   height: 20px;
-  margin-top: 20px;
 }
 
 .resendText {
@@ -247,4 +251,24 @@
 
 .error {
   text-align: center;
+}
+
+.cardTop {
+  width: 376px;
+  height: 126px;
+  padding: var(--spacing-3xl) var(--spacing-2xl) var(--spacing-2xl) var(--spacing-2xl);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.cardBottom {
+  width: 376px;
+  height: 94px;
+  min-width: 200px;
+  padding: var(--spacing-2xl);
+  display: flex;
+  justify-content: center;
 }
