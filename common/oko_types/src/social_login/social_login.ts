@@ -10,3 +10,10 @@ export type SocialLoginXResponse = {
   token_type?: string;
   scope?: string;
 };
+
+export type SocialLoginXVerifyUserResponse = {
+  id: string;
+  name: string;
+  username: string;
+  email?: string;
+};
