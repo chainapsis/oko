@@ -17,12 +17,13 @@ export interface OAuthPayload {
   id_token: string;
   api_key: string;
   target_origin: string;
-  auth_type: OAuthProvider;
+  auth_type: Extract<OAuthProvider, "google" | "auth0">;
 }
+export type OAuthTokenRequestPayload = OAuthTokenRequestPayloadOfX;
 
-export interface OauthPayloadOfX {
+interface OAuthTokenRequestPayloadOfX {
   code: string;
   api_key: string;
   target_origin: string;
-  auth_type: OAuthProvider;
+  auth_type: "x";
 }

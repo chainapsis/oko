@@ -10,7 +10,7 @@ import type { InitPayload } from "@oko-wallet-sdk-core/types/init";
 import type { OAuthSignInError } from "@oko-wallet-sdk-core/types/sign_in";
 import type {
   OAuthPayload,
-  OauthPayloadOfX,
+  OAuthTokenRequestPayload,
 } from "@oko-wallet-sdk-core/types/oauth";
 
 export type OkoWalletMsgGetPublicKey = {
@@ -64,7 +64,7 @@ export type OkoWalletMsgOAuthSignInUpdateAck = {
 export type OkoWalletMsgOAuthInfoPass = {
   target: "oko_attached";
   msg_type: "oauth_info_pass";
-  payload: OAuthPayload | OauthPayloadOfX;
+  payload: OAuthPayload | OAuthTokenRequestPayload;
 };
 
 export type OkoWalletMsgOAuthInfoPassAck = {
