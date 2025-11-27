@@ -52,7 +52,6 @@ async function main() {
     es_username: envs.ES_USERNAME ?? null,
     es_password: envs.ES_PASSWORD ?? null,
     encryption_secret: envs.ENCRYPTION_SECRET!,
-    social_login_x_callback_url: envs.SOCIAL_LOGIN_X_CALLBACK_URL!,
     x_client_id: envs.X_CLIENT_ID!,
     typeform_webhook_secret: envs.TYPEFORM_WEBHOOK_SECRET!,
   });

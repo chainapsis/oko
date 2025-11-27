@@ -80,7 +80,6 @@ export interface ServerState {
   s3_secret_access_key: string;
   s3_bucket: string;
   encryption_secret: string;
-  social_login_x_callback_url: string;
   x_client_id: string;
   typeform_webhook_secret: string;
 }
@@ -111,7 +110,6 @@ export interface InitStateArgs {
   es_username: string | null;
   es_password: string | null;
   encryption_secret: string;
-  social_login_x_callback_url: string;
   x_client_id: string;
   typeform_webhook_secret: string;
 }

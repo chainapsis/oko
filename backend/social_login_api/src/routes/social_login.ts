@@ -5,9 +5,12 @@ import type {
   SocialLoginXBody,
   SocialLoginXResponse,
 } from "@oko-wallet/oko-types/social_login";
-
-const X_SOCIAL_LOGIN_TOKEN_URL = "https://api.x.com/2/oauth2/token";
-const X_USER_INFO_URL = "https://api.x.com/2/users/me";
+import { getXUserInfo } from "@oko-wallet-social-login-api/api/x";
+import {
+  SOCIAL_LOGIN_X_CALLBACK_URL,
+  X_CLIENT_ID,
+  X_SOCIAL_LOGIN_TOKEN_URL,
+} from "@oko-wallet-social-login-api/constants/x";
 
 export function setSocialLoginRoutes(router: Router) {
   // registry.registerPath({
@@ -62,18 +65,6 @@ export function setSocialLoginRoutes(router: Router) {
       const state = req.app.locals;
       const body = req.body;
 
-      const socialLoginXCallbackUrl = state.social_login_x_callback_url;
-      const xClientId = state.x_client_id;
-
-      if (xClientId.length === 0 || socialLoginXCallbackUrl.length === 0) {
-        res.status(500).json({
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: "X client ID or social login X callback URL is not set",
-        });
-        return;
-      }
-
       if (!body.code || !body.code_verifier) {
         res.status(400).json({
           success: false,
@@ -86,8 +77,8 @@ export function setSocialLoginRoutes(router: Router) {
       const reqBody = new URLSearchParams({
         code: body.code,
         grant_type: "authorization_code",
-        client_id: xClientId,
-        redirect_uri: socialLoginXCallbackUrl,
+        client_id: X_CLIENT_ID,
+        redirect_uri: SOCIAL_LOGIN_X_CALLBACK_URL,
         code_verifier: body.code_verifier,
       });
       const response = await fetch(X_SOCIAL_LOGIN_TOKEN_URL, {
