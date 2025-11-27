@@ -1,17 +1,39 @@
 import type { Request, Response, NextFunction } from "express";
 import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 
-import type { OAuthProvider } from "@oko-wallet-ksn-server/auth/types";
+import type {
+  OAuthProvider,
+  OAuthValidationFail,
+} from "@oko-wallet-ksn-server/auth/types";
 import {
   validateAuth0Token,
   validateGoogleOAuthToken,
 } from "@oko-wallet-ksn-server/auth";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
+import { validateAccessTokenOfX } from "@oko-wallet-ksn-server/auth/x";
+import type { GoogleTokenInfo } from "@oko-wallet/ksn-interface/auth";
+import type { Result } from "@oko-wallet/stdlib-js";
+import type { Auth0TokenInfo } from "@oko-wallet-ksn-server/auth/auth0";
+import type { XUserInfo } from "@oko-wallet-ksn-server/auth/x";
 
 type OAuthBody = {
   auth_type?: OAuthProvider;
 };
+
+type VerifyResult =
+  | {
+      auth_type: "google";
+      data: Result<GoogleTokenInfo, OAuthValidationFail>;
+    }
+  | {
+      auth_type: "auth0";
+      data: Result<Auth0TokenInfo, OAuthValidationFail>;
+    }
+  | {
+      auth_type: "x";
+      data: Result<XUserInfo, OAuthValidationFail>;
+    };
 
 export interface AuthenticatedRequest<T = any>
   extends Request<any, any, T & OAuthBody> {}
@@ -47,13 +69,25 @@ export async function bearerTokenMiddleware(
   }
 
   try {
-    let result;
+    let result: VerifyResult;
     switch (authType) {
       case "google":
-        result = await validateGoogleOAuthToken(idToken);
+        result = {
+          auth_type: "google",
+          data: await validateGoogleOAuthToken(idToken),
+        };
         break;
       case "auth0":
-        result = await validateAuth0Token(idToken);
+        result = {
+          auth_type: "auth0",
+          data: await validateAuth0Token(idToken),
+        };
+        break;
+      case "x":
+        result = {
+          auth_type: "x",
+          data: await validateAccessTokenOfX(idToken),
+        };
         break;
       default:
         const errorRes: KSNodeApiErrorResponse = {
@@ -65,11 +99,11 @@ export async function bearerTokenMiddleware(
         return;
     }
 
-    if (!result.success) {
+    if (!result.data.success) {
       const errorRes: KSNodeApiErrorResponse = {
         success: false,
         code: "UNAUTHORIZED",
-        msg: result.err.message,
+        msg: result.data.err.message,
       };
       res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
       return;
@@ -85,22 +119,47 @@ export async function bearerTokenMiddleware(
       return;
     }
 
-    if (!result.data.email || !result.data.sub || !result.data.name) {
-      const errorRes: KSNodeApiErrorResponse = {
-        success: false,
-        code: "UNAUTHORIZED",
-        msg: "Invalid token: missing required fields (email, sub, or name)",
-      };
-      res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
-      return;
+    if (result.auth_type === "x") {
+      if (!result.data.data.id || !result.data.data.username) {
+        const errorRes: KSNodeApiErrorResponse = {
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "Invalid token: missing required fields (id or username)",
+        };
+        res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+        return;
+      }
+    } else {
+      if (
+        !result.data.data.email ||
+        !result.data.data.sub ||
+        !result.data.data.name
+      ) {
+        const errorRes: KSNodeApiErrorResponse = {
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "Invalid token: missing required fields (email, sub, or name)",
+        };
+        res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+        return;
+      }
     }
 
-    res.locals.oauth_user = {
-      type: authType,
-      email: result.data.email,
-      name: result.data.name,
-      sub: result.data.sub,
-    };
+    res.locals.oauth_user =
+      result.auth_type === "x"
+        ? {
+            type: result.auth_type,
+            // we cannot get email from x,
+            // so the ID is temporarily being used as the email address.
+            email: result.data.data.id,
+            name: result.data.data.name,
+          }
+        : {
+            type: result.auth_type,
+            email: result.data.data.email,
+            name: result.data.data.name,
+            sub: result.data.data.sub,
+          };
 
     next();
     return;
