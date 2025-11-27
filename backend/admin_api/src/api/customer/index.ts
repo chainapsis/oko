@@ -15,7 +15,7 @@ import type {
   CustomerWithAPIKeys,
 } from "@oko-wallet/oko-types/customers";
 import { uploadToS3 } from "@oko-wallet/aws";
-import { hashPassword } from "@oko-wallet/crypto-js";
+import { hashPassword } from "@oko-wallet/common-crypto-js";
 import {
   insertCustomer,
   getCustomers,

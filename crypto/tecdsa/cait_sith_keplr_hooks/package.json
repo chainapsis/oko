@@ -5,11 +5,11 @@
   "private": true,
   "dependencies": {
     "@oko-wallet/api-lib": "workspace:*",
-    "@oko-wallet/bytes": "0.0.3-alpha.50",
+    "@oko-wallet/bytes": "workspace:*",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "@oko-wallet/oko-types": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
-    "@oko-wallet/tecdsa-interface": "0.0.2-alpha.15",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
+    "@oko-wallet/tecdsa-interface": "workspace:*",
     "classnames": "^2.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"

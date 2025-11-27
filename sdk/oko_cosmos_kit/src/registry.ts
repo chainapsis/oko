@@ -1,14 +1,14 @@
-import type { Wallet } from '@cosmos-kit/core';
+import type { Wallet } from "@cosmos-kit/core";
 
-import { OKO_ICON } from './constant';
+import { OKO_ICON } from "./constant";
 
 export const okoWalletInfo: Wallet = {
-  name: 'oko-wallet',
-  prettyName: 'Oko Wallet',
+  name: "oko-wallet",
+  prettyName: "Oko Wallet",
   logo: OKO_ICON,
-  mode: 'extension',
+  mode: "extension",
   mobileDisabled: false,
   rejectMessage: {
-    source: 'Request rejected',
+    source: "Request rejected",
   },
 };

@@ -3,12 +3,12 @@ import type {
   StdSignature,
   StdSignDoc,
   AminoSignResponse,
-} from '@cosmjs/amino';
+} from "@cosmjs/amino";
 import type {
   Algo,
   OfflineDirectSigner,
   DirectSignResponse,
-} from '@cosmjs/proto-signing';
+} from "@cosmjs/proto-signing";
 import type {
   ChainRecord,
   DirectSignDoc,
@@ -17,10 +17,10 @@ import type {
   SuggestToken,
   WalletAccount,
   WalletClient,
-} from '@cosmos-kit/core';
-import { BroadcastMode } from '@keplr-wallet/types';
-import type { OkoCosmosWalletInterface } from '@oko-wallet/oko-sdk-cosmos';
-import type { OkoLoginProvider } from './types';
+} from "@cosmos-kit/core";
+import { BroadcastMode } from "@keplr-wallet/types";
+import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
+import type { OkoLoginProvider } from "./types";
 
 export class OkoWalletClient implements WalletClient {
   readonly client: OkoCosmosWalletInterface;
@@ -41,7 +41,7 @@ export class OkoWalletClient implements WalletClient {
 
   constructor(
     client: OkoCosmosWalletInterface,
-    loginProvider: OkoLoginProvider
+    loginProvider: OkoLoginProvider,
   ) {
     this.client = client;
     this.loginProvider = loginProvider;
@@ -68,7 +68,7 @@ export class OkoWalletClient implements WalletClient {
   async getSimpleAccount(chainId: string) {
     const { address, username } = await this.getAccount(chainId);
     return {
-      namespace: 'cosmos',
+      namespace: "cosmos",
       chainId,
       address,
       username,
@@ -88,9 +88,9 @@ export class OkoWalletClient implements WalletClient {
 
   getOfflineSigner(chainId: string, preferredSignType?: SignType) {
     switch (preferredSignType) {
-      case 'amino':
+      case "amino":
         return this.getOfflineSignerAmino(chainId);
-      case 'direct':
+      case "direct":
         return this.getOfflineSignerDirect(chainId);
       default:
         return this.getOfflineSignerAmino(chainId);
@@ -107,7 +107,7 @@ export class OkoWalletClient implements WalletClient {
           chainId,
           signerAddress,
           signDoc,
-          this.defaultSignOptions
+          this.defaultSignOptions,
         );
       },
     };
@@ -120,13 +120,13 @@ export class OkoWalletClient implements WalletClient {
       },
       signDirect: async (
         signerAddress,
-        signDoc
+        signDoc,
       ): Promise<DirectSignResponse> => {
         const resp = await this.signDirect(
           chainId,
           signerAddress,
           signDoc,
-          this.defaultSignOptions
+          this.defaultSignOptions,
         );
         return {
           ...resp,
@@ -145,20 +145,20 @@ export class OkoWalletClient implements WalletClient {
     chainId: string,
     signer: string,
     signDoc: StdSignDoc,
-    signOptions?: SignOptions
+    signOptions?: SignOptions,
   ): Promise<AminoSignResponse> {
     return await this.client.signAmino(
       chainId,
       signer,
       signDoc,
-      signOptions || this.defaultSignOptions
+      signOptions || this.defaultSignOptions,
     );
   }
 
   async signArbitrary(
     chainId: string,
     signer: string,
-    data: string | Uint8Array
+    data: string | Uint8Array,
   ): Promise<StdSignature> {
     return await this.client.signArbitrary(chainId, signer, data);
   }
@@ -167,7 +167,7 @@ export class OkoWalletClient implements WalletClient {
     chainId: string,
     signer: string,
     signDoc: DirectSignDoc,
-    signOptions?: SignOptions
+    signOptions?: SignOptions,
   ): Promise<DirectSignResponse> {
     const resp = await this.client.signDirect(
       chainId,
@@ -176,10 +176,10 @@ export class OkoWalletClient implements WalletClient {
         ...signDoc,
         bodyBytes: signDoc.bodyBytes ?? new Uint8Array(),
         authInfoBytes: signDoc.authInfoBytes ?? new Uint8Array(),
-        chainId: signDoc.chainId ?? '',
-        accountNumber: BigInt(signDoc.accountNumber ?? '0'),
+        chainId: signDoc.chainId ?? "",
+        accountNumber: BigInt(signDoc.accountNumber ?? "0"),
       },
-      signOptions || this.defaultSignOptions
+      signOptions || this.defaultSignOptions,
     );
     return {
       ...resp,

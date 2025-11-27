@@ -1,11 +1,8 @@
-import { getRandomBytes } from "@oko-wallet/crypto-js/web_crypto";
+import { encryptDataAsync } from "@oko-wallet/crypto-js/src/aes_gcm";
 
 async function test() {
-  const bytes = getRandomBytes(5);
-  console.log("bytes", bytes);
-
-  // const base64 = arrayBufferToBase64Url(bytes);
-  // console.log("base64", base64);
+  const encrypted = await encryptDataAsync("hello", "password");
+  console.log("encrypted", encrypted);
 }
 
 test().then();

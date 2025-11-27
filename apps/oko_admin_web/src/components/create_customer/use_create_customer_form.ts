@@ -7,10 +7,7 @@ import type {
 } from "@oko-wallet/oko-types/admin";
 import { type OkoApiSuccessResponse } from "@oko-wallet/oko-types/api_response";
 
-import {
-  isValidEmail,
-  isValidUrl,
-} from "@oko-wallet-admin/utils/";
+import { isValidEmail, isValidUrl } from "@oko-wallet-admin/utils/";
 import { addCustomer } from "@oko-wallet-admin/fetch/customer";
 import { useAppState } from "@oko-wallet-admin/state";
 
