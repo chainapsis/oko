@@ -9570,7 +9570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/bytes@npm:0.0.3-alpha.54, @oko-wallet/bytes@npm:^0.0.3-alpha.49, @oko-wallet/bytes@npm:^0.0.3-alpha.54, @oko-wallet/bytes@workspace:crypto/bytes":
+"@oko-wallet/bytes@npm:0.0.3-alpha.54, @oko-wallet/bytes@npm:^0.0.3-alpha.49, @oko-wallet/bytes@npm:^0.0.3-alpha.54, @oko-wallet/bytes@workspace:*, @oko-wallet/bytes@workspace:crypto/bytes":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/bytes@workspace:crypto/bytes"
   dependencies:
@@ -9662,7 +9662,7 @@ __metadata:
   resolution: "@oko-wallet/cait-sith-keplr-hooks@workspace:crypto/tecdsa/cait_sith_keplr_hooks"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
+    "@oko-wallet/bytes": "workspace:*"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
