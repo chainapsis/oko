@@ -13,6 +13,7 @@ import {
 } from "@oko-wallet/oko-common-ui/table";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
 
 import styles from "./customer_table.module.scss";
 import { useGetCustomerListWithAPIKeys } from "./use_get_customer";
@@ -100,6 +101,17 @@ const createColumns = (
           {info.getValue()}
         </Typography>
       </Link>
+    ),
+  }),
+  columnHelper.accessor((row) => row.has_tss_sessions ?? false, {
+    id: "has_tss_sessions",
+    header: "TxActive",
+    cell: (info) => (
+      <Badge
+        label={info.getValue() ? "Active" : "Inactive"}
+        color={info.getValue() ? "success" : "error"}
+        size="sm"
+      />
     ),
   }),
   columnHelper.accessor((row) => row.customer.customer_id, {

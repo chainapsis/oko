@@ -26,6 +26,7 @@ export interface CustomerWithAPIKeys {
   customer: Customer;
   customer_dashboard_users: CustomerDashboardUser[];
   api_keys: APIKey[];
+  has_tss_sessions?: boolean;
 }
 
 export interface UpdateCustomerInfoRequest {

@@ -35,6 +35,7 @@ import {
   insertCustomerDashboardUser,
   updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
+import { getTssSessionsExistenceByCustomerIds } from "@oko-wallet/oko-pg-interface/tss";
 import type {
   APIKey,
   CustomerDashboardUser,
@@ -299,6 +300,16 @@ export async function getCustomerList(
       };
     }
 
+    const tssSessionsExistenceMapRes =
+      await getTssSessionsExistenceByCustomerIds(db, customerIds);
+    if (tssSessionsExistenceMapRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get TSS sessions existence by customer ids: ${tssSessionsExistenceMapRes.err}`,
+      };
+    }
+
     const customersCountResult = await getCustomersCount(db);
     if (customersCountResult.success === false) {
       return {
@@ -326,6 +337,9 @@ export async function getCustomerList(
             customer_dashboard_users:
               ctdUsersByCustomerIdsMapRes.data.get(customer.customer_id) ||
               ([] as CustomerDashboardUser[]),
+            has_tss_sessions:
+              tssSessionsExistenceMapRes.data.get(customer.customer_id) ||
+              false,
           };
         }),
         pagination: {

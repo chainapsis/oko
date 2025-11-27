@@ -342,3 +342,45 @@ OFFSET $2
     };
   }
 }
+
+export async function getTssSessionsExistenceByCustomerIds(
+  db: Pool | PoolClient,
+  customerIds: string[],
+): Promise<Result<Map<string, boolean>, string>> {
+  try {
+    if (customerIds.length === 0) {
+      return {
+        success: true,
+        data: new Map(),
+      };
+    }
+
+    const query = `
+SELECT DISTINCT customer_id
+FROM tss_sessions
+WHERE customer_id = ANY($1)
+`;
+
+    const result = await db.query(query, [customerIds]);
+
+    const existenceMap = new Map<string, boolean>();
+
+    customerIds.forEach((id) => {
+      existenceMap.set(id, false);
+    });
+
+    result.rows.forEach((row) => {
+      existenceMap.set(row.customer_id, true);
+    });
+
+    return {
+      success: true,
+      data: existenceMap,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}

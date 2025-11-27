@@ -125,6 +125,11 @@ const CustomerWithAPIKeysSchema = registry.register(
     customer_dashboard_users: z.array(CustomerDashboardUserSchema).openapi({
       description: "List of customer dashboard users",
     }),
+
+    has_tss_sessions: z.boolean().optional().openapi({
+      description:
+        "Whether the customer has any TSS sessions (transaction generation)",
+    }),
   }),
 );
 
