@@ -3,6 +3,7 @@ import type {
   OkoWalletMsg,
   OkoWalletMsgOAuthInfoPass,
   OAuthPayload,
+  OAuthTokenRequestPayload,
 } from "@oko-wallet/oko-sdk-core";
 
 import { sendMsgToWindow } from "@oko-wallet-attached/window_msgs/send";
@@ -12,7 +13,7 @@ import type {
 } from "@oko-wallet-attached/components/google_callback/types";
 
 export async function sendOAuthPayloadToEmbeddedWindow(
-  payload: OAuthPayload,
+  payload: OAuthPayload | OAuthTokenRequestPayload,
 ): Promise<Result<void, HandleCallbackError>> {
   if (!window.opener) {
     return {

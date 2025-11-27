@@ -15,6 +15,7 @@ interface PerOriginState {
   apiKey: string | null;
   keyshare_1: string | null;
   nonce: string | null;
+  codeVerifier: string | null;
   authToken: string | null;
   wallet: WalletState | null;
 }
@@ -29,6 +30,9 @@ interface AppActions {
 
   getNonce: (hostOrigin: string) => string | null;
   setNonce: (hostOrigin: string, nonce: string | null) => void;
+
+  getCodeVerifier: (hostOrigin: string) => string | null;
+  setCodeVerifier: (hostOrigin: string, codeVerifier: string | null) => void;
 
   getWallet: (hostOrigin: string) => WalletState | null;
   setWallet: (hostOrigin: string, wallet: WalletState | null) => void;
@@ -74,6 +78,17 @@ export const useAppState = create(
           },
         });
       },
+      setCodeVerifier: (hostOrigin: string, codeVerifier: string | null) => {
+        set({
+          perOrigin: {
+            ...get().perOrigin,
+            [hostOrigin]: {
+              ...get().perOrigin[hostOrigin],
+              codeVerifier,
+            },
+          },
+        });
+      },
       setKeyshare_1: (hostOrigin: string, keyshare_1: string | null) => {
         set({
           perOrigin: {
@@ -106,6 +121,7 @@ export const useAppState = create(
               apiKey: null,
               keyshare_1: null,
               nonce: null,
+              codeVerifier: null,
               authToken: null,
               wallet: null,
             },
@@ -141,6 +157,9 @@ export const useAppState = create(
       },
       getNonce: (hostOrigin: string) => {
         return get().perOrigin[hostOrigin]?.nonce;
+      },
+      getCodeVerifier: (hostOrigin: string) => {
+        return get().perOrigin[hostOrigin]?.codeVerifier;
       },
       getKeyshare_1: (hostOrigin: string) => {
         return get().perOrigin[hostOrigin]?.keyshare_1;
