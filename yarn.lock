@@ -10503,9 +10503,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/proxy-api@workspace:*, @oko-wallet/proxy-api@workspace:backend/proxy_api":
+"@oko-wallet/social-login-api@workspace:*, @oko-wallet/social-login-api@workspace:backend/social_login_api":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/proxy-api@workspace:backend/proxy_api"
+  resolution: "@oko-wallet/social-login-api@workspace:backend/social_login_api"
   dependencies:
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
