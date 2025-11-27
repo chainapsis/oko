@@ -4,7 +4,7 @@ import { CloseButtonIcon } from "@oko-wallet/oko-common-ui/icons/close_button_ic
 
 import styles from "./integration_card.module.scss";
 
-const GET_EARLY_ACCESS_URL = "https://form.typeform.com/to/MxrBGq9b";
+const GET_STARTED_URL = "https://form.typeform.com/to/MxrBGq9b";
 
 interface IntegrationCardProps {
   onClose: () => void;
@@ -47,7 +47,7 @@ export const IntegrationCard: FC<IntegrationCardProps> = ({ onClose }) => {
           size="sm"
           weight="semibold"
           color="primary"
-          href={GET_EARLY_ACCESS_URL}
+          href={GET_STARTED_URL}
           target="_blank"
           rel="noopener noreferrer"
         >
