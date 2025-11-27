@@ -81,7 +81,6 @@ export interface ServerState {
   s3_bucket: string;
   encryption_secret: string;
   social_login_x_callback_url: string;
-  x_social_login_token_url: string;
   x_client_id: string;
 }
 
@@ -112,6 +111,5 @@ export interface InitStateArgs {
   es_password: string | null;
   encryption_secret: string;
   social_login_x_callback_url: string;
-  x_social_login_token_url: string;
   x_client_id: string;
 }
