@@ -17,6 +17,9 @@ export type OAuthSignInError =
   | {
       type: "nonce_missing";
     }
+  | {
+      type: "PKCE_missing";
+    }
   // Gating and service-state errors based on SSS plan
   | {
       // Global active nodes below SSS threshold → service suspended

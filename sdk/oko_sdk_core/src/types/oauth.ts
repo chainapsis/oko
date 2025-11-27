@@ -1,10 +1,11 @@
-export type OAuthProvider = "google" | "auth0";
+export type OAuthProvider = "google" | "auth0" | "x";
 
 export type OAuthState = {
   apiKey: string;
   targetOrigin: string;
   provider: OAuthProvider;
   modalId?: string;
+  codeVerifier?: string;
 };
 
 export enum RedirectUriSearchParamsKey {
@@ -14,6 +15,13 @@ export enum RedirectUriSearchParamsKey {
 export interface OAuthPayload {
   access_token: string;
   id_token: string;
+  api_key: string;
+  target_origin: string;
+  auth_type: OAuthProvider;
+}
+
+export interface OauthPayloadOfX {
+  code: string;
   api_key: string;
   target_origin: string;
   auth_type: OAuthProvider;

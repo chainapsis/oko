@@ -4,3 +4,36 @@ export function generateNonce(length = 8) {
     .join("");
 }
 
+function generateRandomString(length = 64): string {
+  const array = new Uint8Array(length);
+  crypto.getRandomValues(array);
+  return Array.from(array)
+    .map((b) => ("0" + b.toString(16)).slice(-2))
+    .join("");
+}
+
+async function sha256(input: string): Promise<ArrayBuffer> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(input);
+  return crypto.subtle.digest("SHA-256", data);
+}
+
+function base64UrlEncode(buffer: ArrayBuffer): string {
+  const bytes = new Uint8Array(buffer);
+  let binary = "";
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+  const base64 = btoa(binary);
+  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+}
+
+export async function createPkcePair(): Promise<{
+  codeVerifier: string;
+  codeChallenge: string;
+}> {
+  const codeVerifier = generateRandomString(64);
+  const hash = await sha256(codeVerifier);
+  const codeChallenge = base64UrlEncode(hash);
+  return { codeVerifier, codeChallenge };
+}
