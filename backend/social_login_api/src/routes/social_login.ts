@@ -133,12 +133,7 @@ export function setSocialLoginRoutes(router: Router) {
         return;
       }
 
-      const response = await fetch(X_USER_INFO_URL, {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const response = await getXUserInfo(accessToken);
 
       if (response.status === 200) {
         res.status(200).json({
