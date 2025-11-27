@@ -49,5 +49,6 @@ services:
       ES_CLIENT_INDEX: ${ES_CLIENT_INDEX:-}
       ES_USERNAME: ${ES_USERNAME:-}
       ES_PASSWORD: ${ES_PASSWORD:-}
+      TYPEFORM_WEBHOOK_SECRET: ${TYPEFORM_WEBHOOK_SECRET}
     depends_on:
       - pg_local

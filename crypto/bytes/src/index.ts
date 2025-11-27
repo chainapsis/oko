@@ -47,6 +47,13 @@ export class Bytes<N extends number> {
     };
   }
 
+  static fromUint8ArrayUnsafe<T extends number>(
+    uint8Array: Uint8Array,
+    length: T,
+  ): Bytes<T> {
+    return new Bytes<T>(uint8Array, length);
+  }
+
   /**
    * Creates a fixed-length Bytes instance from a hexadecimal string.
    * @param hexString Hexadecimal string input
@@ -198,6 +205,13 @@ export class Bytes<N extends number> {
    */
   toUint8Array(): Uint8Array {
     return new Uint8Array(this._bytes);
+  }
+
+  toArrayBuffer(): ArrayBuffer {
+    const buffer = new ArrayBuffer(this._bytes.length);
+    const result = new Uint8Array(buffer);
+    result.set(this._bytes);
+    return result.buffer;
   }
 
   /**

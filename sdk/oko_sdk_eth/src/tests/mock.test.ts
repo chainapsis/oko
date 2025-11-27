@@ -30,7 +30,7 @@ import {
   RpcErrorCode,
 } from "@oko-wallet-sdk-eth/provider";
 
-describe("EWallet Provider - Mock RPC Testing", () => {
+describe("Oko Provider - Mock RPC Testing", () => {
   let mockServer: MockRpcServer;
 
   beforeEach(() => {

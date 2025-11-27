@@ -1,1 +1,1 @@
-# ewallet_common_ui
+# oko_common_ui

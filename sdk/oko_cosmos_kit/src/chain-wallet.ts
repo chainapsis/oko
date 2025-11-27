@@ -1,6 +1,6 @@
-import { ChainRecord, ChainWalletBase, State, Wallet } from '@cosmos-kit/core';
+import { ChainRecord, ChainWalletBase, State, Wallet } from "@cosmos-kit/core";
 
-import { OkoMainWallet } from './main-wallet';
+import { OkoMainWallet } from "./main-wallet";
 
 export class OkoChainWallet extends ChainWalletBase {
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {

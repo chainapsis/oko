@@ -35,4 +35,6 @@ export const envSchema = z.object({
   ES_PASSWORD: z.string().optional(),
 
   ENCRYPTION_SECRET: z.string(),
+
+  TYPEFORM_WEBHOOK_SECRET: z.string(),
 });

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@oko-wallet/oko-types": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "uuid": "*"
   },
   "devDependencies": {

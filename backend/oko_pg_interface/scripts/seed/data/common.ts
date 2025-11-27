@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { type Customer } from "@oko-wallet/oko-types/customers";
-import { hashPassword } from "@oko-wallet/crypto-js";
+import { hashPassword } from "@oko-wallet/common-crypto-js";
 import type {
   CustomerDashboardUser,
   CustomerAndCTDUserWithPasswordHash,
@@ -106,7 +106,7 @@ export const createDummyTssSessionsRequest = (
   return ret;
 };
 
-export const createDummyEwalletUsers = (): string[] =>
+export const createDummyOkoUsers = (): string[] =>
   Array.from({ length: 15 }).map((_, i) => `testuser${i + 1}@test.com`);
 
 export const createTssActivationSettings = (): TssActivationSetting => ({

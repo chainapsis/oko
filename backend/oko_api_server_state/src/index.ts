@@ -82,6 +82,7 @@ export interface ServerState {
   encryption_secret: string;
   social_login_x_callback_url: string;
   x_client_id: string;
+  typeform_webhook_secret: string;
 }
 
 export interface InitStateArgs {
@@ -112,4 +113,5 @@ export interface InitStateArgs {
   encryption_secret: string;
   social_login_x_callback_url: string;
   x_client_id: string;
+  typeform_webhook_secret: string;
 }

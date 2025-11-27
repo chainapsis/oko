@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-core",
-  "version": "0.0.6-rc.114",
+  "version": "0.0.6-rc.118",
   "type": "module",
   "scripts": {
     "clean": "del-cli dist",
@@ -14,9 +14,11 @@
     "access": "public"
   },
   "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "import": "./dist/index.js",
+      "require": "./dist/index.js",
       "types": "./dist/index.d.ts"
     }
   },
@@ -24,7 +26,6 @@
     "oko",
     "keplr",
     "wallet",
-    "ewallet",
     "blockchain"
   ],
   "repository": {
@@ -34,8 +35,8 @@
   },
   "dependencies": {
     "@keplr-wallet/types": "^0.12.257",
-    "@oko-wallet/bytes": "^0.0.3-alpha.50",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.32"
+    "@oko-wallet/bytes": "0.0.3-alpha.54",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.36"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "*",

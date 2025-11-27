@@ -18,7 +18,7 @@ export async function getKey(
   //the current getKey method throws an error to prevent it from being nullable. @retto
   if (pubKey === null) {
     throw new Error(
-      "Public key not found, check if the ewallet is initialized",
+      "Public key not found, check if the Oko wallet is initialized",
     );
   }
 

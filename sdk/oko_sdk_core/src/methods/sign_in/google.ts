@@ -133,4 +133,3 @@ function closePopup(popup: Window) {
     popup.close();
   }
 }
-

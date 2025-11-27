@@ -29,7 +29,7 @@ export * from "./ethersHelpers";
 export const DUMMY_PROVIDER_ID = "123e4567-e89b-12d3-a456-426614174000";
 export const DUMMY_ADDRESS = "0x1234567890123456789012345678901234567890";
 export const EXPECTED_VERSION = VERSION;
-export const EXPECTED_NAME = "EWalletEIP1193Provider";
+export const EXPECTED_NAME = "OkoEIP1193Provider";
 
 export const COUNTER_ABI = [
   {

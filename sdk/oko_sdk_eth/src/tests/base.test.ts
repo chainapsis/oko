@@ -23,7 +23,7 @@ import {
 } from "@oko-wallet-sdk-eth/provider";
 import { ProviderEventEmitter } from "@oko-wallet-sdk-eth/provider/emitter";
 
-describe("EWallet Provider - Base", () => {
+describe("Oko Provider - Base", () => {
   describe("Basic Properties", () => {
     let provider: OkoEIP1193Provider;
     let mockServer: MockRpcServer;
@@ -342,7 +342,7 @@ describe("EWallet Provider - Base", () => {
         const clientVersion = await publicProvider.request({
           method: "web3_clientVersion",
         });
-        expect(clientVersion).toContain("EWalletEIP1193Provider");
+        expect(clientVersion).toContain("OkoEIP1193Provider");
 
         const chainId = await publicProvider.request({ method: "eth_chainId" });
         expect(chainId).toBe(toHex(mainnet.id));

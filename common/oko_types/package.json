@@ -21,8 +21,8 @@
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
-    "@oko-wallet/tecdsa-interface": "0.0.2-alpha.15",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
+    "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "tsconfig-paths": "*",
     "viem": "*"
   },

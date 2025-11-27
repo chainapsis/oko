@@ -7,12 +7,7 @@ import type {
 } from "@oko-wallet/oko-types/admin";
 import { type OkoApiSuccessResponse } from "@oko-wallet/oko-types/api_response";
 
-import {
-  isValidEmail,
-  isValidPassword,
-  isValidUrl,
-  PASSWORD_MIN_LEN,
-} from "@oko-wallet-admin/utils/";
+import { isValidEmail, isValidUrl } from "@oko-wallet-admin/utils/";
 import { addCustomer } from "@oko-wallet-admin/fetch/customer";
 import { useAppState } from "@oko-wallet-admin/state";
 
@@ -152,12 +147,6 @@ export function useCreateCustomerForm() {
         });
       }
 
-      if (!isValidPassword(data.password)) {
-        setError("password", {
-          message: `Password must be at least ${PASSWORD_MIN_LEN} characters long.`,
-        });
-      }
-
       if (Object.keys(errors).length > 0) {
         return;
       }
@@ -167,7 +156,6 @@ export function useCreateCustomerForm() {
         url: data.url,
         logo: logoFile || undefined,
         email: data.email,
-        password: data.password,
       };
 
       const response = await addCustomer({ token, data: body });
