@@ -28,6 +28,13 @@ export interface GoogleTokenInfo {
   typ: string;
 }
 
+export interface XUserInfo {
+  id: string;
+  name: string;
+  username: string;
+  email?: string;
+}
+
 export interface Auth0TokenInfo {
   email: string;
   email_verified: boolean;

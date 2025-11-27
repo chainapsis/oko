@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as XCallbackIndexRouteImport } from './routes/x/callback/index'
 import { Route as GoogleCallbackIndexRouteImport } from './routes/google/callback/index'
 import { Route as Auth0CallbackIndexRouteImport } from './routes/auth0/callback/index'
 
@@ -22,6 +23,11 @@ const IndexRoute = IndexRouteImport.update({
 const LoginIndexRoute = LoginIndexRouteImport.update({
   id: '/login/',
   path: '/login/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const XCallbackIndexRoute = XCallbackIndexRouteImport.update({
+  id: '/x/callback/',
+  path: '/x/callback/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoogleCallbackIndexRoute = GoogleCallbackIndexRouteImport.update({
@@ -40,12 +46,14 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginIndexRoute
   '/auth0/callback': typeof Auth0CallbackIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
+  '/x/callback': typeof XCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/login': typeof LoginIndexRoute
   '/auth0/callback': typeof Auth0CallbackIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
+  '/x/callback': typeof XCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -53,13 +61,25 @@ export interface FileRoutesById {
   '/login/': typeof LoginIndexRoute
   '/auth0/callback/': typeof Auth0CallbackIndexRoute
   '/google/callback/': typeof GoogleCallbackIndexRoute
+  '/x/callback/': typeof XCallbackIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/auth0/callback' | '/google/callback'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/auth0/callback'
+    | '/google/callback'
+    | '/x/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/auth0/callback' | '/google/callback'
-  id: '__root__' | '/' | '/login/' | '/auth0/callback/' | '/google/callback/'
+  to: '/' | '/login' | '/auth0/callback' | '/google/callback' | '/x/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/login/'
+    | '/auth0/callback/'
+    | '/google/callback/'
+    | '/x/callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -67,6 +87,7 @@ export interface RootRouteChildren {
   LoginIndexRoute: typeof LoginIndexRoute
   Auth0CallbackIndexRoute: typeof Auth0CallbackIndexRoute
   GoogleCallbackIndexRoute: typeof GoogleCallbackIndexRoute
+  XCallbackIndexRoute: typeof XCallbackIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -83,6 +104,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/login'
       preLoaderRoute: typeof LoginIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/x/callback/': {
+      id: '/x/callback/'
+      path: '/x/callback'
+      fullPath: '/x/callback'
+      preLoaderRoute: typeof XCallbackIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/google/callback/': {
@@ -107,6 +135,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginIndexRoute: LoginIndexRoute,
   Auth0CallbackIndexRoute: Auth0CallbackIndexRoute,
   GoogleCallbackIndexRoute: GoogleCallbackIndexRoute,
+  XCallbackIndexRoute: XCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

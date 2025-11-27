@@ -5,6 +5,8 @@ import type {
   OkoWalletMsgOAuthSignInUpdate,
   OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
+import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 
 import { sendMsgToWindow } from "../send";
 import {
@@ -25,9 +27,8 @@ import {
   handleReshare,
 } from "./user";
 import { bail } from "./errors";
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 import { verifyIdToken } from "./token";
-import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
+import { getAccessTokenOfX, verifyIdTokenOfX } from "./x";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
@@ -54,12 +55,6 @@ export async function handleOAuthInfoPass(
       return;
     }
 
-    const nonceRegistered = appState.getNonce(hostOrigin);
-    if (!nonceRegistered) {
-      await bail(message, { type: "nonce_missing" });
-      return;
-    }
-
     const apiKey = message.payload.api_key;
     if (!apiKey) {
       await bail(message, { type: "api_key_missing" });
@@ -68,22 +63,70 @@ export async function handleOAuthInfoPass(
     appState.setApiKey(hostOrigin, apiKey);
 
     const authType: OAuthProvider = message.payload.auth_type;
-    const idToken = message.payload.id_token;
 
-    const tokenInfoRes = await verifyIdToken(
-      authType,
-      idToken,
-      nonceRegistered,
-    );
-    if (!tokenInfoRes.success) {
-      await bail(message, { type: "vendor_token_verification_failed" });
-      return;
+    let userIdentifier: string;
+    let idToken: string;
+
+    if (message.payload.auth_type === "x") {
+      const codeVerifierRegistered = appState.getCodeVerifier(hostOrigin);
+      if (!codeVerifierRegistered) {
+        await bail(message, { type: "PKCE_missing" });
+        return;
+      }
+
+      const tokenRes = await getAccessTokenOfX(
+        message.payload.code,
+        codeVerifierRegistered,
+      );
+
+      if (!tokenRes.success) {
+        await bail(message, {
+          type: "unknown",
+          error: tokenRes.err,
+        });
+        return;
+      }
+
+      const verifyIdTokenRes = await verifyIdTokenOfX(tokenRes.data);
+      if (!verifyIdTokenRes.success) {
+        await bail(message, {
+          type: "unknown",
+          error: verifyIdTokenRes.err,
+        });
+        return;
+      }
+
+      const userInfo = verifyIdTokenRes.data;
+      const tokenInfo = tokenRes.data;
+
+      idToken = tokenInfo;
+      userIdentifier = userInfo.id;
+
+      appState.setCodeVerifier(hostOrigin, null);
+    } else {
+      const nonceRegistered = appState.getNonce(hostOrigin);
+      if (!nonceRegistered) {
+        await bail(message, { type: "nonce_missing" });
+        return;
+      }
+
+      idToken = message.payload.id_token;
+
+      const tokenInfoRes = await verifyIdToken(
+        authType,
+        idToken,
+        nonceRegistered,
+      );
+      if (!tokenInfoRes.success) {
+        await bail(message, { type: "vendor_token_verification_failed" });
+        return;
+      }
+      const tokenInfo = tokenInfoRes.data;
+      userIdentifier = tokenInfo.email;
     }
-    const tokenInfo = tokenInfoRes.data;
 
-    const userExistsRes = await checkUserExists(tokenInfo.email);
+    const userExistsRes = await checkUserExists(userIdentifier);
     if (!userExistsRes.success) {
-      console.log("checkUserExists failed", userExistsRes);
       await bail(message, {
         type: "check_user_request_fail",
         error: userExistsRes.err.toString(),
@@ -125,7 +168,7 @@ export async function handleOAuthInfoPass(
     appState.setWallet(hostOrigin, {
       walletId: signInResult.walletId,
       publicKey: signInResult.publicKey,
-      email: tokenInfo.email,
+      email: userIdentifier,
     });
 
     hasSignedIn = true;
