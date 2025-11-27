@@ -10089,7 +10089,7 @@ __metadata:
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
-    "@oko-wallet/proxy-api": "workspace:*"
+    "@oko-wallet/social-login-api": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@oko-wallet/tss-api": "workspace:*"
     "@types/cors": "npm:*"

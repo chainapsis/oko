@@ -5,15 +5,15 @@ import { registry } from "@oko-wallet/oko-api-openapi";
 import type {
   SocialLoginXBody,
   SocialLoginXResponse,
-} from "@oko-wallet/oko-types/proxy";
+} from "@oko-wallet/oko-types/social_login";
 
-export function setProxyRoutes(router: Router) {
+export function setSocialLoginRoutes(router: Router) {
   // registry.registerPath({
   //   method: "post",
-  //   path: "/proxy/v1/social-login",
-  //   tags: ["Proxy"],
-  //   summary: "Social login proxy",
-  //   description: "Proxy endpoint for social login",
+  //   path: "/social-login/v1/social-login",
+  //   tags: ["Social Login"],
+  //   summary: "Social login",
+  //   description: "Endpoint for social login",
   //   security: [],
   //   request: {
   //     body: {
@@ -52,7 +52,7 @@ export function setProxyRoutes(router: Router) {
   //   },
   // });
   router.post(
-    "/social-login/x",
+    "/x/get-token",
     async (
       req: Request<any, any, SocialLoginXBody>,
       res: Response<OkoApiResponse<SocialLoginXResponse>>,

@@ -1,11 +1,11 @@
 import express from "express";
 
-import { setProxyRoutes } from "./proxy";
+import { setSocialLoginRoutes } from "./social_login";
 
-export function makeProxyRouter() {
+export function makeSocialLoginRouter() {
   const router = express.Router();
 
-  setProxyRoutes(router);
+  setSocialLoginRoutes(router);
 
   return router;
 }

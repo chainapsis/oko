@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/proxy-api",
+  "name": "@oko-wallet/social-login-api",
   "main": "./src/index.ts",
   "type": "module",
   "scripts": {

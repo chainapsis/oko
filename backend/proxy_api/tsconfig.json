@@ -23,7 +23,7 @@
     "resolveJsonModule": true,
     "baseUrl": ".",
     "paths": {
-      "@oko-wallet-proxy-api/*": ["./src/*"]
+      "@oko-wallet-social-login-api/*": ["./src/*"]
     }
   },
   "include": ["src/**/*"],
