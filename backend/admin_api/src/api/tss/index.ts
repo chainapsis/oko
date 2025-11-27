@@ -12,7 +12,6 @@ import {
   getTssActivationSetting as getTssAllActivationSettingPG,
   setTssActivationSetting as setTssAllActivationSettingPG,
 } from "@oko-wallet/oko-pg-interface/tss_activate";
-import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
 import type { AuditContext } from "@oko-wallet-admin-api/utils/audit";
 
 export async function getTssSessionList(
@@ -20,7 +19,7 @@ export async function getTssSessionList(
   body: GetTssSessionListRequest,
 ): Promise<OkoApiResponse<GetTssSessionListResponse>> {
   try {
-    let { limit, offset, node_id } = body;
+    let { limit, offset, node_id, customer_id } = body;
     if (!limit || !offset) {
       limit = 10;
       offset = 0;
@@ -34,6 +33,7 @@ export async function getTssSessionList(
       limit + 1,
       offset,
       node_id,
+      customer_id,
     );
     if (getTssSessionsRes.success === false) {
       return {

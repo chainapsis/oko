@@ -61,6 +61,9 @@ export const GetTssSessionListRequestSchema = registry.register(
     node_id: z.string().optional().openapi({
       description: "Keyshare node ID to filter by (optional)",
     }),
+    customer_id: z.string().optional().openapi({
+      description: "Customer ID to filter by (optional)",
+    }),
   }),
 );
 
