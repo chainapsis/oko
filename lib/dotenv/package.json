@@ -16,7 +16,7 @@
     "directory": "stdlib_js"
   },
   "dependencies": {
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.35",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "dotenv": "^16.4.5",
     "zod": "4.1.12"
   },

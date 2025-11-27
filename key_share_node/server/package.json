@@ -13,10 +13,10 @@
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.1.0",
-    "@oko-wallet/bytes": "workspace:*",
+    "@oko-wallet/bytes": "0.0.3-alpha.53",
     "@oko-wallet/ksn-interface": "workspace:*",
     "@oko-wallet/ksn-pg-interface": "workspace:*",
-    "@oko-wallet/stdlib-js": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "chalk": "*",
     "commander": "*",
     "cors": "^2.8.5",

@@ -3,7 +3,7 @@
   "main": "./src/index.ts",
   "type": "module",
   "dependencies": {
-    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "cors": "*",
     "dotenv": "*",
     "express": "*",

@@ -47,7 +47,7 @@
     "directory": "key_share_node/ksn_interface"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "^0.0.3-alpha.53"
+    "@oko-wallet/bytes": "0.0.3-alpha.53"
   },
   "devDependencies": {
     "@types/jest": "*",

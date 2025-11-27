@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@oko-wallet/oko-sdk-core": "^0.0.6-rc.117",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.35",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "eventemitter3": "^5.0.1",
     "uuid": "*",
     "viem": "*"
