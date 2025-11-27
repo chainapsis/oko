@@ -3,4 +3,3 @@ export function generateNonce(length = 8) {
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
 }
-
