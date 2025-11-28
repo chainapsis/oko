@@ -7,16 +7,35 @@ import fs from "node:fs/promises";
 import { getPgDumpById, getAllPgDumps } from "@oko-wallet/ksn-pg-interface";
 import { createUser, getUserByEmail } from "@oko-wallet/ksn-pg-interface";
 import dayjs from "dayjs";
+import { Bytes } from "@oko-wallet/bytes";
 
 import { connectPG, resetPgDatabase } from "@oko-wallet-ksn-server/database";
 import { testPgConfig } from "@oko-wallet-ksn-server/database/test_config";
 import { makePgDumpRouter } from ".";
 import type { ServerState } from "@oko-wallet-ksn-server/state";
 
+// Mock keypair for testing
+const privateKeyRes = Bytes.fromHexString(
+  "0000000000000000000000000000000000000000000000000000000000000001",
+  32,
+);
+const publicKeyRes = Bytes.fromHexString(
+  "0000000000000000000000000000000000000000000000000000000000000002",
+  32,
+);
+if (!privateKeyRes.success || !publicKeyRes.success) {
+  throw new Error("Failed to create mock keypair");
+}
+const mockServerKeypair = {
+  privateKey: privateKeyRes.data,
+  publicKey: publicKeyRes.data,
+};
+
 function makeUnsuccessfulAppStatus(pool: Pool): ServerState {
   return {
     db: pool,
     encryptionSecret: "temp_enc_secret",
+    serverKeypair: mockServerKeypair,
 
     is_db_backup_checked: false,
     launch_time: dayjs().toISOString(),
@@ -70,6 +89,7 @@ describe("pg_dump_route_test", () => {
     app.locals = {
       db: pool,
       encryptionSecret: "temp_enc_secret",
+      serverKeypair: mockServerKeypair,
 
       is_db_backup_checked: false,
       launch_time: dayjs().toISOString(),
@@ -348,6 +368,7 @@ describe("pg_dump_route_test", () => {
       invalidApp.locals = {
         db: null as any, // Invalid database connection
         encryptionSecret: "temp_enc_secret",
+        serverKeypair: mockServerKeypair,
 
         is_db_backup_checked: false,
         launch_time: dayjs().toISOString(),

@@ -4,3 +4,4 @@ export * from "./users";
 export * from "./pg_dumps";
 export * from "./dump";
 export * from "./postgres";
+export * from "./server_keypairs";

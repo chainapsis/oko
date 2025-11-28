@@ -1,6 +1,20 @@
 import { Pool } from "pg";
 import type { Logger } from "winston";
 
+import {
+  generateEddsaKeypair,
+  type EddsaKeypair,
+} from "@oko-wallet/common-crypto-js";
+import { Bytes } from "@oko-wallet/bytes";
+import {
+  encryptDataAsync,
+  decryptDataAsync,
+} from "@oko-wallet/crypto-js/aes_gcm";
+import {
+  getActiveServerKeypair,
+  insertServerKeypair,
+} from "@oko-wallet/oko-pg-interface/server_keypairs";
+
 import { createPgDatabase } from "./database";
 import { initLogger } from "./logger";
 
@@ -45,11 +59,19 @@ export async function makeServerState(
       throw new Error("Invalid arguments: emailVerificationExpirationMinutes");
     }
 
+    // Initialize or fetch server keypair
+    const serverKeypair = await initializeServerKeypair(
+      db,
+      args.encryption_secret,
+      logger,
+    );
+
     return {
       db,
       logger,
       smtp_port: smtpPort,
       email_verification_expiration_minutes: emailVerificationExpirationMinutes,
+      server_keypair: serverKeypair,
       ...rest,
     };
   } catch (error) {
@@ -81,6 +103,7 @@ export interface ServerState {
   s3_bucket: string;
   encryption_secret: string;
   typeform_webhook_secret: string;
+  server_keypair: EddsaKeypair;
 }
 
 export interface InitStateArgs {
@@ -110,4 +133,80 @@ export interface InitStateArgs {
   es_password: string | null;
   encryption_secret: string;
   typeform_webhook_secret: string;
+}
+
+async function initializeServerKeypair(
+  db: Pool,
+  encryptionSecret: string,
+  logger: Logger,
+): Promise<EddsaKeypair> {
+  // Check if there's an active keypair
+  const activeKeypairRes = await getActiveServerKeypair(db);
+  if (!activeKeypairRes.success) {
+    throw new Error(
+      `Failed to get active server keypair: ${activeKeypairRes.err}`,
+    );
+  }
+
+  if (activeKeypairRes.data) {
+    logger.info(
+      "Using existing server keypair (version: %d)",
+      activeKeypairRes.data.version,
+    );
+
+    // Decrypt private key and reconstruct EddsaKeypair
+    const privateKeyHex = await decryptDataAsync(
+      activeKeypairRes.data.enc_private_key,
+      encryptionSecret,
+    );
+
+    const privateKeyRes = Bytes.fromHexString(privateKeyHex, 32);
+    if (!privateKeyRes.success) {
+      throw new Error(`Failed to parse private key: ${privateKeyRes.err}`);
+    }
+
+    const publicKeyRes = Bytes.fromUint8Array(
+      activeKeypairRes.data.public_key,
+      32,
+    );
+    if (!publicKeyRes.success) {
+      throw new Error(`Failed to parse public key: ${publicKeyRes.err}`);
+    }
+
+    return {
+      privateKey: privateKeyRes.data,
+      publicKey: publicKeyRes.data,
+    };
+  }
+
+  // Generate new keypair
+  logger.info("No active server keypair found, generating new one...");
+  const keypairRes = generateEddsaKeypair();
+  if (!keypairRes.success) {
+    throw new Error(`Failed to generate EdDSA keypair: ${keypairRes.err}`);
+  }
+
+  const { privateKey, publicKey } = keypairRes.data;
+  const privateKeyHex = privateKey.toHex();
+
+  // Encrypt private key
+  const encryptedPrivateKey = await encryptDataAsync(
+    privateKeyHex,
+    encryptionSecret,
+  );
+
+  // Insert keypair (version is auto-incremented)
+  const insertRes = await insertServerKeypair(db, {
+    public_key: Buffer.from(publicKey.toUint8Array()),
+    enc_private_key: encryptedPrivateKey,
+  });
+  if (!insertRes.success) {
+    throw new Error(`Failed to insert server keypair: ${insertRes.err}`);
+  }
+
+  logger.info(
+    "Generated new server keypair (version: %d)",
+    insertRes.data.version,
+  );
+  return keypairRes.data;
 }
