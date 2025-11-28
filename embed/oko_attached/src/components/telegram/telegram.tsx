@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 
+// @TODO: replace with the actual bot name
 const TELEGRAM_BOT_NAME = "auth234198_bot";
 
 export const TelegramLogin: React.FC = () => {
@@ -17,9 +18,8 @@ export const TelegramLogin: React.FC = () => {
       return;
     }
 
-    let oauthState;
     try {
-      oauthState = JSON.parse(stateParam);
+      JSON.parse(stateParam);
     } catch (err) {
       setError("Invalid state parameter");
       return;
