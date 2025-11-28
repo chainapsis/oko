@@ -8,8 +8,16 @@ import {
   type Auth0AuthenticatedRequest,
   auth0AuthMiddleware,
 } from "@oko-wallet-tss-api/middleware/auth0_auth";
+import {
+  type XAuthenticatedRequest,
+  xAuthMiddleware,
+} from "@oko-wallet-tss-api/middleware/x_auth";
+import {
+  type TelegramAuthenticatedRequest,
+  telegramAuthMiddleware,
+} from "@oko-wallet-tss-api/middleware/telegram_auth";
 
-export type OAuthProvider = "google" | "auth0";
+export type OAuthProvider = "google" | "auth0" | "x" | "telegram";
 
 export interface OAuthBody {
   auth_type: OAuthProvider;
@@ -40,9 +48,17 @@ export async function oauthMiddleware(
       return googleAuthMiddleware(req as GoogleAuthenticatedRequest, res, next);
     case "auth0":
       return auth0AuthMiddleware(req as Auth0AuthenticatedRequest, res, next);
+    case "x":
+      return xAuthMiddleware(req as XAuthenticatedRequest, res, next);
+    case "telegram":
+      return telegramAuthMiddleware(
+        req as TelegramAuthenticatedRequest,
+        res,
+        next,
+      );
     default:
       res.status(400).json({
-        error: `Invalid auth_type: ${authType}. Must be 'google' or 'auth0'`,
+        error: `Invalid auth_type: ${authType}. Must be 'google', 'auth0', 'x', or 'telegram'`,
       });
       return;
   }

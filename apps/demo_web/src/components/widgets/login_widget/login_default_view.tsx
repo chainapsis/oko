@@ -39,6 +39,15 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
         Google
       </Button>
 
+      <Button
+        variant="secondary"
+        size="md"
+        fullWidth
+        onClick={() => onSignIn("x")}
+      >
+        <XIcon size={20} />X (Test)
+      </Button>
+
       <div className={styles.dividerRow}>
         <div className={styles.line} />
         <Typography tagType="span" size="xs" weight="medium" color="quaternary">

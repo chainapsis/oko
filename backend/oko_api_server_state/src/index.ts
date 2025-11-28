@@ -102,6 +102,7 @@ export interface ServerState {
   s3_secret_access_key: string;
   s3_bucket: string;
   encryption_secret: string;
+  discord_client_secret: string;
   typeform_webhook_secret: string;
   server_keypair: EddsaKeypair;
 }
@@ -132,6 +133,7 @@ export interface InitStateArgs {
   es_username: string | null;
   es_password: string | null;
   encryption_secret: string;
+  discord_client_secret: string;
   typeform_webhook_secret: string;
 }
 

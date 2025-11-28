@@ -33,14 +33,14 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       return;
     }
 
-    if (method !== "google") {
+    if (method !== "google" && method !== "x") {
       console.error("Unsupported login method atm: %s", method);
       return;
     }
 
     try {
       setSigningInState({ status: "signing-in" });
-      await okoWallet.signIn("google");
+      await okoWallet.signIn(method as "google" | "x");
 
       setSigningInState({ status: "ready" });
     } catch (error: any) {
