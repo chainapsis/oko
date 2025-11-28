@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/common-crypto-js",
+  "name": "@oko-wallet/isomorphic-crypto-js",
   "type": "module",
   "main": "./src/index.ts",
   "scripts": {

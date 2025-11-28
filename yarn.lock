@@ -9467,7 +9467,7 @@ __metadata:
   resolution: "@oko-wallet/admin-api@workspace:backend/admin_api"
   dependencies:
     "@oko-wallet/aws": "workspace:*"
-    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
@@ -9683,32 +9683,11 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/common-crypto-js@workspace:*, @oko-wallet/common-crypto-js@workspace:crypto/common_crypto_js":
+"@oko-wallet/common-vite-test@workspace:crypto/isomorphic_crypto_js/tests/vite":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/common-crypto-js@workspace:crypto/common_crypto_js"
+  resolution: "@oko-wallet/common-vite-test@workspace:crypto/isomorphic_crypto_js/tests/vite"
   dependencies:
-    "@jest/globals": "npm:*"
-    "@noble/curves": "npm:2.0.1"
-    "@noble/hashes": "npm:2.0.1"
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
-    "@types/bcryptjs": "npm:*"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
-    bcryptjs: "npm:^3.0.2"
-    del-cli: "npm:*"
-    jest: "npm:*"
-    supertest: "npm:*"
-    ts-jest: "npm:*"
-    typescript: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/common-vite-test@workspace:crypto/common_crypto_js/tests/vite":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/common-vite-test@workspace:crypto/common_crypto_js/tests/vite"
-  dependencies:
-    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
     typescript: "npm:~5.8.3"
     vite: "npm:^7.0.4"
   languageName: unknown
@@ -9741,7 +9720,7 @@ __metadata:
   dependencies:
     "@oko-wallet/admin-api": "workspace:*"
     "@oko-wallet/aws": "workspace:*"
-    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
@@ -9888,6 +9867,27 @@ __metadata:
     tsx: "npm:*"
     typescript: "npm:*"
     zod: "npm:4.1.12"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/isomorphic-crypto-js@workspace:*, @oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js"
+  dependencies:
+    "@jest/globals": "npm:*"
+    "@noble/curves": "npm:2.0.1"
+    "@noble/hashes": "npm:2.0.1"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@types/bcryptjs": "npm:*"
+    "@types/jest": "npm:*"
+    "@types/node": "npm:*"
+    bcryptjs: "npm:^3.0.2"
+    del-cli: "npm:*"
+    jest: "npm:*"
+    supertest: "npm:*"
+    ts-jest: "npm:*"
+    typescript: "npm:*"
   languageName: unknown
   linkType: soft
 
@@ -10166,8 +10166,8 @@ __metadata:
     "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
-    "@oko-wallet/common-crypto-js": "workspace:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.17"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.118"
@@ -10526,7 +10526,7 @@ __metadata:
   dependencies:
     "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
-    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
