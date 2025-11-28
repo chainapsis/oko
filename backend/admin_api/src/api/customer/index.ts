@@ -31,11 +31,14 @@ import {
 import {
   deleteCustomerDashboardUserByCustomerId,
   getCTDUserWithCustomerByEmail,
+  getCTDUsersByCustomerIdsMap,
   insertCustomerDashboardUser,
   updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
+import { getTssSessionsExistenceByCustomerIds } from "@oko-wallet/oko-pg-interface/tss";
 import type {
   APIKey,
+  CustomerDashboardUser,
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
 
@@ -271,15 +274,39 @@ export async function getCustomerList(
       };
     }
 
+    const customerIds = customersResult.data.map((c) => c.customer_id);
+
     const apiKeysByCustomerIdsMapRes = await getAPIKeysByCustomerIdsMap(
       db,
-      customersResult.data.map((c) => c.customer_id),
+      customerIds,
     );
     if (apiKeysByCustomerIdsMapRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
         msg: `Failed to get api keys by customer ids: ${apiKeysByCustomerIdsMapRes.err}`,
+      };
+    }
+
+    const ctdUsersByCustomerIdsMapRes = await getCTDUsersByCustomerIdsMap(
+      db,
+      customerIds,
+    );
+    if (ctdUsersByCustomerIdsMapRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get customer dashboard users by customer ids: ${ctdUsersByCustomerIdsMapRes.err}`,
+      };
+    }
+
+    const tssSessionsExistenceMapRes =
+      await getTssSessionsExistenceByCustomerIds(db, customerIds);
+    if (tssSessionsExistenceMapRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get TSS sessions existence by customer ids: ${tssSessionsExistenceMapRes.err}`,
       };
     }
 
@@ -299,12 +326,22 @@ export async function getCustomerList(
     return {
       success: true,
       data: {
-        customerWithAPIKeysList: customersResult.data.map((customer) => ({
-          customer,
-          api_keys:
-            apiKeysByCustomerIdsMapRes.data.get(customer.customer_id) ||
-            ([] as APIKey[]),
-        })),
+        customerWithAPIKeysList: customersResult.data.map((customer) => {
+          return {
+            customer: {
+              ...customer,
+            },
+            api_keys:
+              apiKeysByCustomerIdsMapRes.data.get(customer.customer_id) ||
+              ([] as APIKey[]),
+            customer_dashboard_users:
+              ctdUsersByCustomerIdsMapRes.data.get(customer.customer_id) ||
+              ([] as CustomerDashboardUser[]),
+            has_tss_sessions:
+              tssSessionsExistenceMapRes.data.get(customer.customer_id) ||
+              false,
+          };
+        }),
         pagination: {
           total,
           current_page: currentPage,

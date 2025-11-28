@@ -14,13 +14,17 @@ import {
 
 import styles from "./sig_shares_table.module.scss";
 import { useGetTSSSessionsList } from "./use_get_tss_sessions";
+import { useGetAllCustomers } from "./use_get_all_customers";
 import { EmptyState } from "@oko-wallet-admin/components/empty_state/empty_state";
 import {
   useTable,
   useTablePagination,
 } from "@oko-wallet-admin/components/table/use_table";
-import { TableFilters } from "@oko-wallet-admin/components/table_filter/table_filter";
 import { useAllKeyShareNodes } from "@oko-wallet-admin/fetch/ks_node/use_all_ks_nodes";
+import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 
 const defaultData: TssSessionWithCustomerAndUser[] = [];
 
@@ -141,15 +145,80 @@ export const SigSharesTable: React.FC = () => {
   });
 
   const { data: nodeData } = useAllKeyShareNodes();
+  const { data: customerData } = useGetAllCustomers();
 
   const searchParams = useSearchParams();
   const router = useRouter();
+  const selectedCustomerId =
+    searchParams.get("customer_id") || searchParams.get("app_id");
   const selectedNodeId = searchParams.get("node_id");
+
+  const getFilterType = () => {
+    if (selectedNodeId) return "node";
+    if (selectedCustomerId) return "app";
+    return "app";
+  };
+
+  const [filterType, setFilterType] = React.useState<"app" | "node">(
+    getFilterType(),
+  );
+
+  const isUserChangingFilterType = React.useRef(false);
+
+  React.useEffect(() => {
+    if (isUserChangingFilterType.current) {
+      return;
+    }
+
+    if (selectedNodeId && filterType !== "node") {
+      setFilterType("node");
+      return;
+    }
+    if (!selectedNodeId && selectedCustomerId && filterType !== "app") {
+      setFilterType("app");
+      return;
+    }
+  }, [selectedCustomerId, selectedNodeId, filterType]);
+
+  const handleFilterTypeChange = (type: "app" | "node") => {
+    isUserChangingFilterType.current = true;
+
+    setFilterType(type);
+
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (type === "app") {
+      params.delete("node_id");
+    } else {
+      params.delete("customer_id");
+      params.delete("app_id");
+    }
+
+    router.push(`?${params.toString()}`, { scroll: false });
+
+    setTimeout(() => {
+      isUserChangingFilterType.current = false;
+    }, 100);
+  };
+
+  const handleCustomerChange = (customerId: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (customerId) {
+      params.set("customer_id", customerId);
+      params.delete("app_id");
+    } else {
+      params.delete("customer_id");
+      params.delete("app_id");
+    }
+
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
 
   const toggleKSNode = (nodeId: string) => {
     const params = new URLSearchParams(searchParams.toString());
 
-    if (selectedNodeId === nodeId) {
+    if (!nodeId || nodeId === "") {
       params.delete("node_id");
     } else {
       params.set("node_id", nodeId);
@@ -161,6 +230,7 @@ export const SigSharesTable: React.FC = () => {
   const { data } = useGetTSSSessionsList({
     page: pageIndex,
     nodeId: selectedNodeId || undefined,
+    customerId: selectedCustomerId || undefined,
   });
 
   const tssSessions = data?.tss_sessions ?? defaultData;
@@ -175,75 +245,203 @@ export const SigSharesTable: React.FC = () => {
     manualPagination: true,
   });
 
-  if (tssSessions.length === 0) {
-    return <EmptyState text="No Sig History here yet." />;
-  }
+  const selectedCustomer = customerData?.find(
+    (c) => c.customer.customer_id === selectedCustomerId,
+  );
 
   return (
     <div className={styles.wrapper}>
-      <TableFilters
-        filters={[
-          {
-            name: "Keyshare Node",
-            selectedOptionId: selectedNodeId ?? "",
-            options: nodeData?.ksNodes
-              .filter((n) => n.status === "ACTIVE")
-              .map((n) => ({
-                id: n.node_id,
-                label: n.node_name,
-              })),
-            onClick: toggleKSNode,
-          },
-        ]}
-      />
-      <div className={styles.tableWrapper}>
-        <Table variant="bordered" noWrap>
-          <TableHead>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => (
-                  <TableHeaderCell key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
+      <div className={styles.filtersWrapper}>
+        <Typography size="md" weight="medium" color="tertiary">
+          Filter by
+        </Typography>
+
+        <div className={styles.filter}>
+          <Dropdown>
+            <Dropdown.Trigger asChild>
+              <div className={styles.dropdownTrigger}>
+                <Badge
+                  color="brand"
+                  size="md"
+                  label={filterType === "app" ? "App" : "Keyshare Node"}
+                />
+                <ChevronDownIcon
+                  color="var(--fg-tertiary)"
+                  size={16}
+                  className={styles.chevronIcon}
+                />
+              </div>
+            </Dropdown.Trigger>
+            <Dropdown.Content className={styles.dropdownContent}>
+              <Dropdown.Item onClick={() => handleFilterTypeChange("app")}>
+                <Typography size="sm" color="primary">
+                  App
+                </Typography>
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={() => handleFilterTypeChange("node")}>
+                <Typography size="sm" color="primary">
+                  Keyshare Node
+                </Typography>
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
+
+          <div className={styles.divider}>|</div>
+
+          <Typography
+            size="md"
+            weight="medium"
+            color="tertiary"
+            className={styles.separatorText}
+          >
+            For
+          </Typography>
+
+          {filterType === "app" && (
+            <Dropdown>
+              <Dropdown.Trigger asChild>
+                <div className={styles.dropdownTrigger}>
+                  <Badge
+                    color={selectedCustomerId ? "brand" : "gray"}
+                    size="md"
+                    label={
+                      selectedCustomer ? selectedCustomer.customer.label : "All"
+                    }
+                  />
+                  <ChevronDownIcon
+                    color="var(--fg-tertiary)"
+                    size={16}
+                    className={styles.chevronIcon}
+                  />
+                </div>
+              </Dropdown.Trigger>
+              <Dropdown.Content className={styles.dropdownContent}>
+                <Dropdown.Item onClick={() => handleCustomerChange(null)}>
+                  <Typography size="sm" color="primary">
+                    All
+                  </Typography>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                {customerData?.map((customer) => (
+                  <Dropdown.Item
+                    key={customer.customer.customer_id}
+                    onClick={() =>
+                      handleCustomerChange(customer.customer.customer_id)
+                    }
+                  >
+                    <Typography size="sm" color="primary">
+                      {customer.customer.label}
+                    </Typography>
+                  </Dropdown.Item>
+                ))}
+              </Dropdown.Content>
+            </Dropdown>
+          )}
+
+          {filterType === "node" && (
+            <Dropdown>
+              <Dropdown.Trigger asChild>
+                <div className={styles.dropdownTrigger}>
+                  <Badge
+                    color={selectedNodeId ? "brand" : "gray"}
+                    size="md"
+                    label={
+                      selectedNodeId
+                        ? nodeData?.ksNodes.find(
+                            (n) => n.node_id === selectedNodeId,
+                          )?.node_name || "All"
+                        : "All"
+                    }
+                  />
+                  <ChevronDownIcon
+                    color="var(--fg-tertiary)"
+                    size={16}
+                    className={styles.chevronIcon}
+                  />
+                </div>
+              </Dropdown.Trigger>
+              <Dropdown.Content className={styles.dropdownContent}>
+                <Dropdown.Item onClick={() => toggleKSNode("")}>
+                  <Typography size="sm" color="primary">
+                    All
+                  </Typography>
+                </Dropdown.Item>
+                <Dropdown.Divider />
+                {nodeData?.ksNodes
+                  .filter((n) => n.status === "ACTIVE")
+                  .map((node) => (
+                    <Dropdown.Item
+                      key={node.node_id}
+                      onClick={() => toggleKSNode(node.node_id)}
+                    >
+                      <Typography size="sm" color="primary">
+                        {node.node_name}
+                      </Typography>
+                    </Dropdown.Item>
+                  ))}
+              </Dropdown.Content>
+            </Dropdown>
+          )}
+        </div>
+      </div>
+      {tssSessions.length === 0 ? (
+        <EmptyState text="No Sig History here yet." />
+      ) : (
+        <>
+          <div className={styles.tableWrapper}>
+            <Table variant="bordered" noWrap>
+              <TableHead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <TableHeaderCell key={header.id}>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHeaderCell>
+                    ))}
+                  </TableRow>
+                ))}
+              </TableHead>
+              <TableBody>
+                {table.getRowModel().rows.map((row) => (
+                  <TableRow key={row.id}>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
                         )}
-                  </TableHeaderCell>
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 ))}
-              </TableRow>
-            ))}
-          </TableHead>
-          <TableBody>
-            {table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
-                ))}
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </div>
-      <div className={styles.paginationWrapper}>
-        <button
-          className={styles.navButton}
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={!hasPrev || currentPage <= 1}
-        >
-          Prev
-        </button>
-        <span className={styles.pageInfo}>Page {currentPage}</span>
-        <button
-          className={styles.navButton}
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={!hasNext}
-        >
-          Next
-        </button>
-      </div>
+              </TableBody>
+            </Table>
+          </div>
+          <div className={styles.paginationWrapper}>
+            <button
+              className={styles.navButton}
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={!hasPrev || currentPage <= 1}
+            >
+              Prev
+            </button>
+            <span className={styles.pageInfo}>Page {currentPage}</span>
+            <button
+              className={styles.navButton}
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={!hasNext}
+            >
+              Next
+            </button>
+          </div>
+        </>
+      )}
     </div>
   );
 };

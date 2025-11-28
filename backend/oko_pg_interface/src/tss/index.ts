@@ -282,6 +282,7 @@ export async function getTssSessions(
   limit: number,
   offset: number,
   node_id?: string,
+  customer_id?: string,
 ): Promise<Result<TssSessionWithCustomerAndUser[], string>> {
   try {
     const baseQuery = `
@@ -297,26 +298,84 @@ LEFT JOIN ewallet_wallets w ON s.wallet_id = w.wallet_id
 LEFT JOIN ewallet_users u ON w.user_id = u.user_id
 `;
 
-    const filterQuery = node_id
-      ? `
-JOIN wallet_ks_nodes wk ON w.wallet_id = wk.wallet_id
-WHERE wk.node_id = $3
-`
-      : ``;
+    const conditions: string[] = [];
+    const queryParams: any[] = [limit, offset];
+    let paramIndex = 3;
+
+    if (node_id) {
+      conditions.push(`EXISTS (
+        SELECT 1 
+        FROM wallet_ks_nodes wk 
+        WHERE wk.wallet_id = w.wallet_id AND wk.node_id = $${paramIndex}
+      )`);
+      queryParams.push(node_id);
+      paramIndex++;
+    }
+
+    if (customer_id) {
+      conditions.push(`s.customer_id = $${paramIndex}`);
+      queryParams.push(customer_id);
+      paramIndex++;
+    }
+
+    const whereClause =
+      conditions.length > 0 ? `WHERE ${conditions.join(" AND ")}` : ``;
 
     const orderAndLimit = `
+${whereClause}
 ORDER BY s.created_at DESC
 LIMIT $1 
 OFFSET $2
 `;
 
-    const query = `${baseQuery} ${filterQuery} ${orderAndLimit}`;
-    const queryParams = node_id ? [limit, offset, node_id] : [limit, offset];
+    const query = `${baseQuery} ${orderAndLimit}`;
 
     const result = await db.query(query, queryParams);
     return {
       success: true,
       data: result.rows as TssSessionWithCustomerAndUser[],
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getTssSessionsExistenceByCustomerIds(
+  db: Pool | PoolClient,
+  customerIds: string[],
+): Promise<Result<Map<string, boolean>, string>> {
+  try {
+    if (customerIds.length === 0) {
+      return {
+        success: true,
+        data: new Map(),
+      };
+    }
+
+    const query = `
+SELECT DISTINCT customer_id
+FROM tss_sessions
+WHERE customer_id = ANY($1)
+`;
+
+    const result = await db.query(query, [customerIds]);
+
+    const existenceMap = new Map<string, boolean>();
+
+    customerIds.forEach((id) => {
+      existenceMap.set(id, false);
+    });
+
+    result.rows.forEach((row) => {
+      existenceMap.set(row.customer_id, true);
+    });
+
+    return {
+      success: true,
+      data: existenceMap,
     };
   } catch (error) {
     return {

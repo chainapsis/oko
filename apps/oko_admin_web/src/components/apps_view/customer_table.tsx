@@ -13,6 +13,7 @@ import {
 } from "@oko-wallet/oko-common-ui/table";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
 
 import styles from "./customer_table.module.scss";
 import { useGetCustomerListWithAPIKeys } from "./use_get_customer";
@@ -26,6 +27,7 @@ import {
   useTablePagination,
 } from "@oko-wallet-admin/components/table/use_table";
 import { APIKeyCell } from "./api_key_cell";
+import { UserEmailVerifiedCell } from "./user_email_verified_cell";
 
 const defaultData: CustomerWithAPIKeys[] = [];
 
@@ -71,6 +73,20 @@ const createColumns = (
       cell: (info) => <APIKeyCell apiKeys={info.getValue()} />,
     },
   ),
+  columnHelper.accessor(
+    (row) =>
+      row.customer_dashboard_users.map((user) => {
+        return {
+          email: user.email,
+          is_email_verified: user.is_email_verified,
+        };
+      }),
+    {
+      id: "users",
+      header: "Users",
+      cell: (info) => <UserEmailVerifiedCell users={info.getValue()} />,
+    },
+  ),
   columnHelper.accessor((row) => row.customer.url, {
     id: "url",
     header: "App URL",
@@ -85,6 +101,17 @@ const createColumns = (
           {info.getValue()}
         </Typography>
       </Link>
+    ),
+  }),
+  columnHelper.accessor((row) => row.has_tss_sessions ?? false, {
+    id: "has_tss_sessions",
+    header: "TxActive",
+    cell: (info) => (
+      <Badge
+        label={info.getValue() ? "Active" : "Inactive"}
+        color={info.getValue() ? "success" : "error"}
+        size="sm"
+      />
     ),
   }),
   columnHelper.accessor((row) => row.customer.customer_id, {
