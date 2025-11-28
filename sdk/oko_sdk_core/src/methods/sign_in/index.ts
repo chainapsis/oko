@@ -2,10 +2,11 @@ import type { OkoWalletInterface } from "@oko-wallet-sdk-core/types";
 import { handleGoogleSignIn } from "./google";
 import { handleEmailSignIn } from "./email";
 import { handleXSignIn } from "./x";
+import { handleTelegramSignIn } from "./telegram";
 
 export async function signIn(
   this: OkoWalletInterface,
-  type: "google" | "email" | "x",
+  type: "google" | "email" | "x" | "telegram",
 ) {
   await this.waitUntilInitialized;
 
@@ -19,6 +20,9 @@ export async function signIn(
         break;
       case "x":
         await handleXSignIn(this);
+        break;
+      case "telegram":
+        await handleTelegramSignIn(this);
         break;
       default:
         throw new Error(`not supported sign in type, type: ${type}`);
