@@ -84,7 +84,7 @@ export function useEmailLogin({
   const isOtpComplete = useMemo(
     () =>
       otpDigits.filter((digit) => digit.trim().length > 0).length ===
-        CODE_LENGTH && otpDigits.join("").length === CODE_LENGTH,
+      CODE_LENGTH && otpDigits.join("").length === CODE_LENGTH,
     [otpDigits],
   );
 
@@ -105,6 +105,12 @@ export function useEmailLogin({
 
     return () => window.clearInterval(timer);
   }, [resendTimer]);
+
+  useEffect(() => {
+    if (isOtpComplete && !isSubmitting) {
+      void handleVerifyCode();
+    }
+  }, [isOtpComplete]);
 
   const resetError = () => setErrorMessage(null);
 
