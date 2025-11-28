@@ -1,7 +1,7 @@
-import { PROVIDER_CONFIG } from './constant';
-import { OkoMainWallet } from './main-wallet';
-import { okoWalletInfo } from './registry';
-import type { OkoLoginProvider, OkoWalletOptions } from './types';
+import { PROVIDER_CONFIG } from "./constant";
+import { OkoMainWallet } from "./main-wallet";
+import { okoWalletInfo } from "./registry";
+import type { OkoLoginProvider, OkoWalletOptions } from "./types";
 
 export const makeOkoWallets = (options: OkoWalletOptions): OkoMainWallet[] => {
   // If no loginMethods specified, use all available providers
@@ -20,7 +20,7 @@ export const makeOkoWallets = (options: OkoWalletOptions): OkoMainWallet[] => {
 
     return new OkoMainWallet({
       ...okoWalletInfo,
-      name: okoWalletInfo.name + '_' + provider,
+      name: okoWalletInfo.name + "_" + provider,
       prettyName: providerConfig?.name || okoWalletInfo.prettyName,
       logo: providerConfig?.logo
         ? { major: okoWalletInfo.logo as string, minor: providerConfig.logo }
@@ -30,12 +30,12 @@ export const makeOkoWallets = (options: OkoWalletOptions): OkoMainWallet[] => {
   });
 };
 
-export { OkoChainWallet } from './chain-wallet';
-export { OkoWalletClient } from './client';
-export { OkoMainWallet } from './main-wallet';
-export { okoWalletInfo } from './registry';
+export { OkoChainWallet } from "./chain-wallet";
+export { OkoWalletClient } from "./client";
+export { OkoMainWallet } from "./main-wallet";
+export { okoWalletInfo } from "./registry";
 export type {
   OkoLoginMethod,
   OkoLoginProvider,
   OkoWalletOptions,
-} from './types';
+} from "./types";

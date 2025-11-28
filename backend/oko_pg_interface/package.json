@@ -17,16 +17,17 @@
     "./ewallet_wallets": "./src/ewallet_wallets/index.ts",
     "./tss": "./src/tss/index.ts",
     "./tss_activate": "./src/tss_activate/index.ts",
-    "./key_share_node_meta": "./src/key_share_node_meta/index.ts"
+    "./key_share_node_meta": "./src/key_share_node_meta/index.ts",
+    "./server_keypairs": "./src/server_keypairs/index.ts"
   },
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
     "@oko-wallet/crypto-js": "workspace:*",
-    "@oko-wallet/dotenv": "0.0.2-alpha.17",
+    "@oko-wallet/dotenv": "0.0.2-alpha.20",
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "jest": "*",
     "pg": "*",
     "pgsql-parser": "^17.7.8",

@@ -26,7 +26,14 @@ export function makeApp(state: ServerState) {
       exposedHeaders: ["X-New-Token"],
     }),
   );
-  app.use(express.json({ limit: "10mb" }));
+
+  // Exclude typeform webhook from JSON parsing (needs raw body for signature verification)
+  app.use((req, res, next) => {
+    if (req.path === "/oko_admin/v1/customer/create_customer_by_typeform") {
+      return next();
+    }
+    express.json({ limit: "10mb" })(req, res, next);
+  });
 
   app.locals = state;
   app.use(loggingMiddleware());

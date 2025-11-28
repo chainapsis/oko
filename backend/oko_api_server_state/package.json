@@ -2,8 +2,16 @@
   "name": "@oko-wallet/oko-api-server-state",
   "main": "./src/index.ts",
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./database": "./src/database/index.ts"
+  },
   "dependencies": {
-    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "@oko-wallet/bytes": "0.0.3-alpha.54",
+    "@oko-wallet/common-crypto-js": "workspace:*",
+    "@oko-wallet/crypto-js": "workspace:*",
+    "@oko-wallet/oko-pg-interface": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "cors": "*",
     "dotenv": "*",
     "express": "*",

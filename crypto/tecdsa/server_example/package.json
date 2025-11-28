@@ -25,7 +25,7 @@
     "@oko-wallet/api-lib": "workspace:*",
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
-    "@oko-wallet/tecdsa-interface": "0.0.2-alpha.15",
+    "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",

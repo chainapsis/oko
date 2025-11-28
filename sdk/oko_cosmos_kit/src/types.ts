@@ -1,6 +1,6 @@
-import type { Wallet } from '@cosmos-kit/core';
+import type { Wallet } from "@cosmos-kit/core";
 
-export type OkoLoginProvider = 'google'; // 'google' | 'email';
+export type OkoLoginProvider = "google"; // 'google' | 'email';
 
 export interface OkoLoginMethod {
   provider: OkoLoginProvider;
