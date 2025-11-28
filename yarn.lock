@@ -10099,6 +10099,9 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-server-state@workspace:backend/oko_api_server_state"
   dependencies:
+    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/crypto-js": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@types/express": "npm:*"
     "@types/jest": "npm:*"
@@ -10128,6 +10131,7 @@ __metadata:
   resolution: "@oko-wallet/oko-api-server@workspace:backend/oko_api/server"
   dependencies:
     "@oko-wallet/admin-api": "workspace:*"
+    "@oko-wallet/common-crypto-js": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/ct-dashboard-api": "workspace:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.21"

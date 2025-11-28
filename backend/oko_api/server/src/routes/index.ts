@@ -19,6 +19,9 @@ export function setRoutes(app: Express) {
   );
 
   app.get("/status", (_req, res) => {
-    res.json({ gitHead: app.locals.git_hash });
+    res.json({
+      gitHead: app.locals.git_hash,
+      serverPublicKey: app.locals.server_public_key_hex,
+    });
   });
 }
