@@ -3,7 +3,7 @@ import { Command } from "commander";
 import { loadEnv, verifyEnv } from "@oko-wallet-ksn-server/envs";
 import { connectPG } from "@oko-wallet-ksn-server/database";
 import { loadEncSecret } from "./launch/load_enc_secret";
-import { generateEddsaKeypair } from "@oko-wallet/common-crypto-js";
+import { generateEddsaKeypair } from "@oko-wallet/isomorphic-crypto-js";
 import { encryptDataAsync } from "@oko-wallet-ksn-server/encrypt";
 import {
   rotateServerKeypair,

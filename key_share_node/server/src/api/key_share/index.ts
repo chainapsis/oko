@@ -18,7 +18,10 @@ import type {
 } from "@oko-wallet/ksn-interface/key_share";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
-import { decryptData, encryptData } from "@oko-wallet-ksn-server/encrypt";
+import {
+  decryptDataAsync,
+  encryptDataAsync,
+} from "@oko-wallet-ksn-server/encrypt";
 
 export async function registerKeyShare(
   db: Pool,
@@ -89,7 +92,10 @@ export async function registerKeyShare(
 
       const wallet_id = createWalletRes.data.wallet_id;
 
-      const encryptedShare = encryptData(share.toHex(), encryptionSecret);
+      const encryptedShare = await encryptDataAsync(
+        share.toHex(),
+        encryptionSecret,
+      );
       const encryptedShareBuffer = Buffer.from(encryptedShare, "utf-8");
 
       const createKeyShareRes = await createKeyShare(client, {
@@ -189,7 +195,7 @@ export async function getKeyShare(
       };
     }
 
-    const decryptedShare = decryptData(
+    const decryptedShare = await decryptDataAsync(
       getKeyShareRes.data.enc_share.toString("utf-8"),
       encryptionSecret,
     );
@@ -292,7 +298,7 @@ export async function reshareKeyShare(
     }
 
     // Validate that the new share matches the existing share
-    const existingDecryptedShare = decryptData(
+    const existingDecryptedShare = await decryptDataAsync(
       getKeyShareRes.data.enc_share.toString("utf-8"),
       encryptionSecret,
     );

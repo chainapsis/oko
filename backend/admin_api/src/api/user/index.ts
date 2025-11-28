@@ -6,7 +6,7 @@ import type {
   AdminLogoutResponse,
 } from "@oko-wallet/oko-types/admin";
 import { getAdminByEmail } from "@oko-wallet/oko-pg-interface/admin_users";
-import { comparePassword } from "@oko-wallet/common-crypto-js";
+import { comparePassword } from "@oko-wallet/isomorphic-crypto-js";
 
 import { generateAdminToken } from "@oko-wallet-admin-api/auth";
 import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";

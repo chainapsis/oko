@@ -106,6 +106,12 @@ export function useEmailLogin({
     return () => window.clearInterval(timer);
   }, [resendTimer]);
 
+  useEffect(() => {
+    if (isOtpComplete && !isSubmitting) {
+      void handleVerifyCode();
+    }
+  }, [isOtpComplete]);
+
   const resetError = () => setErrorMessage(null);
 
   const ensureOAuthContext = () => {
@@ -137,6 +143,10 @@ export function useEmailLogin({
       modal_id: modalId,
       type: "reject",
     });
+    // Close the popup window so the host UI doesn't fall back to a loading state.
+    if (typeof window !== "undefined" && window.opener) {
+      window.close();
+    }
   };
 
   const handleSubmitEmail = async () => {
@@ -164,9 +174,7 @@ export function useEmailLogin({
         email: email.trim(),
       });
       setStep("verify_code");
-      setInfoMessage(
-        "We sent a 6-digit verification code to your email address.",
-      );
+      setInfoMessage(null);
       setOtpDigits(Array.from({ length: CODE_LENGTH }, () => ""));
       setResendTimer(RESEND_COOLDOWN_SECONDS);
     } catch (err: any) {

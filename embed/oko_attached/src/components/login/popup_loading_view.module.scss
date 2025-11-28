@@ -1,0 +1,28 @@
+.container {
+    width: 440px;
+    height: 284px;
+    /* Assuming standard popup height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+    border-radius: 12px;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.text {
+    margin-top: 16px;
+    font-family: var(--font-family-body);
+    font-weight: 500;
+    font-size: var(--font-size-text-md);
+    line-height: var(--line-height-text-md);
+    letter-spacing: 0;
+    text-align: center;
+    color: var(--colors-text-text-primary-900, #181d27);
+}

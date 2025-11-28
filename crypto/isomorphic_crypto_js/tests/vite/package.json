@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
   },
   "devDependencies": {
     "typescript": "~5.8.3",

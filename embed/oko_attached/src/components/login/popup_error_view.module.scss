@@ -1,25 +1,93 @@
 .container {
+  width: 440px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.topSection {
+  width: 440px;
+  height: 206px;
+  padding: 24px 24px 0 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-family: var(--font-family-body);
+  font-weight: 600;
+  font-size: var(--font-size-text-lg);
+  line-height: var(--line-height-text-lg);
+  letter-spacing: 0;
+  text-align: center;
+  margin: 7px 0 0 0;
+}
+
+.messageBox {
+  --radius-xl: 12px;
+  width: 392px;
+  height: 72px;
+  background: var(--Colors-Background-bg-warning-primary, #fffaeb);
+  border-radius: var(--radius-xl);
+  padding: var(--spacing-lg);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  text-align: center;
-  width: 100%;
-  height: 100%;
-}
-
-.iconWrapper {
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--bg-secondary);
-  display: grid;
-  place-items: center;
-}
-
-.message {
-  display: flex;
-  flex-direction: column;
   gap: 4px;
+  margin-top: 12px;
+}
+
+.textRow {
+  width: 368px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.messageText {
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  color: var(--colors-text-text-warning-primary-600, #dc6803);
+  letter-spacing: 0;
+}
+
+.supportLink {
+  text-align: center;
+  text-decoration: underline;
+  text-decoration-style: solid;
+  text-decoration-thickness: auto;
+  color: var(--text-secondary);
+  /* Assuming a secondary text color */
+  cursor: pointer;
+  margin-top: 12px;
+  display: block;
+}
+
+.bottomSection {
+  width: 440px;
+  height: 78px;
+  padding-bottom: 24px;
+  padding-left: 24px;
+  padding-right: 24px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  border-top: 1px solid var(--border-subtle);
+  /* Optional: separator */
 }

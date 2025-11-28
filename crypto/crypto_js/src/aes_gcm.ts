@@ -1,4 +1,4 @@
-// TODO: Replace sync functions with async functions @chemonoworld
+// TODO: Remove sync functions @chemonoworld
 
 import {
   randomBytes,
@@ -11,6 +11,7 @@ import { promisify } from "util";
 
 const pbkdf2Async = promisify(pbkdf2);
 
+// deprecated
 export function encryptData(data: string, password: string): string {
   const salt = randomBytes(16);
   const iv = randomBytes(12);
@@ -26,6 +27,7 @@ export function encryptData(data: string, password: string): string {
   return Buffer.concat([salt, iv, authTag, encrypted]).toString("base64");
 }
 
+// deprecated
 export function decryptData(encryptedBase64: string, password: string): string {
   const buffer = Buffer.from(encryptedBase64, "base64");
 
