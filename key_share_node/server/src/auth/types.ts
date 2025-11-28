@@ -1,4 +1,4 @@
-export type OAuthProvider = "google" | "auth0" | "x";
+export type OAuthProvider = "google" | "auth0" | "x" | "telegram";
 
 export interface OAuthUser {
   type: OAuthProvider;
