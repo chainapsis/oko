@@ -3,8 +3,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   SocialLoginXVerifyUserResponse,
   SocialLoginXBody,
-  SocialLoginGetTokenResponse,
-  SocialLoginDiscordBody,
+  SocialLoginXResponse,
 } from "@oko-wallet/oko-types/social_login";
 import { getXUserInfo } from "@oko-wallet-social-login-api/api/x";
 import {
@@ -12,11 +11,6 @@ import {
   X_CLIENT_ID,
   X_SOCIAL_LOGIN_TOKEN_URL,
 } from "@oko-wallet-social-login-api/constants/x";
-import {
-  DISCORD_CLIENT_ID,
-  DISCORD_SOCIAL_LOGIN_CALLBACK_URL,
-  DISCORD_SOCIAL_LOGIN_TOKEN_URL,
-} from "@oko-wallet-social-login-api/constants/discord";
 
 export function setSocialLoginRoutes(router: Router) {
   // registry.registerPath({
@@ -66,8 +60,9 @@ export function setSocialLoginRoutes(router: Router) {
     "/x/get-token",
     async (
       req: Request<any, any, SocialLoginXBody>,
-      res: Response<OkoApiResponse<SocialLoginGetTokenResponse>>,
+      res: Response<OkoApiResponse<SocialLoginXResponse>>,
     ) => {
+      const state = req.app.locals;
       const body = req.body;
 
       if (!body.code || !body.code_verifier) {
@@ -152,68 +147,6 @@ export function setSocialLoginRoutes(router: Router) {
         success: false,
         code: "UNKNOWN_ERROR",
         msg: response.err.text,
-      });
-    },
-  );
-
-  router.post(
-    "/discord/get-token",
-    async (
-      req: Request<any, any, SocialLoginDiscordBody>,
-      res: Response<OkoApiResponse<SocialLoginGetTokenResponse>>,
-    ) => {
-      const body = req.body;
-      const clientSecret = req.app.locals.state.discord_client_secret;
-
-      if (!clientSecret) {
-        res.status(500).json({
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: "Discord client secret is not set",
-        });
-        return;
-      }
-
-      if (!body.code) {
-        res.status(400).json({
-          success: false,
-          code: "INVALID_REQUEST",
-          msg: "Code is not set",
-        });
-        return;
-      }
-
-      const reqBody = new URLSearchParams({
-        grant_type: "authorization_code",
-        code: body.code,
-        redirect_uri: DISCORD_SOCIAL_LOGIN_CALLBACK_URL,
-      });
-
-      const authString = Buffer.from(
-        `${DISCORD_CLIENT_ID}:${clientSecret}`,
-      ).toString("base64");
-
-      const response = await fetch(DISCORD_SOCIAL_LOGIN_TOKEN_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Authorization: `Basic ${authString}`,
-        },
-        body: reqBody,
-      });
-
-      if (response.status === 200) {
-        res.status(200).json({
-          success: true,
-          data: await response.json(),
-        });
-        return;
-      }
-
-      res.status(response.status).json({
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: await response.text(),
       });
     },
   );
