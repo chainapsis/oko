@@ -10,14 +10,22 @@ import {
   AUTH0_CLIENT_ID,
   AUTH0_DOMAIN,
 } from "@oko-wallet-attached/config/auth0";
+import { verifyIdTokenOfDiscord } from "./discord";
 
 export async function verifyIdToken(
   authType: OAuthProvider,
   idToken: string,
-  nonce: string,
+  nonce?: string,
 ): Promise<Result<TokenInfo, string>> {
   try {
     if (authType === "auth0") {
+      if (!nonce) {
+        return {
+          success: false,
+          err: "Nonce is required for Auth0",
+        };
+      }
+
       const auth0TokenInfo = await verifyAuth0IdToken(idToken, nonce);
       return {
         success: true,
@@ -33,6 +41,13 @@ export async function verifyIdToken(
     }
 
     if (authType === "google") {
+      if (!nonce) {
+        return {
+          success: false,
+          err: "Nonce is required for Google",
+        };
+      }
+
       const googleTokenInfo = await verifyGoogleIdToken(idToken, nonce);
       return {
         success: true,
@@ -43,6 +58,33 @@ export async function verifyIdToken(
           nonce: googleTokenInfo.nonce,
           name: googleTokenInfo.name,
           sub: googleTokenInfo.sub,
+        },
+      };
+    }
+
+    if (authType === "discord") {
+      const discordTokenInfo = await verifyIdTokenOfDiscord(idToken);
+
+      if (!discordTokenInfo.success) {
+        return {
+          success: false,
+          err: discordTokenInfo.err,
+        };
+      }
+
+      if (!discordTokenInfo.data.email) {
+        return {
+          success: false,
+          err: "Discord email not found",
+        };
+      }
+
+      return {
+        success: true,
+        data: {
+          provider: "discord",
+          email: discordTokenInfo.data.email,
+          email_verified: true,
         },
       };
     }

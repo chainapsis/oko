@@ -4,6 +4,7 @@ import type {
   OkoWalletMsgOAuthInfoPassAck,
   OkoWalletMsgOAuthSignInUpdate,
   OAuthSignInError,
+  OAuthPayload,
 } from "@oko-wallet/oko-sdk-core";
 import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
 import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
@@ -29,6 +30,7 @@ import {
 import { bail } from "./errors";
 import { verifyIdToken } from "./token";
 import { getAccessTokenOfX, verifyIdTokenOfX } from "./x";
+import { getAccessTokenOfDiscordWithPKCE } from "./discord";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
@@ -118,14 +120,72 @@ export async function handleOAuthInfoPass(
       userIdentifier = userInfo.id;
 
       appState.setCodeVerifier(hostOrigin, null);
+    } else if (message.payload.auth_type === "discord") {
+      console.log("[discord] Starting Discord OAuth flow with PKCE");
+
+      const codeVerifierRegistered = appState.getCodeVerifier(hostOrigin);
+      if (!codeVerifierRegistered) {
+        await bail(message, { type: "PKCE_missing" });
+        return;
+      }
+
+      // Build redirect URI from current origin
+      const redirectUri = `${window.location.origin}/discord/callback`;
+
+      const tokenRes = await getAccessTokenOfDiscordWithPKCE(
+        message.payload.code,
+        codeVerifierRegistered,
+        redirectUri,
+      );
+
+      if (!tokenRes.success) {
+        console.error("[discord] Token exchange failed: %s", tokenRes.err);
+        await bail(message, {
+          type: "unknown",
+          error: tokenRes.err,
+        });
+        return;
+      }
+
+      console.log(
+        "[discord] Token exchange successful, access_token: %s",
+        tokenRes.data,
+      );
+
+      const verifyIdTokenRes = await verifyIdToken("discord", tokenRes.data);
+      if (!verifyIdTokenRes.success) {
+        console.error(
+          "[discord] User verification failed: %s",
+          verifyIdTokenRes.err,
+        );
+        await bail(message, {
+          type: "unknown",
+          error: verifyIdTokenRes.err,
+        });
+        return;
+      }
+
+      const userInfo = verifyIdTokenRes.data;
+      const tokenInfo = tokenRes.data;
+
+      console.log("[discord] User info received: %o", userInfo);
+      console.log(
+        "[discord] Using Discord user id as identifier: %s",
+        userInfo.email,
+      );
+
+      idToken = tokenInfo;
+      userIdentifier = userInfo.email;
+
+      appState.setCodeVerifier(hostOrigin, null);
     } else {
       const nonceRegistered = appState.getNonce(hostOrigin);
       if (!nonceRegistered) {
         await bail(message, { type: "nonce_missing" });
         return;
       }
-
-      idToken = message.payload.id_token;
+      const payload = message.payload as OAuthPayload;
+      idToken = payload.id_token;
 
       const tokenInfoRes = await verifyIdToken(
         authType,

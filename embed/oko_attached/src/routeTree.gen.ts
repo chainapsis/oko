@@ -15,6 +15,7 @@ import { Route as LoginIndexRouteImport } from './routes/login/index'
 import { Route as XCallbackIndexRouteImport } from './routes/x/callback/index'
 import { Route as TelegramCallbackIndexRouteImport } from './routes/telegram/callback/index'
 import { Route as GoogleCallbackIndexRouteImport } from './routes/google/callback/index'
+import { Route as DiscordCallbackIndexRouteImport } from './routes/discord/callback/index'
 import { Route as Auth0CallbackIndexRouteImport } from './routes/auth0/callback/index'
 
 const IndexRoute = IndexRouteImport.update({
@@ -47,6 +48,11 @@ const GoogleCallbackIndexRoute = GoogleCallbackIndexRouteImport.update({
   path: '/google/callback/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DiscordCallbackIndexRoute = DiscordCallbackIndexRouteImport.update({
+  id: '/discord/callback/',
+  path: '/discord/callback/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Auth0CallbackIndexRoute = Auth0CallbackIndexRouteImport.update({
   id: '/auth0/callback/',
   path: '/auth0/callback/',
@@ -58,6 +64,7 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginIndexRoute
   '/telegram': typeof TelegramIndexRoute
   '/auth0/callback': typeof Auth0CallbackIndexRoute
+  '/discord/callback': typeof DiscordCallbackIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
   '/telegram/callback': typeof TelegramCallbackIndexRoute
   '/x/callback': typeof XCallbackIndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByTo {
   '/login': typeof LoginIndexRoute
   '/telegram': typeof TelegramIndexRoute
   '/auth0/callback': typeof Auth0CallbackIndexRoute
+  '/discord/callback': typeof DiscordCallbackIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
   '/telegram/callback': typeof TelegramCallbackIndexRoute
   '/x/callback': typeof XCallbackIndexRoute
@@ -77,6 +85,7 @@ export interface FileRoutesById {
   '/login/': typeof LoginIndexRoute
   '/telegram/': typeof TelegramIndexRoute
   '/auth0/callback/': typeof Auth0CallbackIndexRoute
+  '/discord/callback/': typeof DiscordCallbackIndexRoute
   '/google/callback/': typeof GoogleCallbackIndexRoute
   '/telegram/callback/': typeof TelegramCallbackIndexRoute
   '/x/callback/': typeof XCallbackIndexRoute
@@ -88,6 +97,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/telegram'
     | '/auth0/callback'
+    | '/discord/callback'
     | '/google/callback'
     | '/telegram/callback'
     | '/x/callback'
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/login'
     | '/telegram'
     | '/auth0/callback'
+    | '/discord/callback'
     | '/google/callback'
     | '/telegram/callback'
     | '/x/callback'
@@ -106,6 +117,7 @@ export interface FileRouteTypes {
     | '/login/'
     | '/telegram/'
     | '/auth0/callback/'
+    | '/discord/callback/'
     | '/google/callback/'
     | '/telegram/callback/'
     | '/x/callback/'
@@ -116,6 +128,7 @@ export interface RootRouteChildren {
   LoginIndexRoute: typeof LoginIndexRoute
   TelegramIndexRoute: typeof TelegramIndexRoute
   Auth0CallbackIndexRoute: typeof Auth0CallbackIndexRoute
+  DiscordCallbackIndexRoute: typeof DiscordCallbackIndexRoute
   GoogleCallbackIndexRoute: typeof GoogleCallbackIndexRoute
   TelegramCallbackIndexRoute: typeof TelegramCallbackIndexRoute
   XCallbackIndexRoute: typeof XCallbackIndexRoute
@@ -165,6 +178,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoogleCallbackIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/discord/callback/': {
+      id: '/discord/callback/'
+      path: '/discord/callback'
+      fullPath: '/discord/callback'
+      preLoaderRoute: typeof DiscordCallbackIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/auth0/callback/': {
       id: '/auth0/callback/'
       path: '/auth0/callback'
@@ -180,6 +200,7 @@ const rootRouteChildren: RootRouteChildren = {
   LoginIndexRoute: LoginIndexRoute,
   TelegramIndexRoute: TelegramIndexRoute,
   Auth0CallbackIndexRoute: Auth0CallbackIndexRoute,
+  DiscordCallbackIndexRoute: DiscordCallbackIndexRoute,
   GoogleCallbackIndexRoute: GoogleCallbackIndexRoute,
   TelegramCallbackIndexRoute: TelegramCallbackIndexRoute,
   XCallbackIndexRoute: XCallbackIndexRoute,

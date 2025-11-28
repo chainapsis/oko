@@ -35,6 +35,16 @@ export interface XUserInfo {
   email?: string;
 }
 
+export interface DiscordUserInfo {
+  id: string;
+  username: string;
+  discriminator: string;
+  email: string;
+  verified?: boolean;
+  avatar?: string;
+  global_name?: string;
+}
+
 export interface Auth0TokenInfo {
   email: string;
   email_verified: boolean;
