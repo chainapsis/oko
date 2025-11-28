@@ -32,30 +32,14 @@ export function validateTelegramHash(
     };
   }
 
-  const dataCheckString: string[] = [];
+  const { hash, ...dataWithoutHash } = userData;
 
-  if (userData.id) {
-    dataCheckString.push(`id=${userData.id}`);
-  }
-  if (userData.first_name) {
-    dataCheckString.push(`first_name=${userData.first_name}`);
-  }
-  if (userData.last_name) {
-    dataCheckString.push(`last_name=${userData.last_name}`);
-  }
-  if (userData.username) {
-    dataCheckString.push(`username=${userData.username}`);
-  }
-  if (userData.photo_url) {
-    dataCheckString.push(`photo_url=${userData.photo_url}`);
-  }
-  if (userData.auth_date) {
-    dataCheckString.push(`auth_date=${userData.auth_date}`);
-  }
-
-  dataCheckString.sort();
-
-  const dataCheckStringJoined = dataCheckString.join("\n");
+  const dataCheckString = Object.keys(dataWithoutHash)
+    .sort()
+    .map(
+      (key) => `${key}=${dataWithoutHash[key as keyof typeof dataWithoutHash]}`,
+    )
+    .join("\n");
 
   const secretKey = crypto
     .createHash("sha256")
@@ -64,7 +48,7 @@ export function validateTelegramHash(
 
   const calculatedHash = crypto
     .createHmac("sha256", secretKey)
-    .update(dataCheckStringJoined)
+    .update(dataCheckString)
     .digest("hex");
 
   const receivedHashBuffer = Buffer.from(userData.hash, "hex");
