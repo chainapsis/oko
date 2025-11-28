@@ -3,7 +3,11 @@ export type SocialLoginXBody = {
   code_verifier: string;
 };
 
-export type SocialLoginXResponse = {
+export type SocialLoginDiscordBody = {
+  code: string;
+};
+
+export type SocialLoginGetTokenResponse = {
   access_token: string;
   refresh_token?: string;
   expires_in?: number;
