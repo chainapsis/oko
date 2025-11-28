@@ -7,9 +7,20 @@ export function generateNonce(length = 8) {
 function generateRandomString(length = 64): string {
   const array = new Uint8Array(length);
   crypto.getRandomValues(array);
-  return Array.from(array)
-    .map((b) => ("0" + b.toString(16)).slice(-2))
-    .join("");
+
+  let binary = "";
+  for (let i = 0; i < array.length; i++) {
+    binary += String.fromCharCode(array[i]);
+  }
+
+  const base64 = btoa(binary);
+
+  // Convert to URL-safe base64 (RFC 7636)
+  return base64.replace(/[+\/]|(=+)$/g, (match) => {
+    if (match === "+") return "-";
+    if (match === "/") return "_";
+    return "";
+  });
 }
 
 async function sha256(input: string): Promise<ArrayBuffer> {
@@ -25,7 +36,11 @@ function base64UrlEncode(buffer: ArrayBuffer): string {
     binary += String.fromCharCode(bytes[i]);
   }
   const base64 = btoa(binary);
-  return base64.replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  return base64.replace(/[+\/]|(=+)$/g, (match) => {
+    if (match === "+") return "-";
+    if (match === "/") return "_";
+    return "";
+  });
 }
 
 export async function createPkcePair(): Promise<{
