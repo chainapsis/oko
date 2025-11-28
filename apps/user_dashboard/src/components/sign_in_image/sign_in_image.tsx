@@ -1,8 +1,9 @@
+import { FC } from "react";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 import styles from "./sign_in_image.module.scss";
 
-export const SignInImage = () => (
+export const SignInImage: FC = () => (
   <div
     className={styles.container}
     style={{

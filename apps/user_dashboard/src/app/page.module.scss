@@ -14,11 +14,10 @@
   flex-grow: 1;
 }
 
-.homeBanners {
+.content {
+  padding-top: 24px;
+
   display: flex;
-  flex-direction: row;
-  gap: 16px;
-  margin-top: 1.75rem;
-  position: relative;
-  left: -12px;
+  flex-direction: column;
+  gap: 40px;
 }
