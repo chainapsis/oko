@@ -2,29 +2,20 @@ import type { Result } from "@oko-wallet/stdlib-js";
 
 import type { OAuthValidationFail } from "../types";
 
+export const X_USER_INFO_URL = "https://api.x.com/2/users/me";
+
 export interface XUserInfo {
   id: string;
   name: string;
   username: string;
+  email?: string;
 }
 
 export async function validateAccessTokenOfX(
   accessToken: string,
 ): Promise<Result<XUserInfo, OAuthValidationFail>> {
   try {
-    const okoApiEndpoint = process.env.OKO_API_ENDPOINT;
-
-    if (!okoApiEndpoint) {
-      return {
-        success: false,
-        err: {
-          type: "unknown",
-          message: "OKO_API_ENDPOINT is not set",
-        },
-      };
-    }
-
-    const res = await fetch(`${okoApiEndpoint}/social-login/v1/x/verify-user`, {
+    const res = await fetch(X_USER_INFO_URL, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${accessToken}`,
