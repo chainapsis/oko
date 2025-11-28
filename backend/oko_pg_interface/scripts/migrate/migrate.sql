@@ -306,3 +306,24 @@ CREATE TABLE public.wallet_ks_nodes (
 );
 CREATE INDEX idx_wallet_ks_nodes_node_id ON public.wallet_ks_nodes USING btree (node_id);
 CREATE INDEX idx_wallet_ks_nodes_wallet_id ON public.wallet_ks_nodes USING btree (wallet_id);
+
+
+-- public.server_keypairs definition
+
+-- Drop table
+
+-- DROP TABLE public.server_keypairs;
+
+CREATE TABLE public.server_keypairs (
+	keypair_id uuid DEFAULT gen_random_uuid() NOT NULL,
+	version int4 GENERATED ALWAYS AS IDENTITY NOT NULL,
+	public_key bytea NOT NULL,
+	enc_private_key text NOT NULL,
+	is_active bool DEFAULT true NOT NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	updated_at timestamptz DEFAULT now() NOT NULL,
+	rotated_at timestamptz NULL,
+	CONSTRAINT server_keypairs_pkey PRIMARY KEY (keypair_id),
+	CONSTRAINT server_keypairs_version_key UNIQUE (version)
+);
+CREATE INDEX idx_server_keypairs_is_active ON public.server_keypairs USING btree (is_active) WHERE (is_active = true);

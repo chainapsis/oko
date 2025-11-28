@@ -9897,6 +9897,7 @@ __metadata:
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:^8.1.0"
     "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
+    "@oko-wallet/common-crypto-js": "workspace:*"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
     "@oko-wallet/ksn-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
@@ -10075,6 +10076,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-server-state@workspace:backend/oko_api_server_state"
   dependencies:
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
+    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/crypto-js": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@types/express": "npm:*"
     "@types/jest": "npm:*"
@@ -10104,6 +10109,8 @@ __metadata:
   resolution: "@oko-wallet/oko-api-server@workspace:backend/oko_api/server"
   dependencies:
     "@oko-wallet/admin-api": "workspace:*"
+    "@oko-wallet/common-crypto-js": "workspace:*"
+    "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/ct-dashboard-api": "workspace:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.21"
     "@oko-wallet/log-api": "workspace:*"

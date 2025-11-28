@@ -2,6 +2,10 @@
   "name": "@oko-wallet/crypto-js",
   "type": "module",
   "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./aes_gcm": "./src/aes_gcm.ts"
+  },
   "scripts": {
     "clean": "del-cli dist",
     "build": "yarn clean && tsc",
