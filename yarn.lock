@@ -10099,6 +10099,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-server-state@workspace:backend/oko_api_server_state"
   dependencies:
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
     "@oko-wallet/common-crypto-js": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"

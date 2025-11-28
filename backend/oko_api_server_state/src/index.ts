@@ -1,8 +1,15 @@
 import { Pool } from "pg";
 import type { Logger } from "winston";
 
-import { generateEddsaKeypair } from "@oko-wallet/common-crypto-js";
-import { encryptDataAsync } from "@oko-wallet/crypto-js/aes_gcm";
+import {
+  generateEddsaKeypair,
+  type EddsaKeypair,
+} from "@oko-wallet/common-crypto-js";
+import { Bytes } from "@oko-wallet/bytes";
+import {
+  encryptDataAsync,
+  decryptDataAsync,
+} from "@oko-wallet/crypto-js/aes_gcm";
 import {
   getActiveServerKeypair,
   insertServerKeypair,
@@ -53,7 +60,7 @@ export async function makeServerState(
     }
 
     // Initialize or fetch server keypair
-    const serverPublicKeyHex = await initializeServerKeypair(
+    const serverKeypair = await initializeServerKeypair(
       db,
       args.encryption_secret,
       logger,
@@ -64,7 +71,7 @@ export async function makeServerState(
       logger,
       smtp_port: smtpPort,
       email_verification_expiration_minutes: emailVerificationExpirationMinutes,
-      server_public_key_hex: serverPublicKeyHex,
+      server_keypair: serverKeypair,
       ...rest,
     };
   } catch (error) {
@@ -96,7 +103,7 @@ export interface ServerState {
   s3_bucket: string;
   encryption_secret: string;
   typeform_webhook_secret: string;
-  server_public_key_hex: string;
+  server_keypair: EddsaKeypair;
 }
 
 export interface InitStateArgs {
@@ -132,7 +139,7 @@ async function initializeServerKeypair(
   db: Pool,
   encryptionSecret: string,
   logger: Logger,
-): Promise<string> {
+): Promise<EddsaKeypair> {
   // Check if there's an active keypair
   const activeKeypairRes = await getActiveServerKeypair(db);
   if (!activeKeypairRes.success) {
@@ -142,12 +149,34 @@ async function initializeServerKeypair(
   }
 
   if (activeKeypairRes.data) {
-    const publicKeyHex = activeKeypairRes.data.public_key.toString("hex");
     logger.info(
       "Using existing server keypair (version: %d)",
       activeKeypairRes.data.version,
     );
-    return publicKeyHex;
+
+    // Decrypt private key and reconstruct EddsaKeypair
+    const privateKeyHex = await decryptDataAsync(
+      activeKeypairRes.data.enc_private_key,
+      encryptionSecret,
+    );
+
+    const privateKeyRes = Bytes.fromHexString(privateKeyHex, 32);
+    if (!privateKeyRes.success) {
+      throw new Error(`Failed to parse private key: ${privateKeyRes.err}`);
+    }
+
+    const publicKeyRes = Bytes.fromUint8Array(
+      activeKeypairRes.data.public_key,
+      32,
+    );
+    if (!publicKeyRes.success) {
+      throw new Error(`Failed to parse public key: ${publicKeyRes.err}`);
+    }
+
+    return {
+      privateKey: privateKeyRes.data,
+      publicKey: publicKeyRes.data,
+    };
   }
 
   // Generate new keypair
@@ -159,7 +188,6 @@ async function initializeServerKeypair(
 
   const { privateKey, publicKey } = keypairRes.data;
   const privateKeyHex = privateKey.toHex();
-  const publicKeyHex = publicKey.toHex();
 
   // Encrypt private key
   const encryptedPrivateKey = await encryptDataAsync(
@@ -180,5 +208,5 @@ async function initializeServerKeypair(
     "Generated new server keypair (version: %d)",
     insertRes.data.version,
   );
-  return publicKeyHex;
+  return keypairRes.data;
 }
