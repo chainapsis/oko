@@ -28,7 +28,9 @@ const opts = program.opts();
 async function main() {
   const nodeId = opts.nodeId;
 
-  console.log(`Using node-id: ${nodeId}${nodeId === DEFAULT_NODE_ID ? " (default)" : ""}`);
+  console.log(
+    `Using node-id: ${nodeId}${nodeId === DEFAULT_NODE_ID ? " (default)" : ""}`,
+  );
 
   loadEnv(nodeId);
 
