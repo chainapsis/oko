@@ -32,7 +32,9 @@ export interface OkoWalletInterface {
   ) => Promise<Result<OpenModalAckPayload, OpenModalError>>;
   closeModal: () => void;
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>;
-  signIn: (type: "google" | "email" | "x" | "telegram") => Promise<void>;
+  signIn: (
+    type: "google" | "email" | "x" | "telegram" | "discord",
+  ) => Promise<void>;
   signOut: () => Promise<void>;
   getPublicKey: () => Promise<string | null>;
   getEmail: () => Promise<string | null>;
