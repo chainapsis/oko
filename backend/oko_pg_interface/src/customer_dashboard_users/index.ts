@@ -3,6 +3,7 @@ import type { Result } from "@oko-wallet/stdlib-js";
 import {
   type CustomerAndCTDUser,
   type CustomerAndCTDUserWithPasswordHash,
+  type CustomerDashboardUser,
   type DeleteCustomerDashboardUsersByCustomerIdRequest,
   type DeleteCustomerDashboardUsersByCustomerIdResponse,
   type InsertCustomerDashboardUserRequest,
@@ -263,6 +264,43 @@ export async function deleteCustomerDashboardUserByCustomerId(
     };
 
     return { success: true, data: ret };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getCTDUsersByCustomerIdsMap(
+  db: Pool | PoolClient,
+  customerIds: string[],
+): Promise<Result<Map<string, CustomerDashboardUser[]>, string>> {
+  if (customerIds.length === 0) {
+    return { success: true, data: new Map() };
+  }
+
+  const query = `
+  SELECT *
+  FROM customer_dashboard_users
+  WHERE customer_id = ANY($1::uuid[]) AND status = 'ACTIVE'
+  ORDER BY created_at ASC
+  `;
+
+  try {
+    const result = await db.query(query, [customerIds]);
+
+    if (result.rows.length === 0) {
+      return { success: true, data: new Map() };
+    }
+
+    return {
+      success: true,
+      data: result.rows.reduce((acc, row) => {
+        acc.set(row.customer_id, [...(acc.get(row.customer_id) || []), row]);
+        return acc;
+      }, new Map<string, CustomerDashboardUser[]>()),
+    };
   } catch (error) {
     return {
       success: false,
