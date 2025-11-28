@@ -5,10 +5,6 @@ import { Authorized } from "@oko-wallet-user-dashboard/components/authorized/aut
 import { DashboardBody } from "@oko-wallet-user-dashboard/components/dashboard_body/dashboard_body";
 import { LeftBar } from "@oko-wallet-user-dashboard/components/left_bar/left_bar";
 import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard_header/dashboard_header";
-import { AccountInfo } from "@oko-wallet-user-dashboard/components/account_info/account_info";
-import { HomeBanner } from "@oko-wallet-user-dashboard/components/home_banner/home_banner";
-import { SDKInstallationGuide } from "@oko-wallet-user-dashboard/components/sdk_installation_guide/sdk_installation_guide";
-import { APIKeyList } from "@oko-wallet-user-dashboard/components/api_key_list/api_key_list";
 
 export default function Home() {
   return (
@@ -17,27 +13,7 @@ export default function Home() {
         <DashboardHeader />
         <div className={styles.body}>
           <LeftBar />
-          <DashboardBody>
-            <AccountInfo />
-            <div className={styles.homeBanners}>
-              <HomeBanner
-                title="Read our docs"
-                description="Everything you need to get started with Oko."
-                buttonText="Open docs"
-                buttonLink={process.env.NEXT_PUBLIC_OKO_DOCS_ENDPOINT}
-                type="docs"
-              />
-              <HomeBanner
-                title="See it in action"
-                description="Try and explore Oko in a live demo."
-                buttonText="Try Demo"
-                buttonLink={process.env.NEXT_PUBLIC_OKO_DEMO_ENDPOINT}
-                type="demo"
-              />
-            </div>
-            <SDKInstallationGuide />
-            <APIKeyList />
-          </DashboardBody>
+          <DashboardBody></DashboardBody>
         </div>
       </div>
     </Authorized>
