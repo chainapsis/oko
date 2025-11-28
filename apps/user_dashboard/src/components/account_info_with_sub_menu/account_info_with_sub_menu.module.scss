@@ -1,0 +1,39 @@
+.menu {
+  width: 252px;
+}
+
+.menuHeader {
+  width: calc(100% + 2px);
+  position: relative;
+  top: -1px;
+  left: -1px;
+  cursor: default;
+
+  img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover;
+  }
+}
+
+.sidebarTrigger {
+  img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: cover;
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  border-radius: 6px;
+  width: 24px;
+  height: 24px;
+
+  &:hover {
+    background-color: var(--bg-primary-hover);
+  }
+}
