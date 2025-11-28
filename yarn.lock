@@ -9824,15 +9824,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/dotenv@npm:0.0.2-alpha.12":
-  version: 0.0.2-alpha.12
-  resolution: "@oko-wallet/dotenv@npm:0.0.2-alpha.12"
-  dependencies:
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.27"
-  checksum: 10c0/803f9ac12e804c04a2d616e9fbc26becd69923eebd2e9707b8a8fabfabfb33d711244b153f9c3bed6475cd24fb492801f08d0f755e9f13288eb8473c2092f4af
-  languageName: node
-  linkType: hard
-
 "@oko-wallet/dotenv@npm:0.0.2-alpha.17":
   version: 0.0.2-alpha.17
   resolution: "@oko-wallet/dotenv@npm:0.0.2-alpha.17"
@@ -9844,7 +9835,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/dotenv@workspace:lib/dotenv":
+"@oko-wallet/dotenv@workspace:*, @oko-wallet/dotenv@workspace:lib/dotenv":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/dotenv@workspace:lib/dotenv"
   dependencies:
@@ -10512,7 +10503,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/stdlib-js@npm:^0.0.2-rc.27, @oko-wallet/stdlib-js@npm:^0.0.2-rc.31, @oko-wallet/stdlib-js@npm:^0.0.2-rc.32, @oko-wallet/stdlib-js@npm:^0.0.2-rc.34, @oko-wallet/stdlib-js@workspace:*, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
+"@oko-wallet/stdlib-js@npm:^0.0.2-rc.31, @oko-wallet/stdlib-js@npm:^0.0.2-rc.32, @oko-wallet/stdlib-js@npm:^0.0.2-rc.34, @oko-wallet/stdlib-js@workspace:*, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/stdlib-js@workspace:lib/stdlib_js"
   dependencies:
@@ -10641,9 +10632,9 @@ __metadata:
   dependencies:
     "@floating-ui/dom": "npm:*"
     "@floating-ui/react": "npm:*"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.12"
+    "@oko-wallet/dotenv": "workspace:*"
     "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.27"
+    "@oko-wallet/stdlib-js": "workspace:*"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:*"
