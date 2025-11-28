@@ -34,12 +34,20 @@ export const PopupErrorView: FC<PopupErrorViewProps> = ({ error }) => {
         </Typography>
         <div className={styles.messageBox}>
           <div className={styles.textRow}>
-            <Typography size="sm" weight="semibold" className={styles.messageText}>
+            <Typography
+              size="sm"
+              weight="semibold"
+              className={styles.messageText}
+            >
               Error Code: {errorCode}
             </Typography>
           </div>
           <div className={styles.textRow}>
-            <Typography size="sm" weight="semibold" className={styles.messageText}>
+            <Typography
+              size="sm"
+              weight="semibold"
+              className={styles.messageText}
+            >
               {(error.error as any)?.message || "An unknown error occurred."}
             </Typography>
           </div>

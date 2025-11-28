@@ -43,9 +43,7 @@ export const Login: FC = () => {
   );
 };
 
-const LoadingCard: FC = () => (
-  <div className={styles.blankPanel} />
-);
+const LoadingCard: FC = () => <div className={styles.blankPanel} />;
 
 const InlineOnlyNotice: FC = () => (
   <div className={styles.panel}>

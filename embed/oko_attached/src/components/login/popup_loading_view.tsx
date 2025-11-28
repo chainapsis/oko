@@ -4,18 +4,14 @@ import { LoadingCircleIcon } from "@oko-wallet/oko-common-ui/icons/loading_circl
 import styles from "./popup_loading_view.module.scss";
 
 export const PopupLoadingView: FC = () => {
-    return (
-        <div className={styles.container}>
-            <div className={styles.content}>
-                <LoadingCircleIcon size={62} />
-                <Typography
-                    size="md"
-                    weight="medium"
-                    className={styles.text}
-                >
-                    Signing in...
-                </Typography>
-            </div>
-        </div>
-    );
+  return (
+    <div className={styles.container}>
+      <div className={styles.content}>
+        <LoadingCircleIcon size={62} />
+        <Typography size="md" weight="medium" className={styles.text}>
+          Signing in...
+        </Typography>
+      </div>
+    </div>
+  );
 };

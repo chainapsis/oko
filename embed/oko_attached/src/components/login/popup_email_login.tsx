@@ -55,7 +55,9 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
           <div className={styles.card}>
             <div className={styles.cardTop}>
               <Logo theme="light" />
-              <div className={styles.fieldHeader}>Enter your email to continue</div>
+              <div className={styles.fieldHeader}>
+                Enter your email to continue
+              </div>
             </div>
             <div className={styles.cardBottom}>
               <form className={styles.form} onSubmit={onSubmitEmail}>
@@ -120,7 +122,9 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
                 </div>
 
                 <div className={styles.resendRow}>
-                  <span className={styles.resendText}>Didn&apos;t get the code?</span>
+                  <span className={styles.resendText}>
+                    Didn&apos;t get the code?
+                  </span>
                   <button
                     type="button"
                     className={styles.resendLink}
@@ -133,7 +137,9 @@ export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
                     Resend
                   </button>
                   {resendTimer > 0 && (
-                    <span className={styles.resendTimer}>{`${resendTimer}s`}</span>
+                    <span
+                      className={styles.resendTimer}
+                    >{`${resendTimer}s`}</span>
                   )}
                 </div>
               </div>
