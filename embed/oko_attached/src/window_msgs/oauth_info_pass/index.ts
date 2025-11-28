@@ -67,7 +67,22 @@ export async function handleOAuthInfoPass(
     let userIdentifier: string;
     let idToken: string;
 
-    if (message.payload.auth_type === "x") {
+    if (message.payload.auth_type === "telegram") {
+      const telegramPayload = message.payload as {
+        telegram_data: Record<string, string>;
+        api_key: string;
+        target_origin: string;
+        auth_type: "telegram";
+      };
+
+      if (!telegramPayload.telegram_data || !telegramPayload.telegram_data.id) {
+        await bail(message, { type: "params_not_sufficient" });
+        return;
+      }
+
+      userIdentifier = telegramPayload.telegram_data.id;
+      idToken = JSON.stringify(telegramPayload.telegram_data);
+    } else if (message.payload.auth_type === "x") {
       const codeVerifierRegistered = appState.getCodeVerifier(hostOrigin);
       if (!codeVerifierRegistered) {
         await bail(message, { type: "PKCE_missing" });

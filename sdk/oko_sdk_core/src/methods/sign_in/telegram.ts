@@ -8,7 +8,6 @@ import type {
 import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
-const TELEGRAM_BOT_NAME = "auth234198_bot";
 
 export async function handleTelegramSignIn(okoWallet: OkoWalletInterface) {
   const signInRes = await tryTelegramSignIn(

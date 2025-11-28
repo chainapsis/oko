@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Result } from "@oko-wallet/stdlib-js";
-import {
-  RedirectUriSearchParamsKey,
-  type OAuthTokenRequestPayloadOfTelegram,
-} from "@oko-wallet/oko-sdk-core";
+import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 
 import type { HandleTelegramCallbackError } from "./types";
 import { postLog } from "@oko-wallet-attached/requests/logging";
@@ -53,13 +50,9 @@ export async function handleTelegramCallback(): Promise<
   }
 
   const urlParams = new URLSearchParams(window.location.search);
-  const id = urlParams.get("id");
-  const firstName = urlParams.get("first_name");
-  const authDate = urlParams.get("auth_date");
-  const hash = urlParams.get("hash");
   const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE) || "{}";
 
-  if (!id || !firstName || !authDate || !hash || !stateParam) {
+  if (!stateParam) {
     return {
       success: false,
       err: { type: "params_not_sufficient" },
@@ -86,17 +79,27 @@ export async function handleTelegramCallback(): Promise<
     };
   }
 
-  const payload: OAuthTokenRequestPayloadOfTelegram = {
-    id,
-    first_name: firstName,
-    last_name: urlParams.get("last_name") || undefined,
-    username: urlParams.get("username") || undefined,
-    photo_url: urlParams.get("photo_url") || undefined,
-    auth_date: authDate,
-    hash,
+  const telegramData: Record<string, string> = {};
+  for (const [key, value] of urlParams.entries()) {
+    if (key !== RedirectUriSearchParamsKey.STATE && value !== null) {
+      telegramData[key] = value;
+    }
+  }
+
+  if (!telegramData.id || !telegramData.auth_date || !telegramData.hash) {
+    return {
+      success: false,
+      err: { type: "params_not_sufficient" },
+    };
+  }
+
+  const payload = {
+    telegram_data: {
+      ...telegramData,
+    },
     api_key: apiKey,
     target_origin: targetOrigin,
-    auth_type: "telegram",
+    auth_type: "telegram" as const,
   };
 
   const sendRes = await sendOAuthPayloadToEmbeddedWindow(payload);
