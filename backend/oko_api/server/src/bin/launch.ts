@@ -54,6 +54,7 @@ async function main() {
     encryption_secret: envs.ENCRYPTION_SECRET!,
     discord_client_secret: envs.DISCORD_CLIENT_SECRET!,
     typeform_webhook_secret: envs.TYPEFORM_WEBHOOK_SECRET!,
+    telegram_bot_token: envs.TELEGRAM_BOT_TOKEN!,
   });
 
   const app = makeApp(state);

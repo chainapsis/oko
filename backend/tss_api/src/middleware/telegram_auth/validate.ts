@@ -1,6 +1,5 @@
 import crypto from "crypto";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { TELEGRAM_BOT_TOKEN } from "./bot_token";
 
 export interface TelegramUserData {
   id: string;
@@ -19,6 +18,7 @@ export interface TelegramUserInfo {
 
 export function validateTelegramHash(
   userData: TelegramUserData,
+  telegramBotToken: string,
 ): Result<TelegramUserInfo, string> {
   if (
     !userData.id ||
@@ -43,7 +43,7 @@ export function validateTelegramHash(
 
   const secretKey = crypto
     .createHash("sha256")
-    .update(TELEGRAM_BOT_TOKEN)
+    .update(telegramBotToken)
     .digest();
 
   const calculatedHash = crypto

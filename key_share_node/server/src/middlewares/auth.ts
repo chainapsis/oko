@@ -111,12 +111,15 @@ export async function bearerTokenMiddleware(
           res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
           return;
         }
+
+        const telegramBotToken = req.app.locals.telegram_bot_token;
         result = {
           auth_type: "telegram",
-          data: validateTelegramHash(userData),
+          data: validateTelegramHash(userData, telegramBotToken),
         };
         break;
       }
+
       default:
         const errorRes: KSNodeApiErrorResponse = {
           success: false,

@@ -37,7 +37,8 @@ export async function telegramAuthMiddleware(
   }
 
   try {
-    const result = validateTelegramHash(userData);
+    const telegramBotToken = req.app.locals.telegram_bot_token;
+    const result = validateTelegramHash(userData, telegramBotToken);
     if (!result.success) {
       res.status(401).json({ error: result.err });
       return;

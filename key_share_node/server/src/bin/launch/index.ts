@@ -115,6 +115,7 @@ async function main() {
   const state: ServerState = {
     db: createPostgresRes.data,
     encryptionSecret: loadEncSecretRes.data,
+    telegram_bot_token: process.env.TELEGRAM_BOT_TOKEN!,
 
     is_db_backup_checked: true,
     launch_time,
