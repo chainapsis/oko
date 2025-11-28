@@ -61,34 +61,34 @@ async function main() {
     logger.info("DB reset completed");
   }
 
-  if (opts.nodeId === "1") {
-    logger.debug("Checking DB backup, nodeId: %s", opts.nodeId);
+  // if (opts.nodeId === "1") {
+  //   logger.debug("Checking DB backup, nodeId: %s", opts.nodeId);
 
-    const backupRes = await checkDBBackup(
-      {
-        database: process.env.DB_NAME,
-        host: process.env.DB_HOST,
-        password: process.env.DB_PASSWORD,
-        user: process.env.DB_USER,
-        port: Number(process.env.DB_PORT),
-        ssl: process.env.DB_SSL === "true" ? true : false,
-      },
-      process.env.DUMP_DIR,
-    );
-    if (!backupRes.success) {
-      logger.error(
-        "%s: Health check failed, exiting process, err: %s",
-        chalk.bold.red("Error"),
-        backupRes.err,
-      );
+  //   const backupRes = await checkDBBackup(
+  //     {
+  //       database: process.env.DB_NAME,
+  //       host: process.env.DB_HOST,
+  //       password: process.env.DB_PASSWORD,
+  //       user: process.env.DB_USER,
+  //       port: Number(process.env.DB_PORT),
+  //       ssl: process.env.DB_SSL === "true" ? true : false,
+  //     },
+  //     process.env.DUMP_DIR,
+  //   );
+  //   if (!backupRes.success) {
+  //     logger.error(
+  //       "%s: Health check failed, exiting process, err: %s",
+  //       chalk.bold.red("Error"),
+  //       backupRes.err,
+  //     );
 
-      process.exit(1);
-    } else {
-      logger.info("Finished DB backup check");
-    }
-  } else {
-    logger.info("Bypass DB backup checking, nodeId: %s", opts.nodeId);
-  }
+  //     process.exit(1);
+  //   } else {
+  //     logger.info("Finished DB backup check");
+  //   }
+  // } else {
+  //   logger.info("Bypass DB backup checking, nodeId: %s", opts.nodeId);
+  // }
 
   const app = makeApp();
 
