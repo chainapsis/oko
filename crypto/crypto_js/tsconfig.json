@@ -22,6 +22,6 @@
     "baseUrl": ".",
     "paths": {}
   },
-  "include": ["src/**/*"],
+  "include": ["browser/**/*.ts", "src/**/*.ts", "tests/**/*"],
   "exclude": ["node_modules", "dist"]
 }
