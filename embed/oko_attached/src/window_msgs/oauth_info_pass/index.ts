@@ -4,7 +4,6 @@ import type {
   OkoWalletMsgOAuthInfoPassAck,
   OkoWalletMsgOAuthSignInUpdate,
   OAuthSignInError,
-  OAuthPayload,
 } from "@oko-wallet/oko-sdk-core";
 import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
 import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
@@ -28,9 +27,7 @@ import {
   handleReshare,
 } from "./user";
 import { bail } from "./errors";
-import { verifyIdToken } from "./token";
-import { getAccessTokenOfX, verifyIdTokenOfX } from "./x";
-import { getAccessTokenOfDiscordWithPKCE } from "./discord";
+import { getCredentialsFromPayload } from "./validate_social_login";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
@@ -66,139 +63,17 @@ export async function handleOAuthInfoPass(
 
     const authType: OAuthProvider = message.payload.auth_type;
 
-    let userIdentifier: string;
-    let idToken: string;
+    const validateOauthRes = await getCredentialsFromPayload(
+      message.payload,
+      hostOrigin,
+    );
 
-    if (message.payload.auth_type === "telegram") {
-      const telegramPayload = message.payload as {
-        telegram_data: Record<string, string>;
-        api_key: string;
-        target_origin: string;
-        auth_type: "telegram";
-      };
-
-      if (!telegramPayload.telegram_data || !telegramPayload.telegram_data.id) {
-        await bail(message, { type: "params_not_sufficient" });
-        return;
-      }
-
-      userIdentifier = telegramPayload.telegram_data.id;
-      idToken = JSON.stringify(telegramPayload.telegram_data);
-    } else if (message.payload.auth_type === "x") {
-      const codeVerifierRegistered = appState.getCodeVerifier(hostOrigin);
-      if (!codeVerifierRegistered) {
-        await bail(message, { type: "PKCE_missing" });
-        return;
-      }
-
-      const tokenRes = await getAccessTokenOfX(
-        message.payload.code,
-        codeVerifierRegistered,
-      );
-
-      if (!tokenRes.success) {
-        await bail(message, {
-          type: "unknown",
-          error: tokenRes.err,
-        });
-        return;
-      }
-
-      const verifyIdTokenRes = await verifyIdTokenOfX(tokenRes.data);
-      if (!verifyIdTokenRes.success) {
-        await bail(message, {
-          type: "unknown",
-          error: verifyIdTokenRes.err,
-        });
-        return;
-      }
-
-      const userInfo = verifyIdTokenRes.data;
-      const tokenInfo = tokenRes.data;
-
-      idToken = tokenInfo;
-      userIdentifier = userInfo.id;
-
-      appState.setCodeVerifier(hostOrigin, null);
-    } else if (message.payload.auth_type === "discord") {
-      console.log("[discord] Starting Discord OAuth flow with PKCE");
-
-      const codeVerifierRegistered = appState.getCodeVerifier(hostOrigin);
-      if (!codeVerifierRegistered) {
-        await bail(message, { type: "PKCE_missing" });
-        return;
-      }
-
-      // Build redirect URI from current origin
-      const redirectUri = `${window.location.origin}/discord/callback`;
-
-      const tokenRes = await getAccessTokenOfDiscordWithPKCE(
-        message.payload.code,
-        codeVerifierRegistered,
-        redirectUri,
-      );
-
-      if (!tokenRes.success) {
-        console.error("[discord] Token exchange failed: %s", tokenRes.err);
-        await bail(message, {
-          type: "unknown",
-          error: tokenRes.err,
-        });
-        return;
-      }
-
-      console.log(
-        "[discord] Token exchange successful, access_token: %s",
-        tokenRes.data,
-      );
-
-      const verifyIdTokenRes = await verifyIdToken("discord", tokenRes.data);
-      if (!verifyIdTokenRes.success) {
-        console.error(
-          "[discord] User verification failed: %s",
-          verifyIdTokenRes.err,
-        );
-        await bail(message, {
-          type: "unknown",
-          error: verifyIdTokenRes.err,
-        });
-        return;
-      }
-
-      const userInfo = verifyIdTokenRes.data;
-      const tokenInfo = tokenRes.data;
-
-      console.log("[discord] User info received: %o", userInfo);
-      console.log(
-        "[discord] Using Discord user id as identifier: %s",
-        userInfo.email,
-      );
-
-      idToken = tokenInfo;
-      userIdentifier = userInfo.email;
-
-      appState.setCodeVerifier(hostOrigin, null);
-    } else {
-      const nonceRegistered = appState.getNonce(hostOrigin);
-      if (!nonceRegistered) {
-        await bail(message, { type: "nonce_missing" });
-        return;
-      }
-      const payload = message.payload as OAuthPayload;
-      idToken = payload.id_token;
-
-      const tokenInfoRes = await verifyIdToken(
-        authType,
-        idToken,
-        nonceRegistered,
-      );
-      if (!tokenInfoRes.success) {
-        await bail(message, { type: "vendor_token_verification_failed" });
-        return;
-      }
-      const tokenInfo = tokenInfoRes.data;
-      userIdentifier = tokenInfo.email;
+    if (!validateOauthRes.success) {
+      await bail(message, validateOauthRes.err);
+      return;
     }
+
+    const { idToken, userIdentifier } = validateOauthRes.data;
 
     const userExistsRes = await checkUserExists(userIdentifier);
     if (!userExistsRes.success) {
