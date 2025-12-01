@@ -5,7 +5,7 @@ import { LoginDefaultView } from "./login_default_view";
 import { LoginSocialsView } from "./login_socials_view";
 
 export interface LoginWidgetProps {
-  onSignIn: (method: "google" | "telegram" | "x" | "apple") => void;
+  onSignIn: (method: "email" | "google" | "telegram" | "x" | "apple") => void;
 }
 
 export const LoginWidget: React.FC<LoginWidgetProps> = ({ onSignIn }) => {

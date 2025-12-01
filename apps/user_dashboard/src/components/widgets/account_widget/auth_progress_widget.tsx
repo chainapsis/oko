@@ -28,7 +28,7 @@ export const AuthProgressWidget: React.FC<AuthProgressWidgetProps> = ({
     <div className={cn(styles.signingInWrapper, { [styles.failed]: isFailed })}>
       <div className={styles.signingInCircle}>
         {method === "email" && (
-          <MailboxIcon size={48} color="var(--fg-quaternary)" />
+          <MailboxIcon size={36} color="var(--fg-tertiary)" />
         )}
         {method === "google" && <GoogleIcon width={48} height={48} />}
         {method === "telegram" && <TelegramIcon size={48} />}

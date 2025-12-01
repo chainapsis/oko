@@ -8,7 +8,7 @@ import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 import styles from "./login_widget.module.scss";
 
 export interface LoginDefaultViewProps {
-  onSignIn: (method: "google" | "telegram" | "x" | "apple") => void;
+  onSignIn: (method: "email" | "google" | "telegram" | "x" | "apple") => void;
   onShowSocials: () => void;
 }
 
@@ -26,7 +26,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           variant="secondary"
           size="md"
           fullWidth
-          onClick={() => onSignIn("google")} // TODO: email로 변경
+          onClick={() => onSignIn("email")}
         >
           <MailboxIcon size={20} color={"var(--fg-tertiary)"} />
           <Spacing width={2} />
