@@ -1,7 +1,7 @@
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { SocialLoginXVerifyUserResponse } from "@oko-wallet/oko-types/social_login";
 
-import { X_USER_INFO_URL } from "@oko-wallet-social-login-api/constants/x";
+import { X_USER_INFO_URL } from "../constants/x";
 
 export async function getXUserInfo(accessToken: string): Promise<
   Result<

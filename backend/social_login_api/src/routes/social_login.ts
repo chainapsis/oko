@@ -5,12 +5,13 @@ import type {
   SocialLoginXBody,
   SocialLoginXResponse,
 } from "@oko-wallet/oko-types/social_login";
-import { getXUserInfo } from "@oko-wallet-social-login-api/api/x";
+
+import { getXUserInfo } from "../api/x";
 import {
   SOCIAL_LOGIN_X_CALLBACK_URL,
   X_CLIENT_ID,
   X_SOCIAL_LOGIN_TOKEN_URL,
-} from "@oko-wallet-social-login-api/constants/x";
+} from "../constants/x";
 
 export function setSocialLoginRoutes(router: Router) {
   // registry.registerPath({
