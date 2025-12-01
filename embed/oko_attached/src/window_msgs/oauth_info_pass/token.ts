@@ -11,6 +11,7 @@ import {
   AUTH0_DOMAIN,
 } from "@oko-wallet-attached/config/auth0";
 import { verifyIdTokenOfDiscord } from "./discord";
+import { verifyIdTokenOfX } from "./x";
 
 export async function verifyIdToken(
   authType: OAuthProvider,
@@ -84,7 +85,34 @@ export async function verifyIdToken(
         data: {
           provider: "discord",
           email: discordTokenInfo.data.email,
-          email_verified: true,
+          name: discordTokenInfo.data.username,
+        },
+      };
+    }
+
+    if (authType === "x") {
+      const xTokenInfo = await verifyIdTokenOfX(idToken);
+
+      if (!xTokenInfo.success) {
+        return {
+          success: false,
+          err: xTokenInfo.err,
+        };
+      }
+
+      if (!xTokenInfo.data.email) {
+        return {
+          success: false,
+          err: "X email not found",
+        };
+      }
+
+      return {
+        success: true,
+        data: {
+          provider: "x",
+          email: xTokenInfo.data.email,
+          name: xTokenInfo.data.name,
         },
       };
     }

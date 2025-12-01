@@ -59,7 +59,7 @@ export interface Auth0TokenInfo {
 export interface TokenInfo {
   provider: OAuthProvider;
   email: string;
-  email_verified: boolean;
+  email_verified?: boolean;
   nonce?: string;
   name?: string;
   sub?: string;

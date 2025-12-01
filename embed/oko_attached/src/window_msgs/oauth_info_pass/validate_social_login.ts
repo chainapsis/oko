@@ -6,7 +6,7 @@ import type {
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import { verifyIdToken } from "./token";
-import { getAccessTokenOfX, verifyIdTokenOfX } from "./x";
+import { getAccessTokenOfX } from "./x";
 import { getAccessTokenOfDiscordWithPKCE } from "./discord";
 import { useAppState } from "@oko-wallet-attached/store/app";
 
@@ -54,7 +54,7 @@ async function validateOAuthPayloadOfX(
     };
   }
 
-  const verifyIdTokenRes = await verifyIdTokenOfX(tokenRes.data);
+  const verifyIdTokenRes = await verifyIdToken("x", tokenRes.data);
   if (!verifyIdTokenRes.success) {
     return {
       success: false,
@@ -74,7 +74,7 @@ async function validateOAuthPayloadOfX(
     success: true,
     data: {
       idToken: tokenInfo,
-      userIdentifier: userInfo.id,
+      userIdentifier: userInfo.email,
     },
   };
 }
