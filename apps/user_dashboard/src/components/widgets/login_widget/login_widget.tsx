@@ -1,0 +1,29 @@
+import React, { useState } from "react";
+
+import styles from "./login_widget.module.scss";
+import { LoginDefaultView } from "./login_default_view";
+import { LoginSocialsView } from "./login_socials_view";
+
+export interface LoginWidgetProps {
+  onSignIn: (method: "google" | "telegram" | "x" | "apple") => void;
+}
+
+export const LoginWidget: React.FC<LoginWidgetProps> = ({ onSignIn }) => {
+  const [showSocials, setShowSocials] = useState(false);
+
+  return (
+    <div className={styles.container}>
+      {!showSocials ? (
+        <LoginDefaultView
+          onSignIn={onSignIn}
+          onShowSocials={() => setShowSocials(true)}
+        />
+      ) : (
+        <LoginSocialsView
+          onBack={() => setShowSocials(false)}
+          onSignIn={(m) => onSignIn(m)}
+        />
+      )}
+    </div>
+  );
+};
