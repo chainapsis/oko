@@ -1,3 +1,3 @@
 export * from "./bcrypt";
 export * from "./hash";
-export * from "./ecdhe/x25519";
+export * from "./ecdhe/ed25519";

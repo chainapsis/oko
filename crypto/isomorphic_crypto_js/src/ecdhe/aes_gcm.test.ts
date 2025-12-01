@@ -2,7 +2,7 @@ import { describe, expect, it } from "@jest/globals";
 import { Bytes } from "@oko-wallet/bytes";
 
 import { encryptData, decryptData } from "./aes_gcm";
-import { generateEddsaKeypair } from "./x25519";
+import { generateEddsaKeypair } from "./ed25519";
 import { deriveSessionKey } from "./key_derivation";
 
 describe("AES-GCM encryption and decryption", () => {

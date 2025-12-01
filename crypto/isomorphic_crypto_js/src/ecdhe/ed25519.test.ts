@@ -6,7 +6,7 @@ import {
   signMessage,
   verifySignature,
   isValidPublicKey,
-} from "./x25519";
+} from "./ed25519";
 import { deriveSessionKey } from "./key_derivation";
 
 describe("x25519_keypair_test_1", () => {
