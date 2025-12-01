@@ -62,7 +62,6 @@ export async function createCustomer(
     };
     logo?: { buffer: Buffer; originalname: string } | null;
   },
-  _auditContext?: { adminUserId?: string; request?: any; requestId?: string },
 ): Promise<OkoApiResponse<CreateCustomerResponse>> {
   try {
     if (!body.label || body.label.trim().length === 0) {
@@ -393,15 +392,12 @@ export async function getCustomerById(
 export async function deleteCustomerAndUsers(
   db: Pool,
   customer_id: string,
-  auditContext?: { adminUserId?: string; request?: any; requestId?: string },
 ): Promise<
   OkoApiResponse<{
     customer_id: string;
     customer_dashboard_user_ids: string[];
   }>
 > {
-  const context = { db, ...auditContext };
-
   try {
     const client = await db.connect();
     try {

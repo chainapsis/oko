@@ -30,7 +30,6 @@ export async function delete_customer(
   const deleteCustomerAndUsersRes = await deleteCustomerAndUsers(
     state.db,
     customerId,
-    req.auditContext,
   );
   if (deleteCustomerAndUsersRes.success === false) {
     res

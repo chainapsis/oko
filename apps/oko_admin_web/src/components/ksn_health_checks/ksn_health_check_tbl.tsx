@@ -24,6 +24,9 @@ import { useKSNHealthChecks } from "@oko-wallet-admin/fetch/ks_node/use_ksn_heal
 const columnHelper = createColumnHelper<KSNodeHealthCheck>();
 
 const columns = [
+  columnHelper.accessor("node_id", {
+    cell: (info) => info.getValue(),
+  }),
   columnHelper.accessor("status", {
     cell: (info) => info.getValue(),
   }),
@@ -64,9 +67,9 @@ export const KSNHealthCheckTable: FC = () => {
                     {header.isPlaceholder
                       ? null
                       : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
                   </TableHeaderCell>
                 ))}
               </TableRow>

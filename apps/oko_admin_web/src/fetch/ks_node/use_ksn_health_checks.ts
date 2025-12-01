@@ -9,8 +9,6 @@ import type {
   GetKSNHealthChecksResponse,
 } from "@oko-wallet-types/admin";
 
-const PAGE_SIZE = 20;
-
 export function useKSNHealthChecks(pagination: PaginationState) {
   const { token } = useAppState();
 
