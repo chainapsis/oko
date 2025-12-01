@@ -28,7 +28,7 @@ interface OAuthTokenRequestPayloadOfX {
   code: string;
   api_key: string;
   target_origin: string;
-  auth_type: "x" | "discord";
+  auth_type: "x";
 }
 
 interface OAuthTokenRequestPayloadOfDiscord {
