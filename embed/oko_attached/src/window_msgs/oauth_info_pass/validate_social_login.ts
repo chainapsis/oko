@@ -87,7 +87,7 @@ async function validateOAuthPayloadOfTelegram(
       success: false,
       err: {
         type: "unknown",
-        error: { type: "params_not_sufficient" },
+        error: "params_not_sufficient",
       },
     };
   }
