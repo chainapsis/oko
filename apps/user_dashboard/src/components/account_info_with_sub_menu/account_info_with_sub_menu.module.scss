@@ -8,20 +8,6 @@
   top: -1px;
   left: -1px;
   cursor: default;
-
-  img {
-    width: 40px !important;
-    height: 40px !important;
-    object-fit: cover;
-  }
-}
-
-.sidebarTrigger {
-  img {
-    width: 40px !important;
-    height: 40px !important;
-    object-fit: cover;
-  }
 }
 
 .iconWrapper {
@@ -34,6 +20,25 @@
   height: 24px;
 
   &:hover {
+    cursor: pointer;
     background-color: var(--bg-primary-hover);
   }
+}
+
+.userDetailInfo {
+  padding: 12px;
+
+  display: flex;
+  justify-content: space-between;
+
+  border-radius: 12px;
+  border: 1px solid var(--border-secondary);
+  background: var(--bg-primary-alt);
+  overflow: hidden;
+}
+
+.userEmail {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
