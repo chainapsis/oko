@@ -36,6 +36,10 @@ export function validateTelegramHash(
 
   const dataCheckString = Object.keys(dataWithoutHash)
     .sort()
+    .filter((key) => {
+      const value = dataWithoutHash[key as keyof typeof dataWithoutHash];
+      return value !== undefined && value !== null && value !== "";
+    })
     .map(
       (key) => `${key}=${dataWithoutHash[key as keyof typeof dataWithoutHash]}`,
     )

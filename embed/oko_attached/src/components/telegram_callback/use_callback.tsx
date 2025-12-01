@@ -101,8 +101,13 @@ export async function handleTelegramCallback(): Promise<
   }
 
   const telegramData: Record<string, string> = {};
+  const excludedParams = [
+    RedirectUriSearchParamsKey.STATE,
+    "modal_id",
+    "host_origin",
+  ];
   for (const [key, value] of urlParams.entries()) {
-    if (key !== RedirectUriSearchParamsKey.STATE && value !== null) {
+    if (!excludedParams.includes(key) && value !== null) {
       telegramData[key] = value;
     }
   }
