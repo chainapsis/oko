@@ -12,6 +12,7 @@
     "./tss": "./src/tss/index.ts",
     "./user": "./src/user/index.ts",
     "./wallets": "./src/wallets/index.ts",
+    "./aux_types": "./src/aux_types/index.ts",
     "./user_key_share": "./src/user_key_share/index.ts",
     "./key_share_node_meta": "./src/key_share_node_meta/index.ts",
     "./tss_activate": "./src/tss_activate/index.ts"
