@@ -1,16 +1,12 @@
 "use client";
 
-import { useMemo, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import {
   createColumnHelper,
   flexRender,
-  type ColumnDef,
   type PaginationState,
 } from "@tanstack/react-table";
-import type {
-  KSNodeHealthCheck,
-  KSNodeWithHealthCheck,
-} from "@oko-wallet/oko-types/tss";
+import type { KSNodeHealthCheck } from "@oko-wallet/oko-types/tss";
 import {
   Table,
   TableBody,

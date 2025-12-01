@@ -1,4 +1,4 @@
-import { generateEddsaKeypair } from "@oko-wallet/common-crypto-js/src/ecdhe/x25519";
+import { generateEddsaKeypair } from "@oko-wallet/isomorphic-crypto-js/src/ecdhe/x25519";
 
 async function test() {
   const keypairResult = generateEddsaKeypair();

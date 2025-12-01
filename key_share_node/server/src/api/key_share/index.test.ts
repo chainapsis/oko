@@ -16,7 +16,10 @@ import {
   getKeyShare,
   registerKeyShare,
 } from "@oko-wallet-ksn-server/api/key_share";
-import { decryptData, TEMP_ENC_SECRET } from "@oko-wallet-ksn-server/encrypt";
+import {
+  decryptDataAsync,
+  TEMP_ENC_SECRET,
+} from "@oko-wallet-ksn-server/encrypt";
 
 describe("key_share_test", () => {
   let pool: Pool;
@@ -111,7 +114,7 @@ describe("key_share_test", () => {
         throw new Error("Failed to get key share");
       }
 
-      const decryptedShare = decryptData(
+      const decryptedShare = await decryptDataAsync(
         getKeyShareRes.data?.enc_share.toString("utf-8")!,
         TEMP_ENC_SECRET,
       );

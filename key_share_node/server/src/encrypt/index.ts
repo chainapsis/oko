@@ -1,7 +1,7 @@
 import {
   randomBytes,
-  pbkdf2Sync,
   pbkdf2,
+  pbkdf2Sync,
   createCipheriv,
   createDecipheriv,
 } from "crypto";
@@ -9,10 +9,12 @@ import { promisify } from "util";
 
 const pbkdf2Async = promisify(pbkdf2);
 
+// deprecated
 export function encryptData(data: string, password: string): string {
   const salt = randomBytes(16);
   const iv = randomBytes(12);
   const key = pbkdf2Sync(password, salt, 100000, 32, "sha256");
+  console.log("encrypt key", key.toString("hex"));
 
   const cipher = createCipheriv("aes-256-gcm", key, iv);
   const encrypted = Buffer.concat([
@@ -24,6 +26,7 @@ export function encryptData(data: string, password: string): string {
   return Buffer.concat([salt, iv, authTag, encrypted]).toString("base64");
 }
 
+// deprecated
 export function decryptData(encryptedBase64: string, password: string): string {
   const buffer = Buffer.from(encryptedBase64, "base64");
 
@@ -84,4 +87,5 @@ export async function decryptDataAsync(
   return decrypted.toString("utf8");
 }
 
+// for only testing purposes
 export const TEMP_ENC_SECRET = "temp_enc_secret";
