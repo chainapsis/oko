@@ -10,9 +10,10 @@ import { AppleIcon } from "@oko-wallet-common-ui/icons/apple_icon";
 
 import { Widget } from "../widget_components";
 import styles from "./account_info_widget.module.scss";
+import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
 
 export type AccountInfoWidgetProps = {
-  type: "email" | "google" | "telegram" | "x" | "apple";
+  type: LoginMethod;
   email: string;
   publicKey: string;
   onSignOut: () => void;
