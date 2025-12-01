@@ -1,0 +1,14 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  flex: 1 0 0;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 10px 12px;
+
+  &:hover {
+    background-color: var(--bg-primary-hover);
+  }
+}

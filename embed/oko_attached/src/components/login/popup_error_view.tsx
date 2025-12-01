@@ -2,7 +2,7 @@ import type { FC } from "react";
 
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { ErrorIcon } from "@oko-wallet/oko-common-ui/icons/error_icon";
+import { WarningIcon } from "@oko-wallet/oko-common-ui/icons/warning_icon";
 
 import styles from "./popup_error_view.module.scss";
 import type { AppError } from "@oko-wallet-attached/errors";
@@ -20,22 +20,55 @@ export const PopupErrorView: FC<PopupErrorViewProps> = ({ error }) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.iconWrapper}>
-        <ErrorIcon size={32} color="var(--fg-error-primary)" />
+      <div className={styles.topSection}>
+        <div className={styles.iconWrapper}>
+          <WarningIcon size={42} />
+        </div>
+        <Typography
+          tagType="h1"
+          className={styles.title}
+          color="primary"
+          size="lg"
+        >
+          Request failed
+        </Typography>
+        <div className={styles.messageBox}>
+          <div className={styles.textRow}>
+            <Typography
+              size="sm"
+              weight="semibold"
+              className={styles.messageText}
+            >
+              Error Code: {errorCode}
+            </Typography>
+          </div>
+          <div className={styles.textRow}>
+            <Typography
+              size="sm"
+              weight="semibold"
+              className={styles.messageText}
+            >
+              {(error.error as any)?.message || "An unknown error occurred."}
+            </Typography>
+          </div>
+        </div>
+        <Typography
+          tagType="a"
+          href="https://oko-wallet.canny.io/bug-reports"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.supportLink}
+          size="xs"
+          weight="medium"
+        >
+          Get Support
+        </Typography>
       </div>
-      <Typography tagType="h1" size="xl" weight="semibold">
-        Something went wrong
-      </Typography>
-      <div className={styles.message}>
-        {errorCode && (
-          <Typography size="sm" color="secondary">
-            Error code: {errorCode}
-          </Typography>
-        )}
+      <div className={styles.bottomSection}>
+        <Button variant="secondary" size="lg" onClick={handleClose} fullWidth>
+          Close
+        </Button>
       </div>
-      <Button variant="primary" size="lg" onClick={handleClose}>
-        Close
-      </Button>
     </div>
   );
 };

@@ -1,0 +1,50 @@
+{
+  "name": "@oko-wallet/user-dashboard-api",
+  "type": "module",
+  "main": "./src/index.ts",
+  "scripts": {
+    "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "dependencies": {
+    "@oko-wallet/aws": "workspace:*",
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*",
+    "@oko-wallet/oko-api-error-codes": "workspace:*",
+    "@oko-wallet/oko-api-openapi": "workspace:*",
+    "@oko-wallet/oko-api-server-state": "workspace:*",
+    "@oko-wallet/oko-pg-interface": "workspace:*",
+    "@oko-wallet/oko-types": "workspace:*",
+    "@oko-wallet/postgres-lib": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.25",
+    "cors": "*",
+    "dotenv": "*",
+    "express": "*",
+    "express-rate-limit": "8.2.1",
+    "helmet": "*",
+    "jsonwebtoken": "*",
+    "morgan": "*",
+    "multer": "*",
+    "nodemailer": "^7.0.4",
+    "pg": "*",
+    "sharp": "0.33.4",
+    "swagger-ui-express": "*",
+    "uuid": "*",
+    "zod": "*"
+  },
+  "devDependencies": {
+    "@types/cors": "*",
+    "@types/express": "*",
+    "@types/jest": "*",
+    "@types/jsonwebtoken": "*",
+    "@types/morgan": "*",
+    "@types/multer": "*",
+    "@types/node": "*",
+    "@types/nodemailer": "^6.4.17",
+    "@types/supertest": "*",
+    "@types/swagger-jsdoc": "*",
+    "@types/swagger-ui-express": "*",
+    "jest": "*",
+    "supertest": "*",
+    "ts-jest": "*",
+    "typescript": "*"
+  }
+}

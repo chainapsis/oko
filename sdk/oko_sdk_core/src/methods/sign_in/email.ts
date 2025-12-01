@@ -80,6 +80,17 @@ async function tryAuth0EmailSignIn(
     throw new Error(`email sign in open modal failed, err: ${result.err.type}`);
   }
 
+  // User closed the email login modal or an error occurred before approval.
+  if (
+    result.data.modal_type === "auth/email_login" &&
+    result.data.type !== "approve"
+  ) {
+    oauthSignInUpdateWaiter.cancel();
+    const reason =
+      result.data.type === "error" ? result.data.error.type : result.data.type;
+    throw new Error(`email sign in open modal rejected, reason: ${reason}`);
+  }
+
   return await oauthSignInUpdateWaiter.promise;
 }
 

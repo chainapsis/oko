@@ -4,7 +4,7 @@ import type { Logger } from "winston";
 import {
   generateEddsaKeypair,
   type EddsaKeypair,
-} from "@oko-wallet/common-crypto-js";
+} from "@oko-wallet/isomorphic-crypto-js";
 import { Bytes } from "@oko-wallet/bytes";
 import {
   encryptDataAsync,
