@@ -11,7 +11,7 @@ import styles from "./login_widget.module.scss";
 
 export interface LoginSocialsViewProps {
   onBack: () => void;
-  onSignIn: (method: "telegram" | "x" | "apple") => void;
+  onSignIn: (method: "telegram" | "x" | "apple" | "discord") => void;
 }
 
 export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
@@ -82,6 +82,22 @@ export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
             style={{ padding: "0 2px" }}
           >
             Apple
+          </Typography>
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="md"
+          fullWidth
+          onClick={() => onSignIn("discord")}
+        >
+          <Typography
+            size="sm"
+            weight="semibold"
+            color="secondary"
+            style={{ padding: "0 2px" }}
+          >
+            Discord
           </Typography>
         </Button>
       </div>

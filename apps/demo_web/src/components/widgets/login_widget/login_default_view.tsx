@@ -40,15 +40,6 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
         Google
       </Button>
 
-      <Button
-        variant="secondary"
-        size="md"
-        fullWidth
-        onClick={() => onSignIn("x")}
-      >
-        <XIcon size={20} />X (Test)
-      </Button>
-
       <div className={styles.dividerRow}>
         <div className={styles.line} />
         <Typography tagType="span" size="xs" weight="medium" color="quaternary">
@@ -78,13 +69,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           </Button>
         </div>
 
-        <Button
-          variant="secondary"
-          size="md"
-          fullWidth
-          onClick={onShowSocials}
-          disabled={true} // TODO: Remove this once we have other social login implemented
-        >
+        <Button variant="secondary" size="md" fullWidth onClick={onShowSocials}>
           <div className={styles.socialIconWrapper}>
             <XIcon size={16} />
             <TelegramIcon size={16} />
