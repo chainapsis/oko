@@ -10575,7 +10575,7 @@ __metadata:
   resolution: "@oko-wallet/user-dashboard-api@workspace:backend/user_dashboard_api"
   dependencies:
     "@oko-wallet/aws": "workspace:*"
-    "@oko-wallet/crypto-js": "workspace:*"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
