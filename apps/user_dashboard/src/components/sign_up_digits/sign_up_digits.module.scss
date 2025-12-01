@@ -1,0 +1,97 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: var(--bg-primary);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1439px;
+  padding: 0 44px;
+  height: 64px;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--bg-primary);
+  z-index: 10;
+}
+
+.logoSection {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card {
+  background: var(--bg-surface-primary-default);
+  border: 1px solid var(--border-primary);
+  border-radius: 24px;
+  padding: 48px 30px 36px;
+  width: 542px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.title {
+  margin-bottom: 40px;
+}
+
+.description {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.otpSection {
+  margin-bottom: 20px;
+}
+
+.resendText {
+  margin-right: 8px;
+}
+
+.resendSection {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.timerText {
+  text-align: center;
+}
+
+.errorMessage {
+  margin-top: 8px;
+  text-align: center;
+}
+
+.loadingOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+}
