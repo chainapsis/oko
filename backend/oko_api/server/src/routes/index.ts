@@ -22,6 +22,9 @@ export function setRoutes(app: Express) {
   app.use("/social-login/v1", makeSocialLoginRouter());
 
   app.get("/status", (_req, res) => {
-    res.json({ gitHead: app.locals.git_hash });
+    res.json({
+      gitHead: app.locals.git_hash,
+      serverPublicKey: app.locals.server_keypair.publicKey.toHex(),
+    });
   });
 }

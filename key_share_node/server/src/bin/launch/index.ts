@@ -13,6 +13,7 @@ import { getGitCommitHash } from "./git";
 import pJson from "@oko-wallet-ksn-server/../package.json";
 import { logger } from "@oko-wallet-ksn-server/logger";
 import { resetDB } from "./reset_db";
+import { initializeServerKeypair } from "./init_keypair";
 
 const ONE_DAY_MS = 1 * 86400;
 
@@ -112,11 +113,16 @@ async function main() {
     process.exit(1);
   }
 
+  const serverKeypair = await initializeServerKeypair(
+    createPostgresRes.data,
+    loadEncSecretRes.data,
+  );
+
   const state: ServerState = {
     db: createPostgresRes.data,
     encryptionSecret: loadEncSecretRes.data,
+    serverKeypair,
     telegram_bot_token: process.env.TELEGRAM_BOT_TOKEN!,
-
     is_db_backup_checked: true,
     launch_time,
     git_hash,

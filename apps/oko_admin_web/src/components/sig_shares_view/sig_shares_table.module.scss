@@ -5,6 +5,48 @@
   gap: 24px;
 }
 
+.filtersWrapper {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.filter {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.separatorText {
+  margin-left: 0;
+  margin-right: 4px;
+}
+
+.divider {
+  color: var(--fg-tertiary);
+  margin: 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.dropdownTrigger {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+}
+
+.chevronIcon {
+  transition: transform 0.2s;
+}
+
+.dropdownContent {
+  max-height: 300px;
+  overflow-y: auto;
+  min-width: 200px;
+}
+
 .tableWrapper {
   border-radius: var(--radius-lg, 12px);
   border: 1px solid var(--border-secondary);

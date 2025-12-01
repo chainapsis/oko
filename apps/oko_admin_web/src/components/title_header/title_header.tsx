@@ -6,17 +6,21 @@ import styles from "./title_header.module.scss";
 interface TitleHeaderProps {
   title: string;
   totalCount?: number;
+  verifiedCount?: number;
+  txGenCount?: number;
   renderRightContent?: () => ReactNode;
 }
 
 export const TitleHeader: FC<TitleHeaderProps> = ({
   title,
   totalCount,
+  verifiedCount,
+  txGenCount,
   renderRightContent,
 }) => {
   return (
     <div className={styles.wrapper}>
-      <div className={styles.titleWrapper}>
+      <div className={styles.titleSection}>
         <Typography
           color="primary"
           tagType="h1"
@@ -27,7 +31,25 @@ export const TitleHeader: FC<TitleHeaderProps> = ({
           {title}
         </Typography>
         {totalCount !== undefined && (
-          <p className={styles.titleSub}>{totalCount}</p>
+          <div className={styles.countInfo}>
+            <span>Total ({totalCount})</span>
+            {verifiedCount !== undefined && (
+              <>
+                <span className={styles.divider}>/</span>
+                <span className={styles.verifiedCount}>
+                  Verified ({verifiedCount})
+                </span>
+              </>
+            )}
+            {txGenCount !== undefined && (
+              <>
+                <span className={styles.divider}>/</span>
+                <span className={styles.txGenCount}>
+                  TxActive ({txGenCount})
+                </span>
+              </>
+            )}
+          </div>
         )}
       </div>
       {renderRightContent?.()}

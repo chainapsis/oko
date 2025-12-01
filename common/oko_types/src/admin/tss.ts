@@ -5,6 +5,7 @@ export interface GetTssSessionListRequest {
   limit: number;
   offset: number;
   node_id?: string;
+  customer_id?: string;
 }
 
 export interface GetTssSessionListResponse {

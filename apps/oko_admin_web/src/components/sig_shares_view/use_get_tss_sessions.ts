@@ -9,11 +9,13 @@ const DEFAULT_PAGE_SIZE = 10;
 type UseGetTSSSessionsListProps = {
   page?: number;
   nodeId?: string;
+  customerId?: string;
 };
 
 export function useGetTSSSessionsList({
   page = 0,
   nodeId,
+  customerId,
 }: UseGetTSSSessionsListProps) {
   const { token } = useAppState();
 
@@ -24,7 +26,7 @@ export function useGetTSSSessionsList({
       has_prev: boolean;
     };
   }>({
-    queryKey: ["tss_sessions_list", token, page, nodeId],
+    queryKey: ["tss_sessions_list", token, page, nodeId, customerId],
     enabled: !!token,
     placeholderData: keepPreviousData,
     queryFn: async () => {
@@ -38,6 +40,7 @@ export function useGetTSSSessionsList({
         token,
         offset,
         node_id: nodeId,
+        customer_id: customerId,
       });
 
       if (!response.success) {

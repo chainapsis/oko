@@ -14,16 +14,19 @@ export async function getTSSSessionsList({
   limit = 10,
   offset = 0,
   node_id,
+  customer_id,
 }: {
   token: string;
   limit?: number;
   offset?: number;
   node_id?: string;
+  customer_id?: string;
 }) {
   const body: GetTssSessionListRequest = {
     limit,
     offset,
     node_id,
+    customer_id,
   };
 
   return doFetch<GetTssSessionListResponse>(
