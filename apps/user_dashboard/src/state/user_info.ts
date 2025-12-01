@@ -38,5 +38,5 @@ export const useUserInfoState = create(
         });
       },
     }),
-),
+  ),
 );
