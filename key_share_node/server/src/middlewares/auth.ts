@@ -7,13 +7,17 @@ import type {
 } from "@oko-wallet-ksn-server/auth/types";
 import {
   validateAuth0Token,
+  validateDiscordOAuthToken,
   validateGoogleOAuthToken,
   validateTelegramHash,
 } from "@oko-wallet-ksn-server/auth";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
 import { validateAccessTokenOfX } from "@oko-wallet-ksn-server/auth/x";
-import type { GoogleTokenInfo } from "@oko-wallet/ksn-interface/auth";
+import type {
+  DiscordTokenInfo,
+  GoogleTokenInfo,
+} from "@oko-wallet/ksn-interface/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { Auth0TokenInfo } from "@oko-wallet-ksn-server/auth/auth0";
 import type { XUserInfo } from "@oko-wallet-ksn-server/auth/x";
@@ -42,6 +46,10 @@ type VerifyResult =
   | {
       auth_type: "telegram";
       data: Result<TelegramUserInfo, OAuthValidationFail>;
+    }
+  | {
+      auth_type: "discord";
+      data: Result<DiscordTokenInfo, OAuthValidationFail>;
     };
 
 export interface AuthenticatedRequest<T = any>
@@ -119,6 +127,12 @@ export async function bearerTokenMiddleware(
         };
         break;
       }
+      case "discord":
+        result = {
+          auth_type: "discord",
+          data: await validateDiscordOAuthToken(bearerToken),
+        };
+        break;
 
       default:
         const errorRes: KSNodeApiErrorResponse = {
@@ -170,6 +184,16 @@ export async function bearerTokenMiddleware(
         res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
         return;
       }
+    } else if (result.auth_type === "discord") {
+      if (!result.data.data.id) {
+        const errorRes: KSNodeApiErrorResponse = {
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "Invalid token: missing required field (id)",
+        };
+        res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+        return;
+      }
     } else {
       if (
         !result.data.data.email ||
@@ -197,6 +221,12 @@ export async function bearerTokenMiddleware(
         type: result.auth_type,
         email: result.data.data.id,
         name: result.data.data.username ?? result.data.data.id,
+      };
+    } else if (result.auth_type === "discord") {
+      res.locals.oauth_user = {
+        type: result.auth_type,
+        email: result.data.data.email,
+        name: result.data.data.username,
       };
     } else {
       // in google, auth0, we can get email from the token
