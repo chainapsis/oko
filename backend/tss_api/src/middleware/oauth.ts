@@ -16,8 +16,12 @@ import {
   type TelegramAuthenticatedRequest,
   telegramAuthMiddleware,
 } from "@oko-wallet-tss-api/middleware/telegram_auth";
+import {
+  discordAuthMiddleware,
+  type DiscordAuthenticatedRequest,
+} from "./discord_auth";
 
-export type OAuthProvider = "google" | "auth0" | "x" | "telegram";
+export type OAuthProvider = "google" | "auth0" | "x" | "telegram" | "discord";
 
 export interface OAuthBody {
   auth_type: OAuthProvider;
@@ -53,6 +57,12 @@ export async function oauthMiddleware(
     case "telegram":
       return telegramAuthMiddleware(
         req as TelegramAuthenticatedRequest,
+        res,
+        next,
+      );
+    case "discord":
+      return discordAuthMiddleware(
+        req as DiscordAuthenticatedRequest,
         res,
         next,
       );
