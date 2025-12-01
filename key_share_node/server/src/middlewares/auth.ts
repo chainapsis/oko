@@ -138,7 +138,7 @@ export async function bearerTokenMiddleware(
         const errorRes: KSNodeApiErrorResponse = {
           success: false,
           code: "UNAUTHORIZED",
-          msg: `Invalid auth_type: ${authType}. Must be 'google', 'auth0', 'x', or 'telegram'`,
+          msg: `Invalid auth_type: ${authType}. Must be 'google', 'auth0', 'x', 'discord', or 'telegram'`,
         };
         res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
         return;
