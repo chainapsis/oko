@@ -294,8 +294,6 @@ OFFSET $1
 LIMIT $2;
 `;
 
-  console.log(11, pageIdx, pageSize, offset);
-
   try {
     const result = await db.query(query, [offset, pageSize + 1]);
     const rows: WithTime<KSNodeHealthCheck>[] = result.rows.map((r) => ({
