@@ -164,7 +164,7 @@ describe("EdDSA signature and verification", () => {
       expect(signature.success).toBe(true);
       if (!signature.success) return;
 
-      // r 값을 변조
+      // Modify r value
       const modifiedR = Bytes.fromUint8Array(new Uint8Array(32).fill(0xff), 32);
       expect(modifiedR.success).toBe(true);
       if (!modifiedR.success) return;
@@ -335,7 +335,7 @@ describe("EdDSA signature and verification", () => {
       const isValid = isValidPublicKey(zeroKey.data);
       expect(isValid.success).toBe(true);
       if (!isValid.success) return;
-      // Ed25519에서 all zeros는 유효할 수 있음
+      // All zeros may be valid in Ed25519
       expect(typeof isValid.data).toBe("boolean");
     });
 
@@ -347,7 +347,7 @@ describe("EdDSA signature and verification", () => {
       const isValid = isValidPublicKey(onesKey.data);
       expect(isValid.success).toBe(true);
       if (!isValid.success) return;
-      // Ed25519에서 all ones는 유효하지 않을 가능성이 높지만, 검증 자체는 성공해야 함
+      // All ones are likely invalid in Ed25519, but validation itself should succeed
       expect(typeof isValid.data).toBe("boolean");
     });
 
@@ -368,12 +368,12 @@ describe("EdDSA signature and verification", () => {
     });
 
     it("should handle edge case with specific patterns", () => {
-      // 다양한 패턴의 바이트 배열 테스트
+      // Test byte arrays with various patterns
       const patterns = [
-        new Uint8Array(32).fill(1), // 모두 1
-        new Uint8Array(32).fill(127), // 모두 127
-        new Uint8Array(32).fill(128), // 모두 128
-        new Uint8Array(32).fill(255), // 모두 255
+        new Uint8Array(32).fill(1), // all 1
+        new Uint8Array(32).fill(127), // all 127
+        new Uint8Array(32).fill(128), // all 128
+        new Uint8Array(32).fill(255), // all 255
       ];
 
       for (const pattern of patterns) {
@@ -382,10 +382,10 @@ describe("EdDSA signature and verification", () => {
         if (!key.success) continue;
 
         const isValid = isValidPublicKey(key.data);
-        // 검증 함수는 항상 성공적으로 실행되어야 함
+        // Validation function should always execute successfully
         expect(isValid.success).toBe(true);
         if (!isValid.success) continue;
-        // 결과는 유효하거나 유효하지 않을 수 있음
+        // Result can be either valid or invalid
         expect(typeof isValid.data).toBe("boolean");
       }
     });
@@ -400,7 +400,7 @@ describe("EdDSA signature and verification", () => {
       expect(signature.success).toBe(true);
       if (!signature.success) return;
 
-      // 잘못된 공개키로는 검증 실패해야 함
+      // Verification should fail with an invalid public key
       const invalidKey = Bytes.fromUint8Array(
         new Uint8Array(32).fill(0xaa),
         32,
@@ -415,7 +415,7 @@ describe("EdDSA signature and verification", () => {
       );
       expect(verification.success).toBe(true);
       if (!verification.success) return;
-      // 잘못된 공개키로는 검증 실패
+      // Verification fails with invalid public key
       expect(verification.data).toBe(false);
     });
 
@@ -424,7 +424,7 @@ describe("EdDSA signature and verification", () => {
       expect(keypair.success).toBe(true);
       if (!keypair.success) return;
 
-      // 같은 공개키를 여러 번 검증해도 같은 결과
+      // Same result even when validating the same public key multiple times
       const result1 = isValidPublicKey(keypair.data.publicKey);
       const result2 = isValidPublicKey(keypair.data.publicKey);
       const result3 = isValidPublicKey(keypair.data.publicKey);
