@@ -7,7 +7,6 @@ import type { ModalRequest } from "@oko-wallet-attached/store/memory/types";
 import { ErrorModal } from "@oko-wallet-attached/components/modal_variants/error/error_modal";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { UnsupportedChainModal } from "../modal_variants/unsupported_chain/unsupported_chain_modal";
-import { EmailLoginModal } from "@oko-wallet-attached/components/modal_variants/auth/email_login/email_login_modal";
 import { TelegramLoginModal } from "@oko-wallet-attached/components/modal_variants/auth/telegram_login/telegram_login_modal";
 
 export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
@@ -92,12 +91,12 @@ export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
       break;
     }
 
-    case "auth/email_login": {
-      component = (
-        <EmailLoginModal modalId={payload.modal_id} data={payload.data} />
-      );
-      break;
-    }
+    // case "auth/email_login": {
+    //   component = (
+    //     <EmailLoginModal modalId={payload.modal_id} data={payload.data} />
+    //   );
+    //   break;
+    // }
 
     case "auth/telegram_login": {
       component = (
