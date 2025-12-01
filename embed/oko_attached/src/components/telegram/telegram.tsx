@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 
-// @TODO: replace with the actual bot name
-const TELEGRAM_BOT_NAME = "auth234198_bot";
+import { TELEGRAM_BOT_NAME } from "@oko-wallet-attached/config/telegram";
 
 export const TelegramLogin: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
@@ -31,14 +30,17 @@ export const TelegramLogin: React.FC = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE);
+    const modalId = urlParams.get("modal_id");
+    const hostOrigin = urlParams.get("host_origin");
 
     if (!stateParam) {
       setError("State parameter is missing");
       return;
     }
 
+    let oauthState;
     try {
-      JSON.parse(stateParam);
+      oauthState = JSON.parse(stateParam);
     } catch (err) {
       setError("Invalid state parameter");
       return;
@@ -46,13 +48,20 @@ export const TelegramLogin: React.FC = () => {
 
     const cleanBotName = TELEGRAM_BOT_NAME.replace(/^@+/, "").trim();
 
-    const callbackUrl = `${window.location.origin}/telegram/callback?${RedirectUriSearchParamsKey.STATE}=${encodeURIComponent(stateParam)}`;
+    const callbackUrl = new URL(`${window.location.origin}/telegram/callback`);
+    callbackUrl.searchParams.set(RedirectUriSearchParamsKey.STATE, stateParam);
+    if (modalId) {
+      callbackUrl.searchParams.set("modal_id", modalId);
+    }
+    if (hostOrigin) {
+      callbackUrl.searchParams.set("host_origin", hostOrigin);
+    }
 
     const script = document.createElement("script");
     script.src = "https://telegram.org/js/telegram-widget.js?22";
     script.setAttribute("data-telegram-login", cleanBotName);
     script.setAttribute("data-size", "medium");
-    script.setAttribute("data-auth-url", callbackUrl);
+    script.setAttribute("data-auth-url", callbackUrl.toString());
     script.setAttribute("data-request-access", "write");
     script.async = true;
 

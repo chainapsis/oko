@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
+import {
+  RedirectUriSearchParamsKey,
+  type TelegramLoginModalApproveAckPayload,
+  type TelegramLoginModalErrorAckPayload,
+  type OAuthState,
+} from "@oko-wallet/oko-sdk-core";
 
 import type { HandleTelegramCallbackError } from "./types";
 import { postLog } from "@oko-wallet-attached/requests/logging";
@@ -51,6 +56,8 @@ export async function handleTelegramCallback(): Promise<
 
   const urlParams = new URLSearchParams(window.location.search);
   const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE) || "{}";
+  const modalIdFromQuery = urlParams.get("modal_id");
+  const hostOriginFromQuery = urlParams.get("host_origin");
 
   if (!stateParam) {
     return {
@@ -59,9 +66,9 @@ export async function handleTelegramCallback(): Promise<
     };
   }
 
-  let oauthState;
+  let oauthState: OAuthState;
   try {
-    oauthState = JSON.parse(stateParam);
+    oauthState = JSON.parse(stateParam) as OAuthState;
   } catch (err) {
     return {
       success: false,
@@ -73,6 +80,20 @@ export async function handleTelegramCallback(): Promise<
   const targetOrigin: string = oauthState.targetOrigin;
 
   if (!apiKey || !targetOrigin) {
+    return {
+      success: false,
+      err: { type: "params_not_sufficient" },
+    };
+  }
+
+  if (!oauthState.modalId && modalIdFromQuery) {
+    oauthState.modalId = modalIdFromQuery;
+  }
+  if (!oauthState.targetOrigin && hostOriginFromQuery) {
+    oauthState.targetOrigin = hostOriginFromQuery;
+  }
+
+  if (!oauthState.modalId) {
     return {
       success: false,
       err: { type: "params_not_sufficient" },
@@ -109,8 +130,48 @@ export async function handleTelegramCallback(): Promise<
       "[attached] send telegram oauth result fail, err: %o",
       sendRes.err,
     );
+    const message =
+      "error" in sendRes.err
+        ? `${sendRes.err.type}: ${sendRes.err.error}`
+        : sendRes.err.type;
+    sendAckToSDK(oauthState, {
+      modal_type: "auth/telegram_login",
+      modal_id: oauthState.modalId!,
+      type: "error",
+      error: {
+        type: "unknown_error",
+        error: message,
+      },
+    });
     return sendRes;
   }
 
+  sendAckToSDK(oauthState, {
+    modal_type: "auth/telegram_login",
+    modal_id: oauthState.modalId!,
+    type: "approve",
+    data: {},
+  });
+
   return { success: true, data: void 0 };
+}
+
+function sendAckToSDK(
+  oauthState: OAuthState,
+  payload:
+    | TelegramLoginModalApproveAckPayload
+    | TelegramLoginModalErrorAckPayload,
+) {
+  if (!window.opener || !oauthState.targetOrigin) {
+    return;
+  }
+
+  window.opener.postMessage(
+    {
+      target: "oko_sdk",
+      msg_type: "open_modal_ack",
+      payload,
+    },
+    oauthState.targetOrigin,
+  );
 }
