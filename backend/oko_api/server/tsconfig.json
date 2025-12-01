@@ -28,6 +28,7 @@
       "@oko-wallet-tss-api/*": ["../../tss_api/src/*"],
       "@oko-wallet-admin-api/*": ["../../admin_api/src/*"],
       "@oko-wallet-log-api/*": ["../../log_api/src/*"],
+      "@oko-wallet-usrd-api/*": ["../../user_dashboard_api/src/*"],
       "@oko-wallet-types/*": ["../../../common/oko_types/src/*"]
     }
   },
