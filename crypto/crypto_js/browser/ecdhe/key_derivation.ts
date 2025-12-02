@@ -2,7 +2,7 @@ import { x25519 } from "@noble/curves/ed25519.js";
 import { Bytes32 } from "@oko-wallet/bytes";
 import { Result } from "@oko-wallet/stdlib-js";
 
-import { sha256 } from "../hash";
+import { sha256 } from "../../src/hash";
 
 export interface EcdheSessionKey {
   prefix: string;
