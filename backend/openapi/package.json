@@ -8,7 +8,8 @@
     "./ct_dashboard": "./src/ct_dashboard/index.ts",
     "./tss": "./src/tss/index.ts",
     "./oko_admin": "./src/oko_admin/index.ts",
-    "./oko": "./src/oko/index.ts"
+    "./oko": "./src/oko/index.ts",
+    "./user_dashboard": "./src/user_dashboard/index.ts"
   },
   "type": "module",
   "dependencies": {

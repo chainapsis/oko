@@ -9852,7 +9852,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/dotenv@npm:0.0.2-alpha.21, @oko-wallet/dotenv@workspace:lib/dotenv":
+"@oko-wallet/dotenv@npm:0.0.2-alpha.21, @oko-wallet/dotenv@workspace:*, @oko-wallet/dotenv@workspace:lib/dotenv":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/dotenv@workspace:lib/dotenv"
   dependencies:
@@ -10120,6 +10120,7 @@ __metadata:
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
     "@oko-wallet/tss-api": "workspace:*"
+    "@oko-wallet/user-dashboard-api": "workspace:*"
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
     "@types/jest": "npm:*"
@@ -10498,7 +10499,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/stdlib-js@npm:0.0.2-rc.36, @oko-wallet/stdlib-js@npm:^0.0.2-rc.31, @oko-wallet/stdlib-js@npm:^0.0.2-rc.32, @oko-wallet/stdlib-js@npm:^0.0.2-rc.35, @oko-wallet/stdlib-js@npm:^0.0.2-rc.36, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
+"@oko-wallet/stdlib-js@npm:0.0.2-rc.36, @oko-wallet/stdlib-js@npm:^0.0.2-rc.31, @oko-wallet/stdlib-js@npm:^0.0.2-rc.32, @oko-wallet/stdlib-js@npm:^0.0.2-rc.35, @oko-wallet/stdlib-js@npm:^0.0.2-rc.36, @oko-wallet/stdlib-js@workspace:*, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/stdlib-js@workspace:lib/stdlib_js"
   dependencies:
@@ -10566,6 +10567,76 @@ __metadata:
     typescript: "npm:*"
     uuid: "npm:*"
     zod: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/user-dashboard-api@workspace:*, @oko-wallet/user-dashboard-api@workspace:backend/user_dashboard_api":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/user-dashboard-api@workspace:backend/user_dashboard_api"
+  dependencies:
+    "@oko-wallet/aws": "workspace:*"
+    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
+    "@oko-wallet/oko-api-error-codes": "workspace:*"
+    "@oko-wallet/oko-api-openapi": "workspace:*"
+    "@oko-wallet/oko-api-server-state": "workspace:*"
+    "@oko-wallet/oko-pg-interface": "workspace:*"
+    "@oko-wallet/oko-types": "workspace:*"
+    "@oko-wallet/postgres-lib": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@types/cors": "npm:*"
+    "@types/express": "npm:*"
+    "@types/jest": "npm:*"
+    "@types/jsonwebtoken": "npm:*"
+    "@types/morgan": "npm:*"
+    "@types/multer": "npm:*"
+    "@types/node": "npm:*"
+    "@types/nodemailer": "npm:^6.4.17"
+    "@types/supertest": "npm:*"
+    "@types/swagger-jsdoc": "npm:*"
+    "@types/swagger-ui-express": "npm:*"
+    cors: "npm:*"
+    dotenv: "npm:*"
+    express: "npm:*"
+    express-rate-limit: "npm:8.2.1"
+    helmet: "npm:*"
+    jest: "npm:*"
+    jsonwebtoken: "npm:*"
+    morgan: "npm:*"
+    multer: "npm:*"
+    nodemailer: "npm:^7.0.4"
+    pg: "npm:*"
+    sharp: "npm:0.33.4"
+    supertest: "npm:*"
+    swagger-ui-express: "npm:*"
+    ts-jest: "npm:*"
+    typescript: "npm:*"
+    uuid: "npm:*"
+    zod: "npm:*"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/user-dashboard@workspace:apps/user_dashboard":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/user-dashboard@workspace:apps/user_dashboard"
+  dependencies:
+    "@floating-ui/dom": "npm:*"
+    "@floating-ui/react": "npm:*"
+    "@oko-wallet/dotenv": "workspace:*"
+    "@oko-wallet/oko-common-ui": "workspace:*"
+    "@oko-wallet/stdlib-js": "workspace:*"
+    "@tanstack/react-query": "npm:*"
+    "@tanstack/react-table": "npm:*"
+    "@types/node": "npm:*"
+    "@types/react": "npm:*"
+    "@types/react-dom": "npm:*"
+    next: "npm:^15.4.5"
+    react: "npm:*"
+    react-dom: "npm:*"
+    react-hook-form: "npm:*"
+    sass: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    zustand: "npm:*"
   languageName: unknown
   linkType: soft
 

@@ -1,0 +1,23 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+  flex-direction: column;
+}
+
+.body {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  min-width: 100vw;
+  overflow-y: hidden;
+  flex-grow: 1;
+}
+
+.content {
+  padding-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
