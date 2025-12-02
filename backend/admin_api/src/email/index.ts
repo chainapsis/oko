@@ -192,7 +192,7 @@ export async function sendCustomerUserPasswordEmail(
                                             <tr>
                                               <td>
                                                 <p style="font-family: Inter, Arial, sans-serif; letter-spacing: -0.01em; color: #1c1b1f; margin: 0; font-size: 16px; font-weight: 500; line-height: 160%">
-                                                  You can now log in to the Oko dapp
+                                                  You can now log in to the Oko dApp
                                                   Dashboard using the email address
                                                   you shared with us and the temporary
                                                   password below.
