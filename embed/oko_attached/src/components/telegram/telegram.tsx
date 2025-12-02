@@ -10,25 +10,6 @@ export const TelegramLogin: React.FC = () => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const modalId = urlParams.get("modal_id");
-    const hostOrigin = urlParams.get("host_origin");
-
-    if (!modalId || !hostOrigin || !window.opener) {
-      return;
-    }
-
-    window.opener.postMessage(
-      {
-        target: "oko_attached_popup",
-        msg_type: "popup_ready",
-        payload: { modal_id: modalId },
-      },
-      hostOrigin,
-    );
-  }, []);
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
     const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE);
     const modalId = urlParams.get("modal_id");
     const hostOrigin = urlParams.get("host_origin");

@@ -98,12 +98,12 @@ export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
     //   break;
     // }
 
-    case "auth/telegram_login": {
-      component = (
-        <TelegramLoginModal modalId={payload.modal_id} data={payload.data} />
-      );
-      break;
-    }
+    // case "auth/telegram_login": {
+    //   component = (
+    //     <TelegramLoginModal modalId={payload.modal_id} data={payload.data} />
+    //   );
+    //   break;
+    // }
 
     default:
       //TODO 여기서 setError을 통해서 에러가 넘어가도록 수정 필요
