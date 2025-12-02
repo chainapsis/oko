@@ -12,7 +12,7 @@ export interface EcdheSessionKey {
 export function deriveSessionKey(
   privateKey: Bytes32,
   counterPartyPublicKey: Bytes32,
-  prefix: string = "oko",
+  prefix: string,
 ): Result<EcdheSessionKey, string> {
   try {
     const sharedKey = x25519.getSharedSecret(
@@ -20,6 +20,7 @@ export function deriveSessionKey(
       counterPartyPublicKey.toUint8Array(),
     );
 
+    // Note: {prefix}_ is used to distinguish the session key from the other keys.
     const prefixBytes = new TextEncoder().encode(prefix + "_");
     const combinedU8Arr = new Uint8Array([...prefixBytes, ...sharedKey]);
 
