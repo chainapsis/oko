@@ -1,0 +1,90 @@
+.modalBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  position: relative;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow: auto;
+}
+
+.modalCard {
+  background: var(--bg-primary);
+  border-radius: 20px;
+  border: 1px solid var(--border-primary);
+  box-shadow: var(--shadow-xl);
+  width: 400px;
+  box-sizing: border-box;
+  padding: 20px;
+}
+
+.closeButton {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--fg-quaternary);
+
+  &:hover {
+    background: var(--bg-secondary);
+  }
+}
+
+.content {
+  width: 100%;
+}
+
+.infoBox {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 8px;
+  text-align: left;
+}
+
+/* search bar */
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md, 8px);
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--border-tertiary);
+  background: var(--bg-secondary);
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 16px 0;
+}
+
+.searchInput {
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-md);
+  background: transparent;
+  white-space: nowrap;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+.searchInput::placeholder {
+  color: var(--text-placeholder);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-md);
+}

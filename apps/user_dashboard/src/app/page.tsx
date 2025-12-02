@@ -7,7 +7,7 @@ import { LeftBar } from "@oko-wallet-user-dashboard/components/left_bar/left_bar
 import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard_header/dashboard_header";
 import { ConnectedApps } from "@oko-wallet-user-dashboard/components/connected_apps/connected_apps";
 import { TotalBalance } from "@oko-wallet-user-dashboard/components/total_balance/total_balance";
-import { AssetList } from "@oko-wallet-user-dashboard/components/asset_list/asslet_list";
+import { AssetList } from "@oko-wallet-user-dashboard/components/asset_list/asset_list";
 
 export default function Home() {
   return (
