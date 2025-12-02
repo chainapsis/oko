@@ -20,7 +20,7 @@
       }
     ],
     "paths": {
-      "@oko-wallet-user-dashboard/*": ["./src/*"],
+      "@oko-wallet-email-template-2/*": ["./src/*"],
       "@oko-wallet-common-ui/*": ["../../ui/oko_common_ui/src/*"]
     }
   },
