@@ -1,6 +1,6 @@
 import { x25519 } from "@noble/curves/ed25519.js";
-import { Bytes32 } from "@oko-wallet/bytes";
-import { Result } from "@oko-wallet/stdlib-js";
+import type { Bytes32 } from "@oko-wallet/bytes";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 import { sha256 } from "../../src/hash";
 
