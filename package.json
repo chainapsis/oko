@@ -40,6 +40,7 @@
       "apps/oko_admin_web",
       "apps/customer_dashboard",
       "apps/docs_web",
+      "apps/email_template_2",
       "apps/user_dashboard",
       "common/oko_types",
       "lib/stdlib_js",

@@ -9870,6 +9870,31 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/email-template-2@workspace:apps/email_template_2":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/email-template-2@workspace:apps/email_template_2"
+  dependencies:
+    "@floating-ui/dom": "npm:*"
+    "@floating-ui/react": "npm:*"
+    "@oko-wallet/dotenv": "workspace:*"
+    "@oko-wallet/oko-common-ui": "workspace:*"
+    "@oko-wallet/stdlib-js": "workspace:*"
+    "@tanstack/react-query": "npm:*"
+    "@tanstack/react-table": "npm:*"
+    "@types/node": "npm:*"
+    "@types/react": "npm:*"
+    "@types/react-dom": "npm:*"
+    next: "npm:^15.4.5"
+    react: "npm:*"
+    react-dom: "npm:*"
+    react-hook-form: "npm:*"
+    sass: "npm:*"
+    tsx: "npm:*"
+    typescript: "npm:*"
+    zustand: "npm:*"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/isomorphic-crypto-js@workspace:*, @oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js"
