@@ -151,7 +151,10 @@ export default function OkoCodePage() {
                                       </tr>
                                       <tr>
                                         <td>
-                                          <EmailCard height="182px">
+                                          <EmailCard
+                                            height="182px"
+                                            padding="22px 32px 24px 32px"
+                                          >
                                             <EmailCode code="${verification_code}" />
                                           </EmailCard>
                                         </td>

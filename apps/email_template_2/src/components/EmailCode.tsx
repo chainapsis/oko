@@ -10,7 +10,7 @@ const outerTableStyle: CSSProperties = {
   margin: "0 auto",
   borderSpacing: "0",
 };
-const titleCellStyle: CSSProperties = { height: "52px" };
+const titleCellStyle: CSSProperties = { verticalAlign: "top" };
 const titleTextStyle: CSSProperties = {
   margin: 0,
   fontFamily: "Inter, Arial, sans-serif",
@@ -26,7 +26,7 @@ const spacer16Style: CSSProperties = {
   lineHeight: "16px",
   fontSize: "0",
 };
-const codeCellStyle: CSSProperties = { height: "48px" };
+const codeCellStyle: CSSProperties = {};
 const codeTextStyle: CSSProperties = {
   margin: 0,
   fontFamily: "Inter, Arial, sans-serif",

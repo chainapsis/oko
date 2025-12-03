@@ -3,6 +3,7 @@ import React, { type CSSProperties, type FC } from "react";
 interface EmailCardProps {
   children: React.ReactNode;
   height?: string | number;
+  padding?: string;
 }
 
 const outerTableBase: CSSProperties = {
@@ -27,7 +28,11 @@ const bottomRightPadding: CSSProperties = { padding: "0 10px 10px 0" };
 const innerTableStyle: CSSProperties = { borderSpacing: "0" };
 const contentTdStyle: CSSProperties = { padding: "32px 32px 24px 32px" };
 
-export const EmailCard: FC<EmailCardProps> = ({ children, height }) => {
+export const EmailCard: FC<EmailCardProps> = ({
+  children,
+  height,
+  padding,
+}) => {
   return (
     <table
       role="presentation"
@@ -82,7 +87,14 @@ export const EmailCard: FC<EmailCardProps> = ({ children, height }) => {
             >
               <tbody>
                 <tr>
-                  <td align="center" style={contentTdStyle}>
+                  <td
+                    align="center"
+                    valign="top"
+                    style={{
+                      ...contentTdStyle,
+                      ...(padding ? { padding } : {}),
+                    }}
+                  >
                     {children}
                   </td>
                 </tr>
