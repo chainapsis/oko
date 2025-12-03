@@ -6,7 +6,7 @@ import {
   signMessage,
   verifySignature,
   isValidPublicKey,
-} from "./x25519";
+} from "./curve25519";
 import { deriveSessionKey } from "./key_derivation";
 import { ed25519, x25519 } from "@noble/curves/ed25519.js";
 
