@@ -1,3 +1,4 @@
+import type { WithTime } from "@oko-wallet-types/aux_types";
 import {
   type KeyShareNode,
   type KSNodeHealthCheck,
@@ -26,7 +27,8 @@ export interface GetKSNHealthChecksRequest {
 }
 
 export interface GetKSNHealthChecksResponse {
-  health_checks: KSNodeHealthCheck[];
+  rows: WithTime<KSNodeHealthCheck>[];
+  has_next: boolean;
 }
 
 export interface CreateKSNodeRequest {

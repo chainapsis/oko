@@ -1,7 +1,7 @@
 import { Bytes, Bytes32 } from "@oko-wallet/bytes";
-import { getCrypto } from "../universal_crypto";
 import { Result } from "@oko-wallet/stdlib-js";
 import { EcdheSessionKey } from "./key_derivation";
+import { getCrypto } from "../universal_crypto";
 
 const AES_GCM_IV_LENGTH = 12;
 const AES_GCM_TAG_LENGTH = 128; // bits

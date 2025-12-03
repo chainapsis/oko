@@ -1,5 +1,5 @@
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
-import { sha256 } from "@oko-wallet/isomorphic-crypto-js";
+import { sha256 } from "@oko-wallet/crypto-js";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function hashKeyshareNodeNames(

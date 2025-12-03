@@ -10,6 +10,8 @@ import type {
   KSNodeHealthCheck,
   KSNodeHealthCheckStatus,
 } from "@oko-wallet/oko-types/tss";
+import type { OkoApiResponse } from "@oko-wallet-types/api_response";
+import type { WithPagination, WithTime } from "@oko-wallet-types/aux_types";
 
 export async function healthCheckKSNode(
   db: Pool | PoolClient,
@@ -72,20 +74,22 @@ export async function getKSNHealthChecks(
   db: Pool | PoolClient,
   pageIdx: number,
   pageSize: number,
-): Promise<Result<any, string>> {
+): Promise<OkoApiResponse<WithPagination<WithTime<KSNodeHealthCheck>[]>>> {
   const healthChecksRes = await selectKSNodeHealthChecks(db, pageIdx, pageSize);
-
-  console.log(11, healthChecksRes);
 
   if (healthChecksRes.success === false) {
     return {
       success: false,
-      err: `Failed to get ksn health checks: ${healthChecksRes.err}`,
+      code: "HEALTH_CHECK_NOT_FOUND",
+      msg: `Failed to get ksn health checks: ${healthChecksRes.err}`,
     };
   }
 
   return {
     success: true,
-    data: healthChecksRes.data,
+    data: {
+      rows: healthChecksRes.data.rows,
+      has_next: healthChecksRes.data.has_next,
+    },
   };
 }

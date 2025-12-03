@@ -11,7 +11,7 @@ import {
   insertKSNode,
   getWalletKSNodesByWalletId,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
-import { decryptData } from "@oko-wallet/crypto-js";
+import { decryptData } from "@oko-wallet/crypto-js/node/ecdhe";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
