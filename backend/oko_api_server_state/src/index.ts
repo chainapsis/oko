@@ -3,7 +3,7 @@ import type { Logger } from "winston";
 import {
   generateEddsaKeypair,
   type EddsaKeypair,
-} from "@oko-wallet/isomorphic-crypto-js";
+} from "@oko-wallet/crypto-js/node/ecdhe";
 import { Bytes } from "@oko-wallet/bytes";
 import {
   encryptDataAsync,

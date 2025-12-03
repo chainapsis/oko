@@ -1,7 +1,7 @@
 import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 import { ENV_FILE_NAME, envSchema } from "@oko-wallet-api/envs";
 import { createPgDatabase } from "@oko-wallet/oko-api-server-state/database";
-import { generateEddsaKeypair } from "@oko-wallet/isomorphic-crypto-js";
+import { generateEddsaKeypair } from "@oko-wallet/crypto-js/node/ecdhe";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node/ecdhe";
 import {
   rotateServerKeypair,
