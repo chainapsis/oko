@@ -1,11 +1,11 @@
 import { describe, expect, it } from "@jest/globals";
-import { Bytes } from "@oko-wallet/bytes";
 
 import { encryptAESGCM, decryptAESGCM } from "./aes_gcm";
 import { generateEddsaKeypair } from "../../common/ecdhe/x25519";
 import { deriveSessionKey } from "../../common/ecdhe/key_derivation";
+import { Bytes } from "@oko-wallet/bytes";
 
-describe("AES-GCM encryption and decryption", () => {
+describe("AES-GCM encryption and decryption in Node.js", () => {
   const createSessionKey = () => {
     const keypair1 = generateEddsaKeypair();
     const keypair2 = generateEddsaKeypair();
@@ -24,8 +24,8 @@ describe("AES-GCM encryption and decryption", () => {
     return sessionKey.data;
   };
 
-  describe("encryptData", () => {
-    it("should successfully encrypt data", async () => {
+  describe("encryptData in Node.js", () => {
+    it("should successfully encrypt data in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Hello, world!");
 
@@ -38,7 +38,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(result.data.length).toBeGreaterThan(12 + 16);
     });
 
-    it("should produce different ciphertexts for the same plaintext (random IV)", async () => {
+    it("should produce different ciphertexts for the same plaintext (random IV) in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Hello, world!");
 
@@ -55,7 +55,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(hex1).not.toBe(hex2);
     });
 
-    it("should encrypt empty data", async () => {
+    it("should encrypt empty data in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new Uint8Array(0);
 
@@ -68,7 +68,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(result.data.length).toBe(12 + 16);
     });
 
-    it("should encrypt large data", async () => {
+    it("should encrypt large data in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new Uint8Array(10000).fill(0xab);
 
@@ -81,7 +81,7 @@ describe("AES-GCM encryption and decryption", () => {
     });
   });
 
-  describe("decryptData", () => {
+  describe("decryptData in Node.js", () => {
     it("should successfully decrypt encrypted data", async () => {
       const sessionKey = createSessionKey();
       const originalText = "Hello, world!";
@@ -101,7 +101,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decryptedText).toBe(originalText);
     });
 
-    it("should decrypt empty data", async () => {
+    it("should decrypt empty data in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new Uint8Array(0);
 
@@ -116,7 +116,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decrypted.data.length).toBe(0);
     });
 
-    it("should decrypt large data", async () => {
+    it("should decrypt large data in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new Uint8Array(10000);
       for (let i = 0; i < plaintext.length; i++) {
@@ -134,7 +134,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decrypted.data.toUint8Array()).toEqual(plaintext);
     });
 
-    it("should fail with too short encrypted data", async () => {
+    it("should fail with too short encrypted data in Node.js", async () => {
       const sessionKey = createSessionKey();
       const shortData = new Uint8Array(10); // < 12 + 16
       const shortDataBytes = Bytes.fromUint8Array(shortData, shortData.length);
@@ -148,7 +148,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(result.err).toBe("Encrypted data is too short");
     });
 
-    it("should fail with wrong key", async () => {
+    it("should fail with wrong key in Node.js", async () => {
       const sessionKey1 = createSessionKey();
       const sessionKey2 = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
@@ -161,7 +161,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decrypted.success).toBe(false);
     });
 
-    it("should fail with tampered ciphertext", async () => {
+    it("should fail with tampered ciphertext in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
 
@@ -180,7 +180,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decrypted.success).toBe(false);
     });
 
-    it("should fail with tampered IV", async () => {
+    it("should fail with tampered IV in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
 
@@ -199,7 +199,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decrypted.success).toBe(false);
     });
 
-    it("should fail with tampered auth tag", async () => {
+    it("should fail with tampered auth tag in Node.js", async () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
 
@@ -219,7 +219,7 @@ describe("AES-GCM encryption and decryption", () => {
     });
   });
 
-  describe("encrypt-decrypt roundtrip", () => {
+  describe("encrypt-decrypt roundtrip in Node.js", () => {
     it("should handle unicode text", async () => {
       const sessionKey = createSessionKey();
       const originalText = "안녕하세요 🚀 こんにちは";
@@ -239,7 +239,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decryptedText).toBe(originalText);
     });
 
-    it("should handle binary data", async () => {
+    it("should handle binary data in Node.js", async () => {
       const sessionKey = createSessionKey();
       const binaryData = new Uint8Array([0x00, 0x01, 0xff, 0xfe, 0x80, 0x7f]);
 
@@ -254,7 +254,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(decrypted.data.toUint8Array()).toEqual(binaryData);
     });
 
-    it("should handle multiple encrypt-decrypt cycles", async () => {
+    it("should handle multiple encrypt-decrypt cycles in Node.js", async () => {
       const sessionKey = createSessionKey();
       const messages = [
         "First message",

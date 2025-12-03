@@ -8,6 +8,7 @@ import {
   isValidPublicKey,
 } from "./x25519";
 import { deriveSessionKey } from "./key_derivation";
+import { ed25519, x25519 } from "@noble/curves/ed25519.js";
 
 describe("x25519_keypair_test_1", () => {
   it("generate_eddsa_keypair", () => {
@@ -467,18 +468,36 @@ describe("EdDSA signature and verification", () => {
 });
 
 describe("x25519_key_derivation_test", () => {
-  it("get_shared_secret", () => {
-    const keypair = generateEddsaKeypair();
-    expect(keypair.success).toBe(true);
-    if (!keypair.success) return;
+  it("alice and bob derive the same shared secret", () => {
+    // Alice 키페어 생성
+    const aliceKeypair = generateEddsaKeypair();
+    expect(aliceKeypair.success).toBe(true);
+    if (!aliceKeypair.success) return;
 
-    const sharedSecret = deriveSessionKey(
-      keypair.data.privateKey,
-      keypair.data.publicKey,
+    // Bob 키페어 생성
+    const bobKeypair = generateEddsaKeypair();
+    expect(bobKeypair.success).toBe(true);
+    if (!bobKeypair.success) return;
+
+    // Alice: 자신의 private key + Bob의 public key
+    const aliceSharedSecret = deriveSessionKey(
+      aliceKeypair.data.privateKey,
+      bobKeypair.data.publicKey,
       "oko-v1",
     );
-    expect(sharedSecret.success).toBe(true);
-    if (!sharedSecret.success) return;
-    expect(sharedSecret.data).toBeDefined();
+    expect(aliceSharedSecret.success).toBe(true);
+    if (!aliceSharedSecret.success) return;
+
+    // Bob: 자신의 private key + Alice의 public key
+    const bobSharedSecret = deriveSessionKey(
+      bobKeypair.data.privateKey,
+      aliceKeypair.data.publicKey,
+      "oko-v1",
+    );
+    expect(bobSharedSecret.success).toBe(true);
+    if (!bobSharedSecret.success) return;
+
+    // 두 shared secret이 동일해야 함
+    expect(aliceSharedSecret.data).toEqual(bobSharedSecret.data);
   });
 });
