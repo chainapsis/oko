@@ -12,7 +12,6 @@ import {
   getTssActivationSetting as getTssAllActivationSettingPG,
   setTssActivationSetting as setTssAllActivationSettingPG,
 } from "@oko-wallet/oko-pg-interface/tss_activate";
-import type { AuditContext } from "@oko-wallet-admin-api/utils/audit";
 
 export async function getTssSessionList(
   db: Pool,
@@ -112,7 +111,6 @@ export async function getTssAllActivationSetting(
 export async function setTssAllActivationSetting(
   db: Pool,
   body: SetTssAllActivationSettingRequest,
-  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<SetTssAllActivationSettingResponse>> {
   try {
     const { is_enabled } = body;
@@ -137,8 +135,6 @@ export async function setTssAllActivationSetting(
         msg: "TSS activation setting not found",
       };
     }
-
-    const oldValue = tssActivationSetting.is_enabled;
 
     const setTssActivationRes = await setTssAllActivationSettingPG(
       db,

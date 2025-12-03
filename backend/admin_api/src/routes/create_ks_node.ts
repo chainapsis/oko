@@ -13,7 +13,7 @@ export async function create_ks_node(
 ) {
   const state = req.app.locals;
 
-  const result = await createKSNode(state.db, req.body, req.auditContext);
+  const result = await createKSNode(state.db, req.body);
   if (!result.success) {
     res.status(ErrorCodeMap[result.code] ?? 500).json(result);
     return;

@@ -18,7 +18,7 @@ export async function user_logout(
       ? authHeader.substring(7)
       : undefined;
 
-  const result = await logout(state.db, token, req.auditContext);
+  const result = await logout(state.db, token);
   if (result.success === false) {
     res.status(ErrorCodeMap[result.code] ?? 500).json(result);
     return;

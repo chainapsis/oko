@@ -9,6 +9,7 @@ import {
   type WalletKSNodeStatus,
   type KSNodeHealthCheck,
 } from "@oko-wallet/oko-types/tss";
+import type { WithPagination, WithTime } from "@oko-wallet-types/aux_types";
 
 export async function getKSNodeById(
   db: Pool | PoolClient,
@@ -283,9 +284,7 @@ export async function selectKSNodeHealthChecks(
   db: Pool | PoolClient,
   pageIdx: number,
   pageSize: number,
-): Promise<
-  Result<{ health_checks: KSNodeHealthCheck[]; has_next: boolean }, string>
-> {
+): Promise<Result<WithPagination<WithTime<KSNodeHealthCheck>[]>, string>> {
   const offset = pageIdx * pageSize;
 
   const query = `
@@ -295,22 +294,22 @@ OFFSET $1
 LIMIT $2;
 `;
 
-  console.log(11, pageIdx, pageSize, offset);
-
   try {
     const result = await db.query(query, [offset, pageSize + 1]);
-    const ret = result.rows.map((r) => ({
+    const rows: WithTime<KSNodeHealthCheck>[] = result.rows.map((r) => ({
       check_id: r.check_id,
       node_id: r.node_id,
       status: r.status,
+      created_at: r.created_at,
+      updated_at: r.created_at,
     }));
 
-    const has_next = ret.length > pageSize;
-    ret.pop();
+    const has_next = rows.length > pageSize;
+    rows.pop();
 
     return {
       success: true,
-      data: { health_checks: ret, has_next },
+      data: { rows, has_next },
     };
   } catch (error) {
     return {
