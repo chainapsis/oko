@@ -1,15 +1,14 @@
 import { Pool } from "pg";
 import type { Logger } from "winston";
-
 import {
   generateEddsaKeypair,
   type EddsaKeypair,
-} from "@oko-wallet/isomorphic-crypto-js";
+} from "@oko-wallet/crypto-js/node/ecdhe";
 import { Bytes } from "@oko-wallet/bytes";
 import {
   encryptDataAsync,
   decryptDataAsync,
-} from "@oko-wallet/crypto-js/aes_gcm";
+} from "@oko-wallet/crypto-js/node/ecdhe";
 import {
   getActiveServerKeypair,
   insertServerKeypair,

@@ -6,11 +6,9 @@ import type {
   AdminLogoutResponse,
 } from "@oko-wallet/oko-types/admin";
 import { getAdminByEmail } from "@oko-wallet/oko-pg-interface/admin_users";
-import { comparePassword } from "@oko-wallet/isomorphic-crypto-js";
+import { comparePassword } from "@oko-wallet/crypto-js";
 
 import { generateAdminToken } from "@oko-wallet-admin-api/auth";
-import { createAuditLog } from "@oko-wallet-admin-api/utils/audit";
-import type { AuditContext } from "@oko-wallet-admin-api/utils/audit";
 
 export async function login(
   db: Pool,
@@ -19,7 +17,6 @@ export async function login(
     secret: string;
     expires_in: string;
   },
-  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<AdminLoginResponse>> {
   try {
     const getAdminRes = await getAdminByEmail(db, body.email);
@@ -99,7 +96,6 @@ export async function login(
 export async function logout(
   db: Pool,
   token?: string,
-  auditContext?: AuditContext,
 ): Promise<OkoApiResponse<AdminLogoutResponse>> {
   try {
     if (token) {

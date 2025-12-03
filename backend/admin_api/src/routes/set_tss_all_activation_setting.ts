@@ -15,11 +15,8 @@ export async function set_tss_all_activation_setting(
 ) {
   const state = req.app.locals as any;
 
-  const result = await setTssAllActivationSetting(
-    state.db,
-    req.body,
-    req.auditContext,
-  );
+  const result = await setTssAllActivationSetting(state.db, req.body);
+
   if (!result.success) {
     res.status(ErrorCodeMap[result.code] ?? 500).json(result);
     return;

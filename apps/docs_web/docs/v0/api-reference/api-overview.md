@@ -606,12 +606,6 @@ Based on schema in `backend/oko_pg_interface/scripts/migrate/migrate.sql`:
 - Session state stored as JSONB for flexibility
 - Individual stages tracked in `tss_stages` table
 
-**Audit Logging:**
-
-- All API operations logged in `audit_logs` table
-- Includes actor information, action type, and IP address
-- Complete audit trail for security and compliance
-
 ### Error Handling
 
 **Standard Error Response Format:**
