@@ -12,5 +12,19 @@ interface MakeSignatureRawCodeBlockProps {
 export const MakeSignatureRawCodeBlock: React.FC<
   MakeSignatureRawCodeBlockProps
 > = ({ code, className }) => {
-  return <CodeBlock className={cn(styles.codeBlock, className)} code={code} />;
+  const formattedCode = (() => {
+    try {
+      const parsed = JSON.parse(code);
+      return JSON.stringify(parsed, null, 2);
+    } catch {
+      return code;
+    }
+  })();
+
+  return (
+    <CodeBlock
+      className={cn(styles.codeBlock, className)}
+      code={formattedCode}
+    />
+  );
 };
