@@ -10,6 +10,7 @@ import { useAppState } from "@oko-wallet-attached/store/app";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { DEMO_WEB_ORIGIN } from "@oko-wallet-attached/requests/endpoints";
 import { useSupportedEthChain } from "@oko-wallet-attached/web3/ethereum/hooks/use_supported_eth_chain";
+import { hasOnChainSchema } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/utils";
 
 export interface UseEthereumSigModalArgs {
   modalId: string;
@@ -134,5 +135,6 @@ export function useArbitrarySigModal(args: UseEthereumSigModalArgs) {
     isApproveEnabled,
     isDemo,
     theme,
+    hasOnChainSchema: hasOnChainSchema(data.payload.data.message),
   };
 }
