@@ -6,7 +6,7 @@ import type { EcdheSessionKey } from "../../common/ecdhe";
 const AES_GCM_IV_LENGTH = 12;
 const AES_GCM_TAG_LENGTH = 128; // bits
 
-export async function encryptAESGCM(
+export async function encryptWithEcdheKey(
   data: Uint8Array,
   sessionKey: EcdheSessionKey,
 ): Promise<Result<BytesN, string>> {
@@ -52,7 +52,7 @@ export async function encryptAESGCM(
   }
 }
 
-export async function decryptAESGCM(
+export async function decryptWithEcdheKey(
   encryptedData: BytesN,
   sessionKey: EcdheSessionKey,
 ): Promise<Result<BytesN, string>> {

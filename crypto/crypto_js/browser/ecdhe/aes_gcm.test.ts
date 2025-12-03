@@ -1,7 +1,7 @@
 import { describe, expect, it } from "@jest/globals";
 import { Bytes } from "@oko-wallet/bytes";
 
-import { encryptAESGCM, decryptAESGCM } from "./aes_gcm";
+import { encryptWithEcdheKey, decryptWithEcdheKey } from "./aes_gcm";
 import { generateEddsaKeypair } from "../../common/ecdhe/curve25519";
 import { deriveSessionKey } from "../../common/ecdhe/key_derivation";
 
@@ -29,7 +29,7 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Hello, world!");
 
-      const result = await encryptAESGCM(plaintext, sessionKey);
+      const result = await encryptWithEcdheKey(plaintext, sessionKey);
 
       expect(result.success).toBe(true);
       if (!result.success) return;
@@ -42,8 +42,8 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Hello, world!");
 
-      const result1 = await encryptAESGCM(plaintext, sessionKey);
-      const result2 = await encryptAESGCM(plaintext, sessionKey);
+      const result1 = await encryptWithEcdheKey(plaintext, sessionKey);
+      const result2 = await encryptWithEcdheKey(plaintext, sessionKey);
 
       expect(result1.success).toBe(true);
       expect(result2.success).toBe(true);
@@ -59,7 +59,7 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new Uint8Array(0);
 
-      const result = await encryptAESGCM(plaintext, sessionKey);
+      const result = await encryptWithEcdheKey(plaintext, sessionKey);
 
       expect(result.success).toBe(true);
       if (!result.success) return;
@@ -72,7 +72,7 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new Uint8Array(10000).fill(0xab);
 
-      const result = await encryptAESGCM(plaintext, sessionKey);
+      const result = await encryptWithEcdheKey(plaintext, sessionKey);
 
       expect(result.success).toBe(true);
       if (!result.success) return;
@@ -87,11 +87,11 @@ describe("AES-GCM encryption and decryption", () => {
       const originalText = "Hello, world!";
       const plaintext = new TextEncoder().encode(originalText);
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
-      const decrypted = await decryptAESGCM(encrypted.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey);
       expect(decrypted.success).toBe(true);
       if (!decrypted.success) return;
 
@@ -105,11 +105,11 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new Uint8Array(0);
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
-      const decrypted = await decryptAESGCM(encrypted.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey);
       expect(decrypted.success).toBe(true);
       if (!decrypted.success) return;
 
@@ -123,11 +123,11 @@ describe("AES-GCM encryption and decryption", () => {
         plaintext[i] = i % 256;
       }
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
-      const decrypted = await decryptAESGCM(encrypted.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey);
       expect(decrypted.success).toBe(true);
       if (!decrypted.success) return;
 
@@ -141,7 +141,7 @@ describe("AES-GCM encryption and decryption", () => {
       expect(shortDataBytes.success).toBe(true);
       if (!shortDataBytes.success) return;
 
-      const result = await decryptAESGCM(shortDataBytes.data, sessionKey);
+      const result = await decryptWithEcdheKey(shortDataBytes.data, sessionKey);
 
       expect(result.success).toBe(false);
       if (result.success) return;
@@ -153,11 +153,11 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey2 = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey1);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey1);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
-      const decrypted = await decryptAESGCM(encrypted.data, sessionKey2);
+      const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey2);
       expect(decrypted.success).toBe(false);
     });
 
@@ -165,7 +165,7 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
@@ -176,7 +176,10 @@ describe("AES-GCM encryption and decryption", () => {
       expect(tamperedBytes.success).toBe(true);
       if (!tamperedBytes.success) return;
 
-      const decrypted = await decryptAESGCM(tamperedBytes.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(
+        tamperedBytes.data,
+        sessionKey,
+      );
       expect(decrypted.success).toBe(false);
     });
 
@@ -184,7 +187,7 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
@@ -195,7 +198,10 @@ describe("AES-GCM encryption and decryption", () => {
       expect(tamperedBytes.success).toBe(true);
       if (!tamperedBytes.success) return;
 
-      const decrypted = await decryptAESGCM(tamperedBytes.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(
+        tamperedBytes.data,
+        sessionKey,
+      );
       expect(decrypted.success).toBe(false);
     });
 
@@ -203,7 +209,7 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const plaintext = new TextEncoder().encode("Secret message");
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
@@ -214,7 +220,10 @@ describe("AES-GCM encryption and decryption", () => {
       expect(tamperedBytes.success).toBe(true);
       if (!tamperedBytes.success) return;
 
-      const decrypted = await decryptAESGCM(tamperedBytes.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(
+        tamperedBytes.data,
+        sessionKey,
+      );
       expect(decrypted.success).toBe(false);
     });
   });
@@ -225,11 +234,11 @@ describe("AES-GCM encryption and decryption", () => {
       const originalText = "안녕하세요 🚀 こんにちは";
       const plaintext = new TextEncoder().encode(originalText);
 
-      const encrypted = await encryptAESGCM(plaintext, sessionKey);
+      const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
-      const decrypted = await decryptAESGCM(encrypted.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey);
       expect(decrypted.success).toBe(true);
       if (!decrypted.success) return;
 
@@ -243,11 +252,11 @@ describe("AES-GCM encryption and decryption", () => {
       const sessionKey = createSessionKey();
       const binaryData = new Uint8Array([0x00, 0x01, 0xff, 0xfe, 0x80, 0x7f]);
 
-      const encrypted = await encryptAESGCM(binaryData, sessionKey);
+      const encrypted = await encryptWithEcdheKey(binaryData, sessionKey);
       expect(encrypted.success).toBe(true);
       if (!encrypted.success) return;
 
-      const decrypted = await decryptAESGCM(encrypted.data, sessionKey);
+      const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey);
       expect(decrypted.success).toBe(true);
       if (!decrypted.success) return;
 
@@ -267,11 +276,11 @@ describe("AES-GCM encryption and decryption", () => {
       for (const message of messages) {
         const plaintext = new TextEncoder().encode(message);
 
-        const encrypted = await encryptAESGCM(plaintext, sessionKey);
+        const encrypted = await encryptWithEcdheKey(plaintext, sessionKey);
         expect(encrypted.success).toBe(true);
         if (!encrypted.success) continue;
 
-        const decrypted = await decryptAESGCM(encrypted.data, sessionKey);
+        const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey);
         expect(decrypted.success).toBe(true);
         if (!decrypted.success) continue;
 

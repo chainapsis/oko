@@ -1,6 +1,6 @@
 import {
-  encryptAESGCM,
-  decryptAESGCM,
+  encryptWithEcdheKey,
+  decryptWithEcdheKey,
   generateEddsaKeypair,
   deriveSessionKey,
 } from "@oko-wallet/crypto-js/browser";
@@ -51,14 +51,14 @@ async function test() {
 
   const plaintext = new TextEncoder().encode("Hello, world!");
 
-  const encrypted = await encryptAESGCM(plaintext, sessionKey1);
+  const encrypted = await encryptWithEcdheKey(plaintext, sessionKey1);
   console.log("encrypted", encrypted);
   if (!encrypted.success) {
     console.error("Encryption failed", encrypted.err);
     return;
   }
 
-  const decrypted = await decryptAESGCM(encrypted.data, sessionKey1);
+  const decrypted = await decryptWithEcdheKey(encrypted.data, sessionKey1);
   console.log("decrypted", decrypted);
   if (!decrypted.success) {
     console.error("Decryption failed", decrypted.err);
