@@ -1,4 +1,4 @@
-// TODO: Remove sync functions @chemonoworld
+// TODO: Remove sync functions @chemonoworld after publishing new version
 
 import {
   randomBytes,
