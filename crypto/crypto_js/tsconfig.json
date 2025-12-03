@@ -23,6 +23,6 @@
     "baseUrl": ".",
     "paths": {}
   },
-  "include": ["browser/**/*.ts", "src/**/*.ts", "tests/**/*"],
+  "include": ["**/*.ts"],
   "exclude": ["node_modules", "dist"]
 }

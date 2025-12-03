@@ -10,7 +10,7 @@ import { ed25519 } from "@noble/curves/ed25519.js";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 
-import { sha256 } from "../../src/hash";
+import { sha256 } from "../../common/hash";
 
 export interface EddsaKeypair {
   privateKey: Bytes32;
@@ -153,7 +153,8 @@ export function signMessage(
  * @param message - Original message
  * @param signature - Signature (64 bytes compact format)
  * @param publicKey - compressed public key (32 bytes)
- * @returns True if signature is valid, false otherwise(if verification fails or out of range error occurs)
+ * @returns True if signature is valid, false otherwise(if verification \
+ fails or out of range error occurs)
  * success: true, data: true -> signature is valid
  */
 export function verifySignature(
@@ -175,7 +176,8 @@ export function verifySignature(
     if (!signatureBytesResult.success) {
       return {
         success: false,
-        err: `Failed to convert ECDSA signature to bytes: ${signatureBytesResult.err}`,
+        err: `Failed to convert ECDSA signature to bytes: \
+${signatureBytesResult.err}`,
       };
     }
 

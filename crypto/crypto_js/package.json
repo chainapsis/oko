@@ -2,8 +2,9 @@
   "name": "@oko-wallet/crypto-js",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./aes_gcm": "./src/aes_gcm.ts",
+    ".": "./common/index.ts",
+    "./node": "./node/index.ts",
+    "./node/ecdhe": "./node/ecdhe/index.ts",
     "./browser": "./browser/index.ts",
     "./browser/ecdhe": "./browser/ecdhe/index.ts"
   },

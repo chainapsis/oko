@@ -2,7 +2,7 @@
 // import { getCrypto } from "../universal_crypto";
 import type { Result } from "@oko-wallet/stdlib-js";
 
-import type { EcdheSessionKey } from "./key_derivation";
+import type { EcdheSessionKey } from "../../common/ecdhe";
 
 const AES_GCM_IV_LENGTH = 12;
 const AES_GCM_TAG_LENGTH = 128; // bits

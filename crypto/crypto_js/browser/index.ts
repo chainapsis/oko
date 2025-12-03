@@ -1,5 +1,3 @@
-// Please make sure that this code only runs in the browser context.
-
 export function getRandomBytes(length: number): Uint8Array {
   return window.crypto.getRandomValues(new Uint8Array(length));
 }

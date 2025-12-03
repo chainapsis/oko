@@ -1,7 +1,7 @@
 import request from "supertest";
 import { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
-import { KNOWN_HASH_FROM_0000 } from "@oko-wallet/isomorphic-crypto-js";
+import { KNOWN_HASH_FROM_0000 } from "@oko-wallet/crypto-js";
 import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
 import { insertCustomerDashboardUser } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import {
