@@ -1,9 +1,10 @@
+import { useMemo } from "react";
+import cn from "classnames";
+import type { FC } from "react";
+
 import { CodeBlock } from "@oko-wallet-attached/components/code_block/code_block";
 
-import cn from "classnames";
-
 import styles from "./make_sig_modal_code_block.module.scss";
-import { useMemo, type FC } from "react";
 
 interface MakeSignatureRawCodeBlockProps {
   code: string;
