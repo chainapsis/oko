@@ -4,6 +4,10 @@ import React, { useEffect, useState } from "react";
 import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 
 import { TELEGRAM_BOT_NAME } from "@oko-wallet-attached/config/telegram";
+import styles from "@oko-wallet-attached/components/login/popup_email_login.module.scss";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
 
 export const TelegramLogin: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
@@ -19,9 +23,8 @@ export const TelegramLogin: React.FC = () => {
       return;
     }
 
-    let oauthState;
     try {
-      oauthState = JSON.parse(stateParam);
+      JSON.parse(stateParam);
     } catch (err) {
       setError("Invalid state parameter");
       return;
@@ -63,35 +66,49 @@ export const TelegramLogin: React.FC = () => {
   }, []);
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        minHeight: "100vh",
-        padding: "20px",
-        gap: "20px",
-      }}
-    >
-      <h1 style={{ fontSize: "20px", fontWeight: 600, margin: 0 }}>
-        Sign in with Telegram
-      </h1>
-      {error ? (
-        <div
-          style={{
-            padding: "12px",
-            backgroundColor: "#fee",
-            border: "1px solid #fcc",
-            borderRadius: "4px",
-            color: "#c00",
-          }}
-        >
-          {error}
+    <div className={styles.container}>
+      <div className={styles.body}>
+        <div className={styles.card}>
+          <div className={styles.cardTop}>
+            <Logo theme="light" />
+            <div className={styles.fieldHeader}>Continue with Telegram</div>
+          </div>
+          <div className={styles.cardBottom}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "12px",
+                width: "100%",
+              }}
+            >
+              <Typography size="sm" color="secondary">
+                Opening Telegram login...
+              </Typography>
+              {error ? (
+                <Typography size="sm" color="error-primary">
+                  {error}
+                </Typography>
+              ) : (
+                <>
+                  <LoadingIcon size={36} />
+                  <div
+                    id="telegram-login-container"
+                    style={{
+                      minHeight: 60,
+                      width: "100%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  />
+                </>
+              )}
+            </div>
+          </div>
         </div>
-      ) : (
-        <div id="telegram-login-container" style={{ minHeight: "60px" }} />
-      )}
+      </div>
     </div>
   );
 };
