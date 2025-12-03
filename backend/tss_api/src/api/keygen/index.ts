@@ -4,7 +4,7 @@ import {
   getUserByEmail,
 } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { encryptDataAsync } from "@oko-wallet/crypto-js/node/ecdhe";
+import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
