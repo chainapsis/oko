@@ -1,5 +1,3 @@
-import React from "react";
-
 interface EmailTextProps extends React.HTMLAttributes<HTMLParagraphElement> {
   children: React.ReactNode;
   className?: string; // For compatibility, though we prefer inline styles

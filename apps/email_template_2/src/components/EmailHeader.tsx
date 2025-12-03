@@ -1,4 +1,4 @@
-import React, { type CSSProperties, type FC } from "react";
+import { type CSSProperties, type FC } from "react";
 
 interface EmailHeaderProps {
   imageSrc: string;
