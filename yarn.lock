@@ -9683,16 +9683,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/common-vite-test@workspace:crypto/isomorphic_crypto_js/tests/vite":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/common-vite-test@workspace:crypto/isomorphic_crypto_js/tests/vite"
-  dependencies:
-    "@oko-wallet/isomorphic-crypto-js": "workspace:*"
-    typescript: "npm:~5.8.3"
-    vite: "npm:^7.0.4"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/crypto-js@workspace:*, @oko-wallet/crypto-js@workspace:crypto/crypto_js":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/crypto-js@workspace:crypto/crypto_js"
@@ -9892,27 +9882,6 @@ __metadata:
     tsx: "npm:*"
     typescript: "npm:*"
     zustand: "npm:*"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/isomorphic-crypto-js@workspace:*, @oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js"
-  dependencies:
-    "@jest/globals": "npm:*"
-    "@noble/curves": "npm:2.0.1"
-    "@noble/hashes": "npm:2.0.1"
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
-    "@types/bcryptjs": "npm:*"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
-    bcryptjs: "npm:^3.0.2"
-    del-cli: "npm:*"
-    jest: "npm:*"
-    supertest: "npm:*"
-    ts-jest: "npm:*"
-    typescript: "npm:*"
   languageName: unknown
   linkType: soft
 
