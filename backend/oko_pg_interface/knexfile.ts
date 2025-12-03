@@ -47,10 +47,10 @@ const config: { [key: string]: Knex.Config } = {
     client: "pg",
     connection: {
       // TODO: @hyunjae
-      host: "localhost", // some_other_your_local_host
+      host: "localhost",
       user: "your_user",
       password: "your_password",
-      database: "your_database_dev",
+      database: "your_database_dev", // some_other_your_local_db
     },
     migrations: {
       directory: path.join(__dirname, "migrations"), // Path to your migration files
