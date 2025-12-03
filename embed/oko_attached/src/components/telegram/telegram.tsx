@@ -9,7 +9,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
 
-export const TelegramLogin: React.FC = () => {
+export const TelegramLoginPopup: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
