@@ -36,35 +36,6 @@ CREATE TABLE public.api_keys (
 CREATE INDEX idx_api_keys_customer_id ON public.api_keys USING btree (customer_id);
 
 
--- public.audit_event definition
-
--- Drop table
-
--- DROP TABLE public.audit_event;
-
-CREATE TABLE public.audit_event (
-	id uuid DEFAULT gen_random_uuid() NOT NULL,
-	occurred_at timestamptz DEFAULT now() NOT NULL,
-	request_id text NOT NULL,
-	actor text NOT NULL,
-	actor_ip inet NULL,
-	user_agent text NULL,
-	"source" text NOT NULL,
-	"action" text NOT NULL,
-	target_type text NOT NULL,
-	target_id text NULL,
-	changes jsonb NULL,
-	params jsonb NULL,
-	outcome text NOT NULL,
-	"error" text NULL,
-	CONSTRAINT audit_event_pkey PRIMARY KEY (id)
-);
-CREATE INDEX audit_event_action_occurred_at_idx ON public.audit_event USING btree (action, occurred_at DESC);
-CREATE INDEX audit_event_occurred_at_idx ON public.audit_event USING btree (occurred_at DESC);
-CREATE INDEX audit_event_target_type_target_id_occurred_at_idx ON public.audit_event USING btree (target_type, target_id, occurred_at DESC);
-CREATE UNIQUE INDEX audit_event_unique_req ON public.audit_event USING btree (request_id, action, target_type, target_id);
-
-
 -- public.customer_dashboard_users definition
 
 -- Drop table

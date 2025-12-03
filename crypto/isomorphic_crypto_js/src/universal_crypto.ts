@@ -2,6 +2,8 @@ import { Result } from "@oko-wallet/stdlib-js";
 
 let universalCrypto: Crypto | undefined = undefined;
 
+// TODO: @elden
+// dangerous
 function initUniversalCrypto() {
   if (
     universalCrypto === undefined &&

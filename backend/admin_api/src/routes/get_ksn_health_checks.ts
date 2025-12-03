@@ -3,16 +3,11 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetKSNHealthChecksRequest,
   GetKSNHealthChecksResponse,
-  GetKSNodeByIdRequest,
-  GetKSNodeByIdResponse,
 } from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
 import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
-import {
-  getKSNHealthChecks,
-  getKSNodeById,
-} from "@oko-wallet-admin-api/api/ks_node";
+import { getKSNHealthChecks } from "@oko-wallet-admin-api/api/ks_node";
 
 export async function get_ksn_health_checks(
   req: AuthenticatedAdminRequest<GetKSNHealthChecksRequest>,
@@ -27,7 +22,7 @@ export async function get_ksn_health_checks(
   );
 
   if (!result.success) {
-    // res.status(ErrorCodeMap[result.code] ?? 500).json(result);
+    res.status(ErrorCodeMap[result.code] ?? 500).json(result);
     return;
   }
 

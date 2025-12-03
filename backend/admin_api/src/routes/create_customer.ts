@@ -37,31 +37,27 @@ export async function create_customer(
     return;
   }
 
-  const createCustomerRes = await createCustomer(
-    state.db,
-    body,
-    {
-      s3: {
-        region: state.s3_region,
-        accessKeyId: state.s3_access_key_id,
-        secretAccessKey: state.s3_secret_access_key,
-        bucket: state.s3_bucket,
-      },
-      email: {
-        fromEmail: state.from_email,
-        smtpConfig: {
-          smtp_host: state.smtp_host,
-          smtp_port: state.smtp_port,
-          smtp_user: state.smtp_user,
-          smtp_pass: state.smtp_pass,
-        },
-      },
-      logo: req.file
-        ? { buffer: req.file.buffer, originalname: req.file.originalname }
-        : null,
+  const createCustomerRes = await createCustomer(state.db, body, {
+    s3: {
+      region: state.s3_region,
+      accessKeyId: state.s3_access_key_id,
+      secretAccessKey: state.s3_secret_access_key,
+      bucket: state.s3_bucket,
     },
-    req.auditContext,
-  );
+    email: {
+      fromEmail: state.from_email,
+      smtpConfig: {
+        smtp_host: state.smtp_host,
+        smtp_port: state.smtp_port,
+        smtp_user: state.smtp_user,
+        smtp_pass: state.smtp_pass,
+      },
+    },
+    logo: req.file
+      ? { buffer: req.file.buffer, originalname: req.file.originalname }
+      : null,
+  });
+
   if (createCustomerRes.success === false) {
     res
       .status(ErrorCodeMap[createCustomerRes.code] ?? 500)
@@ -73,5 +69,6 @@ export async function create_customer(
     success: true,
     data: createCustomerRes.data,
   });
+
   return;
 }

@@ -14,7 +14,6 @@
     "@oko-wallet/crypto-js": "workspace:*",
     "@oko-wallet/ct-dashboard-api": "workspace:*",
     "@oko-wallet/dotenv": "0.0.2-alpha.21",
-    "@oko-wallet/isomorphic-crypto-js": "workspace:*",
     "@oko-wallet/log-api": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-api-server-state": "workspace:*",

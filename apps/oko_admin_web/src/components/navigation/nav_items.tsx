@@ -48,10 +48,4 @@ export const navigationItems: NavigationItem[] = [
       },
     ],
   },
-  {
-    label: "Audit Logs",
-    route: "audit-logs",
-    icon: <ChartOutlinedIcon color="var(--gray-400)" className={styles.icon} />,
-    subItems: [{ label: "Audit History", route: paths.audit_logs }],
-  },
 ];
