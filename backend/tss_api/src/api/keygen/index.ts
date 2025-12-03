@@ -4,7 +4,7 @@ import {
   getUserByEmail,
 } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { encryptData } from "@oko-wallet/crypto-js";
+import { encryptDataAsync } from "@oko-wallet/crypto-js/node/ecdhe";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
@@ -140,7 +140,7 @@ export async function runKeygen(
       };
     }
 
-    const encryptedShare = encryptData(
+    const encryptedShare = await encryptDataAsync(
       keygen_2.private_share,
       encryptionSecret,
     );

@@ -3,7 +3,7 @@ import path from "path";
 import type {
   EmailResult,
   SendEmailOptions,
-} from "@oko-wallet/oko-types/ct_dashboard";
+} from "@oko-wallet/oko-types/admin";
 
 import {
   sendEmail,

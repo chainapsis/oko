@@ -60,8 +60,6 @@ export interface KSNodeHealthCheck {
   check_id: string;
   node_id: string;
   status: KSNodeHealthCheckStatus;
-  // created_at: string;
-  // updated_at: string;
 }
 
 export type KSNodeWithHealthCheck = {

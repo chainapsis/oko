@@ -1,16 +1,13 @@
 "use client";
 
-import { useMemo, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import {
   createColumnHelper,
   flexRender,
-  type ColumnDef,
   type PaginationState,
 } from "@tanstack/react-table";
-import type {
-  KSNodeHealthCheck,
-  KSNodeWithHealthCheck,
-} from "@oko-wallet/oko-types/tss";
+import type { KSNodeHealthCheck } from "@oko-wallet/oko-types/tss";
+import type { WithTime } from "@oko-wallet/oko-types/aux_types";
 import {
   Table,
   TableBody,
@@ -19,23 +16,26 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@oko-wallet/oko-common-ui/table";
-import { useRouter } from "next/navigation";
 
 import styles from "./ksn_health_check_tbl.module.scss";
 import { useTable } from "@oko-wallet-admin/components/table/use_table";
 import { useKSNHealthChecks } from "@oko-wallet-admin/fetch/ks_node/use_ksn_health_checks";
 
-const columnHelper = createColumnHelper<KSNodeHealthCheck>();
+const columnHelper = createColumnHelper<WithTime<KSNodeHealthCheck>>();
 
 const columns = [
+  columnHelper.accessor("node_id", {
+    cell: (info) => info.getValue(),
+  }),
+  columnHelper.accessor("created_at", {
+    cell: (info) => info.getValue(),
+  }),
   columnHelper.accessor("status", {
     cell: (info) => info.getValue(),
   }),
 ];
 
 export const KSNHealthCheckTable: FC = () => {
-  const router = useRouter();
-
   const [pagination, setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 20,
@@ -45,7 +45,7 @@ export const KSNHealthCheckTable: FC = () => {
 
   const table = useTable({
     columns,
-    data: data?.health_checks ?? [],
+    data: data?.rows ?? [],
     // pagination,
     // onPaginationChange,
     pageCount: 1, // nodeData?.pagination?.total_pages ?? 0,

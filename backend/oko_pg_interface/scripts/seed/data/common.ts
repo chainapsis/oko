@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 import { type Customer } from "@oko-wallet/oko-types/customers";
-import { hashPassword } from "@oko-wallet/common-crypto-js";
+import { hashPassword } from "@oko-wallet/crypto-js";
 import type {
   CustomerDashboardUser,
   CustomerAndCTDUserWithPasswordHash,
@@ -59,11 +59,11 @@ export const createApiKeys = (): {
   customer_id: string;
   hashed_key: string;
 }[] => [
-  {
-    customer_id: CUSTOMER_ID,
-    hashed_key: API_KEY,
-  },
-];
+    {
+      customer_id: CUSTOMER_ID,
+      hashed_key: API_KEY,
+    },
+  ];
 
 export const createDummyCustomerSets = async (): Promise<
   CustomerAndCTDUserWithPasswordHash[]

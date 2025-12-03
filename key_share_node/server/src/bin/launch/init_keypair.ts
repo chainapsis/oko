@@ -2,7 +2,7 @@ import type { Pool } from "pg";
 import {
   generateEddsaKeypair,
   type EddsaKeypair,
-} from "@oko-wallet/common-crypto-js";
+} from "@oko-wallet/crypto-js/node/ecdhe";
 import { Bytes } from "@oko-wallet/bytes";
 import {
   encryptDataAsync,

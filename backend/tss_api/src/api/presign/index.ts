@@ -16,7 +16,7 @@ import {
   type PresignStageData,
   TssStageType,
 } from "@oko-wallet/oko-types/tss";
-import { decryptData } from "@oko-wallet/crypto-js";
+import { decryptDataAsync } from "@oko-wallet/crypto-js/node/ecdhe";
 import { Pool } from "pg";
 import {
   runPresignServerStep1,
@@ -109,7 +109,7 @@ export async function runPresignStep1(
 
     const triplesData = triplesStage.stage_data as TriplesStageData;
 
-    const decryptedShare = decryptData(
+    const decryptedShare = await decryptDataAsync(
       wallet.enc_tss_share.toString("utf-8"),
       encryptionSecret,
     );

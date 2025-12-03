@@ -18,8 +18,8 @@
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",
       "crypto/crypto_js/tests/vite",
-      "crypto/common_crypto_js",
-      "crypto/common_crypto_js/tests/vite",
+      "crypto/isomorphic_crypto_js",
+      "crypto/isomorphic_crypto_js/tests/vite",
       "examples/cosmos-nextjs",
       "examples/evm-nextjs",
       "examples/evm-wagmi-nextjs",
@@ -40,6 +40,7 @@
       "apps/oko_admin_web",
       "apps/customer_dashboard",
       "apps/docs_web",
+      "apps/email_template_2",
       "apps/user_dashboard",
       "common/oko_types",
       "lib/stdlib_js",
@@ -109,6 +110,7 @@
     "ts-jest": "29.4.5",
     "tsc-alias": "^1.8.16",
     "tsx": "^4.20.3",
-    "typescript": "^5.8.3"
+    "typescript": "^5.8.3",
+    "zod": "4.1.12"
   }
 }

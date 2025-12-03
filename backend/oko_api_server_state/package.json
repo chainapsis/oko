@@ -8,7 +8,6 @@
   },
   "dependencies": {
     "@oko-wallet/bytes": "0.0.3-alpha.54",
-    "@oko-wallet/common-crypto-js": "workspace:*",
     "@oko-wallet/crypto-js": "workspace:*",
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
