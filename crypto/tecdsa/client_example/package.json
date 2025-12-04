@@ -20,11 +20,11 @@
     "react-dom": "^19.2.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint-config-next": "15.5.7",
-    "prettier": "^3.5.3",
-    "typescript": "^5"
+    "@types/node": "*",
+    "@types/react": "*",
+    "@types/react-dom": "*",
+    "eslint-config-next": "*",
+    "prettier": "*",
+    "typescript": "*"
   }
 }

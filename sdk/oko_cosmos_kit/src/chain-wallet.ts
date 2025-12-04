@@ -1,6 +1,13 @@
-import { ChainRecord, ChainWalletBase, State, Wallet } from "@cosmos-kit/core";
+import {
+  ChainRecord,
+  ChainWalletBase,
+  SignType,
+  State,
+  Wallet,
+} from "@cosmos-kit/core";
 
 import { OkoMainWallet } from "./main-wallet";
+import { OkoWalletClient } from "./client";
 
 export class OkoChainWallet extends ChainWalletBase {
   constructor(walletInfo: Wallet, chainInfo: ChainRecord) {
@@ -19,5 +26,25 @@ export class OkoChainWallet extends ChainWalletBase {
     }
 
     await super.update();
+  }
+
+  async initOfflineSigner(preferredSignType?: SignType): Promise<void> {
+    const mainWallet = this.mainWallet as OkoMainWallet;
+    const client = mainWallet.client as OkoWalletClient | undefined;
+
+    if (!client) {
+      throw new Error("Oko wallet client not initialized");
+    }
+
+    // Check if user is already signed in
+    const publicKey = await client.client.okoWallet.getPublicKey();
+
+    // If not signed in, trigger the sign-in flow before initializing offline signer
+    if (!publicKey) {
+      await client.client.okoWallet.signIn(client.loginProvider);
+    }
+
+    // Continue with the standard offline signer initialization
+    await super.initOfflineSigner(preferredSignType);
   }
 }

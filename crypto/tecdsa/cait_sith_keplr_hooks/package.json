@@ -18,7 +18,7 @@
     "@types/node": "*",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "eslint-config-next": "15.2.3",
+    "eslint-config-next": "*",
     "prettier": "*",
     "typescript": "*"
   }
