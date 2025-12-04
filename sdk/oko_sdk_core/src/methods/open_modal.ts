@@ -138,8 +138,8 @@ function openTelegramLoginPopup(
     url.searchParams.set("state", msg.payload.data.state);
   }
 
-  const width = 500;
-  const height = 600;
+  const width = 440;
+  const height = 402;
   const left = Math.max((window.screen.width - width) / 2, 0);
   const top = Math.max((window.screen.height - height) / 2, 0);
 
