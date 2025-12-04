@@ -8,6 +8,7 @@ import type {
   OkoWalletInitError,
   OpenModalError,
 } from "@oko-wallet-sdk-core/errors";
+import type { SignInType } from "./oauth";
 
 export interface OkoWalletStaticInterface {
   new (apiKey: string, iframe: HTMLIFrameElement, sdkEndpoint: string): void;
@@ -32,9 +33,7 @@ export interface OkoWalletInterface {
   ) => Promise<Result<OpenModalAckPayload, OpenModalError>>;
   closeModal: () => void;
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>;
-  signIn: (
-    type: "google" | "email" | "x" | "telegram" | "discord",
-  ) => Promise<void>;
+  signIn: (type: SignInType) => Promise<void>;
   signOut: () => Promise<void>;
   getPublicKey: () => Promise<string | null>;
   getEmail: () => Promise<string | null>;

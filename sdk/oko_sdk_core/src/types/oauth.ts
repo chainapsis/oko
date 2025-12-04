@@ -1,5 +1,7 @@
 export type OAuthProvider = "google" | "auth0" | "x" | "telegram" | "discord";
 
+export type SignInType = "google" | "email" | "x" | "telegram" | "discord";
+
 export type OAuthState = {
   apiKey: string;
   targetOrigin: string;
