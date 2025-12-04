@@ -17,21 +17,21 @@ export interface OAuthPayload {
   id_token: string;
   api_key: string;
   target_origin: string;
-  auth_type: Extract<OAuthProvider, "google" | "auth0">;
+  auth_type: "google" | "auth0";
 }
 export type OAuthTokenRequestPayload =
   | OAuthTokenRequestPayloadOfX
   | OAuthTokenRequestPayloadOfTelegram
   | OAuthTokenRequestPayloadOfDiscord;
 
-interface OAuthTokenRequestPayloadOfX {
+export interface OAuthTokenRequestPayloadOfX {
   code: string;
   api_key: string;
   target_origin: string;
   auth_type: "x";
 }
 
-interface OAuthTokenRequestPayloadOfDiscord {
+export interface OAuthTokenRequestPayloadOfDiscord {
   code: string;
   api_key: string;
   target_origin: string;

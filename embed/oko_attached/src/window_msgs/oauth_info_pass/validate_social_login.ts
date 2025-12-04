@@ -2,6 +2,9 @@ import type {
   OAuthSignInError,
   OAuthPayload,
   OAuthTokenRequestPayload,
+  OAuthTokenRequestPayloadOfTelegram,
+  OAuthTokenRequestPayloadOfX,
+  OAuthTokenRequestPayloadOfDiscord,
 } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
 
@@ -18,9 +21,9 @@ type OAuthCredentialResult = Result<
 type ProviderPayloadMap = {
   google: OAuthPayload;
   auth0: OAuthPayload;
-  x: Extract<OAuthTokenRequestPayload, { auth_type: "x" }>;
-  telegram: Extract<OAuthTokenRequestPayload, { auth_type: "telegram" }>;
-  discord: Extract<OAuthTokenRequestPayload, { auth_type: "discord" }>;
+  x: OAuthTokenRequestPayloadOfX;
+  telegram: OAuthTokenRequestPayloadOfTelegram;
+  discord: OAuthTokenRequestPayloadOfDiscord;
 };
 
 async function validateOAuthPayloadOfX(
