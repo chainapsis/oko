@@ -1,25 +1,20 @@
-// import { Bytes, Bytes32 } from "@oko-wallet/bytes";
-// import { getCrypto } from "../universal_crypto";
 import type { Result } from "@oko-wallet/stdlib-js";
+import { Bytes, type BytesN } from "@oko-wallet/bytes";
 
 import type { EcdheSessionKey } from "../../common/ecdhe";
 
 const AES_GCM_IV_LENGTH = 12;
 const AES_GCM_TAG_LENGTH = 128; // bits
 
-export async function encryptData(
+export async function encryptWithEcdheKey(
   data: Uint8Array,
   sessionKey: EcdheSessionKey,
-): Promise<Result<Uint8Array, string>> {
-  // const cryptoResult = getCrypto();
-  // if (!cryptoResult.success) {
-  //   return { success: false, err: cryptoResult.err };
-  // }
-  // const crypto = cryptoResult.data;
+): Promise<Result<BytesN, string>> {
+  const crypto = globalThis.crypto;
 
-  const iv = window.crypto.getRandomValues(new Uint8Array(AES_GCM_IV_LENGTH));
+  const iv = crypto.getRandomValues(new Uint8Array(AES_GCM_IV_LENGTH));
 
-  const cryptoKey = await window.crypto.subtle.importKey(
+  const cryptoKey = await crypto.subtle.importKey(
     "raw",
     sessionKey.key.toArrayBuffer(),
     { name: "AES-GCM", length: 256 },
@@ -28,7 +23,7 @@ export async function encryptData(
   );
 
   try {
-    const ciphertext = await window.crypto.subtle.encrypt(
+    const ciphertext = await crypto.subtle.encrypt(
       {
         name: "AES-GCM",
         iv,
@@ -43,7 +38,12 @@ export async function encryptData(
     result.set(iv, 0);
     result.set(new Uint8Array(ciphertext), iv.length);
 
-    return { success: true, data: result };
+    const resultBytes = Bytes.fromUint8Array(result, result.length);
+    if (!resultBytes.success) {
+      return { success: false, err: resultBytes.err };
+    }
+
+    return { success: true, data: resultBytes.data };
   } catch (e) {
     return {
       success: false,
@@ -52,24 +52,22 @@ export async function encryptData(
   }
 }
 
-export async function decryptData(
-  encryptedData: Uint8Array,
+export async function decryptWithEcdheKey(
+  encryptedData: BytesN,
   sessionKey: EcdheSessionKey,
-): Promise<Result<Uint8Array, string>> {
-  // const cryptoResult = getCrypto();
-  // if (!cryptoResult.success) {
-  //   return { success: false, err: cryptoResult.err };
-  // }
-  // const crypto = cryptoResult.data;
+): Promise<Result<BytesN, string>> {
+  const crypto = globalThis.crypto;
 
   if (encryptedData.length < AES_GCM_IV_LENGTH + 16) {
     return { success: false, err: "Encrypted data is too short" };
   }
 
-  const iv = encryptedData.slice(0, AES_GCM_IV_LENGTH);
-  const ciphertext = encryptedData.slice(AES_GCM_IV_LENGTH);
+  const u8Array = encryptedData.toUint8Array();
 
-  const cryptoKey = await window.crypto.subtle.importKey(
+  const iv = u8Array.slice(0, AES_GCM_IV_LENGTH);
+  const ciphertext = u8Array.slice(AES_GCM_IV_LENGTH);
+
+  const cryptoKey = await crypto.subtle.importKey(
     "raw",
     sessionKey.key.toArrayBuffer(),
     { name: "AES-GCM", length: 256 },
@@ -78,7 +76,7 @@ export async function decryptData(
   );
 
   try {
-    const plaintext = await window.crypto.subtle.decrypt(
+    const plaintext = await crypto.subtle.decrypt(
       {
         name: "AES-GCM",
         iv,
@@ -88,7 +86,14 @@ export async function decryptData(
       ciphertext,
     );
 
-    return { success: true, data: new Uint8Array(plaintext) };
+    const u8Array = new Uint8Array(plaintext);
+
+    const resultBytes = Bytes.fromUint8Array(u8Array, u8Array.length);
+    if (!resultBytes.success) {
+      return { success: false, err: resultBytes.err };
+    }
+
+    return { success: true, data: resultBytes.data };
   } catch (e) {
     return {
       success: false,

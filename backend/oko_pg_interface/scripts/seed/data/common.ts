@@ -59,11 +59,11 @@ export const createApiKeys = (): {
   customer_id: string;
   hashed_key: string;
 }[] => [
-    {
-      customer_id: CUSTOMER_ID,
-      hashed_key: API_KEY,
-    },
-  ];
+  {
+    customer_id: CUSTOMER_ID,
+    hashed_key: API_KEY,
+  },
+];
 
 export const createDummyCustomerSets = async (): Promise<
   CustomerAndCTDUserWithPasswordHash[]
