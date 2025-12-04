@@ -1,5 +1,5 @@
 import type { StdSignDoc } from "@cosmjs/amino";
-import type { SignDoc } from "@oko-wallet/oko-sdk-cosmos/dist/types/sign";
+import type { SignDoc } from "@oko-wallet/oko-sdk-cosmos";
 import {
   TxBody,
   AuthInfo,
