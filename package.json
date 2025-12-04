@@ -2,6 +2,7 @@
   "private": true,
   "workspaces": {
     "packages": [
+      "examples/cosmoskit-nextjs",
       "internals/ci",
       "key_share_node/pg_interface",
       "key_share_node/server",

@@ -18,7 +18,7 @@
     "@interchain-ui/react": "^1.26.3",
     "@keplr-wallet/types": "0.12.280",
     "@keplr-wallet/unit": "0.12.280",
-    "@oko-wallet/oko-cosmos-kit": "0.0.1-rc.7",
+    "@oko-wallet/oko-cosmos-kit": "workspace:*",
     "@tanstack/react-query": "^5.90.11",
     "chain-registry": "^1.69.410",
     "next": "16.0.7",
