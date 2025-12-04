@@ -13,7 +13,7 @@
       "sdk/oko_sdk_eth",
       "sandbox/sandbox_simple_host",
       "sandbox/sandbox_evm",
-      "sandbox/sandbox_cosmoskit",
+      "sandbox/sandbox_cosmos_kit",
       "crypto/bytes",
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",

@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Oko CosmosKit Template",
+  title: "Oko Cosmos Kit Template",
   description: "This is a template for building Cosmos dApps with Oko.",
   icons: {
     icon: "/icon.png",

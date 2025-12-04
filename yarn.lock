@@ -10353,9 +10353,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/sandbox-cosmoskit@workspace:sandbox/sandbox_cosmoskit":
+"@oko-wallet/sandbox-cosmos-kit@workspace:sandbox/sandbox_cosmos_kit":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/sandbox-cosmoskit@workspace:sandbox/sandbox_cosmoskit"
+  resolution: "@oko-wallet/sandbox-cosmos-kit@workspace:sandbox/sandbox_cosmos_kit"
   dependencies:
     "@cosmjs/amino": "npm:0.36.1"
     "@cosmjs/encoding": "npm:0.36.1"
