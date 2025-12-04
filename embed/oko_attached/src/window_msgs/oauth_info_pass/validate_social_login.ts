@@ -18,16 +18,8 @@ type OAuthCredentialResult = Result<
   OAuthSignInError
 >;
 
-type ProviderPayloadMap = {
-  google: OAuthPayload;
-  auth0: OAuthPayload;
-  x: OAuthTokenRequestPayloadOfX;
-  telegram: OAuthTokenRequestPayloadOfTelegram;
-  discord: OAuthTokenRequestPayloadOfDiscord;
-};
-
 async function validateOAuthPayloadOfX(
-  payload: ProviderPayloadMap["x"],
+  payload: OAuthTokenRequestPayloadOfX,
   hostOrigin: string,
 ): Promise<OAuthCredentialResult> {
   const appState = useAppState.getState();
@@ -83,7 +75,7 @@ async function validateOAuthPayloadOfX(
 }
 
 async function validateOAuthPayloadOfTelegram(
-  payload: ProviderPayloadMap["telegram"],
+  payload: OAuthTokenRequestPayloadOfTelegram,
 ): Promise<OAuthCredentialResult> {
   if (!payload.telegram_data?.id) {
     return {
@@ -105,7 +97,7 @@ async function validateOAuthPayloadOfTelegram(
 }
 
 async function validateOAuthPayloadOfDiscord(
-  payload: ProviderPayloadMap["discord"],
+  payload: OAuthTokenRequestPayloadOfDiscord,
   hostOrigin: string,
 ): Promise<OAuthCredentialResult> {
   const appState = useAppState.getState();
@@ -160,7 +152,7 @@ async function validateOAuthPayloadOfDiscord(
 }
 
 async function validateOAuthPayload(
-  payload: ProviderPayloadMap["google"] | ProviderPayloadMap["auth0"],
+  payload: OAuthPayload,
   hostOrigin: string,
 ): Promise<OAuthCredentialResult> {
   const appState = useAppState.getState();
