@@ -50,7 +50,8 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function TransactionForm({ className }: TransactionFormProps) {
-  const { address, getOfflineSigner, getRpcEndpoint } = useChain("osmosis");
+  const { address, getOfflineSigner, getRpcEndpoint } =
+    useChain("osmosistestnet");
   const queryClient = useQueryClient();
 
   const offlineSigner = getOfflineSigner();

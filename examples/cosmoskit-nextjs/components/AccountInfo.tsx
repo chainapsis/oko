@@ -14,7 +14,7 @@ interface AccountInfoProps {
 }
 
 export default function AccountInfo({ className }: AccountInfoProps) {
-  const { address, disconnect, getRpcEndpoint } = useChain("osmosis");
+  const { address, disconnect, getRpcEndpoint } = useChain("osmosistestnet");
 
   const { data: balance } = useQuery({
     queryKey: ["balance", address],
