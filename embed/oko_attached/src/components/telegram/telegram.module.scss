@@ -33,6 +33,10 @@
   margin-bottom: var(--Spacing-Block-125rem, 20px);
 }
 
+.card:has(.loadingContainer) .stepIndicator {
+  margin-bottom: 0;
+}
+
 .stepProgressBar {
   display: flex;
   flex-direction: row;
@@ -50,12 +54,11 @@
   background: var(--Colors-Background-bg-tertiary, #22262f);
   color: var(--colors-text-text-secondary-700, #cecfd2);
   text-align: center;
-  /* Text sm/Medium */
   font-family: var(--Font-family-font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: var(--Line-height-text-sm, 20px); /* 142.857% */
+  line-height: var(--Line-height-text-sm, 20px);
 }
 
 .stepNumberInactive {
@@ -68,12 +71,11 @@
   background: var(--Colors-Background-bg-tertiary, #f5f5f5);
   color: var(--colors-text-text-secondary-700, #414651);
   text-align: center;
-  /* Text sm/Medium */
   font-family: var(--Font-family-font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: var(--Line-height-text-sm, 20px); /* 142.857% */
+  line-height: var(--Line-height-text-sm, 20px);
 }
 
 .stepLine {
@@ -91,12 +93,11 @@
 
 .stepText {
   color: var(--colors-text-text-primary-900, #181d27);
-  /* Text sm/Medium */
   font-family: var(--Font-family-font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 500;
-  line-height: var(--Line-height-text-sm, 20px); /* 142.857% */
+  line-height: var(--Line-height-text-sm, 20px);
 }
 
 .cardTop {
@@ -129,4 +130,34 @@
 
 .telegramWidgetContainer :global(iframe) {
   border-radius: 107.341px !important;
+}
+
+.loadingContainer {
+  display: flex;
+  width: 376px;
+  height: 178px;
+  padding: var(--spacing-3xl, 24px) var(--spacing-2xl, 20px)
+    var(--spacing-2xl, 20px) var(--spacing-2xl, 20px);
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.loadingContainer :global(svg) {
+  width: 62px;
+  height: 62px;
+  flex-shrink: 0;
+}
+
+.signingText {
+  color: var(--colors-text-text-primary-900, #181d27);
+  text-align: center;
+  font-family: var(--Font-family-font-family-body, Inter);
+  font-size: var(--Font-size-text-md, 15px);
+  font-style: normal;
+  font-weight: 500;
+  line-height: var(--Line-height-text-md, 22px);
+  margin-top: 0;
+  width: 100%;
 }
