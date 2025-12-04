@@ -1,5 +1,10 @@
 import type { Request, Response, NextFunction } from "express";
 import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
+import type { Result } from "@oko-wallet/stdlib-js";
+import type {
+  DiscordTokenInfo,
+  GoogleTokenInfo,
+} from "@oko-wallet/ksn-interface/auth";
 
 import type {
   OAuthProvider,
@@ -14,11 +19,6 @@ import {
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
 import { validateAccessTokenOfX } from "@oko-wallet-ksn-server/auth/x";
-import type {
-  DiscordTokenInfo,
-  GoogleTokenInfo,
-} from "@oko-wallet/ksn-interface/auth";
-import type { Result } from "@oko-wallet/stdlib-js";
 import type { Auth0TokenInfo } from "@oko-wallet-ksn-server/auth/auth0";
 import type { XUserInfo } from "@oko-wallet-ksn-server/auth/x";
 import type {
