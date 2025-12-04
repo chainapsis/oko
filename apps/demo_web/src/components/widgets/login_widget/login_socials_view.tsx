@@ -4,6 +4,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
 import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
+import { DiscordIcon } from "@oko-wallet/oko-common-ui/icons/discord_icon";
 import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
 
@@ -11,7 +12,7 @@ import styles from "./login_widget.module.scss";
 
 export interface LoginSocialsViewProps {
   onBack: () => void;
-  onSignIn: (method: "telegram" | "x" | "apple") => void;
+  onSignIn: (method: "telegram" | "x" | "apple" | "discord") => void;
 }
 
 export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
@@ -72,7 +73,25 @@ export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
           variant="secondary"
           size="md"
           fullWidth
+          onClick={() => onSignIn("discord")}
+        >
+          <DiscordIcon size={20} />
+          <Typography
+            size="sm"
+            weight="semibold"
+            color="secondary"
+            style={{ padding: "0 2px" }}
+          >
+            Discord
+          </Typography>
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="md"
+          fullWidth
           onClick={() => onSignIn("apple")}
+          disabled
         >
           <AppleIcon size={20} />
           <Typography

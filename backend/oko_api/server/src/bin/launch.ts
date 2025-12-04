@@ -53,6 +53,7 @@ async function main() {
     es_password: envs.ES_PASSWORD ?? null,
     encryption_secret: envs.ENCRYPTION_SECRET!,
     typeform_webhook_secret: envs.TYPEFORM_WEBHOOK_SECRET!,
+    telegram_bot_token: envs.TELEGRAM_BOT_TOKEN!,
   });
 
   const app = makeApp(state);

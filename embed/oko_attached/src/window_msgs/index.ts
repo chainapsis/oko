@@ -3,6 +3,7 @@ import type { OkoWalletMsg } from "@oko-wallet/oko-sdk-core";
 import type { MsgEventContext } from "./types";
 import { handleGetPublicKey } from "./get_public_key";
 import { handleSetOAuthNonce } from "./set_oauth_nonce";
+import { handleSetCodeVerifier } from "./set_code_verifier";
 import { handleOpenModal } from "./open_modal";
 import { handleSignOut } from "./sign_out";
 import { handleGetEmail } from "./get_email";
@@ -37,6 +38,11 @@ export function makeMsgHandler() {
     switch (message.msg_type) {
       case "set_oauth_nonce": {
         handleSetOAuthNonce(ctx, message);
+        break;
+      }
+
+      case "set_code_verifier": {
+        handleSetCodeVerifier(ctx, message);
         break;
       }
 

@@ -11,9 +11,10 @@ import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 import { Widget } from "../widget_components";
 import styles from "./auth_progress_widget.module.scss";
 import { Spinner } from "./spinner";
+import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
 
 type AuthProgressWidgetProps = {
-  method: "email" | "google" | "telegram" | "x" | "apple";
+  method: LoginMethod;
   status?: "loading" | "failed";
   onRetry?: () => void;
 };

@@ -7,12 +7,14 @@ import { MailboxIcon } from "@oko-wallet-common-ui/icons/mailbox";
 import { TelegramIcon } from "@oko-wallet-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet-common-ui/icons/x_icon";
 import { AppleIcon } from "@oko-wallet-common-ui/icons/apple_icon";
+import { DiscordIcon } from "@oko-wallet-common-ui/icons/discord_icon";
 
 import { Widget } from "../widget_components";
 import styles from "./account_info_widget.module.scss";
+import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
 
 export type AccountInfoWidgetProps = {
-  type: "email" | "google" | "telegram" | "x" | "apple";
+  type: LoginMethod;
   email: string;
   publicKey: string;
   onSignOut: () => void;
@@ -33,6 +35,7 @@ export const AccountInfoWidget: React.FC<AccountInfoWidgetProps> = ({
           {type === "telegram" && <TelegramIcon size={20} />}
           {type === "x" && <XIcon size={20} />}
           {type === "apple" && <AppleIcon size={20} />}
+          {type === "discord" && <DiscordIcon size={20} />}
           <Typography
             size="lg"
             weight="medium"

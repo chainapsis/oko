@@ -36,7 +36,7 @@ function makeUnsuccessfulAppStatus(pool: Pool): ServerState {
     db: pool,
     encryptionSecret: "temp_enc_secret",
     serverKeypair: mockServerKeypair,
-
+    telegram_bot_token: "temp_telegram_bot_token",
     is_db_backup_checked: false,
     launch_time: dayjs().toISOString(),
     git_hash: "",
@@ -90,7 +90,7 @@ describe("pg_dump_route_test", () => {
       db: pool,
       encryptionSecret: "temp_enc_secret",
       serverKeypair: mockServerKeypair,
-
+      telegram_bot_token: "temp_telegram_bot_token",
       is_db_backup_checked: false,
       launch_time: dayjs().toISOString(),
       git_hash: "",
@@ -369,7 +369,7 @@ describe("pg_dump_route_test", () => {
         db: null as any, // Invalid database connection
         encryptionSecret: "temp_enc_secret",
         serverKeypair: mockServerKeypair,
-
+        telegram_bot_token: "temp_telegram_bot_token",
         is_db_backup_checked: false,
         launch_time: dayjs().toISOString(),
         git_hash: "",

@@ -37,4 +37,6 @@ export const envSchema = z.object({
   ENCRYPTION_SECRET: z.string(),
 
   TYPEFORM_WEBHOOK_SECRET: z.string(),
+
+  TELEGRAM_BOT_TOKEN: z.string(),
 });

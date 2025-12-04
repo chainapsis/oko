@@ -120,7 +120,7 @@ export async function handleAuth0Callback(): Promise<
     id_token: idToken,
     api_key: oauthState.apiKey,
     target_origin: oauthState.targetOrigin,
-    auth_type: oauthState.provider,
+    auth_type: oauthState.provider as "auth0",
   };
 
   const email = consumePendingEmail() ?? "";

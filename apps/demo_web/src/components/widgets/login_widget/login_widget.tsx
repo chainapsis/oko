@@ -4,9 +4,10 @@ import { Widget } from "../widget_components";
 import styles from "./login_widget.module.scss";
 import { LoginDefaultView } from "./login_default_view";
 import { LoginSocialsView } from "./login_socials_view";
+import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
 
 export interface LoginWidgetProps {
-  onSignIn: (method: "google" | "telegram" | "x" | "apple") => void;
+  onSignIn: (method: LoginMethod) => void;
 }
 
 export const LoginWidget: React.FC<LoginWidgetProps> = ({ onSignIn }) => {

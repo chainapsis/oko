@@ -4,6 +4,7 @@ import { makeOkoAdminRouter } from "@oko-wallet/admin-api";
 import { makeTssRouter } from "@oko-wallet/tss-api";
 import { makeUserRouter } from "@oko-wallet/user-dashboard-api";
 import { makeLogRouter } from "@oko-wallet/log-api";
+import { makeSocialLoginRouter } from "@oko-wallet/social-login-api";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
@@ -19,6 +20,8 @@ export function setRoutes(app: Express) {
       esPassword: app.locals.es_password,
     }),
   );
+
+  app.use("/social-login/v1", makeSocialLoginRouter());
 
   app.get("/status", (_req, res) => {
     res.json({
