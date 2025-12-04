@@ -17,8 +17,12 @@ function generateRandomString(length = 64): string {
 
   // Convert to URL-safe base64 (RFC 7636)
   return base64.replace(/[+\/]|(=+)$/g, (match) => {
-    if (match === "+") return "-";
-    if (match === "/") return "_";
+    if (match === "+") {
+      return "-";
+    }
+    if (match === "/") {
+      return "_";
+    }
     return "";
   });
 }
@@ -37,8 +41,12 @@ function base64UrlEncode(buffer: ArrayBuffer): string {
   }
   const base64 = btoa(binary);
   return base64.replace(/[+\/]|(=+)$/g, (match) => {
-    if (match === "+") return "-";
-    if (match === "/") return "_";
+    if (match === "+") {
+      return "-";
+    }
+    if (match === "/") {
+      return "_";
+    }
     return "";
   });
 }

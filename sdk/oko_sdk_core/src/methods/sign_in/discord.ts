@@ -85,9 +85,8 @@ async function tryDiscordSignIn(
     popup.location.href = authUrl.toString();
   } catch (error) {
     popup.close();
-    throw new Error(
-      `Failed to redirect popup to auth URL: ${error instanceof Error ? error.message : String(error)}`,
-    );
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Failed to redirect popup to auth URL: ${errorMessage}`);
   }
 
   const ack = await codeVerifierAckPromise;
