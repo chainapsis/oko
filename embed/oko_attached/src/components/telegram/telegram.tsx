@@ -1,15 +1,22 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import { TELEGRAM_BOT_NAME } from "@oko-wallet-attached/config/telegram";
-import styles from "@oko-wallet-attached/components/login/popup_email_login.module.scss";
 import telegramStyles from "./telegram.module.scss";
+import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
+import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
 
 export const TelegramLoginPopup: React.FC = () => {
+  const [theme, setTheme] = useState<Theme>("light");
+
   useEffect(() => {
+    const systemTheme = getSystemTheme();
+    setColorScheme(systemTheme);
+    setTheme(systemTheme);
     const urlParams = new URLSearchParams(window.location.search);
 
     const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE);
@@ -59,8 +66,8 @@ export const TelegramLoginPopup: React.FC = () => {
   }, []);
 
   return (
-    <div className={styles.container}>
-      <div className={styles.body}>
+    <div className={telegramStyles.container}>
+      <div className={telegramStyles.body}>
         <div className={telegramStyles.popupContainer}>
           <div className={telegramStyles.card}>
             <div className={telegramStyles.stepIndicator}>
@@ -86,7 +93,7 @@ export const TelegramLoginPopup: React.FC = () => {
               <div className={telegramStyles.stepText}>Step 1/2</div>
             </div>
             <div className={telegramStyles.cardTop}>
-              <Logo theme="light" />
+              <Logo theme={theme} />
               <div className={telegramStyles.continueText}>
                 Continue with Telegram
               </div>

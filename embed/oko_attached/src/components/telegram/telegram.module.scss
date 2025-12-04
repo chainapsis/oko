@@ -1,3 +1,36 @@
+:global([data-theme="dark"]) {
+  html,
+  body {
+    background: var(--Colors-Background-bg-primary, #0c0e12) !important;
+  }
+}
+
+.container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background: transparent;
+
+  :global([data-theme="dark"]) & {
+    background: var(--Colors-Background-bg-primary, #0c0e12);
+  }
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  align-items: center;
+  padding-top: 0;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100%;
+
+  :global([data-theme="dark"]) & {
+    background: var(--Colors-Background-bg-primary, #0c0e12);
+  }
+}
+
 .popupContainer {
   display: flex;
   padding: 32px;
@@ -7,6 +40,10 @@
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+
+  :global([data-theme="dark"]) & {
+    background: var(--Colors-Background-bg-primary, #0c0e12);
+  }
 }
 
 .card {
@@ -19,6 +56,10 @@
   border-radius: 12px;
   background: var(--Colors-Background-bg-secondary, #fafafa);
   gap: 0;
+
+  :global([data-theme="dark"]) & {
+    background: var(--Colors-Background-bg-secondary, #13161b);
+  }
 }
 
 .stepIndicator {
@@ -31,6 +72,10 @@
   background: var(--Colors-Background-bg-secondary, #fafafa);
   gap: 8px;
   margin-bottom: var(--Spacing-Block-125rem, 20px);
+
+  :global([data-theme="dark"]) & {
+    background: var(--Colors-Background-bg-secondary, #13161b);
+  }
 }
 
 .card:has(.loadingContainer) .stepIndicator {
@@ -59,6 +104,11 @@
   font-style: normal;
   font-weight: 500;
   line-height: var(--Line-height-text-sm, 20px);
+
+  :global([data-theme="dark"]) & {
+    background: var(--Colors-Background-bg-tertiary, #f5f5f5);
+    color: var(--colors-text-text-secondary-700, #414651);
+  }
 }
 
 .stepNumberInactive {
@@ -76,6 +126,11 @@
   font-style: normal;
   font-weight: 500;
   line-height: var(--Line-height-text-sm, 20px);
+
+  :global([data-theme="dark"]) & {
+    background: var(--Colors-Background-bg-tertiary, #22262f);
+    color: var(--colors-text-text-secondary-700, #cecfd2);
+  }
 }
 
 .stepLine {
@@ -89,6 +144,10 @@
   stroke: var(--colors-text-text-primary-900, #181d27);
   stroke-width: 1.22807;
   stroke-linecap: round;
+
+  :global([data-theme="dark"]) & {
+    stroke: var(--colors-text-text-primary-900, #f7f7f7);
+  }
 }
 
 .stepText {
@@ -98,6 +157,10 @@
   font-style: normal;
   font-weight: 500;
   line-height: var(--Line-height-text-sm, 20px);
+
+  :global([data-theme="dark"]) & {
+    color: var(--colors-text-text-primary-900, #f7f7f7);
+  }
 }
 
 .cardTop {
@@ -117,6 +180,10 @@
   font-weight: 500;
   line-height: var(--Line-height-text-sm, 20px);
   margin-top: var(--Spacing-Block-125rem, 20px);
+
+  :global([data-theme="dark"]) & {
+    color: var(--colors-text-text-primary-900, #f7f7f7);
+  }
 }
 
 .telegramWidgetContainer {
@@ -150,6 +217,17 @@
   flex-shrink: 0;
 }
 
+:global([data-theme="dark"]) .loadingContainer :global(svg) {
+  :global(path:nth-of-type(1)) {
+    stroke: var(--Colors-Background-bg-tertiary, #22262f) !important;
+    stroke-width: 3;
+  }
+  :global(path:nth-of-type(2)) {
+    stroke: var(--colors-foreground-fg-brand-primary-600, #535862) !important;
+    stroke-width: 3;
+  }
+}
+
 .signingText {
   color: var(--colors-text-text-primary-900, #181d27);
   text-align: center;
@@ -160,6 +238,10 @@
   line-height: var(--Line-height-text-md, 22px);
   margin-top: 0;
   width: 100%;
+
+  :global([data-theme="dark"]) & {
+    color: var(--colors-text-text-primary-900, #f7f7f7);
+  }
 }
 
 .errorTopSection {
@@ -218,7 +300,6 @@
 .errorMessageText {
   color: var(--colors-text-text-warning-primary-600, #dc6803);
 
-  /* Text sm/Semibold */
   font-family: var(--Font-family-font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
