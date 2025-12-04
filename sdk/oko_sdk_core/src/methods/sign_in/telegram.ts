@@ -64,56 +64,59 @@ async function tryTelegramSignIn(
   }
 
   return await oauthSignInUpdateWaiter.promise;
-  }
+}
 
 function waitForOAuthSignInUpdate(okoWallet: OkoWalletInterface) {
   let cleanup: (() => void) | null = null;
 
   const promise = new Promise<OkoWalletMsgOAuthSignInUpdate>(
     (resolve, reject) => {
-    function onMessage(event: MessageEvent) {
-      if (event.ports.length < 1) {
-        return;
-      }
-
-      const port = event.ports[0];
-      const data = event.data as OkoWalletMsg;
-
-      if (data.msg_type === "oauth_sign_in_update") {
-          console.log("[oko] Telegram login - oauth_sign_in_update recv, %o", data);
-
-        const msg: OkoWalletMsgOAuthSignInUpdateAck = {
-          target: "oko_attached",
-          msg_type: "oauth_sign_in_update_ack",
-          payload: null,
-        };
-
-        port.postMessage(msg);
-
-        if (data.payload.success) {
-          resolve(data);
-        } else {
-          reject(new Error(data.payload.err.type));
+      function onMessage(event: MessageEvent) {
+        if (event.ports.length < 1) {
+          return;
         }
+
+        const port = event.ports[0];
+        const data = event.data as OkoWalletMsg;
+
+        if (data.msg_type === "oauth_sign_in_update") {
+          console.log(
+            "[oko] Telegram login - oauth_sign_in_update recv, %o",
+            data,
+          );
+
+          const msg: OkoWalletMsgOAuthSignInUpdateAck = {
+            target: "oko_attached",
+            msg_type: "oauth_sign_in_update_ack",
+            payload: null,
+          };
+
+          port.postMessage(msg);
+
+          if (data.payload.success) {
+            resolve(data);
+          } else {
+            reject(new Error(data.payload.err.type));
+          }
 
           cleanup?.();
           cleanup = null;
+        }
       }
-    }
 
-    window.addEventListener("message", onMessage);
+      window.addEventListener("message", onMessage);
 
       const timeout = window.setTimeout(() => {
         cleanup?.();
         cleanup = null;
-      reject(new Error("Timeout: no response within 5 minutes"));
+        reject(new Error("Timeout: no response within 5 minutes"));
         okoWallet.closeModal();
-    }, FIVE_MINS_MS);
+      }, FIVE_MINS_MS);
 
       cleanup = () => {
-      console.log("[oko] Telegram login - clean up oauth sign in listener");
-      window.clearTimeout(timeout);
-      window.removeEventListener("message", onMessage);
+        console.log("[oko] Telegram login - clean up oauth sign in listener");
+        window.clearTimeout(timeout);
+        window.removeEventListener("message", onMessage);
       };
     },
   );

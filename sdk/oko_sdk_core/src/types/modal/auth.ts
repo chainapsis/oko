@@ -69,5 +69,4 @@ export type TelegramLoginModalErrorAckPayload = {
   error: TelegramLoginModalError;
 };
 
-export type TelegramLoginModalError =
-  | { type: "unknown_error"; error: any };
+export type TelegramLoginModalError = { type: "unknown_error"; error: any };
