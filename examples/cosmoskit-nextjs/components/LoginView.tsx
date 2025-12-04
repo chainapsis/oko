@@ -7,7 +7,7 @@ import { WalletStatus } from "@cosmos-kit/core";
 import Button from "./Button";
 
 export default function LoginView() {
-  const { connect, status } = useChain("osmosistestnet");
+  const { connect, status } = useChain("osmosis");
 
   return (
     <div className="text-center max-w-md mx-auto flex flex-col gap-6">

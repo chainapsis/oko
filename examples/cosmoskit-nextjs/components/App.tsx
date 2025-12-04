@@ -7,7 +7,7 @@ import LoginView from "./LoginView";
 import ConnectedView from "./ConnectedView";
 
 export default function App() {
-  const { status } = useChain("osmosistestnet");
+  const { status } = useChain("osmosis");
 
   const isSignedIn = status === WalletStatus.Connected;
 
