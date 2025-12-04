@@ -117,7 +117,7 @@ type ContractsDeclaration = IsContractDeclarationMissing<
   typeof contractsData
 >;
 
-type Contracts = ContractsDeclaration[ConfiguredChainId];
+type Contracts = GenericContractsDeclaration[ConfiguredChainId];
 
 export type ContractName = keyof Contracts;
 
@@ -208,23 +208,24 @@ type OptionalTuple<T> = T extends readonly [infer H, ...infer R]
 type UseScaffoldArgsParam<
   TContractName extends ContractName,
   TFunctionName extends ExtractAbiFunctionNames<ContractAbi<TContractName>>,
-> = TFunctionName extends FunctionNamesWithInputs<TContractName>
-  ? {
-      args: OptionalTuple<
-        UnionToIntersection<
-          AbiFunctionArguments<ContractAbi<TContractName>, TFunctionName>
-        >
-      >;
-      value?: ExtractAbiFunction<
-        ContractAbi<TContractName>,
-        TFunctionName
-      >["stateMutability"] extends "payable"
-        ? bigint | undefined
-        : undefined;
-    }
-  : {
-      args?: never;
-    };
+> =
+  TFunctionName extends FunctionNamesWithInputs<TContractName>
+    ? {
+        args: OptionalTuple<
+          UnionToIntersection<
+            AbiFunctionArguments<ContractAbi<TContractName>, TFunctionName>
+          >
+        >;
+        value?: ExtractAbiFunction<
+          ContractAbi<TContractName>,
+          TFunctionName
+        >["stateMutability"] extends "payable"
+          ? bigint | undefined
+          : undefined;
+      }
+    : {
+        args?: never;
+      };
 
 export type UseDeployedContractConfig<TContractName extends ContractName> = {
   contractName: TContractName;
@@ -364,8 +365,8 @@ export type EventFilters<
     : {
         [Key in IsContractDeclarationMissing<
           any,
-          IndexedEventInputs<TContractName, TEventName>["name"]
-        >]?: AbiParameterToPrimitiveType<
+          string
+        >]: AbiParameterToPrimitiveType<
           Extract<IndexedEventInputs<TContractName, TEventName>, { name: Key }>
         >;
       }
