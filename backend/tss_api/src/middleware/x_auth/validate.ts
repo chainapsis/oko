@@ -1,5 +1,4 @@
 import { getXUserInfo } from "@oko-wallet/social-login-api";
-
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { SocialLoginXVerifyUserResponse } from "@oko-wallet/oko-types/social_login";
 
