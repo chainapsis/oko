@@ -7,20 +7,8 @@ import { expectSuccess } from "../expect";
 export async function deployApps(..._args: any[]) {
   console.log("Deploying apps...");
 
-  // const addonRet = spawnSync("yarn", ["run", "build"], {
-  //   cwd: paths.cait_sith_addon_addon,
-  //   stdio: "inherit",
-  // });
-  // expectSuccess(addonRet, "addon build failed");
-  // console.log("%s %s", chalk.bold.green("Done"), "addon");
-  //
-  // const wasmRet = spawnSync("yarn", ["run", "build:wasm"], {
-  //   cwd: paths.cait_sith_keplr_wasm,
-  //   stdio: "inherit",
-  // });
-  // expectSuccess(wasmRet, "wasm build failed");
-  // console.log("%s %s", chalk.bold.green("Done"), "wasm");
-  //
+  // Find the bash script and run it
+
   // const copyRet = spawnSync("yarn", ["run", "copy_wasm"], {
   //   cwd: paths.oko_attached,
   //   stdio: "inherit",
