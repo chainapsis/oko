@@ -2,9 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { LoadingCircleIcon } from "@oko-wallet/oko-common-ui/icons/loading_circle_icon";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { ErrorIcon } from "@oko-wallet/oko-common-ui/icons/error_icon";
-import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import { WarningIcon } from "@oko-wallet/oko-common-ui/icons/warning_icon";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
@@ -70,41 +68,67 @@ export const TelegramCallback: React.FC = () => {
 };
 
 const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
+  const handleClose = () => {
+    window.close();
+  };
+
+  const errorCode = error || "unknown_error";
+  const errorMessage = error || "An unknown error occurred.";
+
   return (
-    <>
-      <div className={styles.errorIconContainer}>
-        <div className={styles.ring1} />
-        <div className={styles.ring2} />
-        <ErrorIcon size={28} color="var(--fg-error-primary)" />
-      </div>
-      <Spacing height={32} />
-
-      <a
-        href="https://oko-wallet.canny.io/bug-reports"
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.supportLink}
-      >
-        <Typography size="sm" weight="medium" color="secondary">
-          Having problems?
-        </Typography>
+    <div className={telegramStyles.errorContainer}>
+      <div className={telegramStyles.errorTopSection}>
+        <div className={telegramStyles.errorIconWrapper}>
+          <WarningIcon size={42} />
+        </div>
         <Typography
-          className={styles.textUnderline}
-          size="sm"
-          weight="medium"
-          color="secondary"
+          tagType="h1"
+          className={telegramStyles.errorTitle}
+          color="primary"
+          size="lg"
         >
-          Get support
+          Request failed
         </Typography>
-        <ExternalLinkOutlinedIcon color="var(--fg-quaternary-hover)" />
-      </a>
-
-      <Spacing height={32} />
-      <div className={styles.errorMessageContainer}>
-        <Typography size="sm" weight="medium" color="error-primary">
-          {error}
+        <div className={telegramStyles.errorMessageBox}>
+          <div className={telegramStyles.errorTextRow}>
+            <Typography
+              size="sm"
+              weight="semibold"
+              className={telegramStyles.errorMessageText}
+            >
+              Error Code: {errorCode}
+            </Typography>
+          </div>
+          <div className={telegramStyles.errorTextRow}>
+            <Typography
+              size="sm"
+              weight="semibold"
+              className={telegramStyles.errorMessageText}
+            >
+              {errorMessage}
+            </Typography>
+          </div>
+        </div>
+        <Typography
+          tagType="a"
+          href="https://oko-wallet.canny.io/bug-reports"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={telegramStyles.errorSupportLink}
+          size="xs"
+          weight="medium"
+        >
+          Get Support
         </Typography>
       </div>
-    </>
+      <div className={telegramStyles.errorBottomSection}>
+        <button
+          className={telegramStyles.errorCloseButton}
+          onClick={handleClose}
+        >
+          <span>Close</span>
+        </button>
+      </div>
+    </div>
   );
 };
