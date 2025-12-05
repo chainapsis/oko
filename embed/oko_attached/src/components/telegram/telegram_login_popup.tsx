@@ -6,7 +6,7 @@ import { Logo } from "@oko-wallet/oko-common-ui/logo";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import { TELEGRAM_BOT_NAME } from "@oko-wallet-attached/config/telegram";
-import telegramStyles from "./telegram.module.scss";
+import telegramStyles from "./telegram_login_popup.module.scss";
 import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
 import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
 

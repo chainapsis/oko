@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-
 import type {
   EmailLoginModalPayload,
   OAuthState,
 } from "@oko-wallet/oko-sdk-core";
+
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { getAuth0WebAuth } from "@oko-wallet-attached/config/auth0";
 import {
@@ -254,7 +254,7 @@ export function useEmailLogin({
       return;
     }
 
-    const callbackUrl = new URL(`${window.location.origin}/auth0/callback`);
+    const callbackUrl = new URL(`${window.location.origin}/email/callback`);
     callbackUrl.searchParams.set("modal_id", modalIdFromQuery);
 
     verifyEmailOTPCode({

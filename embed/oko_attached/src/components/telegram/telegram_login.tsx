@@ -3,9 +3,9 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { AttachedInitialized } from "@oko-wallet-attached/components/attached_initialized/attached_initialized";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
-import { TelegramLoginPopup } from "@oko-wallet-attached/components/telegram/telegram";
-import { PopupErrorView } from "@oko-wallet-attached/components/login/popup_error_view";
-import styles from "@oko-wallet-attached/components/login/login.module.scss";
+import { TelegramLoginPopup } from "@oko-wallet-attached/components/telegram/telegram_login_popup";
+import { PopupErrorView } from "@oko-wallet-attached/components/login_popup/popup_error_view";
+import styles from "./telegram_login.module.scss";
 
 export const TelegramLogin: FC = () => {
   useNotifyPopupReady();

@@ -6,7 +6,7 @@ import { WarningIcon } from "@oko-wallet/oko-common-ui/icons/warning_icon";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
-import telegramStyles from "@oko-wallet-attached/components/telegram/telegram.module.scss";
+import telegramStyles from "@oko-wallet-attached/components/telegram/telegram_login_popup.module.scss";
 import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
 import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
 import { useTelegramCallback } from "./use_callback";

@@ -12,9 +12,9 @@ import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import styles from "@oko-wallet-attached/components/google_callback/google_callback.module.scss";
 import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
 import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
-import { useAuth0Callback } from "./use_callback";
+import { useEmailCallback } from "./use_callback";
 
-export const Auth0Callback: React.FC = () => {
+export const EmailCallback: React.FC = () => {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
@@ -23,7 +23,7 @@ export const Auth0Callback: React.FC = () => {
     setTheme(theme);
   }, []);
 
-  const { error } = useAuth0Callback();
+  const { error } = useEmailCallback();
 
   return (
     <div className={`${styles.wrapper} ${styles.wrapperForSystemTheme}`}>
@@ -95,3 +95,4 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
     </>
   );
 };
+

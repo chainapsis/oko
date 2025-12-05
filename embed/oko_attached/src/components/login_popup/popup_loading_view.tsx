@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { LoadingCircleIcon } from "@oko-wallet/oko-common-ui/icons/loading_circle_icon";
+
 import styles from "./popup_loading_view.module.scss";
 
 export const PopupLoadingView: FC = () => {
@@ -15,3 +16,4 @@ export const PopupLoadingView: FC = () => {
     </div>
   );
 };
+

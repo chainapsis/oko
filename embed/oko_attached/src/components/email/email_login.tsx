@@ -1,14 +1,13 @@
 import { useEffect, useMemo, type FC } from "react";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { AttachedInitialized } from "@oko-wallet-attached/components/attached_initialized/attached_initialized";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
-import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import styles from "./login.module.scss";
-import { PopupEmailLogin } from "./popup_email_login";
-import { PopupErrorView } from "./popup_error_view";
+import { EmailLoginPopup } from "./email_login_popup";
+import { PopupErrorView } from "../login_popup/popup_error_view";
+import styles from "./email_login.module.scss";
 
-export const Login: FC = () => {
+export const EmailLogin: FC = () => {
   useNotifyPopupReady();
 
   const isInlineLayout = useInlinePopupLayout();
@@ -27,7 +26,7 @@ export const Login: FC = () => {
             error ? (
               <PopupErrorView error={error} />
             ) : emailModalPayload ? (
-              <PopupEmailLogin
+              <EmailLoginPopup
                 modalId={emailModalPayload.modal_id}
                 data={emailModalPayload.data}
               />

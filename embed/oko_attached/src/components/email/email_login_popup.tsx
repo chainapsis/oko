@@ -1,20 +1,19 @@
 import { type FC, type FormEvent } from "react";
-
 import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
 
-import styles from "./popup_email_login.module.scss";
-import { useEmailLogin } from "@oko-wallet-attached/components/login/use_email_login";
+import styles from "./email_login_popup.module.scss";
+import { useEmailLogin } from "./use_email_login";
 
-interface PopupEmailLoginProps {
+interface EmailLoginPopupProps {
   modalId: string;
   data: EmailLoginModalPayload["data"];
 }
 
-export const PopupEmailLogin: FC<PopupEmailLoginProps> = ({
+export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
   modalId,
   data,
 }) => {

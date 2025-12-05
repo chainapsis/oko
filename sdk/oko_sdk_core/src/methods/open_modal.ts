@@ -89,7 +89,7 @@ export async function openModal(
 
 function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
   const modalId = `oko_modal_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-  const url = new URL("/login", this.sdkEndpoint);
+  const url = new URL("/email", this.sdkEndpoint);
   url.searchParams.set("modal_id", modalId);
   url.searchParams.set("host_origin", window.location.origin);
 

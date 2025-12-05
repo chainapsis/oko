@@ -16,13 +16,13 @@ import { sendOAuthPayloadToEmbeddedWindow } from "@oko-wallet-attached/component
 
 const EMAIL_STORAGE_KEY = "oko_email_login_pending_email";
 
-export function useAuth0Callback(): { error: string | null } {
+export function useEmailCallback(): { error: string | null } {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fn() {
       try {
-        const cbRes = await handleAuth0Callback();
+        const cbRes = await handleEmailCallback();
 
         if (cbRes.success) {
           window.close();
@@ -40,7 +40,7 @@ export function useAuth0Callback(): { error: string | null } {
   return { error };
 }
 
-export async function handleAuth0Callback(): Promise<
+export async function handleEmailCallback(): Promise<
   Result<void, HandleCallbackError>
 > {
   if (!window.opener) {
@@ -210,3 +210,4 @@ function consumePendingEmail(): string | null {
   } catch {}
   return null;
 }
+
