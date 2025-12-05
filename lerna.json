@@ -1,5 +1,6 @@
 {
   "packages": [
+    "apps/customer_dashboard",
     "apps/demo_web",
     "lib/stdlib_js",
     "lib/dotenv",

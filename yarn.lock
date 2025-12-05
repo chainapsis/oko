@@ -9378,9 +9378,9 @@ __metadata:
   dependencies:
     "@floating-ui/dom": "npm:*"
     "@floating-ui/react": "npm:*"
-    "@oko-wallet/dotenv": "workspace:*"
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.23"
     "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/stdlib-js": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:*"
@@ -22570,9 +22570,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.5.263":
-  version: 1.5.265
-  resolution: "electron-to-chromium@npm:1.5.265"
-  checksum: 10c0/f0409d15b02b61df5004d2bf6db0a2a01f42273fb46944c243d13139c83e8a07ad556656fd5f09758ae9b612ebf9862535afc6bffd47395890d5df7551274a4b
+  version: 1.5.266
+  resolution: "electron-to-chromium@npm:1.5.266"
+  checksum: 10c0/74ada92ada1ace76ec5b7da8a9cc2d7f03db122a64ac8e12ae30eba3e358ffec443c0c5265bc6edcdeebfa73f449b21c361080c064eb1eec437db2d71fc03248
   languageName: node
   linkType: hard
 
