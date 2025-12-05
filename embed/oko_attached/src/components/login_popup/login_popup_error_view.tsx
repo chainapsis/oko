@@ -3,11 +3,13 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { WarningIcon } from "@oko-wallet/oko-common-ui/icons/warning_icon";
 
-import styles from "./popup_error_view.module.scss";
+import styles from "./login_popup_error_view.module.scss";
 import type { AppError } from "@oko-wallet-attached/errors";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 
-export const PopupErrorView: FC<PopupErrorViewProps> = ({ error }) => {
+export const LoginPopupErrorView: FC<LoginPopupErrorViewProps> = ({
+  error,
+}) => {
   const { closeModal, clearError } = useMemoryState();
 
   const { errorCode } = parseError(error);
@@ -72,7 +74,7 @@ export const PopupErrorView: FC<PopupErrorViewProps> = ({ error }) => {
   );
 };
 
-interface PopupErrorViewProps {
+interface LoginPopupErrorViewProps {
   error: AppError;
 }
 

@@ -4,7 +4,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { AttachedInitialized } from "@oko-wallet-attached/components/attached_initialized/attached_initialized";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { TelegramLoginPopup } from "@oko-wallet-attached/components/telegram/telegram_login_popup";
-import { PopupErrorView } from "@oko-wallet-attached/components/login_popup/popup_error_view";
+import { LoginPopupErrorView } from "@oko-wallet-attached/components/login_popup/login_popup_error_view";
 import styles from "./telegram_login.module.scss";
 
 export const TelegramLogin: FC = () => {
@@ -24,7 +24,7 @@ export const TelegramLogin: FC = () => {
         <div className={styles.content}>
           {isInlineLayout ? (
             error ? (
-              <PopupErrorView error={error} />
+              <LoginPopupErrorView error={error} />
             ) : telegramModalPayload ? (
               <TelegramLoginPopup />
             ) : (

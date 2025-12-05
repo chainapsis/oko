@@ -4,7 +4,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { AttachedInitialized } from "@oko-wallet-attached/components/attached_initialized/attached_initialized";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { EmailLoginPopup } from "./email_login_popup";
-import { PopupErrorView } from "../login_popup/popup_error_view";
+import { LoginPopupErrorView } from "../login_popup/login_popup_error_view";
 import styles from "./email_login.module.scss";
 
 export const EmailLogin: FC = () => {
@@ -24,7 +24,7 @@ export const EmailLogin: FC = () => {
         <div className={styles.content}>
           {isInlineLayout ? (
             error ? (
-              <PopupErrorView error={error} />
+              <LoginPopupErrorView error={error} />
             ) : emailModalPayload ? (
               <EmailLoginPopup
                 modalId={emailModalPayload.modal_id}
