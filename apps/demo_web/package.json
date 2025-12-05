@@ -18,7 +18,7 @@
   "devDependencies": {
     "@cosmjs/proto-signing": "^0.33.1",
     "@keplr-wallet/proto-types": "^0.12.250",
-    "@oko-wallet/dotenv": "0.0.2-alpha.20",
+    "@oko-wallet/dotenv": "0.0.2-alpha.23",
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/oko-sdk-core": "0.0.6-rc.112",
     "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.135",
