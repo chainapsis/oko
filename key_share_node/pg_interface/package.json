@@ -2,6 +2,10 @@
   "name": "@oko-wallet/ksn-pg-interface",
   "type": "module",
   "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./knexfile": "./knexfile.ts"
+  },
   "scripts": {
     "migrate": "MIGRATE_MODE=all NODE_COUNT=3 tsx ./src/bin/migrate/index.ts",
     "migrate_1": "MIGRATE_MODE=one NODE_ID=1 tsx ./src/bin/migrate/index.ts",
