@@ -1,41 +1,27 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState } from "react";
+import { PropsWithChildren, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { paths } from "@oko-wallet-user-dashboard/paths";
-import { useAppState } from "@oko-wallet-user-dashboard/state";
+import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
+import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
+import { WholePageLoading } from "@oko-wallet-user-dashboard/components/whole_page_loading/whole_page_loading";
 
 export const Authorized: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const user = useAppState((state) => state.user);
-  const token = useAppState((state) => state.token);
-
-  const [isStoreHydrated, setIsStoreHydrated] = useState(false);
+  const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
+  const isSignedIn = useUserInfoState((state) => state.isSignedIn);
 
   useEffect(() => {
-    const subscribe = useAppState.persist.onFinishHydration(() => {
-      setIsStoreHydrated(true);
-    });
-    setIsStoreHydrated(useAppState.persist.hasHydrated());
-    return () => {
-      subscribe();
-    };
-  }, []);
-
-  useEffect(() => {
-    if (!isStoreHydrated) {
-      return;
-    }
-
-    if (!user || !token) {
+    if (!isSignedIn && okoWallet) {
       router.push(paths.sign_in);
       return;
     }
-  }, [isStoreHydrated, router, user, token]);
+  }, [router, isSignedIn, okoWallet]);
 
-  if (!isStoreHydrated || !user || !token) {
-    return <div>Loading...</div>;
+  if (!okoWallet || !isSignedIn) {
+    return <WholePageLoading />;
   }
 
   return <>{children}</>;

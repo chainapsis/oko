@@ -1,72 +1,52 @@
-import { useRouter } from "next/navigation";
+import cn from "classnames";
 import { LogoutIcon } from "@oko-wallet/oko-common-ui/icons/logout";
-import { EditIcon } from "@oko-wallet/oko-common-ui/icons/edit";
 import { ThreeDotsVerticalIcon } from "@oko-wallet/oko-common-ui/icons/three_dots_vertical";
 import { AnchoredMenu } from "@oko-wallet/oko-common-ui/anchored_menu";
-import { SidebarAccountInfo } from "@oko-wallet/oko-common-ui/sidebar_account_info";
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 import styles from "./account_info_with_sub_menu.module.scss";
-import { paths } from "@oko-wallet-user-dashboard/paths";
-import { useAppState } from "@oko-wallet-user-dashboard/state";
-import { useCustomerInfo } from "@oko-wallet-user-dashboard/hooks/use_customer_info";
+import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
+import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
 
 export const AccountInfoWithSubMenu = () => {
-  const router = useRouter();
+  const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
 
-  const customer = useCustomerInfo();
-  const user = useAppState((state) => state.user);
-
-  const resetUser = useAppState((state) => state.resetUser);
-  const resetToken = useAppState((state) => state.resetToken);
+  const email = useUserInfoState((state) => state.email);
+  const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
   return (
     <AnchoredMenu
       placement="right-end"
       TriggerComponent={
-        <SidebarAccountInfo
-          email={user?.email ?? ""}
-          label={customer.data?.label ?? ""}
-          logoImageUrl={customer.data?.logo_url ?? ""}
-          className={styles.sidebarTrigger}
-          TopRightIcon={
-            <span className={styles.iconWrapper}>
-              <ThreeDotsVerticalIcon color="var(--fg-quaternary)" size={16} />
-            </span>
-          }
-        />
+        <div className={styles.userDetailInfo}>
+          <Typography size="sm" color="tertiary" className={styles.userEmail}>
+            {email}
+          </Typography>
+          <span className={styles.iconWrapper}>
+            <ThreeDotsVerticalIcon color="var(--fg-quaternary)" size={16} />
+          </span>
+        </div>
       }
       HeaderComponent={
-        <SidebarAccountInfo
-          email={user?.email ?? ""}
-          label={customer.data?.label ?? ""}
-          logoImageUrl={customer.data?.logo_url ?? ""}
-          className={styles.menuHeader}
-        />
+        <div className={cn(styles.menuHeader, styles.userDetailInfo)}>
+          <Typography size="sm" color="tertiary" className={styles.userEmail}>
+            {email}
+          </Typography>
+        </div>
       }
       menuItems={[
-        {
-          id: "edit-info",
-          label: "Edit Info",
-          icon: <EditIcon size={16} />,
-          onClick: () => {
-            router.push(paths.edit_info);
-          },
-        },
-        {
-          id: "change-password",
-          label: "Change Password",
-          icon: <EditIcon size={16} />,
-          onClick: () => {
-            router.push(paths.change_password);
-          },
-        },
         {
           id: "sign-out",
           label: "Sign Out",
           icon: <LogoutIcon size={16} />,
-          onClick: () => {
-            resetUser();
-            resetToken();
+          onClick: async () => {
+            if (!okoWallet) {
+              console.error("okoWallet is not initialized");
+              return;
+            }
+
+            await okoWallet.signOut();
+            clearUserInfo();
           },
         },
       ]}
