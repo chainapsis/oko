@@ -1,5 +1,6 @@
 {
   "packages": [
+    "apps/demo_web",
     "lib/stdlib_js",
     "lib/dotenv",
     "sdk/oko_cosmos_kit",
