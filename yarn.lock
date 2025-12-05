@@ -9908,6 +9908,7 @@ __metadata:
     pg: "npm:*"
     pgsql-parser: "npm:^17.7.8"
     ts-jest: "npm:*"
+    ts-node: "npm:^10.9.2"
     tsconfig-paths: "npm:*"
     tsx: "npm:*"
     typescript: "npm:*"

@@ -1,6 +1,7 @@
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import chalk from "chalk";
+import { Client } from "pg";
 
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
@@ -40,6 +41,8 @@ export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
       );
     }
   }
+
+  await ensureDatabaseExists();
 
   const migrateRet = spawnSync("yarn", ["run", "migrate"], {
     cwd: paths.oko_pg_interface,
@@ -87,4 +90,33 @@ async function waitForPgContainer(
   throw new Error(
     `PostgreSQL did not become ready within ${maxAttempts * delayMs}ms`,
   );
+}
+
+async function ensureDatabaseExists(): Promise<void> {
+  const dbName = process.env.DB_NAME;
+
+  const client = new Client({
+    host: process.env.DB_HOST ?? "localhost",
+    user: process.env.DB_USER ?? "postgres",
+    password: process.env.DB_PASSWORD ?? "postgres",
+    database: "postgres",
+    port: Number(process.env.DB_PORT ?? "5432"),
+    ssl: process.env.DB_SSL === "true",
+  });
+
+  await client.connect();
+
+  const res = await client.query(
+    `SELECT datname FROM pg_catalog.pg_database WHERE datname = '${dbName}'`,
+  );
+
+  if (res.rowCount === 0) {
+    console.log(`Database "${dbName}" does not exist. Creating...`);
+    await client.query(`CREATE DATABASE "${dbName}"`);
+    console.log(`Database "${dbName}" created.`);
+  } else {
+    console.log(`Database "${dbName}" already exists.`);
+  }
+
+  await client.end();
 }
