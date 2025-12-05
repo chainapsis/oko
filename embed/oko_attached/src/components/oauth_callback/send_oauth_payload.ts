@@ -57,28 +57,36 @@ async function sendMsgToEmbeddedWindow(
   msg: OkoWalletMsgOAuthInfoPass,
 ): Promise<Result<OkoWalletMsg, SendMsgToEmbeddedWindowError>> {
   const attachedURL = window.location.toString();
+
+  // NOTE:
+  // As of 2025 Dec, iframe embedded in the host window is the same
+  // web application "oko_attached", served from the same URL
   const targetOrigin = new URL(attachedURL).origin;
 
-  try {
-    for (let idx = 0; idx < window.opener.frames.length; idx += 1) {
+  for (let idx = 0; idx < window.opener.frames.length; idx += 1) {
+    try {
       const frame = window.opener.frames[idx];
       if (frame.location.origin === targetOrigin) {
-        const ack = await sendMsgToWindow(frame, msg, targetOrigin);
+        try {
+          const ack = await sendMsgToWindow(frame, msg, targetOrigin);
 
-        return { success: true, data: ack };
+          return { success: true, data: ack };
+        } catch (err: any) {
+          return {
+            success: false,
+            err: { type: "send_to_parent_fail", error: err.toString() },
+          };
+        }
       }
+    } catch (err: any) {
+      console.log(`parent window's iframe not ours, idx: ${idx}`);
     }
-
-    return {
-      success: false,
-      err: {
-        type: "window_not_found",
-      },
-    };
-  } catch (err: any) {
-    return {
-      success: false,
-      err: { type: "unknown", error: err.toString() },
-    };
   }
+
+  return {
+    success: false,
+    err: {
+      type: "window_not_found",
+    },
+  };
 }

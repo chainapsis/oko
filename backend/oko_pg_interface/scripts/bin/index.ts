@@ -52,7 +52,7 @@ async function createTables(pool: Pool): Promise<void> {
   console.log("Created tables, query count: %s", (results as any).length);
 }
 
-async function migrate() {
+async function main() {
   const useEnv = process.env.USE_ENV === "true";
   if (useEnv) {
     console.log("Using env file config, loading env file: %s", ENV_FILE_NAME);
@@ -98,4 +98,4 @@ async function migrate() {
   await pool.end();
 }
 
-migrate().then();
+main().then();

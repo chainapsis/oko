@@ -2,7 +2,8 @@
   "name": "@oko-wallet/oko-pg-interface",
   "type": "module",
   "scripts": {
-    "migrate": "tsx ./scripts/migrate/index.ts",
+    "knex": "knex",
+    "migrate": "knex migrate:latest",
     "seed": "tsx ./scripts/seed/index.ts"
   },
   "exports": {
@@ -28,6 +29,7 @@
     "@oko-wallet/postgres-lib": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "jest": "*",
+    "knex": "*",
     "pg": "*",
     "pgsql-parser": "^17.7.8",
     "ts-jest": "*",
@@ -39,6 +41,7 @@
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
+    "ts-node": "^10.9.2",
     "tsx": "*",
     "typescript": "*"
   }

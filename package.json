@@ -69,7 +69,6 @@
     "dayjs": "^1.11.18",
     "dotenv": "^16.4.5",
     "sass": "^1.94.2",
-    "uuid": "^11.1.0",
     "viem": "^2.31.7",
     "winston": "^3.17.0",
     "winston-daily-rotate-file": "^5.0.0"
