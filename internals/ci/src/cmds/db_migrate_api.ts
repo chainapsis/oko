@@ -93,7 +93,7 @@ async function waitForPgContainer(
 }
 
 async function ensureDatabaseExists(): Promise<void> {
-  const dbName = process.env.DB_NAME;
+  const dbName = process.env.DB_NAME ?? "oko_dev";
 
   const client = new Client({
     host: process.env.DB_HOST ?? "localhost",

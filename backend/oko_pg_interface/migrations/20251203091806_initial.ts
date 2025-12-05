@@ -55,7 +55,6 @@ export async function up(knex: Knex): Promise<void> {
         .timestamp("updated_at", { useTz: true })
         .notNullable()
         .defaultTo(knex.fn.now());
-
     });
   }
 

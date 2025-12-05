@@ -3,8 +3,8 @@
   "type": "module",
   "scripts": {
     "knex": "knex",
-    "migrate": "knex migrate:latest",
-    "seed": "tsx ./scripts/seed/index.ts"
+    "migrate": "tsx ../../node_modules/knex/bin/cli.js migrate:latest",
+    "seed": "tsx ../../node_modules/knex/bin/cli.js seed:run "
   },
   "exports": {
     "./admin_users": "./src/admin_users/index.ts",
@@ -41,7 +41,6 @@
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",
-    "ts-node": "^10.9.2",
     "tsx": "*",
     "typescript": "*"
   }
