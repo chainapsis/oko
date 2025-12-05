@@ -17,6 +17,7 @@ export const TelegramLoginPopup: React.FC = () => {
     const systemTheme = getSystemTheme();
     setColorScheme(systemTheme);
     setTheme(systemTheme);
+
     const urlParams = new URLSearchParams(window.location.search);
 
     const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE);
