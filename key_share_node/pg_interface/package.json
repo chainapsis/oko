@@ -16,7 +16,8 @@
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "pg": "*",
     "pgsql-parser": "^17.7.8",
-    "uuid": "*"
+    "uuid": "*",
+    "knex": "*"
   },
   "devDependencies": {
     "@types/jest": "*",
