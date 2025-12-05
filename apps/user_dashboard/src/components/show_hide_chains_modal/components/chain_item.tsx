@@ -12,14 +12,17 @@ import styles from "./chain_item.module.scss";
 interface ChainItemProps {
   chainInfo: ModularChainInfo;
   tokens?: ViewToken[];
+  onEnable: (checked: boolean) => void;
 }
 
 export const ChainItem: FunctionComponent<ChainItemProps> = observer(
-  ({ chainInfo, tokens }) => {
+  ({ chainInfo, tokens, onEnable }) => {
     const { chainStore } = useRootStore();
     const [isExpanded, setIsExpanded] = useState(false);
+    const [isEnabled, setIsEnabled] = useState(() =>
+      chainStore.isEnabledChain(chainInfo.chainId),
+    );
 
-    const isEnabled = chainStore.isEnabledChain(chainInfo.chainId);
     const imageUrl =
       "chainSymbolImageUrl" in chainInfo
         ? chainInfo.chainSymbolImageUrl
@@ -28,11 +31,8 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
     const hasTokens = !!tokens?.length;
 
     const handleToggle = (checked: boolean) => {
-      if (checked) {
-        chainStore.enableChainInfoInUI(chainInfo.chainId);
-      } else {
-        chainStore.disableChainInfoInUI(chainInfo.chainId);
-      }
+      setIsEnabled(checked);
+      onEnable(checked);
     };
 
     const handleTokensClick = (e: React.MouseEvent) => {

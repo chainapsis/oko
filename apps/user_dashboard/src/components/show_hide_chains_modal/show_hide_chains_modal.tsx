@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useState } from "react";
+import { FC, ReactNode, useCallback, useRef, useState } from "react";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { Card } from "@oko-wallet-common-ui/card/card";
 import { XCloseIcon } from "@oko-wallet-common-ui/icons/x_close";
@@ -6,7 +6,8 @@ import { Button } from "@oko-wallet-common-ui/button/button";
 import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
 import { observer } from "mobx-react-lite";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
-import { CoinPretty, Dec } from "@keplr-wallet/unit";
+import { CoinPretty } from "@keplr-wallet/unit";
+import cn from "classnames";
 
 import styles from "./show_hide_chains_modal.module.scss";
 import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
@@ -15,6 +16,7 @@ import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain
 import { ShowHideChainsFilters } from "./components/filters";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
 import { ChainItem } from "./components/chain_item";
+import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
 
 interface ShowHideChainsModalProps {
   renderTrigger: (props: { onOpen: () => void }) => ReactNode;
@@ -22,18 +24,29 @@ interface ShowHideChainsModalProps {
 
 export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
   ({ renderTrigger }) => {
+    const okoCosmos = useSDKState((state) => state.oko_cosmos);
+    const okoEth = useSDKState((state) => state.oko_eth);
+
+    const { chainStore, hugeQueriesStore, queriesStore } = useRootStore();
+
+    const chainIdsToEnable = useRef<Set<string>>(new Set());
+    const chainIdsToDisable = useRef<Set<string>>(new Set());
+
     const [isOpen, setIsOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");
 
     const onOpen = () => setIsOpen(true);
     const onClose = () => setIsOpen(false);
 
+    const onSave = () => {
+      chainStore.enableChainInfoInUI(...chainIdsToEnable.current);
+      chainStore.disableChainInfoInUI(...chainIdsToDisable.current);
+      onClose();
+    };
+
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(e.target.value);
     };
-
-    const { chainStore, hugeQueriesStore, accountStore, queriesStore } =
-      useRootStore();
 
     const searchFields = [
       "chainName",
@@ -60,7 +73,9 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
     ];
 
     const searchedNativeModularChainInfos = useSearch(
-      chainStore.modularChainInfos,
+      chainStore.modularChainInfos.filter(
+        (chain) => "cosmos" in chain || "evm" in chain,
+      ),
       searchQuery,
       searchFields,
     );
@@ -74,7 +89,6 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
           linkedModularChainInfos?: ModularChainInfo[];
         },
       ) => {
-        const account = accountStore.getAccount(modularChainInfo.chainId);
         const baseChainId = modularChainInfo.chainId;
 
         const tokens =
@@ -82,17 +96,19 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
             ChainIdHelper.parse(baseChainId).identifier,
           ) ?? [];
 
-        const balance = (() => {
+        const balance = (async () => {
           if (
             "evm" in modularChainInfo &&
             chainStore.isEvmOnlyChain(modularChainInfo.chainId)
           ) {
+            const ethAddress = await okoEth?.getAddress();
+
             const queries = queriesStore.get(modularChainInfo.chainId);
             const mainCurrency = modularChainInfo.evm.currencies[0];
 
             const queryBalance =
               queries.queryBalances.getQueryEthereumHexAddress(
-                account.ethereumHexAddress,
+                ethAddress ?? "",
               );
             const balance = queryBalance.getBalance(mainCurrency);
             if (balance) {
@@ -101,13 +117,17 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
 
             return new CoinPretty(mainCurrency, "0");
           } else if ("cosmos" in modularChainInfo) {
+            const cosmosAccount = await okoCosmos?.getKey(
+              modularChainInfo.chainId,
+            );
+
             const queries = queriesStore.get(modularChainInfo.chainId);
             const mainCurrency =
               modularChainInfo.cosmos.stakeCurrency ||
               modularChainInfo.cosmos.currencies[0];
 
             const queryBalance = queries.queryBalances.getQueryBech32Address(
-              account.bech32Address,
+              cosmosAccount?.bech32Address ?? "",
             );
             const balance = queryBalance.getBalance(mainCurrency);
 
@@ -118,6 +138,7 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
             return new CoinPretty(mainCurrency, "0");
           }
         })();
+
         const chainIdentifier = ChainIdHelper.parse(
           modularChainInfo.chainId,
         ).identifier;
@@ -128,7 +149,7 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
           chainIdentifier,
         };
       },
-      [accountStore, chainStore, queriesStore, tokensByChainIdentifier],
+      [chainStore, queriesStore, tokensByChainIdentifier],
     );
 
     return (
@@ -171,45 +192,56 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
                 <Spacing height={8} />
 
                 <ShowHideChainsFilters>
-                  {({ showHiddenChains, ecosystem }) =>
-                    searchedNativeModularChainInfos
-                      .filter((chain) => "cosmos" in chain || "evm" in chain)
-                      .filter((chain) => {
-                        switch (showHiddenChains) {
-                          case "Show All": {
-                            return true;
+                  {({ visibility, ecosystem }) => (
+                    <div className={cn(styles.chainList, "common-list-scroll")}>
+                      {searchedNativeModularChainInfos
+
+                        .filter((chain) => {
+                          switch (visibility) {
+                            case "Show All": {
+                              return true;
+                            }
+                            case "Show Hidden": {
+                              return !chainStore.isEnabledChain(chain.chainId);
+                            }
                           }
-                          case "Enabled": {
-                            return chainStore.isEnabledChain(chain.chainId);
+                        })
+                        .filter((chain) => {
+                          switch (ecosystem) {
+                            case "All Chains": {
+                              return true;
+                            }
+                            case "Cosmos": {
+                              return "cosmos" in chain;
+                            }
+                            case "EVM": {
+                              return "evm" in chain;
+                            }
                           }
-                        }
-                      })
-                      .filter((chain) => {
-                        switch (ecosystem) {
-                          case "All Chains": {
-                            return true;
-                          }
-                          case "Cosmos": {
-                            return "cosmos" in chain;
-                          }
-                          case "EVM": {
-                            return "evm" in chain;
-                          }
-                        }
-                      })
-                      .map((chain) => (
-                        <ChainItem
-                          key={chain.chainId}
-                          chainInfo={chain as ModularChainInfo}
-                          tokens={getChainItemInfoForView(chain).tokens}
-                        />
-                      ))
-                  }
+                        })
+                        .map((chain) => (
+                          <ChainItem
+                            key={chain.chainId}
+                            chainInfo={chain as ModularChainInfo}
+                            tokens={getChainItemInfoForView(chain).tokens}
+                            onEnable={(checked) =>
+                              checked
+                                ? chainIdsToEnable.current.add(chain.chainId)
+                                : chainIdsToDisable.current.add(chain.chainId)
+                            }
+                          />
+                        ))}
+                    </div>
+                  )}
                 </ShowHideChainsFilters>
 
-                <Spacing height={24} />
-
-                <Button variant="primary" size="lg" fullWidth>
+                <Button
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                  className={styles.saveButton}
+                  onClick={onSave}
+                >
                   Save
                 </Button>
 

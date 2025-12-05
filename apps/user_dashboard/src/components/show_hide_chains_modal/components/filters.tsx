@@ -5,11 +5,11 @@ import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 import styles from "./filters.module.scss";
 
-const showHiddenChainsFilterOptions = ["Show All", "Enabled"] as const;
+const visibilityOptions = ["Show All", "Show Hidden"] as const;
 const ecosystemFilterOptions = ["All Chains", "Cosmos", "EVM"] as const;
 
 type SelectedFilters = {
-  showHiddenChains: (typeof showHiddenChainsFilterOptions)[number];
+  visibility: (typeof visibilityOptions)[number];
   ecosystem: (typeof ecosystemFilterOptions)[number];
 };
 
@@ -20,9 +20,9 @@ export type ShowHideChainsFiltersProps = {
 export const ShowHideChainsFilters: FC<ShowHideChainsFiltersProps> = ({
   children,
 }) => {
-  const [showHiddenChains, setShowHiddenChains] = useState<
-    SelectedFilters["showHiddenChains"]
-  >(showHiddenChainsFilterOptions[0]);
+  const [visibility, setVisibility] = useState<SelectedFilters["visibility"]>(
+    visibilityOptions[0],
+  );
   const [ecosystem, setEcosystem] = useState<SelectedFilters["ecosystem"]>(
     ecosystemFilterOptions[0],
   );
@@ -31,9 +31,9 @@ export const ShowHideChainsFilters: FC<ShowHideChainsFiltersProps> = ({
     <Fragment>
       <div className={styles.filterWrapper}>
         <FilterDropdown
-          options={showHiddenChainsFilterOptions}
-          value={showHiddenChains}
-          onChange={setShowHiddenChains}
+          options={visibilityOptions}
+          value={visibility}
+          onChange={setVisibility}
         />
         <FilterDropdown
           options={ecosystemFilterOptions}
@@ -43,7 +43,7 @@ export const ShowHideChainsFilters: FC<ShowHideChainsFiltersProps> = ({
       </div>
 
       {children({
-        showHiddenChains,
+        visibility,
         ecosystem,
       })}
     </Fragment>
@@ -51,9 +51,7 @@ export const ShowHideChainsFilters: FC<ShowHideChainsFiltersProps> = ({
 };
 
 type FilterDropdownProps<
-  T extends
-    | typeof showHiddenChainsFilterOptions
-    | typeof ecosystemFilterOptions,
+  T extends typeof visibilityOptions | typeof ecosystemFilterOptions,
 > = {
   options: T;
   value: T[number];
@@ -61,9 +59,7 @@ type FilterDropdownProps<
 };
 
 const FilterDropdown = <
-  T extends
-    | typeof showHiddenChainsFilterOptions
-    | typeof ecosystemFilterOptions,
+  T extends typeof visibilityOptions | typeof ecosystemFilterOptions,
 >({
   options,
   value,

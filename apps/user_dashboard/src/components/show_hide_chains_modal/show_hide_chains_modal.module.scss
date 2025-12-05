@@ -14,7 +14,6 @@
   position: relative;
   max-width: 90vw;
   max-height: 90vh;
-  overflow: auto;
 }
 
 .modalCard {
@@ -45,15 +44,15 @@
   }
 }
 
-.content {
+.chainList {
+  margin-top: 32px;
   width: 100%;
+  height: 204px;
+  overflow: auto;
 }
 
-.infoBox {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: 8px;
-  text-align: left;
+.saveButton {
+  margin-top: 12px;
 }
 
 /* search bar */
