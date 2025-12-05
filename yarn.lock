@@ -9466,17 +9466,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/dotenv@npm:0.0.2-alpha.17":
-  version: 0.0.2-alpha.17
-  resolution: "@oko-wallet/dotenv@npm:0.0.2-alpha.17"
-  dependencies:
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.32"
-    dotenv: "npm:^16.4.5"
-    zod: "npm:4.1.12"
-  checksum: 10c0/ee6532c86b841e43337ff1b4a8cd2c0ad3c6d77fc4f09dbf72bc356855daa10b28e1a9b08ff5c872f545c2f990a11b2fde217113eb3fcb836e66a99142c9f49b
-  languageName: node
-  linkType: hard
-
 "@oko-wallet/dotenv@npm:0.0.2-alpha.20":
   version: 0.0.2-alpha.20
   resolution: "@oko-wallet/dotenv@npm:0.0.2-alpha.20"
@@ -9684,10 +9673,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-admin-web@workspace:apps/oko_admin_web"
   dependencies:
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.20"
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.21"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:*"
@@ -9834,7 +9823,7 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.17"
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.21"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.118"
