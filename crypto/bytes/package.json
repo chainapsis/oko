@@ -3,7 +3,7 @@
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "version": "0.0.3-alpha.55",
+  "version": "0.0.3-alpha.56",
   "publishConfig": {
     "access": "public"
   },
