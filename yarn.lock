@@ -9403,7 +9403,7 @@ __metadata:
   dependencies:
     "@cosmjs/proto-signing": "npm:^0.33.1"
     "@keplr-wallet/proto-types": "npm:^0.12.250"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.20"
+    "@oko-wallet/dotenv": "npm:0.0.2-alpha.23"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.112"
     "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.135"
@@ -9466,7 +9466,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/dotenv@workspace:*, @oko-wallet/dotenv@workspace:lib/dotenv":
+"@oko-wallet/dotenv@npm:0.0.2-alpha.23, @oko-wallet/dotenv@workspace:*, @oko-wallet/dotenv@workspace:lib/dotenv":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/dotenv@workspace:lib/dotenv"
   dependencies:
