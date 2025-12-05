@@ -9607,6 +9607,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:*"
     "@typescript-eslint/parser": "npm:*"
     jest: "npm:*"
+    knex: "npm:*"
     pg: "npm:*"
     pgsql-parser: "npm:^17.7.8"
     ts-jest: "npm:*"
