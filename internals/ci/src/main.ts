@@ -9,7 +9,7 @@ import { dbMigrateKSN } from "./cmds/db_migrate_ksn";
 import { buildCs } from "./cmds/build_cs";
 import { DbSeedAPI } from "./cmds/db_seed_api";
 import { DbMigrateAPI } from "./cmds/db_migrate_api";
-import { deployApps } from "./cmds/deploy_apps";
+import { deploy } from "./cmds/deploy";
 
 async function main() {
   const command = program.version("0.0.1").description("Oko Public CI");
@@ -54,7 +54,14 @@ async function main() {
     )
     .action(dbMigrateKSN);
 
-  command.command("deploy_apps").action(deployApps);
+  command
+    .command("deploy")
+    .option(
+      "--app <app>",
+      "App to deploy (oko-demo-web, oko-attached, oko-customer-dashboard, oko-docs-web, oko-admin-web, oko-user-dashboard)",
+    )
+    .option("--prod", "Deploy to production", false)
+    .action(deploy);
 
   program.parse(process.argv);
 }
