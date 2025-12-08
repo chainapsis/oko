@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "@oko-wallet/bytes": "0.0.3-alpha.60",
-    "@oko-wallet/crypto-js": "0.0.2-alpha.2",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.3",
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "cors": "^2.8.5",
@@ -26,12 +26,12 @@
   "devDependencies": {
     "@types/express": "^5.0.6",
     "@types/jest": "^29.5.12",
-    "@types/jsonwebtoken": "*",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.9",
     "@types/node": "^24.10.1",
     "@types/supertest": "^6.0.3",
     "jest": "^29.7.0",
-    "supertest": "*",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.4.5",
     "typescript": "^5.8.3"
   }

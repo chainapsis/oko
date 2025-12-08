@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@oko-wallet/aws": "workspace:*",
-    "@oko-wallet/crypto-js": "0.0.2-alpha.2",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.3",
     "@oko-wallet/oko-api-error-codes": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-api-server-state": "workspace:*",

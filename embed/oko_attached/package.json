@@ -33,7 +33,7 @@
     "@oko-wallet/bytes": "0.0.3-alpha.60",
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
-    "@oko-wallet/crypto-js": "0.0.2-alpha.2",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.3",
     "@oko-wallet/ksn-interface": "0.0.2-alpha.51",
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/oko-sdk-core": "0.0.6-rc.118",
