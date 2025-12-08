@@ -9083,7 +9083,7 @@ __metadata:
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
     "@types/he": "npm:^1.2.0"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
     "@types/multer": "npm:^2.0.0"
@@ -9136,9 +9136,9 @@ __metadata:
     "@types/jest": "npm:^29.5.13"
     "@types/node": "npm:^22.15.18"
     dotenv: "npm:*"
-    jest: "npm:*"
-    ts-jest: "npm:*"
-    typescript: "npm:*"
+    jest: "npm:^29.7.0"
+    ts-jest: "npm:^29.4.5"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9166,7 +9166,7 @@ __metadata:
   dependencies:
     "@jest/globals": "npm:^29.7.0"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.38"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     del-cli: "npm:*"
     jest: "npm:*"
@@ -9284,7 +9284,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ci@workspace:internals/ci"
   dependencies:
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     "@typescript-eslint/eslint-plugin": "npm:*"
     "@typescript-eslint/parser": "npm:*"
@@ -9320,11 +9320,11 @@ __metadata:
     "@types/jest": "npm:^29.5.13"
     "@types/node": "npm:^22.15.18"
     bcryptjs: "npm:^3.0.2"
-    del-cli: "npm:*"
-    jest: "npm:*"
+    del-cli: "npm:^6.0.0"
+    jest: "npm:^29.7.0"
     supertest: "npm:^7.0.0"
-    ts-jest: "npm:*"
-    typescript: "npm:*"
+    ts-jest: "npm:^29.4.5"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9344,7 +9344,7 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
     "@types/multer": "npm:*"
@@ -9471,7 +9471,7 @@ __metadata:
   resolution: "@oko-wallet/dotenv@workspace:lib/dotenv"
   dependencies:
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.38"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     del-cli: "npm:*"
     dotenv: "npm:*"
@@ -9522,11 +9522,11 @@ __metadata:
     "@types/jest": "npm:^29.5.13"
     "@types/node": "npm:^22.15.18"
     bcryptjs: "npm:^3.0.2"
-    del-cli: "npm:*"
-    jest: "npm:*"
+    del-cli: "npm:^6.0.0"
+    jest: "npm:^29.7.0"
     supertest: "npm:^7.0.0"
-    ts-jest: "npm:*"
-    typescript: "npm:*"
+    ts-jest: "npm:^29.4.5"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9590,7 +9590,7 @@ __metadata:
   resolution: "@oko-wallet/ksn-interface@workspace:key_share_node/ksn_interface"
   dependencies:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.57"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     "@typescript-eslint/eslint-plugin": "npm:*"
     "@typescript-eslint/parser": "npm:*"
@@ -9610,7 +9610,7 @@ __metadata:
     "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     "@typescript-eslint/eslint-plugin": "npm:*"
     "@typescript-eslint/parser": "npm:*"
@@ -9639,7 +9639,7 @@ __metadata:
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
     "@types/express-rate-limit": "npm:^6.0.2"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
     "@types/node": "npm:*"
@@ -9698,7 +9698,7 @@ __metadata:
   dependencies:
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     "@typescript-eslint/eslint-plugin": "npm:*"
     "@typescript-eslint/parser": "npm:*"
@@ -9730,7 +9730,7 @@ __metadata:
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@types/express": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
     "@types/node": "npm:*"
@@ -9770,7 +9770,7 @@ __metadata:
     "@oko-wallet/user-dashboard-api": "workspace:*"
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
     "@types/node": "npm:*"
@@ -9908,7 +9908,7 @@ __metadata:
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     "@typescript-eslint/eslint-plugin": "npm:*"
     "@typescript-eslint/parser": "npm:*"
@@ -9929,7 +9929,7 @@ __metadata:
   resolution: "@oko-wallet/oko-sdk-common@workspace:sdk/oko_sdk_common"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     del-cli: "npm:*"
     ts-jest: "npm:*"
@@ -9972,7 +9972,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:*"
     "@rollup/plugin-terser": "npm:*"
     "@rollup/plugin-typescript": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     del-cli: "npm:*"
     jest: "npm:*"
@@ -10040,7 +10040,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:*"
     "@rollup/plugin-terser": "npm:*"
     "@rollup/plugin-typescript": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     "@typescript-eslint/eslint-plugin": "npm:*"
     "@typescript-eslint/parser": "npm:*"
@@ -10121,7 +10121,7 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-express": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
     "@typescript-eslint/parser": "npm:^7.16.1"
@@ -10234,7 +10234,7 @@ __metadata:
   resolution: "@oko-wallet/stdlib-js@workspace:lib/stdlib_js"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     del-cli: "npm:*"
     ts-jest: "npm:*"
@@ -10248,7 +10248,7 @@ __metadata:
   resolution: "@oko-wallet/tecdsa-interface@workspace:crypto/tecdsa/tecdsa_interface"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:*"
     del-cli: "npm:*"
     ts-jest: "npm:*"
@@ -10275,7 +10275,7 @@ __metadata:
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
     "@types/node": "npm:*"
@@ -10315,7 +10315,7 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/cors": "npm:*"
     "@types/express": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:*"
     "@types/multer": "npm:*"
@@ -10375,7 +10375,7 @@ __metadata:
   resolution: "@oko-wallet/vite-test@workspace:crypto/crypto_js/tests/vite"
   dependencies:
     "@oko-wallet/crypto-js": "workspace:*"
-    typescript: "npm:~5.8.3"
+    typescript: "npm:^5.8.3"
     vite: "npm:^7.0.4"
     vite-plugin-node-polyfills: "npm:^0.24.0"
   languageName: unknown
@@ -15699,16 +15699,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*":
-  version: 30.0.0
-  resolution: "@types/jest@npm:30.0.0"
-  dependencies:
-    expect: "npm:^30.0.0"
-    pretty-format: "npm:^30.0.0"
-  checksum: 10c0/20c6ce574154bc16f8dd6a97afacca4b8c4921a819496a3970382031c509ebe87a1b37b152a1b8475089b82d8ca951a9e95beb4b9bf78fbf579b1536f0b65969
-  languageName: node
-  linkType: hard
-
 "@types/jest@npm:29.5.12":
   version: 29.5.12
   resolution: "@types/jest@npm:29.5.12"
@@ -15719,7 +15709,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:^29.5.13, @types/jest@npm:^29.5.14":
+"@types/jest@npm:^29.5.12, @types/jest@npm:^29.5.13, @types/jest@npm:^29.5.14":
   version: 29.5.14
   resolution: "@types/jest@npm:29.5.14"
   dependencies:
@@ -23986,7 +23976,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect@npm:30.2.0, expect@npm:^30.0.0":
+"expect@npm:30.2.0":
   version: 30.2.0
   resolution: "expect@npm:30.2.0"
   dependencies:
@@ -35005,7 +34995,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:30.2.0, pretty-format@npm:^30.0.0":
+"pretty-format@npm:30.2.0":
   version: 30.2.0
   resolution: "pretty-format@npm:30.2.0"
   dependencies:
@@ -39615,7 +39605,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:*, ts-jest@npm:^29.2.5":
+"ts-jest@npm:*, ts-jest@npm:^29.2.5, ts-jest@npm:^29.4.5":
   version: 29.4.6
   resolution: "ts-jest@npm:29.4.6"
   dependencies:

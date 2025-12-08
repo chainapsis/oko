@@ -26,7 +26,7 @@
     "viem": "*"
   },
   "devDependencies": {
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",

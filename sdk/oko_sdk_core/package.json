@@ -44,7 +44,7 @@
     "@rollup/plugin-replace": "*",
     "@rollup/plugin-terser": "*",
     "@rollup/plugin-typescript": "*",
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/node": "*",
     "del-cli": "*",
     "jest": "*",

@@ -24,7 +24,7 @@
   },
   "devDependencies": {
     "@types/express": "*",
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
     "@types/node": "*",

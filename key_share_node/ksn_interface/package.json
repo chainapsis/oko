@@ -50,7 +50,7 @@
     "@oko-wallet/bytes": "^0.0.3-alpha.57"
   },
   "devDependencies": {
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",

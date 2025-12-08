@@ -37,7 +37,7 @@
     "@types/cors": "*",
     "@types/express": "*",
     "@types/he": "^1.2.0",
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
     "@types/multer": "^2.0.0",

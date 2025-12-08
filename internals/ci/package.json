@@ -10,7 +10,7 @@
     "commander": "*"
   },
   "devDependencies": {
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/node": "*",
     "@typescript-eslint/eslint-plugin": "*",
     "@typescript-eslint/parser": "*",

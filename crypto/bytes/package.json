@@ -23,7 +23,7 @@
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/node": "*",
     "del-cli": "*",
     "jest": "*",

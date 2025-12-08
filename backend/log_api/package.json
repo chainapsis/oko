@@ -33,7 +33,7 @@
     "@types/cors": "*",
     "@types/express": "*",
     "@types/express-rate-limit": "^6.0.2",
-    "@types/jest": "*",
+    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
     "@types/node": "*",
