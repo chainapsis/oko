@@ -2,7 +2,7 @@
   "versionGroups": [
     {
       "label": "Capture everything",
-      "specifierTypes": ["*"]
+      "specifierTypes": ["latest"]
     }
   ]
 }
