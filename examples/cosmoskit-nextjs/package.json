@@ -21,9 +21,9 @@
     "@oko-wallet/oko-cosmos-kit": "workspace:*",
     "@tanstack/react-query": "^5.90.11",
     "chain-registry": "^1.69.410",
-    "next": "16.0.7",
-    "react": "19.2.1",
-    "react-dom": "19.2.1",
+    "next": "^16.0.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
     "react-hook-form": "7.65.0",
     "zod": "4.1.12"
   },

@@ -20,7 +20,7 @@
     "@uniswap/sdk-core": "~5.8.2",
     "@uniswap/v2-sdk": "~4.6.1",
     "blo": "~1.2.0",
-    "next": "^15.5.7",
+    "next": "^16.0.7",
     "pino-pretty": "^13.1.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
