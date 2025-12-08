@@ -36,6 +36,6 @@
     "eslint": "*",
     "eslint-config-next": "^16.0.7",
     "tailwindcss": "^4",
-    "typescript": "*"
+    "typescript": "^5.8.3"
   }
 }

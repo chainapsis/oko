@@ -32,7 +32,7 @@
     "nodemailer": "^7.0.4",
     "pg": "*",
     "swagger-ui-express": "*",
-    "tsx": "*",
+    "tsx": "^4.20.3",
     "uuid": "*",
     "zod": "*"
   },
@@ -52,6 +52,6 @@
     "jest": "^29.7.0",
     "supertest": "*",
     "ts-jest": "^29.4.5",
-    "typescript": "*"
+    "typescript": "^5.8.3"
   }
 }

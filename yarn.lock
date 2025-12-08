@@ -9207,7 +9207,7 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -9221,7 +9221,7 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9271,7 +9271,7 @@ __metadata:
     del-cli: "npm:^6.0.0"
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9365,7 +9365,7 @@ __metadata:
     prettier: "npm:*"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9392,8 +9392,8 @@ __metadata:
     commander: "npm:*"
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.4.5"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9466,7 +9466,7 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -9491,8 +9491,8 @@ __metadata:
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:*"
     sass: "npm:^1.94.2"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     zustand: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9517,8 +9517,8 @@ __metadata:
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     sass: "npm:^1.94.2"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     zod: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9577,9 +9577,9 @@ __metadata:
     dotenv: "npm:^16.4.5"
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsc-alias: "npm:^1.8.16"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     zod: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9603,8 +9603,8 @@ __metadata:
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:*"
     sass: "npm:^1.94.2"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     zustand: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9668,8 +9668,8 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     winston: "npm:^3.17.0"
     winston-daily-rotate-file: "npm:^5.0.0"
     zod: "npm:*"
@@ -9697,9 +9697,9 @@ __metadata:
     del-cli: "npm:^6.0.0"
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsc-alias: "npm:^1.8.16"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9719,8 +9719,8 @@ __metadata:
     pg: "npm:*"
     pgsql-parser: "npm:^17.7.8"
     ts-jest: "npm:^29.4.5"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9759,7 +9759,7 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     winston: "npm:^3.17.0"
     winston-elasticsearch: "npm:*"
@@ -9786,8 +9786,8 @@ __metadata:
     react-hook-form: "npm:*"
     react-intl: "npm:*"
     sass: "npm:^1.94.2"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     zustand: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9805,8 +9805,8 @@ __metadata:
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.4.5"
     tsconfig-paths: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9816,7 +9816,7 @@ __metadata:
   resolution: "@oko-wallet/oko-api-openapi@workspace:backend/openapi"
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:*"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     zod: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9845,7 +9845,7 @@ __metadata:
     pg: "npm:*"
     supertest: "npm:*"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     winston: "npm:^3.17.0"
     winston-elasticsearch: "npm:*"
@@ -9893,8 +9893,8 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -9951,8 +9951,8 @@ __metadata:
     react-error-boundary: "npm:*"
     sass: "npm:^1.94.2"
     starknet: "npm:^7.6.4"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     viem: "npm:^2.31.7"
     vite: "npm:^7.1.6"
@@ -9978,8 +9978,8 @@ __metadata:
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     sass: "npm:^1.94.2"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -10018,8 +10018,8 @@ __metadata:
     pgsql-parser: "npm:^17.7.8"
     ts-jest: "npm:^29.4.5"
     tsconfig-paths: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
   languageName: unknown
   linkType: soft
@@ -10033,8 +10033,8 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:*"
-    typescript: "npm:*"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -10080,9 +10080,9 @@ __metadata:
     rollup-plugin-dts: "npm:^6.2.1"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
     ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:*"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsc-alias: "npm:^1.8.16"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -10152,8 +10152,8 @@ __metadata:
     rollup-plugin-dts: "npm:^6.2.1"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
     ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:*"
-    typescript: "npm:*"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
   languageName: unknown
   linkType: soft
@@ -10226,7 +10226,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
     "@typescript-eslint/parser": "npm:^7.16.1"
     tsconfig-paths: "npm:*"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     viem: "npm:^2.31.7"
   languageName: unknown
   linkType: soft
@@ -10269,7 +10269,7 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -10303,7 +10303,7 @@ __metadata:
     react-dom: "npm:19.2.1"
     react-hook-form: "npm:7.65.0"
     tailwindcss: "npm:^4"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     zod: "npm:*"
   languageName: unknown
   linkType: soft
@@ -10338,8 +10338,8 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:*"
-    typescript: "npm:*"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -10352,8 +10352,8 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:*"
-    typescript: "npm:*"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -10394,7 +10394,7 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -10439,7 +10439,7 @@ __metadata:
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     uuid: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -10464,8 +10464,8 @@ __metadata:
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:*"
     sass: "npm:^1.94.2"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     zustand: "npm:*"
   languageName: unknown
   linkType: soft
@@ -20082,7 +20082,7 @@ __metadata:
     prettier: "npm:*"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -36989,9 +36989,9 @@ __metadata:
     react-dom: "npm:^19.2.1"
     react-hot-toast: "npm:~2.4.0"
     tailwindcss: "npm:4.1.3"
-    tsx: "npm:*"
+    tsx: "npm:^4.20.3"
     type-fest: "npm:~4.26.1"
-    typescript: "npm:*"
+    typescript: "npm:^5.8.3"
     usehooks-ts: "npm:~3.1.0"
     viem: "npm:2.31.7"
     wagmi: "npm:2.15.6"
@@ -37022,8 +37022,8 @@ __metadata:
     react-router: "npm:^7.8.0"
     react-router-devtools: "npm:^1.1.0"
     sass: "npm:^1.94.2"
-    tsx: "npm:*"
-    typescript: "npm:*"
+    tsx: "npm:^4.20.3"
+    typescript: "npm:^5.8.3"
     vite: "npm:^7.0.0"
     vite-plugin-node-polyfills: "npm:^0.24.0"
     vite-tsconfig-paths: "npm:^5.1.4"
@@ -39505,7 +39505,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsc-alias@npm:*, tsc-alias@npm:^1.8.16":
+"tsc-alias@npm:^1.8.16":
   version: 1.8.16
   resolution: "tsc-alias@npm:1.8.16"
   dependencies:
@@ -39587,7 +39587,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:*, tsx@npm:^4.19.2, tsx@npm:^4.20.3":
+"tsx@npm:^4.19.2, tsx@npm:^4.20.3":
   version: 4.21.0
   resolution: "tsx@npm:4.21.0"
   dependencies:
@@ -39858,7 +39858,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:*, typescript@npm:>=3 < 6, typescript@npm:^5, typescript@npm:^5.6.3, typescript@npm:^5.8.3":
+"typescript@npm:>=3 < 6, typescript@npm:^5, typescript@npm:^5.6.3, typescript@npm:^5.8.3":
   version: 5.9.3
   resolution: "typescript@npm:5.9.3"
   bin:
@@ -39888,7 +39888,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A*#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A>=3 < 6#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.6.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.8.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A>=3 < 6#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.6.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.8.3#optional!builtin<compat/typescript>":
   version: 5.9.3
   resolution: "typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"
   bin:

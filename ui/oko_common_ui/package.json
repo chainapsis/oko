@@ -38,7 +38,7 @@
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
-    "tsx": "*",
-    "typescript": "*"
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

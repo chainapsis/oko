@@ -29,7 +29,7 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "sass": "^1.94.2",
-    "tsx": "*",
-    "typescript": "*"
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

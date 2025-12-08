@@ -29,8 +29,8 @@
     "@types/react-dom": "^19.2.3",
     "dotenv": "^16.4.5",
     "sass": "^1.94.2",
-    "tsx": "*",
-    "typescript": "*",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
     "zod": "*"
   }
 }

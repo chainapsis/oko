@@ -32,8 +32,8 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.0.2",
     "react-router-devtools": "^1.1.0",
-    "tsx": "*",
-    "typescript": "*",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3",
     "vite": "^7.0.0",
     "vite-plugin-node-polyfills": "^0.24.0",
     "vite-tsconfig-paths": "^5.1.4"

@@ -41,7 +41,7 @@
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
-    "tsx": "*",
-    "typescript": "*"
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }
