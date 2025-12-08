@@ -1,6 +1,7 @@
 {
   "name": "@oko-wallet/crypto-js",
   "type": "module",
+  "version": "0.0.1",
   "exports": {
     ".": "./common/index.ts",
     "./node": "./node/index.ts",
