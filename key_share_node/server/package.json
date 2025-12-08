@@ -1,7 +1,7 @@
 {
   "name": "@oko-wallet/key-share-node-server",
   "private": true,
-  "version": "0.0.5-alpha.9",
+  "version": "0.0.5-alpha.10",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -14,11 +14,11 @@
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.1.0",
-    "@oko-wallet/bytes": "^0.0.3-alpha.57",
+    "@oko-wallet/bytes": "^0.0.3-alpha.58",
     "@oko-wallet/crypto-js": "workspace:*",
-    "@oko-wallet/ksn-interface": "^0.0.2-alpha.53",
+    "@oko-wallet/ksn-interface": "^0.0.2-alpha.54",
     "@oko-wallet/ksn-pg-interface": "workspace:*",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.38",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.39",
     "chalk": "^5.5.0",
     "commander": "^12.1.0",
     "cors": "^2.8.5",
