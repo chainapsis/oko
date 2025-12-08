@@ -27,7 +27,7 @@
     "@types/node": "^24.10.1",
     "@types/react": "*",
     "@types/react-dom": "*",
-    "dotenv": "*",
+    "dotenv": "^16.4.5",
     "sass": "*",
     "tsx": "*",
     "typescript": "*",

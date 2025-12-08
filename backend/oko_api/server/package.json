@@ -24,7 +24,7 @@
     "@oko-wallet/user-dashboard-api": "workspace:*",
     "chalk": "^5.5.0",
     "cors": "*",
-    "dotenv": "*",
+    "dotenv": "^16.4.5",
     "express": "*",
     "helmet": "*",
     "jsonwebtoken": "*",

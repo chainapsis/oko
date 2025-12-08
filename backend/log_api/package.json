@@ -16,7 +16,7 @@
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "cors": "*",
     "dayjs": "^1.11.18",
-    "dotenv": "*",
+    "dotenv": "^16.4.5",
     "express": "*",
     "express-rate-limit": "^8.0.1",
     "helmet": "*",

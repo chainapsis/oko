@@ -70,7 +70,7 @@
     "@vitejs/plugin-react": "^5.0.3",
     "biome": "*",
     "del-cli": "*",
-    "dotenv": "*",
+    "dotenv": "^16.4.5",
     "sass": "*",
     "tsx": "*",
     "typescript": "*",
