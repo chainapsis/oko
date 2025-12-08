@@ -33,7 +33,7 @@
     "swagger-ui-express": "^5.0.1",
     "tsx": "*",
     "winston": "^3.17.0",
-    "winston-daily-rotate-file": "*",
+    "winston-daily-rotate-file": "^5.0.0",
     "zod": "*"
   },
   "devDependencies": {

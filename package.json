@@ -63,16 +63,6 @@
     "lint": "yarn exec biome lint --write",
     "check": "yarn exec biome check --write"
   },
-  "dependencies": {
-    "chalk": "^5.5.0",
-    "classnames": "^2.5.1",
-    "dayjs": "^1.11.18",
-    "dotenv": "^16.4.5",
-    "sass": "^1.94.2",
-    "viem": "^2.31.7",
-    "winston": "^3.17.0",
-    "winston-daily-rotate-file": "^5.0.0"
-  },
   "devDependencies": {
     "@biomejs/biome": "2.3.4",
     "@jest/globals": "^29.7.0",

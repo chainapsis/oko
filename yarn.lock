@@ -9523,7 +9523,7 @@ __metadata:
     tsx: "npm:*"
     typescript: "npm:*"
     winston: "npm:^3.17.0"
-    winston-daily-rotate-file: "npm:*"
+    winston-daily-rotate-file: "npm:^5.0.0"
     zod: "npm:*"
   languageName: unknown
   linkType: soft
@@ -36959,11 +36959,7 @@ __metadata:
     "@types/swagger-ui-express": "npm:^4.1.8"
     "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
     "@typescript-eslint/parser": "npm:^8.35.1"
-    chalk: "npm:^5.5.0"
-    classnames: "npm:^2.5.1"
-    dayjs: "npm:^1.11.18"
     del-cli: "npm:^6.0.0"
-    dotenv: "npm:^16.4.5"
     eslint-config-next: "npm:^16.0.7"
     hardhat: "npm:^2.25.0"
     jest: "npm:29.7.0"
@@ -36972,14 +36968,10 @@ __metadata:
     rollup: "npm:^4.0.0"
     rollup-plugin-dts: "npm:^6.2.1"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
-    sass: "npm:^1.94.2"
     ts-jest: "npm:29.4.5"
     tsc-alias: "npm:^1.8.16"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
-    winston: "npm:^3.17.0"
-    winston-daily-rotate-file: "npm:^5.0.0"
     zod: "npm:4.1.12"
   languageName: unknown
   linkType: soft
@@ -41659,7 +41651,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"winston-daily-rotate-file@npm:*, winston-daily-rotate-file@npm:^5.0.0":
+"winston-daily-rotate-file@npm:^5.0.0":
   version: 5.0.0
   resolution: "winston-daily-rotate-file@npm:5.0.0"
   dependencies:
