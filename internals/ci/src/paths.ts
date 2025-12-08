@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const paths = (function() {
+export const paths = (function () {
   const root = path.join(__dirname, "../../../");
 
   const ksn_interface = path.join(
@@ -40,6 +40,8 @@ export const paths = (function() {
   );
 
   const crypto_bytes = path.join(__dirname, "../../../crypto/bytes/");
+
+  const crypto_js = path.join(__dirname, "../../../crypto/crypto_js/");
 
   const tecdsa_interface = path.join(
     __dirname,
@@ -101,6 +103,7 @@ export const paths = (function() {
     sdk_cosmos,
     sdk_common,
     crypto_bytes,
+    crypto_js,
     ksn_interface,
     ksn_server,
     ksn_pg_interface,

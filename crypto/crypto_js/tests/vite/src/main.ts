@@ -1,8 +1,9 @@
-import { encryptDataAsync } from "@oko-wallet/crypto-js/src/aes_gcm";
+// import { encryptData } from "@oko-wallet/crypto-js/browser/ecdhe";
 
-async function test() {
-  const encrypted = await encryptDataAsync("hello", "password");
-  console.log("encrypted", encrypted);
+async function test1() {
+  console.log(123);
+  // const encrypted = await encryptData("hello", "password");
+  // console.log("encrypted", encrypted);
 }
 
-test().then();
+test1().then();
