@@ -1,7 +1,7 @@
 {
   "name": "@oko-wallet/cait-sith-keplr-hooks",
   "main": "./src/index.ts",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.0",
   "private": true,
   "dependencies": {
     "@oko-wallet/api-lib": "workspace:*",
