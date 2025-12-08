@@ -30,7 +30,7 @@
     "@keplr-wallet/types": "^0.12.257",
     "@keplr-wallet/unit": "0.12.263",
     "@oko-wallet/api-lib": "workspace:*",
-    "@oko-wallet/bytes": "0.0.3-alpha.54",
+    "@oko-wallet/bytes": "0.0.3-alpha.59",
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "@oko-wallet/crypto-js": "0.0.2-alpha.2",
