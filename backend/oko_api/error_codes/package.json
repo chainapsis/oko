@@ -14,8 +14,8 @@
   "devDependencies": {
     "@types/jest": "^29.5.12",
     "@types/node": "^24.10.1",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@typescript-eslint/parser": "*",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
     "jest": "*",
     "ts-jest": "*",
     "tsconfig-paths": "*",

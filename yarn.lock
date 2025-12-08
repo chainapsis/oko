@@ -9238,8 +9238,8 @@ __metadata:
   dependencies:
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
+    "@typescript-eslint/parser": "npm:^8.35.1"
     chalk: "npm:^5.5.0"
     commander: "npm:*"
     jest: "npm:*"
@@ -9544,8 +9544,8 @@ __metadata:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.57"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
+    "@typescript-eslint/parser": "npm:^8.35.1"
     del-cli: "npm:*"
     jest: "npm:*"
     ts-jest: "npm:*"
@@ -9564,8 +9564,8 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
+    "@typescript-eslint/parser": "npm:^8.35.1"
     jest: "npm:*"
     knex: "npm:*"
     pg: "npm:*"
@@ -9652,8 +9652,8 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
+    "@typescript-eslint/parser": "npm:^8.35.1"
     jest: "npm:*"
     ts-jest: "npm:*"
     tsconfig-paths: "npm:*"
@@ -9730,8 +9730,8 @@ __metadata:
     "@types/supertest": "npm:^6.0.3"
     "@types/swagger-jsdoc": "npm:^6.0.4"
     "@types/swagger-ui-express": "npm:^4.1.8"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
+    "@typescript-eslint/parser": "npm:^8.35.1"
     chalk: "npm:^5.5.0"
     cors: "npm:*"
     dotenv: "npm:^16.4.5"
@@ -9862,8 +9862,8 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
+    "@typescript-eslint/parser": "npm:^8.35.1"
     jest: "npm:*"
     knex: "npm:*"
     pg: "npm:*"
@@ -9994,8 +9994,8 @@ __metadata:
     "@rollup/plugin-typescript": "npm:^11.0.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:*"
-    "@typescript-eslint/parser": "npm:*"
+    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
+    "@typescript-eslint/parser": "npm:^8.35.1"
     bech32: "npm:^2.0.0"
     buffer: "npm:^6.0.3"
     del-cli: "npm:*"
@@ -16059,7 +16059,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:*, @typescript-eslint/eslint-plugin@npm:8.48.1, @typescript-eslint/eslint-plugin@npm:^8.35.1":
+"@typescript-eslint/eslint-plugin@npm:8.48.1, @typescript-eslint/eslint-plugin@npm:^8.35.1":
   version: 8.48.1
   resolution: "@typescript-eslint/eslint-plugin@npm:8.48.1"
   dependencies:
@@ -16103,7 +16103,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:*, @typescript-eslint/parser@npm:8.48.1, @typescript-eslint/parser@npm:^8.35.1":
+"@typescript-eslint/parser@npm:8.48.1, @typescript-eslint/parser@npm:^8.35.1":
   version: 8.48.1
   resolution: "@typescript-eslint/parser@npm:8.48.1"
   dependencies:
