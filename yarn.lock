@@ -9200,12 +9200,12 @@ __metadata:
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
-    multer: "npm:^2.0.2"
+    multer: "npm:^2.0.0"
     nodemailer: "npm:^7.0.4"
     pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
     supertest: "npm:*"
-    swagger-ui-express: "npm:*"
+    swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
@@ -9444,11 +9444,11 @@ __metadata:
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
-    multer: "npm:*"
+    multer: "npm:^2.0.0"
     pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
     supertest: "npm:^7.0.0"
-    swagger-ui-express: "npm:*"
+    swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
@@ -9719,7 +9719,7 @@ __metadata:
     morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
     supertest: "npm:*"
-    swagger-ui-express: "npm:*"
+    swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
@@ -10358,7 +10358,7 @@ __metadata:
     morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
     supertest: "npm:*"
-    swagger-ui-express: "npm:*"
+    swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
@@ -10403,7 +10403,7 @@ __metadata:
     pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
     supertest: "npm:*"
-    swagger-ui-express: "npm:*"
+    swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
@@ -30998,7 +30998,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"multer@npm:*, multer@npm:^2.0.2":
+"multer@npm:*, multer@npm:^2.0.0":
   version: 2.0.2
   resolution: "multer@npm:2.0.2"
   dependencies:
@@ -37929,7 +37929,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"swagger-ui-express@npm:*, swagger-ui-express@npm:^5.0.1":
+"swagger-ui-express@npm:^5.0.1":
   version: 5.0.1
   resolution: "swagger-ui-express@npm:5.0.1"
   dependencies:
