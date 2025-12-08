@@ -48,7 +48,7 @@
     "uuid": "*"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "*",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "*",
     "@rollup/plugin-terser": "*",
     "@rollup/plugin-typescript": "*",

@@ -39,7 +39,7 @@
     "@oko-wallet/stdlib-js": "^0.0.2-rc.38"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "*",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "*",
     "@rollup/plugin-replace": "*",
     "@rollup/plugin-terser": "*",
