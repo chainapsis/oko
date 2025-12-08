@@ -6,13 +6,13 @@ export type HandleCallbackError =
 
 export type SendMsgToEmbeddedWindowError =
   | {
-    type: "window_not_found";
-  }
+      type: "window_not_found";
+    }
   | {
-    type: "send_to_parent_fail";
-    error: string;
-  }
+      type: "send_to_parent_fail";
+      error: string;
+    }
   | {
-    type: "unknown";
-    error: string;
-  };
+      type: "unknown";
+      error: string;
+    };

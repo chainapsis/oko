@@ -17,8 +17,6 @@
       "crypto/bytes",
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",
-      "crypto/isomorphic_crypto_js",
-      "crypto/isomorphic_crypto_js/tests/vite",
       "backend/oko_api/error_codes",
       "backend/oko_api/server",
       "backend/oko_api_server_state",
@@ -58,16 +56,14 @@
     "node": ">=22"
   },
   "scripts": {
-    "ci": "yarn --cwd ./internals/ci run start",
-    "format": "yarn exec biome format --write",
-    "lint": "yarn exec biome lint --write",
-    "check": "yarn exec biome check --write"
+    "ci": "yarn --cwd ./internals/ci run start"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.4",
     "@types/node": "^24.10.1",
     "lerna": "^9.0.3",
     "prettier": "^3.6.2",
+    "syncpack": "^14.0.0-alpha.32",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   }

@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-eth",
-  "version": "0.0.6-rc.138",
+  "version": "0.0.6-rc.139",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "type": "module",
@@ -41,8 +41,8 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.123",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.40",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.124",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.41",
     "eventemitter3": "^5.0.1",
     "uuid": "^13.0.0",
     "viem": "^2.41.2"
@@ -62,9 +62,9 @@
     "rollup": "^4.0.0",
     "rollup-plugin-dts": "^6.2.1",
     "rollup-plugin-tsconfig-paths": "^1.5.2",
-    "ts-jest": "^29.2.5",
+    "ts-jest": "^29.4.5",
     "tsc-alias": "^1.8.16",
-    "typescript": "^5.6.3"
+    "typescript": "^5.8.3"
   },
   "gitHead": "b1c4753a3a1aa996a2f5c28297d71adbe2457945"
 }

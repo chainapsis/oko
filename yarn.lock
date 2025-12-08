@@ -2490,7 +2490,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/template@npm:^7.27.1, @babel/template@npm:^7.27.2, @babel/template@npm:^7.3.3":
+"@babel/template@npm:^7.27.1, @babel/template@npm:^7.27.2":
   version: 7.27.2
   resolution: "@babel/template@npm:7.27.2"
   dependencies:
@@ -5039,7 +5039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.4.0, @eslint-community/eslint-utils@npm:^4.7.0, @eslint-community/eslint-utils@npm:^4.8.0":
+"@eslint-community/eslint-utils@npm:^4.2.0, @eslint-community/eslint-utils@npm:^4.7.0, @eslint-community/eslint-utils@npm:^4.8.0":
   version: 4.9.0
   resolution: "@eslint-community/eslint-utils@npm:4.9.0"
   dependencies:
@@ -6713,20 +6713,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/console@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "@jest/console@npm:29.7.0"
-  dependencies:
-    "@jest/types": "npm:^29.6.3"
-    "@types/node": "npm:*"
-    chalk: "npm:^4.0.0"
-    jest-message-util: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    slash: "npm:^3.0.0"
-  checksum: 10c0/7be408781d0a6f657e969cbec13b540c329671819c2f57acfad0dae9dbfe2c9be859f38fe99b35dba9ff1536937dc6ddc69fdcd2794812fa3c647a1619797f6c
-  languageName: node
-  linkType: hard
-
 "@jest/core@npm:30.2.0":
   version: 30.2.0
   resolution: "@jest/core@npm:30.2.0"
@@ -6765,47 +6751,6 @@ __metadata:
     node-notifier:
       optional: true
   checksum: 10c0/03b3e35df3bbbbe28e2b53c0fe82d39b748d99b3bc88bb645c76593cdca44d7115f03ef6e6a1715f0862151d0ebab496199283def248fc05eb520f6aec6b20f3
-  languageName: node
-  linkType: hard
-
-"@jest/core@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "@jest/core@npm:29.7.0"
-  dependencies:
-    "@jest/console": "npm:^29.7.0"
-    "@jest/reporters": "npm:^29.7.0"
-    "@jest/test-result": "npm:^29.7.0"
-    "@jest/transform": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@types/node": "npm:*"
-    ansi-escapes: "npm:^4.2.1"
-    chalk: "npm:^4.0.0"
-    ci-info: "npm:^3.2.0"
-    exit: "npm:^0.1.2"
-    graceful-fs: "npm:^4.2.9"
-    jest-changed-files: "npm:^29.7.0"
-    jest-config: "npm:^29.7.0"
-    jest-haste-map: "npm:^29.7.0"
-    jest-message-util: "npm:^29.7.0"
-    jest-regex-util: "npm:^29.6.3"
-    jest-resolve: "npm:^29.7.0"
-    jest-resolve-dependencies: "npm:^29.7.0"
-    jest-runner: "npm:^29.7.0"
-    jest-runtime: "npm:^29.7.0"
-    jest-snapshot: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    jest-validate: "npm:^29.7.0"
-    jest-watcher: "npm:^29.7.0"
-    micromatch: "npm:^4.0.4"
-    pretty-format: "npm:^29.7.0"
-    slash: "npm:^3.0.0"
-    strip-ansi: "npm:^6.0.0"
-  peerDependencies:
-    node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-  peerDependenciesMeta:
-    node-notifier:
-      optional: true
-  checksum: 10c0/934f7bf73190f029ac0f96662c85cd276ec460d407baf6b0dbaec2872e157db4d55a7ee0b1c43b18874602f662b37cb973dda469a4e6d88b4e4845b521adeeb2
   languageName: node
   linkType: hard
 
@@ -6983,43 +6928,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/reporters@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "@jest/reporters@npm:29.7.0"
-  dependencies:
-    "@bcoe/v8-coverage": "npm:^0.2.3"
-    "@jest/console": "npm:^29.7.0"
-    "@jest/test-result": "npm:^29.7.0"
-    "@jest/transform": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@jridgewell/trace-mapping": "npm:^0.3.18"
-    "@types/node": "npm:*"
-    chalk: "npm:^4.0.0"
-    collect-v8-coverage: "npm:^1.0.0"
-    exit: "npm:^0.1.2"
-    glob: "npm:^7.1.3"
-    graceful-fs: "npm:^4.2.9"
-    istanbul-lib-coverage: "npm:^3.0.0"
-    istanbul-lib-instrument: "npm:^6.0.0"
-    istanbul-lib-report: "npm:^3.0.0"
-    istanbul-lib-source-maps: "npm:^4.0.0"
-    istanbul-reports: "npm:^3.1.3"
-    jest-message-util: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    jest-worker: "npm:^29.7.0"
-    slash: "npm:^3.0.0"
-    string-length: "npm:^4.0.1"
-    strip-ansi: "npm:^6.0.0"
-    v8-to-istanbul: "npm:^9.0.1"
-  peerDependencies:
-    node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-  peerDependenciesMeta:
-    node-notifier:
-      optional: true
-  checksum: 10c0/a754402a799541c6e5aff2c8160562525e2a47e7d568f01ebfc4da66522de39cbb809bbb0a841c7052e4270d79214e70aec3c169e4eae42a03bc1a8a20cb9fa2
-  languageName: node
-  linkType: hard
-
 "@jest/schemas@npm:30.0.5":
   version: 30.0.5
   resolution: "@jest/schemas@npm:30.0.5"
@@ -7061,17 +6969,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/source-map@npm:^29.6.3":
-  version: 29.6.3
-  resolution: "@jest/source-map@npm:29.6.3"
-  dependencies:
-    "@jridgewell/trace-mapping": "npm:^0.3.18"
-    callsites: "npm:^3.0.0"
-    graceful-fs: "npm:^4.2.9"
-  checksum: 10c0/a2f177081830a2e8ad3f2e29e20b63bd40bade294880b595acf2fc09ec74b6a9dd98f126a2baa2bf4941acd89b13a4ade5351b3885c224107083a0059b60a219
-  languageName: node
-  linkType: hard
-
 "@jest/test-result@npm:30.2.0":
   version: 30.2.0
   resolution: "@jest/test-result@npm:30.2.0"
@@ -7084,18 +6981,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/test-result@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "@jest/test-result@npm:29.7.0"
-  dependencies:
-    "@jest/console": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@types/istanbul-lib-coverage": "npm:^2.0.0"
-    collect-v8-coverage: "npm:^1.0.0"
-  checksum: 10c0/7de54090e54a674ca173470b55dc1afdee994f2d70d185c80236003efd3fa2b753fff51ffcdda8e2890244c411fd2267529d42c4a50a8303755041ee493e6a04
-  languageName: node
-  linkType: hard
-
 "@jest/test-sequencer@npm:30.2.0":
   version: 30.2.0
   resolution: "@jest/test-sequencer@npm:30.2.0"
@@ -7105,18 +6990,6 @@ __metadata:
     jest-haste-map: "npm:30.2.0"
     slash: "npm:^3.0.0"
   checksum: 10c0/b8366e629b885bfc4b2b95f34f47405e70120eb8601f42de20ea4de308a5088d7bd9f535abf67a2a0d083a2b49864176e1333e036426a5d6b6bd02c1c4dda40b
-  languageName: node
-  linkType: hard
-
-"@jest/test-sequencer@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "@jest/test-sequencer@npm:29.7.0"
-  dependencies:
-    "@jest/test-result": "npm:^29.7.0"
-    graceful-fs: "npm:^4.2.9"
-    jest-haste-map: "npm:^29.7.0"
-    slash: "npm:^3.0.0"
-  checksum: 10c0/593a8c4272797bb5628984486080cbf57aed09c7cfdc0a634e8c06c38c6bef329c46c0016e84555ee55d1cd1f381518cf1890990ff845524c1123720c8c1481b
   languageName: node
   linkType: hard
 
@@ -7972,13 +7845,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/env@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/env@npm:15.5.7"
-  checksum: 10c0/f92d99e5fa3516c6b7699abafd9bd813f5c1889dd257ab098f1b71f93137f5e4f49792e22f6dddf8a59efcb134e8e84277c983ff88607b2a42aac651bfde78ea
-  languageName: node
-  linkType: hard
-
 "@next/env@npm:16.0.7":
   version: 16.0.7
   resolution: "@next/env@npm:16.0.7"
@@ -7995,24 +7861,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-darwin-arm64@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-darwin-arm64@npm:15.5.7"
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
 "@next/swc-darwin-arm64@npm:16.0.7":
   version: 16.0.7
   resolution: "@next/swc-darwin-arm64@npm:16.0.7"
   conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@next/swc-darwin-x64@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-darwin-x64@npm:15.5.7"
-  conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
@@ -8023,24 +7875,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-linux-arm64-gnu@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-linux-arm64-gnu@npm:15.5.7"
-  conditions: os=linux & cpu=arm64 & libc=glibc
-  languageName: node
-  linkType: hard
-
 "@next/swc-linux-arm64-gnu@npm:16.0.7":
   version: 16.0.7
   resolution: "@next/swc-linux-arm64-gnu@npm:16.0.7"
   conditions: os=linux & cpu=arm64 & libc=glibc
-  languageName: node
-  linkType: hard
-
-"@next/swc-linux-arm64-musl@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-linux-arm64-musl@npm:15.5.7"
-  conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
@@ -8051,24 +7889,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-linux-x64-gnu@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-linux-x64-gnu@npm:15.5.7"
-  conditions: os=linux & cpu=x64 & libc=glibc
-  languageName: node
-  linkType: hard
-
 "@next/swc-linux-x64-gnu@npm:16.0.7":
   version: 16.0.7
   resolution: "@next/swc-linux-x64-gnu@npm:16.0.7"
   conditions: os=linux & cpu=x64 & libc=glibc
-  languageName: node
-  linkType: hard
-
-"@next/swc-linux-x64-musl@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-linux-x64-musl@npm:15.5.7"
-  conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
@@ -8079,24 +7903,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@next/swc-win32-arm64-msvc@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-win32-arm64-msvc@npm:15.5.7"
-  conditions: os=win32 & cpu=arm64
-  languageName: node
-  linkType: hard
-
 "@next/swc-win32-arm64-msvc@npm:16.0.7":
   version: 16.0.7
   resolution: "@next/swc-win32-arm64-msvc@npm:16.0.7"
   conditions: os=win32 & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@next/swc-win32-x64-msvc@npm:15.5.7":
-  version: 15.5.7
-  resolution: "@next/swc-win32-x64-msvc@npm:15.5.7"
-  conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
@@ -8175,16 +7985,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@noble/curves@npm:1.9.2":
-  version: 1.9.2
-  resolution: "@noble/curves@npm:1.9.2"
-  dependencies:
-    "@noble/hashes": "npm:1.8.0"
-  checksum: 10c0/21d049ae4558beedbf5da0004407b72db84360fa29d64822d82dc9e80251e1ecb46023590cc4b20e70eed697d1b87279b4911dc39f8694c51c874289cfc8e9a7
-  languageName: node
-  linkType: hard
-
-"@noble/curves@npm:1.9.7, @noble/curves@npm:^1.4.2, @noble/curves@npm:^1.6.0, @noble/curves@npm:^1.9.1, @noble/curves@npm:^1.9.2, @noble/curves@npm:^1.9.7, @noble/curves@npm:~1.9.0":
+"@noble/curves@npm:1.9.7, @noble/curves@npm:^1.4.2, @noble/curves@npm:^1.6.0, @noble/curves@npm:^1.9.2, @noble/curves@npm:^1.9.7, @noble/curves@npm:~1.9.0":
   version: 1.9.7
   resolution: "@noble/curves@npm:1.9.7"
   dependencies:
@@ -9172,14 +8973,14 @@ __metadata:
   resolution: "@oko-wallet/admin-api@workspace:backend/admin_api"
   dependencies:
     "@oko-wallet/aws": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/he": "npm:^1.2.0"
@@ -9197,14 +8998,14 @@ __metadata:
     express: "npm:^4.21.1"
     he: "npm:^1.2.0"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     multer: "npm:^2.0.0"
     nodemailer: "npm:^7.0.4"
     pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
-    supertest: "npm:*"
+    supertest: "npm:^7.0.0"
     swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
@@ -9231,27 +9032,27 @@ __metadata:
   dependencies:
     "@aws-sdk/client-s3": "npm:^3.850.0"
     "@jest/globals": "npm:^29.7.0"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/bcryptjs": "npm:^2.4.6"
     "@types/jest": "npm:^29.5.13"
     "@types/node": "npm:^22.15.18"
     dotenv: "npm:^16.4.5"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/bytes@npm:0.0.3-alpha.60, @oko-wallet/bytes@npm:^0.0.3-alpha.49, @oko-wallet/bytes@npm:^0.0.3-alpha.54, @oko-wallet/bytes@npm:^0.0.3-alpha.60, @oko-wallet/bytes@workspace:crypto/bytes":
+"@oko-wallet/bytes@npm:0.0.3-alpha.61, @oko-wallet/bytes@npm:^0.0.3-alpha.60, @oko-wallet/bytes@npm:^0.0.3-alpha.61, @oko-wallet/bytes@workspace:crypto/bytes":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/bytes@workspace:crypto/bytes"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -9262,15 +9063,13 @@ __metadata:
   resolution: "@oko-wallet/cait-sith-keplr-addon@workspace:crypto/tecdsa/cait_sith_keplr_addon"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^4.17.20"
     "@types/jest": "npm:^29.5.13"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/supertest": "npm:^6.0.2"
-    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
-    "@typescript-eslint/parser": "npm:^7.16.1"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.57.0"
@@ -9280,15 +9079,14 @@ __metadata:
     ethers: "npm:^5.7.2"
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     morgan: "npm:^1.10.0"
     nodemon: "npm:^3.1.7"
-    prettier: "npm:^3.4.2"
     shamir-secret-sharing: "npm:^0.0.4"
     supertest: "npm:^7.0.0"
-    ts-jest: "npm:^29.2.5"
+    ts-jest: "npm:^29.4.5"
     ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.6.3"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -9306,8 +9104,6 @@ __metadata:
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/supertest": "npm:^6.0.2"
-    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
-    "@typescript-eslint/parser": "npm:^7.16.1"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.57.0"
@@ -9316,15 +9112,13 @@ __metadata:
     eslint-plugin-import: "npm:^2.31.0"
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     morgan: "npm:^1.10.0"
     nodemon: "npm:^3.1.7"
-    npm: "npm:^11.2.0"
-    prettier: "npm:^3.4.2"
     supertest: "npm:^7.0.0"
-    ts-jest: "npm:^29.2.5"
+    ts-jest: "npm:^29.4.5"
     ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.6.3"
+    typescript: "npm:^5.8.3"
     typescript-eslint: "npm:^8.28.0"
   languageName: unknown
   linkType: soft
@@ -9334,17 +9128,16 @@ __metadata:
   resolution: "@oko-wallet/cait-sith-keplr-hooks@workspace:crypto/tecdsa/cait_sith_keplr_hooks"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.61"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
     eslint-config-next: "npm:^16.0.7"
-    prettier: "npm:*"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     typescript: "npm:^5.8.3"
@@ -9356,8 +9149,7 @@ __metadata:
   resolution: "@oko-wallet/cait-sith-keplr-wasm@workspace:crypto/tecdsa/cait_sith_keplr_wasm"
   dependencies:
     "@types/node": "npm:^20"
-    prettier: "npm:^3.5.3"
-    typescript: "npm:^5"
+    typescript: "npm:^5.8.3"
     wasm-pack: "npm:^0.13.1"
   languageName: unknown
   linkType: soft
@@ -9368,36 +9160,34 @@ __metadata:
   dependencies:
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
     chalk: "npm:^5.5.0"
     commander: "npm:^12.1.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     ts-jest: "npm:^29.4.5"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/crypto-js@npm:0.0.2-alpha.4, @oko-wallet/crypto-js@npm:^0.0.2-alpha.4, @oko-wallet/crypto-js@workspace:crypto/crypto_js":
+"@oko-wallet/crypto-js@npm:0.0.2-alpha.5, @oko-wallet/crypto-js@workspace:crypto/crypto_js":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/crypto-js@workspace:crypto/crypto_js"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
     "@noble/curves": "npm:2.0.1"
     "@noble/hashes": "npm:2.0.1"
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.60"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.61"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/bcryptjs": "npm:^2.4.6"
     "@types/jest": "npm:^29.5.13"
     "@types/node": "npm:^22.15.18"
     bcryptjs: "npm:^3.0.2"
     del-cli: "npm:^6.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     supertest: "npm:^7.0.0"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
-    vite: "npm:^7.0.4"
+    vite: "npm:^7.1.6"
     vite-plugin-node-polyfills: "npm:^0.24.0"
   languageName: unknown
   linkType: soft
@@ -9408,14 +9198,14 @@ __metadata:
   dependencies:
     "@oko-wallet/admin-api": "workspace:*"
     "@oko-wallet/aws": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
@@ -9431,7 +9221,7 @@ __metadata:
     express: "npm:^4.21.1"
     express-rate-limit: "npm:8.2.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     multer: "npm:^2.0.0"
@@ -9452,22 +9242,22 @@ __metadata:
   dependencies:
     "@floating-ui/dom": "npm:*"
     "@floating-ui/react": "npm:*"
-    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.25"
+    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
     "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    react-hook-form: "npm:*"
+    react-hook-form: "npm:^7.65.0"
     sass: "npm:^1.94.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    zustand: "npm:*"
+    zustand: "npm:^5.0.6"
   languageName: unknown
   linkType: soft
 
@@ -9477,17 +9267,17 @@ __metadata:
   dependencies:
     "@cosmjs/proto-signing": "npm:^0.33.1"
     "@keplr-wallet/proto-types": "npm:^0.12.250"
-    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.25"
+    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
     "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.112"
-    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.135"
-    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.126"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.124"
+    "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.150"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
     dotenv: "npm:^16.4.5"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     sass: "npm:^1.94.2"
@@ -9514,20 +9304,31 @@ __metadata:
     prism-react-renderer: "npm:^2.3.0"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    typescript: "npm:~5.6.2"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/dotenv@npm:0.0.2-alpha.25, @oko-wallet/dotenv@npm:^0.0.2-alpha.25, @oko-wallet/dotenv@workspace:lib/dotenv":
+"@oko-wallet/dotenv@npm:0.0.2-alpha.25":
+  version: 0.0.2-alpha.25
+  resolution: "@oko-wallet/dotenv@npm:0.0.2-alpha.25"
+  dependencies:
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
+    dotenv: "npm:^16.4.5"
+    zod: "npm:^4.1.12"
+  checksum: 10c0/3d077e90d4b160a9d4141a6ecad6d734b5f68dd36d6b24627fa650ac9deac87e2d2aa925a3e58f5e0cb97ab420e2ee17eb6440eab98013ad2a260cd1724d49c1
+  languageName: node
+  linkType: hard
+
+"@oko-wallet/dotenv@npm:^0.0.2-alpha.26, @oko-wallet/dotenv@workspace:lib/dotenv":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/dotenv@workspace:lib/dotenv"
   dependencies:
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     dotenv: "npm:^16.4.5"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     ts-jest: "npm:^29.4.5"
     tsc-alias: "npm:^1.8.16"
     tsx: "npm:^4.20.3"
@@ -9542,15 +9343,15 @@ __metadata:
   dependencies:
     "@floating-ui/dom": "npm:*"
     "@floating-ui/react": "npm:*"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
+    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
     "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/stdlib-js": "workspace:*"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:^7.65.0"
@@ -9561,37 +9362,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js"
-  dependencies:
-    "@jest/globals": "npm:^29.7.0"
-    "@noble/curves": "npm:2.0.1"
-    "@noble/hashes": "npm:2.0.1"
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
-    "@types/bcryptjs": "npm:^2.4.6"
-    "@types/jest": "npm:^29.5.13"
-    "@types/node": "npm:^22.15.18"
-    bcryptjs: "npm:^3.0.2"
-    del-cli: "npm:^6.0.0"
-    jest: "npm:^29.7.0"
-    supertest: "npm:^7.0.0"
-    ts-jest: "npm:^29.4.5"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/key-share-node-server@workspace:key_share_node/server":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/key-share-node-server@workspace:key_share_node/server"
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:^8.1.0"
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.60"
-    "@oko-wallet/crypto-js": "npm:^0.0.2-alpha.4"
-    "@oko-wallet/ksn-interface": "npm:^0.0.2-alpha.56"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.61"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
+    "@oko-wallet/ksn-interface": "npm:^0.0.2-alpha.57"
     "@oko-wallet/ksn-pg-interface": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^4.17.20"
     "@types/express-rate-limit": "npm:^6.0.2"
@@ -9603,8 +9383,6 @@ __metadata:
     "@types/supertest": "npm:^6.0.2"
     "@types/swagger-jsdoc": "npm:^6.0.4"
     "@types/swagger-ui-express": "npm:^4.1.8"
-    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
-    "@typescript-eslint/parser": "npm:^7.16.1"
     chalk: "npm:^5.5.0"
     commander: "npm:^12.1.0"
     cors: "npm:^2.8.5"
@@ -9613,7 +9391,7 @@ __metadata:
     express: "npm:^4.21.1"
     express-rate-limit: "npm:^8.0.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
@@ -9628,26 +9406,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/ksn-interface@npm:0.0.2-alpha.51":
-  version: 0.0.2-alpha.51
-  resolution: "@oko-wallet/ksn-interface@npm:0.0.2-alpha.51"
+"@oko-wallet/ksn-interface@npm:0.0.2-alpha.56":
+  version: 0.0.2-alpha.56
+  resolution: "@oko-wallet/ksn-interface@npm:0.0.2-alpha.56"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.54"
-  checksum: 10c0/c27953eac9dde228e2b1631e62ccd34ed74b80e4b92c3e0c47e7be1591a385f73fe0b299e269450fcc02344d63d058bece61cf2ce7e01f074470010df0788dbb
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.60"
+  checksum: 10c0/4d8c50b6af0b34adf2e621e9be46b73873cba15e815a3a0ecf90dee382f75e88f2996968ca183ba10302d9a21acc653735e31836ab873fa362c8549070305d1b
   languageName: node
   linkType: hard
 
-"@oko-wallet/ksn-interface@npm:^0.0.2-alpha.56, @oko-wallet/ksn-interface@workspace:key_share_node/ksn_interface":
+"@oko-wallet/ksn-interface@npm:0.0.2-alpha.57, @oko-wallet/ksn-interface@npm:^0.0.2-alpha.57, @oko-wallet/ksn-interface@workspace:key_share_node/ksn_interface":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ksn-interface@workspace:key_share_node/ksn_interface"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.60"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.61"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
     del-cli: "npm:^6.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     ts-jest: "npm:^29.4.5"
     tsc-alias: "npm:^1.8.16"
     tsx: "npm:^4.20.3"
@@ -9659,14 +9435,12 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ksn-pg-interface@workspace:key_share_node/pg_interface"
   dependencies:
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
-    "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.61"
+    "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.56"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     knex: "npm:^3.1.0"
     pg: "npm:^8.16.3"
     pgsql-parser: "npm:^17.7.8"
@@ -9681,13 +9455,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/log-api@workspace:backend/log_api"
   dependencies:
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.61"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/express-rate-limit": "npm:^6.0.2"
@@ -9704,7 +9478,7 @@ __metadata:
     express: "npm:^4.21.1"
     express-rate-limit: "npm:^8.0.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
@@ -9723,24 +9497,24 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-admin-web@workspace:apps/oko_admin_web"
   dependencies:
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
+    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    react-hook-form: "npm:*"
+    react-hook-form: "npm:^7.65.0"
     react-intl: "npm:*"
     sass: "npm:^1.94.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    zustand: "npm:*"
+    zustand: "npm:^5.0.6"
   languageName: unknown
   linkType: soft
 
@@ -9749,12 +9523,10 @@ __metadata:
   resolution: "@oko-wallet/oko-api-error-codes@workspace:backend/oko_api/error_codes"
   dependencies:
     "@oko-wallet/oko-types": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     ts-jest: "npm:^29.4.5"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
@@ -9776,10 +9548,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-server-state@workspace:backend/oko_api_server_state"
   dependencies:
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.61"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
     "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:^9.0.7"
@@ -9790,7 +9562,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
@@ -9808,7 +9580,7 @@ __metadata:
   resolution: "@oko-wallet/oko-api-server@workspace:backend/oko_api/server"
   dependencies:
     "@oko-wallet/admin-api": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
     "@oko-wallet/ct-dashboard-api": "workspace:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
     "@oko-wallet/log-api": "workspace:*"
@@ -9817,7 +9589,7 @@ __metadata:
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/social-login-api": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@oko-wallet/tss-api": "workspace:*"
     "@oko-wallet/user-dashboard-api": "workspace:*"
     "@types/cors": "npm:^2.8.17"
@@ -9830,14 +9602,12 @@ __metadata:
     "@types/supertest": "npm:^6.0.3"
     "@types/swagger-jsdoc": "npm:^6.0.4"
     "@types/swagger-ui-express": "npm:^4.1.8"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
     chalk: "npm:^5.5.0"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     nodemailer: "npm:^7.0.4"
@@ -9869,17 +9639,17 @@ __metadata:
     "@keplr-wallet/types": "npm:^0.12.257"
     "@keplr-wallet/unit": "npm:0.12.263"
     "@oko-wallet/api-lib": "workspace:*"
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.61"
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:^0.0.2-alpha.4"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
-    "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
+    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
+    "@oko-wallet/ksn-interface": "npm:^0.0.2-alpha.57"
     "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.118"
-    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.143"
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.124"
+    "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.150"
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@tanstack/react-query": "npm:^5.90.11"
     "@tanstack/react-router": "npm:^1.136.8"
@@ -9905,7 +9675,7 @@ __metadata:
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.41.2"
     vite: "npm:^7.1.6"
     vite-plugin-node-polyfills: "npm:^0.24.0"
     vite-tsconfig-paths: "npm:^5.1.4"
@@ -9920,12 +9690,12 @@ __metadata:
   dependencies:
     "@floating-ui/dom": "npm:^1.7.4"
     "@floating-ui/react": "npm:^0.27.16"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     sass: "npm:^1.94.2"
@@ -9940,8 +9710,8 @@ __metadata:
   dependencies:
     "@cosmos-kit/core": "npm:^2.16.7"
     "@keplr-wallet/types": "npm:^0.12.290"
-    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.123"
-    "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.149"
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.124"
+    "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.150"
   peerDependencies:
     "@cosmjs/amino": ">= 0.28"
     "@cosmjs/proto-signing": ">= 0.28"
@@ -9954,16 +9724,14 @@ __metadata:
   dependencies:
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
     "@oko-wallet/cait-sith-keplr-express": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     knex: "npm:^3.1.0"
     pg: "npm:^8.16.3"
     pgsql-parser: "npm:^17.7.8"
@@ -9989,35 +9757,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.112":
-  version: 0.0.6-rc.112
-  resolution: "@oko-wallet/oko-sdk-core@npm:0.0.6-rc.112"
-  dependencies:
-    "@keplr-wallet/types": "npm:^0.12.257"
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.49"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.31"
-  checksum: 10c0/7569248aecdda2d9847e775595b12f24cf0a4b7c3a2a70161d994d6136454632ec617af97a99aeb204ba537b85b423d35abab0f2e2f19ccd8ba4c73242a129d7
-  languageName: node
-  linkType: hard
-
-"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.118":
-  version: 0.0.6-rc.118
-  resolution: "@oko-wallet/oko-sdk-core@npm:0.0.6-rc.118"
-  dependencies:
-    "@keplr-wallet/types": "npm:^0.12.257"
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.54"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.36"
-  checksum: 10c0/36c40b99ea85937f84d2a3197e3955d9a13c95dcb4b6779e146ceb5581307ee772ea02fd32f17fb6405b71726b28f0cf8d4c0e1df0864ed080dbb1c1b46158f8
-  languageName: node
-  linkType: hard
-
-"@oko-wallet/oko-sdk-core@npm:^0.0.6-rc.113, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.118, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.123, @oko-wallet/oko-sdk-core@workspace:*, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core"
+"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.123":
+  version: 0.0.6-rc.123
+  resolution: "@oko-wallet/oko-sdk-core@npm:0.0.6-rc.123"
   dependencies:
     "@keplr-wallet/types": "npm:^0.12.257"
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.60"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
+  checksum: 10c0/8e0e67cca125427831bfd3f7846273f4c7a6609ab78da964adbfec27f1fb3da1b53946ae1d05390c4ec6bee5c2288cd93577b7910a324a858afd29f688241bc8
+  languageName: node
+  linkType: hard
+
+"@oko-wallet/oko-sdk-core@npm:^0.0.6-rc.118, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.123, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.124, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core"
+  dependencies:
+    "@keplr-wallet/types": "npm:^0.12.257"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.61"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-replace": "npm:^6.0.2"
@@ -10026,7 +9783,7 @@ __metadata:
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     rollup: "npm:^4.0.0"
     rollup-plugin-dts: "npm:^6.2.1"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
@@ -10037,47 +9794,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.135":
-  version: 0.0.6-rc.135
-  resolution: "@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.135"
-  dependencies:
-    "@cosmjs/amino": "npm:^0.33.1"
-    "@cosmjs/proto-signing": "npm:^0.33.1"
-    "@keplr-wallet/proto-types": "npm:^0.12.253"
-    "@keplr-wallet/types": "npm:^0.12.253"
-    "@noble/curves": "npm:1.9.7"
-    "@noble/hashes": "npm:^1.8.0"
-    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.113"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.32"
-    bech32: "npm:^2.0.0"
-    buffer: "npm:^6.0.3"
-    uuid: "npm:*"
-  checksum: 10c0/cec182e24b0e8320bdd63bb1a1b98de373625e172ba897654bc173bc01fcf3362f49ee9232fea54141d214e9165628e0a995971628ee46e4b76bb6601eb0ffbf
-  languageName: node
-  linkType: hard
-
-"@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.143":
-  version: 0.0.6-rc.143
-  resolution: "@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.143"
-  dependencies:
-    "@cosmjs/amino": "npm:^0.33.1"
-    "@cosmjs/proto-signing": "npm:^0.33.1"
-    "@keplr-wallet/proto-types": "npm:^0.12.253"
-    "@keplr-wallet/types": "npm:^0.12.253"
-    "@noble/curves": "npm:1.9.7"
-    "@noble/hashes": "npm:^1.8.0"
-    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.118"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.36"
-    bech32: "npm:^2.0.0"
-    buffer: "npm:^6.0.3"
-    uuid: "npm:*"
-  checksum: 10c0/fa9c06933a9610f4f08ebca28686e538f27f3f0ea15b9fa7231ce2993a2b4866e304326d4f8e8c8c119bae8a5fb33e406bb53ef84dcad6caa90b612130ba6678
-  languageName: node
-  linkType: hard
-
-"@oko-wallet/oko-sdk-cosmos@npm:^0.0.6-rc.149, @oko-wallet/oko-sdk-cosmos@workspace:*, @oko-wallet/oko-sdk-cosmos@workspace:sdk/oko_sdk_cosmos":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/oko-sdk-cosmos@workspace:sdk/oko_sdk_cosmos"
+"@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.149":
+  version: 0.0.6-rc.149
+  resolution: "@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.149"
   dependencies:
     "@cosmjs/amino": "npm:^0.33.1"
     "@cosmjs/proto-signing": "npm:^0.33.1"
@@ -10087,18 +9806,35 @@ __metadata:
     "@noble/hashes": "npm:^1.8.0"
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.123"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
+    bech32: "npm:^2.0.0"
+    buffer: "npm:^6.0.3"
+    uuid: "npm:^13.0.0"
+  checksum: 10c0/1fcf6f20ef16d51b0f8b77f7b6e98ab5dab755825e36fd9d9d441c4f1fa8b5ed05bf154b1590085fbb79b8e8e135e1cabe26700360ec89270f51063eb70421aa
+  languageName: node
+  linkType: hard
+
+"@oko-wallet/oko-sdk-cosmos@npm:^0.0.6-rc.150, @oko-wallet/oko-sdk-cosmos@workspace:sdk/oko_sdk_cosmos":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/oko-sdk-cosmos@workspace:sdk/oko_sdk_cosmos"
+  dependencies:
+    "@cosmjs/amino": "npm:^0.33.1"
+    "@cosmjs/proto-signing": "npm:^0.33.1"
+    "@keplr-wallet/proto-types": "npm:^0.12.253"
+    "@keplr-wallet/types": "npm:^0.12.253"
+    "@noble/curves": "npm:1.9.7"
+    "@noble/hashes": "npm:^1.8.0"
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.124"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.0.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
     bech32: "npm:^2.0.0"
     buffer: "npm:^6.0.3"
     del-cli: "npm:^6.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     rollup: "npm:^4.0.0"
     rollup-plugin-dts: "npm:^6.2.1"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
@@ -10108,19 +9844,6 @@ __metadata:
     uuid: "npm:^13.0.0"
   languageName: unknown
   linkType: soft
-
-"@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.126":
-  version: 0.0.6-rc.126
-  resolution: "@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.126"
-  dependencies:
-    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.113"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.32"
-    eventemitter3: "npm:^5.0.1"
-    uuid: "npm:*"
-    viem: "npm:*"
-  checksum: 10c0/1d21387c6300092dc3c32ece69b0e6a7857a62b6f7ce3bf5ba6942e57e4a9d0a585252da5fe94416a2079327cb635bed55e8d0a9f65ccbd3cdee9e534b1c4573
-  languageName: node
-  linkType: hard
 
 "@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.133":
   version: 0.0.6-rc.133
@@ -10135,12 +9858,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/oko-sdk-eth@workspace:*, @oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth":
+"@oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth"
   dependencies:
-    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.123"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.124"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-replace": "npm:^6.0.2"
@@ -10156,9 +9879,9 @@ __metadata:
     rollup: "npm:^4.0.0"
     rollup-plugin-dts: "npm:^6.2.1"
     rollup-plugin-tsconfig-paths: "npm:^1.5.2"
-    ts-jest: "npm:^29.2.5"
+    ts-jest: "npm:^29.4.5"
     tsc-alias: "npm:^1.8.16"
-    typescript: "npm:^5.6.3"
+    typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
     viem: "npm:^2.41.2"
   languageName: unknown
@@ -10170,14 +9893,12 @@ __metadata:
   dependencies:
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
     "@oko-wallet/cait-sith-keplr-express": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
-    "@typescript-eslint/parser": "npm:^7.16.1"
     typescript: "npm:^5.8.3"
-    viem: "npm:^2.31.7"
+    viem: "npm:^2.41.2"
   languageName: unknown
   linkType: soft
 
@@ -10185,12 +9906,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/postgres-lib@workspace:lib/postgres_lib"
   dependencies:
-    "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
-    "@oko-wallet/cait-sith-keplr-express": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
-    "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/oko-types": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^4.17.20"
     "@types/jest": "npm:^29.5.13"
@@ -10201,17 +9917,11 @@ __metadata:
     "@types/supertest": "npm:^6.0.2"
     "@types/swagger-jsdoc": "npm:^6.0.4"
     "@types/swagger-ui-express": "npm:^4.1.8"
-    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
-    "@typescript-eslint/parser": "npm:^7.16.1"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.4.5"
-    eslint: "npm:^8.57.0"
-    eslint-config-airbnb-typescript: "npm:^18.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.3"
-    eslint-plugin-import: "npm:^2.31.0"
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     nodemailer: "npm:^7.0.4"
@@ -10248,11 +9958,11 @@ __metadata:
     chain-registry: "npm:^1.69.410"
     eslint: "npm:*"
     eslint-config-next: "npm:^16.0.7"
-    next: "npm:16.0.7"
-    react: "npm:19.2.1"
-    react-dom: "npm:19.2.1"
+    next: "npm:^16.0.7"
+    react: "npm:^19.2.1"
+    react-dom: "npm:^19.2.1"
     react-hook-form: "npm:7.65.0"
-    tailwindcss: "npm:^4"
+    tailwindcss: "npm:^4.1.3"
     typescript: "npm:^5.8.3"
     zod: "npm:^4.1.12"
   languageName: unknown
@@ -10270,35 +9980,21 @@ __metadata:
     "@types/node": "npm:*"
     "@types/supertest": "npm:*"
     express: "npm:*"
-    jest: "npm:*"
+    jest: "npm:^30.1.3"
     supertest: "npm:*"
-    ts-jest: "npm:*"
-    typescript: "npm:*"
+    ts-jest: "npm:^29.4.5"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/stdlib-js@npm:0.0.2-rc.25":
-  version: 0.0.2-rc.25
-  resolution: "@oko-wallet/stdlib-js@npm:0.0.2-rc.25"
-  checksum: 10c0/2bef35dd53af6036bfe02b48c69c7349172a562b73ca830fbf45d650c78281b8cef53c5e41d2b43321e2f2632eb1d0c4bfc16daa3e8cf38e641a93536466524d
+"@oko-wallet/stdlib-js@npm:0.0.2-rc.40":
+  version: 0.0.2-rc.40
+  resolution: "@oko-wallet/stdlib-js@npm:0.0.2-rc.40"
+  checksum: 10c0/8c0e7485bf572c92dcab48b6a37c87e29da1a6f52eb236b85ac579a801a599021d9eac5b0d131cb539e14ab87327741575fb51df79d801638e7bf78b839e0f46
   languageName: node
   linkType: hard
 
-"@oko-wallet/stdlib-js@npm:0.0.2-rc.35":
-  version: 0.0.2-rc.35
-  resolution: "@oko-wallet/stdlib-js@npm:0.0.2-rc.35"
-  checksum: 10c0/bc31399ecace5eb37778b8b3ca400550d54e2c6c5fbed4241711373fcab3ce9c494bfdf5c18597f2d73709a196b5febf755839440a60daa968446a087b93bdc6
-  languageName: node
-  linkType: hard
-
-"@oko-wallet/stdlib-js@npm:0.0.2-rc.36":
-  version: 0.0.2-rc.36
-  resolution: "@oko-wallet/stdlib-js@npm:0.0.2-rc.36"
-  checksum: 10c0/7ea5fc6fd0b10835ddc674fe504371015993d30482710aa6506002aee226fa64c6d40d90d29b81305da33d3fb5e23a8756e10e66ed990df44428c54ee0eedd69
-  languageName: node
-  linkType: hard
-
-"@oko-wallet/stdlib-js@npm:^0.0.2-rc.31, @oko-wallet/stdlib-js@npm:^0.0.2-rc.32, @oko-wallet/stdlib-js@npm:^0.0.2-rc.36, @oko-wallet/stdlib-js@npm:^0.0.2-rc.40, @oko-wallet/stdlib-js@workspace:*, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
+"@oko-wallet/stdlib-js@npm:0.0.2-rc.41, @oko-wallet/stdlib-js@npm:^0.0.2-rc.36, @oko-wallet/stdlib-js@npm:^0.0.2-rc.40, @oko-wallet/stdlib-js@npm:^0.0.2-rc.41, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/stdlib-js@workspace:lib/stdlib_js"
   dependencies:
@@ -10337,10 +10033,10 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/tss-api@workspace:backend/tss_api"
   dependencies:
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.61"
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
-    "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
+    "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.57"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
@@ -10348,7 +10044,7 @@ __metadata:
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/social-login-api": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
@@ -10364,7 +10060,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
@@ -10382,14 +10078,14 @@ __metadata:
   resolution: "@oko-wallet/user-dashboard-api@workspace:backend/user_dashboard_api"
   dependencies:
     "@oko-wallet/aws": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.4"
+    "@oko-wallet/crypto-js": "npm:0.0.2-alpha.5"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
+    "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
@@ -10406,7 +10102,7 @@ __metadata:
     express: "npm:^4.21.1"
     express-rate-limit: "npm:8.2.1"
     helmet: "npm:^8.0.0"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     morgan: "npm:^1.10.0"
     multer: "npm:*"
@@ -10428,24 +10124,24 @@ __metadata:
   dependencies:
     "@floating-ui/dom": "npm:*"
     "@floating-ui/react": "npm:*"
-    "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
+    "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
     "@oko-wallet/oko-common-ui": "workspace:*"
-    "@oko-wallet/oko-sdk-cosmos": "workspace:*"
-    "@oko-wallet/oko-sdk-eth": "workspace:*"
-    "@oko-wallet/stdlib-js": "workspace:*"
+    "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.150"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    react-hook-form: "npm:*"
+    react-hook-form: "npm:^7.65.0"
     sass: "npm:^1.94.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    zustand: "npm:*"
+    zustand: "npm:^5.0.6"
   languageName: unknown
   linkType: soft
 
@@ -15279,7 +14975,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__core@npm:^7.1.14, @types/babel__core@npm:^7.20.5":
+"@types/babel__core@npm:^7.20.5":
   version: 7.20.5
   resolution: "@types/babel__core@npm:7.20.5"
   dependencies:
@@ -15311,7 +15007,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/babel__traverse@npm:*, @types/babel__traverse@npm:^7.0.6":
+"@types/babel__traverse@npm:*":
   version: 7.28.0
   resolution: "@types/babel__traverse@npm:7.28.0"
   dependencies:
@@ -16082,7 +15778,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:8.48.1, @typescript-eslint/eslint-plugin@npm:^8.35.1":
+"@typescript-eslint/eslint-plugin@npm:8.48.1":
   version: 8.48.1
   resolution: "@typescript-eslint/eslint-plugin@npm:8.48.1"
   dependencies:
@@ -16103,30 +15799,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/eslint-plugin@npm:^7.16.1":
-  version: 7.18.0
-  resolution: "@typescript-eslint/eslint-plugin@npm:7.18.0"
-  dependencies:
-    "@eslint-community/regexpp": "npm:^4.10.0"
-    "@typescript-eslint/scope-manager": "npm:7.18.0"
-    "@typescript-eslint/type-utils": "npm:7.18.0"
-    "@typescript-eslint/utils": "npm:7.18.0"
-    "@typescript-eslint/visitor-keys": "npm:7.18.0"
-    graphemer: "npm:^1.4.0"
-    ignore: "npm:^5.3.1"
-    natural-compare: "npm:^1.4.0"
-    ts-api-utils: "npm:^1.3.0"
-  peerDependencies:
-    "@typescript-eslint/parser": ^7.0.0
-    eslint: ^8.56.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/2b37948fa1b0dab77138909dabef242a4d49ab93e4019d4ef930626f0a7d96b03e696cd027fa0087881c20e73be7be77c942606b4a76fa599e6b37f6985304c3
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/parser@npm:8.48.1, @typescript-eslint/parser@npm:^8.35.1":
+"@typescript-eslint/parser@npm:8.48.1":
   version: 8.48.1
   resolution: "@typescript-eslint/parser@npm:8.48.1"
   dependencies:
@@ -16142,24 +15815,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/parser@npm:^7.16.1":
-  version: 7.18.0
-  resolution: "@typescript-eslint/parser@npm:7.18.0"
-  dependencies:
-    "@typescript-eslint/scope-manager": "npm:7.18.0"
-    "@typescript-eslint/types": "npm:7.18.0"
-    "@typescript-eslint/typescript-estree": "npm:7.18.0"
-    "@typescript-eslint/visitor-keys": "npm:7.18.0"
-    debug: "npm:^4.3.4"
-  peerDependencies:
-    eslint: ^8.56.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/370e73fca4278091bc1b657f85e7d74cd52b24257ea20c927a8e17546107ce04fbf313fec99aed0cc2a145ddbae1d3b12e9cc2c1320117636dc1281bcfd08059
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/project-service@npm:8.48.1":
   version: 8.48.1
   resolution: "@typescript-eslint/project-service@npm:8.48.1"
@@ -16170,16 +15825,6 @@ __metadata:
   peerDependencies:
     typescript: ">=4.8.4 <6.0.0"
   checksum: 10c0/0aeeea5e65d0f837bd9a47265f144f14ca72969d259ee929e63e06526b21f4e990e70c7bafdb2ceb3783373df7d9f5bae32c328a4c6403606f01339bc984b3f5
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/scope-manager@npm:7.18.0":
-  version: 7.18.0
-  resolution: "@typescript-eslint/scope-manager@npm:7.18.0"
-  dependencies:
-    "@typescript-eslint/types": "npm:7.18.0"
-    "@typescript-eslint/visitor-keys": "npm:7.18.0"
-  checksum: 10c0/038cd58c2271de146b3a594afe2c99290034033326d57ff1f902976022c8b0138ffd3cb893ae439ae41003b5e4bcc00cabf6b244ce40e8668f9412cc96d97b8e
   languageName: node
   linkType: hard
 
@@ -16202,23 +15847,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/type-utils@npm:7.18.0":
-  version: 7.18.0
-  resolution: "@typescript-eslint/type-utils@npm:7.18.0"
-  dependencies:
-    "@typescript-eslint/typescript-estree": "npm:7.18.0"
-    "@typescript-eslint/utils": "npm:7.18.0"
-    debug: "npm:^4.3.4"
-    ts-api-utils: "npm:^1.3.0"
-  peerDependencies:
-    eslint: ^8.56.0
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/ad92a38007be620f3f7036f10e234abdc2fdc518787b5a7227e55fd12896dacf56e8b34578723fbf9bea8128df2510ba8eb6739439a3879eda9519476d5783fd
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/type-utils@npm:8.48.1":
   version: 8.48.1
   resolution: "@typescript-eslint/type-utils@npm:8.48.1"
@@ -16235,36 +15863,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/types@npm:7.18.0":
-  version: 7.18.0
-  resolution: "@typescript-eslint/types@npm:7.18.0"
-  checksum: 10c0/eb7371ac55ca77db8e59ba0310b41a74523f17e06f485a0ef819491bc3dd8909bb930120ff7d30aaf54e888167e0005aa1337011f3663dc90fb19203ce478054
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/types@npm:8.48.1, @typescript-eslint/types@npm:^8.48.1":
   version: 8.48.1
   resolution: "@typescript-eslint/types@npm:8.48.1"
   checksum: 10c0/366b8140f4c69319f1796b66b33c0c6e16eb6cbe543b9517003104e12ed143b620c1433ccf60d781a629d9433bd509a363c0c9d21fd438c17bb8840733af6caa
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/typescript-estree@npm:7.18.0":
-  version: 7.18.0
-  resolution: "@typescript-eslint/typescript-estree@npm:7.18.0"
-  dependencies:
-    "@typescript-eslint/types": "npm:7.18.0"
-    "@typescript-eslint/visitor-keys": "npm:7.18.0"
-    debug: "npm:^4.3.4"
-    globby: "npm:^11.1.0"
-    is-glob: "npm:^4.0.3"
-    minimatch: "npm:^9.0.4"
-    semver: "npm:^7.6.0"
-    ts-api-utils: "npm:^1.3.0"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/0c7f109a2e460ec8a1524339479cf78ff17814d23c83aa5112c77fb345e87b3642616291908dcddea1e671da63686403dfb712e4a4435104f92abdfddf9aba81
   languageName: node
   linkType: hard
 
@@ -16287,20 +15889,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@typescript-eslint/utils@npm:7.18.0":
-  version: 7.18.0
-  resolution: "@typescript-eslint/utils@npm:7.18.0"
-  dependencies:
-    "@eslint-community/eslint-utils": "npm:^4.4.0"
-    "@typescript-eslint/scope-manager": "npm:7.18.0"
-    "@typescript-eslint/types": "npm:7.18.0"
-    "@typescript-eslint/typescript-estree": "npm:7.18.0"
-  peerDependencies:
-    eslint: ^8.56.0
-  checksum: 10c0/a25a6d50eb45c514469a01ff01f215115a4725fb18401055a847ddf20d1b681409c4027f349033a95c4ff7138d28c3b0a70253dfe8262eb732df4b87c547bd1e
-  languageName: node
-  linkType: hard
-
 "@typescript-eslint/utils@npm:8.48.1":
   version: 8.48.1
   resolution: "@typescript-eslint/utils@npm:8.48.1"
@@ -16313,16 +15901,6 @@ __metadata:
     eslint: ^8.57.0 || ^9.0.0
     typescript: ">=4.8.4 <6.0.0"
   checksum: 10c0/1775ac217b578f52d6c1e85258098f8ef764d04830c6ce11043b434860da80f1a5f7cc1b9f2e0a63de161e83b8d876f7ae8362d7644d5d8e636e60ad5eeff4e2
-  languageName: node
-  linkType: hard
-
-"@typescript-eslint/visitor-keys@npm:7.18.0":
-  version: 7.18.0
-  resolution: "@typescript-eslint/visitor-keys@npm:7.18.0"
-  dependencies:
-    "@typescript-eslint/types": "npm:7.18.0"
-    eslint-visitor-keys: "npm:^3.4.3"
-  checksum: 10c0/538b645f8ff1d9debf264865c69a317074eaff0255e63d7407046176b0f6a6beba34a6c51d511f12444bae12a98c69891eb6f403c9f54c6c2e2849d1c1cb73c0
   languageName: node
   linkType: hard
 
@@ -17423,7 +17001,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"abitype@npm:^1.0.6, abitype@npm:^1.0.8, abitype@npm:^1.0.9":
+"abitype@npm:^1.0.6, abitype@npm:^1.0.9":
   version: 1.2.1
   resolution: "abitype@npm:1.2.1"
   peerDependencies:
@@ -17735,7 +17313,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ansi-escapes@npm:^4.2.1, ansi-escapes@npm:^4.3.0, ansi-escapes@npm:^4.3.2":
+"ansi-escapes@npm:^4.3.0, ansi-escapes@npm:^4.3.2":
   version: 4.3.2
   resolution: "ansi-escapes@npm:4.3.2"
   dependencies:
@@ -18384,23 +17962,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-jest@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "babel-jest@npm:29.7.0"
-  dependencies:
-    "@jest/transform": "npm:^29.7.0"
-    "@types/babel__core": "npm:^7.1.14"
-    babel-plugin-istanbul: "npm:^6.1.1"
-    babel-preset-jest: "npm:^29.6.3"
-    chalk: "npm:^4.0.0"
-    graceful-fs: "npm:^4.2.9"
-    slash: "npm:^3.0.0"
-  peerDependencies:
-    "@babel/core": ^7.8.0
-  checksum: 10c0/2eda9c1391e51936ca573dd1aedfee07b14c59b33dbe16ef347873ddd777bcf6e2fc739681e9e9661ab54ef84a3109a03725be2ac32cd2124c07ea4401cbe8c1
-  languageName: node
-  linkType: hard
-
 "babel-loader@npm:^9.2.1":
   version: 9.2.1
   resolution: "babel-loader@npm:9.2.1"
@@ -18455,18 +18016,6 @@ __metadata:
   dependencies:
     "@types/babel__core": "npm:^7.20.5"
   checksum: 10c0/a2bd862aaa4875127c02e6020d3da67556a8f25981060252668dda65cf9a146202937ae80d2e8612c3c47afe19ac85577647b8cc216faa98567c685525a3f203
-  languageName: node
-  linkType: hard
-
-"babel-plugin-jest-hoist@npm:^29.6.3":
-  version: 29.6.3
-  resolution: "babel-plugin-jest-hoist@npm:29.6.3"
-  dependencies:
-    "@babel/template": "npm:^7.3.3"
-    "@babel/types": "npm:^7.3.3"
-    "@types/babel__core": "npm:^7.1.14"
-    "@types/babel__traverse": "npm:^7.0.6"
-  checksum: 10c0/7e6451caaf7dce33d010b8aafb970e62f1b0c0b57f4978c37b0d457bbcf0874d75a395a102daf0bae0bd14eafb9f6e9a165ee5e899c0a4f1f3bb2e07b304ed2e
   languageName: node
   linkType: hard
 
@@ -18551,18 +18100,6 @@ __metadata:
   peerDependencies:
     "@babel/core": ^7.11.0 || ^8.0.0-beta.1
   checksum: 10c0/fb2727bad450256146d63b5231b83a7638e73b96c9612296a20afd65fb8c76678ef9bc6fa56e81d1303109258aeb4fccea5b96568744059e47d3c6e3ebc98bd9
-  languageName: node
-  linkType: hard
-
-"babel-preset-jest@npm:^29.6.3":
-  version: 29.6.3
-  resolution: "babel-preset-jest@npm:29.6.3"
-  dependencies:
-    babel-plugin-jest-hoist: "npm:^29.6.3"
-    babel-preset-current-node-syntax: "npm:^1.0.0"
-  peerDependencies:
-    "@babel/core": ^7.0.0
-  checksum: 10c0/ec5fd0276b5630b05f0c14bb97cc3815c6b31600c683ebb51372e54dcb776cff790bdeeabd5b8d01ede375a040337ccbf6a3ccd68d3a34219125945e167ad943
   languageName: node
   linkType: hard
 
@@ -19782,7 +19319,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cjs-module-lexer@npm:^1.0.0, cjs-module-lexer@npm:^1.2.2":
+"cjs-module-lexer@npm:^1.2.2":
   version: 1.4.3
   resolution: "cjs-module-lexer@npm:1.4.3"
   checksum: 10c0/076b3af85adc4d65dbdab1b5b240fe5b45d44fcf0ef9d429044dd94d19be5589376805c44fb2d4b3e684e5fe6a9b7cf3e426476a6507c45283c5fc6ff95240be
@@ -19915,7 +19452,7 @@ __metadata:
     "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
     eslint-config-next: "npm:^16.0.7"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     typescript: "npm:^5.8.3"
@@ -20038,7 +19575,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"collect-v8-coverage@npm:^1.0.0, collect-v8-coverage@npm:^1.0.2":
+"collect-v8-coverage@npm:^1.0.2":
   version: 1.0.3
   resolution: "collect-v8-coverage@npm:1.0.3"
   checksum: 10c0/bc62ba251bcce5e3354a8f88fa6442bee56e3e612fec08d4dfcf66179b41ea0bf544b0f78c4ebc0f8050871220af95bb5c5578a6aef346feea155640582f09dc
@@ -20831,23 +20368,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"create-jest@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "create-jest@npm:29.7.0"
-  dependencies:
-    "@jest/types": "npm:^29.6.3"
-    chalk: "npm:^4.0.0"
-    exit: "npm:^0.1.2"
-    graceful-fs: "npm:^4.2.9"
-    jest-config: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    prompts: "npm:^2.0.1"
-  bin:
-    create-jest: bin/create-jest.js
-  checksum: 10c0/e7e54c280692470d3398f62a6238fd396327e01c6a0757002833f06d00afc62dd7bfe04ff2b9cd145264460e6b4d1eb8386f2925b7e567f97939843b7b0e812f
-  languageName: node
-  linkType: hard
-
 "create-require@npm:^1.1.0, create-require@npm:^1.1.1":
   version: 1.1.1
   resolution: "create-require@npm:1.1.1"
@@ -21569,7 +21089,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dedent@npm:^1.0.0, dedent@npm:^1.5.3, dedent@npm:^1.6.0":
+"dedent@npm:^1.5.3, dedent@npm:^1.6.0":
   version: 1.7.0
   resolution: "dedent@npm:1.7.0"
   peerDependencies:
@@ -21818,7 +21338,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"detect-newline@npm:^3.0.0, detect-newline@npm:^3.1.0":
+"detect-newline@npm:^3.1.0":
   version: 3.1.0
   resolution: "detect-newline@npm:3.1.0"
   checksum: 10c0/c38cfc8eeb9fda09febb44bcd85e467c970d4e3bf526095394e5a4f18bc26dd0cf6b22c69c1fa9969261521c593836db335c2795218f6d781a512aea2fb8209d
@@ -23628,7 +23148,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"execa@npm:5.1.1, execa@npm:^5.0.0, execa@npm:^5.1.1":
+"execa@npm:5.1.1, execa@npm:^5.1.1":
   version: 5.1.1
   resolution: "execa@npm:5.1.1"
   dependencies:
@@ -23656,13 +23176,6 @@ __metadata:
   version: 0.2.2
   resolution: "exit-x@npm:0.2.2"
   checksum: 10c0/212a7a095ca5540e9581f1ef2d1d6a40df7a6027c8cc96e78ce1d16b86d1a88326d4a0eff8dff2b5ec1e68bb0c1edd5d0dfdde87df1869bf7514d4bc6a5cbd72
-  languageName: node
-  linkType: hard
-
-"exit@npm:^0.1.2":
-  version: 0.1.2
-  resolution: "exit@npm:0.1.2"
-  checksum: 10c0/71d2ad9b36bc25bb8b104b17e830b40a08989be7f7d100b13269aaae7c3784c3e6e1e88a797e9e87523993a25ba27c8958959a554535370672cfb4d824af8989
   languageName: node
   linkType: hard
 
@@ -25916,13 +25429,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i@npm:^0.3.7":
-  version: 0.3.7
-  resolution: "i@npm:0.3.7"
-  checksum: 10c0/fc591b64987c5fcc96aadf9136d8d58b937abb90e9cd840160b9c99a32140ed8a30a94ee1ab7d9a45170ec4d3f872dda9d15afeb1083f689873da6197c25efc7
-  languageName: node
-  linkType: hard
-
 "iconv-lite@npm:^0.6.2":
   version: 0.6.3
   resolution: "iconv-lite@npm:0.6.3"
@@ -26010,7 +25516,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ignore@npm:^5.2.0, ignore@npm:^5.2.4, ignore@npm:^5.3.1":
+"ignore@npm:^5.2.0, ignore@npm:^5.2.4":
   version: 5.3.2
   resolution: "ignore@npm:5.3.2"
   checksum: 10c0/f9f652c957983634ded1e7f02da3b559a0d4cc210fca3792cb67f1b153623c9c42efdc1c4121af171e295444459fc4a9201101fb041b1104a3c000bccb188337
@@ -26102,7 +25608,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"import-local@npm:^3.0.2, import-local@npm:^3.2.0":
+"import-local@npm:^3.2.0":
   version: 3.2.0
   resolution: "import-local@npm:3.2.0"
   dependencies:
@@ -26576,7 +26082,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"is-generator-fn@npm:^2.0.0, is-generator-fn@npm:^2.1.0":
+"is-generator-fn@npm:^2.1.0":
   version: 2.1.0
   resolution: "is-generator-fn@npm:2.1.0"
   checksum: 10c0/2957cab387997a466cd0bf5c1b6047bd21ecb32bdcfd8996b15747aa01002c1c88731802f1b3d34ac99f4f6874b626418bd118658cf39380fe5fff32a3af9c4d
@@ -27119,17 +26625,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"istanbul-lib-source-maps@npm:^4.0.0":
-  version: 4.0.1
-  resolution: "istanbul-lib-source-maps@npm:4.0.1"
-  dependencies:
-    debug: "npm:^4.1.1"
-    istanbul-lib-coverage: "npm:^3.0.0"
-    source-map: "npm:^0.6.1"
-  checksum: 10c0/19e4cc405016f2c906dff271a76715b3e881fa9faeb3f09a86cb99b8512b3a5ed19cadfe0b54c17ca0e54c1142c9c6de9330d65506e35873994e06634eebeb66
-  languageName: node
-  linkType: hard
-
 "istanbul-lib-source-maps@npm:^5.0.0":
   version: 5.0.6
   resolution: "istanbul-lib-source-maps@npm:5.0.6"
@@ -27211,17 +26706,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-changed-files@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-changed-files@npm:29.7.0"
-  dependencies:
-    execa: "npm:^5.0.0"
-    jest-util: "npm:^29.7.0"
-    p-limit: "npm:^3.1.0"
-  checksum: 10c0/e071384d9e2f6bb462231ac53f29bff86f0e12394c1b49ccafbad225ce2ab7da226279a8a94f421949920bef9be7ef574fd86aee22e8adfa149be73554ab828b
-  languageName: node
-  linkType: hard
-
 "jest-circus@npm:30.2.0":
   version: 30.2.0
   resolution: "jest-circus@npm:30.2.0"
@@ -27250,34 +26734,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-circus@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-circus@npm:29.7.0"
-  dependencies:
-    "@jest/environment": "npm:^29.7.0"
-    "@jest/expect": "npm:^29.7.0"
-    "@jest/test-result": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@types/node": "npm:*"
-    chalk: "npm:^4.0.0"
-    co: "npm:^4.6.0"
-    dedent: "npm:^1.0.0"
-    is-generator-fn: "npm:^2.0.0"
-    jest-each: "npm:^29.7.0"
-    jest-matcher-utils: "npm:^29.7.0"
-    jest-message-util: "npm:^29.7.0"
-    jest-runtime: "npm:^29.7.0"
-    jest-snapshot: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    p-limit: "npm:^3.1.0"
-    pretty-format: "npm:^29.7.0"
-    pure-rand: "npm:^6.0.0"
-    slash: "npm:^3.0.0"
-    stack-utils: "npm:^2.0.3"
-  checksum: 10c0/8d15344cf7a9f14e926f0deed64ed190c7a4fa1ed1acfcd81e4cc094d3cc5bf7902ebb7b874edc98ada4185688f90c91e1747e0dfd7ac12463b097968ae74b5e
-  languageName: node
-  linkType: hard
-
 "jest-cli@npm:30.2.0":
   version: 30.2.0
   resolution: "jest-cli@npm:30.2.0"
@@ -27300,32 +26756,6 @@ __metadata:
   bin:
     jest: ./bin/jest.js
   checksum: 10c0/b722a98cdf7b0ff1c273dd4efbaf331d683335f1f338a76a24492574e582a4e5a12a9df66e41bf4c92c7cffe0f51b759818ecd42044cd9bbef67d40359240989
-  languageName: node
-  linkType: hard
-
-"jest-cli@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-cli@npm:29.7.0"
-  dependencies:
-    "@jest/core": "npm:^29.7.0"
-    "@jest/test-result": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    chalk: "npm:^4.0.0"
-    create-jest: "npm:^29.7.0"
-    exit: "npm:^0.1.2"
-    import-local: "npm:^3.0.2"
-    jest-config: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    jest-validate: "npm:^29.7.0"
-    yargs: "npm:^17.3.1"
-  peerDependencies:
-    node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-  peerDependenciesMeta:
-    node-notifier:
-      optional: true
-  bin:
-    jest: bin/jest.js
-  checksum: 10c0/a658fd55050d4075d65c1066364595962ead7661711495cfa1dfeecf3d6d0a8ffec532f3dbd8afbb3e172dd5fd2fb2e813c5e10256e7cf2fea766314942fb43a
   languageName: node
   linkType: hard
 
@@ -27372,44 +26802,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-config@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-config@npm:29.7.0"
-  dependencies:
-    "@babel/core": "npm:^7.11.6"
-    "@jest/test-sequencer": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    babel-jest: "npm:^29.7.0"
-    chalk: "npm:^4.0.0"
-    ci-info: "npm:^3.2.0"
-    deepmerge: "npm:^4.2.2"
-    glob: "npm:^7.1.3"
-    graceful-fs: "npm:^4.2.9"
-    jest-circus: "npm:^29.7.0"
-    jest-environment-node: "npm:^29.7.0"
-    jest-get-type: "npm:^29.6.3"
-    jest-regex-util: "npm:^29.6.3"
-    jest-resolve: "npm:^29.7.0"
-    jest-runner: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    jest-validate: "npm:^29.7.0"
-    micromatch: "npm:^4.0.4"
-    parse-json: "npm:^5.2.0"
-    pretty-format: "npm:^29.7.0"
-    slash: "npm:^3.0.0"
-    strip-json-comments: "npm:^3.1.1"
-  peerDependencies:
-    "@types/node": "*"
-    ts-node: ">=9.0.0"
-  peerDependenciesMeta:
-    "@types/node":
-      optional: true
-    ts-node:
-      optional: true
-  checksum: 10c0/bab23c2eda1fff06e0d104b00d6adfb1d1aabb7128441899c9bff2247bd26710b050a5364281ce8d52b46b499153bf7e3ee88b19831a8f3451f1477a0246a0f1
-  languageName: node
-  linkType: hard
-
 "jest-diff@npm:30.2.0, jest-diff@npm:>=30.0.0 < 31, jest-diff@npm:^30.0.2":
   version: 30.2.0
   resolution: "jest-diff@npm:30.2.0"
@@ -27443,15 +26835,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-docblock@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-docblock@npm:29.7.0"
-  dependencies:
-    detect-newline: "npm:^3.0.0"
-  checksum: 10c0/d932a8272345cf6b6142bb70a2bb63e0856cc0093f082821577ea5bdf4643916a98744dfc992189d2b1417c38a11fa42466f6111526bc1fb81366f56410f3be9
-  languageName: node
-  linkType: hard
-
 "jest-each@npm:30.2.0":
   version: 30.2.0
   resolution: "jest-each@npm:30.2.0"
@@ -27462,19 +26845,6 @@ __metadata:
     jest-util: "npm:30.2.0"
     pretty-format: "npm:30.2.0"
   checksum: 10c0/4fa7e88a2741daaebd58cf49f9add8bd6c68657d2c106a170ebe4d7f86082c9eede2b13924304277a92e02b31b59a3c34949877da077bc27712b57913bb88321
-  languageName: node
-  linkType: hard
-
-"jest-each@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-each@npm:29.7.0"
-  dependencies:
-    "@jest/types": "npm:^29.6.3"
-    chalk: "npm:^4.0.0"
-    jest-get-type: "npm:^29.6.3"
-    jest-util: "npm:^29.7.0"
-    pretty-format: "npm:^29.7.0"
-  checksum: 10c0/f7f9a90ebee80cc688e825feceb2613627826ac41ea76a366fa58e669c3b2403d364c7c0a74d862d469b103c843154f8456d3b1c02b487509a12afa8b59edbb4
   languageName: node
   linkType: hard
 
@@ -27490,20 +26860,6 @@ __metadata:
     jest-util: "npm:30.2.0"
     jest-validate: "npm:30.2.0"
   checksum: 10c0/866ba2c04ccf003845a8ca1f372081d76923849ae8e06e50cdfed792e41a976b5f953e15f3af17ff51b111b9540cf846f7f582530ca724c2a2abf15d15a99728
-  languageName: node
-  linkType: hard
-
-"jest-environment-node@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-environment-node@npm:29.7.0"
-  dependencies:
-    "@jest/environment": "npm:^29.7.0"
-    "@jest/fake-timers": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@types/node": "npm:*"
-    jest-mock: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-  checksum: 10c0/61f04fec077f8b1b5c1a633e3612fc0c9aa79a0ab7b05600683428f1e01a4d35346c474bde6f439f9fcc1a4aa9a2861ff852d079a43ab64b02105d1004b2592b
   languageName: node
   linkType: hard
 
@@ -27566,16 +26922,6 @@ __metadata:
     "@jest/get-type": "npm:30.1.0"
     pretty-format: "npm:30.2.0"
   checksum: 10c0/68e2822aabe302983b65a08b19719a2444259af8a23ff20a6e2b6ce7759f55730f51c7cf16c65cb6be930c80a6cc70a4820239c84e8f333c9670a8e3a4a21801
-  languageName: node
-  linkType: hard
-
-"jest-leak-detector@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-leak-detector@npm:29.7.0"
-  dependencies:
-    jest-get-type: "npm:^29.6.3"
-    pretty-format: "npm:^29.7.0"
-  checksum: 10c0/71bb9f77fc489acb842a5c7be030f2b9acb18574dc9fb98b3100fc57d422b1abc55f08040884bd6e6dbf455047a62f7eaff12aa4058f7cbdc11558718ca6a395
   languageName: node
   linkType: hard
 
@@ -27659,7 +27005,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-pnp-resolver@npm:^1.2.2, jest-pnp-resolver@npm:^1.2.3":
+"jest-pnp-resolver@npm:^1.2.3":
   version: 1.2.3
   resolution: "jest-pnp-resolver@npm:1.2.3"
   peerDependencies:
@@ -27695,16 +27041,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-resolve-dependencies@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-resolve-dependencies@npm:29.7.0"
-  dependencies:
-    jest-regex-util: "npm:^29.6.3"
-    jest-snapshot: "npm:^29.7.0"
-  checksum: 10c0/b6e9ad8ae5b6049474118ea6441dfddd385b6d1fc471db0136f7c8fbcfe97137a9665e4f837a9f49f15a29a1deb95a14439b7aec812f3f99d08f228464930f0d
-  languageName: node
-  linkType: hard
-
 "jest-resolve@npm:30.2.0":
   version: 30.2.0
   resolution: "jest-resolve@npm:30.2.0"
@@ -27718,23 +27054,6 @@ __metadata:
     slash: "npm:^3.0.0"
     unrs-resolver: "npm:^1.7.11"
   checksum: 10c0/149576b81609a79889d08298a95d52920839f796d24f8701beacaf998a4916df205acf86b64d0bc294172a821b88d144facf44ae5a4cb3cfaa03fa06a3fc666d
-  languageName: node
-  linkType: hard
-
-"jest-resolve@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-resolve@npm:29.7.0"
-  dependencies:
-    chalk: "npm:^4.0.0"
-    graceful-fs: "npm:^4.2.9"
-    jest-haste-map: "npm:^29.7.0"
-    jest-pnp-resolver: "npm:^1.2.2"
-    jest-util: "npm:^29.7.0"
-    jest-validate: "npm:^29.7.0"
-    resolve: "npm:^1.20.0"
-    resolve.exports: "npm:^2.0.0"
-    slash: "npm:^3.0.0"
-  checksum: 10c0/59da5c9c5b50563e959a45e09e2eace783d7f9ac0b5dcc6375dea4c0db938d2ebda97124c8161310082760e8ebbeff9f6b177c15ca2f57fb424f637a5d2adb47
   languageName: node
   linkType: hard
 
@@ -27768,35 +27087,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-runner@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-runner@npm:29.7.0"
-  dependencies:
-    "@jest/console": "npm:^29.7.0"
-    "@jest/environment": "npm:^29.7.0"
-    "@jest/test-result": "npm:^29.7.0"
-    "@jest/transform": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@types/node": "npm:*"
-    chalk: "npm:^4.0.0"
-    emittery: "npm:^0.13.1"
-    graceful-fs: "npm:^4.2.9"
-    jest-docblock: "npm:^29.7.0"
-    jest-environment-node: "npm:^29.7.0"
-    jest-haste-map: "npm:^29.7.0"
-    jest-leak-detector: "npm:^29.7.0"
-    jest-message-util: "npm:^29.7.0"
-    jest-resolve: "npm:^29.7.0"
-    jest-runtime: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    jest-watcher: "npm:^29.7.0"
-    jest-worker: "npm:^29.7.0"
-    p-limit: "npm:^3.1.0"
-    source-map-support: "npm:0.5.13"
-  checksum: 10c0/2194b4531068d939f14c8d3274fe5938b77fa73126aedf9c09ec9dec57d13f22c72a3b5af01ac04f5c1cf2e28d0ac0b4a54212a61b05f10b5d6b47f2a1097bb4
-  languageName: node
-  linkType: hard
-
 "jest-runtime@npm:30.2.0":
   version: 30.2.0
   resolution: "jest-runtime@npm:30.2.0"
@@ -27824,36 +27114,6 @@ __metadata:
     slash: "npm:^3.0.0"
     strip-bom: "npm:^4.0.0"
   checksum: 10c0/d77b7eb75485f2b4913f635aeffa8e3e1b9baafb7a7f901f3c212195beb31f519e4b03358b5e454caee5cc94a2b9952c962fa7e5b0ff2ed06009a661924fd23e
-  languageName: node
-  linkType: hard
-
-"jest-runtime@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-runtime@npm:29.7.0"
-  dependencies:
-    "@jest/environment": "npm:^29.7.0"
-    "@jest/fake-timers": "npm:^29.7.0"
-    "@jest/globals": "npm:^29.7.0"
-    "@jest/source-map": "npm:^29.6.3"
-    "@jest/test-result": "npm:^29.7.0"
-    "@jest/transform": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@types/node": "npm:*"
-    chalk: "npm:^4.0.0"
-    cjs-module-lexer: "npm:^1.0.0"
-    collect-v8-coverage: "npm:^1.0.0"
-    glob: "npm:^7.1.3"
-    graceful-fs: "npm:^4.2.9"
-    jest-haste-map: "npm:^29.7.0"
-    jest-message-util: "npm:^29.7.0"
-    jest-mock: "npm:^29.7.0"
-    jest-regex-util: "npm:^29.6.3"
-    jest-resolve: "npm:^29.7.0"
-    jest-snapshot: "npm:^29.7.0"
-    jest-util: "npm:^29.7.0"
-    slash: "npm:^3.0.0"
-    strip-bom: "npm:^4.0.0"
-  checksum: 10c0/7cd89a1deda0bda7d0941835434e44f9d6b7bd50b5c5d9b0fc9a6c990b2d4d2cab59685ab3cb2850ed4cc37059f6de903af5a50565d7f7f1192a77d3fd6dd2a6
   languageName: node
   linkType: hard
 
@@ -27956,20 +27216,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest-validate@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-validate@npm:29.7.0"
-  dependencies:
-    "@jest/types": "npm:^29.6.3"
-    camelcase: "npm:^6.2.0"
-    chalk: "npm:^4.0.0"
-    jest-get-type: "npm:^29.6.3"
-    leven: "npm:^3.1.0"
-    pretty-format: "npm:^29.7.0"
-  checksum: 10c0/a20b930480c1ed68778c739f4739dce39423131bc070cd2505ddede762a5570a256212e9c2401b7ae9ba4d7b7c0803f03c5b8f1561c62348213aba18d9dbece2
-  languageName: node
-  linkType: hard
-
 "jest-watcher@npm:30.2.0":
   version: 30.2.0
   resolution: "jest-watcher@npm:30.2.0"
@@ -27983,22 +27229,6 @@ __metadata:
     jest-util: "npm:30.2.0"
     string-length: "npm:^4.0.2"
   checksum: 10c0/51587968fabb5b180383d638a04db253b82d9cc3f53fbba06ba7b0544146178d50becc090aca7931e2d4eb9aa1624bb3fbd1a2571484c9391554404e8b5d8fe7
-  languageName: node
-  linkType: hard
-
-"jest-watcher@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest-watcher@npm:29.7.0"
-  dependencies:
-    "@jest/test-result": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    "@types/node": "npm:*"
-    ansi-escapes: "npm:^4.2.1"
-    chalk: "npm:^4.0.0"
-    emittery: "npm:^0.13.1"
-    jest-util: "npm:^29.7.0"
-    string-length: "npm:^4.0.1"
-  checksum: 10c0/ec6c75030562fc8f8c727cb8f3b94e75d831fc718785abfc196e1f2a2ebc9a2e38744a15147170039628a853d77a3b695561ce850375ede3a4ee6037a2574567
   languageName: node
   linkType: hard
 
@@ -28038,7 +27268,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:*, jest@npm:^30.1.3":
+"jest@npm:^30.1.3":
   version: 30.2.0
   resolution: "jest@npm:30.2.0"
   dependencies:
@@ -28054,25 +27284,6 @@ __metadata:
   bin:
     jest: ./bin/jest.js
   checksum: 10c0/af580c6e265d21870c2c98e31f17f2f5cb5c9e6cf9be26b95eaf4fad4140a01579f3b5844d4264cd8357eb24908e95f983ea84d20b8afef46e62aed3dd9452eb
-  languageName: node
-  linkType: hard
-
-"jest@npm:^29.7.0":
-  version: 29.7.0
-  resolution: "jest@npm:29.7.0"
-  dependencies:
-    "@jest/core": "npm:^29.7.0"
-    "@jest/types": "npm:^29.6.3"
-    import-local: "npm:^3.0.2"
-    jest-cli: "npm:^29.7.0"
-  peerDependencies:
-    node-notifier: ^8.0.1 || ^9.0.0 || ^10.0.0
-  peerDependenciesMeta:
-    node-notifier:
-      optional: true
-  bin:
-    jest: bin/jest.js
-  checksum: 10c0/f40eb8171cf147c617cc6ada49d062fbb03b4da666cb8d39cdbfb739a7d75eea4c3ca150fb072d0d273dce0c753db4d0467d54906ad0293f59c54f9db4a09d8b
   languageName: node
   linkType: hard
 
@@ -31285,7 +30496,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"next@npm:16.0.7":
+"next@npm:^16.0.7":
   version: 16.0.7
   resolution: "next@npm:16.0.7"
   dependencies:
@@ -31341,65 +30552,6 @@ __metadata:
   bin:
     next: dist/bin/next
   checksum: 10c0/72003fed0f5b690c91ae1a0cc59317691ca1976b46809557a93e00a43e55d4158a256b1a46da6cd7506e699d74aa0cf4e973ec5a35ceabbdd9a1955b507ec85d
-  languageName: node
-  linkType: hard
-
-"next@npm:^15.5.7":
-  version: 15.5.7
-  resolution: "next@npm:15.5.7"
-  dependencies:
-    "@next/env": "npm:15.5.7"
-    "@next/swc-darwin-arm64": "npm:15.5.7"
-    "@next/swc-darwin-x64": "npm:15.5.7"
-    "@next/swc-linux-arm64-gnu": "npm:15.5.7"
-    "@next/swc-linux-arm64-musl": "npm:15.5.7"
-    "@next/swc-linux-x64-gnu": "npm:15.5.7"
-    "@next/swc-linux-x64-musl": "npm:15.5.7"
-    "@next/swc-win32-arm64-msvc": "npm:15.5.7"
-    "@next/swc-win32-x64-msvc": "npm:15.5.7"
-    "@swc/helpers": "npm:0.5.15"
-    caniuse-lite: "npm:^1.0.30001579"
-    postcss: "npm:8.4.31"
-    sharp: "npm:^0.34.3"
-    styled-jsx: "npm:5.1.6"
-  peerDependencies:
-    "@opentelemetry/api": ^1.1.0
-    "@playwright/test": ^1.51.1
-    babel-plugin-react-compiler: "*"
-    react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
-    react-dom: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
-    sass: ^1.3.0
-  dependenciesMeta:
-    "@next/swc-darwin-arm64":
-      optional: true
-    "@next/swc-darwin-x64":
-      optional: true
-    "@next/swc-linux-arm64-gnu":
-      optional: true
-    "@next/swc-linux-arm64-musl":
-      optional: true
-    "@next/swc-linux-x64-gnu":
-      optional: true
-    "@next/swc-linux-x64-musl":
-      optional: true
-    "@next/swc-win32-arm64-msvc":
-      optional: true
-    "@next/swc-win32-x64-msvc":
-      optional: true
-    sharp:
-      optional: true
-  peerDependenciesMeta:
-    "@opentelemetry/api":
-      optional: true
-    "@playwright/test":
-      optional: true
-    babel-plugin-react-compiler:
-      optional: true
-    sass:
-      optional: true
-  bin:
-    next: dist/bin/next
-  checksum: 10c0/baf5b9f42416c478702b3894479b3d7862bc4abf18afe0e43b7fc7ed35567b8dc6cb76cd94906505bab9013cb8d0f3370cdc0451c01ec15ae5a638d37b5ba7c7
   languageName: node
   linkType: hard
 
@@ -32429,27 +31581,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 10c0/f556804e7246cc8aa56e43c6bb91302a792649638afe086a86ed3a71a5a583c05d3ad4318b212835cb8167fe561024db1625253c118018380393e161af3c3edf
-  languageName: node
-  linkType: hard
-
-"ox@npm:0.8.1":
-  version: 0.8.1
-  resolution: "ox@npm:0.8.1"
-  dependencies:
-    "@adraffy/ens-normalize": "npm:^1.11.0"
-    "@noble/ciphers": "npm:^1.3.0"
-    "@noble/curves": "npm:^1.9.1"
-    "@noble/hashes": "npm:^1.8.0"
-    "@scure/bip32": "npm:^1.7.0"
-    "@scure/bip39": "npm:^1.6.0"
-    abitype: "npm:^1.0.8"
-    eventemitter3: "npm:5.0.1"
-  peerDependencies:
-    typescript: ">=5.4.0"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/3d04df384a35c94b21a29d867ee3735acf9a975d46ffb0a26cc438b92f1e4952b2b3cddb74b4213e88d2988e82687db9b85c1018c5d4b24737b1c3d7cb7c809e
   languageName: node
   linkType: hard
 
@@ -34294,7 +33425,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:*, prettier@npm:^3.4.2, prettier@npm:^3.5.0, prettier@npm:^3.5.3, prettier@npm:^3.6.2":
+"prettier@npm:^3.5.0, prettier@npm:^3.6.2":
   version: 3.7.4
   resolution: "prettier@npm:3.7.4"
   bin:
@@ -34452,7 +33583,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prompts@npm:^2.0.1, prompts@npm:^2.4.2":
+"prompts@npm:^2.4.2":
   version: 2.4.2
   resolution: "prompts@npm:2.4.2"
   dependencies:
@@ -34625,13 +33756,6 @@ __metadata:
   dependencies:
     escape-goat: "npm:^4.0.0"
   checksum: 10c0/9707e0a7f00e5922d47527d1c8d88d4224b1e86502da2fca27943eb0e9bb218121c91fa0af6c30531a2ee5ade0c326b5d33c40fdf61bc593c4224027412fd9b7
-  languageName: node
-  linkType: hard
-
-"pure-rand@npm:^6.0.0":
-  version: 6.1.0
-  resolution: "pure-rand@npm:6.1.0"
-  checksum: 10c0/1abe217897bf74dcb3a0c9aba3555fe975023147b48db540aa2faf507aee91c03bf54f6aef0eb2bf59cc259a16d06b28eca37f0dc426d94f4692aeff02fb0e65
   languageName: node
   linkType: hard
 
@@ -34912,7 +34036,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:19.2.1, react-dom@npm:^19.2.1":
+"react-dom@npm:^19.2.1":
   version: 19.2.1
   resolution: "react-dom@npm:19.2.1"
   dependencies:
@@ -34957,21 +34081,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:*, react-hook-form@npm:^7.65.0":
-  version: 7.68.0
-  resolution: "react-hook-form@npm:7.68.0"
-  peerDependencies:
-    react: ^16.8.0 || ^17 || ^18 || ^19
-  checksum: 10c0/5fb500fe60077185ab6de32a2371d05bf75ae335ef62993f0359dbb42bb0c95e0c28d4f7d70c4382995486c82715295c87fc44f2ced5de1ae353aa1f23398f47
-  languageName: node
-  linkType: hard
-
 "react-hook-form@npm:7.65.0":
   version: 7.65.0
   resolution: "react-hook-form@npm:7.65.0"
   peerDependencies:
     react: ^16.8.0 || ^17 || ^18 || ^19
   checksum: 10c0/119afeaf33510d1ed6c12109f03d22d9e88f9eb01b8e4fb3cd8f40d5fc113cbcfc6154789d1d143151de8119bd08ffc7214d504e0e550ea28a9051ed6a30ae28
+  languageName: node
+  linkType: hard
+
+"react-hook-form@npm:^7.65.0":
+  version: 7.68.0
+  resolution: "react-hook-form@npm:7.68.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 10c0/5fb500fe60077185ab6de32a2371d05bf75ae335ef62993f0359dbb42bb0c95e0c28d4f7d70c4382995486c82715295c87fc44f2ced5de1ae353aa1f23398f47
   languageName: node
   linkType: hard
 
@@ -35318,7 +34442,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:19.2.1, react@npm:^19.2.1":
+"react@npm:^19.2.1":
   version: 19.2.1
   resolution: "react@npm:19.2.1"
   checksum: 10c0/2b5eaf407abb3db84090434c20d6c5a8e447ab7abcd8fe9eaf1ddc299babcf31284ee9db7ea5671d21c85ac5298bd632fa1a7da1ed78d5b368a537f5e1cd5d62
@@ -35941,7 +35065,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"resolve.exports@npm:2.0.3, resolve.exports@npm:^2.0.0":
+"resolve.exports@npm:2.0.3":
   version: 2.0.3
   resolution: "resolve.exports@npm:2.0.3"
   checksum: 10c0/1ade1493f4642a6267d0a5e68faeac20b3d220f18c28b140343feb83694d8fed7a286852aef43689d16042c61e2ddb270be6578ad4a13990769e12065191200d
@@ -36206,6 +35330,7 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     lerna: "npm:^9.0.3"
     prettier: "npm:^3.6.2"
+    syncpack: "npm:^14.0.0-alpha.32"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
   languageName: unknown
@@ -36344,8 +35469,8 @@ __metadata:
     "@nomicfoundation/hardhat-toolbox": "npm:^6.0.0"
     "@nomicfoundation/hardhat-verify": "npm:^2.0.14"
     "@nomicfoundation/ignition-core": "npm:^0.15.12"
-    "@oko-wallet/oko-sdk-core": "workspace:*"
-    "@oko-wallet/oko-sdk-eth": "workspace:*"
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.123"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@rainbow-me/rainbowkit": "npm:2.2.7"
     "@tailwindcss/postcss": "npm:4.0.15"
     "@tanstack/react-query": "npm:~5.59.15"
@@ -36357,18 +35482,18 @@ __metadata:
     abitype: "npm:1.0.6"
     blo: "npm:~1.2.0"
     hardhat: "npm:^2.25.0"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     pino-pretty: "npm:^13.1.1"
     postcss: "npm:~8.4.45"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-hot-toast: "npm:~2.4.0"
-    tailwindcss: "npm:4.1.3"
+    tailwindcss: "npm:^4.1.3"
     tsx: "npm:^4.20.3"
     type-fest: "npm:~4.26.1"
     typescript: "npm:^5.8.3"
     usehooks-ts: "npm:~3.1.0"
-    viem: "npm:2.31.7"
+    viem: "npm:^2.41.2"
     wagmi: "npm:2.15.6"
     zustand: "npm:^5.0.6"
   languageName: unknown
@@ -36380,9 +35505,9 @@ __metadata:
   dependencies:
     "@cosmjs/stargate": "npm:^0.34.0"
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
-    "@oko-wallet/oko-sdk-core": "workspace:*"
-    "@oko-wallet/oko-sdk-cosmos": "workspace:*"
-    "@oko-wallet/oko-sdk-eth": "workspace:*"
+    "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.123"
+    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.149"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@react-router/dev": "npm:^7.4.0"
     "@tanstack/react-query": "npm:~5.59.15"
     "@types/node": "npm:^24.10.1"
@@ -36391,7 +35516,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:^5.0.2"
     classnames: "npm:^2.5.1"
     long: "npm:^5.3.2"
-    next: "npm:^15.5.7"
+    next: "npm:^16.0.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-router: "npm:^7.8.0"
@@ -36399,7 +35524,7 @@ __metadata:
     sass: "npm:^1.94.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    vite: "npm:^7.0.0"
+    vite: "npm:^7.1.6"
     vite-plugin-node-polyfills: "npm:^0.24.0"
     vite-tsconfig-paths: "npm:^5.1.4"
     zod: "npm:^4.1.12"
@@ -36725,26 +35850,18 @@ __metadata:
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/supertest": "npm:^6.0.2"
-    "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
-    "@typescript-eslint/parser": "npm:^7.16.1"
     cors: "npm:^2.8.5"
     dotenv: "npm:^16.4.5"
-    eslint: "npm:^8.57.0"
-    eslint-config-airbnb-typescript: "npm:^18.0.0"
-    eslint-import-resolver-typescript: "npm:^3.6.3"
-    eslint-plugin-import: "npm:^2.31.0"
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
-    i: "npm:^0.3.7"
-    jest: "npm:^29.7.0"
+    jest: "npm:^30.1.3"
     morgan: "npm:^1.10.0"
     nodemon: "npm:^3.1.7"
     npm: "npm:^11.2.0"
-    prettier: "npm:^3.4.2"
     supertest: "npm:^7.0.0"
-    ts-jest: "npm:^29.2.5"
+    ts-jest: "npm:^29.4.5"
     ts-node: "npm:^10.9.2"
-    typescript: "npm:^5.6.3"
+    typescript: "npm:^5.8.3"
     typescript-eslint: "npm:^8.28.0"
   languageName: unknown
   linkType: soft
@@ -36933,7 +36050,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharp@npm:^0.34.3, sharp@npm:^0.34.4":
+"sharp@npm:^0.34.4":
   version: 0.34.5
   resolution: "sharp@npm:0.34.5"
   dependencies:
@@ -37709,7 +36826,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"string-length@npm:^4.0.1, string-length@npm:^4.0.2":
+"string-length@npm:^4.0.2":
   version: 4.0.2
   resolution: "string-length@npm:4.0.2"
   dependencies:
@@ -38166,6 +37283,98 @@ __metadata:
   languageName: node
   linkType: hard
 
+"syncpack-darwin-arm64@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-darwin-arm64@npm:14.0.0-alpha.32"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"syncpack-darwin-x64@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-darwin-x64@npm:14.0.0-alpha.32"
+  conditions: os=darwin & cpu=x64
+  languageName: node
+  linkType: hard
+
+"syncpack-linux-arm64-musl@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-linux-arm64-musl@npm:14.0.0-alpha.32"
+  conditions: os=linux & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"syncpack-linux-arm64@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-linux-arm64@npm:14.0.0-alpha.32"
+  conditions: os=linux & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"syncpack-linux-x64-musl@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-linux-x64-musl@npm:14.0.0-alpha.32"
+  conditions: os=linux & cpu=x64
+  languageName: node
+  linkType: hard
+
+"syncpack-linux-x64@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-linux-x64@npm:14.0.0-alpha.32"
+  conditions: os=linux & cpu=x64
+  languageName: node
+  linkType: hard
+
+"syncpack-windows-arm64@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-windows-arm64@npm:14.0.0-alpha.32"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"syncpack-windows-x64@npm:14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack-windows-x64@npm:14.0.0-alpha.32"
+  conditions: os=win32 & cpu=x64
+  languageName: node
+  linkType: hard
+
+"syncpack@npm:^14.0.0-alpha.32":
+  version: 14.0.0-alpha.32
+  resolution: "syncpack@npm:14.0.0-alpha.32"
+  dependencies:
+    syncpack-darwin-arm64: "npm:14.0.0-alpha.32"
+    syncpack-darwin-x64: "npm:14.0.0-alpha.32"
+    syncpack-linux-arm64: "npm:14.0.0-alpha.32"
+    syncpack-linux-arm64-musl: "npm:14.0.0-alpha.32"
+    syncpack-linux-x64: "npm:14.0.0-alpha.32"
+    syncpack-linux-x64-musl: "npm:14.0.0-alpha.32"
+    syncpack-windows-arm64: "npm:14.0.0-alpha.32"
+    syncpack-windows-x64: "npm:14.0.0-alpha.32"
+    tsx: "npm:^4.21.0"
+  dependenciesMeta:
+    syncpack-darwin-arm64:
+      optional: true
+    syncpack-darwin-x64:
+      optional: true
+    syncpack-linux-arm64:
+      optional: true
+    syncpack-linux-arm64-musl:
+      optional: true
+    syncpack-linux-x64:
+      optional: true
+    syncpack-linux-x64-musl:
+      optional: true
+    syncpack-windows-arm64:
+      optional: true
+    syncpack-windows-x64:
+      optional: true
+  bin:
+    syncpack: index.cjs
+  checksum: 10c0/dba3b16f397c796a4fe31fa418d827368b024492118aa889d31da3782d96cd912fe2178714182d1a6afc158e620a24d02c51e4942f89e24d652c62428fe6078d
+  languageName: node
+  linkType: hard
+
 "tabbable@npm:^6.0.0":
   version: 6.3.0
   resolution: "tabbable@npm:6.3.0"
@@ -38203,17 +37412,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tailwindcss@npm:4.1.17, tailwindcss@npm:^4":
+"tailwindcss@npm:4.1.17, tailwindcss@npm:^4.1.3":
   version: 4.1.17
   resolution: "tailwindcss@npm:4.1.17"
   checksum: 10c0/1fecf618ba9895e068e5a6d842b978f56a815bc849a28338cebbcb07b13df763715c2f8848def938403c73d59f08ffff33a4b83a977a9e38fa56adc60d1d56c8
-  languageName: node
-  linkType: hard
-
-"tailwindcss@npm:4.1.3":
-  version: 4.1.3
-  resolution: "tailwindcss@npm:4.1.3"
-  checksum: 10c0/e1a57c6fa8d3b2a950b50ee599bf40734e472f719d2a7c74d6fa95584ac09554625481a9c28420bb32396a7f49e1b9eafe628eb61c230fcdc134b86999bf0bae
   languageName: node
   linkType: hard
 
@@ -38661,15 +37863,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-api-utils@npm:^1.3.0":
-  version: 1.4.3
-  resolution: "ts-api-utils@npm:1.4.3"
-  peerDependencies:
-    typescript: ">=4.2.0"
-  checksum: 10c0/e65dc6e7e8141140c23e1dc94984bf995d4f6801919c71d6dc27cf0cd51b100a91ffcfe5217626193e5bea9d46831e8586febdc7e172df3f1091a7384299e23a
-  languageName: node
-  linkType: hard
-
 "ts-api-utils@npm:^2.1.0":
   version: 2.1.0
   resolution: "ts-api-utils@npm:2.1.0"
@@ -38679,7 +37872,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ts-jest@npm:*, ts-jest@npm:^29.2.5, ts-jest@npm:^29.4.5":
+"ts-jest@npm:^29.4.5":
   version: 29.4.6
   resolution: "ts-jest@npm:29.4.6"
   dependencies:
@@ -38846,7 +38039,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsx@npm:^4.19.2, tsx@npm:^4.20.3":
+"tsx@npm:^4.19.2, tsx@npm:^4.20.3, tsx@npm:^4.21.0":
   version: 4.21.0
   resolution: "tsx@npm:4.21.0"
   dependencies:
@@ -39101,7 +38294,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:*, typescript@npm:>=3 < 6, typescript@npm:^5, typescript@npm:^5.6.3, typescript@npm:^5.8.3":
+"typescript@npm:>=3 < 6, typescript@npm:^5.8.3":
   version: 5.9.3
   resolution: "typescript@npm:5.9.3"
   bin:
@@ -39111,33 +38304,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:~5.6.2":
-  version: 5.6.3
-  resolution: "typescript@npm:5.6.3"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/44f61d3fb15c35359bc60399cb8127c30bae554cd555b8e2b46d68fa79d680354b83320ad419ff1b81a0bdf324197b29affe6cc28988cd6a74d4ac60c94f9799
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A*#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A>=3 < 6#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.6.3#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.8.3#optional!builtin<compat/typescript>":
+"typescript@patch:typescript@npm%3A>=3 < 6#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^5.8.3#optional!builtin<compat/typescript>":
   version: 5.9.3
   resolution: "typescript@patch:typescript@npm%3A5.9.3#optional!builtin<compat/typescript>::version=5.9.3&hash=5786d5"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: 10c0/ad09fdf7a756814dce65bc60c1657b40d44451346858eea230e10f2e95a289d9183b6e32e5c11e95acc0ccc214b4f36289dcad4bf1886b0adb84d711d336a430
-  languageName: node
-  linkType: hard
-
-"typescript@patch:typescript@npm%3A~5.6.2#optional!builtin<compat/typescript>":
-  version: 5.6.3
-  resolution: "typescript@patch:typescript@npm%3A5.6.3#optional!builtin<compat/typescript>::version=5.6.3&hash=8c6c40"
-  bin:
-    tsc: bin/tsc
-    tsserver: bin/tsserver
-  checksum: 10c0/7c9d2e07c81226d60435939618c91ec2ff0b75fbfa106eec3430f0fcf93a584bc6c73176676f532d78c3594fe28a54b36eb40b3d75593071a7ec91301533ace7
   languageName: node
   linkType: hard
 
@@ -40000,7 +39173,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"viem@npm:*, viem@npm:>=2.29.0, viem@npm:^2.1.1, viem@npm:^2.31.7, viem@npm:^2.41.2":
+"viem@npm:*, viem@npm:>=2.29.0, viem@npm:^2.1.1, viem@npm:^2.41.2":
   version: 2.41.2
   resolution: "viem@npm:2.41.2"
   dependencies:
@@ -40039,27 +39212,6 @@ __metadata:
     typescript:
       optional: true
   checksum: 10c0/39332d008d2ab0700aa57f541bb199350daecdfb722ae1b262404b02944e11205368fcc696cc0ab8327b9f90bf7172014687ae3e5d9091978e9d174885ccff2d
-  languageName: node
-  linkType: hard
-
-"viem@npm:2.31.7":
-  version: 2.31.7
-  resolution: "viem@npm:2.31.7"
-  dependencies:
-    "@noble/curves": "npm:1.9.2"
-    "@noble/hashes": "npm:1.8.0"
-    "@scure/bip32": "npm:1.7.0"
-    "@scure/bip39": "npm:1.6.0"
-    abitype: "npm:1.0.8"
-    isows: "npm:1.0.7"
-    ox: "npm:0.8.1"
-    ws: "npm:8.18.2"
-  peerDependencies:
-    typescript: ">=5.0.4"
-  peerDependenciesMeta:
-    typescript:
-      optional: true
-  checksum: 10c0/b75d83e2af264bb4274dad6f6382db035d3231d1e1ae1d8ff9874d0368754f632124f486a76e6bf0a22236608f53292a55c3a57675e742b7c2f89e54fee60c8c
   languageName: node
   linkType: hard
 
@@ -40106,7 +39258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^5.0.0 || ^6.0.0 || ^7.0.0-0, vite@npm:^7.0.0, vite@npm:^7.0.4, vite@npm:^7.1.6":
+"vite@npm:^5.0.0 || ^6.0.0 || ^7.0.0-0, vite@npm:^7.1.6":
   version: 7.2.7
   resolution: "vite@npm:7.2.7"
   dependencies:
@@ -40919,21 +40071,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"ws@npm:8.18.2":
-  version: 8.18.2
-  resolution: "ws@npm:8.18.2"
-  peerDependencies:
-    bufferutil: ^4.0.1
-    utf-8-validate: ">=5.0.2"
-  peerDependenciesMeta:
-    bufferutil:
-      optional: true
-    utf-8-validate:
-      optional: true
-  checksum: 10c0/4b50f67931b8c6943c893f59c524f0e4905bbd183016cfb0f2b8653aa7f28dad4e456b9d99d285bbb67cca4fedd9ce90dfdfaa82b898a11414ebd66ee99141e4
-  languageName: node
-  linkType: hard
-
 "ws@npm:8.18.3, ws@npm:^8.18.0":
   version: 8.18.3
   resolution: "ws@npm:8.18.3"
@@ -41109,7 +40246,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"yargs@npm:17.7.2, yargs@npm:^17.3.1, yargs@npm:^17.6.2, yargs@npm:^17.7.2":
+"yargs@npm:17.7.2, yargs@npm:^17.6.2, yargs@npm:^17.7.2":
   version: 17.7.2
   resolution: "yargs@npm:17.7.2"
   dependencies:
@@ -41232,27 +40369,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zustand@npm:*, zustand@npm:^5.0.6":
-  version: 5.0.9
-  resolution: "zustand@npm:5.0.9"
-  peerDependencies:
-    "@types/react": ">=18.0.0"
-    immer: ">=9.0.6"
-    react: ">=18.0.0"
-    use-sync-external-store: ">=1.2.0"
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-    immer:
-      optional: true
-    react:
-      optional: true
-    use-sync-external-store:
-      optional: true
-  checksum: 10c0/552849e4546c7760704d6509a5c412d57c62a1fa9e53169c939ba5e3d75f8cb3df50a64c3a22e6c3f1c8cc00de7543e4edd61ab5ae0c9169ba9a98e28303aba6
-  languageName: node
-  linkType: hard
-
 "zustand@npm:5.0.0":
   version: 5.0.0
   resolution: "zustand@npm:5.0.0"
@@ -41291,6 +40407,27 @@ __metadata:
     react:
       optional: true
   checksum: 10c0/55559e37a82f0c06cadc61cb08f08314c0fe05d6a93815e41e3376130c13db22a5017cbb0cd1f018c82f2dad0051afe3592561d40f980bd4082e32005e8a950c
+  languageName: node
+  linkType: hard
+
+"zustand@npm:^5.0.6":
+  version: 5.0.9
+  resolution: "zustand@npm:5.0.9"
+  peerDependencies:
+    "@types/react": ">=18.0.0"
+    immer: ">=9.0.6"
+    react: ">=18.0.0"
+    use-sync-external-store: ">=1.2.0"
+  peerDependenciesMeta:
+    "@types/react":
+      optional: true
+    immer:
+      optional: true
+    react:
+      optional: true
+    use-sync-external-store:
+      optional: true
+  checksum: 10c0/552849e4546c7760704d6509a5c412d57c62a1fa9e53169c939ba5e3d75f8cb3df50a64c3a22e6c3f1c8cc00de7543e4edd61ab5ae0c9169ba9a98e28303aba6
   languageName: node
   linkType: hard
 

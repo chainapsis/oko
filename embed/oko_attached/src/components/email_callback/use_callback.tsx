@@ -210,4 +210,3 @@ function consumePendingEmail(): string | null {
   } catch {}
   return null;
 }
-
