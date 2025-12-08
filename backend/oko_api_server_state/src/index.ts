@@ -99,6 +99,7 @@ export interface ServerState {
   s3_bucket: string;
   encryption_secret: string;
   typeform_webhook_secret: string;
+  telegram_bot_token: string;
   server_keypair: EddsaKeypair;
 }
 
@@ -129,6 +130,7 @@ export interface InitStateArgs {
   es_password: string | null;
   encryption_secret: string;
   typeform_webhook_secret: string;
+  telegram_bot_token: string;
 }
 
 async function initializeServerKeypair(

@@ -18,6 +18,7 @@
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",
+    "@oko-wallet/social-login-api": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "cors": "^2.8.5",

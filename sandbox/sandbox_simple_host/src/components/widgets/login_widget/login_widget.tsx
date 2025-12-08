@@ -7,7 +7,7 @@ import { useUserInfoState } from "@/state/user_info";
 import { useAddresses } from "@/hooks/use_addresses";
 import { CosmosAccountsModal } from "@/components/cosmos_accounts_modal/cosmos_accounts_modal";
 
-type SignInStrategy = "google" | "email";
+type SignInStrategy = "google" | "email" | "telegram";
 
 export const LoginWidget: FC<LoginWidgetProps> = () => {
   const { okoCosmos } = useOko();
@@ -47,11 +47,19 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
       <Widget>
         <div className={styles.signingInWrapper}>
           <div className={styles.googleCircle}>
-            {signInStrategy === "email" ? "email" : "google"}
+            {signInStrategy === "email"
+              ? "email"
+              : signInStrategy === "telegram"
+                ? "telegram"
+                : "google"}
           </div>
           <p>
             Signing in{" "}
-            {signInStrategy === "email" ? "(email iframe)" : "(Google OAuth)"}
+            {signInStrategy === "email"
+              ? "(email iframe)"
+              : signInStrategy === "telegram"
+                ? "(Telegram OAuth)"
+                : "(Google OAuth)"}
           </p>
         </div>
       </Widget>
@@ -116,6 +124,13 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
           data-testid="email-login-btn"
         >
           Email Login (dummy)
+        </button>
+        <button
+          onClick={() => handleSignIn("telegram")}
+          disabled={isSigningIn}
+          data-testid="telegram-login-btn"
+        >
+          Telegram Login
         </button>
         <button
           onClick={() => {

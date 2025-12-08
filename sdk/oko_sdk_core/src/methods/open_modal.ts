@@ -21,30 +21,44 @@ export async function openModal(
   this: OkoWalletInterface,
   msg: OkoWalletMsgOpenModal,
 ): Promise<Result<OpenModalAckPayload, OpenModalError>> {
-  const needsPopup = msg.payload.modal_type === "auth/email_login";
+  const emailLogin = msg.payload.modal_type === "auth/email_login";
+  const telegramLogin = msg.payload.modal_type === "auth/telegram_login";
   let popupContext: PopupContext | null = null;
 
-  if (needsPopup) {
+  if (emailLogin) {
     popupContext = openEmailLoginPopup.call(this);
+    this.activePopupId = popupContext.id;
+    this.activePopupWindow = popupContext.popupWindow;
+  }
+
+  if (telegramLogin) {
+    popupContext = openTelegramLoginPopup.call(this, msg);
     this.activePopupId = popupContext.id;
     this.activePopupWindow = popupContext.popupWindow;
   }
 
   await this.waitUntilInitialized;
 
-  if (!needsPopup) {
+  if (!emailLogin && !telegramLogin) {
     this.iframe.style.display = "block";
   }
 
   const { timeoutPromise, cancelTimeout } = createTimeout(FIVE_MINS);
 
   try {
-    if (needsPopup && popupContext) {
-      await popupContext.waitUntilReady;
+    if (popupContext) {
+      try {
+        await popupContext.waitUntilReady;
+      } catch (error) {
+        if (popupContext.popupWindow && !popupContext.popupWindow.closed) {
+          popupContext.popupWindow.close();
+        }
+        throw error;
+      }
     }
 
     const openModalAck = await Promise.race([
-      needsPopup && popupContext
+      popupContext
         ? sendMsgToPopupWindow(
             popupContext.popupWindow,
             msg,
@@ -75,7 +89,7 @@ export async function openModal(
 
 function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
   const modalId = `oko_modal_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-  const url = new URL("/login", this.sdkEndpoint);
+  const url = new URL("/email", this.sdkEndpoint);
   url.searchParams.set("modal_id", modalId);
   url.searchParams.set("host_origin", window.location.origin);
 
@@ -88,6 +102,51 @@ function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
     url.toString(),
     modalId,
     `width=${width},height=${height},left=${left},top=${top},resizable=yes`,
+  );
+
+  if (!popupWindow) {
+    throw new Error("Failed to open popup window");
+  }
+
+  const popupOrigin = new URL(this.sdkEndpoint).origin;
+
+  return {
+    id: modalId,
+    popupWindow,
+    waitUntilReady: waitForPopupReady(modalId, popupWindow, popupOrigin),
+  };
+}
+
+function openTelegramLoginPopup(
+  this: OkoWalletInterface,
+  msg: OkoWalletMsgOpenModal,
+): PopupContext {
+  const modalId =
+    "modal_id" in msg.payload
+      ? msg.payload.modal_id
+      : `oko_telegram_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+  const url = new URL("/telegram", this.sdkEndpoint);
+
+  url.searchParams.set("modal_id", modalId);
+  url.searchParams.set("host_origin", window.location.origin);
+
+  if (
+    msg.payload.modal_type === "auth/telegram_login" &&
+    "data" in msg.payload &&
+    msg.payload.data?.state
+  ) {
+    url.searchParams.set("state", msg.payload.data.state);
+  }
+
+  const width = 440;
+  const height = 402;
+  const left = Math.max((window.screen.width - width) / 2, 0);
+  const top = Math.max((window.screen.height - height) / 2, 0);
+
+  const popupWindow = window.open(
+    url.toString(),
+    modalId,
+    `width=${width},height=${height},left=${left},top=${top},resizable=yes,scrollbars=yes`,
   );
 
   if (!popupWindow) {
@@ -200,7 +259,8 @@ function sendMsgToPopupWindow(
       if (
         data.target === "oko_sdk" &&
         data.msg_type === "open_modal_ack" &&
-        data.payload?.modal_type === "auth/email_login" &&
+        (data.payload?.modal_type === "auth/email_login" ||
+          data.payload?.modal_type === "auth/telegram_login") &&
         "modal_id" in data.payload &&
         (() => {
           const expectedModalId =

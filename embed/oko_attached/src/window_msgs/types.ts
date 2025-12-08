@@ -28,6 +28,23 @@ export interface GoogleTokenInfo {
   typ: string;
 }
 
+export interface XUserInfo {
+  id: string;
+  name: string;
+  username: string;
+  email?: string;
+}
+
+export interface DiscordUserInfo {
+  id: string;
+  username: string;
+  discriminator: string;
+  email: string;
+  verified?: boolean;
+  avatar?: string;
+  global_name?: string;
+}
+
 export interface Auth0TokenInfo {
   email: string;
   email_verified: boolean;
@@ -42,7 +59,7 @@ export interface Auth0TokenInfo {
 export interface TokenInfo {
   provider: OAuthProvider;
   email: string;
-  email_verified: boolean;
+  email_verified?: boolean;
   nonce?: string;
   name?: string;
   sub?: string;

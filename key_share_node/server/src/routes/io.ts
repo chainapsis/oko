@@ -13,6 +13,6 @@ export interface ResponseLocal {
     type: OAuthProvider;
     email: string;
     name?: string;
-    sub: string;
+    sub?: string;
   };
 }

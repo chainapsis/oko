@@ -147,7 +147,7 @@ async function main() {
     db: createPostgresRes.data,
     encryptionSecret: loadEncSecretRes.data,
     serverKeypair,
-
+    telegram_bot_token: process.env.TELEGRAM_BOT_TOKEN!,
     is_db_backup_checked: true,
     launch_time,
     git_hash,

@@ -1,0 +1,61 @@
+import type { Request, Response, NextFunction } from "express";
+
+import { validateDiscordOAuthToken } from "./validate";
+
+export interface DiscordAuthenticatedRequest<T = any> extends Request {
+  body: T;
+}
+
+export async function discordAuthMiddleware(
+  req: DiscordAuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    res
+      .status(401)
+      .json({ error: "Authorization header with Bearer token required" });
+    return;
+  }
+
+  const idToken = authHeader.substring(7); // skip "Bearer "
+
+  try {
+    const result = await validateDiscordOAuthToken(idToken);
+
+    if (!result.success) {
+      res.status(401).json({ error: result.err });
+      return;
+    }
+
+    if (!result.data) {
+      res.status(500).json({
+        error: "Internal server error: Token info missing after validation",
+      });
+      return;
+    }
+
+    if (!result.data.email) {
+      res.status(401).json({
+        error: "Can't get email from Discord token",
+      });
+      return;
+    }
+
+    res.locals.oauth_user = {
+      type: "discord",
+      email: result.data.email,
+      name: result.data.username,
+    };
+
+    next();
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: `Token validation failed: ${error instanceof Error ? error.message : String(error)}`,
+    });
+    return;
+  }
+}

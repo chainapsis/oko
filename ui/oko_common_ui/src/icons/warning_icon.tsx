@@ -35,13 +35,16 @@ export const WarningIcon: React.FC<BasicIconProps> = ({
           strokeWidth="2"
         />
       </g>
-      <path
-        d="M16.5 21L19.5 24L25.5 18M31 21C31 26.5228 26.5228 31 21 31C15.4772 31 11 26.5228 11 21C11 15.4772 15.4772 11 21 11C26.5228 11 31 15.4772 31 21Z"
-        stroke="#DC6803"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
+      <g>
+        <path
+          d="M12 8V12M12 16H12.01M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12Z"
+          stroke="#DC6803"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          transform="translate(9, 9)"
+        />
+      </g>
     </svg>
   );
 };
