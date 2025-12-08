@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-export const paths = (function () {
+export const paths = (function() {
   const root = path.join(__dirname, "../../../");
 
   const ksn_interface = path.join(
@@ -25,6 +25,8 @@ export const paths = (function () {
   const stdlib = path.join(__dirname, "../../../lib/stdlib_js");
 
   const sdk_common = path.join(__dirname, "../../../sdk/oko_sdk_common/");
+
+  const sdk_cosmos_kit = path.join(__dirname, "../../../sdk/oko_cosmos_kit/");
 
   const sdk_core = path.join(__dirname, "../../../sdk/oko_sdk_core/");
 
@@ -95,6 +97,7 @@ export const paths = (function () {
     dotenv,
     sdk_core,
     sdk_eth,
+    sdk_cosmos_kit,
     sdk_cosmos,
     sdk_common,
     crypto_bytes,

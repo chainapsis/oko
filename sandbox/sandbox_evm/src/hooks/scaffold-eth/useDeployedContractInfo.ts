@@ -50,7 +50,7 @@ export function useDeployedContractInfo<TContractName extends ContractName>(
   const { contractName, chainId } = finalConfig;
   const selectedNetwork = useSelectedNetwork(chainId);
   const deployedContract = contracts?.[selectedNetwork.id]?.[
-    contractName as ContractName
+    String(contractName)
   ] as Contract<TContractName>;
   const [status, setStatus] = useState<ContractCodeStatus>(
     ContractCodeStatus.LOADING,

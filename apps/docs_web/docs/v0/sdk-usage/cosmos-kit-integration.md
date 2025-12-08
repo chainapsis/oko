@@ -1,16 +1,16 @@
 ---
-title: CosmosKit Integration
+title: Cosmos Kit Integration
 sidebar_position: 6
 ---
 
-# CosmosKit Integration
+# Cosmos Kit Integration
 
 Learn how to integrate Oko Wallet with Cosmos Kit, the popular wallet adapter
 for Cosmos ecosystem applications.
 
 <!-- prettier-ignore -->
 :::tip Get started faster
-Prefer a ready-to-run example? Try the **[CosmosKit (Next.js) starter template](https://github.com/chainapsis/oko/tree/main/examples/cosmoskit-nextjs)**.
+Prefer a ready-to-run example? Try the **[Cosmos Kit (Next.js) starter template](https://github.com/chainapsis/oko/tree/main/examples/cosmos-kit-nextjs)**.
 :::
 
 ## Overview
@@ -158,5 +158,5 @@ included.
 ## Resources
 
 - [Cosmos Kit Documentation](https://docs.hyperweb.io/cosmos-kit)
-- [Example Application](https://github.com/chainapsis/oko/tree/main/examples/cosmoskit-nextjs)
+- [Example Application](https://github.com/chainapsis/oko/tree/main/examples/cosmos-kit-nextjs)
 - [Chain Registry](https://github.com/cosmos/chain-registry)

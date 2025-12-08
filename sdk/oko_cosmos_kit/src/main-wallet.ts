@@ -46,16 +46,6 @@ export class OkoMainWallet extends MainWalletBase {
         throw new Error("Failed to initialize OkoCosmosWallet");
       }
 
-      const publicKey = await cosmosWallet.data.okoWallet.getPublicKey();
-
-      if (!publicKey) {
-        const loginProvider = options.loginProvider;
-
-        if (loginProvider === "google") {
-          await cosmosWallet.data.okoWallet.signIn("google");
-        }
-      }
-
       this.initClientDone(
         new OkoWalletClient(cosmosWallet.data, options.loginProvider),
       );

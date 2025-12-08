@@ -17,12 +17,19 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
   data,
   modalId,
 }) => {
-  const { onReject, onApprove, isApproveEnabled, isLoading, isDemo, theme } =
-    useArbitrarySigModal({
-      getIsAborted,
-      data,
-      modalId,
-    });
+  const {
+    onReject,
+    onApprove,
+    isApproveEnabled,
+    isLoading,
+    isDemo,
+    theme,
+    hasOnChainSchema,
+  } = useArbitrarySigModal({
+    getIsAborted,
+    data,
+    modalId,
+  });
 
   return (
     <div className={styles.container}>
@@ -36,7 +43,7 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
         </div>
 
         <Spacing height={20} />
-        <ArbitrarySignatureDesc />
+        {!hasOnChainSchema && <ArbitrarySignatureDesc />}
 
         <Spacing height={20} />
 

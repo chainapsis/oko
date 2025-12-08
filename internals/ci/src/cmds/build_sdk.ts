@@ -11,7 +11,12 @@ export function buildSDK(..._args: any[]) {
 
 export function doBuildSDK() {
   // Order matters!
-  const pkgsInOrder = [paths.sdk_core, paths.sdk_cosmos, paths.sdk_eth];
+  const pkgsInOrder = [
+    paths.sdk_core,
+    paths.sdk_cosmos,
+    paths.sdk_eth,
+    paths.sdk_cosmos_kit,
+  ];
 
   console.log("Building sdk packages, total (%s)", pkgsInOrder.length);
 
