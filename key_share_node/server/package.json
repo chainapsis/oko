@@ -20,7 +20,7 @@
     "@oko-wallet/ksn-pg-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.38",
     "chalk": "^5.5.0",
-    "commander": "*",
+    "commander": "^12.1.0",
     "cors": "^2.8.5",
     "dayjs": "^1.11.18",
     "dotenv": "^16.4.5",
