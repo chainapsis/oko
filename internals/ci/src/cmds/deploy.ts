@@ -1,132 +1,66 @@
 import { spawnSync } from "node:child_process";
 import path from "node:path";
 import fs from "node:fs";
-import readline from "node:readline";
 import chalk from "chalk";
 
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
-type DeployableApp =
-  | "demo_web"
-  | "oko_attached"
-  | "customer_dashboard"
-  | "docs_web"
-  | "oko_admin_web"
-  | "user_dashboard";
-
 const VERCEL_SCOPE = "keplrwallet";
 
-interface AppConfig {
-  path: string;
-  project: string;
-}
-
-const APP_CONFIGS: Record<DeployableApp, AppConfig> = {
-  demo_web: {
+const APP_CONFIGS = {
+  "oko-demo-web": {
     path: paths.demo_web,
-    project: "oko-demo-web",
   },
-  oko_attached: {
+  "oko-attached": {
     path: paths.oko_attached,
-    project: "oko-attached",
   },
-  customer_dashboard: {
+  "oko-customer-dashboard": {
     path: paths.ct_dashboard_web,
-    project: "oko-customer-dashboard",
   },
-  docs_web: {
+  "oko-docs-web": {
     path: path.join(paths.root, "apps/docs_web"),
-    project: "oko-docs-web",
   },
-  oko_admin_web: {
+  "oko-admin-web": {
     path: paths.oko_admin_web,
-    project: "oko-admin-web",
   },
-  user_dashboard: {
+  "oko-user-dashboard": {
     path: path.join(paths.root, "apps/user_dashboard"),
-    project: "oko-user-dashboard",
   },
 };
 
-async function promptForApp(): Promise<DeployableApp> {
-  const apps = Object.keys(APP_CONFIGS) as DeployableApp[];
-  let selectedIndex = 0;
-
-  const renderMenu = () => {
-    console.clear();
-    console.log(chalk.yellow("Please select an app to deploy:"));
-    console.log("");
-    apps.forEach((key, index) => {
-      const config = APP_CONFIGS[key];
-      const prefix = index === selectedIndex ? chalk.green("❯") : " ";
-      const appName =
-        index === selectedIndex ? chalk.green.bold(key) : chalk.white(key);
-      const projectName =
-        index === selectedIndex
-          ? chalk.green(`(${config.project})`)
-          : chalk.gray(`(${config.project})`);
-      console.log(`${prefix} ${appName} ${projectName}`);
-    });
-    console.log("");
-    console.log(chalk.gray("Use ↑/↓ arrows to navigate, Enter to select"));
-  };
-
-  return new Promise((resolve) => {
-    renderMenu();
-
-    readline.emitKeypressEvents(process.stdin);
-    if (process.stdin.isTTY) {
-      process.stdin.setRawMode(true);
-    }
-
-    const onKeypress = (_str: string, key: readline.Key) => {
-      if (key.name === "up") {
-        selectedIndex = selectedIndex > 0 ? selectedIndex - 1 : apps.length - 1;
-        renderMenu();
-      } else if (key.name === "down") {
-        selectedIndex = selectedIndex < apps.length - 1 ? selectedIndex + 1 : 0;
-        renderMenu();
-      } else if (key.name === "return") {
-        if (process.stdin.isTTY) {
-          process.stdin.setRawMode(false);
-        }
-        process.stdin.removeListener("keypress", onKeypress);
-        process.stdin.pause();
-        console.log("");
-        resolve(apps[selectedIndex]);
-      } else if (key.ctrl && key.name === "c") {
-        if (process.stdin.isTTY) {
-          process.stdin.setRawMode(false);
-        }
-        process.exit(0);
-      }
-    };
-
-    process.stdin.on("keypress", onKeypress);
+function listDeployableApps(): void {
+  console.log(chalk.yellow("Available apps to deploy:"));
+  console.log("");
+  Object.keys(APP_CONFIGS).forEach((key) => {
+    console.log(`  ${chalk.green(key)}`);
   });
+  console.log("");
 }
 
-export async function deploy(options: { app?: DeployableApp; prod?: boolean }) {
+export async function deploy(options: {
+  app?: keyof typeof APP_CONFIGS;
+  prod?: boolean;
+}) {
   let { app, prod = false } = options;
 
   if (!app) {
-    app = await promptForApp();
+    listDeployableApps();
+    console.error(chalk.red("Please specify an app using --app <app>"));
+    process.exit(1);
   }
 
   const config = APP_CONFIGS[app];
   if (!config) {
     console.error(chalk.red(`Unknown app: ${app}`));
-    console.log(
-      chalk.yellow("Available apps:"),
-      Object.keys(APP_CONFIGS).join(", "),
-    );
+    console.log("");
+    listDeployableApps();
     process.exit(1);
   }
 
   console.log(
     chalk.bold(
-      `Deploying ${config.project}${prod ? " (Production)" : " (Preview)"}...`,
+      `Deploying ${app}${prod ? " (Production)" : " (Preview)"}...`,
     ),
   );
   console.log("");
@@ -144,7 +78,7 @@ export async function deploy(options: { app?: DeployableApp; prod?: boolean }) {
   console.log(chalk.blue("Step 1/3:"), "Linking to Vercel project...");
   const linkRet = spawnSync(
     "vercel",
-    ["link", "--yes", `--scope=${VERCEL_SCOPE}`, `--project=${config.project}`],
+    ["link", "--yes", `--scope=${VERCEL_SCOPE}`, `--project=${app}`],
     {
       cwd: paths.root,
       stdio: "inherit",

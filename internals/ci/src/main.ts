@@ -58,7 +58,7 @@ async function main() {
     .command("deploy")
     .option(
       "--app <app>",
-      "App to deploy (oko-demo-web, oko-attached, oko-customer-dashboard, oko-docs-web, oko-admin-web, oko-user-dashboard)",
+      "App to deploy",
     )
     .option("--prod", "Deploy to production", false)
     .action(deploy);
