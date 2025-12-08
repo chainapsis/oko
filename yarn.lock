@@ -9920,10 +9920,10 @@ __metadata:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.57"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.38"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
-    "@rollup/plugin-node-resolve": "npm:*"
-    "@rollup/plugin-replace": "npm:*"
-    "@rollup/plugin-terser": "npm:*"
-    "@rollup/plugin-typescript": "npm:*"
+    "@rollup/plugin-node-resolve": "npm:^15.0.0"
+    "@rollup/plugin-replace": "npm:^6.0.2"
+    "@rollup/plugin-terser": "npm:^0.4.4"
+    "@rollup/plugin-typescript": "npm:^11.0.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:*"
@@ -9989,9 +9989,9 @@ __metadata:
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.120"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.38"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
-    "@rollup/plugin-node-resolve": "npm:*"
-    "@rollup/plugin-terser": "npm:*"
-    "@rollup/plugin-typescript": "npm:*"
+    "@rollup/plugin-node-resolve": "npm:^15.0.0"
+    "@rollup/plugin-terser": "npm:^0.4.4"
+    "@rollup/plugin-typescript": "npm:^11.0.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
     "@typescript-eslint/eslint-plugin": "npm:*"
@@ -13029,24 +13029,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-node-resolve@npm:*":
-  version: 16.0.3
-  resolution: "@rollup/plugin-node-resolve@npm:16.0.3"
-  dependencies:
-    "@rollup/pluginutils": "npm:^5.0.1"
-    "@types/resolve": "npm:1.20.2"
-    deepmerge: "npm:^4.2.2"
-    is-module: "npm:^1.0.0"
-    resolve: "npm:^1.22.1"
-  peerDependencies:
-    rollup: ^2.78.0||^3.0.0||^4.0.0
-  peerDependenciesMeta:
-    rollup:
-      optional: true
-  checksum: 10c0/5bafff8e51cd28b5b3b8f415c30a893f5bfdb1a54469e00b3dc6530f26051620f3dfa172f40544361948b46cc3070cb34fd44ade66d38c0677d74c846fbc58dc
-  languageName: node
-  linkType: hard
-
 "@rollup/plugin-node-resolve@npm:^15.0.0":
   version: 15.3.1
   resolution: "@rollup/plugin-node-resolve@npm:15.3.1"
@@ -13065,7 +13047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-replace@npm:*, @rollup/plugin-replace@npm:^6.0.2":
+"@rollup/plugin-replace@npm:^6.0.2":
   version: 6.0.3
   resolution: "@rollup/plugin-replace@npm:6.0.3"
   dependencies:
@@ -13080,7 +13062,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-terser@npm:*, @rollup/plugin-terser@npm:^0.4.4":
+"@rollup/plugin-terser@npm:^0.4.4":
   version: 0.4.4
   resolution: "@rollup/plugin-terser@npm:0.4.4"
   dependencies:
@@ -13093,25 +13075,6 @@ __metadata:
     rollup:
       optional: true
   checksum: 10c0/b9cb6c8f02ac1c1344019e9fb854321b74f880efebc41b6bdd84f18331fce0f4a2aadcdb481042245cd3f409b429ac363af71f9efec4a2024731d67d32af36ee
-  languageName: node
-  linkType: hard
-
-"@rollup/plugin-typescript@npm:*":
-  version: 12.3.0
-  resolution: "@rollup/plugin-typescript@npm:12.3.0"
-  dependencies:
-    "@rollup/pluginutils": "npm:^5.1.0"
-    resolve: "npm:^1.22.1"
-  peerDependencies:
-    rollup: ^2.14.0||^3.0.0||^4.0.0
-    tslib: "*"
-    typescript: ">=3.7.0"
-  peerDependenciesMeta:
-    rollup:
-      optional: true
-    tslib:
-      optional: true
-  checksum: 10c0/41d14e9a9792d8d9751c275cf87c2de796ddd1a64c96fedc622baad8cfbb1247537e37ae428e59e1850de7d7165941ee1a4030dbe9bebd5fbb38c5e4f751d8b5
   languageName: node
   linkType: hard
 
