@@ -2,6 +2,7 @@
   "packages": [
     "apps/customer_dashboard",
     "apps/demo_web",
+    "backend/oko_api/server",
     "lib/stdlib_js",
     "lib/dotenv",
     "sdk/oko_cosmos_kit",
