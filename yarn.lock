@@ -9563,11 +9563,11 @@ __metadata:
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    react-hook-form: "npm:*"
+    react-hook-form: "npm:^7.65.0"
     sass: "npm:^1.94.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    zustand: "npm:*"
+    zustand: "npm:^5.0.6"
   languageName: unknown
   linkType: soft
 
@@ -34803,7 +34803,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hook-form@npm:*":
+"react-hook-form@npm:*, react-hook-form@npm:^7.65.0":
   version: 7.68.0
   resolution: "react-hook-form@npm:7.68.0"
   peerDependencies:
