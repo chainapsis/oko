@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/tecdsa-interface",
-  "version": "0.0.2-alpha.24",
+  "version": "0.0.2-alpha.25",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
