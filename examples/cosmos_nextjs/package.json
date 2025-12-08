@@ -15,7 +15,7 @@
     "@hookform/resolvers": "5.2.2",
     "@keplr-wallet/types": "0.12.280",
     "@keplr-wallet/unit": "0.12.280",
-    "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.135",
+    "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.149",
     "next": "^16.0.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
