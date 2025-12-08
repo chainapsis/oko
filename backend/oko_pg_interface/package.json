@@ -28,7 +28,7 @@
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "jest": "*",
+    "jest": "^29.7.0",
     "knex": "*",
     "pg": "*",
     "pgsql-parser": "^17.7.8",

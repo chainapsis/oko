@@ -16,7 +16,7 @@
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
-    "jest": "*",
+    "jest": "^29.7.0",
     "ts-jest": "*",
     "tsconfig-paths": "*",
     "tsx": "*",

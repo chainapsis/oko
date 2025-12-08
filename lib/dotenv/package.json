@@ -24,7 +24,7 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
-    "jest": "*",
+    "jest": "^29.7.0",
     "ts-jest": "*",
     "tsc-alias": "*",
     "tsx": "*",

@@ -50,7 +50,7 @@
     "@types/swagger-ui-express": "^4.1.8",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
-    "jest": "*",
+    "jest": "^29.7.0",
     "supertest": "*",
     "ts-jest": "*",
     "typescript": "*"
