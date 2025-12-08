@@ -11,7 +11,7 @@
   "dependencies": {
     "@noble/curves": "2.0.1",
     "@noble/hashes": "2.0.1",
-    "@oko-wallet/bytes": "0.0.3-alpha.59",
+    "@oko-wallet/bytes": "0.0.3-alpha.60",
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "bcryptjs": "^3.0.2",
     "supertest": "^7.0.0"

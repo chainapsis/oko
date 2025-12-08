@@ -5,6 +5,8 @@
     "apps/oko_admin_web",
     "apps/user_dashboard",
     "backend/oko_api/server",
+    "backend/oko_api_server_state",
+    "backend/log_api",
     "embed/oko_attached",
     "lib/stdlib_js",
     "lib/dotenv",
@@ -16,6 +18,7 @@
     "crypto/crypto_js",
     "crypto/sss",
     "crypto/tecdsa/tecdsa_interface",
+    "crypto/tecdsa/cait_sith_keplr_hooks",
     "key_share_node/server",
     "key_share_node/ksn_interface"
   ],

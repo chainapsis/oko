@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/oko-api-server-state",
+  "private": true,
   "main": "./src/index.ts",
   "type": "module",
   "exports": {
@@ -7,20 +8,20 @@
     "./database": "./src/database/index.ts"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "0.0.3-alpha.59",
+    "@oko-wallet/bytes": "0.0.3-alpha.60",
     "@oko-wallet/crypto-js": "0.0.2-alpha.2",
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "cors": "*",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "*",
-    "helmet": "*",
-    "jsonwebtoken": "*",
-    "morgan": "*",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "pg": "^8.16.3",
     "uuid": "^13.0.0",
     "winston": "^3.17.0",
-    "winston-elasticsearch": "*"
+    "winston-elasticsearch": "^0.19.0"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
