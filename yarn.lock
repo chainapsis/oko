@@ -9911,7 +9911,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/oko-sdk-eth@workspace:*, @oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth":
+"@oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth"
   dependencies:
@@ -10178,7 +10178,7 @@ __metadata:
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-cosmos": "workspace:*"
-    "@oko-wallet/oko-sdk-eth": "workspace:*"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
@@ -35521,7 +35521,7 @@ __metadata:
     "@nomicfoundation/hardhat-verify": "npm:^2.0.14"
     "@nomicfoundation/ignition-core": "npm:^0.15.12"
     "@oko-wallet/oko-sdk-core": "workspace:*"
-    "@oko-wallet/oko-sdk-eth": "workspace:*"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@rainbow-me/rainbowkit": "npm:2.2.7"
     "@tailwindcss/postcss": "npm:4.0.15"
     "@tanstack/react-query": "npm:~5.59.15"
@@ -35558,7 +35558,7 @@ __metadata:
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
     "@oko-wallet/oko-sdk-core": "workspace:*"
     "@oko-wallet/oko-sdk-cosmos": "workspace:*"
-    "@oko-wallet/oko-sdk-eth": "workspace:*"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@react-router/dev": "npm:^7.4.0"
     "@tanstack/react-query": "npm:~5.59.15"
     "@types/node": "npm:^24.10.1"
