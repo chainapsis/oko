@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/stdlib-js",
-  "version": "0.0.2-rc.36",
+  "version": "0.0.2-rc.40",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -32,13 +32,13 @@
     "directory": "stdlib_js"
   },
   "devDependencies": {
-    "@jest/globals": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "del-cli": "*",
-    "ts-jest": "*",
-    "tsc-alias": "*",
-    "typescript": "*"
+    "@jest/globals": "^29.7.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^24.10.1",
+    "del-cli": "^6.0.0",
+    "ts-jest": "^29.4.5",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.8.3"
   },
-  "gitHead": "0960908938cd494a3b11af557553dba8fb53b674"
+  "gitHead": "b1c4753a3a1aa996a2f5c28297d71adbe2457945"
 }

@@ -5,7 +5,7 @@ import {
   deriveSessionKey,
 } from "@oko-wallet/crypto-js/browser";
 
-async function test() {
+async function test1() {
   const aliceKeypairResult = generateEddsaKeypair();
   if (!aliceKeypairResult.success) {
     console.error("Failed to generate keypair", aliceKeypairResult.err);
@@ -72,4 +72,4 @@ async function test() {
   console.log("Decrypted data is equal to plaintext");
 }
 
-test().then();
+test1().then();

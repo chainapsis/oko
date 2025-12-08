@@ -1,0 +1,41 @@
+{
+  "name": "@oko-wallet/sandbox-cosmos-kit",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@cosmjs/amino": "0.36.1",
+    "@cosmjs/encoding": "0.36.1",
+    "@cosmjs/proto-signing": "0.36.1",
+    "@cosmjs/stargate": "0.36.1",
+    "@cosmos-kit/react": "^2.22.7",
+    "@hookform/resolvers": "5.2.2",
+    "@interchain-ui/react": "^1.26.3",
+    "@keplr-wallet/types": "0.12.280",
+    "@keplr-wallet/unit": "0.12.280",
+    "@oko-wallet/oko-cosmos-kit": "workspace:*",
+    "@tanstack/react-query": "^5.90.11",
+    "chain-registry": "^1.69.410",
+    "next": "16.0.7",
+    "react": "19.2.1",
+    "react-dom": "19.2.1",
+    "react-hook-form": "7.65.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "*",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "*",
+    "eslint-config-next": "^16.0.7",
+    "tailwindcss": "^4",
+    "typescript": "^5.8.3"
+  }
+}

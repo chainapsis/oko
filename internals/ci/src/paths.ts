@@ -26,6 +26,8 @@ export const paths = (function () {
 
   const sdk_common = path.join(__dirname, "../../../sdk/oko_sdk_common/");
 
+  const sdk_cosmos_kit = path.join(__dirname, "../../../sdk/oko_cosmos_kit/");
+
   const sdk_core = path.join(__dirname, "../../../sdk/oko_sdk_core/");
 
   const sdk_eth = path.join(__dirname, "../../../sdk/oko_sdk_eth/");
@@ -38,6 +40,8 @@ export const paths = (function () {
   );
 
   const crypto_bytes = path.join(__dirname, "../../../crypto/bytes/");
+
+  const crypto_js = path.join(__dirname, "../../../crypto/crypto_js/");
 
   const tecdsa_interface = path.join(
     __dirname,
@@ -95,9 +99,11 @@ export const paths = (function () {
     dotenv,
     sdk_core,
     sdk_eth,
+    sdk_cosmos_kit,
     sdk_cosmos,
     sdk_common,
     crypto_bytes,
+    crypto_js,
     ksn_interface,
     ksn_server,
     ksn_pg_interface,

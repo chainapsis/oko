@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-cosmos",
-  "version": "0.0.6-rc.143",
+  "version": "0.0.6-rc.149",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -41,29 +41,29 @@
     "@keplr-wallet/types": "^0.12.253",
     "@noble/curves": "1.9.7",
     "@noble/hashes": "^1.8.0",
-    "@oko-wallet/oko-sdk-core": "0.0.6-rc.118",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.123",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.40",
     "bech32": "^2.0.0",
     "buffer": "^6.0.3",
-    "uuid": "*"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "*",
-    "@rollup/plugin-node-resolve": "*",
-    "@rollup/plugin-terser": "*",
-    "@rollup/plugin-typescript": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@typescript-eslint/parser": "*",
-    "del-cli": "*",
-    "jest": "*",
-    "rollup": "*",
-    "rollup-plugin-dts": "*",
-    "rollup-plugin-tsconfig-paths": "*",
-    "ts-jest": "*",
-    "tsc-alias": "*",
-    "typescript": "*"
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^24.10.1",
+    "@typescript-eslint/eslint-plugin": "^8.35.1",
+    "@typescript-eslint/parser": "^8.35.1",
+    "del-cli": "^6.0.0",
+    "jest": "^29.7.0",
+    "rollup": "^4.0.0",
+    "rollup-plugin-dts": "^6.2.1",
+    "rollup-plugin-tsconfig-paths": "^1.5.2",
+    "ts-jest": "^29.4.5",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.8.3"
   },
-  "gitHead": "0960908938cd494a3b11af557553dba8fb53b674"
+  "gitHead": "b1c4753a3a1aa996a2f5c28297d71adbe2457945"
 }

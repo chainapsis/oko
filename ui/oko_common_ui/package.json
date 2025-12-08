@@ -25,20 +25,20 @@
     "./skeleton": "./src/skeleton/skeleton.tsx"
   },
   "dependencies": {
-    "@floating-ui/dom": "*",
-    "@floating-ui/react": "*",
+    "@floating-ui/dom": "^1.7.4",
+    "@floating-ui/react": "^0.27.16",
     "@oko-wallet/stdlib-js": "0.0.2-rc.25",
-    "classnames": "*",
-    "next": "*",
-    "react": "*",
-    "react-dom": "*",
-    "sass": "*"
+    "classnames": "^2.5.1",
+    "next": "^15.5.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "sass": "^1.94.2"
   },
   "devDependencies": {
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
-    "tsx": "*",
-    "typescript": "*"
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }
