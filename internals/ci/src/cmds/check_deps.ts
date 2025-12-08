@@ -3,13 +3,17 @@ import { spawnSync } from "node:child_process";
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
-export async function langCheck(..._args: any[]) {
+export async function checkDeps(..._args: any[]) {
   console.log("Checking language of codebase...");
 
-  const publishRet = spawnSync("yarn", ["exec", "biome", "check"], {
-    cwd: paths.root,
-    stdio: "inherit",
-  });
+  const publishRet = spawnSync(
+    "yarn",
+    ["syncpack", "lint", "--dependency-types", "prod,dev"],
+    {
+      cwd: paths.root,
+      stdio: "inherit",
+    },
+  );
 
   expectSuccess(publishRet, "format failed");
 }
