@@ -50,7 +50,7 @@
     "@oko-wallet/bytes": "^0.0.3-alpha.61"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
     "jest": "^30.1.3",

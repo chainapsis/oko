@@ -36,7 +36,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/node": "^24.10.1",
     "ts-jest": "^29.4.5",
     "tsconfig-paths": "^4.2.0",

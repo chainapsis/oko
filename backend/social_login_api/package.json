@@ -13,8 +13,8 @@
     "express": "^4.21.1"
   },
   "devDependencies": {
-    "@types/express": "*",
-    "@types/jest": "*",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^29.5.14",
     "@types/node": "*",
     "@types/supertest": "^6.0.3",
     "jest": "^30.1.3",

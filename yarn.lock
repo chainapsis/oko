@@ -8841,8 +8841,8 @@ __metadata:
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/he": "npm:^1.2.0"
-    "@types/jest": "npm:^29.5.12"
-    "@types/jsonwebtoken": "npm:*"
+    "@types/jest": "npm:^29.5.14"
+    "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/multer": "npm:^2.0.0"
     "@types/node": "npm:^24.10.1"
@@ -8891,7 +8891,7 @@ __metadata:
     "@jest/globals": "npm:^29.7.0"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/bcryptjs": "npm:^2.4.6"
-    "@types/jest": "npm:^29.5.13"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^22.15.18"
     dotenv: "npm:^16.4.5"
     jest: "npm:^30.1.3"
@@ -8906,7 +8906,7 @@ __metadata:
   dependencies:
     "@jest/globals": "npm:^29.7.0"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     jest: "npm:^30.1.3"
@@ -8922,8 +8922,8 @@ __metadata:
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/cors": "npm:^2.8.17"
-    "@types/express": "npm:^4.17.20"
-    "@types/jest": "npm:^29.5.13"
+    "@types/express": "npm:^5.0.6"
+    "@types/jest": "npm:^29.5.14"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/supertest": "npm:^6.0.3"
@@ -8951,8 +8951,8 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/cors": "npm:^2.8.17"
-    "@types/express": "npm:^4.17.20"
-    "@types/jest": "npm:^29.5.13"
+    "@types/express": "npm:^5.0.6"
+    "@types/jest": "npm:^29.5.14"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/supertest": "npm:^6.0.3"
@@ -9005,7 +9005,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ci@workspace:internals/ci"
   dependencies:
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     chalk: "npm:^5.5.0"
     commander: "npm:^12.1.0"
@@ -9026,7 +9026,7 @@ __metadata:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.61"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/bcryptjs": "npm:^2.4.6"
-    "@types/jest": "npm:^29.5.13"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^22.15.18"
     bcryptjs: "npm:^3.0.2"
     del-cli: "npm:^6.0.0"
@@ -9055,8 +9055,8 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
-    "@types/jest": "npm:^29.5.12"
-    "@types/jsonwebtoken": "npm:*"
+    "@types/jest": "npm:^29.5.14"
+    "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/multer": "npm:^2.0.0"
     "@types/node": "npm:^24.10.1"
@@ -9171,7 +9171,7 @@ __metadata:
   resolution: "@oko-wallet/dotenv@workspace:lib/dotenv"
   dependencies:
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     dotenv: "npm:^16.4.5"
@@ -9220,9 +9220,9 @@ __metadata:
     "@oko-wallet/ksn-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@types/cors": "npm:^2.8.17"
-    "@types/express": "npm:^4.17.20"
+    "@types/express": "npm:^5.0.6"
     "@types/express-rate-limit": "npm:^6.0.2"
-    "@types/jest": "npm:^29.5.13"
+    "@types/jest": "npm:^29.5.14"
     "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
@@ -9267,7 +9267,7 @@ __metadata:
   resolution: "@oko-wallet/ksn-interface@workspace:key_share_node/ksn_interface"
   dependencies:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.61"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     jest: "npm:^30.1.3"
@@ -9285,7 +9285,7 @@ __metadata:
     "@oko-wallet/bytes": "npm:0.0.3-alpha.61"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.56"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     jest: "npm:^30.1.3"
     knex: "npm:^3.1.0"
@@ -9312,8 +9312,8 @@ __metadata:
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/express-rate-limit": "npm:^6.0.2"
-    "@types/jest": "npm:^29.5.12"
-    "@types/jsonwebtoken": "npm:*"
+    "@types/jest": "npm:^29.5.14"
+    "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
     "@types/supertest": "npm:^6.0.3"
@@ -9371,7 +9371,7 @@ __metadata:
   dependencies:
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     jest: "npm:^30.1.3"
     ts-jest: "npm:^29.4.5"
@@ -9400,7 +9400,7 @@ __metadata:
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/express": "npm:^5.0.6"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
@@ -9441,7 +9441,7 @@ __metadata:
     "@oko-wallet/user-dashboard-api": "workspace:*"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
@@ -9576,7 +9576,7 @@ __metadata:
     "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     jest: "npm:^30.1.3"
     knex: "npm:^3.1.0"
@@ -9595,7 +9595,7 @@ __metadata:
   resolution: "@oko-wallet/oko-sdk-common@workspace:sdk/oko_sdk_common"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     ts-jest: "npm:^29.4.5"
@@ -9627,7 +9627,7 @@ __metadata:
     "@rollup/plugin-replace": "npm:^6.0.2"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.0.0"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     jest: "npm:^30.1.3"
@@ -9676,7 +9676,7 @@ __metadata:
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.0.0"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     bech32: "npm:^2.0.0"
     buffer: "npm:^6.0.3"
@@ -9742,7 +9742,7 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-express": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     typescript: "npm:^5.8.3"
     viem: "npm:^2.41.2"
@@ -9755,8 +9755,8 @@ __metadata:
   dependencies:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@types/cors": "npm:^2.8.17"
-    "@types/express": "npm:^4.17.20"
-    "@types/jest": "npm:^29.5.13"
+    "@types/express": "npm:^5.0.6"
+    "@types/jest": "npm:^29.5.14"
     "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
@@ -9819,8 +9819,8 @@ __metadata:
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-types": "workspace:*"
-    "@types/express": "npm:*"
-    "@types/jest": "npm:*"
+    "@types/express": "npm:^5.0.6"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:*"
     "@types/supertest": "npm:^6.0.3"
     express: "npm:^4.21.1"
@@ -9843,7 +9843,7 @@ __metadata:
   resolution: "@oko-wallet/stdlib-js@workspace:lib/stdlib_js"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     ts-jest: "npm:^29.4.5"
@@ -9864,7 +9864,7 @@ __metadata:
   resolution: "@oko-wallet/tecdsa-interface@workspace:crypto/tecdsa/tecdsa_interface"
   dependencies:
     "@jest/globals": "npm:^29.7.0"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     ts-jest: "npm:^29.4.5"
@@ -9892,7 +9892,7 @@ __metadata:
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
-    "@types/jest": "npm:^29.5.12"
+    "@types/jest": "npm:^29.5.14"
     "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
@@ -9932,10 +9932,10 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.40"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
-    "@types/jest": "npm:^29.5.12"
-    "@types/jsonwebtoken": "npm:*"
+    "@types/jest": "npm:^29.5.14"
+    "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
-    "@types/multer": "npm:*"
+    "@types/multer": "npm:^2.0.0"
     "@types/node": "npm:^24.10.1"
     "@types/nodemailer": "npm:^6.4.17"
     "@types/supertest": "npm:^6.0.3"
@@ -15031,7 +15031,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:^4.17.20, @types/express@npm:^4.17.21":
+"@types/express@npm:^4.17.21":
   version: 4.17.25
   resolution: "@types/express@npm:4.17.25"
   dependencies:
@@ -15148,17 +15148,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jest@npm:*":
-  version: 30.0.0
-  resolution: "@types/jest@npm:30.0.0"
-  dependencies:
-    expect: "npm:^30.0.0"
-    pretty-format: "npm:^30.0.0"
-  checksum: 10c0/20c6ce574154bc16f8dd6a97afacca4b8c4921a819496a3970382031c509ebe87a1b37b152a1b8475089b82d8ca951a9e95beb4b9bf78fbf579b1536f0b65969
-  languageName: node
-  linkType: hard
-
-"@types/jest@npm:^29.5.12, @types/jest@npm:^29.5.13, @types/jest@npm:^29.5.14":
+"@types/jest@npm:^29.5.14":
   version: 29.5.14
   resolution: "@types/jest@npm:29.5.14"
   dependencies:
@@ -15182,7 +15172,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/jsonwebtoken@npm:*, @types/jsonwebtoken@npm:^9.0.7":
+"@types/jsonwebtoken@npm:^9.0.7":
   version: 9.0.10
   resolution: "@types/jsonwebtoken@npm:9.0.10"
   dependencies:
@@ -15259,7 +15249,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/multer@npm:*, @types/multer@npm:^2.0.0":
+"@types/multer@npm:^2.0.0":
   version: 2.0.0
   resolution: "@types/multer@npm:2.0.0"
   dependencies:
@@ -22774,7 +22764,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expect@npm:30.2.0, expect@npm:^30.0.0":
+"expect@npm:30.2.0":
   version: 30.2.0
   resolution: "expect@npm:30.2.0"
   dependencies:
@@ -32847,7 +32837,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pretty-format@npm:30.2.0, pretty-format@npm:^30.0.0":
+"pretty-format@npm:30.2.0":
   version: 30.2.0
   resolution: "pretty-format@npm:30.2.0"
   dependencies:
@@ -35191,8 +35181,8 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-express": "workspace:*"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/cors": "npm:^2.8.17"
-    "@types/express": "npm:^4.17.20"
-    "@types/jest": "npm:^29.5.13"
+    "@types/express": "npm:^5.0.6"
+    "@types/jest": "npm:^29.5.14"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/supertest": "npm:^6.0.3"
