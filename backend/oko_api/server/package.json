@@ -1,6 +1,7 @@
 {
   "name": "@oko-wallet/oko-api-server",
   "type": "module",
+  "private": true,
   "scripts": {
     "create_env": "tsx src/bin/create_env.ts",
     "dev": "tsx src/bin/launch.ts",
@@ -23,15 +24,15 @@
     "@oko-wallet/tss-api": "workspace:*",
     "@oko-wallet/user-dashboard-api": "workspace:*",
     "chalk": "^5.5.0",
-    "cors": "*",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.5",
-    "express": "*",
-    "helmet": "*",
-    "jsonwebtoken": "*",
-    "morgan": "*",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "nodemailer": "^7.0.4",
     "pg": "^8.16.3",
-    "swagger-ui-express": "*",
+    "swagger-ui-express": "^5.0.1",
     "tsx": "^4.20.3",
     "uuid": "^13.0.0",
     "zod": "^4.1.12"
@@ -40,7 +41,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.6",
     "@types/jest": "^29.5.12",
-    "@types/jsonwebtoken": "*",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.9",
     "@types/node": "^24.10.1",
     "@types/nodemailer": "^6.4.17",
@@ -50,7 +51,7 @@
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
     "jest": "^29.7.0",
-    "supertest": "*",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.4.5",
     "typescript": "^5.8.3"
   }
