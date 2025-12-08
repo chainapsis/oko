@@ -148,8 +148,8 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
               </button>
 
               <AddressQrModal
-                renderTrigger={() => (
-                  <button className={`${styles.copyButton}`}>
+                renderTrigger={({ onOpen }) => (
+                  <button className={`${styles.copyButton}`} onClick={onOpen}>
                     <QrCodeIcon size={16} color="var(--fg-tertiary)" />
                   </button>
                 )}

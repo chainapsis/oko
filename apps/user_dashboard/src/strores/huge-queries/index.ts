@@ -301,6 +301,7 @@ export class HugeQueriesStore {
 
         for (const currency of currencies) {
           const balance = queryBalance.getBalance(currency);
+
           if (!balance) {
             continue;
           }

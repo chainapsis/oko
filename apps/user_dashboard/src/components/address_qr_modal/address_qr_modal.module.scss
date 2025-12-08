@@ -4,11 +4,10 @@
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
+  z-index: 10;
 }
 
 .modal {
@@ -20,6 +19,7 @@
 .modalCard {
   width: 400px;
   background-color: var(--bg-primary);
+  border: 1px solid var(--border-primary);
   border-radius: 12px;
   overflow: hidden;
 }

@@ -1,1 +1,2 @@
 export const OKO_API_ENDPOINT = process.env.NEXT_PUBLIC_OKO_API_ENDPOINT;
+export const KEPLR_API_ENDPOINT = process.env.KEPLR_API_ENDPOINT;

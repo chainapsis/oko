@@ -6,6 +6,8 @@ import { KVStore, toGenerator } from "@keplr-wallet/common";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import { ModularChainInfo } from "./chain-info";
 
+const CHAIN_INFO_ENDPOINT = "https://keplr-api.keplr.app/v1/chains";
+
 export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
   @observable
   protected _isInitializing: boolean = false;
@@ -13,29 +15,19 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
   @observable.ref
   protected _enabledChainIdentifiers: string[] = [];
 
-  constructor(
-    protected readonly kvStore: KVStore,
-    protected readonly embedChainInfos: (ModularChainInfo | ChainInfo)[],
-  ) {
-    super(
-      embedChainInfos.map((chainInfo) => {
-        return {
-          ...chainInfo,
-          ...{
-            embedded: true,
-          },
-        };
-      }),
-    );
+  @observable.ref
+  protected _chainInfosFromAPI: (ModularChainInfo | ChainInfo)[] = [];
 
-    // Should be enabled at least one chain.
-    this._enabledChainIdentifiers = [
-      ChainIdHelper.parse(embedChainInfos[0].chainId).identifier,
-    ];
+  constructor(protected readonly kvStore: KVStore) {
+    super([]);
 
     makeObservable(this);
 
     this.init();
+  }
+
+  protected get embedChainInfos(): (ModularChainInfo | ChainInfo)[] {
+    return this._chainInfosFromAPI;
   }
 
   get isInitializing(): boolean {
@@ -272,6 +264,34 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
   @flow
   protected *init() {
     this._isInitializing = true;
+
+    try {
+      const response = yield* toGenerator(fetch(CHAIN_INFO_ENDPOINT));
+      const data = yield* toGenerator(
+        response.json() as Promise<{ chains: ChainInfo[] }>,
+      );
+
+      if (data.chains && data.chains.length > 0) {
+        this._chainInfosFromAPI = data.chains;
+
+        // Update base chain store with fetched chain infos
+        this.setEmbeddedChainInfos(
+          data.chains.map((chainInfo: ChainInfo) => ({
+            ...chainInfo,
+            embedded: true,
+          })),
+        );
+
+        // Set default enabled chain identifier
+        if (this._enabledChainIdentifiers.length === 0) {
+          this._enabledChainIdentifiers = [
+            ChainIdHelper.parse(data.chains[0].chainId).identifier,
+          ];
+        }
+      }
+    } catch (error) {
+      console.error("Failed to fetch chain infos from Keplr API:", error);
+    }
 
     const savedEnabledChains = yield* toGenerator(
       this.kvStore.get<string[]>("enabledChainIdentifiers"),

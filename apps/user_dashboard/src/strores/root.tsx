@@ -8,15 +8,15 @@ import {
   CosmwasmQueries,
   OsmosisQueries,
   getKeplrFromWindow,
-  QueriesStore,
   SecretQueries,
   ICNSQueries,
   AgoricQueries,
   NobleQueries,
 } from "@keplr-wallet/stores";
 
+import { QueriesStore } from "./queries";
 import { ChainStore } from "./chain";
-import { EmbedChainInfos, TokenContractListURL } from "./configs/config";
+import { TokenContractListURL } from "./configs/config";
 import {
   EthereumEndpoint,
   SkipTokenInfoBaseURL,
@@ -58,10 +58,7 @@ export class RootStore {
   constructor() {
     this.okoWalletAddressStore = new OkoWalletAddressStore();
 
-    this.chainStore = new ChainStore(
-      new IndexedDBKVStore("store_chains"),
-      EmbedChainInfos,
-    );
+    this.chainStore = new ChainStore(new IndexedDBKVStore("store_chains"));
 
     this.queriesStore = new QueriesStore(
       new IndexedDBKVStore("store_queries"),
