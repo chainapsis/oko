@@ -19,5 +19,6 @@
     "ts-jest": "^29.4.5",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.8.3"
-  }
+  },
+  "gitHead": "b1c4753a3a1aa996a2f5c28297d71adbe2457945"
 }

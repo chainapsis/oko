@@ -54,5 +54,6 @@
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28"
-  }
+  },
+  "gitHead": "b1c4753a3a1aa996a2f5c28297d71adbe2457945"
 }
