@@ -20,7 +20,7 @@
     "@keplr-wallet/proto-types": "^0.12.250",
     "@oko-wallet/dotenv": "^0.0.2-alpha.25",
     "@oko-wallet/oko-common-ui": "workspace:*",
-    "@oko-wallet/oko-sdk-core": "0.0.6-rc.112",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.123",
     "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.149",
     "@oko-wallet/oko-sdk-eth": "0.0.6-rc.133",
     "@oko-wallet/stdlib-js": "0.0.2-rc.40",
