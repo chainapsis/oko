@@ -1,4 +1,4 @@
-import { x25519 } from "@noble/curves/ed25519.js";
+import { x25519, ed25519 } from "@noble/curves/ed25519.js";
 import type { Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 
@@ -15,10 +15,14 @@ export function deriveSessionKey(
   prefix: string = "oko",
 ): Result<EcdheSessionKey, string> {
   try {
-    const sharedKey = x25519.getSharedSecret(
-      privateKey.toUint8Array(),
+    const publicX = ed25519.utils.toMontgomery(
       counterPartyPublicKey.toUint8Array(),
     );
+    const privateX = ed25519.utils.toMontgomerySecret(
+      privateKey.toUint8Array(),
+    );
+
+    const sharedKey = x25519.getSharedSecret(privateX, publicX);
 
     const prefixBytes = new TextEncoder().encode(prefix + "_");
     const combinedU8Arr = new Uint8Array([...prefixBytes, ...sharedKey]);

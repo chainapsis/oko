@@ -5,10 +5,7 @@ import {
   type EddsaKeypair,
 } from "@oko-wallet/crypto-js/node/ecdhe";
 import { Bytes } from "@oko-wallet/bytes";
-import {
-  encryptDataAsync,
-  decryptDataAsync,
-} from "@oko-wallet/crypto-js/node/ecdhe";
+import { encryptDataAsync, decryptDataAsync } from "@oko-wallet/crypto-js/node";
 import {
   getActiveServerKeypair,
   insertServerKeypair,

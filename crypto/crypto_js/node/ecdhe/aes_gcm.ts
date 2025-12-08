@@ -1,89 +1,103 @@
-// TODO: Remove sync functions @chemonoworld
+import type { Result } from "@oko-wallet/stdlib-js";
+import { Bytes, type BytesN } from "@oko-wallet/bytes";
 
-import {
-  randomBytes,
-  pbkdf2Sync,
-  createCipheriv,
-  createDecipheriv,
-  pbkdf2,
-} from "crypto";
-import { promisify } from "util";
+import type { EcdheSessionKey } from "../../common/ecdhe";
 
-const pbkdf2Async = promisify(pbkdf2);
+const AES_GCM_IV_LENGTH = 12;
+const AES_GCM_TAG_LENGTH = 128; // bits
 
-// deprecated
-export function encryptData(data: string, password: string): string {
-  const salt = randomBytes(16);
-  const iv = randomBytes(12);
-  const key = pbkdf2Sync(password, salt, 100000, 32, "sha256");
+export async function encryptWithEcdheKey(
+  data: Uint8Array,
+  sessionKey: EcdheSessionKey,
+): Promise<Result<BytesN, string>> {
+  const crypto = globalThis.crypto;
 
-  const cipher = createCipheriv("aes-256-gcm", key, iv);
-  const encrypted = Buffer.concat([
-    cipher.update(data, "utf8"),
-    cipher.final(),
-  ]);
-  const authTag = cipher.getAuthTag();
+  const iv = crypto.getRandomValues(new Uint8Array(AES_GCM_IV_LENGTH));
 
-  return Buffer.concat([salt, iv, authTag, encrypted]).toString("base64");
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    sessionKey.key.toArrayBuffer(),
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"],
+  );
+
+  try {
+    const ciphertext = await crypto.subtle.encrypt(
+      {
+        name: "AES-GCM",
+        iv,
+        tagLength: AES_GCM_TAG_LENGTH,
+      },
+      cryptoKey,
+      new Uint8Array(data),
+    );
+
+    // iv(12) + ciphertext + authTag(16)
+    const result = new Uint8Array(iv.length + ciphertext.byteLength);
+    result.set(iv, 0);
+    result.set(new Uint8Array(ciphertext), iv.length);
+
+    const resultBytes = Bytes.fromUint8Array(result, result.length);
+    if (!resultBytes.success) {
+      return { success: false, err: resultBytes.err };
+    }
+
+    return { success: true, data: resultBytes.data };
+  } catch (e) {
+    return {
+      success: false,
+      err: e instanceof Error ? e.message : "Encryption failed",
+    };
+  }
 }
 
-// deprecated
-export function decryptData(encryptedBase64: string, password: string): string {
-  const buffer = Buffer.from(encryptedBase64, "base64");
+export async function decryptWithEcdheKey(
+  encryptedData: BytesN,
+  sessionKey: EcdheSessionKey,
+): Promise<Result<BytesN, string>> {
+  const crypto = globalThis.crypto;
 
-  const salt = buffer.subarray(0, 16);
-  const iv = buffer.subarray(16, 28);
-  const authTag = buffer.subarray(28, 44);
-  const encrypted = buffer.subarray(44);
+  if (encryptedData.length < AES_GCM_IV_LENGTH + 16) {
+    return { success: false, err: "Encrypted data is too short" };
+  }
 
-  const key = pbkdf2Sync(password, salt, 100000, 32, "sha256");
+  const u8Array = encryptedData.toUint8Array();
 
-  const decipher = createDecipheriv("aes-256-gcm", key, iv);
-  decipher.setAuthTag(authTag);
+  const iv = u8Array.slice(0, AES_GCM_IV_LENGTH);
+  const ciphertext = u8Array.slice(AES_GCM_IV_LENGTH);
 
-  const decrypted = Buffer.concat([
-    decipher.update(encrypted),
-    decipher.final(),
-  ]);
-  return decrypted.toString("utf8");
-}
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    sessionKey.key.toArrayBuffer(),
+    { name: "AES-GCM", length: 256 },
+    false,
+    ["encrypt", "decrypt"],
+  );
 
-export async function encryptDataAsync(
-  data: string,
-  password: string,
-): Promise<string> {
-  const salt = randomBytes(16);
-  const iv = randomBytes(12);
-  const key = await pbkdf2Async(password, salt, 100000, 32, "sha256");
+  try {
+    const plaintext = await crypto.subtle.decrypt(
+      {
+        name: "AES-GCM",
+        iv,
+        tagLength: AES_GCM_TAG_LENGTH,
+      },
+      cryptoKey,
+      ciphertext,
+    );
 
-  const cipher = createCipheriv("aes-256-gcm", key, iv);
-  const encrypted = Buffer.concat([
-    cipher.update(data, "utf8"),
-    cipher.final(),
-  ]);
-  const authTag = cipher.getAuthTag();
+    const u8Array = new Uint8Array(plaintext);
 
-  return Buffer.concat([salt, iv, authTag, encrypted]).toString("base64");
-}
+    const resultBytes = Bytes.fromUint8Array(u8Array, u8Array.length);
+    if (!resultBytes.success) {
+      return { success: false, err: resultBytes.err };
+    }
 
-export async function decryptDataAsync(
-  encryptedBase64: string,
-  password: string,
-): Promise<string> {
-  const buffer = Buffer.from(encryptedBase64, "base64");
-  const salt = buffer.subarray(0, 16);
-  const iv = buffer.subarray(16, 28);
-  const authTag = buffer.subarray(28, 44);
-  const encrypted = buffer.subarray(44);
-
-  const key = await pbkdf2Async(password, salt, 100000, 32, "sha256");
-
-  const decipher = createDecipheriv("aes-256-gcm", key, iv);
-  decipher.setAuthTag(authTag);
-
-  const decrypted = Buffer.concat([
-    decipher.update(encrypted),
-    decipher.final(),
-  ]);
-  return decrypted.toString("utf8");
+    return { success: true, data: resultBytes.data };
+  } catch (e) {
+    return {
+      success: false,
+      err: e instanceof Error ? e.message : "Decryption failed",
+    };
+  }
 }
