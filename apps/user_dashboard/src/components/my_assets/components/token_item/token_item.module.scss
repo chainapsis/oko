@@ -94,8 +94,6 @@
   margin-left: auto;
   display: flex;
   align-items: center;
-  gap: 12px;
-  flex-shrink: 0;
 }
 
 .balanceInfo {
@@ -115,6 +113,7 @@
   border-radius: 8px;
   background-color: transparent;
   cursor: pointer;
+  margin-left: 12px;
 
   &:hover {
     background-color: var(--bg-secondary);

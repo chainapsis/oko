@@ -1,0 +1,48 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  background-color: var(--bg-secondary);
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s;
+  min-width: 0; 
+
+  &:hover {
+    background-color: var(--bg-tertiary);
+  }
+}
+
+.addressText {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+  font-family: monospace; 
+}
+
+.former, .latter {
+  color: var(--fg-secondary);
+  font-weight: 500;
+  white-space: pre;
+}
+
+.middle {
+  color: var(--fg-tertiary);
+  font-weight: 400;
+  white-space: pre;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+

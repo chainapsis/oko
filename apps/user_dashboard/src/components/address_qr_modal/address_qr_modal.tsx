@@ -1,0 +1,125 @@
+import { FC, useState } from "react";
+import { QRCodeSVG } from "qrcode.react";
+import { Card } from "@oko-wallet-common-ui/card/card";
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
+import { XCloseIcon } from "@oko-wallet-common-ui/icons/x_close";
+import { EthermintChainIdHelper } from "@keplr-wallet/cosmos";
+import { Button } from "@oko-wallet-common-ui/button/button";
+
+import { AddressChip } from "../address_chip/address_chip";
+import styles from "./address_qr_modal.module.scss";
+import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
+
+interface AddressQrModalProps {
+  renderTrigger: () => React.ReactNode;
+  chainInfo: ModularChainInfo;
+  address: string;
+}
+
+export const AddressQrModal: FC<AddressQrModalProps> = ({
+  renderTrigger,
+  chainInfo,
+  address,
+}) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const onOpen = () => setIsOpen(true);
+  const onClose = () => setIsOpen(false);
+
+  const isEthereumAddress = address.startsWith("0x");
+
+  const addressQRdata = (() => {
+    if (!address) {
+      return "";
+    }
+
+    if (isEthereumAddress) {
+      const evmChainId =
+        "evm" in chainInfo
+          ? chainInfo.evm.chainId
+          : EthermintChainIdHelper.parse(chainInfo.chainId).ethChainId || null;
+
+      if (evmChainId) {
+        const hex = `0x${Number(evmChainId).toString(16)}`;
+        return `ethereum:${address}@${hex}`;
+      }
+      return `ethereum:${address}`;
+    }
+
+    return address;
+  })();
+
+  const chainLogoUrl = chainInfo.chainSymbolImageUrl;
+
+  return (
+    <>
+      {renderTrigger()}
+
+      {isOpen && (
+        <div className={styles.overlay} onClick={onClose}>
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <Card
+              className={styles.modalCard}
+              variant="elevated"
+              padding="none"
+            >
+              <div className={styles.modalContent}>
+                <div className={styles.header}>
+                  <Typography size="md" weight="semibold" color="primary">
+                    Copy Address
+                  </Typography>
+                  <button className={styles.closeButton} onClick={onClose}>
+                    <XCloseIcon size={20} />
+                  </button>
+                </div>
+
+                <div className={styles.chainInfo}>
+                  {chainLogoUrl ? (
+                    <img
+                      src={chainLogoUrl}
+                      alt={chainInfo.chainName}
+                      className={styles.chainLogo}
+                    />
+                  ) : (
+                    <div
+                      className={styles.chainLogo}
+                      style={{
+                        backgroundColor: "var(--bg-tertiary)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                    />
+                  )}
+                  <Typography size="sm" weight="medium" color="secondary">
+                    {chainInfo.chainName}
+                  </Typography>
+                </div>
+
+                <div className={styles.addressContainer}>
+                  <AddressChip
+                    address={address}
+                    isEthereumAddress={isEthereumAddress}
+                  />
+                </div>
+
+                <div className={styles.qrContainer}>
+                  <QRCodeSVG value={addressQRdata} size={200} />
+                </div>
+
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  fullWidth
+                  onClick={onClose}
+                >
+                  Close
+                </Button>
+              </div>
+            </Card>
+          </div>
+        </div>
+      )}
+    </>
+  );
+};

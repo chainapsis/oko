@@ -5,6 +5,7 @@ import { observer } from "mobx-react-lite";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { CopyOutlinedIcon } from "@oko-wallet-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
+import { QrCodeIcon } from "@oko-wallet-common-ui/icons/qr_code_icon";
 import { Skeleton } from "@oko-wallet-common-ui/skeleton/skeleton";
 import { EmptyStateIcon } from "@oko-wallet-common-ui/icons/empty_state_icon";
 import { Tooltip } from "@oko-wallet-common-ui/tooltip/tooltip";
@@ -12,17 +13,18 @@ import { Tooltip } from "@oko-wallet-common-ui/tooltip/tooltip";
 import styles from "./token_item.module.scss";
 import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
+import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
 
 interface TokenItemProps {
   viewToken: ViewToken;
-  copyAddress?: string;
+  address?: string;
   onClick?: () => void;
   disabled?: boolean;
   isNotReady?: boolean;
 }
 
 export const TokenItem: FunctionComponent<TokenItemProps> = observer(
-  ({ viewToken, copyAddress, onClick, disabled, isNotReady }) => {
+  ({ viewToken, address, onClick, disabled, isNotReady }) => {
     const { priceStore } = useRootStore();
     const [isCopied, setIsCopied] = useState(false);
 
@@ -37,10 +39,10 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
 
     const handleCopyAddress = async (e: React.MouseEvent) => {
       e.stopPropagation();
-      if (!copyAddress) return;
+      if (!address) return;
 
       try {
-        await navigator.clipboard.writeText(copyAddress);
+        await navigator.clipboard.writeText(address);
         setIsCopied(true);
         setTimeout(() => setIsCopied(false), 1500);
       } catch (error) {
@@ -127,22 +129,34 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
             </div>
           }
 
-          {/* Copy Address Button */}
-          {copyAddress && !isNotReady && (
-            <button
-              className={`${styles.copyButton}`}
-              onClick={handleCopyAddress}
-              type="button"
-            >
-              {isCopied ? (
-                <CheckCircleOutlinedIcon
-                  size={16}
-                  color="var(--fg-success-primary)"
-                />
-              ) : (
-                <CopyOutlinedIcon size={16} color="var(--fg-tertiary)" />
-              )}
-            </button>
+          {/* Copy Address and QR Code Buttons */}
+          {address && !isNotReady && (
+            <>
+              <button
+                className={`${styles.copyButton}`}
+                onClick={handleCopyAddress}
+                type="button"
+              >
+                {isCopied ? (
+                  <CheckCircleOutlinedIcon
+                    size={16}
+                    color="var(--fg-tertiary)"
+                  />
+                ) : (
+                  <CopyOutlinedIcon size={16} color="var(--fg-tertiary)" />
+                )}
+              </button>
+
+              <AddressQrModal
+                renderTrigger={() => (
+                  <button className={`${styles.copyButton}`}>
+                    <QrCodeIcon size={16} color="var(--fg-tertiary)" />
+                  </button>
+                )}
+                chainInfo={viewToken.chainInfo}
+                address={address}
+              />
+            </>
           )}
         </div>
       </div>
