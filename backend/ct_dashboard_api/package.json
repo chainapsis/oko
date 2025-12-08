@@ -28,7 +28,7 @@
     "sharp": "0.33.4",
     "swagger-ui-express": "*",
     "uuid": "*",
-    "zod": "*"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

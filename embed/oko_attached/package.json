@@ -57,7 +57,7 @@
     "uuid": "*",
     "viem": "^2.31.7",
     "vite": "^7.1.6",
-    "zod": "*",
+    "zod": "^4.1.12",
     "zustand": "*"
   },
   "devDependencies": {
@@ -76,6 +76,6 @@
     "typescript": "^5.8.3",
     "vite-plugin-node-polyfills": "^0.24.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "zod": "*"
+    "zod": "^4.1.12"
   }
 }

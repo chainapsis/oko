@@ -19,7 +19,7 @@
     "pg": "*",
     "swagger-ui-express": "^5.0.1",
     "uuid": "*",
-    "zod": "*"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

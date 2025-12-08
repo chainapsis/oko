@@ -27,7 +27,7 @@
     "uuid": "*",
     "winston": "^3.17.0",
     "winston-elasticsearch": "*",
-    "zod": "*"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

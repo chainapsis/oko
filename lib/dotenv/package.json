@@ -18,7 +18,7 @@
   "dependencies": {
     "@oko-wallet/stdlib-js": "^0.0.2-rc.38",
     "dotenv": "^16.4.5",
-    "zod": "*"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

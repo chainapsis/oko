@@ -9209,7 +9209,7 @@ __metadata:
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:*"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9468,7 +9468,7 @@ __metadata:
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:*"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9519,7 +9519,7 @@ __metadata:
     sass: "npm:^1.94.2"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9580,7 +9580,7 @@ __metadata:
     tsc-alias: "npm:^1.8.16"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9672,7 +9672,7 @@ __metadata:
     typescript: "npm:^5.8.3"
     winston: "npm:^3.17.0"
     winston-daily-rotate-file: "npm:^5.0.0"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9763,7 +9763,7 @@ __metadata:
     uuid: "npm:*"
     winston: "npm:^3.17.0"
     winston-elasticsearch: "npm:*"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9817,7 +9817,7 @@ __metadata:
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:*"
     typescript: "npm:^5.8.3"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9896,7 +9896,7 @@ __metadata:
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
     uuid: "npm:*"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -9958,7 +9958,7 @@ __metadata:
     vite: "npm:^7.1.6"
     vite-plugin-node-polyfills: "npm:^0.24.0"
     vite-tsconfig-paths: "npm:^5.1.4"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
     zustand: "npm:*"
   languageName: unknown
   linkType: soft
@@ -10271,7 +10271,7 @@ __metadata:
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:*"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -10304,7 +10304,7 @@ __metadata:
     react-hook-form: "npm:7.65.0"
     tailwindcss: "npm:^4"
     typescript: "npm:^5.8.3"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -10396,7 +10396,7 @@ __metadata:
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:*"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -10441,7 +10441,7 @@ __metadata:
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
     uuid: "npm:*"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -15639,16 +15639,6 @@ __metadata:
   dependencies:
     "@types/istanbul-lib-report": "npm:*"
   checksum: 10c0/1647fd402aced5b6edac87274af14ebd6b3a85447ef9ad11853a70fd92a98d35f81a5d3ea9fcb5dbb5834e800c6e35b64475e33fcae6bfa9acc70d61497c54ee
-  languageName: node
-  linkType: hard
-
-"@types/jest@npm:29.5.12":
-  version: 29.5.12
-  resolution: "@types/jest@npm:29.5.12"
-  dependencies:
-    expect: "npm:^29.0.0"
-    pretty-format: "npm:^29.0.0"
-  checksum: 10c0/25fc8e4c611fa6c4421e631432e9f0a6865a8cb07c9815ec9ac90d630271cad773b2ee5fe08066f7b95bebd18bb967f8ce05d018ee9ab0430f9dfd1d84665b6f
   languageName: node
   linkType: hard
 
@@ -28428,7 +28418,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jest@npm:29.7.0, jest@npm:^29.7.0":
+"jest@npm:^29.7.0":
   version: 29.7.0
   resolution: "jest@npm:29.7.0"
   dependencies:
@@ -36799,24 +36789,11 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@biomejs/biome": "npm:^2.3.4"
-    "@types/jest": "npm:29.5.12"
     "@types/node": "npm:^24.10.1"
-    "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
-    "@typescript-eslint/parser": "npm:^8.35.1"
-    del-cli: "npm:^6.0.0"
-    eslint-config-next: "npm:^16.0.7"
-    hardhat: "npm:^2.25.0"
-    jest: "npm:29.7.0"
     lerna: "npm:^9.0.3"
     prettier: "npm:^3.6.2"
-    rollup: "npm:^4.0.0"
-    rollup-plugin-dts: "npm:^6.2.1"
-    rollup-plugin-tsconfig-paths: "npm:^1.5.2"
-    ts-jest: "npm:29.4.5"
-    tsc-alias: "npm:^1.8.16"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    zod: "npm:4.1.12"
   languageName: unknown
   linkType: soft
 
@@ -37027,7 +37004,7 @@ __metadata:
     vite: "npm:^7.0.0"
     vite-plugin-node-polyfills: "npm:^0.24.0"
     vite-tsconfig-paths: "npm:^5.1.4"
-    zod: "npm:*"
+    zod: "npm:^4.1.12"
     zustand: "npm:^5.0.6"
   languageName: unknown
   linkType: soft
@@ -39377,46 +39354,6 @@ __metadata:
   peerDependencies:
     typescript: ">=4.8.4"
   checksum: 10c0/9806a38adea2db0f6aa217ccc6bc9c391ddba338a9fe3080676d0d50ed806d305bb90e8cef0276e793d28c8a929f400abb184ddd7ff83a416959c0f4d2ce754f
-  languageName: node
-  linkType: hard
-
-"ts-jest@npm:29.4.5":
-  version: 29.4.5
-  resolution: "ts-jest@npm:29.4.5"
-  dependencies:
-    bs-logger: "npm:^0.2.6"
-    fast-json-stable-stringify: "npm:^2.1.0"
-    handlebars: "npm:^4.7.8"
-    json5: "npm:^2.2.3"
-    lodash.memoize: "npm:^4.1.2"
-    make-error: "npm:^1.3.6"
-    semver: "npm:^7.7.3"
-    type-fest: "npm:^4.41.0"
-    yargs-parser: "npm:^21.1.1"
-  peerDependencies:
-    "@babel/core": ">=7.0.0-beta.0 <8"
-    "@jest/transform": ^29.0.0 || ^30.0.0
-    "@jest/types": ^29.0.0 || ^30.0.0
-    babel-jest: ^29.0.0 || ^30.0.0
-    jest: ^29.0.0 || ^30.0.0
-    jest-util: ^29.0.0 || ^30.0.0
-    typescript: ">=4.3 <6"
-  peerDependenciesMeta:
-    "@babel/core":
-      optional: true
-    "@jest/transform":
-      optional: true
-    "@jest/types":
-      optional: true
-    babel-jest:
-      optional: true
-    esbuild:
-      optional: true
-    jest-util:
-      optional: true
-  bin:
-    ts-jest: cli.js
-  checksum: 10c0/789f00666ba785ac425606d42601cbdc03015e46f228a0b333f06c6658d80865819bae0ddd59c762285352d2b14d0aa50912574ec699ba6369ddb0d400a49ac0
   languageName: node
   linkType: hard
 
@@ -42024,13 +41961,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"zod@npm:*, zod@npm:^3.25.0 || ^4.0.0, zod@npm:^4.1.8":
-  version: 4.1.13
-  resolution: "zod@npm:4.1.13"
-  checksum: 10c0/d7e74e82dba81a91ffc3239cd85bc034abe193a28f7087a94ab258a3e48e9a7ca4141920cac979a0d781495b48fc547777394149f26be04c3dc642f58bbc3941
-  languageName: node
-  linkType: hard
-
 "zod@npm:3.22.4":
   version: 3.22.4
   resolution: "zod@npm:3.22.4"
@@ -42049,6 +41979,13 @@ __metadata:
   version: 3.25.76
   resolution: "zod@npm:3.25.76"
   checksum: 10c0/5718ec35e3c40b600316c5b4c5e4976f7fee68151bc8f8d90ec18a469be9571f072e1bbaace10f1e85cf8892ea12d90821b200e980ab46916a6166a4260a983c
+  languageName: node
+  linkType: hard
+
+"zod@npm:^3.25.0 || ^4.0.0, zod@npm:^4.1.12, zod@npm:^4.1.8":
+  version: 4.1.13
+  resolution: "zod@npm:4.1.13"
+  checksum: 10c0/d7e74e82dba81a91ffc3239cd85bc034abe193a28f7087a94ab258a3e48e9a7ca4141920cac979a0d781495b48fc547777394149f26be04c3dc642f58bbc3941
   languageName: node
   linkType: hard
 
