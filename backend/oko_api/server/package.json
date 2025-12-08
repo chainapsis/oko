@@ -22,7 +22,7 @@
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "@oko-wallet/tss-api": "workspace:*",
     "@oko-wallet/user-dashboard-api": "workspace:*",
-    "chalk": "*",
+    "chalk": "^5.5.0",
     "cors": "*",
     "dotenv": "*",
     "express": "*",

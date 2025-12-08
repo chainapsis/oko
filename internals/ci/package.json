@@ -6,7 +6,7 @@
     "start": "tsx src/main.ts"
   },
   "dependencies": {
-    "chalk": "*",
+    "chalk": "^5.5.0",
     "commander": "*"
   },
   "devDependencies": {

@@ -19,7 +19,7 @@
     "@oko-wallet/ksn-interface": "^0.0.2-alpha.53",
     "@oko-wallet/ksn-pg-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.38",
-    "chalk": "*",
+    "chalk": "^5.5.0",
     "commander": "*",
     "cors": "^2.8.5",
     "dayjs": "*",
