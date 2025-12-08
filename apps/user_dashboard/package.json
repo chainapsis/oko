@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/user-dashboard",
-  "version": "0.1.0",
+  "version": "0.1.1-alpha.0",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,7 +13,7 @@
   "dependencies": {
     "@floating-ui/dom": "*",
     "@floating-ui/react": "*",
-    "@oko-wallet/dotenv": "workspace:*",
+    "@oko-wallet/dotenv": "0.0.2-alpha.25",
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/stdlib-js": "workspace:*",
     "@tanstack/react-query": "*",
@@ -25,11 +25,11 @@
     "zustand": "*"
   },
   "devDependencies": {
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
-    "sass": "*",
-    "tsx": "*",
-    "typescript": "*"
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "sass": "^1.94.2",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

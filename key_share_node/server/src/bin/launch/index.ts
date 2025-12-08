@@ -1,5 +1,7 @@
 import chalk from "chalk";
 import dayjs from "dayjs";
+import knex from "knex";
+import knexConfig from "@oko-wallet/ksn-pg-interface/knexfile";
 
 import { connectPG } from "@oko-wallet-ksn-server/database";
 import { makeApp } from "@oko-wallet-ksn-server/app";
@@ -89,6 +91,29 @@ async function main() {
     }
   } else {
     logger.info("Bypass DB backup checking, nodeId: %s", opts.nodeId);
+  }
+
+  logger.info("Running database migrations...");
+  try {
+    const migrationConfig = {
+      client: "pg",
+      connection: {
+        host: process.env.DB_HOST,
+        port: Number(process.env.DB_PORT),
+        user: process.env.DB_USER,
+        password: process.env.DB_PASSWORD,
+        database: process.env.DB_NAME,
+        ssl: process.env.DB_SSL === "true" ? true : false,
+      },
+      migrations: knexConfig.migrations,
+    };
+    const knexInstance = knex(migrationConfig);
+    await knexInstance.migrate.latest();
+    await knexInstance.destroy();
+    logger.info("Database migrations completed successfully");
+  } catch (err) {
+    logger.error("Migration failed, err: %s", err);
+    process.exit(1);
   }
 
   const app = makeApp();

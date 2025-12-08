@@ -1,7 +1,7 @@
 {
   "name": "@oko-wallet/key-share-node-server",
   "private": true,
-  "version": "0.0.5-alpha.8",
+  "version": "0.0.5-alpha.14",
   "type": "module",
   "scripts": {
     "typecheck": "tsc --noEmit",
@@ -14,15 +14,15 @@
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.1.0",
-    "@oko-wallet/bytes": "^0.0.3-alpha.55",
-    "@oko-wallet/crypto-js": "workspace:*",
-    "@oko-wallet/ksn-interface": "^0.0.2-alpha.52",
+    "@oko-wallet/bytes": "^0.0.3-alpha.60",
+    "@oko-wallet/crypto-js": "^0.0.2-alpha.4",
+    "@oko-wallet/ksn-interface": "^0.0.2-alpha.56",
     "@oko-wallet/ksn-pg-interface": "workspace:*",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.37",
-    "chalk": "*",
-    "commander": "*",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.40",
+    "chalk": "^5.5.0",
+    "commander": "^12.1.0",
     "cors": "^2.8.5",
-    "dayjs": "*",
+    "dayjs": "^1.11.18",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-rate-limit": "^8.0.1",
@@ -31,10 +31,10 @@
     "morgan": "^1.10.0",
     "pg": "^8.16.3",
     "swagger-ui-express": "^5.0.1",
-    "tsx": "*",
-    "winston": "*",
-    "winston-daily-rotate-file": "*",
-    "zod": "*"
+    "tsx": "^4.20.3",
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -44,15 +44,15 @@
     "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.7.5",
-    "@types/pg": "^8",
+    "@types/pg": "^8.15.6",
     "@types/supertest": "^6.0.2",
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.8",
     "@typescript-eslint/eslint-plugin": "^7.16.1",
     "@typescript-eslint/parser": "^7.16.1",
-    "jest": "*",
-    "supertest": "*",
-    "ts-jest": "*",
-    "typescript": "*"
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.8.3"
   }
 }

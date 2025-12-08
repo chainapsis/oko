@@ -1,5 +1,17 @@
 {
   "packages": [
+    "apps/customer_dashboard",
+    "apps/demo_web",
+    "apps/oko_admin_web",
+    "apps/user_dashboard",
+    "backend/oko_api/server",
+    "backend/oko_api_server_state",
+    "backend/oko_pg_interface",
+    "backend/log_api",
+    "backend/admin_api",
+    "backend/ct_dashboard_api",
+    "backend/tss_api",
+    "embed/oko_attached",
     "lib/stdlib_js",
     "lib/dotenv",
     "sdk/oko_cosmos_kit",
@@ -7,10 +19,13 @@
     "sdk/oko_sdk_cosmos",
     "sdk/oko_sdk_eth",
     "crypto/bytes",
+    "crypto/crypto_js",
     "crypto/sss",
     "crypto/tecdsa/tecdsa_interface",
+    "crypto/tecdsa/cait_sith_keplr_hooks",
     "key_share_node/server",
-    "key_share_node/ksn_interface"
+    "key_share_node/ksn_interface",
+    "key_share_node/pg_interface"
   ],
   "version": "independent",
   "npmClient": "yarn"

@@ -11,19 +11,19 @@
   "dependencies": {
     "@noble/curves": "2.0.1",
     "@noble/hashes": "2.0.1",
-    "@oko-wallet/bytes": "0.0.3-alpha.54",
+    "@oko-wallet/bytes": "0.0.3-alpha.60",
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "bcryptjs": "^3.0.2",
-    "supertest": "*"
+    "supertest": "^7.0.0"
   },
   "devDependencies": {
-    "@jest/globals": "*",
-    "@types/bcryptjs": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "del-cli": "*",
-    "jest": "*",
-    "ts-jest": "*",
-    "typescript": "*"
+    "@jest/globals": "^29.7.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.15.18",
+    "del-cli": "^6.0.0",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.8.3"
   }
 }

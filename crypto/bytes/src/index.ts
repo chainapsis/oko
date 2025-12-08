@@ -5,7 +5,7 @@ const HEX_STRING_REGEX = new RegExp("^[0-9a-fA-F]*$");
 // Type definition for a fixed-length byte array
 // Only supports big endian.
 export class Bytes<N extends number> {
-  private readonly _bytes: Uint8Array;
+  protected readonly _bytes: Uint8Array;
   readonly length: N;
 
   private constructor(bytes: Uint8Array, length: N) {
