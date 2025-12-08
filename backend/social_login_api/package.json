@@ -17,7 +17,7 @@
     "@types/jest": "*",
     "@types/node": "*",
     "@types/supertest": "*",
-    "jest": "*",
+    "jest": "^30.1.3",
     "supertest": "*",
     "ts-jest": "^29.4.5",
     "typescript": "^5.8.3"

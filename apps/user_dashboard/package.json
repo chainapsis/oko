@@ -17,7 +17,7 @@
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/oko-sdk-cosmos": "workspace:*",
     "@oko-wallet/oko-sdk-eth": "workspace:*",
-    "@oko-wallet/stdlib-js": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
     "@tanstack/react-query": "*",
     "@tanstack/react-table": "*",
     "next": "^16.0.7",

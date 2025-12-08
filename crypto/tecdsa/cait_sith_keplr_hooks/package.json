@@ -8,7 +8,7 @@
     "@oko-wallet/bytes": "0.0.3-alpha.60",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "@oko-wallet/oko-types": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "classnames": "^2.5.1",
     "react": "^19.2.1",

@@ -39,7 +39,7 @@
     "@oko-wallet/oko-sdk-core": "0.0.6-rc.118",
     "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.143",
     "@oko-wallet/oko-sdk-eth": "0.0.6-rc.133",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "@tanstack/react-query": "^5.90.11",
     "@tanstack/react-router": "^1.136.8",

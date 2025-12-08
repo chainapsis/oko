@@ -23,7 +23,7 @@
     "@oko-wallet/oko-sdk-core": "0.0.6-rc.112",
     "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.135",
     "@oko-wallet/oko-sdk-eth": "0.0.6-rc.126",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
