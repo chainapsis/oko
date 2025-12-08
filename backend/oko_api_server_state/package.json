@@ -23,7 +23,7 @@
     "winston-elasticsearch": "*"
   },
   "devDependencies": {
-    "@types/express": "*",
+    "@types/express": "^5.0.6",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
