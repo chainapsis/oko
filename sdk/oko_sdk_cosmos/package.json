@@ -45,7 +45,7 @@
     "@oko-wallet/stdlib-js": "^0.0.2-rc.39",
     "bech32": "^2.0.0",
     "buffer": "^6.0.3",
-    "uuid": "*"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",

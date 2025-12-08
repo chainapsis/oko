@@ -54,7 +54,7 @@
     "react-dom": "^19.2.1",
     "react-error-boundary": "*",
     "starknet": "^7.6.4",
-    "uuid": "*",
+    "uuid": "^13.0.0",
     "viem": "^2.31.7",
     "vite": "^7.1.6",
     "zod": "^4.1.12",

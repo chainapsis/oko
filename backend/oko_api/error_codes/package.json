@@ -9,7 +9,7 @@
   "dependencies": {
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "uuid": "*"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

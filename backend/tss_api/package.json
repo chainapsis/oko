@@ -28,7 +28,7 @@
     "morgan": "*",
     "pg": "^8.16.3",
     "swagger-ui-express": "*",
-    "uuid": "*",
+    "uuid": "^13.0.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
