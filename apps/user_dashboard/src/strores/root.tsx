@@ -1,5 +1,4 @@
 import { KeplrETCQueries } from "@keplr-wallet/stores-etc";
-import { EthereumQueries } from "@keplr-wallet/stores-eth";
 import { IndexedDBKVStore } from "@keplr-wallet/common";
 import { FiatCurrency } from "@keplr-wallet/types";
 import {
@@ -12,9 +11,10 @@ import {
   ICNSQueries,
   AgoricQueries,
   NobleQueries,
+  QueriesStore,
 } from "@keplr-wallet/stores";
 
-import { QueriesStore } from "./queries";
+// import { QueriesStore } from "./queries";
 import { ChainStore } from "./chain";
 import { TokenContractListURL } from "./configs/config";
 import {
@@ -31,6 +31,7 @@ import { SwapUsageQueries } from "./swap-usage/queries";
 import { SkipQueries } from "./skip";
 import { TokenContractsQueries } from "./token-contracts";
 import { OkoWalletAddressStore } from "./address-store";
+import { EthereumQueries } from "./eth";
 
 export class RootStore {
   public readonly chainStore: ChainStore;

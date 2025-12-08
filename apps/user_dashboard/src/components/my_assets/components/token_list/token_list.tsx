@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
 import { CoinPretty } from "@keplr-wallet/unit";
@@ -50,15 +50,19 @@ export const TokenList = observer(() => {
           name="search-tokens"
         />
       </div>
-      <ul className={styles.assetList}>
+      <div className={styles.assetList}>
         {searchedAssets.map((asset) => {
           const address = chainStore.isEvmOnlyChain(asset.chainInfo.chainId)
             ? okoWalletAddressStore.getEthAddress()
             : okoWalletAddressStore.getBech32Address(asset.chainInfo.chainId);
 
-          return <TokenItem viewToken={asset} address={address} />;
+          return (
+            <Fragment key={asset.token.currency.coinMinimalDenom}>
+              <TokenItem viewToken={asset} address={address} />
+            </Fragment>
+          );
         })}
-      </ul>
+      </div>
     </>
   );
 });

@@ -117,7 +117,7 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
                   <Typography size="sm" weight="medium" color="secondary">
                     {viewToken.token
                       .hideDenom(true)
-                      .maxDecimals(2)
+                      .maxDecimals(4)
                       .shrink(true)
                       .toString()}
                   </Typography>
