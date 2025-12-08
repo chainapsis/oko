@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.1.0",
-    "@oko-wallet/bytes": "^0.0.3-alpha.61",
-    "@oko-wallet/crypto-js": "^0.0.2-alpha.5",
+    "@oko-wallet/bytes": "0.0.3-alpha.61",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.5",
     "@oko-wallet/ksn-interface": "^0.0.2-alpha.57",
     "@oko-wallet/ksn-pg-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.41",

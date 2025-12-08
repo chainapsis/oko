@@ -8,10 +8,10 @@
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "0.0.3-alpha.60",
+    "@oko-wallet/bytes": "0.0.3-alpha.61",
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
-    "@oko-wallet/crypto-js": "0.0.2-alpha.4",
-    "@oko-wallet/ksn-interface": "0.0.2-alpha.56",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.5",
+    "@oko-wallet/ksn-interface": "0.0.2-alpha.57",
     "@oko-wallet/oko-api-error-codes": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-api-server-state": "workspace:*",

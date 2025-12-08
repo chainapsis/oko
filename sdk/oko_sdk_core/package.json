@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@keplr-wallet/types": "^0.12.257",
-    "@oko-wallet/bytes": "^0.0.3-alpha.61",
+    "@oko-wallet/bytes": "0.0.3-alpha.61",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.41"
   },
   "devDependencies": {
