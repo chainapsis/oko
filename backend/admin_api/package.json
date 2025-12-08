@@ -25,7 +25,7 @@
     "he": "^1.2.0",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
-    "morgan": "*",
+    "morgan": "^1.10.0",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.4",
     "pg": "^8.16.3",

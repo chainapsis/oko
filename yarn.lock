@@ -9198,8 +9198,8 @@ __metadata:
     he: "npm:^1.2.0"
     helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
-    jsonwebtoken: "npm:*"
-    morgan: "npm:*"
+    jsonwebtoken: "npm:^9.0.2"
+    morgan: "npm:^1.10.0"
     multer: "npm:^2.0.2"
     nodemailer: "npm:^7.0.4"
     pg: "npm:^8.16.3"
@@ -9442,8 +9442,8 @@ __metadata:
     express-rate-limit: "npm:8.2.1"
     helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
-    jsonwebtoken: "npm:*"
-    morgan: "npm:*"
+    jsonwebtoken: "npm:^9.0.2"
+    morgan: "npm:^1.10.0"
     multer: "npm:*"
     pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
@@ -9715,8 +9715,8 @@ __metadata:
     express-rate-limit: "npm:^8.0.1"
     helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
-    jsonwebtoken: "npm:*"
-    morgan: "npm:*"
+    jsonwebtoken: "npm:^9.0.2"
+    morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
@@ -9905,7 +9905,7 @@ __metadata:
     cosmjs-types: "npm:^0.9.0"
     del-cli: "npm:^6.0.0"
     dotenv: "npm:^16.4.5"
-    jsonwebtoken: "npm:*"
+    jsonwebtoken: "npm:^9.0.2"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-error-boundary: "npm:^6.0.0"
@@ -10354,8 +10354,8 @@ __metadata:
     express: "npm:^4.21.1"
     helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
-    jsonwebtoken: "npm:*"
-    morgan: "npm:*"
+    jsonwebtoken: "npm:^9.0.2"
+    morgan: "npm:^1.10.0"
     pg: "npm:^8.16.3"
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
@@ -10396,8 +10396,8 @@ __metadata:
     express-rate-limit: "npm:8.2.1"
     helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
-    jsonwebtoken: "npm:*"
-    morgan: "npm:*"
+    jsonwebtoken: "npm:^9.0.2"
+    morgan: "npm:^1.10.0"
     multer: "npm:*"
     nodemailer: "npm:^7.0.4"
     pg: "npm:^8.16.3"
@@ -28267,7 +28267,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jsonwebtoken@npm:*, jsonwebtoken@npm:^9.0.2":
+"jsonwebtoken@npm:^9.0.2":
   version: 9.0.3
   resolution: "jsonwebtoken@npm:9.0.3"
   dependencies:
@@ -30941,7 +30941,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"morgan@npm:*, morgan@npm:^1.10.0":
+"morgan@npm:^1.10.0":
   version: 1.10.1
   resolution: "morgan@npm:1.10.1"
   dependencies:
