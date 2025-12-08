@@ -2,12 +2,14 @@
   "name": "@oko-wallet/crypto-js",
   "type": "module",
   "version": "0.0.2-alpha.0",
+  "main": "./dist/common/index.js",
+  "types": "./dist/common/index.d.ts",
   "exports": {
-    ".": "./common/index.ts",
-    "./node": "./node/index.ts",
-    "./node/ecdhe": "./node/ecdhe/index.ts",
-    "./browser": "./browser/index.ts",
-    "./browser/ecdhe": "./browser/ecdhe/index.ts"
+    ".": "./dist/common/index.js",
+    "./node": "./dist/node/index.js",
+    "./node/ecdhe": "./dist/node/ecdhe/index.js",
+    "./browser": "./dist/browser/index.js",
+    "./browser/ecdhe": "./dist/browser/ecdhe/index.js"
   },
   "scripts": {
     "clean": "del-cli dist",
