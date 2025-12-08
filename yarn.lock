@@ -9202,7 +9202,7 @@ __metadata:
     morgan: "npm:*"
     multer: "npm:^2.0.2"
     nodemailer: "npm:^7.0.4"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
@@ -9447,7 +9447,7 @@ __metadata:
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
     "@types/morgan": "npm:^1.9.9"
-    "@types/multer": "npm:*"
+    "@types/multer": "npm:^2.0.0"
     "@types/node": "npm:^24.10.1"
     "@types/supertest": "npm:^6.0.3"
     "@types/swagger-jsdoc": "npm:^6.0.4"
@@ -9461,9 +9461,9 @@ __metadata:
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
     multer: "npm:*"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
-    supertest: "npm:*"
+    supertest: "npm:^7.0.0"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
@@ -9715,13 +9715,13 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
     "@typescript-eslint/parser": "npm:^8.35.1"
     jest: "npm:^29.7.0"
-    knex: "npm:*"
-    pg: "npm:*"
+    knex: "npm:^3.1.0"
+    pg: "npm:^8.16.3"
     pgsql-parser: "npm:^17.7.8"
     ts-jest: "npm:^29.4.5"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
-    uuid: "npm:*"
+    uuid: "npm:^13.0.0"
   languageName: unknown
   linkType: soft
 
@@ -9755,7 +9755,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
@@ -9842,7 +9842,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     supertest: "npm:*"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
@@ -9889,7 +9889,7 @@ __metadata:
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
     nodemailer: "npm:^7.0.4"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
@@ -10014,7 +10014,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.35.1"
     jest: "npm:^29.7.0"
     knex: "npm:*"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     pgsql-parser: "npm:^17.7.8"
     ts-jest: "npm:^29.4.5"
     tsconfig-paths: "npm:*"
@@ -10397,7 +10397,7 @@ __metadata:
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
     ts-jest: "npm:^29.4.5"
@@ -10441,7 +10441,7 @@ __metadata:
     morgan: "npm:*"
     multer: "npm:*"
     nodemailer: "npm:^7.0.4"
-    pg: "npm:*"
+    pg: "npm:^8.16.3"
     sharp: "npm:0.33.4"
     supertest: "npm:*"
     swagger-ui-express: "npm:*"
@@ -28934,7 +28934,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"knex@npm:*":
+"knex@npm:*, knex@npm:^3.1.0":
   version: 3.1.0
   resolution: "knex@npm:3.1.0"
   dependencies:
@@ -33619,7 +33619,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"pg@npm:*, pg@npm:^8.16.3":
+"pg@npm:^8.16.3":
   version: 8.16.3
   resolution: "pg@npm:8.16.3"
   dependencies:

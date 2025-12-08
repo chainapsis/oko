@@ -27,7 +27,7 @@
     "morgan": "*",
     "multer": "^2.0.2",
     "nodemailer": "^7.0.4",
-    "pg": "*",
+    "pg": "^8.16.3",
     "sharp": "0.33.4",
     "swagger-ui-express": "*",
     "uuid": "*",

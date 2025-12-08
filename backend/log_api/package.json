@@ -22,7 +22,7 @@
     "helmet": "*",
     "jsonwebtoken": "*",
     "morgan": "*",
-    "pg": "*",
+    "pg": "^8.16.3",
     "swagger-ui-express": "*",
     "uuid": "*",
     "winston": "^3.17.0",

@@ -17,7 +17,7 @@
     "helmet": "*",
     "jsonwebtoken": "*",
     "morgan": "*",
-    "pg": "*",
+    "pg": "^8.16.3",
     "uuid": "*",
     "winston": "^3.17.0",
     "winston-elasticsearch": "*"
