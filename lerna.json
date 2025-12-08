@@ -24,7 +24,8 @@
     "crypto/tecdsa/tecdsa_interface",
     "crypto/tecdsa/cait_sith_keplr_hooks",
     "key_share_node/server",
-    "key_share_node/ksn_interface"
+    "key_share_node/ksn_interface",
+    "key_share_node/pg_interface"
   ],
   "version": "independent",
   "npmClient": "yarn"
