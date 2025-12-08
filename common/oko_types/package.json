@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/oko-types",
+  "private": true,
   "type": "module",
   "exports": {
     "./admin": "./src/admin/index.ts",
@@ -21,7 +22,7 @@
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "viem": "^2.41.2"
   },

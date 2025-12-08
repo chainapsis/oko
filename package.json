@@ -17,8 +17,6 @@
       "crypto/bytes",
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",
-      "crypto/isomorphic_crypto_js",
-      "crypto/isomorphic_crypto_js/tests/vite",
       "backend/oko_api/error_codes",
       "backend/oko_api/server",
       "backend/oko_api_server_state",
