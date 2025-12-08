@@ -37,13 +37,13 @@
     "zod": "*"
   },
   "devDependencies": {
-    "@types/cors": "*",
+    "@types/cors": "^2.8.17",
     "@types/express": "*",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
     "@types/node": "^24.10.1",
-    "@types/nodemailer": "*",
+    "@types/nodemailer": "^6.4.17",
     "@types/supertest": "*",
     "@types/swagger-jsdoc": "*",
     "@types/swagger-ui-express": "*",

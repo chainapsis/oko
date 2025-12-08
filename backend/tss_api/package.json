@@ -32,7 +32,7 @@
     "zod": "*"
   },
   "devDependencies": {
-    "@types/cors": "*",
+    "@types/cors": "^2.8.17",
     "@types/express": "*",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",

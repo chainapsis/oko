@@ -34,7 +34,7 @@
     "zod": "*"
   },
   "devDependencies": {
-    "@types/cors": "*",
+    "@types/cors": "^2.8.17",
     "@types/express": "*",
     "@types/he": "^1.2.0",
     "@types/jest": "^29.5.12",

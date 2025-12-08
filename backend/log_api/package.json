@@ -30,7 +30,7 @@
     "zod": "*"
   },
   "devDependencies": {
-    "@types/cors": "*",
+    "@types/cors": "^2.8.17",
     "@types/express": "*",
     "@types/express-rate-limit": "^6.0.2",
     "@types/jest": "^29.5.12",
