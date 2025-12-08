@@ -10,7 +10,7 @@
     "wasm-pack": "^0.13.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22.15.18",
     "typescript": "^5.8.3"
   }
 }

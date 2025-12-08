@@ -21,7 +21,7 @@
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-hook-form": "^7.65.0",
-    "react-intl": "*",
+    "react-intl": "^7.1.14",
     "zustand": "^5.0.6"
   },
   "devDependencies": {
