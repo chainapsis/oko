@@ -9647,7 +9647,7 @@ __metadata:
     "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
-    "@types/pg": "npm:^8"
+    "@types/pg": "npm:^8.15.6"
     "@types/supertest": "npm:^6.0.2"
     "@types/swagger-jsdoc": "npm:^6.0.4"
     "@types/swagger-ui-express": "npm:^4.1.8"
@@ -15835,7 +15835,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/pg@npm:^8":
+"@types/pg@npm:^8.15.6":
   version: 8.15.6
   resolution: "@types/pg@npm:8.15.6"
   dependencies:
