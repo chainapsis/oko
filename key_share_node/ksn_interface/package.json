@@ -54,7 +54,7 @@
     "@types/node": "^24.10.1",
     "@typescript-eslint/eslint-plugin": "^8.35.1",
     "@typescript-eslint/parser": "^8.35.1",
-    "del-cli": "*",
+    "del-cli": "^6.0.0",
     "jest": "*",
     "ts-jest": "*",
     "tsc-alias": "*",

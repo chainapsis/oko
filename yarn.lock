@@ -9120,7 +9120,7 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.38"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     jest: "npm:*"
     ts-jest: "npm:*"
     typescript: "npm:*"
@@ -9213,7 +9213,7 @@ __metadata:
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
-    eslint-config-next: "npm:*"
+    eslint-config-next: "npm:^16.0.7"
     prettier: "npm:*"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
@@ -9425,7 +9425,7 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.38"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     dotenv: "npm:^16.4.5"
     jest: "npm:*"
     ts-jest: "npm:*"
@@ -9546,7 +9546,7 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
     "@typescript-eslint/parser": "npm:^8.35.1"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     jest: "npm:*"
     ts-jest: "npm:*"
     tsc-alias: "npm:*"
@@ -9795,7 +9795,7 @@ __metadata:
     bitcoinjs-lib: "npm:^6.1.7"
     chalk: "npm:^5.5.0"
     cosmjs-types: "npm:^0.9.0"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     dotenv: "npm:^16.4.5"
     jsonwebtoken: "npm:*"
     react: "npm:^19.2.1"
@@ -9883,7 +9883,7 @@ __metadata:
     "@jest/globals": "npm:^29.7.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     ts-jest: "npm:*"
     tsc-alias: "npm:*"
     typescript: "npm:*"
@@ -9926,7 +9926,7 @@ __metadata:
     "@rollup/plugin-typescript": "npm:^11.0.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     jest: "npm:*"
     rollup: "npm:*"
     rollup-plugin-dts: "npm:*"
@@ -9998,7 +9998,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.35.1"
     bech32: "npm:^2.0.0"
     buffer: "npm:^6.0.3"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     jest: "npm:*"
     rollup: "npm:*"
     rollup-plugin-dts: "npm:*"
@@ -10149,7 +10149,7 @@ __metadata:
     "@types/react-dom": "npm:^19.2.3"
     chain-registry: "npm:^1.69.410"
     eslint: "npm:*"
-    eslint-config-next: "npm:*"
+    eslint-config-next: "npm:^16.0.7"
     next: "npm:16.0.7"
     react: "npm:19.2.1"
     react-dom: "npm:19.2.1"
@@ -10188,7 +10188,7 @@ __metadata:
     "@jest/globals": "npm:^29.7.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     ts-jest: "npm:*"
     tsc-alias: "npm:*"
     typescript: "npm:*"
@@ -10202,7 +10202,7 @@ __metadata:
     "@jest/globals": "npm:^29.7.0"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^24.10.1"
-    del-cli: "npm:*"
+    del-cli: "npm:^6.0.0"
     ts-jest: "npm:*"
     tsc-alias: "npm:*"
     typescript: "npm:*"
@@ -20019,7 +20019,7 @@ __metadata:
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
-    eslint-config-next: "npm:*"
+    eslint-config-next: "npm:^16.0.7"
     next: "npm:^15.5.7"
     prettier: "npm:*"
     react: "npm:^19.2.1"
@@ -21814,20 +21814,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"del-cli@npm:*":
-  version: 7.0.0
-  resolution: "del-cli@npm:7.0.0"
-  dependencies:
-    del: "npm:^8.0.1"
-    meow: "npm:^14.0.0"
-    presentable-error: "npm:^0.0.1"
-  bin:
-    del: cli.js
-    del-cli: cli.js
-  checksum: 10c0/5430d233e55bfb52f3e27647e177535d0d2dac0354aeef99ff8769892203d949dc18e0bb945ef2b17d6941a8d27432b87192f50545ef4847f1b430c6b45b9305
-  languageName: node
-  linkType: hard
-
 "del-cli@npm:^6.0.0":
   version: 6.0.0
   resolution: "del-cli@npm:6.0.0"
@@ -21841,7 +21827,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"del@npm:^8.0.0, del@npm:^8.0.1":
+"del@npm:^8.0.0":
   version: 8.0.1
   resolution: "del@npm:8.0.1"
   dependencies:
@@ -23114,7 +23100,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-next@npm:*, eslint-config-next@npm:^16.0.7":
+"eslint-config-next@npm:^16.0.7":
   version: 16.0.7
   resolution: "eslint-config-next@npm:16.0.7"
   dependencies:
@@ -30460,13 +30446,6 @@ __metadata:
   version: 13.2.0
   resolution: "meow@npm:13.2.0"
   checksum: 10c0/d5b339ae314715bcd0b619dd2f8a266891928e21526b4800d49b4fba1cc3fff7e2c1ff5edd3344149fac841bc2306157f858e8c4d5eaee4d52ce52ad925664ce
-  languageName: node
-  linkType: hard
-
-"meow@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "meow@npm:14.0.0"
-  checksum: 10c0/dbe4e136e0f858472d8b8c24d382054fe9898f6f47c58a42be25e6b1985e5ae31048573bf399f6e5877bf9d5b89cb840beae7350682019f998ff30baaa5e4106
   languageName: node
   linkType: hard
 
