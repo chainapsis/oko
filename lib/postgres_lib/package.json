@@ -1,31 +1,32 @@
 {
   "name": "@oko-wallet/postgres-lib",
+  "private": true,
   "main": "./src/index.ts",
   "type": "module",
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
-    "@oko-wallet/crypto-js": "workspace:*",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.4",
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "cors": "*",
-    "dotenv": "*",
-    "express": "*",
-    "helmet": "*",
-    "jsonwebtoken": "*",
-    "morgan": "*",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
     "nodemailer": "^7.0.4",
-    "pg": "*",
+    "pg": "^8.16.3",
     "swagger-ui-express": "^5.0.1",
-    "uuid": "*",
-    "zod": "*"
+    "uuid": "^13.0.0",
+    "zod": "^4.1.12"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.20",
     "@types/jest": "^29.5.13",
-    "@types/jsonwebtoken": "*",
+    "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.7.5",
     "@types/nodemailer": "^6.4.17",
@@ -38,9 +39,9 @@
     "eslint-config-airbnb-typescript": "^18.0.0",
     "eslint-import-resolver-typescript": "^3.6.3",
     "eslint-plugin-import": "^2.31.0",
-    "jest": "*",
-    "supertest": "*",
-    "ts-jest": "*",
-    "typescript": "*"
+    "jest": "^29.7.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.8.3"
   }
 }

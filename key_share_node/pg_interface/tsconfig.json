@@ -25,6 +25,6 @@
       "@oko-wallet-ksn-pg-interface/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*", "scripts/**/*"],
+  "include": ["./**/*"],
   "exclude": ["node_modules", "dist"]
 }

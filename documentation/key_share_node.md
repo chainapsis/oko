@@ -50,7 +50,7 @@ random value you choose** - this will be referenced later in the
 **Example encryption secret (32-byte hex string):**
 
 ```
-f7e2a9c4b8d1e6f3a5c7b9d2e4f6a8c1b3d5e7f9a2c4b6d8e1f3a5c7b9d2e4f6a8
+104c88b9a580415161f640e7efb1b3c73d2aad859cd02dd4a1ab35da0afe12bb
 ```
 
 ### Environment Configuration
