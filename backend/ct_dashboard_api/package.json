@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/ct-dashboard-api",
+  "private": true,
   "type": "module",
   "main": "./src/index.ts",
   "scripts": {

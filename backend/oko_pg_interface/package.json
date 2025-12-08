@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/oko-pg-interface",
+  "private": true,
   "type": "module",
   "scripts": {
     "knex": "knex",

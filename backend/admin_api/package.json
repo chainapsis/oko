@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/admin-api",
+  "private": true,
   "type": "module",
   "scripts": {
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"

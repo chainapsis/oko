@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/tss-api",
+  "private": true,
   "main": "./src/index.ts",
   "type": "module",
   "scripts": {

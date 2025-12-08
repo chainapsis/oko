@@ -2,6 +2,8 @@
   "packages": [
     "apps/customer_dashboard",
     "apps/demo_web",
+    "apps/oko_admin_web",
+    "apps/user_dashboard",
     "backend/oko_api/server",
     "lib/stdlib_js",
     "lib/dotenv",

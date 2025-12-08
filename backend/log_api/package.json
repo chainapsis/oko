@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/log-api",
+  "private": true,
   "main": "./src/index.ts",
   "type": "module",
   "scripts": {
