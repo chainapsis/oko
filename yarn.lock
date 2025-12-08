@@ -9196,7 +9196,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
     he: "npm:^1.2.0"
-    helmet: "npm:*"
+    helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
@@ -9440,7 +9440,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
     express-rate-limit: "npm:8.2.1"
-    helmet: "npm:*"
+    helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
@@ -9713,7 +9713,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
     express-rate-limit: "npm:^8.0.1"
-    helmet: "npm:*"
+    helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
@@ -10352,7 +10352,7 @@ __metadata:
     dayjs: "npm:^1.11.18"
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
-    helmet: "npm:*"
+    helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
@@ -10394,7 +10394,7 @@ __metadata:
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
     express-rate-limit: "npm:8.2.1"
-    helmet: "npm:*"
+    helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
@@ -25400,7 +25400,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"helmet@npm:*, helmet@npm:^8.0.0":
+"helmet@npm:^8.0.0":
   version: 8.1.0
   resolution: "helmet@npm:8.1.0"
   checksum: 10c0/94d3a7ebc88dbda1421635bdf33f00724adb5252269e93c5ab296ec0db11336d01265659ad3739ab1a1e881fb23a686ff7e788aac6a5fb929285134f157df763

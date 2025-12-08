@@ -49,7 +49,7 @@
     "bitcoinjs-lib": "^6.1.7",
     "chalk": "^5.5.0",
     "cosmjs-types": "^0.9.0",
-    "jsonwebtoken": "*",
+    "jsonwebtoken": "^9.0.2",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-error-boundary": "^6.0.0",
