@@ -9,6 +9,7 @@
     "sdk/oko_sdk_cosmos",
     "sdk/oko_sdk_eth",
     "crypto/bytes",
+    "crypto/crypto_js",
     "crypto/sss",
     "crypto/tecdsa/tecdsa_interface",
     "key_share_node/server",
