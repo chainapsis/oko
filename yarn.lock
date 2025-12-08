@@ -9389,7 +9389,7 @@ __metadata:
     "@typescript-eslint/eslint-plugin": "npm:^8.35.1"
     "@typescript-eslint/parser": "npm:^8.35.1"
     chalk: "npm:^5.5.0"
-    commander: "npm:*"
+    commander: "npm:^12.1.0"
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.4.5"
     tsx: "npm:^4.20.3"
@@ -10244,7 +10244,7 @@ __metadata:
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^4.17.20"
     "@types/jest": "npm:^29.5.13"
-    "@types/jsonwebtoken": "npm:*"
+    "@types/jsonwebtoken": "npm:^9.0.7"
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^22.7.5"
     "@types/nodemailer": "npm:^6.4.17"
@@ -10253,20 +10253,20 @@ __metadata:
     "@types/swagger-ui-express": "npm:^4.1.8"
     "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
     "@typescript-eslint/parser": "npm:^7.16.1"
-    cors: "npm:*"
+    cors: "npm:^2.8.5"
     dotenv: "npm:^16.4.5"
     eslint: "npm:^8.57.0"
     eslint-config-airbnb-typescript: "npm:^18.0.0"
     eslint-import-resolver-typescript: "npm:^3.6.3"
     eslint-plugin-import: "npm:^2.31.0"
-    express: "npm:*"
-    helmet: "npm:*"
+    express: "npm:^4.21.1"
+    helmet: "npm:^8.0.0"
     jest: "npm:^29.7.0"
     jsonwebtoken: "npm:*"
     morgan: "npm:*"
     nodemailer: "npm:^7.0.4"
     pg: "npm:*"
-    supertest: "npm:*"
+    supertest: "npm:^7.0.0"
     swagger-ui-express: "npm:^5.0.1"
     ts-jest: "npm:^29.4.5"
     typescript: "npm:^5.8.3"
@@ -20373,13 +20373,6 @@ __metadata:
     table-layout: "npm:^4.1.0"
     typical: "npm:^7.1.1"
   checksum: 10c0/444a3e3c6fcbdcb5802de0fd2864ea5aef83eeeb3a825fd24846b996503d4b4140e75aeb2939b3430a06407f3acc02b76b3e08dafb3a3092d22fdcced0ecb0b0
-  languageName: node
-  linkType: hard
-
-"commander@npm:*":
-  version: 14.0.2
-  resolution: "commander@npm:14.0.2"
-  checksum: 10c0/245abd1349dbad5414cb6517b7b5c584895c02c4f7836ff5395f301192b8566f9796c82d7bd6c92d07eba8775fe4df86602fca5d86d8d10bcc2aded1e21c2aeb
   languageName: node
   linkType: hard
 
