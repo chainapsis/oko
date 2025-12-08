@@ -20,9 +20,9 @@
     "next": "^15.5.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
-    "react-hook-form": "*",
+    "react-hook-form": "^7.65.0",
     "react-intl": "*",
-    "zustand": "*"
+    "zustand": "^5.0.6"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

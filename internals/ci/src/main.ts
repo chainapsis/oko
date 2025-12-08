@@ -11,7 +11,7 @@ import { DbSeedAPI } from "./cmds/db_seed_api";
 import { DbMigrateAPI } from "./cmds/db_migrate_api";
 import { langFormat } from "./cmds/lang_format";
 import { langCheck } from "./cmds/lang_check";
-import { depsLint } from "./cmds/deps_lint";
+import { depsCheck } from "./cmds/deps_check";
 
 async function main() {
   const command = program.version("0.0.1").description("Oko Public CI");
@@ -22,7 +22,7 @@ async function main() {
 
   command.command("publish").action(publish);
 
-  command.command("deps_lint").action(depsLint);
+  command.command("deps_check").action(depsCheck);
 
   command.command("lang_format").action(langFormat);
 

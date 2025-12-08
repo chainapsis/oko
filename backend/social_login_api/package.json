@@ -19,7 +19,7 @@
     "@types/supertest": "*",
     "jest": "*",
     "supertest": "*",
-    "ts-jest": "*",
+    "ts-jest": "^29.4.5",
     "typescript": "^5.8.3"
   }
 }

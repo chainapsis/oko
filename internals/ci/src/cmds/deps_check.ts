@@ -3,7 +3,7 @@ import { spawnSync } from "node:child_process";
 import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 
-export async function depsLint(..._args: any[]) {
+export async function depsCheck(..._args: any[]) {
   console.log("Checking dependencies...");
 
   const publishRet = spawnSync(
