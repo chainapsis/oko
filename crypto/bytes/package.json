@@ -27,7 +27,7 @@
     "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
     "jest": "^29.7.0",
-    "ts-jest": "*",
+    "ts-jest": "^29.4.5",
     "typescript": "*"
   },
   "gitHead": "0960908938cd494a3b11af557553dba8fb53b674"

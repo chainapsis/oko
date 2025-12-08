@@ -34,7 +34,7 @@
     "@types/jest": "^29.5.12",
     "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
-    "ts-jest": "*",
+    "ts-jest": "^29.4.5",
     "tsc-alias": "*",
     "typescript": "*"
   }
