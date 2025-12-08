@@ -10,7 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@oko-wallet/crypto-js": "workspace:*",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.2",
     "vite-plugin-node-polyfills": "^0.24.0"
   },
   "devDependencies": {
