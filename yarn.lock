@@ -9242,15 +9242,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/bytes@npm:0.0.3-alpha.59":
-  version: 0.0.3-alpha.59
-  resolution: "@oko-wallet/bytes@npm:0.0.3-alpha.59"
-  dependencies:
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.40"
-  checksum: 10c0/4a18863e9ca71a450d6d6d29c9725d8b78c457cc013c0d6911e3fd83ef178b8d160b5c0a0dadad1ddcb55c13d28d658aea1c4ade22176f96057be8fc7bf6eb55
-  languageName: node
-  linkType: hard
-
 "@oko-wallet/bytes@npm:0.0.3-alpha.60, @oko-wallet/bytes@npm:^0.0.3-alpha.49, @oko-wallet/bytes@npm:^0.0.3-alpha.54, @oko-wallet/bytes@npm:^0.0.3-alpha.60, @oko-wallet/bytes@workspace:crypto/bytes":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/bytes@workspace:crypto/bytes"
@@ -9678,7 +9669,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ksn-pg-interface@workspace:key_share_node/pg_interface"
   dependencies:
-    "@oko-wallet/bytes": "npm:0.0.3-alpha.59"
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.60"
     "@oko-wallet/ksn-interface": "npm:0.0.2-alpha.51"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
     "@types/jest": "npm:^29.5.12"
