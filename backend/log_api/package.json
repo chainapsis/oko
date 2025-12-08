@@ -15,7 +15,7 @@
     "@oko-wallet/postgres-lib": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
     "cors": "*",
-    "dayjs": "*",
+    "dayjs": "^1.11.18",
     "dotenv": "*",
     "express": "*",
     "express-rate-limit": "^8.0.1",

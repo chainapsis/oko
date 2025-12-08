@@ -20,7 +20,7 @@
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "cors": "*",
-    "dayjs": "*",
+    "dayjs": "^1.11.18",
     "dotenv": "*",
     "express": "*",
     "helmet": "*",

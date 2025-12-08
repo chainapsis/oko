@@ -22,7 +22,7 @@
     "chalk": "^5.5.0",
     "commander": "*",
     "cors": "^2.8.5",
-    "dayjs": "*",
+    "dayjs": "^1.11.18",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "express-rate-limit": "^8.0.1",
