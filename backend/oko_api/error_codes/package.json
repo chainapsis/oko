@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/oko-api-error-codes",
+  "private": true,
   "main": "./src/index.ts",
   "type": "module",
   "scripts": {
@@ -8,18 +9,15 @@
   },
   "dependencies": {
     "@oko-wallet/oko-types": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "uuid": "*"
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@types/jest": "*",
-    "@types/node": "*",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@typescript-eslint/parser": "*",
-    "jest": "*",
-    "ts-jest": "*",
-    "tsconfig-paths": "*",
-    "tsx": "*",
-    "typescript": "*"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^24.10.1",
+    "jest": "^30.1.3",
+    "ts-jest": "^29.4.5",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

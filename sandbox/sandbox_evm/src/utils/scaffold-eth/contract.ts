@@ -117,7 +117,7 @@ type ContractsDeclaration = IsContractDeclarationMissing<
   typeof contractsData
 >;
 
-type Contracts = ContractsDeclaration[ConfiguredChainId];
+type Contracts = GenericContractsDeclaration[ConfiguredChainId];
 
 export type ContractName = keyof Contracts;
 
@@ -364,8 +364,8 @@ export type EventFilters<
     : {
         [Key in IsContractDeclarationMissing<
           any,
-          IndexedEventInputs<TContractName, TEventName>["name"]
-        >]?: AbiParameterToPrimitiveType<
+          string
+        >]: AbiParameterToPrimitiveType<
           Extract<IndexedEventInputs<TContractName, TEventName>, { name: Key }>
         >;
       }

@@ -9,6 +9,10 @@ export type SendMsgToEmbeddedWindowError =
       type: "window_not_found";
     }
   | {
+      type: "send_to_parent_fail";
+      error: string;
+    }
+  | {
       type: "unknown";
       error: string;
     };

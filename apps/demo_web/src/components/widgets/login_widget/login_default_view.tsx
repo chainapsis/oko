@@ -13,9 +13,10 @@ import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 import { OkoLogoWithNameIcon } from "@oko-wallet-common-ui/icons/oko_logo_with_name_icon";
 
 import styles from "./login_widget.module.scss";
+import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
 
 export interface LoginDefaultViewProps {
-  onSignIn: (method: "google" | "telegram" | "x" | "apple") => void;
+  onSignIn: (method: LoginMethod) => void;
   onShowSocials: () => void;
 }
 
@@ -73,7 +74,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           size="md"
           fullWidth
           onClick={onShowSocials}
-          disabled={true} // TODO: Remove this once we have other social login implemented
+          disabled
         >
           <div className={styles.socialIconWrapper}>
             <XIcon size={16} />

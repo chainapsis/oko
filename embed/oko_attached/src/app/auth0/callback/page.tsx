@@ -1,7 +1,7 @@
 import React from "react";
 
-import { Auth0Callback } from "@oko-wallet-attached/components/auth0_callback/auth0_callback";
+import { EmailCallback } from "@oko-wallet-attached/components/email_callback/email_callback";
 
 export default function Page() {
-  return <Auth0Callback />;
+  return <EmailCallback />;
 }

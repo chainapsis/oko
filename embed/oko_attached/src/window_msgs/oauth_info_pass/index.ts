@@ -5,6 +5,8 @@ import type {
   OkoWalletMsgOAuthSignInUpdate,
   OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
+import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 
 import { sendMsgToWindow } from "../send";
 import {
@@ -25,9 +27,7 @@ import {
   handleReshare,
 } from "./user";
 import { bail } from "./errors";
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
-import { verifyIdToken } from "./token";
-import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
+import { getCredentialsFromPayload } from "./validate_social_login";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,
@@ -54,12 +54,6 @@ export async function handleOAuthInfoPass(
       return;
     }
 
-    const nonceRegistered = appState.getNonce(hostOrigin);
-    if (!nonceRegistered) {
-      await bail(message, { type: "nonce_missing" });
-      return;
-    }
-
     const apiKey = message.payload.api_key;
     if (!apiKey) {
       await bail(message, { type: "api_key_missing" });
@@ -68,22 +62,21 @@ export async function handleOAuthInfoPass(
     appState.setApiKey(hostOrigin, apiKey);
 
     const authType: OAuthProvider = message.payload.auth_type;
-    const idToken = message.payload.id_token;
 
-    const tokenInfoRes = await verifyIdToken(
-      authType,
-      idToken,
-      nonceRegistered,
+    const validateOauthRes = await getCredentialsFromPayload(
+      message.payload,
+      hostOrigin,
     );
-    if (!tokenInfoRes.success) {
-      await bail(message, { type: "vendor_token_verification_failed" });
+
+    if (!validateOauthRes.success) {
+      await bail(message, validateOauthRes.err);
       return;
     }
-    const tokenInfo = tokenInfoRes.data;
 
-    const userExistsRes = await checkUserExists(tokenInfo.email);
+    const { idToken, userIdentifier } = validateOauthRes.data;
+
+    const userExistsRes = await checkUserExists(userIdentifier);
     if (!userExistsRes.success) {
-      console.log("checkUserExists failed", userExistsRes);
       await bail(message, {
         type: "check_user_request_fail",
         error: userExistsRes.err.toString(),
@@ -125,7 +118,7 @@ export async function handleOAuthInfoPass(
     appState.setWallet(hostOrigin, {
       walletId: signInResult.walletId,
       publicKey: signInResult.publicKey,
-      email: tokenInfo.email,
+      email: userIdentifier,
     });
 
     hasSignedIn = true;

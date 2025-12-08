@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/oko-api-server-state",
+  "private": true,
   "main": "./src/index.ts",
   "type": "module",
   "exports": {
@@ -7,31 +8,31 @@
     "./database": "./src/database/index.ts"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "0.0.3-alpha.54",
-    "@oko-wallet/crypto-js": "workspace:*",
+    "@oko-wallet/bytes": "0.0.3-alpha.61",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.5",
     "@oko-wallet/oko-pg-interface": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "cors": "*",
-    "dotenv": "*",
-    "express": "*",
-    "helmet": "*",
-    "jsonwebtoken": "*",
-    "morgan": "*",
-    "pg": "*",
-    "uuid": "*",
-    "winston": "*",
-    "winston-elasticsearch": "*"
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "pg": "^8.16.3",
+    "uuid": "^13.0.0",
+    "winston": "^3.17.0",
+    "winston-elasticsearch": "^0.19.0"
   },
   "devDependencies": {
-    "@types/express": "*",
-    "@types/jest": "*",
-    "@types/jsonwebtoken": "*",
-    "@types/morgan": "*",
-    "@types/node": "*",
-    "@types/supertest": "*",
-    "jest": "*",
-    "supertest": "*",
-    "ts-jest": "*",
-    "typescript": "*"
+    "@types/express": "^5.0.6",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "^24.10.1",
+    "@types/supertest": "^6.0.3",
+    "jest": "^30.1.3",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.8.3"
   }
 }

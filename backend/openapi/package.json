@@ -14,9 +14,9 @@
   "type": "module",
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "*",
-    "zod": "*"
+    "zod": "^4.1.12"
   },
   "devDependencies": {
-    "typescript": "*"
+    "typescript": "^5.8.3"
   }
 }

@@ -5,10 +5,7 @@ import {
   type EddsaKeypair,
 } from "@oko-wallet/crypto-js/node/ecdhe";
 import { Bytes } from "@oko-wallet/bytes";
-import {
-  encryptDataAsync,
-  decryptDataAsync,
-} from "@oko-wallet/crypto-js/node/ecdhe";
+import { encryptDataAsync, decryptDataAsync } from "@oko-wallet/crypto-js/node";
 import {
   getActiveServerKeypair,
   insertServerKeypair,
@@ -102,6 +99,7 @@ export interface ServerState {
   s3_bucket: string;
   encryption_secret: string;
   typeform_webhook_secret: string;
+  telegram_bot_token: string;
   server_keypair: EddsaKeypair;
 }
 
@@ -132,6 +130,7 @@ export interface InitStateArgs {
   es_password: string | null;
   encryption_secret: string;
   typeform_webhook_secret: string;
+  telegram_bot_token: string;
 }
 
 async function initializeServerKeypair(

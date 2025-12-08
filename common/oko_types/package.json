@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/oko-types",
+  "private": true,
   "type": "module",
   "exports": {
     "./admin": "./src/admin/index.ts",
@@ -15,21 +16,19 @@
     "./aux_types": "./src/aux_types/index.ts",
     "./user_key_share": "./src/user_key_share/index.ts",
     "./key_share_node_meta": "./src/key_share_node_meta/index.ts",
-    "./tss_activate": "./src/tss_activate/index.ts"
+    "./tss_activate": "./src/tss_activate/index.ts",
+    "./social_login": "./src/social_login/index.ts"
   },
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
-    "tsconfig-paths": "*",
-    "viem": "*"
+    "viem": "^2.41.2"
   },
   "devDependencies": {
-    "@types/jest": "*",
-    "@types/node": "*",
-    "@typescript-eslint/eslint-plugin": "^7.16.1",
-    "@typescript-eslint/parser": "^7.16.1",
-    "typescript": "*"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.8.3"
   }
 }

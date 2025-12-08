@@ -10,18 +10,37 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as LoginIndexRouteImport } from './routes/login/index'
+import { Route as TelegramIndexRouteImport } from './routes/telegram/index'
+import { Route as EmailIndexRouteImport } from './routes/email/index'
+import { Route as XCallbackIndexRouteImport } from './routes/x/callback/index'
+import { Route as TelegramCallbackIndexRouteImport } from './routes/telegram/callback/index'
 import { Route as GoogleCallbackIndexRouteImport } from './routes/google/callback/index'
-import { Route as Auth0CallbackIndexRouteImport } from './routes/auth0/callback/index'
+import { Route as EmailCallbackIndexRouteImport } from './routes/email/callback/index'
+import { Route as DiscordCallbackIndexRouteImport } from './routes/discord/callback/index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LoginIndexRoute = LoginIndexRouteImport.update({
-  id: '/login/',
-  path: '/login/',
+const TelegramIndexRoute = TelegramIndexRouteImport.update({
+  id: '/telegram/',
+  path: '/telegram/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EmailIndexRoute = EmailIndexRouteImport.update({
+  id: '/email/',
+  path: '/email/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const XCallbackIndexRoute = XCallbackIndexRouteImport.update({
+  id: '/x/callback/',
+  path: '/x/callback/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TelegramCallbackIndexRoute = TelegramCallbackIndexRouteImport.update({
+  id: '/telegram/callback/',
+  path: '/telegram/callback/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const GoogleCallbackIndexRoute = GoogleCallbackIndexRouteImport.update({
@@ -29,44 +48,90 @@ const GoogleCallbackIndexRoute = GoogleCallbackIndexRouteImport.update({
   path: '/google/callback/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const Auth0CallbackIndexRoute = Auth0CallbackIndexRouteImport.update({
-  id: '/auth0/callback/',
-  path: '/auth0/callback/',
+const EmailCallbackIndexRoute = EmailCallbackIndexRouteImport.update({
+  id: '/email/callback/',
+  path: '/email/callback/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiscordCallbackIndexRoute = DiscordCallbackIndexRouteImport.update({
+  id: '/discord/callback/',
+  path: '/discord/callback/',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/login': typeof LoginIndexRoute
-  '/auth0/callback': typeof Auth0CallbackIndexRoute
+  '/email': typeof EmailIndexRoute
+  '/telegram': typeof TelegramIndexRoute
+  '/discord/callback': typeof DiscordCallbackIndexRoute
+  '/email/callback': typeof EmailCallbackIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
+  '/telegram/callback': typeof TelegramCallbackIndexRoute
+  '/x/callback': typeof XCallbackIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/login': typeof LoginIndexRoute
-  '/auth0/callback': typeof Auth0CallbackIndexRoute
+  '/email': typeof EmailIndexRoute
+  '/telegram': typeof TelegramIndexRoute
+  '/discord/callback': typeof DiscordCallbackIndexRoute
+  '/email/callback': typeof EmailCallbackIndexRoute
   '/google/callback': typeof GoogleCallbackIndexRoute
+  '/telegram/callback': typeof TelegramCallbackIndexRoute
+  '/x/callback': typeof XCallbackIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/login/': typeof LoginIndexRoute
-  '/auth0/callback/': typeof Auth0CallbackIndexRoute
+  '/email/': typeof EmailIndexRoute
+  '/telegram/': typeof TelegramIndexRoute
+  '/discord/callback/': typeof DiscordCallbackIndexRoute
+  '/email/callback/': typeof EmailCallbackIndexRoute
   '/google/callback/': typeof GoogleCallbackIndexRoute
+  '/telegram/callback/': typeof TelegramCallbackIndexRoute
+  '/x/callback/': typeof XCallbackIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/login' | '/auth0/callback' | '/google/callback'
+  fullPaths:
+    | '/'
+    | '/email'
+    | '/telegram'
+    | '/discord/callback'
+    | '/email/callback'
+    | '/google/callback'
+    | '/telegram/callback'
+    | '/x/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/login' | '/auth0/callback' | '/google/callback'
-  id: '__root__' | '/' | '/login/' | '/auth0/callback/' | '/google/callback/'
+  to:
+    | '/'
+    | '/email'
+    | '/telegram'
+    | '/discord/callback'
+    | '/email/callback'
+    | '/google/callback'
+    | '/telegram/callback'
+    | '/x/callback'
+  id:
+    | '__root__'
+    | '/'
+    | '/email/'
+    | '/telegram/'
+    | '/discord/callback/'
+    | '/email/callback/'
+    | '/google/callback/'
+    | '/telegram/callback/'
+    | '/x/callback/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  LoginIndexRoute: typeof LoginIndexRoute
-  Auth0CallbackIndexRoute: typeof Auth0CallbackIndexRoute
+  EmailIndexRoute: typeof EmailIndexRoute
+  TelegramIndexRoute: typeof TelegramIndexRoute
+  DiscordCallbackIndexRoute: typeof DiscordCallbackIndexRoute
+  EmailCallbackIndexRoute: typeof EmailCallbackIndexRoute
   GoogleCallbackIndexRoute: typeof GoogleCallbackIndexRoute
+  TelegramCallbackIndexRoute: typeof TelegramCallbackIndexRoute
+  XCallbackIndexRoute: typeof XCallbackIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -78,11 +143,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/login/': {
-      id: '/login/'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginIndexRouteImport
+    '/telegram/': {
+      id: '/telegram/'
+      path: '/telegram'
+      fullPath: '/telegram'
+      preLoaderRoute: typeof TelegramIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/email/': {
+      id: '/email/'
+      path: '/email'
+      fullPath: '/email'
+      preLoaderRoute: typeof EmailIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/x/callback/': {
+      id: '/x/callback/'
+      path: '/x/callback'
+      fullPath: '/x/callback'
+      preLoaderRoute: typeof XCallbackIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/telegram/callback/': {
+      id: '/telegram/callback/'
+      path: '/telegram/callback'
+      fullPath: '/telegram/callback'
+      preLoaderRoute: typeof TelegramCallbackIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/google/callback/': {
@@ -92,11 +178,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoogleCallbackIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/auth0/callback/': {
-      id: '/auth0/callback/'
-      path: '/auth0/callback'
-      fullPath: '/auth0/callback'
-      preLoaderRoute: typeof Auth0CallbackIndexRouteImport
+    '/email/callback/': {
+      id: '/email/callback/'
+      path: '/email/callback'
+      fullPath: '/email/callback'
+      preLoaderRoute: typeof EmailCallbackIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/discord/callback/': {
+      id: '/discord/callback/'
+      path: '/discord/callback'
+      fullPath: '/discord/callback'
+      preLoaderRoute: typeof DiscordCallbackIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -104,9 +197,13 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  LoginIndexRoute: LoginIndexRoute,
-  Auth0CallbackIndexRoute: Auth0CallbackIndexRoute,
+  EmailIndexRoute: EmailIndexRoute,
+  TelegramIndexRoute: TelegramIndexRoute,
+  DiscordCallbackIndexRoute: DiscordCallbackIndexRoute,
+  EmailCallbackIndexRoute: EmailCallbackIndexRoute,
   GoogleCallbackIndexRoute: GoogleCallbackIndexRoute,
+  TelegramCallbackIndexRoute: TelegramCallbackIndexRoute,
+  XCallbackIndexRoute: XCallbackIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

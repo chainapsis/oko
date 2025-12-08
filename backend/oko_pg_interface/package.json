@@ -1,9 +1,11 @@
 {
   "name": "@oko-wallet/oko-pg-interface",
+  "private": true,
   "type": "module",
   "scripts": {
-    "migrate": "tsx ./scripts/migrate/index.ts",
-    "seed": "tsx ./scripts/seed/index.ts"
+    "knex": "knex",
+    "migrate": "tsx ../../node_modules/knex/bin/cli.js migrate:latest",
+    "seed": "tsx ../../node_modules/knex/bin/cli.js seed:run "
   },
   "exports": {
     "./admin_users": "./src/admin_users/index.ts",
@@ -22,24 +24,23 @@
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
-    "@oko-wallet/crypto-js": "workspace:*",
-    "@oko-wallet/dotenv": "0.0.2-alpha.20",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.5",
+    "@oko-wallet/dotenv": "0.0.2-alpha.25",
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "jest": "*",
-    "pg": "*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "jest": "^30.1.3",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3",
     "pgsql-parser": "^17.7.8",
-    "ts-jest": "*",
-    "tsconfig-paths": "*",
-    "uuid": "*"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@types/jest": "*",
-    "@types/node": "*",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@typescript-eslint/parser": "*",
-    "tsx": "*",
-    "typescript": "*"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^24.10.1",
+    "ts-jest": "^29.4.5",
+    "tsconfig-paths": "^4.2.0",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

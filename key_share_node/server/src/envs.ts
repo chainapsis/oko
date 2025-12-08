@@ -29,6 +29,7 @@ interface Env {
   ENCRYPTION_SECRET_PATH: string;
   ADMIN_PASSWORD: string;
   DUMP_DIR: string;
+  TELEGRAM_BOT_TOKEN: string;
 }
 
 const envSchema = z.object({
@@ -42,6 +43,7 @@ const envSchema = z.object({
   ENCRYPTION_SECRET_PATH: z.string(),
   ADMIN_PASSWORD: z.string(),
   DUMP_DIR: z.string(),
+  TELEGRAM_BOT_TOKEN: z.string(),
 });
 
 export function loadEnv(nodeId: string): Result<void, string> {

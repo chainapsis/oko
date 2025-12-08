@@ -15,16 +15,15 @@
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "classnames": "^2.5.1",
-    "next": "^15.5.7",
+    "next": "^16.0.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
   "devDependencies": {
-    "@types/node": "*",
-    "@types/react": "*",
-    "@types/react-dom": "*",
-    "eslint-config-next": "*",
-    "prettier": "*",
-    "typescript": "*"
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "eslint-config-next": "^16.0.7",
+    "typescript": "^5.8.3"
   }
 }

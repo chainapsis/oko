@@ -5,16 +5,17 @@ import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 import { getPkgName } from "../pkg_name";
 
-export function buildPkgs(..._args: any[]) {
-  doBuildPkgs();
+export async function buildPkgs(..._args: any[]) {
+  await doBuildPkgs();
 }
 
-export function doBuildPkgs() {
+export async function doBuildPkgs() {
   // Order matters!
   const pkgsInOrder = [
     paths.stdlib,
     paths.dotenv,
     paths.crypto_bytes,
+    paths.crypto_js,
     paths.sdk_core,
     paths.sdk_cosmos,
     paths.sdk_eth,
@@ -33,7 +34,7 @@ export function doBuildPkgs() {
       shell: true,
     });
 
-    const name = getPkgName(path);
+    const name = await getPkgName(path);
 
     expectSuccess(coreRet, `build ${name} failed`);
     console.log("%s %s", chalk.bold.green("Done"), name);

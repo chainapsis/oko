@@ -1,0 +1,61 @@
+import type { Request, Response, NextFunction } from "express";
+
+import { validateAccessTokenOfX } from "./validate";
+
+export interface XAuthenticatedRequest<T = any> extends Request {
+  body: T;
+}
+
+export async function xAuthMiddleware(
+  req: XAuthenticatedRequest,
+  res: Response,
+  next: NextFunction,
+) {
+  const authHeader = req.headers.authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer ")) {
+    res
+      .status(401)
+      .json({ error: "Authorization header with Bearer token required" });
+    return;
+  }
+
+  const accessToken = authHeader.substring(7).trim(); // skip "Bearer "
+
+  try {
+    const result = await validateAccessTokenOfX(accessToken);
+
+    if (!result.success) {
+      res.status(401).json({ error: result.err });
+      return;
+    }
+
+    if (!result.data) {
+      res.status(500).json({
+        error: "Internal server error: Token info missing after validation",
+      });
+      return;
+    }
+
+    if (!result.data.id || !result.data.username) {
+      res.status(401).json({
+        error: "Unauthorized: Invalid token",
+      });
+      return;
+    }
+
+    res.locals.oauth_user = {
+      type: "x",
+      email: result.data.id,
+      name: result.data.name,
+    };
+
+    next();
+    return;
+  } catch (error) {
+    res.status(500).json({
+      error: `Token validation failed: ${error instanceof Error ? error.message : String(error)}`,
+    });
+    return;
+  }
+}

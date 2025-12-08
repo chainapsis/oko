@@ -1,5 +1,6 @@
 import type { ChainInfo } from "@keplr-wallet/types";
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { Bytes32 } from "@oko-wallet/bytes";
 
 import type {
   OpenModalAckPayload,
@@ -7,8 +8,10 @@ import type {
 } from "@oko-wallet-sdk-core/types/modal";
 import type { InitPayload } from "@oko-wallet-sdk-core/types/init";
 import type { OAuthSignInError } from "@oko-wallet-sdk-core/types/sign_in";
-import type { OAuthPayload } from "@oko-wallet-sdk-core/types/oauth";
-import type { Bytes32 } from "@oko-wallet/bytes";
+import type {
+  OAuthPayload,
+  OAuthTokenRequestPayload,
+} from "@oko-wallet-sdk-core/types/oauth";
 
 export type OkoWalletMsgGetPublicKey = {
   target: "oko_attached";
@@ -34,6 +37,18 @@ export type OkoWalletMsgSetOAuthNonceAck = {
   payload: Result<null, string>;
 };
 
+export type OkoWalletMsgSetCodeVerifier = {
+  target: "oko_attached";
+  msg_type: "set_code_verifier";
+  payload: string;
+};
+
+export type OkoWalletMsgSetCodeVerifierAck = {
+  target: "oko_sdk";
+  msg_type: "set_code_verifier_ack";
+  payload: Result<null, string>;
+};
+
 export type OkoWalletMsgOAuthSignInUpdate = {
   target: "oko_sdk";
   msg_type: "oauth_sign_in_update";
@@ -49,7 +64,7 @@ export type OkoWalletMsgOAuthSignInUpdateAck = {
 export type OkoWalletMsgOAuthInfoPass = {
   target: "oko_attached";
   msg_type: "oauth_info_pass";
-  payload: OAuthPayload;
+  payload: OAuthPayload | OAuthTokenRequestPayload;
 };
 
 export type OkoWalletMsgOAuthInfoPassAck = {
@@ -165,6 +180,8 @@ export type OkoWalletMsg =
   | OkoWalletMsgGetPublicKeyAck
   | OkoWalletMsgSetOAuthNonce
   | OkoWalletMsgSetOAuthNonceAck
+  | OkoWalletMsgSetCodeVerifier
+  | OkoWalletMsgSetCodeVerifierAck
   | OkoWalletMsgOAuthSignInUpdate
   | OkoWalletMsgOAuthSignInUpdateAck
   | OkoWalletMsgOAuthInfoPass

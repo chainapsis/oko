@@ -1,7 +1,12 @@
 {
   "name": "@oko-wallet/ksn-pg-interface",
+  "private": true,
   "type": "module",
   "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./knexfile": "./knexfile.ts"
+  },
   "scripts": {
     "migrate": "MIGRATE_MODE=all NODE_COUNT=3 tsx ./src/bin/migrate/index.ts",
     "migrate_1": "MIGRATE_MODE=one NODE_ID=1 tsx ./src/bin/migrate/index.ts",
@@ -11,21 +16,20 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "0.0.3-alpha.54",
-    "@oko-wallet/ksn-interface": "0.0.2-alpha.51",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
-    "pg": "*",
+    "@oko-wallet/bytes": "0.0.3-alpha.61",
+    "@oko-wallet/ksn-interface": "0.0.2-alpha.56",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "knex": "^3.1.0",
+    "pg": "^8.16.3",
     "pgsql-parser": "^17.7.8",
-    "uuid": "*"
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@types/jest": "*",
-    "@types/node": "*",
-    "@typescript-eslint/eslint-plugin": "*",
-    "@typescript-eslint/parser": "*",
-    "jest": "*",
-    "ts-jest": "*",
-    "tsx": "*",
-    "typescript": "*"
+    "@types/jest": "^29.5.12",
+    "@types/node": "^24.10.1",
+    "jest": "^30.1.3",
+    "ts-jest": "^29.4.5",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
   }
 }

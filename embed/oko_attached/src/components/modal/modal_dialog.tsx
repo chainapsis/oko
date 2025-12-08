@@ -7,6 +7,7 @@ import type { ModalRequest } from "@oko-wallet-attached/store/memory/types";
 import { ErrorModal } from "@oko-wallet-attached/components/modal_variants/error/error_modal";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { UnsupportedChainModal } from "../modal_variants/unsupported_chain/unsupported_chain_modal";
+import { TelegramLoginModal } from "@oko-wallet-attached/components/modal_variants/auth/telegram_login/telegram_login_modal";
 
 export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
   const msg = modalRequest.msg;
@@ -89,6 +90,20 @@ export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
       );
       break;
     }
+
+    // case "auth/email_login": {
+    //   component = (
+    //     <EmailLoginModal modalId={payload.modal_id} data={payload.data} />
+    //   );
+    //   break;
+    // }
+
+    // case "auth/telegram_login": {
+    //   component = (
+    //     <TelegramLoginModal modalId={payload.modal_id} data={payload.data} />
+    //   );
+    //   break;
+    // }
 
     default:
       //TODO 여기서 setError을 통해서 에러가 넘어가도록 수정 필요

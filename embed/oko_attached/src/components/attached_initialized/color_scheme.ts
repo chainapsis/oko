@@ -4,6 +4,11 @@ export function setColorScheme(theme: Theme) {
   const root = window.document.documentElement;
 
   root.setAttribute("data-theme", theme);
+
+  // Set color-scheme to support both light and dark
+  // Browser will automatically match parent dApp's color-scheme
+  // This prevents browser from adding opaque background
+  root.style.colorScheme = "light dark";
 }
 
 export async function determineTheme(
