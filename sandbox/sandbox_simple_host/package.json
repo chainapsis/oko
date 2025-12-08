@@ -27,7 +27,7 @@
   "devDependencies": {
     "@esbuild-plugins/node-globals-polyfill": "^0.2.3",
     "@react-router/dev": "^7.4.0",
-    "@types/node": "*",
+    "@types/node": "^24.10.1",
     "@types/react": "*",
     "@types/react-dom": "*",
     "@vitejs/plugin-react": "^5.0.2",

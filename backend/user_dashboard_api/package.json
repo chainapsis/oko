@@ -37,7 +37,7 @@
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
     "@types/multer": "*",
-    "@types/node": "*",
+    "@types/node": "^24.10.1",
     "@types/nodemailer": "^6.4.17",
     "@types/supertest": "*",
     "@types/swagger-jsdoc": "*",

@@ -42,7 +42,7 @@
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",
     "@types/morgan": "*",
-    "@types/node": "*",
+    "@types/node": "^24.10.1",
     "@types/nodemailer": "*",
     "@types/supertest": "*",
     "@types/swagger-jsdoc": "*",

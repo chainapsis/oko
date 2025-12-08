@@ -24,7 +24,7 @@
     "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.135",
     "@oko-wallet/oko-sdk-eth": "0.0.6-rc.126",
     "@oko-wallet/stdlib-js": "0.0.2-rc.35",
-    "@types/node": "*",
+    "@types/node": "^24.10.1",
     "@types/react": "*",
     "@types/react-dom": "*",
     "dotenv": "*",

@@ -15828,7 +15828,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^24.0.3":
+"@types/node@npm:*, @types/node@npm:>=13.7.0, @types/node@npm:^24.0.3, @types/node@npm:^24.10.1":
   version: 24.10.1
   resolution: "@types/node@npm:24.10.1"
   dependencies:
@@ -27858,7 +27858,7 @@ __metadata:
     slash: "npm:^3.0.0"
     strip-json-comments: "npm:^3.1.1"
   peerDependencies:
-    "@types/node": "*"
+    "@types/node": "^24.10.1"
     esbuild-register: ">=3.4.0"
     ts-node: ">=9.0.0"
   peerDependenciesMeta:
@@ -27899,7 +27899,7 @@ __metadata:
     slash: "npm:^3.0.0"
     strip-json-comments: "npm:^3.1.1"
   peerDependencies:
-    "@types/node": "*"
+    "@types/node": "^24.10.1"
     ts-node: ">=9.0.0"
   peerDependenciesMeta:
     "@types/node":
@@ -37014,7 +37014,7 @@ __metadata:
     "@types/express": "npm:^5"
     "@types/jest": "npm:29.5.12"
     "@types/morgan": "npm:^1.9.9"
-    "@types/node": "npm:^20"
+    "@types/node": "npm:^24.10.1"
     "@types/nodemailer": "npm:^6.4.17"
     "@types/pg": "npm:^8"
     "@types/react": "npm:^19"
