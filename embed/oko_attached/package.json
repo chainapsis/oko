@@ -34,7 +34,7 @@
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "@oko-wallet/crypto-js": "^0.0.2-alpha.4",
-    "@oko-wallet/ksn-interface": "0.0.2-alpha.51",
+    "@oko-wallet/ksn-interface": "0.0.2-alpha.56",
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/oko-sdk-core": "^0.0.6-rc.123",
     "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.149",

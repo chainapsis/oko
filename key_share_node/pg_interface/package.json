@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@oko-wallet/bytes": "0.0.3-alpha.60",
-    "@oko-wallet/ksn-interface": "0.0.2-alpha.51",
+    "@oko-wallet/ksn-interface": "0.0.2-alpha.56",
     "@oko-wallet/stdlib-js": "0.0.2-rc.40",
     "knex": "^3.1.0",
     "pg": "^8.16.3",
