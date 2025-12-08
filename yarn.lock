@@ -9342,7 +9342,7 @@ __metadata:
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:*"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     tsx: "npm:*"
     typescript: "npm:*"
     zustand: "npm:*"
@@ -9368,7 +9368,7 @@ __metadata:
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     tsx: "npm:*"
     typescript: "npm:*"
     zod: "npm:*"
@@ -9454,7 +9454,7 @@ __metadata:
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:*"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     tsx: "npm:*"
     typescript: "npm:*"
     zustand: "npm:*"
@@ -9522,7 +9522,7 @@ __metadata:
     ts-jest: "npm:*"
     tsx: "npm:*"
     typescript: "npm:*"
-    winston: "npm:*"
+    winston: "npm:^3.17.0"
     winston-daily-rotate-file: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -9613,7 +9613,7 @@ __metadata:
     ts-jest: "npm:*"
     typescript: "npm:*"
     uuid: "npm:*"
-    winston: "npm:*"
+    winston: "npm:^3.17.0"
     winston-elasticsearch: "npm:*"
     zod: "npm:*"
   languageName: unknown
@@ -9637,7 +9637,7 @@ __metadata:
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:*"
     react-intl: "npm:*"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     tsx: "npm:*"
     typescript: "npm:*"
     zustand: "npm:*"
@@ -9699,7 +9699,7 @@ __metadata:
     ts-jest: "npm:*"
     typescript: "npm:*"
     uuid: "npm:*"
-    winston: "npm:*"
+    winston: "npm:^3.17.0"
     winston-elasticsearch: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9801,12 +9801,12 @@ __metadata:
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-error-boundary: "npm:*"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     starknet: "npm:^7.6.4"
     tsx: "npm:*"
     typescript: "npm:*"
     uuid: "npm:*"
-    viem: "npm:*"
+    viem: "npm:^2.31.7"
     vite: "npm:^7.1.6"
     vite-plugin-node-polyfills: "npm:^0.24.0"
     vite-tsconfig-paths: "npm:^5.1.4"
@@ -9829,7 +9829,7 @@ __metadata:
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     tsx: "npm:*"
     typescript: "npm:*"
   languageName: unknown
@@ -10079,7 +10079,7 @@ __metadata:
     "@typescript-eslint/parser": "npm:^7.16.1"
     tsconfig-paths: "npm:*"
     typescript: "npm:*"
-    viem: "npm:*"
+    viem: "npm:^2.31.7"
   languageName: unknown
   linkType: soft
 
@@ -10315,7 +10315,7 @@ __metadata:
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     react-hook-form: "npm:*"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     tsx: "npm:*"
     typescript: "npm:*"
     zustand: "npm:*"
@@ -37185,7 +37185,7 @@ __metadata:
     react-dom: "npm:^19.2.1"
     react-router: "npm:^7.8.0"
     react-router-devtools: "npm:^1.1.0"
-    sass: "npm:*"
+    sass: "npm:^1.94.2"
     tsx: "npm:*"
     typescript: "npm:*"
     vite: "npm:^7.0.0"
@@ -37196,7 +37196,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"sass@npm:*, sass@npm:^1.94.2":
+"sass@npm:^1.94.2":
   version: 1.94.2
   resolution: "sass@npm:1.94.2"
   dependencies:
@@ -41705,7 +41705,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"winston@npm:*, winston@npm:^3.13.0, winston@npm:^3.17.0":
+"winston@npm:^3.13.0, winston@npm:^3.17.0":
   version: 3.18.3
   resolution: "winston@npm:3.18.3"
   dependencies:

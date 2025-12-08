@@ -19,7 +19,7 @@
     "morgan": "*",
     "pg": "*",
     "uuid": "*",
-    "winston": "*",
+    "winston": "^3.17.0",
     "winston-elasticsearch": "*"
   },
   "devDependencies": {

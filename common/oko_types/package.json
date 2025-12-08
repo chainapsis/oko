@@ -23,7 +23,7 @@
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
     "tsconfig-paths": "*",
-    "viem": "*"
+    "viem": "^2.31.7"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

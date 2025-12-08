@@ -55,7 +55,7 @@
     "react-error-boundary": "*",
     "starknet": "^7.6.4",
     "uuid": "*",
-    "viem": "*",
+    "viem": "^2.31.7",
     "vite": "^7.1.6",
     "zod": "*",
     "zustand": "*"
@@ -71,7 +71,7 @@
     "biome": "*",
     "del-cli": "*",
     "dotenv": "^16.4.5",
-    "sass": "*",
+    "sass": "^1.94.2",
     "tsx": "*",
     "typescript": "*",
     "vite-plugin-node-polyfills": "^0.24.0",
