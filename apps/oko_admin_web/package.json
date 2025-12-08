@@ -11,8 +11,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@oko-wallet/dotenv": "0.0.2-alpha.25",
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/oko-pg-interface": "workspace:*",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "@tanstack/react-query": "*",
     "@tanstack/react-table": "*",
     "next": "^15.5.7",
@@ -23,8 +25,6 @@
     "zustand": "*"
   },
   "devDependencies": {
-    "@oko-wallet/dotenv": "0.0.2-alpha.21",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",

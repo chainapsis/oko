@@ -5,6 +5,7 @@
     "apps/oko_admin_web",
     "apps/user_dashboard",
     "backend/oko_api/server",
+    "embed/oko_attached",
     "lib/stdlib_js",
     "lib/dotenv",
     "sdk/oko_cosmos_kit",

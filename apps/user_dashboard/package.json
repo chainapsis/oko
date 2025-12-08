@@ -13,7 +13,7 @@
   "dependencies": {
     "@floating-ui/dom": "*",
     "@floating-ui/react": "*",
-    "@oko-wallet/dotenv": "workspace:*",
+    "@oko-wallet/dotenv": "0.0.2-alpha.25",
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/stdlib-js": "workspace:*",
     "@tanstack/react-query": "*",
