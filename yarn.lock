@@ -10419,6 +10419,8 @@ __metadata:
     "@floating-ui/react": "npm:*"
     "@oko-wallet/dotenv": "npm:0.0.2-alpha.25"
     "@oko-wallet/oko-common-ui": "workspace:*"
+    "@oko-wallet/oko-sdk-cosmos": "workspace:*"
+    "@oko-wallet/oko-sdk-eth": "workspace:*"
     "@oko-wallet/stdlib-js": "workspace:*"
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
