@@ -6729,7 +6729,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:*, @jest/globals@npm:30.2.0":
+"@jest/globals@npm:30.2.0":
   version: 30.2.0
   resolution: "@jest/globals@npm:30.2.0"
   dependencies:
@@ -6741,7 +6741,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@jest/globals@npm:29.7.0, @jest/globals@npm:^29.7.0":
+"@jest/globals@npm:^29.7.0":
   version: 29.7.0
   resolution: "@jest/globals@npm:29.7.0"
   dependencies:
@@ -9130,11 +9130,11 @@ __metadata:
   resolution: "@oko-wallet/aws@workspace:lib/aws"
   dependencies:
     "@aws-sdk/client-s3": "npm:^3.850.0"
-    "@jest/globals": "npm:*"
+    "@jest/globals": "npm:^29.7.0"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
-    "@types/bcryptjs": "npm:*"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
+    "@types/bcryptjs": "npm:^2.4.6"
+    "@types/jest": "npm:^29.5.13"
+    "@types/node": "npm:^22.15.18"
     dotenv: "npm:*"
     jest: "npm:*"
     ts-jest: "npm:*"
@@ -9164,7 +9164,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/bytes@workspace:crypto/bytes"
   dependencies:
-    "@jest/globals": "npm:*"
+    "@jest/globals": "npm:^29.7.0"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.38"
     "@types/jest": "npm:*"
     "@types/node": "npm:*"
@@ -9311,18 +9311,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/crypto-js@workspace:crypto/crypto_js"
   dependencies:
-    "@jest/globals": "npm:*"
+    "@jest/globals": "npm:^29.7.0"
     "@noble/curves": "npm:2.0.1"
     "@noble/hashes": "npm:2.0.1"
     "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
-    "@types/bcryptjs": "npm:*"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
+    "@types/bcryptjs": "npm:^2.4.6"
+    "@types/jest": "npm:^29.5.13"
+    "@types/node": "npm:^22.15.18"
     bcryptjs: "npm:^3.0.2"
     del-cli: "npm:*"
     jest: "npm:*"
-    supertest: "npm:*"
+    supertest: "npm:^7.0.0"
     ts-jest: "npm:*"
     typescript: "npm:*"
   languageName: unknown
@@ -9513,18 +9513,18 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/isomorphic-crypto-js@workspace:crypto/isomorphic_crypto_js"
   dependencies:
-    "@jest/globals": "npm:*"
+    "@jest/globals": "npm:^29.7.0"
     "@noble/curves": "npm:2.0.1"
     "@noble/hashes": "npm:2.0.1"
     "@oko-wallet/bytes": "npm:0.0.3-alpha.54"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
-    "@types/bcryptjs": "npm:*"
-    "@types/jest": "npm:*"
-    "@types/node": "npm:*"
+    "@types/bcryptjs": "npm:^2.4.6"
+    "@types/jest": "npm:^29.5.13"
+    "@types/node": "npm:^22.15.18"
     bcryptjs: "npm:^3.0.2"
     del-cli: "npm:*"
     jest: "npm:*"
-    supertest: "npm:*"
+    supertest: "npm:^7.0.0"
     ts-jest: "npm:*"
     typescript: "npm:*"
   languageName: unknown
@@ -9928,7 +9928,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-common@workspace:sdk/oko_sdk_common"
   dependencies:
-    "@jest/globals": "npm:*"
+    "@jest/globals": "npm:^29.7.0"
     "@types/jest": "npm:*"
     "@types/node": "npm:*"
     del-cli: "npm:*"
@@ -10233,7 +10233,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/stdlib-js@workspace:lib/stdlib_js"
   dependencies:
-    "@jest/globals": "npm:*"
+    "@jest/globals": "npm:^29.7.0"
     "@types/jest": "npm:*"
     "@types/node": "npm:*"
     del-cli: "npm:*"
@@ -10247,7 +10247,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/tecdsa-interface@workspace:crypto/tecdsa/tecdsa_interface"
   dependencies:
-    "@jest/globals": "npm:*"
+    "@jest/globals": "npm:^29.7.0"
     "@types/jest": "npm:*"
     "@types/node": "npm:*"
     del-cli: "npm:*"
@@ -15411,7 +15411,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/bcryptjs@npm:*":
+"@types/bcryptjs@npm:^2.4.6":
   version: 2.4.6
   resolution: "@types/bcryptjs@npm:2.4.6"
   checksum: 10c0/1182663f0c081c5c58760019459cd309335e9b5fc6552780b0fd21b6c5f25661a844709e46218796f4bdbebe6736e11cfc5af0729bc2cdb0160943650aceb3da
@@ -37013,7 +37013,7 @@ __metadata:
   resolution: "root-workspace-0b6124@workspace:."
   dependencies:
     "@biomejs/biome": "npm:2.3.4"
-    "@jest/globals": "npm:29.7.0"
+    "@jest/globals": "npm:^29.7.0"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-replace": "npm:^6.0.2"
@@ -39722,7 +39722,7 @@ __metadata:
   peerDependencies:
     "@swc/core": ">=1.2.50"
     "@swc/wasm": ">=1.2.50"
-    "@types/node": "*"
+    "@types/node": ^22.15.18
     typescript: ">=2.7"
   peerDependenciesMeta:
     "@swc/core":

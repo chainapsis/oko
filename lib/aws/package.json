@@ -11,10 +11,10 @@
     "dotenv": "*"
   },
   "devDependencies": {
-    "@jest/globals": "*",
-    "@types/bcryptjs": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
+    "@jest/globals": "^29.7.0",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/jest": "^29.5.13",
+    "@types/node": "^22.15.18",
     "jest": "*",
     "ts-jest": "*",
     "typescript": "*"

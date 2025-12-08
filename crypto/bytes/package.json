@@ -22,7 +22,7 @@
     "@oko-wallet/stdlib-js": "^0.0.2-rc.38"
   },
   "devDependencies": {
-    "@jest/globals": "*",
+    "@jest/globals": "^29.7.0",
     "@types/jest": "*",
     "@types/node": "*",
     "del-cli": "*",

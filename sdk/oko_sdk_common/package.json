@@ -30,7 +30,7 @@
     "directory": "stdlib_js"
   },
   "devDependencies": {
-    "@jest/globals": "*",
+    "@jest/globals": "^29.7.0",
     "@types/jest": "*",
     "@types/node": "*",
     "del-cli": "*",
