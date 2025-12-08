@@ -39,7 +39,7 @@
     "@types/he": "^1.2.0",
     "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "*",
-    "@types/morgan": "*",
+    "@types/morgan": "^1.9.9",
     "@types/multer": "^2.0.0",
     "@types/node": "^24.10.1",
     "@types/nodemailer": "^6.4.17",

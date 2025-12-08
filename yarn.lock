@@ -3155,8 +3155,8 @@ __metadata:
     "@cosmos-kit/core": "npm:^2.16.7"
     "@dao-dao/cosmiframe": "npm:^1.0.0"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^18.0.0 || ^19.0.0
     react-dom: ^18.0.0 || ^19.0.0
   checksum: 10c0/b5fa7c2c22f955bb20ab23e2dfa0acfe43bbbb878b9f0b5d2b27865c38d4a800e7122ea8d7b02917008e561470b993ed79a62ef52691ef37487f24226f222d18
@@ -3173,8 +3173,8 @@ __metadata:
     "@react-icons/all-files": "npm:^4.1.0"
   peerDependencies:
     "@interchain-ui/react": ^1.26.3
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^18.0.0 || ^19.0.0
     react-dom: ^18.0.0 || ^19.0.0
   checksum: 10c0/7a0394b14df8767c32ccf310801a5c79f7946c4994c921a4c96fc305c663d4a8135128b6412bb004da2f9e32795228e7d916dbe48eac95b9613a6a64c9223727
@@ -9037,7 +9037,7 @@ __metadata:
     "@types/he": "npm:^1.2.0"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
+    "@types/morgan": "npm:^1.9.9"
     "@types/multer": "npm:^2.0.0"
     "@types/node": "npm:^24.10.1"
     "@types/nodemailer": "npm:^6.4.17"
@@ -9071,8 +9071,8 @@ __metadata:
   dependencies:
     "@oko-wallet/oko-types": "workspace:*"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     typescript: "npm:*"
   languageName: unknown
   linkType: soft
@@ -9210,8 +9210,8 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.36"
     "@oko-wallet/tecdsa-interface": "workspace:*"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
     eslint-config-next: "npm:*"
     prettier: "npm:*"
@@ -9298,7 +9298,7 @@ __metadata:
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
+    "@types/morgan": "npm:^1.9.9"
     "@types/multer": "npm:*"
     "@types/node": "npm:^24.10.1"
     "@types/supertest": "npm:*"
@@ -9336,8 +9336,8 @@ __metadata:
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
@@ -9362,8 +9362,8 @@ __metadata:
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.126"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.35"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     dotenv: "npm:^16.4.5"
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
@@ -9448,8 +9448,8 @@ __metadata:
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
@@ -9593,7 +9593,7 @@ __metadata:
     "@types/express-rate-limit": "npm:^6.0.2"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
+    "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
     "@types/supertest": "npm:*"
     "@types/swagger-jsdoc": "npm:*"
@@ -9630,8 +9630,8 @@ __metadata:
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
@@ -9684,7 +9684,7 @@ __metadata:
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
+    "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
     "@types/supertest": "npm:*"
     cors: "npm:*"
@@ -9724,7 +9724,7 @@ __metadata:
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
+    "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
     "@types/nodemailer": "npm:^6.4.17"
     "@types/supertest": "npm:*"
@@ -9787,8 +9787,8 @@ __metadata:
     "@tanstack/router-plugin": "npm:^1.136.8"
     "@types/auth0-js": "npm:^9.21.6"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     "@vitejs/plugin-react": "npm:^5.0.3"
     auth0-js: "npm:^9.29.0"
     biome: "npm:*"
@@ -9823,8 +9823,8 @@ __metadata:
     "@floating-ui/react": "npm:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
@@ -10145,8 +10145,8 @@ __metadata:
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-query": "npm:^5.90.11"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     chain-registry: "npm:^1.69.410"
     eslint: "npm:*"
     eslint-config-next: "npm:*"
@@ -10229,7 +10229,7 @@ __metadata:
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
+    "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^24.10.1"
     "@types/supertest": "npm:*"
     "@types/swagger-jsdoc": "npm:*"
@@ -10269,7 +10269,7 @@ __metadata:
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.12"
     "@types/jsonwebtoken": "npm:*"
-    "@types/morgan": "npm:*"
+    "@types/morgan": "npm:^1.9.9"
     "@types/multer": "npm:*"
     "@types/node": "npm:^24.10.1"
     "@types/nodemailer": "npm:^6.4.17"
@@ -10309,8 +10309,8 @@ __metadata:
     "@tanstack/react-query": "npm:*"
     "@tanstack/react-table": "npm:*"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     next: "npm:^15.5.7"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
@@ -10723,8 +10723,8 @@ __metadata:
     "@radix-ui/react-primitive": "npm:2.1.3"
     "@radix-ui/react-use-controllable-state": "npm:1.2.2"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10742,8 +10742,8 @@ __metadata:
   dependencies:
     "@radix-ui/react-primitive": "npm:2.1.3"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10768,8 +10768,8 @@ __metadata:
     "@radix-ui/react-use-controllable-state": "npm:1.2.2"
     "@radix-ui/react-use-layout-effect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10790,8 +10790,8 @@ __metadata:
     "@radix-ui/react-primitive": "npm:2.1.3"
     "@radix-ui/react-slot": "npm:1.2.3"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10807,7 +10807,7 @@ __metadata:
   version: 1.1.2
   resolution: "@radix-ui/react-compose-refs@npm:1.1.2"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -10820,7 +10820,7 @@ __metadata:
   version: 1.1.2
   resolution: "@radix-ui/react-context@npm:1.1.2"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -10833,7 +10833,7 @@ __metadata:
   version: 1.1.1
   resolution: "@radix-ui/react-direction@npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -10852,8 +10852,8 @@ __metadata:
     "@radix-ui/react-use-callback-ref": "npm:1.1.1"
     "@radix-ui/react-use-escape-keydown": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10869,7 +10869,7 @@ __metadata:
   version: 1.1.3
   resolution: "@radix-ui/react-focus-guards@npm:1.1.3"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -10886,8 +10886,8 @@ __metadata:
     "@radix-ui/react-primitive": "npm:2.1.3"
     "@radix-ui/react-use-callback-ref": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10905,7 +10905,7 @@ __metadata:
   dependencies:
     "@radix-ui/react-use-layout-effect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -10929,8 +10929,8 @@ __metadata:
     "@radix-ui/react-use-size": "npm:1.1.1"
     "@radix-ui/rect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10949,8 +10949,8 @@ __metadata:
     "@radix-ui/react-primitive": "npm:2.1.3"
     "@radix-ui/react-use-layout-effect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10969,8 +10969,8 @@ __metadata:
     "@radix-ui/react-compose-refs": "npm:1.1.2"
     "@radix-ui/react-use-layout-effect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -10988,8 +10988,8 @@ __metadata:
   dependencies:
     "@radix-ui/react-slot": "npm:1.2.3"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -11027,8 +11027,8 @@ __metadata:
     aria-hidden: "npm:^1.2.4"
     react-remove-scroll: "npm:^2.6.3"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -11046,7 +11046,7 @@ __metadata:
   dependencies:
     "@radix-ui/react-compose-refs": "npm:1.1.2"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11059,7 +11059,7 @@ __metadata:
   version: 1.1.1
   resolution: "@radix-ui/react-use-callback-ref@npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11075,7 +11075,7 @@ __metadata:
     "@radix-ui/react-use-effect-event": "npm:0.0.2"
     "@radix-ui/react-use-layout-effect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11090,7 +11090,7 @@ __metadata:
   dependencies:
     "@radix-ui/react-use-layout-effect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11105,7 +11105,7 @@ __metadata:
   dependencies:
     "@radix-ui/react-use-callback-ref": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11118,7 +11118,7 @@ __metadata:
   version: 1.1.1
   resolution: "@radix-ui/react-use-layout-effect@npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11131,7 +11131,7 @@ __metadata:
   version: 1.1.1
   resolution: "@radix-ui/react-use-previous@npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11146,7 +11146,7 @@ __metadata:
   dependencies:
     "@radix-ui/rect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11161,7 +11161,7 @@ __metadata:
   dependencies:
     "@radix-ui/react-use-layout-effect": "npm:1.1.1"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -11176,8 +11176,8 @@ __metadata:
   dependencies:
     "@radix-ui/react-primitive": "npm:2.1.3"
   peerDependencies:
-    "@types/react": "*"
-    "@types/react-dom": "*"
+    "@types/react": ^19.2.7
+    "@types/react-dom": ^19.2.3
     react: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
     react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0 || ^19.0.0-rc
   peerDependenciesMeta:
@@ -15534,7 +15534,7 @@ __metadata:
   dependencies:
     hoist-non-react-statics: "npm:^3.3.0"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
   checksum: 10c0/ed8f4e88338f7d021d0f956adf6089d2a12b2e254a03c05292324f2e986d2376eb9efdb8a4f04596823e8fca88c9d06361d20dab4a2a00dc935fb36ac911de55
   languageName: node
   linkType: hard
@@ -15689,7 +15689,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/morgan@npm:*, @types/morgan@npm:^1.9.9":
+"@types/morgan@npm:^1.9.9":
   version: 1.9.10
   resolution: "@types/morgan@npm:1.9.10"
   dependencies:
@@ -15829,7 +15829,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react-dom@npm:*, @types/react-dom@npm:^19.2.3":
+"@types/react-dom@npm:^19.2.3":
   version: 19.2.3
   resolution: "@types/react-dom@npm:19.2.3"
   peerDependencies:
@@ -15842,7 +15842,7 @@ __metadata:
   version: 0.28.9
   resolution: "@types/react-reconciler@npm:0.28.9"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
   checksum: 10c0/9fe71fa856aab2cd4742fe0416bdd4f5c82ecc05ef6451ee7fcb65a5efdf5fa588f5820fbe2a665b15371b0da3bfc4097f28bb6d450b9a834af2d0fc00f403bd
   languageName: node
   linkType: hard
@@ -20025,8 +20025,8 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     classnames: "npm:^2.5.1"
     eslint-config-next: "npm:*"
     next: "npm:^15.5.7"
@@ -35692,7 +35692,7 @@ __metadata:
     react-style-singleton: "npm:^2.2.2"
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
   peerDependenciesMeta:
     "@types/react":
@@ -35711,7 +35711,7 @@ __metadata:
     use-callback-ref: "npm:^1.3.3"
     use-sidecar: "npm:^1.1.2"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -35730,7 +35730,7 @@ __metadata:
     use-callback-ref: "npm:^1.3.3"
     use-sidecar: "npm:^1.1.3"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -35886,7 +35886,7 @@ __metadata:
     get-nonce: "npm:^1.0.0"
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -37068,8 +37068,8 @@ __metadata:
     "@tailwindcss/postcss": "npm:4.0.15"
     "@tanstack/react-query": "npm:~5.59.15"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     "@uniswap/sdk-core": "npm:~5.8.2"
     "@uniswap/v2-sdk": "npm:~4.6.1"
     abitype: "npm:1.0.6"
@@ -37104,8 +37104,8 @@ __metadata:
     "@react-router/dev": "npm:^7.4.0"
     "@tanstack/react-query": "npm:~5.59.15"
     "@types/node": "npm:^24.10.1"
-    "@types/react": "npm:*"
-    "@types/react-dom": "npm:*"
+    "@types/react": "npm:^19.2.7"
+    "@types/react-dom": "npm:^19.2.3"
     "@vitejs/plugin-react": "npm:^5.0.2"
     classnames: "npm:^2.5.1"
     long: "npm:^5.3.2"
@@ -40608,7 +40608,7 @@ __metadata:
   dependencies:
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
@@ -40624,7 +40624,7 @@ __metadata:
     detect-node-es: "npm:^1.1.0"
     tslib: "npm:^2.0.0"
   peerDependencies:
-    "@types/react": "*"
+    "@types/react": ^19.2.7
     react: ^16.8.0 || ^17.0.0 || ^18.0.0 || ^19.0.0 || ^19.0.0-rc
   peerDependenciesMeta:
     "@types/react":
