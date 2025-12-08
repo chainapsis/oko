@@ -208,24 +208,23 @@ type OptionalTuple<T> = T extends readonly [infer H, ...infer R]
 type UseScaffoldArgsParam<
   TContractName extends ContractName,
   TFunctionName extends ExtractAbiFunctionNames<ContractAbi<TContractName>>,
-> =
-  TFunctionName extends FunctionNamesWithInputs<TContractName>
-    ? {
-        args: OptionalTuple<
-          UnionToIntersection<
-            AbiFunctionArguments<ContractAbi<TContractName>, TFunctionName>
-          >
-        >;
-        value?: ExtractAbiFunction<
-          ContractAbi<TContractName>,
-          TFunctionName
-        >["stateMutability"] extends "payable"
-          ? bigint | undefined
-          : undefined;
-      }
-    : {
-        args?: never;
-      };
+> = TFunctionName extends FunctionNamesWithInputs<TContractName>
+  ? {
+      args: OptionalTuple<
+        UnionToIntersection<
+          AbiFunctionArguments<ContractAbi<TContractName>, TFunctionName>
+        >
+      >;
+      value?: ExtractAbiFunction<
+        ContractAbi<TContractName>,
+        TFunctionName
+      >["stateMutability"] extends "payable"
+        ? bigint | undefined
+        : undefined;
+    }
+  : {
+      args?: never;
+    };
 
 export type UseDeployedContractConfig<TContractName extends ContractName> = {
   contractName: TContractName;
