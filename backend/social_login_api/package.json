@@ -20,6 +20,6 @@
     "jest": "*",
     "supertest": "*",
     "ts-jest": "*",
-    "typescript": "*"
+    "typescript": "^5.8.3"
   }
 }
