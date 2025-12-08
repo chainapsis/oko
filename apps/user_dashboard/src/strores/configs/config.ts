@@ -1403,9 +1403,12 @@ export const EmbedChainInfos: (ChainInfo | ModularChainInfo)[] = [
     chainId: "neutron-1",
     chainName: "Neutron",
     stakeCurrency: {
-      coinDenom: "STAKE",
-      coinMinimalDenom: "ustake",
+      coinDenom: "NTRN",
+      coinMinimalDenom: "untrn",
       coinDecimals: 6,
+      coinGeckoId: "neutron-3",
+      coinImageUrl:
+        "https://raw.githubusercontent.com/chainapsis/keplr-chain-registry/main/images/neutron/untrn.png",
     },
     bip44: {
       coinType: 118,

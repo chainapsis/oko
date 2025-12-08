@@ -1,3 +1,20 @@
+import { KeplrETCQueries } from "@keplr-wallet/stores-etc";
+import { EthereumQueries } from "@keplr-wallet/stores-eth";
+import { IndexedDBKVStore } from "@keplr-wallet/common";
+import { FiatCurrency } from "@keplr-wallet/types";
+import {
+  CoinGeckoPriceStore,
+  CosmosQueries,
+  CosmwasmQueries,
+  OsmosisQueries,
+  getKeplrFromWindow,
+  QueriesStore,
+  SecretQueries,
+  ICNSQueries,
+  AgoricQueries,
+  NobleQueries,
+} from "@keplr-wallet/stores";
+
 import { ChainStore } from "./chain";
 import { EmbedChainInfos, TokenContractListURL } from "./configs/config";
 import {
@@ -9,31 +26,11 @@ import {
   FiatCurrencies,
   CoinGeckoGetPrice,
 } from "./configs/config.ui";
-import {
-  AccountStore,
-  CoinGeckoPriceStore,
-  CosmosAccount,
-  CosmosQueries,
-  CosmwasmAccount,
-  CosmwasmQueries,
-  OsmosisQueries,
-  getKeplrFromWindow,
-  QueriesStore,
-  SecretAccount,
-  SecretQueries,
-  ICNSQueries,
-  AgoricQueries,
-  NobleQueries,
-  NobleAccount,
-} from "@keplr-wallet/stores";
 import { HugeQueriesStore } from "./huge-queries";
 import { SwapUsageQueries } from "./swap-usage/queries";
 import { SkipQueries } from "./skip";
-import { KeplrETCQueries } from "@keplr-wallet/stores-etc";
-import { EthereumQueries } from "@keplr-wallet/stores-eth";
-import { IndexedDBKVStore } from "@keplr-wallet/common";
-import { FiatCurrency } from "@keplr-wallet/types";
 import { TokenContractsQueries } from "./token-contracts";
+import { OkoWalletAddressStore } from "./address-store";
 
 export class RootStore {
   public readonly chainStore: ChainStore;
@@ -54,13 +51,13 @@ export class RootStore {
   >;
   public readonly swapUsageQueries: SwapUsageQueries;
   public readonly skipQueriesStore: SkipQueries;
-  public readonly accountStore: AccountStore<
-    [CosmosAccount, CosmwasmAccount, SecretAccount, NobleAccount]
-  >;
   public readonly priceStore: CoinGeckoPriceStore;
   public readonly hugeQueriesStore: HugeQueriesStore;
+  public readonly okoWalletAddressStore: OkoWalletAddressStore;
 
   constructor() {
+    this.okoWalletAddressStore = new OkoWalletAddressStore();
+
     this.chainStore = new ChainStore(
       new IndexedDBKVStore("store_chains"),
       EmbedChainInfos,
@@ -108,30 +105,6 @@ export class RootStore {
       this.swapUsageQueries,
     );
 
-    this.accountStore = new AccountStore(
-      window,
-      this.chainStore,
-      getKeplrFromWindow,
-      () => {
-        return {
-          suggestChain: false,
-          autoInit: true,
-        };
-      },
-      CosmosAccount.use({
-        queriesStore: this.queriesStore,
-      }),
-      CosmwasmAccount.use({
-        queriesStore: this.queriesStore,
-      }),
-      SecretAccount.use({
-        queriesStore: this.queriesStore,
-      }),
-      NobleAccount.use({
-        queriesStore: this.queriesStore,
-      }),
-    );
-
     this.priceStore = new CoinGeckoPriceStore(
       new IndexedDBKVStore("store_prices"),
       FiatCurrencies.reduce<{
@@ -150,9 +123,9 @@ export class RootStore {
     this.hugeQueriesStore = new HugeQueriesStore(
       this.chainStore,
       this.queriesStore,
-      this.accountStore,
       this.priceStore,
       this.skipQueriesStore,
+      this.okoWalletAddressStore,
     );
   }
 }

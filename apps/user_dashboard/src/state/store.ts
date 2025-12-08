@@ -8,8 +8,9 @@ interface StoreState {
   rootStore: RootStore;
 }
 
-const useStore = create<StoreState>()(() => ({
+export const useUserDashboardStore = create<StoreState>()(() => ({
   rootStore: createRootStore(),
 }));
 
-export const useRootStore = () => useStore((state) => state.rootStore);
+export const useRootStore = () =>
+  useUserDashboardStore((state) => state.rootStore);

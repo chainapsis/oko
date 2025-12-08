@@ -1,22 +1,23 @@
 import { observer } from "mobx-react-lite";
 import { FunctionComponent, useState } from "react";
-import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
-import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
+import { Dec } from "@keplr-wallet/unit";
 import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { Toggle } from "@oko-wallet-common-ui/toggle/toggle";
 import { ChevronDownIcon } from "@oko-wallet-common-ui/icons/chevron_down";
 
 import styles from "./chain_item.module.scss";
+import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
+import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 
 interface ChainItemProps {
   chainInfo: ModularChainInfo;
-  tokens?: ViewToken[];
+  viewTokens?: ViewToken[];
   onEnable: (checked: boolean) => void;
 }
 
 export const ChainItem: FunctionComponent<ChainItemProps> = observer(
-  ({ chainInfo, tokens, onEnable }) => {
+  ({ chainInfo, viewTokens, onEnable }) => {
     const { chainStore } = useRootStore();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isEnabled, setIsEnabled] = useState(() =>
@@ -28,7 +29,9 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
         ? chainInfo.chainSymbolImageUrl
         : undefined;
 
-    const hasTokens = !!tokens?.length;
+    const hasTokens =
+      !!viewTokens?.length &&
+      viewTokens.some((v) => v.token.toDec().gt(new Dec(0)));
 
     const handleToggle = (checked: boolean) => {
       setIsEnabled(checked);
@@ -65,7 +68,8 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
                   onClick={handleTokensClick}
                 >
                   <Typography size="xs" weight="medium" color="tertiary">
-                    {tokens.length} {tokens.length > 1 ? "tokens" : "token"}
+                    {viewTokens.length}{" "}
+                    {viewTokens.length > 1 ? "tokens" : "token"}
                   </Typography>
                   <ChevronDownIcon
                     size={12}
@@ -84,7 +88,7 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
           className={`${styles.tokenListWrapper} ${isExpanded ? styles.expanded : ""}`}
         >
           <div className={styles.tokenList}>
-            {tokens?.map((viewToken) => (
+            {viewTokens?.map((viewToken) => (
               <TokenItem
                 key={viewToken.token.currency.coinMinimalDenom}
                 viewToken={viewToken}

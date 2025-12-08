@@ -7,7 +7,6 @@ import { AllTokenMapByChainIdentifierState } from "./all-token-map-state";
 import {
   CoinGeckoPriceStore,
   CosmosQueries,
-  IAccountStore,
   IQueriesStore,
   QueryError,
 } from "@keplr-wallet/stores";
@@ -16,6 +15,7 @@ import { DenomHelper } from "@keplr-wallet/common";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import { AppCurrency, IBCCurrency } from "@keplr-wallet/types";
 import { ModularChainInfo } from "../chain/chain-info";
+import { OkoWalletAddressStore } from "../address-store";
 
 export interface ViewToken {
   chainInfo: ModularChainInfo;
@@ -49,9 +49,9 @@ export class HugeQueriesStore {
   constructor(
     protected readonly chainStore: ChainStore,
     protected readonly queriesStore: IQueriesStore<CosmosQueries>,
-    protected readonly accountStore: IAccountStore,
     protected readonly priceStore: CoinGeckoPriceStore,
     protected readonly skipQueriesStore: SkipQueries,
+    protected readonly okoWAlletAddressStore: OkoWalletAddressStore,
   ) {
     let balanceDisposal: (() => void) | undefined;
     this.balanceBinarySort = new BinarySortArray<ViewToken>(
@@ -90,17 +90,19 @@ export class HugeQueriesStore {
     const prevKeyMap = new Map(this.balanceBinarySort.indexForKeyMap());
 
     for (const modularChainInfo of this.chainStore.modularChainInfosInUI) {
-      const account = this.accountStore.getAccount(modularChainInfo.chainId);
-
       const modularChainInfoImpl = this.chainStore.getModularChainInfoImpl(
         modularChainInfo.chainId,
       );
 
       if ("evm" in modularChainInfo) {
+        const ethereumAddress = this.okoWAlletAddressStore.getEthAddress();
+        if (!ethereumAddress) {
+          continue;
+        }
+
         const queries = this.queriesStore.get(modularChainInfo.chainId);
-        const queryBalance = queries.queryBalances.getQueryEthereumHexAddress(
-          account.ethereumHexAddress,
-        );
+        const queryBalance =
+          queries.queryBalances.getQueryEthereumHexAddress(ethereumAddress);
 
         // 외부에 요청된 balance를 기다려야 modularChainInfoImpl.getCurrenciesByModule("evm")에서 currencies 목록을 전부 얻을 수 있다.
         queryBalance.balances.forEach((b) => b.waitResponse());
@@ -138,18 +140,17 @@ export class HugeQueriesStore {
 
       if ("cosmos" in modularChainInfo) {
         const cosmosChainInfo = modularChainInfo.cosmos;
+        const bech32Address = this.okoWAlletAddressStore.getBech32Address(
+          modularChainInfo.chainId,
+        );
 
-        console.log("cosmosChainInfo", cosmosChainInfo);
-        console.log("account", account.bech32Address);
-
-        if (!cosmosChainInfo || account.bech32Address === "") {
+        if (!cosmosChainInfo || !bech32Address) {
           continue;
         }
 
         const queries = this.queriesStore.get(modularChainInfo.chainId);
-        const queryBalance = queries.queryBalances.getQueryBech32Address(
-          account.bech32Address,
-        );
+        const queryBalance =
+          queries.queryBalances.getQueryBech32Address(bech32Address);
 
         const currencies = [
           ...modularChainInfoImpl.getCurrenciesByModule("cosmos"),
@@ -160,7 +161,7 @@ export class HugeQueriesStore {
             // ethermint 계열의 체인인 경우 ibc token을 보여주기 위해서 native 토큰에 대해서
             // cosmos 방식의 쿼리를 꼭 발생시켜야 한다.
             for (const bal of queries.queryBalances.getQueryBech32Address(
-              account.bech32Address,
+              bech32Address,
             ).balances) {
               if (
                 new DenomHelper(bal.currency.coinMinimalDenom).type === "native"
@@ -275,17 +276,24 @@ export class HugeQueriesStore {
         tokensByChainId.set(chainIdentifier, []);
       }
 
-      const account = this.accountStore.getAccount(modularChainInfo.chainId);
+      const bech32Address = this.okoWAlletAddressStore.getBech32Address(
+        modularChainInfo.chainId,
+      );
+
+      const ethereumAddress = this.okoWAlletAddressStore.getEthAddress();
 
       const modularChainInfoImpl = this.chainStore.getModularChainInfoImpl(
         modularChainInfo.chainId,
       );
 
       if ("evm" in modularChainInfo && !("cosmos" in modularChainInfo)) {
+        if (!ethereumAddress) {
+          continue;
+        }
+
         const queries = this.queriesStore.get(modularChainInfo.chainId);
-        const queryBalance = queries.queryBalances.getQueryEthereumHexAddress(
-          account.ethereumHexAddress,
-        );
+        const queryBalance =
+          queries.queryBalances.getQueryEthereumHexAddress(ethereumAddress);
 
         const currencies = [
           ...modularChainInfoImpl.getCurrenciesByModule("evm"),
@@ -320,14 +328,13 @@ export class HugeQueriesStore {
       if ("cosmos" in modularChainInfo) {
         const cosmosChainInfo = modularChainInfo.cosmos;
 
-        if (!cosmosChainInfo || account.bech32Address === "") {
+        if (!cosmosChainInfo || !bech32Address) {
           continue;
         }
 
         const queries = this.queriesStore.get(modularChainInfo.chainId);
-        const queryBalance = queries.queryBalances.getQueryBech32Address(
-          account.bech32Address,
-        );
+        const queryBalance =
+          queries.queryBalances.getQueryBech32Address(bech32Address);
 
         const currencies = [
           ...modularChainInfoImpl.getCurrenciesByModule("cosmos"),
@@ -467,11 +474,7 @@ export class HugeQueriesStore {
 
       return this.balanceBinarySort.arr.filter((viewToken) => {
         const key = viewToken[BinarySortArray.SymbolKey];
-
-        const r = keys.get(key);
-
-        console.log("key", r);
-        return r;
+        return keys.get(key);
       });
     },
   );

@@ -1,8 +1,12 @@
 .wrapper {
   width: 360px;
+}
+
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 24px;
 }
 
 .showHideChains {
@@ -11,4 +15,10 @@
   align-items: center;
   gap: 6px;
   padding: 8px 12px;
+}
+
+.assetList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }

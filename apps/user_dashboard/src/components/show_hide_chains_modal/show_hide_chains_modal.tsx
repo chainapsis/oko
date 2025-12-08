@@ -1,4 +1,5 @@
 import { FC, ReactNode, useCallback, useRef, useState } from "react";
+import cn from "classnames";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { Card } from "@oko-wallet-common-ui/card/card";
 import { XCloseIcon } from "@oko-wallet-common-ui/icons/x_close";
@@ -7,16 +8,14 @@ import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
 import { observer } from "mobx-react-lite";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import { CoinPretty } from "@keplr-wallet/unit";
-import cn from "classnames";
 
 import styles from "./show_hide_chains_modal.module.scss";
+import { ShowHideChainsFilters } from "./components/filters";
+import { ChainItem } from "./components/chain_item";
 import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
-import { ShowHideChainsFilters } from "./components/filters";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
-import { ChainItem } from "./components/chain_item";
-import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
 
 interface ShowHideChainsModalProps {
   renderTrigger: (props: { onOpen: () => void }) => ReactNode;
@@ -24,10 +23,7 @@ interface ShowHideChainsModalProps {
 
 export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
   ({ renderTrigger }) => {
-    const okoCosmos = useSDKState((state) => state.oko_cosmos);
-    const okoEth = useSDKState((state) => state.oko_eth);
-
-    const { chainStore, hugeQueriesStore, queriesStore } = useRootStore();
+    const { chainStore, hugeQueriesStore } = useRootStore();
 
     const chainIdsToEnable = useRef<Set<string>>(new Set());
     const chainIdsToDisable = useRef<Set<string>>(new Set());
@@ -80,77 +76,8 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
       searchFields,
     );
 
-    const tokensByChainIdentifier =
+    const allTokenMapByChainIdentifier =
       hugeQueriesStore.allTokenMapByChainIdentifier;
-
-    const getChainItemInfoForView = useCallback(
-      (
-        modularChainInfo: ModularChainInfo & {
-          linkedModularChainInfos?: ModularChainInfo[];
-        },
-      ) => {
-        const baseChainId = modularChainInfo.chainId;
-
-        const tokens =
-          tokensByChainIdentifier.get(
-            ChainIdHelper.parse(baseChainId).identifier,
-          ) ?? [];
-
-        const balance = (async () => {
-          if (
-            "evm" in modularChainInfo &&
-            chainStore.isEvmOnlyChain(modularChainInfo.chainId)
-          ) {
-            const ethAddress = await okoEth?.getAddress();
-
-            const queries = queriesStore.get(modularChainInfo.chainId);
-            const mainCurrency = modularChainInfo.evm.currencies[0];
-
-            const queryBalance =
-              queries.queryBalances.getQueryEthereumHexAddress(
-                ethAddress ?? "",
-              );
-            const balance = queryBalance.getBalance(mainCurrency);
-            if (balance) {
-              return balance.balance;
-            }
-
-            return new CoinPretty(mainCurrency, "0");
-          } else if ("cosmos" in modularChainInfo) {
-            const cosmosAccount = await okoCosmos?.getKey(
-              modularChainInfo.chainId,
-            );
-
-            const queries = queriesStore.get(modularChainInfo.chainId);
-            const mainCurrency =
-              modularChainInfo.cosmos.stakeCurrency ||
-              modularChainInfo.cosmos.currencies[0];
-
-            const queryBalance = queries.queryBalances.getQueryBech32Address(
-              cosmosAccount?.bech32Address ?? "",
-            );
-            const balance = queryBalance.getBalance(mainCurrency);
-
-            if (balance) {
-              return balance.balance;
-            }
-
-            return new CoinPretty(mainCurrency, "0");
-          }
-        })();
-
-        const chainIdentifier = ChainIdHelper.parse(
-          modularChainInfo.chainId,
-        ).identifier;
-
-        return {
-          balance,
-          tokens,
-          chainIdentifier,
-        };
-      },
-      [chainStore, queriesStore, tokensByChainIdentifier],
-    );
 
     return (
       <>
@@ -195,7 +122,6 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
                   {({ visibility, ecosystem }) => (
                     <div className={cn(styles.chainList, "common-list-scroll")}>
                       {searchedNativeModularChainInfos
-
                         .filter((chain) => {
                           switch (visibility) {
                             case "Show All": {
@@ -223,7 +149,11 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
                           <ChainItem
                             key={chain.chainId}
                             chainInfo={chain as ModularChainInfo}
-                            tokens={getChainItemInfoForView(chain).tokens}
+                            viewTokens={
+                              allTokenMapByChainIdentifier.get(
+                                ChainIdHelper.parse(chain.chainId).identifier,
+                              ) ?? []
+                            }
                             onEnable={(checked) =>
                               checked
                                 ? chainIdsToEnable.current.add(chain.chainId)
