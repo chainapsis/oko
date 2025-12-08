@@ -25,8 +25,8 @@
     "./skeleton": "./src/skeleton/skeleton.tsx"
   },
   "dependencies": {
-    "@floating-ui/dom": "*",
-    "@floating-ui/react": "*",
+    "@floating-ui/dom": "^1.7.4",
+    "@floating-ui/react": "^0.27.16",
     "@oko-wallet/stdlib-js": "0.0.2-rc.25",
     "classnames": "^2.5.1",
     "next": "^15.5.7",

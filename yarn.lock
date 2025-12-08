@@ -5686,7 +5686,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:*":
+"@floating-ui/react@npm:*, @floating-ui/react@npm:^0.27.16":
   version: 0.27.16
   resolution: "@floating-ui/react@npm:0.27.16"
   dependencies:
@@ -9766,7 +9766,6 @@ __metadata:
     "@typescript-eslint/parser": "npm:^8.35.1"
     jest: "npm:^29.7.0"
     ts-jest: "npm:^29.4.5"
-    tsconfig-paths: "npm:*"
     tsx: "npm:^4.20.3"
     typescript: "npm:^5.8.3"
     uuid: "npm:^13.0.0"
@@ -9928,8 +9927,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-common-ui@workspace:ui/oko_common_ui"
   dependencies:
-    "@floating-ui/dom": "npm:*"
-    "@floating-ui/react": "npm:*"
+    "@floating-ui/dom": "npm:^1.7.4"
+    "@floating-ui/react": "npm:^0.27.16"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.25"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
@@ -10186,7 +10185,6 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     "@typescript-eslint/eslint-plugin": "npm:^7.16.1"
     "@typescript-eslint/parser": "npm:^7.16.1"
-    tsconfig-paths: "npm:*"
     typescript: "npm:^5.8.3"
     viem: "npm:^2.31.7"
   languageName: unknown
@@ -19895,7 +19893,6 @@ __metadata:
     classnames: "npm:^2.5.1"
     eslint-config-next: "npm:^16.0.7"
     next: "npm:^15.5.7"
-    prettier: "npm:*"
     react: "npm:^19.2.1"
     react-dom: "npm:^19.2.1"
     typescript: "npm:^5.8.3"
@@ -38775,17 +38772,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tsconfig-paths@npm:*, tsconfig-paths@npm:^4.1.2, tsconfig-paths@npm:^4.2.0":
-  version: 4.2.0
-  resolution: "tsconfig-paths@npm:4.2.0"
-  dependencies:
-    json5: "npm:^2.2.2"
-    minimist: "npm:^1.2.6"
-    strip-bom: "npm:^3.0.0"
-  checksum: 10c0/09a5877402d082bb1134930c10249edeebc0211f36150c35e1c542e5b91f1047b1ccf7da1e59babca1ef1f014c525510f4f870de7c9bda470c73bb4e2721b3ea
-  languageName: node
-  linkType: hard
-
 "tsconfig-paths@npm:^3.15.0":
   version: 3.15.0
   resolution: "tsconfig-paths@npm:3.15.0"
@@ -38795,6 +38781,17 @@ __metadata:
     minimist: "npm:^1.2.6"
     strip-bom: "npm:^3.0.0"
   checksum: 10c0/5b4f301a2b7a3766a986baf8fc0e177eb80bdba6e396792ff92dc23b5bca8bb279fc96517dcaaef63a3b49bebc6c4c833653ec58155780bc906bdbcf7dda0ef5
+  languageName: node
+  linkType: hard
+
+"tsconfig-paths@npm:^4.1.2, tsconfig-paths@npm:^4.2.0":
+  version: 4.2.0
+  resolution: "tsconfig-paths@npm:4.2.0"
+  dependencies:
+    json5: "npm:^2.2.2"
+    minimist: "npm:^1.2.6"
+    strip-bom: "npm:^3.0.0"
+  checksum: 10c0/09a5877402d082bb1134930c10249edeebc0211f36150c35e1c542e5b91f1047b1ccf7da1e59babca1ef1f014c525510f4f870de7c9bda470c73bb4e2721b3ea
   languageName: node
   linkType: hard
 

@@ -24,7 +24,6 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "eslint-config-next": "^16.0.7",
-    "prettier": "*",
     "typescript": "^5.8.3"
   }
 }

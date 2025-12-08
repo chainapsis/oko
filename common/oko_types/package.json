@@ -22,7 +22,6 @@
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.36",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",
-    "tsconfig-paths": "*",
     "viem": "^2.31.7"
   },
   "devDependencies": {
