@@ -8,7 +8,14 @@ export async function depsFix(..._args: any[]) {
 
   const publishRet = spawnSync(
     "yarn",
-    ["syncpack", "fix", "--dependency-types", "prod,dev"],
+    [
+      "syncpack",
+      "fix",
+      "--dependency-types",
+      "prod,dev",
+      "--config",
+      ".syncpackrc.json",
+    ],
     {
       cwd: paths.root,
       stdio: "inherit",
