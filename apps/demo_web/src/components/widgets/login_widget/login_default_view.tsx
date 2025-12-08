@@ -69,7 +69,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           </Button>
         </div>
 
-        <Button variant="secondary" size="md" fullWidth onClick={onShowSocials}>
+        <Button variant="secondary" size="md" fullWidth onClick={onShowSocials} disabled>
           <div className={styles.socialIconWrapper}>
             <XIcon size={16} />
             <TelegramIcon size={16} />
