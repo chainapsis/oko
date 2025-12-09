@@ -59,6 +59,14 @@ RUN yarn workspaces focus @oko-wallet/tecdsa-interface
 WORKDIR /home/node/oko/crypto/tecdsa/tecdsa_interface
 RUN yarn run build
 
+# Install dependencies for crypto-js
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/crypto-js
+
+# Build crypto-js
+WORKDIR /home/node/oko/crypto/crypto_js
+RUN yarn run build
+
 WORKDIR /home/node/oko
 
 # Install dependencies for oko_api_server
