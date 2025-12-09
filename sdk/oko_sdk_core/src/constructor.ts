@@ -6,6 +6,7 @@ import type {
   OkoWalletStaticInterface,
 } from "./types";
 import { EventEmitter3 } from "./event";
+import pJson from "../package.json";
 
 export const OkoWallet = function (
   this: OkoWalletInterface,
@@ -13,6 +14,8 @@ export const OkoWallet = function (
   iframe: HTMLIFrameElement,
   sdkEndpoint: string,
 ) {
+  console.log(4, pJson.version);
+
   this.apiKey = apiKey;
   this.iframe = iframe;
   this.activePopupId = null;
