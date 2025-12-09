@@ -64,6 +64,7 @@ function loadIframe(
   iframe.style.backgroundColor = "transparent";
   iframe.style.overflow = "hidden";
   iframe.style.zIndex = "1000000";
+  iframe.style.pointerEvents = "auto";
 
   bodyEl.appendChild(iframe);
 }
