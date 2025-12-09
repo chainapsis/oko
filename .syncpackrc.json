@@ -1,8 +1,0 @@
-{
-  "versionGroups": [
-    {
-      "label": "Capture everything",
-      "specifierTypes": ["latest"]
-    }
-  ]
-}

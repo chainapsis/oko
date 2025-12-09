@@ -11,7 +11,7 @@
     "@oko-wallet/bytes": "0.0.3-alpha.61",
     "@oko-wallet/crypto-js": "0.0.2-alpha.5",
     "@oko-wallet/oko-pg-interface": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",
@@ -25,7 +25,7 @@
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/morgan": "^1.9.9",
     "@types/node": "^24.10.1",

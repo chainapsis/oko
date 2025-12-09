@@ -35,6 +35,7 @@ services:
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
       # Container path is fixed for consistency; you may change the host path in the volume mapping
       DUMP_DIR: /home/node/key_share_node/dump
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
 
     volumes:
       - ${DUMP_DIR}:/home/node/key_share_node/dump

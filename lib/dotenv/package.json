@@ -16,12 +16,12 @@
     "directory": "stdlib_js"
   },
   "dependencies": {
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.41",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "dotenv": "^16.4.5",
     "zod": "^4.1.12"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
     "jest": "^30.1.3",

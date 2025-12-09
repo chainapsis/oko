@@ -1,5 +1,6 @@
 {
   "name": "@oko-wallet/social-login-api",
+  "private": true,
   "main": "./src/index.ts",
   "type": "module",
   "scripts": {
@@ -10,15 +11,15 @@
     "@oko-wallet/oko-api-error-codes": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-types": "workspace:*",
-    "express": "*"
+    "express": "^4.21.1"
   },
   "devDependencies": {
-    "@types/express": "*",
-    "@types/jest": "*",
-    "@types/node": "*",
-    "@types/supertest": "*",
+    "@types/express": "^5.0.6",
+    "@types/jest": "^29.5.14",
+    "@types/node": "^24.10.1",
+    "@types/supertest": "^6.0.3",
     "jest": "^30.1.3",
-    "supertest": "*",
+    "supertest": "^7.0.0",
     "ts-jest": "^29.4.5",
     "typescript": "^5.8.3"
   }

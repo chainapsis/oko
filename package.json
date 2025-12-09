@@ -59,7 +59,7 @@
     "ci": "yarn --cwd ./internals/ci run start"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.3.4",
+    "@biomejs/biome": "^2.3.8",
     "@types/node": "^24.10.1",
     "lerna": "^9.0.3",
     "prettier": "^3.6.2",

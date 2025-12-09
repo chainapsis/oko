@@ -42,7 +42,7 @@
   },
   "dependencies": {
     "@oko-wallet/oko-sdk-core": "^0.0.6-rc.124",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.41",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "eventemitter3": "^5.0.1",
     "uuid": "^13.0.0",
     "viem": "^2.41.2"
@@ -54,7 +54,7 @@
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/jest": "^29.5.14",
-    "@types/node": "^22.15.18",
+    "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
     "ethers": "^6.14.4",
     "hardhat": "^2.25.0",

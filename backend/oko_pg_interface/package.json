@@ -25,10 +25,10 @@
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
     "@oko-wallet/crypto-js": "0.0.2-alpha.5",
-    "@oko-wallet/dotenv": "0.0.2-alpha.25",
+    "@oko-wallet/dotenv": "0.0.2-alpha.26",
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "jest": "^30.1.3",
     "knex": "^3.1.0",
     "pg": "^8.16.3",
@@ -36,7 +36,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/node": "^24.10.1",
     "ts-jest": "^29.4.5",
     "tsconfig-paths": "^4.2.0",

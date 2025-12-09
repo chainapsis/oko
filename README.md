@@ -9,10 +9,10 @@ over authentication, signing, and key management architecture.
 
 Everything is fully open source and Apache-2.0 licensed:
 
-- Non-custodial, based on Multi-Party Computation(MPC)
+- Non-custodial, based on Multi-Party Computation (MPC)
 
-- Key Management: Hybrid signing model utilizing TSS(Threshold Signature
-  Scheming) plus SSS(Shamir’s Secret Sharing)
+- Key Management: Hybrid signing model utilizing TSS (Threshold Signature
+  Scheming) plus SSS (Shamir’s Secret Sharing)
 
 - Key Security: Signatures are generated via distributed key shares; private key
   never reconstructed.

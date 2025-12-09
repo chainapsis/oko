@@ -34,9 +34,9 @@
     "directory": "sdk/oko_sdk_core"
   },
   "dependencies": {
-    "@keplr-wallet/types": "^0.12.257",
+    "@keplr-wallet/types": "^0.12.290",
     "@oko-wallet/bytes": "0.0.3-alpha.61",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.41"
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
@@ -44,7 +44,7 @@
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
     "@rollup/plugin-typescript": "^11.0.0",
-    "@types/jest": "^29.5.12",
+    "@types/jest": "^29.5.14",
     "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
     "jest": "^30.1.3",
