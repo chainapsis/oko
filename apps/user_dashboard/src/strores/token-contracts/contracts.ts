@@ -1,5 +1,6 @@
 import { ObservableQuery, QuerySharedContext } from "@keplr-wallet/stores";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
+
 import { TokenContract } from "./types";
 
 export class ObservableQueryTokenContracts extends ObservableQuery<
@@ -8,12 +9,12 @@ export class ObservableQueryTokenContracts extends ObservableQuery<
   constructor(
     sharedContext: QuerySharedContext,
     chainId: string,
-    tokenContractListURL: string
+    tokenContractListURL: string,
   ) {
     super(
       sharedContext,
       tokenContractListURL,
-      `/tokens/${ChainIdHelper.parse(chainId).identifier}`
+      `/tokens/${ChainIdHelper.parse(chainId).identifier}`,
     );
   }
 

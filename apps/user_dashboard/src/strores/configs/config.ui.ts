@@ -17,6 +17,9 @@ export const SkipTokenInfoAPIURI =
   process.env["KEPLR_EXT_SKIP_TOKEN_INFO_API_URI"] ||
   "/coingecko-token-info/skip/assets/{chainId}/{coinMinimalDenom}";
 
+export const TokenContractListURL =
+  "https://opbaqquqruxn7fdsgcncrtfrwa0qxnoj.lambda-url.us-west-2.on.aws";
+
 // Endpoint for Ethereum node.
 // This is used for ENS.
 export const EthereumEndpoint =

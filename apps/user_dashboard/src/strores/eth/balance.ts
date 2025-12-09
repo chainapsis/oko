@@ -8,6 +8,7 @@ import {
 import { AppCurrency, ChainInfo } from "@keplr-wallet/types";
 import { CoinPretty, Int } from "@keplr-wallet/unit";
 import { computed, makeObservable } from "mobx";
+
 import { EthereumAccountBase } from "./account";
 import { ObservableEvmChainJsonRpcQuery } from "./evm-chain-json-rpc";
 
@@ -20,7 +21,7 @@ export class ObservableQueryEthAccountBalanceImpl
     chainId: string,
     chainGetter: ChainGetter,
     protected readonly denomHelper: DenomHelper,
-    protected readonly ethereumHexAddress: string
+    protected readonly ethereumHexAddress: string,
   ) {
     super(sharedContext, chainId, chainGetter, "eth_getBalance", [
       ethereumHexAddress,
@@ -39,7 +40,7 @@ export class ObservableQueryEthAccountBalanceImpl
   get balance(): CoinPretty {
     const denom = this.denomHelper.denom;
     const modularChainInfoImpl = this.chainGetter.getModularChainInfoImpl(
-      this.chainId
+      this.chainId,
     );
     const currency = modularChainInfoImpl
       .getCurrencies()
@@ -73,7 +74,7 @@ export class ObservableQueryEthAccountBalanceRegistry
     chainId: string,
     chainGetter: ChainGetter<ChainInfo>,
     address: string,
-    minimalDenom: string
+    minimalDenom: string,
   ): IObservableQueryBalanceImpl | undefined {
     const denomHelper = new DenomHelper(minimalDenom);
     const chainInfo = chainGetter.getModularChain(chainId);
@@ -92,7 +93,7 @@ export class ObservableQueryEthAccountBalanceRegistry
       chainId,
       chainGetter,
       denomHelper,
-      address
+      address,
     );
   }
 }

@@ -7,6 +7,7 @@ import {
   FeeCurrency,
   ChainInfoModule,
 } from "@keplr-wallet/types";
+
 import { ModularChainInfo } from "./chain-info";
 
 export type CurrencyRegistrar = (

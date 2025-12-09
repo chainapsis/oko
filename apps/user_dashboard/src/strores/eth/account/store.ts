@@ -1,11 +1,12 @@
 import { ChainGetter, HasMapStore } from "@keplr-wallet/stores";
-import { EthereumAccountBase } from "./base";
 import { Keplr } from "@keplr-wallet/types";
+
+import { EthereumAccountBase } from "./base";
 
 export class EthereumAccountStore extends HasMapStore<EthereumAccountBase> {
   constructor(
     protected readonly chainGetter: ChainGetter,
-    protected readonly getKeplr: () => Promise<Keplr | undefined>
+    protected readonly getKeplr: () => Promise<Keplr | undefined>,
   ) {
     super((chainId: string) => {
       return new EthereumAccountBase(chainGetter, chainId, getKeplr);

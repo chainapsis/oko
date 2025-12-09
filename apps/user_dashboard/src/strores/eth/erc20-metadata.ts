@@ -4,6 +4,7 @@ import {
   QuerySharedContext,
 } from "@keplr-wallet/stores";
 import { computed, makeObservable } from "mobx";
+
 import { ObservableEvmChainJsonRpcQuery } from "./evm-chain-json-rpc";
 import { erc20ContractInterface } from "./constants";
 
@@ -12,7 +13,7 @@ export class ObservableQueryEVMChainERC20MetadataSymbol extends ObservableEvmCha
     sharedContext: QuerySharedContext,
     chainId: string,
     chainGetter: ChainGetter,
-    protected contractAddress: string
+    protected contractAddress: string,
   ) {
     super(sharedContext, chainId, chainGetter, "eth_call", [
       {
@@ -38,7 +39,7 @@ export class ObservableQueryEVMChainERC20MetadataSymbol extends ObservableEvmCha
     try {
       return erc20ContractInterface.decodeFunctionResult(
         "symbol",
-        this.response.data
+        this.response.data,
       )[0];
     } catch (e) {
       console.log(e);
@@ -52,7 +53,7 @@ export class ObservableQueryEVMChainERC20MetadataDecimals extends ObservableEvmC
     sharedContext: QuerySharedContext,
     chainId: string,
     chainGetter: ChainGetter,
-    protected contractAddress: string
+    protected contractAddress: string,
   ) {
     super(sharedContext, chainId, chainGetter, "eth_call", [
       {
@@ -78,7 +79,7 @@ export class ObservableQueryEVMChainERC20MetadataDecimals extends ObservableEvmC
     try {
       return erc20ContractInterface.decodeFunctionResult(
         "decimals",
-        this.response.data
+        this.response.data,
       )[0];
     } catch (e) {
       console.log(e);
@@ -95,20 +96,20 @@ export class ObservableQueryEVMChainERC20MetadataInner {
     protected readonly sharedContext: QuerySharedContext,
     chainId: string,
     chainGetter: ChainGetter,
-    contractAddress: string
+    contractAddress: string,
   ) {
     this._querySymbol = new ObservableQueryEVMChainERC20MetadataSymbol(
       sharedContext,
       chainId,
       chainGetter,
-      contractAddress
+      contractAddress,
     );
 
     this._queryDecimals = new ObservableQueryEVMChainERC20MetadataDecimals(
       sharedContext,
       chainId,
       chainGetter,
-      contractAddress
+      contractAddress,
     );
   }
 
@@ -133,20 +134,20 @@ export class ObservableQueryEVMChainERC20Metadata extends HasMapStore<Observable
   constructor(
     protected readonly sharedContext: QuerySharedContext,
     protected readonly chainId: string,
-    protected readonly chainGetter: ChainGetter
+    protected readonly chainGetter: ChainGetter,
   ) {
     super((contractAddress) => {
       return new ObservableQueryEVMChainERC20MetadataInner(
         this.sharedContext,
         this.chainId,
         this.chainGetter,
-        contractAddress
+        contractAddress,
       );
     });
   }
 
   override get(
-    contractAddress: string
+    contractAddress: string,
   ): ObservableQueryEVMChainERC20MetadataInner {
     return super.get(contractAddress);
   }

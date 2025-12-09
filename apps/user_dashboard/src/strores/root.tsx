@@ -16,7 +16,7 @@ import {
 
 import { IBCCurrencyRegistrar } from "./ibc/currency-registrar";
 import { ChainStore } from "./chain";
-import { TokenContractListURL } from "./configs/config";
+import { TokenContractListURL } from "./configs/config.ui";
 import {
   EthereumEndpoint,
   SkipTokenInfoBaseURL,

@@ -7,7 +7,6 @@ import {
   Keplr,
 } from "@keplr-wallet/types";
 import { DenomHelper, retry } from "@keplr-wallet/common";
-import { erc20ContractInterface } from "../constants";
 import { hexValue } from "@ethersproject/bytes";
 import { parseUnits } from "@ethersproject/units";
 import {
@@ -18,6 +17,8 @@ import {
 import { getAddress as getEthAddress } from "@ethersproject/address";
 import { action, makeObservable, observable } from "mobx";
 import { Interface } from "@ethersproject/abi";
+
+import { erc20ContractInterface } from "../constants";
 
 const opStackGasPriceOracleProxyAddress =
   "0x420000000000000000000000000000000000000F";
@@ -39,7 +40,7 @@ export class EthereumAccountBase {
   constructor(
     protected readonly chainGetter: ChainGetter,
     protected readonly chainId: string,
-    protected readonly getKeplr: () => Promise<Keplr | undefined>
+    protected readonly getKeplr: () => Promise<Keplr | undefined>,
   ) {
     makeObservable(this);
   }
@@ -98,7 +99,7 @@ export class EthereumAccountBase {
   }) {
     // If the recipient address is invalid, the sender address will be used as the recipient for gas estimating gas.
     const tempRecipient = EthereumAccountBase.isEthereumHexAddressWithChecksum(
-      recipient
+      recipient,
     )
       ? recipient
       : sender;
@@ -200,7 +201,7 @@ export class EthereumAccountBase {
               erc20ContractInterface.encodeFunctionData("transfer", [
                 to,
                 hexValue(parsedAmount),
-              ])
+              ]),
             ),
             ...feeObject,
           };
@@ -218,7 +219,7 @@ export class EthereumAccountBase {
   makeErc20ApprovalTx(
     currency: ERC20Currency,
     spender: string,
-    amount: string
+    amount: string,
   ): UnsignedTransaction {
     const parsedAmount = parseUnits(amount, currency.coinDecimals);
 
@@ -228,7 +229,7 @@ export class EthereumAccountBase {
       erc20ContractInterface.encodeFunctionData("approve", [
         spender,
         hexValue(parsedAmount),
-      ])
+      ]),
     );
   }
 
@@ -257,7 +258,7 @@ export class EthereumAccountBase {
     options?: {
       sendTx?: (chainId: string, signedTx: Buffer) => Promise<string>;
       nonceMethod?: "pending" | "latest";
-    }
+    },
   ) {
     try {
       const chainInfo = this.chainGetter.getModularChain(this.chainId);
@@ -283,7 +284,7 @@ export class EthereumAccountBase {
         this.chainId,
         sender,
         JSON.stringify(unsignedTx),
-        EthSignType.TRANSACTION
+        EthSignType.TRANSACTION,
       );
 
       const isEIP1559 =
@@ -294,7 +295,7 @@ export class EthereumAccountBase {
 
       const signedTx = Buffer.from(
         serialize(unsignedTx, signature).replace("0x", ""),
-        "hex"
+        "hex",
       );
 
       const sendEthereumTx = keplr.sendEthereumTx.bind(keplr);
@@ -330,7 +331,7 @@ export class EthereumAccountBase {
           maxRetries: 10,
           waitMsAfterError: 500,
           maxWaitMsAfterError: 4000,
-        }
+        },
       );
 
       return txHash;
@@ -346,7 +347,7 @@ export class EthereumAccountBase {
   static isEthereumHexAddressWithChecksum(hexAddress: string): boolean {
     const isHexAddress = !!hexAddress.match(/^0x[0-9A-Fa-f]*$/);
     const isChecksumAddress = !!hexAddress.match(
-      /([A-F].*[a-f])|([a-f].*[A-F])/
+      /([A-F].*[a-f])|([a-f].*[A-F])/,
     );
     if (!isHexAddress || hexAddress.length !== 42) {
       return false;

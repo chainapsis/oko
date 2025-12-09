@@ -3,8 +3,9 @@ import {
   HasMapStore,
   QuerySharedContext,
 } from "@keplr-wallet/stores";
-import { ObservableQueryEVMChainERC20MetadataInner } from "./erc20-metadata";
 import { computed } from "mobx";
+
+import { ObservableQueryEVMChainERC20MetadataInner } from "./erc20-metadata";
 
 interface ERC20ContractInfo {
   decimals: number;
@@ -16,7 +17,7 @@ export class ObservableQueryERC20ContactInfoInner extends ObservableQueryEVMChai
     sharedContext: QuerySharedContext,
     chainId: string,
     chainGetter: ChainGetter,
-    protected readonly contractAddress: string
+    protected readonly contractAddress: string,
   ) {
     super(sharedContext, chainId, chainGetter, contractAddress);
   }
@@ -54,20 +55,20 @@ export class ObservableQueryERC20ContractInfo extends HasMapStore<ObservableQuer
   constructor(
     protected readonly sharedContext: QuerySharedContext,
     protected readonly chainId: string,
-    protected readonly chainGetter: ChainGetter
+    protected readonly chainGetter: ChainGetter,
   ) {
     super((contractAddress: string) => {
       return new ObservableQueryERC20ContactInfoInner(
         this.sharedContext,
         this.chainId,
         this.chainGetter,
-        contractAddress
+        contractAddress,
       );
     });
   }
 
   getQueryContract(
-    contractAddress: string
+    contractAddress: string,
   ): ObservableQueryERC20ContactInfoInner {
     return this.get(contractAddress) as ObservableQueryERC20ContactInfoInner;
   }

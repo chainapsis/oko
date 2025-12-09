@@ -1,9 +1,10 @@
 import { autorun, computed, flow, makeObservable, observable } from "mobx";
 import { ChainInfo } from "@keplr-wallet/types";
-import { ChainStore as BaseChainStore } from "./base";
 import { ChainInfoWithCoreTypes } from "@keplr-wallet/background";
 import { KVStore, toGenerator } from "@keplr-wallet/common";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
+
+import { ChainStore as BaseChainStore } from "./base";
 import { ModularChainInfo } from "./chain-info";
 
 const CHAIN_INFO_ENDPOINT = "https://keplr-api.keplr.app/v1/chains";

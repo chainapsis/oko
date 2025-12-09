@@ -4,13 +4,14 @@ import {
   QueryOptions,
   QuerySharedContext,
 } from "@keplr-wallet/stores";
-import { AssetsResponse } from "../types/skip";
 import { computed, makeObservable, observable, runInAction } from "mobx";
 import Joi from "joi";
-import { InternalChainStore } from "../types/chain-info";
-import { SwapUsageQueries } from "../swap-usage/queries";
 import { simpleFetch } from "@keplr-wallet/simple-fetch";
 import { computedFn } from "mobx-utils";
+
+import { AssetsResponse } from "../types/skip";
+import { InternalChainStore } from "../types/chain-info";
+import { SwapUsageQueries } from "../swap-usage/queries";
 
 export interface Asset {
   denom: string;

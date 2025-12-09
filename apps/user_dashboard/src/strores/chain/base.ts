@@ -1,3 +1,4 @@
+import { keepAlive } from "mobx-utils";
 import {
   action,
   autorun,
@@ -23,8 +24,8 @@ import {
   IModularChainInfoImpl,
 } from "./types";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
-import { keepAlive } from "mobx-utils";
 import { DenomHelper, sortedJsonByKeyStringify } from "@keplr-wallet/common";
+
 import { ChainInfoModule, ModularChainInfo } from "./chain-info";
 
 const forceFindCurrencyCache: Map<string, AppCurrency> = new Map();

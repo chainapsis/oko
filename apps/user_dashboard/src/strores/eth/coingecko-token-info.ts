@@ -5,6 +5,7 @@ import {
   QuerySharedContext,
 } from "@keplr-wallet/stores";
 import { makeObservable } from "mobx";
+
 export class ObservableQueryCoingeckoTokenInfoInner extends ObservableQuery<{
   networkId: string;
   contractAddress: string;
@@ -22,14 +23,14 @@ export class ObservableQueryCoingeckoTokenInfoInner extends ObservableQuery<{
     coingeckoAPIBaseURL: string,
     coingeckoAPIURI: string,
     protected readonly coingeckoChainId: string,
-    contractAddress: string
+    contractAddress: string,
   ) {
     super(
       sharedContext,
       coingeckoAPIBaseURL,
       coingeckoAPIURI
         .replace("{coingeckoChainId}", coingeckoChainId)
-        .replace("{contractAddress}", contractAddress)
+        .replace("{contractAddress}", contractAddress),
     );
 
     makeObservable(this);
@@ -60,7 +61,7 @@ export class ObservableQueryCoingeckoTokenInfo extends HasMapStore<
     protected readonly chainId: string,
     protected readonly chainGetter: ChainGetter,
     protected readonly coingeckoAPIBaseURL: string,
-    protected readonly coingeckoAPIURI: string
+    protected readonly coingeckoAPIURI: string,
   ) {
     const coingeckoChainId = coingeckoChainIdMap[chainId];
 
@@ -71,14 +72,14 @@ export class ObservableQueryCoingeckoTokenInfo extends HasMapStore<
           coingeckoAPIBaseURL,
           coingeckoAPIURI,
           coingeckoChainId,
-          contractAddress
+          contractAddress,
         );
       }
     });
   }
 
   getQueryContract(
-    contractAddress: string
+    contractAddress: string,
   ): ObservableQueryCoingeckoTokenInfoInner | undefined {
     return this.get(contractAddress) as ObservableQueryCoingeckoTokenInfoInner;
   }

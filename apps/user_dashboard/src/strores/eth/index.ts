@@ -3,8 +3,9 @@ import {
   ChainGetter,
   QuerySharedContext,
 } from "@keplr-wallet/stores";
-import { ObservableQueryEthAccountBalanceRegistry } from "./balance";
 import { DeepReadonly } from "utility-types";
+
+import { ObservableQueryEthAccountBalanceRegistry } from "./balance";
 import { ObservableQueryEthereumBlock } from "./block";
 import { ObservableQueryEthereumFeeHistory } from "./fee-histroy";
 import { ObservableQueryEVMChainERC20Metadata } from "./erc20-metadata";
@@ -27,13 +28,13 @@ export const EthereumQueries = {
     queriesSetBase: QueriesSetBase,
     sharedContext: QuerySharedContext,
     chainId: string,
-    chainGetter: ChainGetter
+    chainGetter: ChainGetter,
   ) => EthereumQueries {
     return (
       queriesSetBase: QueriesSetBase,
       sharedContext: QuerySharedContext,
       chainId: string,
-      chainGetter: ChainGetter
+      chainGetter: ChainGetter,
     ) => {
       return {
         ethereum: new EthereumQueriesImpl(
@@ -42,7 +43,7 @@ export const EthereumQueries = {
           chainId,
           chainGetter,
           options.coingeckoAPIBaseURL,
-          options.coingeckoAPIURI
+          options.coingeckoAPIURI,
         ),
       };
     };
@@ -64,47 +65,47 @@ export class EthereumQueriesImpl {
     protected chainId: string,
     protected chainGetter: ChainGetter,
     protected coingeckoAPIBaseURL: string,
-    protected coingeckoAPIURI: string
+    protected coingeckoAPIURI: string,
   ) {
     base.queryBalances.addBalanceRegistry(
-      new ObservableQueryEthereumERC20BalanceRegistry(sharedContext)
+      new ObservableQueryEthereumERC20BalanceRegistry(sharedContext),
     );
     base.queryBalances.addBalanceRegistry(
-      new ObservableQueryThirdpartyERC20BalanceRegistry(sharedContext)
+      new ObservableQueryThirdpartyERC20BalanceRegistry(sharedContext),
     );
     base.queryBalances.addBalanceRegistry(
-      new ObservableQueryEthAccountBalanceRegistry(sharedContext)
+      new ObservableQueryEthAccountBalanceRegistry(sharedContext),
     );
 
     this.queryEthereumBlock = new ObservableQueryEthereumBlock(
       sharedContext,
       chainId,
-      chainGetter
+      chainGetter,
     );
 
     this.queryEthereumFeeHistory = new ObservableQueryEthereumFeeHistory(
       sharedContext,
       chainId,
-      chainGetter
+      chainGetter,
     );
 
     this.queryEthereumERC20Metadata = new ObservableQueryEVMChainERC20Metadata(
       sharedContext,
       chainId,
-      chainGetter
+      chainGetter,
     );
 
     this.queryEthereumERC20ContractInfo = new ObservableQueryERC20ContractInfo(
       sharedContext,
       chainId,
-      chainGetter
+      chainGetter,
     );
 
     this.queryEthereumMaxPriorityFee =
       new ObservableQueryEthereumMaxPriorityFee(
         sharedContext,
         chainId,
-        chainGetter
+        chainGetter,
       );
 
     this.queryEthereumCoingeckoTokenInfo =
@@ -113,13 +114,13 @@ export class EthereumQueriesImpl {
         chainId,
         chainGetter,
         coingeckoAPIBaseURL,
-        coingeckoAPIURI
+        coingeckoAPIURI,
       );
 
     this.queryEthereumGasPrice = new ObservableQueryEthereumGasPrice(
       sharedContext,
       chainId,
-      chainGetter
+      chainGetter,
     );
   }
 }

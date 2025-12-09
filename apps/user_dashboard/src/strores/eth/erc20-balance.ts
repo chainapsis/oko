@@ -5,11 +5,12 @@ import {
   QuerySharedContext,
 } from "@keplr-wallet/stores";
 import { AppCurrency, ChainInfo } from "@keplr-wallet/types";
+import { DenomHelper } from "@keplr-wallet/common";
 import { CoinPretty, Int } from "@keplr-wallet/unit";
 import { computed, makeObservable } from "mobx";
 import bigInteger from "big-integer";
+
 import { erc20ContractInterface } from "./constants";
-import { DenomHelper } from "@keplr-wallet/common";
 import { EthereumAccountBase } from "./account";
 import { ObservableEvmChainJsonRpcQuery } from "./evm-chain-json-rpc";
 
@@ -23,7 +24,7 @@ export class ObservableQueryEthereumERC20BalanceImpl
     chainGetter: ChainGetter,
     protected readonly denomHelper: DenomHelper,
     protected readonly ethereumHexAddress: string,
-    protected readonly contractAddress: string
+    protected readonly contractAddress: string,
   ) {
     super(sharedContext, chainId, chainGetter, "eth_call", [
       {
@@ -57,7 +58,7 @@ export class ObservableQueryEthereumERC20BalanceImpl
 
     return new CoinPretty(
       currency,
-      new Int(bigInteger(this.response.data.replace("0x", ""), 16).toString())
+      new Int(bigInteger(this.response.data.replace("0x", ""), 16).toString()),
     );
   }
 
@@ -80,7 +81,7 @@ export class ObservableQueryEthereumERC20BalanceRegistry
     chainId: string,
     chainGetter: ChainGetter<ChainInfo>,
     address: string,
-    minimalDenom: string
+    minimalDenom: string,
   ): IObservableQueryBalanceImpl | undefined {
     const denomHelper = new DenomHelper(minimalDenom);
     const chainInfo = chainGetter.getModularChain(chainId);
@@ -100,7 +101,7 @@ export class ObservableQueryEthereumERC20BalanceRegistry
       chainGetter,
       denomHelper,
       address,
-      denomHelper.contractAddress
+      denomHelper.contractAddress,
     );
   }
 }
