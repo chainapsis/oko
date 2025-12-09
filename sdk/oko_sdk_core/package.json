@@ -34,7 +34,7 @@
     "directory": "sdk/oko_sdk_core"
   },
   "dependencies": {
-    "@keplr-wallet/types": "^0.12.257",
+    "@keplr-wallet/types": "^0.12.290",
     "@oko-wallet/bytes": "0.0.3-alpha.61",
     "@oko-wallet/stdlib-js": "0.0.2-rc.41"
   },

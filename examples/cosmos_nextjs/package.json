@@ -13,7 +13,7 @@
     "@cosmjs/proto-signing": "0.36.1",
     "@cosmjs/stargate": "0.36.1",
     "@hookform/resolvers": "5.2.2",
-    "@keplr-wallet/types": "0.12.280",
+    "@keplr-wallet/types": "^0.12.290",
     "@keplr-wallet/unit": "0.12.280",
     "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.150",
     "next": "^16.0.7",
