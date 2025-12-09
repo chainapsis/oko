@@ -14,7 +14,7 @@ import {
   QueriesStore,
 } from "@keplr-wallet/stores";
 
-// import { QueriesStore } from "./queries";
+import { IBCCurrencyRegistrar } from "./ibc/currency-registrar";
 import { ChainStore } from "./chain";
 import { TokenContractListURL } from "./configs/config";
 import {
@@ -50,6 +50,7 @@ export class RootStore {
       NobleQueries,
     ]
   >;
+  public readonly ibcCurrencyRegistrar: IBCCurrencyRegistrar;
   public readonly swapUsageQueries: SwapUsageQueries;
   public readonly skipQueriesStore: SkipQueries;
   public readonly priceStore: CoinGeckoPriceStore;
@@ -116,6 +117,14 @@ export class RootStore {
         baseURL: CoinGeckoAPIEndPoint,
         uri: CoinGeckoGetPrice,
       },
+    );
+
+    this.ibcCurrencyRegistrar = new IBCCurrencyRegistrar(
+      new IndexedDBKVStore("store_ibc_curreny_registrar"),
+      3 * 24 * 3600 * 1000,
+      1 * 3600 * 1000,
+      this.chainStore,
+      this.queriesStore,
     );
 
     this.hugeQueriesStore = new HugeQueriesStore(

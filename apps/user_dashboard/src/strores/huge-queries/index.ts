@@ -152,6 +152,13 @@ export class HugeQueriesStore {
         const queryBalance =
           queries.queryBalances.getQueryBech32Address(bech32Address);
 
+        for (const bal of queryBalance.balances) {
+          // ibc token 등록
+          if (bal.currency.coinMinimalDenom.startsWith("ibc/")) {
+            modularChainInfoImpl.findCurrency(bal.currency.coinMinimalDenom);
+          }
+        }
+
         const currencies = [
           ...modularChainInfoImpl.getCurrenciesByModule("cosmos"),
         ];

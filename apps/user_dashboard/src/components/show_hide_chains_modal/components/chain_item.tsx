@@ -5,6 +5,7 @@ import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { Toggle } from "@oko-wallet-common-ui/toggle/toggle";
 import { ChevronDownIcon } from "@oko-wallet-common-ui/icons/chevron_down";
+import { Badge } from "@oko-wallet-common-ui/badge/badge";
 
 import styles from "./chain_item.module.scss";
 import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
@@ -89,7 +90,7 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
         >
           <div className={styles.tokenList}>
             {viewTokens?.map((viewToken) => (
-              <TokenItem
+              <FoldableTokenItem
                 key={viewToken.token.currency.coinMinimalDenom}
                 viewToken={viewToken}
               />
@@ -101,11 +102,13 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
   },
 );
 
-interface TokenItemProps {
+interface FoldableTokenItemProps {
   viewToken: ViewToken;
 }
 
-const TokenItem: FunctionComponent<TokenItemProps> = ({ viewToken }) => {
+const FoldableTokenItem: FunctionComponent<FoldableTokenItemProps> = ({
+  viewToken,
+}) => {
   const currency = viewToken.token.currency;
 
   const imageUrl = currency.coinImageUrl;
@@ -114,6 +117,8 @@ const TokenItem: FunctionComponent<TokenItemProps> = ({ viewToken }) => {
     "originCurrency" in currency && currency.originCurrency
       ? currency.originCurrency.coinDenom
       : currency.coinDenom;
+
+  const isIBC = currency.coinMinimalDenom.startsWith("ibc/");
 
   return (
     <div className={styles.tokenItem}>
@@ -126,6 +131,7 @@ const TokenItem: FunctionComponent<TokenItemProps> = ({ viewToken }) => {
         <Typography size="xs" weight="medium" color="primary">
           {coinDenom}
         </Typography>
+        {isIBC && <Badge type="pill" size="sm" color="gray" label="IBC" />}
       </div>
     </div>
   );

@@ -9,6 +9,7 @@ import { QrCodeIcon } from "@oko-wallet-common-ui/icons/qr_code_icon";
 import { Skeleton } from "@oko-wallet-common-ui/skeleton/skeleton";
 import { EmptyStateIcon } from "@oko-wallet-common-ui/icons/empty_state_icon";
 import { Tooltip } from "@oko-wallet-common-ui/tooltip/tooltip";
+import { Badge } from "@oko-wallet-common-ui/badge/badge";
 
 import styles from "./token_item.module.scss";
 import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
@@ -36,6 +37,8 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
       "originCurrency" in currency && currency.originCurrency
         ? currency.originCurrency.coinDenom
         : currency.coinDenom;
+
+    const isIBC = viewToken.token.currency.coinMinimalDenom.startsWith("ibc/");
 
     const handleCopyAddress = async (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -79,6 +82,9 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
                 <Typography size="sm" weight="medium" color="secondary">
                   {coinDenom}
                 </Typography>
+              )}
+              {isIBC && (
+                <Badge type="pill" size="sm" color="gray" label="IBC" />
               )}
               {viewToken.isFetching && !isNotReady && (
                 <div className={styles.loadingIndicator} />

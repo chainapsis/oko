@@ -68,12 +68,26 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
       },
     ];
 
-    const searchedNativeModularChainInfos = useSearch(
+    const searchedModularChainInfos = useSearch(
       chainStore.modularChainInfos.filter(
         (chain) => "cosmos" in chain || "evm" in chain,
       ),
       searchQuery,
       searchFields,
+    );
+
+    const sortedSearchedModularChainInfos = searchedModularChainInfos.sort(
+      (a, b) => {
+        const aIsEnabled = chainStore.isEnabledChain(a.chainId);
+        const bIsEnabled = chainStore.isEnabledChain(b.chainId);
+        if (aIsEnabled && !bIsEnabled) {
+          return -1;
+        }
+        if (!aIsEnabled && bIsEnabled) {
+          return 1;
+        }
+        return 0;
+      },
     );
 
     const allTokenMapByChainIdentifier =
@@ -121,7 +135,7 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
                 <ShowHideChainsFilters>
                   {({ visibility, ecosystem }) => (
                     <div className={cn(styles.chainList, "common-list-scroll")}>
-                      {searchedNativeModularChainInfos
+                      {sortedSearchedModularChainInfos
                         .filter((chain) => {
                           switch (visibility) {
                             case "Show All": {
