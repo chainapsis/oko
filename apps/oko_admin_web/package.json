@@ -15,7 +15,7 @@
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.41",
-    "@tanstack/react-query": "*",
+    "@tanstack/react-query": "^5.90.12",
     "@tanstack/react-table": "^8.21.3",
     "next": "^16.0.7",
     "react": "^19.2.1",

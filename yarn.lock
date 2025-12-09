@@ -356,7 +356,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@asteasolutions/zod-to-openapi@npm:*, @asteasolutions/zod-to-openapi@npm:^8.1.0":
+"@asteasolutions/zod-to-openapi@npm:^8.1.0":
   version: 8.2.0
   resolution: "@asteasolutions/zod-to-openapi@npm:8.2.0"
   dependencies:
@@ -9348,7 +9348,7 @@ __metadata:
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
-    "@tanstack/react-query": "npm:*"
+    "@tanstack/react-query": "npm:^5.90.12"
     "@tanstack/react-table": "npm:^8.21.3"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
@@ -9385,7 +9385,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-openapi@workspace:backend/openapi"
   dependencies:
-    "@asteasolutions/zod-to-openapi": "npm:*"
+    "@asteasolutions/zod-to-openapi": "npm:^8.1.0"
     typescript: "npm:^5.8.3"
     zod: "npm:^4.1.12"
   languageName: unknown
@@ -14510,7 +14510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:*, @tanstack/react-query@npm:^5.90.12":
+"@tanstack/react-query@npm:^5.90.12":
   version: 5.90.12
   resolution: "@tanstack/react-query@npm:5.90.12"
   dependencies:
