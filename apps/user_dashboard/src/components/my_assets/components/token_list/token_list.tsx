@@ -1,20 +1,23 @@
 import { Fragment, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
 import { CoinPretty } from "@keplr-wallet/unit";
+import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
+import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
 
 import styles from "./token_list.module.scss";
-import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { TokenItem } from "../token_item/token_item";
+import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
 import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
 
 export const TokenList = observer(() => {
   const { hugeQueriesStore, chainStore, okoWalletAddressStore } =
     useRootStore();
-  const assets = hugeQueriesStore.getAllBalances({ allowIBCToken: true });
+  const tokens = hugeQueriesStore.getAllBalances({ allowIBCToken: true });
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [isHideLowBalance, setIsHideLowBalance] = useState(false);
 
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
@@ -35,7 +38,15 @@ export const TokenList = observer(() => {
     },
   ];
 
-  const searchedAssets = useSearch([...assets], searchQuery, searchFields);
+  const searchedTokens = useSearch([...tokens], searchQuery, searchFields);
+
+  const hasLowBalanceTokens =
+    isHideLowBalance &&
+    hugeQueriesStore.filterLowBalanceTokens(tokens).lowBalanceTokens.length > 0;
+
+  const filteredTokensByLowBalance = hasLowBalanceTokens
+    ? hugeQueriesStore.filterLowBalanceTokens(searchedTokens).filteredTokens
+    : searchedTokens;
 
   return (
     <>
@@ -50,8 +61,30 @@ export const TokenList = observer(() => {
           name="search-tokens"
         />
       </div>
+
+      <div
+        className={styles.hideLowBalance}
+        onClick={() => setIsHideLowBalance(!isHideLowBalance)}
+      >
+        <span role="checkbox" className={styles.hideLowBalanceCheckbox}>
+          <CheckCircleOutlinedIcon
+            size={16}
+            color={isHideLowBalance ? "#5BCCF1" : "var(--fg-quaternary)"}
+          />
+        </span>
+        <Typography
+          size="xs"
+          weight="medium"
+          color={isHideLowBalance ? "primary" : "placeholder"}
+          tagType="label"
+          className={styles.hideLowBalanceLabel}
+        >
+          Hide Low Balance
+        </Typography>
+      </div>
+
       <div className={styles.assetList}>
-        {searchedAssets.map((asset) => {
+        {filteredTokensByLowBalance.map((asset) => {
           const address = chainStore.isEvmOnlyChain(asset.chainInfo.chainId)
             ? okoWalletAddressStore.getEthAddress()
             : okoWalletAddressStore.getBech32Address(asset.chainInfo.chainId);

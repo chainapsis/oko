@@ -284,9 +284,7 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
 
         // Set default enabled chain identifier
         if (this._enabledChainIdentifiers.length === 0) {
-          this._enabledChainIdentifiers = [
-            ChainIdHelper.parse(data.chains[0].chainId).identifier,
-          ];
+          this._enabledChainIdentifiers = ["cosmoshub", "osmosis", "eip155:1"];
         }
       }
     } catch (error) {
