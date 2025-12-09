@@ -30,19 +30,19 @@ const APP_CONFIGS = {
 };
 
 function listDeployableApps(): void {
-  console.log(chalk.yellow("Available apps to deploy:"));
-  console.log("");
+  console.log(chalk.yellow("Available apps to deploy:\n"));
   Object.keys(APP_CONFIGS).forEach((key) => {
     console.log(`  ${chalk.green(key)}`);
   });
-  console.log("");
 }
 
-export async function deploy(options: {
+interface DeployOptions {
   app?: keyof typeof APP_CONFIGS;
   prod?: boolean;
-}) {
-  let { app, prod = false } = options;
+}
+
+export async function deploy(options: DeployOptions) {
+  const { app, prod = false } = options;
 
   if (!app) {
     listDeployableApps();
@@ -52,26 +52,21 @@ export async function deploy(options: {
 
   const config = APP_CONFIGS[app];
   if (!config) {
-    console.error(chalk.red(`Unknown app: ${app}`));
-    console.log("");
+    console.error(chalk.red(`Unknown app: ${app}\n`));
     listDeployableApps();
     process.exit(1);
   }
 
   console.log(
-    chalk.bold(
-      `Deploying ${app}${prod ? " (Production)" : " (Preview)"}...`,
-    ),
+    chalk.bold(`Deploying ${app}${prod ? " (Production)" : " (Preview)"}...\n`),
   );
-  console.log("");
 
   // Step 0: Clean .vercel directory
   const vercelDir = path.join(paths.root, ".vercel");
   if (fs.existsSync(vercelDir)) {
     console.log(chalk.blue("Step 0:"), "Cleaning .vercel directory...");
     fs.rmSync(vercelDir, { recursive: true, force: true });
-    console.log(chalk.green("✓ .vercel directory removed"));
-    console.log("");
+    console.log(chalk.green("✓ .vercel directory removed\n"));
   }
 
   // Step 1: Link to Vercel project
@@ -85,8 +80,7 @@ export async function deploy(options: {
     },
   );
   expectSuccess(linkRet, "Vercel link failed");
-  console.log(chalk.green("✓ Linked successfully"));
-  console.log("");
+  console.log(chalk.green("✓ Linked successfully\n"));
 
   // Step 2: Build
   console.log(chalk.blue("Step 2/3:"), "Building...");
@@ -99,8 +93,7 @@ export async function deploy(options: {
     stdio: "inherit",
   });
   expectSuccess(buildRet, "Vercel build failed");
-  console.log(chalk.green("✓ Build completed"));
-  console.log("");
+  console.log(chalk.green("✓ Build completed\n"));
 
   // Step 3: Deploy
   console.log(chalk.blue("Step 3/3:"), "Deploying...");
@@ -113,6 +106,5 @@ export async function deploy(options: {
     stdio: "inherit",
   });
   expectSuccess(deployRet, "Vercel deployment failed");
-  console.log("");
-  console.log(chalk.bold.green("✓ Deployment completed successfully!"));
+  console.log(chalk.bold.green("\n✓ Deployment completed successfully!"));
 }
