@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite";
-import { FunctionComponent, useState } from "react";
+import { FunctionComponent, memo, useCallback, useMemo, useState } from "react";
 import { Dec } from "@keplr-wallet/unit";
 import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
@@ -13,16 +13,24 @@ import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 
 interface ChainItemProps {
   chainInfo: ModularChainInfo;
-  viewTokens?: ViewToken[];
-  onEnable: (checked: boolean) => void;
+  getViewTokens: (chainId: string) => ViewToken[];
+  onEnable: (chainId: string, checked: boolean) => void;
 }
 
-export const ChainItem: FunctionComponent<ChainItemProps> = observer(
-  ({ chainInfo, viewTokens, onEnable }) => {
+export const ChainItem: FunctionComponent<ChainItemProps> = memo(
+  observer(({ chainInfo, getViewTokens, onEnable }) => {
     const { chainStore } = useRootStore();
     const [isExpanded, setIsExpanded] = useState(false);
     const [isEnabled, setIsEnabled] = useState(() =>
       chainStore.isEnabledChain(chainInfo.chainId),
+    );
+
+    const viewTokens = useMemo(
+      () =>
+        getViewTokens(chainInfo.chainId).filter((v) =>
+          v.token.toDec().gt(new Dec(0)),
+        ),
+      [getViewTokens, chainInfo.chainId],
     );
 
     const imageUrl =
@@ -30,14 +38,15 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
         ? chainInfo.chainSymbolImageUrl
         : undefined;
 
-    const hasTokens =
-      !!viewTokens?.length &&
-      viewTokens.some((v) => v.token.toDec().gt(new Dec(0)));
+    const hasTokens = viewTokens.length > 0;
 
-    const handleToggle = (checked: boolean) => {
-      setIsEnabled(checked);
-      onEnable(checked);
-    };
+    const handleToggle = useCallback(
+      (checked: boolean) => {
+        setIsEnabled(checked);
+        onEnable(chainInfo.chainId, checked);
+      },
+      [chainInfo.chainId, onEnable],
+    );
 
     const handleTokensClick = (e: React.MouseEvent) => {
       e.stopPropagation();
@@ -89,7 +98,7 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
           className={`${styles.tokenListWrapper} ${isExpanded ? styles.expanded : ""}`}
         >
           <div className={styles.tokenList}>
-            {viewTokens?.map((viewToken) => (
+            {viewTokens.map((viewToken) => (
               <FoldableTokenItem
                 key={viewToken.token.currency.coinMinimalDenom}
                 viewToken={viewToken}
@@ -99,7 +108,7 @@ export const ChainItem: FunctionComponent<ChainItemProps> = observer(
         </div>
       </div>
     );
-  },
+  }),
 );
 
 interface FoldableTokenItemProps {

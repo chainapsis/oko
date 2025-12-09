@@ -1,4 +1,4 @@
-import { FC, ReactNode, useCallback, useRef, useState } from "react";
+import { FC, ReactNode, useCallback, useMemo, useRef, useState } from "react";
 import cn from "classnames";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { Card } from "@oko-wallet-common-ui/card/card";
@@ -16,6 +16,7 @@ import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
+import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
 
 interface ShowHideChainsModalProps {
   renderTrigger: (props: { onOpen: () => void }) => ReactNode;
@@ -93,6 +94,27 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
     const allTokenMapByChainIdentifier =
       hugeQueriesStore.allTokenMapByChainIdentifier;
 
+    const getViewTokens = useCallback(
+      (chainId: string): ViewToken[] => {
+        return (
+          allTokenMapByChainIdentifier.get(
+            ChainIdHelper.parse(chainId).identifier,
+          ) ?? []
+        );
+      },
+      [allTokenMapByChainIdentifier],
+    );
+
+    const handleEnable = useCallback((chainId: string, checked: boolean) => {
+      if (checked) {
+        chainIdsToEnable.current.add(chainId);
+        chainIdsToDisable.current.delete(chainId);
+      } else {
+        chainIdsToDisable.current.add(chainId);
+        chainIdsToEnable.current.delete(chainId);
+      }
+    }, []);
+
     return (
       <>
         {renderTrigger({ onOpen })}
@@ -163,16 +185,8 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
                           <ChainItem
                             key={chain.chainId}
                             chainInfo={chain as ModularChainInfo}
-                            viewTokens={
-                              allTokenMapByChainIdentifier.get(
-                                ChainIdHelper.parse(chain.chainId).identifier,
-                              ) ?? []
-                            }
-                            onEnable={(checked) =>
-                              checked
-                                ? chainIdsToEnable.current.add(chain.chainId)
-                                : chainIdsToDisable.current.add(chain.chainId)
-                            }
+                            getViewTokens={getViewTokens}
+                            onEnable={handleEnable}
                           />
                         ))}
                     </div>

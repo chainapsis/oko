@@ -44,7 +44,7 @@ export const TokenList = observer(() => {
     isHideLowBalance &&
     hugeQueriesStore.filterLowBalanceTokens(tokens).lowBalanceTokens.length > 0;
 
-  const filteredTokensByLowBalance = hasLowBalanceTokens
+  const balances = hasLowBalanceTokens
     ? hugeQueriesStore.filterLowBalanceTokens(searchedTokens).filteredTokens
     : searchedTokens;
 
@@ -84,13 +84,15 @@ export const TokenList = observer(() => {
       </div>
 
       <div className={styles.assetList}>
-        {filteredTokensByLowBalance.map((asset) => {
+        {balances.map((asset) => {
           const address = chainStore.isEvmOnlyChain(asset.chainInfo.chainId)
             ? okoWalletAddressStore.getEthAddress()
             : okoWalletAddressStore.getBech32Address(asset.chainInfo.chainId);
 
           return (
-            <Fragment key={asset.token.currency.coinMinimalDenom}>
+            <Fragment
+              key={`${asset.chainInfo.chainId}-${asset.token.currency.coinMinimalDenom}`}
+            >
               <TokenItem viewToken={asset} address={address} />
             </Fragment>
           );
