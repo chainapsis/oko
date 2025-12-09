@@ -2,19 +2,19 @@
 import { FiatCurrency } from "@keplr-wallet/types";
 
 export const CoinGeckoAPIEndPoint =
-  process.env["KEPLR_EXT_COINGECKO_ENDPOINT"] ||
+  process.env["NEXT_PUBLIC_COINGECKO_ENDPOINT"] ||
   "https://api.coingecko.com/api/v3";
 export const CoinGeckoGetPrice =
-  process.env["KEPLR_EXT_COINGECKO_GETPRICE"] || "/simple/price";
+  process.env["NEXT_PUBLIC_COINGECKO_GETPRICE"] || "/simple/price";
 export const CoinGeckoCoinDataByTokenAddress =
-  process.env["KEPLR_EXT_COINGECKO_COIN_DATA_BY_TOKEN_ADDRESS"] ||
+  process.env["NEXT_PUBLIC_COINGECKO_COIN_DATA_BY_TOKEN_ADDRESS"] ||
   "/onchain/networks/{coingeckoChainId}/tokens/{contractAddress}";
 
 // 일단 CoinGecko API와 같은 base url을 사용함
 export const SkipTokenInfoBaseURL =
-  process.env["KEPLR_EXT_COINGECKO_ENDPOINT"] || "";
+  process.env["NEXT_PUBLIC_COINGECKO_ENDPOINT"] || "";
 export const SkipTokenInfoAPIURI =
-  process.env["KEPLR_EXT_SKIP_TOKEN_INFO_API_URI"] ||
+  process.env["NEXT_PUBLIC_SKIP_TOKEN_INFO_API_URI"] ||
   "/coingecko-token-info/skip/assets/{chainId}/{coinMinimalDenom}";
 
 export const TokenContractListURL =
@@ -23,7 +23,7 @@ export const TokenContractListURL =
 // Endpoint for Ethereum node.
 // This is used for ENS.
 export const EthereumEndpoint =
-  process.env["KEPLR_EXT_ETHEREUM_ENDPOINT"] || "";
+  process.env["NEXT_PUBLIC_ETHEREUM_ENDPOINT"] || "";
 
 export const FiatCurrencies: FiatCurrency[] = [
   {

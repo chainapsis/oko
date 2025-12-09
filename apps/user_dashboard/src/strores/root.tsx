@@ -79,8 +79,8 @@ export class RootStore {
         ethereumURL: EthereumEndpoint,
         skipTokenInfoBaseURL: SkipTokenInfoBaseURL,
         skipTokenInfoAPIURI: SkipTokenInfoAPIURI,
-        txCodecBaseURL: process.env["KEPLR_EXT_TX_CODEC_BASE_URL"] || "",
-        topupBaseURL: process.env["KEPLR_EXT_TOPUP_BASE_URL"] || "",
+        txCodecBaseURL: process.env["NEXT_PUBLIC_TX_CODEC_BASE_URL"] || "",
+        topupBaseURL: process.env["NEXT_PUBLIC_TOPUP_BASE_URL"] || "",
       }),
       ICNSQueries.use(),
       TokenContractsQueries.use({
@@ -95,7 +95,7 @@ export class RootStore {
 
     this.swapUsageQueries = new SwapUsageQueries(
       this.queriesStore.sharedContext,
-      process.env["KEPLR_EXT_TX_HISTORY_BASE_URL"] || "",
+      process.env["NEXT_PUBLIC_TX_HISTORY_BASE_URL"] || "",
     );
 
     this.skipQueriesStore = new SkipQueries(
