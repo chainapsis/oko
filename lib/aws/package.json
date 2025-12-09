@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.850.0",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "dotenv": "^16.4.5"
   },
   "devDependencies": {

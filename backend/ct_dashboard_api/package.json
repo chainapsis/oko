@@ -16,7 +16,7 @@
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.40",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.1",

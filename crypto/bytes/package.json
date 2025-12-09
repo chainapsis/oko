@@ -19,7 +19,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.41"
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",

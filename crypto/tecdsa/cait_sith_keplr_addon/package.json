@@ -22,7 +22,7 @@
     "shamir-secret-sharing": "^0.0.4"
   },
   "devDependencies": {
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.41",
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.6",
     "@types/jest": "^29.5.14",
