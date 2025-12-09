@@ -1,4 +1,4 @@
-import React, { type ReactElement, useEffect } from "react";
+import React from "react";
 import { createPortal } from "react-dom";
 
 import styles from "./mock_dapp_modal.module.scss";
