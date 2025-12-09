@@ -14,6 +14,7 @@
       "sandbox/sandbox_simple_host",
       "sandbox/sandbox_evm",
       "sandbox/sandbox_cosmos_kit",
+      "sandbox/sandbox_interchain_kit",
       "crypto/bytes",
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",
