@@ -5570,7 +5570,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/dom@npm:*, @floating-ui/dom@npm:^1.6.1, @floating-ui/dom@npm:^1.6.10, @floating-ui/dom@npm:^1.7.4":
+"@floating-ui/dom@npm:^1.6.1, @floating-ui/dom@npm:^1.6.10, @floating-ui/dom@npm:^1.7.4":
   version: 1.7.4
   resolution: "@floating-ui/dom@npm:1.7.4"
   dependencies:
@@ -5592,20 +5592,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@floating-ui/react@npm:*, @floating-ui/react@npm:^0.27.16":
-  version: 0.27.16
-  resolution: "@floating-ui/react@npm:0.27.16"
-  dependencies:
-    "@floating-ui/react-dom": "npm:^2.1.6"
-    "@floating-ui/utils": "npm:^0.2.10"
-    tabbable: "npm:^6.0.0"
-  peerDependencies:
-    react: ">=17.0.0"
-    react-dom: ">=17.0.0"
-  checksum: 10c0/a026266d8875e69de1ac1e1a00588660c8ee299c1e7d067c5c5fd1d69a46fd10acff5dd6cb66c3fe40a3347b443234309ba95f5b33d49059d0cda121f558f566
-  languageName: node
-  linkType: hard
-
 "@floating-ui/react@npm:^0.26.23":
   version: 0.26.28
   resolution: "@floating-ui/react@npm:0.26.28"
@@ -5617,6 +5603,20 @@ __metadata:
     react: ">=16.8.0"
     react-dom: ">=16.8.0"
   checksum: 10c0/a42df129e1e976fe8ba3f4c8efdda265a0196c1b66b83f2b9b27423d08dcc765406f893aeff9d830e70e3f14a9d4c490867eb4c32983317cbaa33863b0fae6f6
+  languageName: node
+  linkType: hard
+
+"@floating-ui/react@npm:^0.27.16":
+  version: 0.27.16
+  resolution: "@floating-ui/react@npm:0.27.16"
+  dependencies:
+    "@floating-ui/react-dom": "npm:^2.1.6"
+    "@floating-ui/utils": "npm:^0.2.10"
+    tabbable: "npm:^6.0.0"
+  peerDependencies:
+    react: ">=17.0.0"
+    react-dom: ">=17.0.0"
+  checksum: 10c0/a026266d8875e69de1ac1e1a00588660c8ee299c1e7d067c5c5fd1d69a46fd10acff5dd6cb66c3fe40a3347b443234309ba95f5b33d49059d0cda121f558f566
   languageName: node
   linkType: hard
 
@@ -9188,13 +9188,13 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/email-template-2@workspace:apps/email_template_2"
   dependencies:
-    "@floating-ui/dom": "npm:*"
-    "@floating-ui/react": "npm:*"
+    "@floating-ui/dom": "npm:^1.7.4"
+    "@floating-ui/react": "npm:^0.27.16"
     "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
-    "@tanstack/react-query": "npm:*"
-    "@tanstack/react-table": "npm:*"
+    "@tanstack/react-query": "npm:^5.90.12"
+    "@tanstack/react-table": "npm:^8.21.3"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
@@ -9349,7 +9349,7 @@ __metadata:
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@tanstack/react-query": "npm:*"
-    "@tanstack/react-table": "npm:*"
+    "@tanstack/react-table": "npm:^8.21.3"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
@@ -9476,8 +9476,8 @@ __metadata:
     "@amplitude/analytics-browser": "npm:^2.18.1"
     "@cosmjs/amino": "npm:^0.33.1"
     "@cosmjs/proto-signing": "npm:^0.33.1"
-    "@floating-ui/dom": "npm:*"
-    "@floating-ui/react": "npm:*"
+    "@floating-ui/dom": "npm:^1.7.4"
+    "@floating-ui/react": "npm:^0.27.16"
     "@fontsource-variable/geist": "npm:^5.2.8"
     "@fontsource-variable/geist-mono": "npm:^5.2.7"
     "@fontsource-variable/inter": "npm:^5.2.8"
@@ -9498,7 +9498,7 @@ __metadata:
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
-    "@tanstack/react-query": "npm:^5.90.11"
+    "@tanstack/react-query": "npm:^5.90.12"
     "@tanstack/react-router": "npm:^1.136.8"
     "@tanstack/react-router-devtools": "npm:^1.136.8"
     "@tanstack/router-plugin": "npm:^1.136.8"
@@ -9797,7 +9797,7 @@ __metadata:
     "@keplr-wallet/unit": "npm:0.12.280"
     "@oko-wallet/oko-cosmos-kit": "workspace:*"
     "@tailwindcss/postcss": "npm:^4"
-    "@tanstack/react-query": "npm:^5.90.11"
+    "@tanstack/react-query": "npm:^5.90.12"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
@@ -9966,15 +9966,15 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/user-dashboard@workspace:apps/user_dashboard"
   dependencies:
-    "@floating-ui/dom": "npm:*"
-    "@floating-ui/react": "npm:*"
+    "@floating-ui/dom": "npm:^1.7.4"
+    "@floating-ui/react": "npm:^0.27.16"
     "@oko-wallet/dotenv": "npm:^0.0.2-alpha.26"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.150"
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.41"
-    "@tanstack/react-query": "npm:*"
-    "@tanstack/react-table": "npm:*"
+    "@tanstack/react-query": "npm:^5.90.12"
+    "@tanstack/react-table": "npm:^8.21.3"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
@@ -14503,13 +14503,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.59.20":
-  version: 5.59.20
-  resolution: "@tanstack/query-core@npm:5.59.20"
-  checksum: 10c0/c93a8d41e21db532e92c1c90916bec578729d32d1f39d655603b9e81a9d5aebc8588a4d6a75928e04d3ddc90e71a1f8dc066a61d0ba24108eaf60cc2ce024a2f
-  languageName: node
-  linkType: hard
-
 "@tanstack/query-core@npm:5.90.12":
   version: 5.90.12
   resolution: "@tanstack/query-core@npm:5.90.12"
@@ -14517,7 +14510,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:*, @tanstack/react-query@npm:^5.90.11, @tanstack/react-query@npm:^5.90.12":
+"@tanstack/react-query@npm:*, @tanstack/react-query@npm:^5.90.12":
   version: 5.90.12
   resolution: "@tanstack/react-query@npm:5.90.12"
   dependencies:
@@ -14525,17 +14518,6 @@ __metadata:
   peerDependencies:
     react: ^18 || ^19
   checksum: 10c0/da01ec2819d301e4be89731e82d3f091fa4f1ab2745be324e5166f9df77e2aaf1c362b0fa61aab226bb01634873f1a00562f7d7f405867fe23bdd47fe4d00fda
-  languageName: node
-  linkType: hard
-
-"@tanstack/react-query@npm:~5.59.15":
-  version: 5.59.20
-  resolution: "@tanstack/react-query@npm:5.59.20"
-  dependencies:
-    "@tanstack/query-core": "npm:5.59.20"
-  peerDependencies:
-    react: ^18 || ^19
-  checksum: 10c0/fc3342c3a26c51c866d54082d14f86b2f644847ea8f9051000e529a012ea5437e18e35f999fcc453b2eecb0faaf29bd1aaec0956587ade63ba02262d6737800a
   languageName: node
   linkType: hard
 
@@ -14586,7 +14568,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/react-table@npm:*, @tanstack/react-table@npm:^8.21.3":
+"@tanstack/react-table@npm:^8.21.3":
   version: 8.21.3
   resolution: "@tanstack/react-table@npm:8.21.3"
   dependencies:
@@ -34841,7 +34823,7 @@ __metadata:
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@rainbow-me/rainbowkit": "npm:2.2.7"
     "@tailwindcss/postcss": "npm:4.0.15"
-    "@tanstack/react-query": "npm:~5.59.15"
+    "@tanstack/react-query": "npm:^5.90.12"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
@@ -34877,7 +34859,7 @@ __metadata:
     "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.149"
     "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.133"
     "@react-router/dev": "npm:^7.4.0"
-    "@tanstack/react-query": "npm:~5.59.15"
+    "@tanstack/react-query": "npm:^5.90.12"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
