@@ -1,8 +1,8 @@
 "use client";
 
-import { FC } from "react";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { SettingIcon } from "@oko-wallet-common-ui/icons/setting_icon";
+import { type FC } from "react";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { SettingIcon } from "@oko-wallet/oko-common-ui/icons/setting_icon";
 
 import styles from "./my_assets.module.scss";
 import { ShowHideChainsModal } from "@oko-wallet-user-dashboard/components/show_hide_chains_modal/show_hide_chains_modal";

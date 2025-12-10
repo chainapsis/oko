@@ -1,10 +1,10 @@
 "use client";
 
-import { FC, useMemo } from "react";
+import { type FC, useMemo } from "react";
 import { observer } from "mobx-react-lite";
 import { PricePretty } from "@keplr-wallet/unit";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { Button } from "@oko-wallet-common-ui/button/button";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Button } from "@oko-wallet/oko-common-ui/button/button";
 
 import styles from "./total_balance.module.scss";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";

@@ -2,10 +2,10 @@ import { observer } from "mobx-react-lite";
 import { FunctionComponent, memo, useCallback, useMemo, useState } from "react";
 import { Dec } from "@keplr-wallet/unit";
 import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { Toggle } from "@oko-wallet-common-ui/toggle/toggle";
-import { ChevronDownIcon } from "@oko-wallet-common-ui/icons/chevron_down";
-import { Badge } from "@oko-wallet-common-ui/badge/badge";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Toggle } from "@oko-wallet/oko-common-ui/toggle/toggle";
+import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
+import { Badge } from "@oko-wallet/oko-common-ui/badge/badge";
 
 import styles from "./chain_item.module.scss";
 import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";

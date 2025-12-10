@@ -2,7 +2,7 @@ import { create } from "zustand";
 import {
   RootStore,
   createRootStore,
-} from "@oko-wallet-user-dashboard/strores/root";
+} from "@oko-wallet-user-dashboard/store_legacy/root";
 
 interface StoreState {
   rootStore: RootStore;

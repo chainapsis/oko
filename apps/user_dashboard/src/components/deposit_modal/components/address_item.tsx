@@ -1,13 +1,13 @@
-import { FC, useState } from "react";
-import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
-import { CopyOutlinedIcon } from "@oko-wallet-common-ui/icons/copy_outlined";
-import { EmptyStateIcon } from "@oko-wallet-common-ui/icons/empty_state_icon";
-import { QrCodeIcon } from "@oko-wallet-common-ui/icons/qr_code_icon";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
+import { type FC, useState } from "react";
+import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
+import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
+import { EmptyStateIcon } from "@oko-wallet/oko-common-ui/icons/empty_state_icon";
+import { QrCodeIcon } from "@oko-wallet/oko-common-ui/icons/qr_code_icon";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./address_item.module.scss";
 import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
-import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/store_legacy/chain/chain-info";
 
 interface AddressItemProps {
   chainInfo: ModularChainInfo;

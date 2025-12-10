@@ -1,18 +1,18 @@
 "use client";
 
-import { FunctionComponent, useState } from "react";
+import { type FunctionComponent, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { CopyOutlinedIcon } from "@oko-wallet-common-ui/icons/copy_outlined";
-import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
-import { QrCodeIcon } from "@oko-wallet-common-ui/icons/qr_code_icon";
-import { Skeleton } from "@oko-wallet-common-ui/skeleton/skeleton";
-import { EmptyStateIcon } from "@oko-wallet-common-ui/icons/empty_state_icon";
-import { Tooltip } from "@oko-wallet-common-ui/tooltip/tooltip";
-import { Badge } from "@oko-wallet-common-ui/badge/badge";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
+import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
+import { QrCodeIcon } from "@oko-wallet/oko-common-ui/icons/qr_code_icon";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import { EmptyStateIcon } from "@oko-wallet/oko-common-ui/icons/empty_state_icon";
+import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
 
 import styles from "./token_item.module.scss";
-import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
+import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
 

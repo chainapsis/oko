@@ -1,9 +1,9 @@
 import { type FC, useState } from "react";
 import { createPortal } from "react-dom";
 import { QRCodeSVG } from "qrcode.react";
-import { Card } from "@oko-wallet-common-ui/card/card";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { XCloseIcon } from "@oko-wallet-common-ui/icons/x_close";
+import { Card } from "@oko-wallet/oko-common-ui/card";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { EthermintChainIdHelper } from "@keplr-wallet/cosmos";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 

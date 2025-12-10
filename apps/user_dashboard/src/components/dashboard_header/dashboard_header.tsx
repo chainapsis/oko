@@ -1,7 +1,7 @@
 import React from "react";
 import type { Property } from "csstype";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
-import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme/theme_provider";
 
 import styles from "./dashboard_header.module.scss";
 

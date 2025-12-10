@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { type FC, useState } from "react";
 
 import styles from "./login_widget.module.scss";
 import { LoginDefaultView } from "./login_default_view";
@@ -8,7 +8,7 @@ export interface LoginWidgetProps {
   onSignIn: (method: "email" | "google" | "telegram" | "x" | "apple") => void;
 }
 
-export const LoginWidget: React.FC<LoginWidgetProps> = ({ onSignIn }) => {
+export const LoginWidget: FC<LoginWidgetProps> = ({ onSignIn }) => {
   const [showSocials, setShowSocials] = useState(false);
 
   return (

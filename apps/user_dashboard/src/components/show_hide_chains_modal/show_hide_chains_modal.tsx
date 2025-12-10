@@ -1,11 +1,11 @@
-import { FC, ReactNode, useCallback, useMemo, useRef, useState } from "react";
+import { type FC, type ReactNode, useCallback, useRef, useState } from "react";
 import cn from "classnames";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { Card } from "@oko-wallet-common-ui/card/card";
-import { XCloseIcon } from "@oko-wallet-common-ui/icons/x_close";
-import { Button } from "@oko-wallet-common-ui/button/button";
-import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
-import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Card } from "@oko-wallet/oko-common-ui/card/card";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import { Button } from "@oko-wallet/oko-common-ui/button/button";
+import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing/spacing";
 import { observer } from "mobx-react-lite";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import { CoinPretty } from "@keplr-wallet/unit";
@@ -14,9 +14,9 @@ import styles from "./show_hide_chains_modal.module.scss";
 import { ShowHideChainsFilters } from "./components/filters";
 import { ChainItem } from "./components/chain_item";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
-import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/store_legacy/chain/chain-info";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
-import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
+import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
 
 interface ShowHideChainsModalProps {
   renderTrigger: (props: { onOpen: () => void }) => ReactNode;

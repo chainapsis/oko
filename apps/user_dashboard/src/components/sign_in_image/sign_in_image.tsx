@@ -1,5 +1,5 @@
-import { FC } from "react";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
+import { type FC } from "react";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./sign_in_image.module.scss";
 

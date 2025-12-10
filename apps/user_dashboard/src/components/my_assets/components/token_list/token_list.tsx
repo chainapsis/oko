@@ -1,9 +1,9 @@
 import { Fragment, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { CoinPretty } from "@keplr-wallet/unit";
-import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
+import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 
 import styles from "./token_list.module.scss";
 import { TokenItem } from "../token_item/token_item";

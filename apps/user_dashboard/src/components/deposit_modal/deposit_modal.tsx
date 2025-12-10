@@ -1,25 +1,20 @@
 "use client";
 
-import { FC, ReactNode, useState } from "react";
+import { type ChangeEvent, type FC, type ReactNode, useState } from "react";
 import cn from "classnames";
 import { observer } from "mobx-react-lite";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { Card } from "@oko-wallet-common-ui/card/card";
-import { XCloseIcon } from "@oko-wallet-common-ui/icons/x_close";
-import { SearchIcon } from "@oko-wallet-common-ui/icons/search";
-import { Dropdown } from "@oko-wallet-common-ui/dropdown/dropdown";
-import { ChevronDownIcon } from "@oko-wallet-common-ui/icons/chevron_down";
-import { CopyOutlinedIcon } from "@oko-wallet-common-ui/icons/copy_outlined";
-import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
-import { QrCodeIcon } from "@oko-wallet-common-ui/icons/qr_code_icon";
-import { EmptyStateIcon } from "@oko-wallet-common-ui/icons/empty_state_icon";
-import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Card } from "@oko-wallet/oko-common-ui/card";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
+import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown/dropdown";
+import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 
 import styles from "./deposit_modal.module.scss";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
-import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/store_legacy/chain/chain-info";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
-import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
 import { AddressItem } from "./components/address_item";
 
 const ecosystemFilterOptions = ["All Chains", "Cosmos", "EVM"] as const;
@@ -44,7 +39,7 @@ export const DepositModal: FC<DepositModalProps> = observer(
     const hideModal = () => setIsHidden(true);
     const showModal = () => setIsHidden(false);
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(e.target.value);
     };
 
