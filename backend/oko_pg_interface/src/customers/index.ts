@@ -305,3 +305,48 @@ customer_id: ${request.customer_id}`,
     };
   }
 }
+
+export async function getInactiveCustomers(
+  db: Pool | PoolClient,
+  thresholdInterval: string, // e.g., '7 days'
+): Promise<Result<(Customer & { email: string })[], string>> {
+  const query = `
+SELECT c.*, u.email
+FROM customers c
+JOIN customer_dashboard_users u ON c.customer_id = u.customer_id
+WHERE c.status = 'ACTIVE'
+  AND u.status = 'ACTIVE'
+  AND u.email_verified_at < NOW() - $1::interval
+  AND NOT EXISTS (
+      SELECT 1 FROM tss_sessions s WHERE s.customer_id = c.customer_id
+  )
+  AND NOT EXISTS (
+      SELECT 1 FROM inactive_app_reminders r WHERE r.customer_id = c.customer_id
+  )
+`;
+
+  try {
+    const result = await db.query(query, [thresholdInterval]);
+    return { success: true, data: result.rows };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}
+
+export async function recordInactiveAppReminder(
+  db: Pool | PoolClient,
+  customerId: string,
+): Promise<Result<void, string>> {
+  const query = `
+INSERT INTO inactive_app_reminders (customer_id)
+VALUES ($1)
+ON CONFLICT (customer_id) DO NOTHING
+`;
+
+  try {
+    await db.query(query, [customerId]);
+    return { success: true, data: void 0 };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}

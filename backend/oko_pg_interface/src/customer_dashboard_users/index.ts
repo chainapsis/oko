@@ -202,6 +202,7 @@ export async function verifyCustomerDashboardUserEmail(
 UPDATE customer_dashboard_users
 SET
   is_email_verified = true,
+  email_verified_at = now(),
   updated_at = now()
 WHERE user_id = $1 AND status = 'ACTIVE'
 RETURNING *

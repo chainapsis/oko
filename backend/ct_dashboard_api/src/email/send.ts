@@ -13,7 +13,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   generateVerificationCode,
   sendVerificationEmail,
-} from "@oko-wallet-ctd-api/email";
+} from "@oko-wallet-ctd-api/email/verification";
 import {
   CAN_RESEND_CODE_INTERVAL_SECONDS,
   EMAIL_REGEX,
