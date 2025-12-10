@@ -1,5 +1,5 @@
 import { type FC, Fragment, type ReactNode, useState } from "react";
-import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown/dropdown";
+import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 

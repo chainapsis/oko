@@ -9,9 +9,9 @@ import {
 } from "react";
 import { Dec } from "@keplr-wallet/unit";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Toggle } from "@oko-wallet/oko-common-ui/toggle/toggle";
+import { Toggle } from "@oko-wallet/oko-common-ui/toggle";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
-import { Badge } from "@oko-wallet/oko-common-ui/badge/badge";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
 
 import styles from "./chain_item.module.scss";
 import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";

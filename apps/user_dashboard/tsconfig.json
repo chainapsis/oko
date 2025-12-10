@@ -22,7 +22,7 @@
     ],
     "paths": {
       "@oko-wallet-user-dashboard/*": ["./src/*"],
-      "@oko-wallet/oko-common-ui/*": ["../../ui/oko_common_ui/src/*"]
+      "@oko-wallet-common-ui/*": ["../../ui/oko_common_ui/src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

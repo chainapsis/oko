@@ -8,11 +8,11 @@ import {
 } from "react";
 import cn from "classnames";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Card } from "@oko-wallet/oko-common-ui/card/card";
+import { Card } from "@oko-wallet/oko-common-ui/card";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
-import { Button } from "@oko-wallet/oko-common-ui/button/button";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing/spacing";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { observer } from "mobx-react-lite";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import { CoinPretty } from "@keplr-wallet/unit";
