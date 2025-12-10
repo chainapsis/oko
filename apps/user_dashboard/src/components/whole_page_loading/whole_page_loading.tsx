@@ -20,7 +20,9 @@ export const WholePageLoading: FC = () => {
 
       <div className={styles.mobileWrapper}>
         <SignInImage>
-          <Spinner size={30} />
+          <div className={styles.spinnerWrapper}>
+            <Spinner size={30} />
+          </div>
         </SignInImage>
       </div>
     </>

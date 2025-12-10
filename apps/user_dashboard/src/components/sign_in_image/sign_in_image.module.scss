@@ -1,5 +1,16 @@
 @use "../../styles/viewport.module.scss" as *;
 
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .container {
   height: 100%;
   background-size: cover;
@@ -10,26 +21,4 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 7px;
-}
-
-.title {
-  display: none;
-  @media (min-width: $desktop_min_width) {
-    display: block;
-  }
-}
-
-.logo {
-  display: block;
-  margin-bottom: 32px;
-
-  @media (min-width: $desktop_min_width) {
-    display: none;
-  }
-}
-
-.description {
-  text-align: center;
-  max-width: 498px;
 }

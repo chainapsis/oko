@@ -9,6 +9,8 @@ import { Spinner } from "../../spinner/spinner";
 import { paths } from "@oko-wallet-user-dashboard/paths";
 import { useRouter } from "next/navigation";
 
+import styles from "./account_widget.module.scss";
+
 type SigningInState =
   | { status: "ready" }
   | { status: "signing-in" }
@@ -68,7 +70,11 @@ export const AccountWidget: FC<AccountWidgetProps> = () => {
   }, [isSignedIn]);
 
   if (!okoWallet) {
-    return <Spinner size={30} />;
+    return (
+      <div className={styles.spinnerWrapper}>
+        <Spinner size={30} />
+      </div>
+    );
   }
 
   // The email login loading progress is shown in the Attached popup, so we don't need to show that here
