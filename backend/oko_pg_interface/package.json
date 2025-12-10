@@ -24,7 +24,7 @@
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
-    "@oko-wallet/crypto-js": "0.0.2-alpha.5",
+    "@oko-wallet/crypto-js": "0.0.2-alpha.6",
     "@oko-wallet/dotenv": "0.0.2-alpha.26",
     "@oko-wallet/oko-types": "workspace:*",
     "@oko-wallet/postgres-lib": "workspace:*",

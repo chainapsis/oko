@@ -70,6 +70,8 @@ export const paths = (function () {
 
   const demo_web = path.join(__dirname, "../../../apps/demo_web");
 
+  const user_dashboard = path.join(__dirname, "../../../apps/user_dashboard/");
+
   const ct_dashboard_web = path.join(
     __dirname,
     "../../../apps/customer_dashboard",
@@ -115,6 +117,7 @@ export const paths = (function () {
     cait_sith_keplr_wasm,
     cait_sith_addon_addon,
     demo_web,
+    user_dashboard,
     ct_dashboard_web,
     oko_api_server,
     tss_api,

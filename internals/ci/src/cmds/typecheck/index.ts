@@ -26,6 +26,9 @@ export async function typeCheck(..._args: any[]) {
     paths.demo_web,
     paths.oko_admin_web,
     paths.ct_dashboard_web,
+    // TODO: @rita only temporary until the update on the other package
+    // "modular chain info" is done
+    // paths.user_dashboard,
   ];
 
   console.log("Type checking, total (%s)", pkgPaths.length);
