@@ -39,8 +39,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
 
     try {
       setSigningInState({ status: "signing-in" });
-      // await okoWallet.signIn(method as "google" | "x" | "discord");
-      await okoWallet.signIn(method as "google"); // temp
+      await okoWallet.signIn(method as "google" | "x" | "discord");
 
       setSigningInState({ status: "ready" });
     } catch (error: any) {
