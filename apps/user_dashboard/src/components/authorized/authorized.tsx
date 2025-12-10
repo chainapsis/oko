@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren, useEffect } from "react";
+import { type PropsWithChildren, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { paths } from "@oko-wallet-user-dashboard/paths";
