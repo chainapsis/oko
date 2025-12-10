@@ -1,10 +1,10 @@
 import {
-  BalanceRegistry,
-  ChainGetter,
-  IObservableQueryBalanceImpl,
+  type BalanceRegistry,
+  type ChainGetter,
+  type IObservableQueryBalanceImpl,
   QuerySharedContext,
 } from "@keplr-wallet/stores";
-import { AppCurrency, ChainInfo } from "@keplr-wallet/types";
+import type { AppCurrency, ChainInfo } from "@keplr-wallet/types";
 import { DenomHelper } from "@keplr-wallet/common";
 import { CoinPretty, Int } from "@keplr-wallet/unit";
 import { computed, makeObservable } from "mobx";
@@ -72,9 +72,7 @@ export class ObservableQueryEthereumERC20BalanceImpl
   }
 }
 
-export class ObservableQueryEthereumERC20BalanceRegistry
-  implements BalanceRegistry
-{
+export class ObservableQueryEthereumERC20BalanceRegistry implements BalanceRegistry {
   constructor(protected readonly sharedContext: QuerySharedContext) {}
 
   getBalanceImpl(

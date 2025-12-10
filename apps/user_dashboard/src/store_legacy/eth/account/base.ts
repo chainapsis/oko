@@ -1,17 +1,17 @@
-import { ChainGetter } from "@keplr-wallet/stores";
+import { type ChainGetter } from "@keplr-wallet/stores";
 import {
-  AppCurrency,
-  ERC20Currency,
+  type AppCurrency,
+  type ERC20Currency,
   EthSignType,
-  EthTxReceipt,
-  Keplr,
+  type EthTxReceipt,
+  type Keplr,
 } from "@keplr-wallet/types";
 import { DenomHelper, retry } from "@keplr-wallet/common";
 import { hexValue } from "@ethersproject/bytes";
 import { parseUnits } from "@ethersproject/units";
 import {
   TransactionTypes,
-  UnsignedTransaction,
+  type UnsignedTransaction,
   serialize,
 } from "@ethersproject/transactions";
 import { getAddress as getEthAddress } from "@ethersproject/address";

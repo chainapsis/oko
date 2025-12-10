@@ -1,9 +1,9 @@
 import {
-  QueriesSetBase,
-  ChainGetter,
+  type QueriesSetBase,
+  type ChainGetter,
   QuerySharedContext,
 } from "@keplr-wallet/stores";
-import { DeepReadonly } from "utility-types";
+import { type DeepReadonly } from "utility-types";
 
 import { ObservableQueryEthAccountBalanceRegistry } from "./balance";
 import { ObservableQueryEthereumBlock } from "./block";

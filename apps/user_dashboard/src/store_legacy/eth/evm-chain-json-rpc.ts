@@ -1,5 +1,5 @@
 import {
-  ChainGetter,
+  type ChainGetter,
   HasMapStore,
   ObservableJsonRPCQuery,
   QuerySharedContext,

@@ -1,4 +1,4 @@
-import { ChainGetter, QuerySharedContext } from "@keplr-wallet/stores";
+import { type ChainGetter, QuerySharedContext } from "@keplr-wallet/stores";
 import { computed, makeObservable } from "mobx";
 import {
   ObservableEvmChainJsonRpcQuery,
@@ -21,7 +21,7 @@ export class ObservableQueryEthereumFeeHistoryInner extends ObservableEvmChainJs
     chainGetter: ChainGetter,
     blockCount: string | number,
     newestBlock: string,
-    rewardPercentiles: number[]
+    rewardPercentiles: number[],
   ) {
     const hexBlockCount =
       typeof blockCount === "string"
@@ -101,7 +101,7 @@ export class ObservableQueryEthereumFeeHistory extends ObservableEvmChainJsonRpc
   constructor(
     sharedContext: QuerySharedContext,
     chainId: string,
-    chainGetter: ChainGetter
+    chainGetter: ChainGetter,
   ) {
     super(sharedContext, chainId, chainGetter, (stringifiedParams: string) => {
       const params = (() => {
@@ -121,7 +121,7 @@ export class ObservableQueryEthereumFeeHistory extends ObservableEvmChainJsonRpc
         this.chainGetter,
         blockCount,
         newestBlock,
-        rewardPercentiles
+        rewardPercentiles,
       );
     });
   }
@@ -129,7 +129,7 @@ export class ObservableQueryEthereumFeeHistory extends ObservableEvmChainJsonRpc
   getQueryByFeeHistoryParams(
     blockCount: string | number,
     newestBlock: string,
-    rewardPercentiles: number[]
+    rewardPercentiles: number[],
   ): ObservableQueryEthereumFeeHistoryInner {
     const key = JSON.stringify([blockCount, newestBlock, rewardPercentiles]);
     return this.get(key) as ObservableQueryEthereumFeeHistoryInner;

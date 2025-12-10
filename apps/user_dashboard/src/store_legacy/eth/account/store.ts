@@ -1,5 +1,5 @@
-import { ChainGetter, HasMapStore } from "@keplr-wallet/stores";
-import { Keplr } from "@keplr-wallet/types";
+import { type ChainGetter, HasMapStore } from "@keplr-wallet/stores";
+import { type Keplr } from "@keplr-wallet/types";
 
 import { EthereumAccountBase } from "./base";
 

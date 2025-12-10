@@ -1,15 +1,15 @@
 import { DenomHelper } from "@keplr-wallet/common";
 import { computed, makeObservable } from "mobx";
 import { CoinPretty, Int } from "@keplr-wallet/unit";
-import { AppCurrency } from "@keplr-wallet/types";
+import type { AppCurrency } from "@keplr-wallet/types";
 import {
-  BalanceRegistry,
-  ChainGetter,
-  IObservableQueryBalanceImpl,
   ObservableJsonRPCQuery,
-  QueryError,
-  QueryResponse,
-  QuerySharedContext,
+  type BalanceRegistry,
+  type ChainGetter,
+  type IObservableQueryBalanceImpl,
+  type QueryError,
+  type QueryResponse,
+  type QuerySharedContext,
 } from "@keplr-wallet/stores";
 
 import { EthereumAccountBase } from "./account";
@@ -97,9 +97,7 @@ export class ObservableQueryThirdpartyERC20BalancesImplParent extends Observable
   }
 }
 
-export class ObservableQueryThirdpartyERC20BalancesImpl
-  implements IObservableQueryBalanceImpl
-{
+export class ObservableQueryThirdpartyERC20BalancesImpl implements IObservableQueryBalanceImpl {
   constructor(
     protected readonly parent: ObservableQueryThirdpartyERC20BalancesImplParent,
     protected readonly chainId: string,
@@ -197,9 +195,7 @@ export class ObservableQueryThirdpartyERC20BalancesImpl
   }
 }
 
-export class ObservableQueryThirdpartyERC20BalanceRegistry
-  implements BalanceRegistry
-{
+export class ObservableQueryThirdpartyERC20BalanceRegistry implements BalanceRegistry {
   protected parentMap: Map<
     string,
     ObservableQueryThirdpartyERC20BalancesImplParent

@@ -1,4 +1,4 @@
-import { ChainGetter, QuerySharedContext } from "@keplr-wallet/stores";
+import { type ChainGetter, QuerySharedContext } from "@keplr-wallet/stores";
 import { computed, makeObservable } from "mobx";
 import { ObservableEvmChainJsonRpcQuery } from "./evm-chain-json-rpc";
 
@@ -6,7 +6,7 @@ export class ObservableQueryEthereumMaxPriorityFee extends ObservableEvmChainJso
   constructor(
     sharedContext: QuerySharedContext,
     chainId: string,
-    chainGetter: ChainGetter
+    chainGetter: ChainGetter,
   ) {
     super(sharedContext, chainId, chainGetter, "eth_maxPriorityFeePerGas", []);
 

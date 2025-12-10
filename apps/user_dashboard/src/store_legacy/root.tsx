@@ -1,6 +1,6 @@
 import { KeplrETCQueries } from "@keplr-wallet/stores-etc";
 import { IndexedDBKVStore } from "@keplr-wallet/common";
-import { FiatCurrency } from "@keplr-wallet/types";
+import type { FiatCurrency } from "@keplr-wallet/types";
 import {
   CoinGeckoPriceStore,
   CosmosQueries,
