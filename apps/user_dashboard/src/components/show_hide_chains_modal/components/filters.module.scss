@@ -1,0 +1,15 @@
+.dropdownTrigger {
+  cursor: pointer;
+  display: flex;
+  padding: 6px 12px;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: var(--bg-secondary);
+  border-radius: 8px;
+}
+
+.filterWrapper {
+  display: flex;
+  gap: 8px;
+}

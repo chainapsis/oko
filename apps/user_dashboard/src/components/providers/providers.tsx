@@ -6,7 +6,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import React, { PropsWithChildren } from "react";
+import { type FC, type PropsWithChildren } from "react";
 
 import { OkoProvider } from "@oko-wallet-user-dashboard/components/oko_provider/oko_provider";
 
@@ -18,7 +18,7 @@ function makeTanStackQueryClient() {
 
 const queryClient = makeTanStackQueryClient();
 
-export const Providers: React.FC<PropsWithChildren> = ({ children }) => {
+export const Providers: FC<PropsWithChildren> = ({ children }) => {
   return (
     <OkoProvider>
       <QueryClientProvider client={queryClient}>

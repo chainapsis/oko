@@ -5,6 +5,7 @@
   gap: var(--spacing-xs, 4px);
   border-radius: var(--radius-md, 8px);
   transition: background 0.2s ease;
+  width: fit-content;
 
   outline: none;
   cursor: pointer;

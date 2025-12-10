@@ -1,0 +1,72 @@
+.assetList {
+  display: flex;
+  flex-direction: column;
+}
+
+/* search bar */
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md, 8px);
+  border-radius: var(--radius-md, 8px);
+  border: 1px solid var(--border-tertiary);
+  background: var(--bg-secondary);
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 16px 0;
+}
+
+.searchInput {
+  flex: 1;
+  color: var(--text-primary);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-md);
+  background: transparent;
+  white-space: nowrap;
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
+.searchInput::placeholder {
+  color: var(--text-placeholder);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--font-line-height-md);
+}
+
+.hideLowBalance {
+  margin-left: auto;
+  margin-bottom: 12px;
+
+  width: fit-content;
+  gap: 4px;
+  padding: 4px 8px;
+  cursor: pointer;
+  user-select: none;
+
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+  border-radius: 8px;
+
+  &:hover {
+    background: var(--bg-primary-hover);
+
+    .hideLowBalanceLabel {
+      color: var(--text-primary);
+    }
+  }
+}
+
+.hideLowBalanceCheckbox {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hideLowBalanceLabel {
+  cursor: pointer;
+}
