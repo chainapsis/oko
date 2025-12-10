@@ -1,7 +1,7 @@
 import {
   HasMapStore,
   ObservableQuery,
-  QueryOptions,
+  type QueryOptions,
   QuerySharedContext,
 } from "@keplr-wallet/stores";
 import { computed, makeObservable, observable, runInAction } from "mobx";
@@ -9,8 +9,8 @@ import Joi from "joi";
 import { simpleFetch } from "@keplr-wallet/simple-fetch";
 import { computedFn } from "mobx-utils";
 
-import { AssetsResponse } from "../types/skip";
-import { InternalChainStore } from "../types/chain-info";
+import type { AssetsResponse } from "../types/skip";
+import type { InternalChainStore } from "../types/chain-info";
 import { SwapUsageQueries } from "../swap-usage/queries";
 
 export interface Asset {

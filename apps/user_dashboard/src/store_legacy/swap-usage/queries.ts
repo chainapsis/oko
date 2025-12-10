@@ -1,5 +1,5 @@
 import { QuerySharedContext } from "@keplr-wallet/stores";
-import { DeepReadonly } from "utility-types";
+import type { DeepReadonly } from "utility-types";
 
 import { ObservableQuerySwapUsage } from "./swap-usage";
 

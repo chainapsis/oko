@@ -1,8 +1,8 @@
 import { QuerySharedContext } from "@keplr-wallet/stores";
-import { DeepReadonly } from "utility-types";
+import type { DeepReadonly } from "utility-types";
 
 import { ObservableQueryAssets } from "./assets";
-import { InternalChainStore } from "../types/chain-info";
+import type { InternalChainStore } from "../types/chain-info";
 import { SwapUsageQueries } from "../swap-usage/queries";
 
 const SWAP_API_ENDPOINT = process.env["NEXT_PUBLIC_KEPLR_API_ENDPOINT"] ?? "";

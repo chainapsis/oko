@@ -9,7 +9,7 @@ import styles from "./token_list.module.scss";
 import { TokenItem } from "../token_item/token_item";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
-import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
+import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
 
 export const TokenList = observer(() => {
   const { hugeQueriesStore, chainStore, okoWalletAddressStore } =
