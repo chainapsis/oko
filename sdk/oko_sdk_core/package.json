@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-core",
-  "version": "0.0.6-rc.124",
+  "version": "0.0.6-rc.125",
   "type": "module",
   "scripts": {
     "clean": "del-cli dist",
@@ -35,8 +35,8 @@
   },
   "dependencies": {
     "@keplr-wallet/types": "^0.12.290",
-    "@oko-wallet/bytes": "0.0.3-alpha.61",
-    "@oko-wallet/stdlib-js": "0.0.2-rc.41"
+    "@oko-wallet/bytes": "^0.0.3-alpha.62",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.42"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",

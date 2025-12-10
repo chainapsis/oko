@@ -9,6 +9,7 @@ import { dbMigrateKSN } from "./cmds/db_migrate_ksn";
 import { buildCs } from "./cmds/build_cs";
 import { DbSeedAPI } from "./cmds/db_seed_api";
 import { DbMigrateAPI } from "./cmds/db_migrate_api";
+import { deploy } from "./cmds/deploy";
 import { langFormat } from "./cmds/lang_format";
 import { langCheck } from "./cmds/lang_check";
 import { depsCheck } from "./cmds/deps_check";
@@ -32,7 +33,6 @@ async function main() {
 
   command.command("build_sdk").action(buildSDK);
 
-  // internals2
   command.command("build_cs").action(buildCs);
 
   command
@@ -61,6 +61,12 @@ async function main() {
       false,
     )
     .action(dbMigrateKSN);
+
+  command
+    .command("deploy")
+    .option("--app <app>", "App to deploy")
+    .option("--prod", "Deploy to production", false)
+    .action(deploy);
 
   program.parse(process.argv);
 }

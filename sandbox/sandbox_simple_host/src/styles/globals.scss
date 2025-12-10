@@ -4,6 +4,10 @@ body {
   overflow-x: hidden;
 }
 
+iframe {
+  pointer-events: none;
+}
+
 body {
   color: var(--text-primary);
   background: var(--bg-primary);

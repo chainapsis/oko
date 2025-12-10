@@ -64,6 +64,13 @@ function loadIframe(
   iframe.style.backgroundColor = "transparent";
   iframe.style.overflow = "hidden";
   iframe.style.zIndex = "1000000";
+  iframe.style.pointerEvents = "auto";
+
+  // NOTE - Applying a 'color-scheme' to the body of an iframe causes a bug where,
+  // if the host site doesn't have a color-scheme and the browser's default is dark,
+  // the background changes to black.
+  // Therefore, we force a light mode in the iframe @retto
+  iframe.style.colorScheme = "light";
 
   bodyEl.appendChild(iframe);
 }
