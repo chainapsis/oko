@@ -11,6 +11,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "experimentalDecorators": true,
+    "verbatimModuleSyntax": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "incremental": true,
