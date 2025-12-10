@@ -1,4 +1,4 @@
-import { FC, useMemo, useState } from "react";
+import { type FC, useMemo, useState } from "react";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { CopyOutlinedIcon } from "@oko-wallet-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
