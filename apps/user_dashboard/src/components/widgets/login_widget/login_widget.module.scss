@@ -7,11 +7,24 @@
   width: 320px;
 }
 
+.logo {
+  display: none;
+
+  @media (min-width: $desktop_min_width) {
+    display: block;
+  }
+}
+
 .loginMethodsWrapper {
   display: flex;
   flex-direction: column;
   gap: 16px;
   width: 100%;
+  margin-top: 40px;
+
+  @media (min-width: $desktop_min_width) {
+    margin-top: 52px;
+  }
 }
 
 .getSupportRow {

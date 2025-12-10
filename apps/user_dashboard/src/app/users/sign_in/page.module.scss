@@ -1,9 +1,27 @@
-.wrapper {
+@use "../../../styles/viewport.module.scss" as *;
+
+.desktopWrapper {
+  display: none;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  background: var(--bg-primary);
+
+  @media (min-width: $desktop_min_width) {
+    display: flex;
+  }
+}
+
+.mobileWrapper {
   display: flex;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
   background: var(--bg-primary);
+
+  @media (min-width: $desktop_min_width) {
+    display: none;
+  }
 }
 
 .body {
@@ -13,8 +31,10 @@
   width: 100%;
   height: 100%;
   overflow-y: auto;
+}
 
-  > * {
+@media (min-width: $desktop_min_width) {
+  .body > * {
     width: 50%;
   }
 }

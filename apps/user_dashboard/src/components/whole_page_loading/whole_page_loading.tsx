@@ -7,14 +7,22 @@ import { SignInImage } from "@oko-wallet-user-dashboard/components/sign_in_image
 
 export const WholePageLoading: FC = () => {
   return (
-    <div className={styles.wrapper}>
-      <DashboardHeader theme="dark" position="absolute" />
-      <div className={styles.body}>
-        <SignInImage />
-        <div className={styles.content}>
-          <Spinner size={30} />
+    <>
+      <div className={styles.desktopWrapper}>
+        <DashboardHeader theme="dark" position="absolute" />
+        <div className={styles.body}>
+          <SignInImage />
+          <div className={styles.content}>
+            <Spinner size={30} />
+          </div>
         </div>
       </div>
-    </div>
+
+      <div className={styles.mobileWrapper}>
+        <SignInImage>
+          <Spinner size={30} />
+        </SignInImage>
+      </div>
+    </>
   );
 };

@@ -1,3 +1,5 @@
+@use "../../styles/viewport.module.scss" as *;
+
 .modalBackground {
   position: fixed;
   top: 0;
@@ -17,8 +19,13 @@
 
 .modal {
   position: relative;
+  width: 100%;
   max-width: 90vw;
   max-height: 90vh;
+
+  @media (min-width: $desktop_min_width) {
+    width: auto;
+  }
 }
 
 .modalCard {
@@ -26,9 +33,14 @@
   border-radius: 20px;
   border: 1px solid var(--border-primary);
   box-shadow: var(--shadow-xl);
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   box-sizing: border-box;
   padding: 20px;
+
+  .modalCard {
+    width: 400px;
+  }
 }
 
 .modalContent {
