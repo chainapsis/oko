@@ -1,21 +1,22 @@
-import { ChainStore } from "../chain";
-import { Asset, SkipQueries } from "../skip";
-import { BinarySortArray } from "../sort";
 import { action, autorun, computed, runInAction } from "mobx";
 import { computedFn } from "mobx-utils";
 import { AllTokenMapByChainIdentifierState } from "./all-token-map-state";
 import {
   CoinGeckoPriceStore,
   CosmosQueries,
-  IQueriesStore,
-  QueryError,
+  type IQueriesStore,
+  type QueryError,
 } from "@keplr-wallet/stores";
 import { CoinPretty, Dec, PricePretty } from "@keplr-wallet/unit";
 import { DenomHelper } from "@keplr-wallet/common";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
-import { AppCurrency, IBCCurrency } from "@keplr-wallet/types";
-import { ModularChainInfo } from "../chain/chain-info";
+import type { AppCurrency, IBCCurrency } from "@keplr-wallet/types";
+
+import type { ModularChainInfo } from "../chain/chain-info";
 import { OkoWalletAddressStore } from "../address-store";
+import { ChainStore } from "../chain";
+import { type Asset, SkipQueries } from "../skip";
+import { BinarySortArray } from "../sort";
 
 export interface ViewToken {
   chainInfo: ModularChainInfo;

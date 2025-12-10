@@ -3,12 +3,12 @@ import {
   action,
   autorun,
   computed,
-  IReactionDisposer,
+  type IReactionDisposer,
   makeObservable,
   observable,
   runInAction,
 } from "mobx";
-import {
+import type {
   AppCurrency,
   Bech32Config,
   BIP44,
@@ -17,7 +17,7 @@ import {
   ERC20Currency,
   FeeCurrency,
 } from "@keplr-wallet/types";
-import {
+import type {
   IChainInfoImpl,
   IChainStore,
   CurrencyRegistrar,
@@ -26,7 +26,7 @@ import {
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import { DenomHelper, sortedJsonByKeyStringify } from "@keplr-wallet/common";
 
-import { ChainInfoModule, ModularChainInfo } from "./chain-info";
+import type { ChainInfoModule, ModularChainInfo } from "./chain-info";
 
 const forceFindCurrencyCache: Map<string, AppCurrency> = new Map();
 

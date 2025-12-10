@@ -1,4 +1,4 @@
-import {
+import type {
   AppCurrency,
   BIP44,
   BitcoinChainInfo,

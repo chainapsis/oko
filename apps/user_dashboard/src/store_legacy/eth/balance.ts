@@ -1,11 +1,11 @@
 import { DenomHelper } from "@keplr-wallet/common";
 import {
-  BalanceRegistry,
-  ChainGetter,
-  IObservableQueryBalanceImpl,
+  type BalanceRegistry,
+  type ChainGetter,
+  type IObservableQueryBalanceImpl,
   QuerySharedContext,
 } from "@keplr-wallet/stores";
-import { AppCurrency, ChainInfo } from "@keplr-wallet/types";
+import type { AppCurrency, ChainInfo } from "@keplr-wallet/types";
 import { CoinPretty, Int } from "@keplr-wallet/unit";
 import { computed, makeObservable } from "mobx";
 

@@ -1,4 +1,4 @@
-import { ChainGetter, QuerySharedContext } from "@keplr-wallet/stores";
+import { type ChainGetter, QuerySharedContext } from "@keplr-wallet/stores";
 import { computed, makeObservable } from "mobx";
 import {
   ObservableEvmChainJsonRpcQuery,
@@ -10,7 +10,7 @@ export class ObservableQueryEthereumBlockInner extends ObservableEvmChainJsonRpc
     sharedContext: QuerySharedContext,
     chainId: string,
     chainGetter: ChainGetter,
-    blockNumberOrTagParam?: string
+    blockNumberOrTagParam?: string,
   ) {
     super(sharedContext, chainId, chainGetter, "eth_getBlockByNumber", [
       blockNumberOrTagParam,
@@ -34,7 +34,7 @@ export class ObservableQueryEthereumBlock extends ObservableEvmChainJsonRpcQuery
   constructor(
     sharedContext: QuerySharedContext,
     chainId: string,
-    chainGetter: ChainGetter
+    chainGetter: ChainGetter,
   ) {
     super(
       sharedContext,
@@ -45,14 +45,14 @@ export class ObservableQueryEthereumBlock extends ObservableEvmChainJsonRpcQuery
           this.sharedContext,
           this.chainId,
           this.chainGetter,
-          blockNumberOrTagParam
+          blockNumberOrTagParam,
         );
-      }
+      },
     );
   }
 
   getQueryByBlockNumberOrTag(
-    blockNumberOrTag?: number | string
+    blockNumberOrTag?: number | string,
   ): ObservableQueryEthereumBlockInner {
     const blockNumberOrTagParam =
       typeof blockNumberOrTag === "number"
@@ -60,7 +60,7 @@ export class ObservableQueryEthereumBlock extends ObservableEvmChainJsonRpcQuery
         : blockNumberOrTag;
 
     return this.get(
-      blockNumberOrTagParam ?? "latest"
+      blockNumberOrTagParam ?? "latest",
     ) as ObservableQueryEthereumBlockInner;
   }
 }

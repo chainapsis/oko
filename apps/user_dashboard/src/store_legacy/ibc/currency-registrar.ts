@@ -1,18 +1,18 @@
 import { makeObservable, observable, runInAction } from "mobx";
-import { AppCurrency, ERC20Currency } from "@keplr-wallet/types";
+import type { AppCurrency, ERC20Currency } from "@keplr-wallet/types";
 import {
   CosmosQueries,
   CosmwasmQueries,
-  IQueriesStore,
+  type IQueriesStore,
   SecretQueries,
 } from "@keplr-wallet/stores";
-import { DenomHelper, KVStore } from "@keplr-wallet/common";
+import { DenomHelper, type KVStore } from "@keplr-wallet/common";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import { EthereumQueries } from "@keplr-wallet/stores-eth";
 import { debounce } from "lodash";
 
 import { ChainStore } from "../chain";
-import { ModularChainInfo } from "../chain/chain-info";
+import { type ModularChainInfo } from "../chain/chain-info";
 
 type CacheIBCDenomData = {
   denomTrace: {

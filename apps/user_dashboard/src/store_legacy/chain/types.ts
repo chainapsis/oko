@@ -1,4 +1,4 @@
-import {
+import type {
   AppCurrency,
   Bech32Config,
   BIP44,
@@ -8,7 +8,7 @@ import {
   ChainInfoModule,
 } from "@keplr-wallet/types";
 
-import { ModularChainInfo } from "./chain-info";
+import type { ModularChainInfo } from "./chain-info";
 
 export type CurrencyRegistrar = (
   chainId: string,
