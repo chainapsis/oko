@@ -21,7 +21,6 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
   const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
-  // TODO: add other login methods, and update the type accordingly
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("google");
 
   async function handleSignIn(method: LoginMethod) {
@@ -32,14 +31,19 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       return;
     }
 
-    if (method !== "google" && method !== "x" && method !== "discord") {
+    if (
+      method !== "google" &&
+      method !== "x" &&
+      method !== "discord" &&
+      method !== "telegram"
+    ) {
       console.error("Unsupported login method atm: %s", method);
       return;
     }
 
     try {
       setSigningInState({ status: "signing-in" });
-      await okoWallet.signIn(method as "google" | "x" | "discord");
+      await okoWallet.signIn(method as "google" | "x" | "discord" | "telegram");
 
       setSigningInState({ status: "ready" });
     } catch (error: any) {
