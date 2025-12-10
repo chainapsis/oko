@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { type ChangeEvent, Fragment, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { CoinPretty } from "@keplr-wallet/unit";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
@@ -19,7 +19,7 @@ export const TokenList = observer(() => {
   const [searchQuery, setSearchQuery] = useState("");
   const [isHideLowBalance, setIsHideLowBalance] = useState(false);
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value);
   };
 

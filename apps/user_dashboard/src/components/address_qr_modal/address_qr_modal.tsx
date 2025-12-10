@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC, type ReactNode, useState } from "react";
 import { createPortal } from "react-dom";
 import { QRCodeSVG } from "qrcode.react";
 import { Card } from "@oko-wallet/oko-common-ui/card";
@@ -12,7 +12,7 @@ import styles from "./address_qr_modal.module.scss";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/store_legacy/chain/chain-info";
 
 interface AddressQrModalProps {
-  renderTrigger: (props: { onOpen: () => void }) => React.ReactNode;
+  renderTrigger: (props: { onOpen: () => void }) => ReactNode;
   chainInfo: ModularChainInfo;
   address: string;
   onOpenCallback?: () => void;

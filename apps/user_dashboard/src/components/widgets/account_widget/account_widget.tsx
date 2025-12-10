@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { type FC, useEffect, useState } from "react";
 import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
 import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
 import { AuthProgressWidget } from "./auth_progress_widget";
@@ -14,7 +14,7 @@ type SigningInState =
   | { status: "signing-in" }
   | { status: "failed"; error: string };
 
-export const AccountWidget: React.FC<AccountWidgetProps> = () => {
+export const AccountWidget: FC<AccountWidgetProps> = () => {
   const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
   const [signingInState, setSigningInState] = useState<SigningInState>({
     status: "ready",

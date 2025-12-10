@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { type FC, useState } from "react";
 import { EyeIcon } from "@oko-wallet/oko-common-ui/icons/eye";
 import { EyeOffIcon } from "@oko-wallet/oko-common-ui/icons/eye_off";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
@@ -11,7 +11,7 @@ import { AccountForm } from "@oko-wallet-user-dashboard/ui";
 import { useResetPasswordForm } from "./use_reset_password_form";
 import styles from "./reset_password.module.scss";
 
-export const ResetPassword: React.FC = () => {
+export const ResetPassword: FC = () => {
   const { onSubmit, register, errors, isLoading, isValid } =
     useResetPasswordForm();
 

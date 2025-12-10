@@ -1,5 +1,3 @@
-import React from "react";
-
 import styles from "./page.module.scss";
 import { Authorized } from "@oko-wallet-user-dashboard/components/authorized/authorized";
 import { DashboardBody } from "@oko-wallet-user-dashboard/components/dashboard_body/dashboard_body";

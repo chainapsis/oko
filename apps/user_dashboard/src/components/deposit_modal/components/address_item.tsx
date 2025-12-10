@@ -1,4 +1,4 @@
-import { type FC, useState } from "react";
+import { type FC, type MouseEvent, useState } from "react";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { EmptyStateIcon } from "@oko-wallet/oko-common-ui/icons/empty_state_icon";
@@ -36,7 +36,7 @@ export const AddressItem: FC<AddressItemProps> = ({
     return `${addr.slice(0, LENGTH_OF_FIRST_PART)}...${addr.slice(-LENGTH_OF_LAST_PART)}`;
   };
 
-  const handleCopyAddress = async (e: React.MouseEvent) => {
+  const handleCopyAddress = async (e: MouseEvent) => {
     e.stopPropagation();
     if (!address) return;
 

@@ -1,14 +1,21 @@
 import { observer } from "mobx-react-lite";
-import { FunctionComponent, memo, useCallback, useMemo, useState } from "react";
+import {
+  type FunctionComponent,
+  type MouseEvent,
+  memo,
+  useCallback,
+  useMemo,
+  useState,
+} from "react";
 import { Dec } from "@keplr-wallet/unit";
-import { ViewToken } from "@oko-wallet-user-dashboard/strores/huge-queries";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Toggle } from "@oko-wallet/oko-common-ui/toggle/toggle";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Badge } from "@oko-wallet/oko-common-ui/badge/badge";
 
 import styles from "./chain_item.module.scss";
-import { ModularChainInfo } from "@oko-wallet-user-dashboard/strores/chain/chain-info";
+import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/store_legacy/chain/chain-info";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 
 interface ChainItemProps {
@@ -48,7 +55,7 @@ export const ChainItem: FunctionComponent<ChainItemProps> = memo(
       [chainInfo.chainId, onEnable],
     );
 
-    const handleTokensClick = (e: React.MouseEvent) => {
+    const handleTokensClick = (e: MouseEvent) => {
       e.stopPropagation();
       if (hasTokens) {
         setIsExpanded(!isExpanded);

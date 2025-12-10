@@ -1,4 +1,11 @@
-import { type FC, type ReactNode, useCallback, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  type FC,
+  type ReactNode,
+  useCallback,
+  useRef,
+  useState,
+} from "react";
 import cn from "classnames";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Card } from "@oko-wallet/oko-common-ui/card/card";
@@ -41,7 +48,7 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
       onClose();
     };
 
-    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
       setSearchQuery(e.target.value);
     };
 

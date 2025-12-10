@@ -1,6 +1,6 @@
 "use client";
 
-import { type FunctionComponent, useState } from "react";
+import { type FunctionComponent, type MouseEvent, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
@@ -40,7 +40,7 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
 
     const isIBC = viewToken.token.currency.coinMinimalDenom.startsWith("ibc/");
 
-    const handleCopyAddress = async (e: React.MouseEvent) => {
+    const handleCopyAddress = async (e: MouseEvent) => {
       e.stopPropagation();
       if (!address) return;
 

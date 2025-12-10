@@ -1,4 +1,4 @@
-import { type FC, useMemo, useState } from "react";
+import { type FC, type MouseEvent, useMemo, useState } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
@@ -46,7 +46,7 @@ export const AddressChip: FC<AddressChipProps> = ({
     };
   }, [address]);
 
-  const handleCopy = async (e: React.MouseEvent) => {
+  const handleCopy = async (e: MouseEvent) => {
     e.stopPropagation();
     try {
       await navigator.clipboard.writeText(address);
