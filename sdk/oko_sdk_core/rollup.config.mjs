@@ -2,6 +2,7 @@ import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import { dts } from "rollup-plugin-dts";
 import tsConfigPaths from "rollup-plugin-tsconfig-paths";
+import json from "@rollup/plugin-json";
 // import replace from "@rollup/plugin-replace";
 // import commonjs from "@rollup/plugin-commonjs";
 // import terser from "@rollup/plugin-terser";
@@ -17,6 +18,7 @@ export default [
     },
     external: ["@oko-wallet/stdlib-js", "@keplr-wallet/types"],
     plugins: [
+      json(),
       nodeResolve(),
       // commonjs(),
       typescript({
