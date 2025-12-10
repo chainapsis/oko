@@ -10,9 +10,9 @@
   },
   "dependencies": {
     "@cosmjs/stargate": "^0.34.0",
-    "@oko-wallet/oko-sdk-core": "0.0.6-rc.123",
-    "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.149",
-    "@oko-wallet/oko-sdk-eth": "0.0.6-rc.133",
+    "@oko-wallet/oko-sdk-core": "0.0.6-rc.125",
+    "@oko-wallet/oko-sdk-cosmos": "0.0.6-rc.151",
+    "@oko-wallet/oko-sdk-eth": "0.0.6-rc.140",
     "@tanstack/react-query": "^5.90.12",
     "classnames": "^2.5.1",
     "long": "^5.3.2",
