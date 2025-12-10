@@ -26,7 +26,7 @@ export async function openModal(
   let popupContext: PopupContext | null = null;
 
   if (emailLogin) {
-    popupContext = openEmailLoginPopup.call(this);
+    popupContext = openEmailLoginPopup.call(this, msg);
     this.activePopupId = popupContext.id;
     this.activePopupWindow = popupContext.popupWindow;
   }
@@ -87,19 +87,24 @@ export async function openModal(
   }
 }
 
-function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
-  const modalId = `oko_modal_${Date.now()}_${Math.random().toString(36).slice(2)}`;
-  const url = new URL("/email", this.sdkEndpoint);
-  url.searchParams.set("modal_id", modalId);
-  url.searchParams.set("host_origin", window.location.origin);
+function openEmailLoginPopup(
+  this: OkoWalletInterface,
+  msg: OkoWalletMsgOpenModal,
+): PopupContext {
+  const modalId =
+    "modal_id" in msg.payload
+      ? msg.payload.modal_id
+      : `oko_modal_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
+  // Open popup immediately to avoid Safari popup blocker
+  // Use a blank page first, then redirect after nonce is set
   const width = 440;
   const height = 285;
   const left = Math.max((window.screen.width - width) / 2, 0);
   const top = Math.max((window.screen.height - height) / 2, 0);
 
   const popupWindow = window.open(
-    url.toString(),
+    "about:blank",
     modalId,
     `width=${width},height=${height},left=${left},top=${top},resizable=yes`,
   );
@@ -110,10 +115,52 @@ function openEmailLoginPopup(this: OkoWalletInterface): PopupContext {
 
   const popupOrigin = new URL(this.sdkEndpoint).origin;
 
+  // Wait for nonce to be set, then redirect popup to actual email login URL
+  const waitUntilReady = (async () => {
+    if (
+      msg.payload.modal_type === "auth/email_login" &&
+      "data" in msg.payload &&
+      msg.payload.data?.oauth?.nonce
+    ) {
+      const nonce = msg.payload.data.oauth.nonce;
+      const nonceAckPromise = this.sendMsgToIframe({
+        target: "oko_attached",
+        msg_type: "set_oauth_nonce",
+        payload: nonce,
+      });
+
+      const nonceAck = await nonceAckPromise;
+      if (
+        nonceAck.msg_type !== "set_oauth_nonce_ack" ||
+        !nonceAck.payload.success
+      ) {
+        popupWindow.close();
+        throw new Error("Failed to set nonce for email oauth sign in");
+      }
+    }
+
+    // Redirect popup to actual email login URL
+    const url = new URL("/email", this.sdkEndpoint);
+    url.searchParams.set("modal_id", modalId);
+    url.searchParams.set("host_origin", window.location.origin);
+
+    try {
+      popupWindow.location.href = url.toString();
+    } catch (error) {
+      popupWindow.close();
+      throw new Error(
+        `Failed to redirect popup to email login URL: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
+
+    // Wait for popup to be ready
+    await waitForPopupReady(modalId, popupWindow, popupOrigin);
+  })();
+
   return {
     id: modalId,
     popupWindow,
-    waitUntilReady: waitForPopupReady(modalId, popupWindow, popupOrigin),
+    waitUntilReady,
   };
 }
 
