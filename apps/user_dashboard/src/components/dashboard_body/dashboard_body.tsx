@@ -1,4 +1,4 @@
-import { PropsWithChildren, FC } from "react";
+import { type PropsWithChildren, type FC } from "react";
 import cn from "classnames";
 
 import styles from "./dashboard_body.module.scss";

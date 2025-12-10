@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import { type FC, type ReactNode, useState } from "react";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
@@ -11,10 +11,10 @@ import styles from "./info_modal.module.scss";
 interface InfoModalProps {
   title: string;
   content: string;
-  renderTrigger: (props: { onOpen: () => void }) => React.ReactNode;
+  renderTrigger: (props: { onOpen: () => void }) => ReactNode;
 }
 
-export const InfoModal: React.FC<InfoModalProps> = ({
+export const InfoModal: FC<InfoModalProps> = ({
   title,
   content,
   renderTrigger,
