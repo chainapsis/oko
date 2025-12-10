@@ -30,44 +30,27 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
         <Logo theme={"light"} width={84} height={32} />
       </div>
 
-      <Button
-        variant="secondary"
-        size="md"
-        fullWidth
-        onClick={() => onSignIn("google")}
-      >
-        <GoogleIcon width={20} height={20} />
-        Google
-      </Button>
-
-      <div className={styles.dividerRow}>
-        <div className={styles.line} />
-        <Typography tagType="span" size="xs" weight="medium" color="quaternary">
-          Coming soon
-        </Typography>
-        <div className={styles.line} />
-      </div>
-
       <div className={styles.loginMethodsWrapper}>
-        <div className={styles.emailLoginMethod}>
-          <MailboxIcon size={20} color={"var(--fg-quaternary)"} />
-          <input
-            placeholder="your@email.com"
-            value=""
-            readOnly
-            className={styles.emailInput}
-            type="email"
-            disabled
-          />
-          <Button
-            variant="ghost"
-            size="md"
-            className={styles.loginButton}
-            disabled
-          >
-            Next
-          </Button>
-        </div>
+        <Button
+          variant="secondary"
+          size="md"
+          fullWidth
+          onClick={() => onSignIn("email")}
+        >
+          <MailboxIcon size={20} color={"var(--fg-tertiary)"} />
+          <Spacing width={2} />
+          Email
+        </Button>
+
+        <Button
+          variant="secondary"
+          size="md"
+          fullWidth
+          onClick={() => onSignIn("google")}
+        >
+          <GoogleIcon width={20} height={20} />
+          Google
+        </Button>
 
         <Button variant="secondary" size="md" fullWidth onClick={onShowSocials}>
           <div className={styles.socialIconWrapper}>
