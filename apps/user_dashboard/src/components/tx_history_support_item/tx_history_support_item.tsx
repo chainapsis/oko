@@ -1,0 +1,54 @@
+"use client";
+
+import { type FC } from "react";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import { ChainIdHelper } from "@keplr-wallet/cosmos";
+
+import styles from "./tx_history_support_item.module.scss";
+import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
+import { observer } from "mobx-react-lite";
+import Image from "next/image";
+import { EmptyStateIcon } from "@oko-wallet-common-ui/icons/empty_state_icon";
+
+export type TxHistorySupportItemProps = {
+  chainId: string;
+  explorerName: string;
+  explorerUrl: string;
+};
+
+export const TxHistorySupportItem: FC<TxHistorySupportItemProps> = observer(
+  ({ chainId, explorerName, explorerUrl }) => {
+    const { chainStore } = useRootStore();
+
+    const chainInfo = chainStore.getModularChain(chainId);
+    const chainImage = chainInfo.chainSymbolImageUrl;
+    const chainName = chainInfo.chainName;
+
+    return (
+      <a
+        href={explorerUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className={styles.card}
+      >
+        <span className={styles.chainName}>
+          {chainImage ? (
+            <img src={chainImage} alt={chainName} width={16} height={16} />
+          ) : (
+            <EmptyStateIcon size={16} />
+          )}
+          <Typography size="md" weight="medium" color="secondary">
+            {chainName}
+          </Typography>
+        </span>
+        <div className={styles.explorerName}>
+          <Typography size="sm" weight="medium" color="secondary">
+            {explorerName}
+          </Typography>
+          <ExternalLinkOutlinedIcon color="var(--fg-tertiary)" size={12} />
+        </div>
+      </a>
+    );
+  },
+);

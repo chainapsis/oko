@@ -4,6 +4,7 @@ import { type FC } from "react";
 import cn from "classnames";
 import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
 import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
+import { FileIcon } from "@oko-wallet/oko-common-ui/icons/file_icon";
 
 import styles from "./left_bar.module.scss";
 import { paths } from "@oko-wallet-user-dashboard/paths";
@@ -34,6 +35,12 @@ export const LeftBar: FC = () => {
               />
             }
             active={true}
+          />
+          <MenuItem
+            href={paths.transaction_history}
+            label="Transaction History"
+            Icon={<FileIcon color="var(--gray-400)" className={styles.icon} />}
+            active={false}
           />
         </ul>
 
