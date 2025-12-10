@@ -1,14 +1,22 @@
-import React, { type ReactElement } from "react";
+import React, { type ReactElement, useState } from "react";
 
-import styles from "./sign_widget.module.scss";
+import { MockDappModal } from "@/components/widgets/sign_widget/mock_dapp_modal/mock_dapp_modal";
+import styles from "@/components/widgets/sign_widget/sign_widget.module.scss";
 import { Widget } from "@/components/widgets/widget_components";
 
-export const SignWidget: React.FC<SignWidgetProps> = ({
+export type SignWidgetInnerProps = SignWidgetProps & {
+  onOpenModal?: () => void;
+  hideDappModalButton?: boolean;
+};
+
+export const SignWidgetContent: React.FC<SignWidgetInnerProps> = ({
   chain,
   chainIcon,
   signType,
   signButtonOnClick,
   isLoading,
+  onOpenModal,
+  hideDappModalButton,
 }) => {
   const signTitle =
     signType === "offchain"
@@ -33,8 +41,31 @@ export const SignWidget: React.FC<SignWidgetProps> = ({
         )}
 
         <button onClick={signButtonOnClick}>Sign</button>
+        {!hideDappModalButton && (
+          <button onClick={onOpenModal ?? signButtonOnClick}>
+            Sign with dapp modal
+          </button>
+        )}
       </div>
     </Widget>
+  );
+};
+
+export const SignWidget: React.FC<SignWidgetProps> = (props) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  return (
+    <>
+      <SignWidgetContent {...props} onOpenModal={openModal} />
+      <MockDappModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        signWidgetProps={props}
+      />
+    </>
   );
 };
 
