@@ -49,6 +49,7 @@ CREATE TABLE public.customer_dashboard_users (
 	email varchar NOT NULL,
 	is_email_verified bool NOT NULL,
 	password_hash varchar(255) NOT NULL,
+	email_verified_at timestamptz NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	CONSTRAINT customer_dashboard_users_email_key UNIQUE (email),
@@ -314,6 +315,3 @@ CREATE TABLE public.email_sent_logs (
 	sent_at timestamptz DEFAULT now() NOT NULL,
 	CONSTRAINT email_sent_logs_pkey PRIMARY KEY (log_id)
 );
-
-ALTER TABLE public.customer_dashboard_users ADD COLUMN email_verified_at timestamptz NULL;
-
