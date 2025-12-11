@@ -28,6 +28,11 @@ const logoStyle: CSSProperties = {
   height: "25px",
 };
 const linkStyle: CSSProperties = {
+  fontFamily: "Inter, Arial, sans-serif",
+  fontWeight: 500,
+  fontSize: "16px",
+  lineHeight: "160%",
+  letterSpacing: "-0.01em",
   color: "#1c1b1f",
   textDecoration: "underline",
 };
