@@ -4,8 +4,6 @@ import type { MakeEthereumSigData } from "@oko-wallet/oko-sdk-core";
 import { MakeArbitrarySigModal } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/make_arbitrary_sig_modal";
 import { MakeTxSigModal } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/make_tx_sig_modal";
 import { MakeEIP712SigModal } from "@oko-wallet-attached/components/modal_variants/eth/eip712_sig/make_eip712_sig_modal";
-import { MakeSiweSigModal } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/make_arbitrary_sig_modal";
-import { getSiweMessage } from "@oko-wallet-attached/components/modal_variants/eth/get_siwe_message";
 
 export const MakeSignatureEthModal: FC<MakeSignatureEthModalProps> = ({
   getIsAborted,
@@ -23,12 +21,6 @@ export const MakeSignatureEthModal: FC<MakeSignatureEthModalProps> = ({
       );
     }
     case "arbitrary": {
-      const siweMessage = getSiweMessage(data.payload.data.message);
-      const isSiweMessage = !!siweMessage;
-      if (isSiweMessage) {
-        return <>{siweMessage}</>;
-      }
-
       return (
         <MakeArbitrarySigModal
           getIsAborted={getIsAborted}
