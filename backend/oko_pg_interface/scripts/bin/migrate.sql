@@ -300,19 +300,19 @@ CREATE TABLE public.server_keypairs (
 CREATE INDEX idx_server_keypairs_is_active ON public.server_keypairs USING btree (is_active) WHERE (is_active = true);
 
 
--- public.reminders definition
+-- public.email_sent_logs definition
 
 -- Drop table
 
--- DROP TABLE public.reminders;
+-- DROP TABLE public.email_sent_logs;
 
-CREATE TABLE public.reminders (
-	id uuid DEFAULT gen_random_uuid() NOT NULL,
+CREATE TABLE public.email_sent_logs (
+	log_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	target_id uuid NOT NULL,
-	type text NOT NULL,
+	type varchar(32) NOT NULL,
+	email varchar(255) NOT NULL,
 	sent_at timestamptz DEFAULT now() NOT NULL,
-	CONSTRAINT reminders_pkey PRIMARY KEY (id),
-	CONSTRAINT reminders_target_id_type_key UNIQUE (target_id, "type")
+	CONSTRAINT email_sent_logs_pkey PRIMARY KEY (log_id)
 );
 
 ALTER TABLE public.customer_dashboard_users ADD COLUMN email_verified_at timestamptz NULL;

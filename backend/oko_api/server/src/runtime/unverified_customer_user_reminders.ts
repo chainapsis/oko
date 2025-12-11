@@ -3,26 +3,26 @@ import type { Logger } from "winston";
 import type { SMTPConfig } from "@oko-wallet/oko-types/admin";
 import {
   getUnverifiedCustomerDashboardUsers,
-  recordUnverifiedUserReminder,
   updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
-import { sendUnverifiedUserReminderEmail } from "../email/unverified_reminder";
+import { insertEmailSentLog } from "@oko-wallet/oko-pg-interface/email_sent_logs";
 import { hashPassword } from "@oko-wallet/crypto-js";
 import { generatePassword } from "@oko-wallet/admin-api/utils/password";
+import { sendUnverifiedUserReminderEmail } from "@oko-wallet/ct-dashboard-api/src/email/unverified_reminder";
 
-interface UnverifiedUserReminderRuntimeConfig {
+export interface UnverifiedCustomerUserReminderRuntimeConfig {
   intervalSeconds: number;
   unverifiedThreshold: string; // e.g., '7 days'
   smtpConfig: SMTPConfig;
   fromEmail: string;
 }
 
-export function startUnverifiedUserReminderRuntime(
+export function startUnverifiedCustomerUserReminderRuntime(
   db: Pool,
   logger: Logger,
-  config: UnverifiedUserReminderRuntimeConfig,
+  config: UnverifiedCustomerUserReminderRuntimeConfig,
 ) {
-  logger.info("Starting unverified user reminder runtime...");
+  logger.info("Starting unverified customer user reminder runtime...");
 
   const run = async () => {
     try {
@@ -52,27 +52,10 @@ export function startUnverifiedUserReminderRuntime(
           // Generate new temporary password
           const temporaryPassword = generatePassword();
 
-          // Hash the password
-          const passwordHash = await hashPassword(temporaryPassword);
-
-          // Update user password in DB
-          const updateRes = await updateCustomerDashboardUserPassword(db, {
-            user_id: user.user_id,
-            password_hash: passwordHash,
-          });
-
-          if (!updateRes.success) {
-            logger.error(
-              "Failed to update temporary password for user %s: %s",
-              user.user_id,
-              updateRes.err,
-            );
-            continue;
-          }
-
+          // Send email first (outside transaction to avoid holding DB connection)
           const emailRes = await sendUnverifiedUserReminderEmail(
-            user.email,
-            user.customer_name,
+            user.user.email,
+            user.label,
             temporaryPassword,
             config.fromEmail,
             config.smtpConfig,
@@ -81,34 +64,65 @@ export function startUnverifiedUserReminderRuntime(
           if (!emailRes.success) {
             logger.error(
               "Failed to send unverified reminder email to %s: %s",
-              user.email,
+              user.user.email,
               emailRes.error,
             );
             continue;
           }
 
-          const recordRes = await recordUnverifiedUserReminder(
-            db,
-            user.user_id,
-          );
+          // Start transaction after email is sent successfully
+          const client = await db.connect();
+          try {
+            await client.query("BEGIN");
 
-          if (!recordRes.success) {
-            logger.error(
-              "Failed to record unverified reminder for user %s: %s",
-              user.user_id,
-              recordRes.err,
+            // Hash the password
+            const passwordHash = await hashPassword(temporaryPassword);
+
+            // Update user password in DB
+            const updateRes = await updateCustomerDashboardUserPassword(
+              client,
+              {
+                user_id: user.user.user_id,
+                password_hash: passwordHash,
+              },
             );
-          } else {
+
+            if (!updateRes.success) {
+              throw new Error(updateRes.err);
+            }
+
+            // Record email sent log
+            const recordRes = await insertEmailSentLog(client, {
+              target_id: user.user.user_id,
+              type: "UNVERIFIED_CUSTOMER_USER",
+              email: user.user.email,
+            });
+
+            if (!recordRes.success) {
+              throw new Error(recordRes.err);
+            }
+
+            await client.query("COMMIT");
+
             logger.info(
               "Sent unverified reminder to user %s (%s)",
-              user.email,
-              user.user_id,
+              user.user.email,
+              user.user.user_id,
             );
+          } catch (err) {
+            await client.query("ROLLBACK");
+            logger.error(
+              "Error processing unverified user %s: %s",
+              user.customer_id,
+              err,
+            );
+          } finally {
+            client.release();
           }
         } catch (err) {
           logger.error(
             "Error processing unverified user %s: %s",
-            user.user_id,
+            user.customer_id,
             err,
           );
         }
