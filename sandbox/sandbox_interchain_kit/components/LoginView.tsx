@@ -1,35 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { useChain, useWalletManager } from "@interchain-kit/react";
+import { useChain } from "@interchain-kit/react";
 import { WalletState } from "@interchain-kit/core";
 
 import Button from "./Button";
 
 export default function LoginView() {
-  const { status } = useChain("osmosis");
-  const { wallets, setCurrentWalletName, setCurrentChainName, connect } =
-    useWalletManager();
+  const { status, openView } = useChain("osmosis");
 
-  const handleSignIn = async () => {
-    // Set current chain
-    setCurrentChainName("osmosis");
-
-    // Find oko-wallet
-    const okoWallet = wallets.find((w) => w.info.name === "oko-wallet");
-    if (!okoWallet) {
-      return;
-    }
-
-    // Set current wallet name BEFORE connecting
-    setCurrentWalletName("oko-wallet");
-
-    // Connect
-    try {
-      await connect("oko-wallet", "osmosis");
-    } catch (error) {
-      // Connection failed
-    }
+  const handleSignIn = () => {
+    openView();
   };
 
   return (
