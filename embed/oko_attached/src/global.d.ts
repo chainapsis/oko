@@ -22,6 +22,7 @@ declare global {
     VITE_AMPLITUDE_API_KEY: string;
     VITE_IPFS_GATEWAY_URL: string;
     VITE_TELEGRAM_BOT_NAME: string;
+    VITE_PUBLIC_S3_BUCKET_URL: string;
   }
 }
 
