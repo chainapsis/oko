@@ -2,6 +2,7 @@ import React from "react";
 import type { EthereumArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import styles from "./ethereum_siwe_signature_content.module.scss";
 import {
@@ -15,11 +16,12 @@ import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal
 
 interface EthereumSiweSignatureContentProps {
   payload: EthereumArbitrarySignPayload;
+  theme: Theme | null;
 }
 
 export const EthereumSiweSignatureContent: React.FC<
   EthereumSiweSignatureContentProps
-> = ({ payload }) => {
+> = ({ payload, theme }) => {
   const message = getSiweMessage(payload.data.message);
 
   if (!message) {
@@ -34,7 +36,7 @@ export const EthereumSiweSignatureContent: React.FC<
 
   return (
     <div>
-      <SiweSigTitleBadge isDarkMode={true} />
+      <SiweSigTitleBadge theme={theme} />
       <div className={styles.metadataContainer}>
         <Spacing height={8} />
         <Typography size="lg" color="primary" weight="semibold">
