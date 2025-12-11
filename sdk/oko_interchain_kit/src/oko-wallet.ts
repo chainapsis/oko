@@ -65,7 +65,6 @@ export class OkoWallet extends CosmosWallet {
     }
 
     const key = await this.okoClient.getKey(chainId);
-    console.log("key", key);
 
     // Ensure pubkey is a Uint8Array (handles deserialized Buffer format)
     let pubkey = key.pubKey;

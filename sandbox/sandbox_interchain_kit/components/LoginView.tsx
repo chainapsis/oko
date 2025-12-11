@@ -18,7 +18,6 @@ export default function LoginView() {
     // Find oko-wallet
     const okoWallet = wallets.find((w) => w.info.name === "oko-wallet");
     if (!okoWallet) {
-      console.error("[LoginView] oko-wallet not found");
       return;
     }
 
@@ -29,7 +28,7 @@ export default function LoginView() {
     try {
       await connect("oko-wallet", "osmosis");
     } catch (error) {
-      console.error("[LoginView] Connection failed:", error);
+      // Connection failed
     }
   };
 
