@@ -1,26 +1,26 @@
 @use "../../styles/viewport.module.scss" as *;
 
-.desktopWrapper {
+.wrapper {
   display: none;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
   background: var(--bg-primary);
 
-  @media (min-width: $desktop_min_width) {
+  &.desktop {
+    display: none;
+  }
+  &.mobile {
     display: flex;
   }
-}
-
-.mobileWrapper {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  width: 100vw;
-  background: var(--bg-primary);
 
   @media (min-width: $desktop_min_width) {
-    display: none;
+    &.desktop {
+      display: flex;
+    }
+    &.mobile {
+      display: none;
+    }
   }
 }
 
@@ -50,8 +50,20 @@
   background: var(--bg-primary);
 
   display: flex;
-  flex-direction: row;
-  gap: 20px;
   align-items: center;
   justify-content: center;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18.6px;
+}
+
+.description {
+  text-align: center;
+  max-width: 498px;
+  white-space: pre-line;
 }

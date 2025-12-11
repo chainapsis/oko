@@ -1,4 +1,5 @@
-import type { FC, ReactNode } from "react";
+import cn from "classnames";
+import Image from "next/image";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
 import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 
@@ -8,13 +9,33 @@ import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard
 import { SignInImage } from "@oko-wallet-user-dashboard/components/sign_in_image/sign_in_image";
 
 export default function Page() {
+  const description =
+    "Everything you hold, all in one place. \n Check your balances, addresses, \n and connected apps at a glance.";
+
   return (
     <>
-      <div className={styles.desktopWrapper}>
+      <div className={cn(styles.wrapper, styles.desktop)}>
         <DashboardHeader theme="dark" position="absolute" />
         <div className={styles.body}>
           <SignInImage>
-            <InnerContent />
+            <div className={styles.inner}>
+              <Image
+                src="/oko_home.svg"
+                alt="Oko Home"
+                width={231.78}
+                height={36}
+                className={styles.title}
+              />
+              <Typography
+                tagType="p"
+                size="xl"
+                weight="medium"
+                color="white"
+                className={styles.description}
+              >
+                {description}
+              </Typography>
+            </div>
           </SignInImage>
           <div className={styles.content}>
             <AccountWidget />
@@ -22,42 +43,23 @@ export default function Page() {
         </div>
       </div>
 
-      <div className={styles.mobileWrapper}>
+      <div className={cn(styles.wrapper, styles.mobile)}>
         <SignInImage>
-          <InnerContent>
+          <div className={styles.inner}>
+            <OkoLogoIcon className={styles.mobileLogo} width={58} height={22} />
+            <Typography
+              tagType="p"
+              size="md"
+              weight="medium"
+              color="white"
+              className={styles.description}
+            >
+              {description}
+            </Typography>
             <AccountWidget />
-          </InnerContent>
+          </div>
         </SignInImage>
       </div>
     </>
   );
 }
-
-const InnerContent: FC<{ children?: ReactNode }> = ({ children }) => (
-  <div className={styles.inner}>
-    <Typography
-      tagType="h2"
-      size="display-lg"
-      weight="bold"
-      color="white"
-      className={styles.title}
-    >
-      Oko Home
-    </Typography>
-
-    <OkoLogoIcon className={styles.mobileLogo} width={58} height={22} />
-
-    <Typography
-      tagType="p"
-      size="lg"
-      weight="bold"
-      color="white"
-      className={styles.description}
-    >
-      Everything you hold, all in one place. <br />
-      Check your balances, addresses, <br /> and connected apps at a glance.
-    </Typography>
-
-    {children}
-  </div>
-);
