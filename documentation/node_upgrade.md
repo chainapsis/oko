@@ -81,16 +81,6 @@ docker compose up -d --build key_share_node
 This will rebuild the Key Share Node container with the latest code while
 preserving all existing data and database schema.
 
-#### Database Reset (Only when requested by Keplr team)
-
-**⚠️ WARNING: This will reset your database schema and may cause data loss.**
-
-If explicitly requested by the Keplr team to reset the database:
-
-```bash
-RESET_DB=true docker compose up -d --build key_share_node
-```
-
 ### 5. Verify the Upgrade
 
 ```bash
