@@ -309,19 +309,19 @@ customer_id: ${request.customer_id}`,
 export async function getInactiveCustomers(
   db: Pool | PoolClient,
   thresholdInterval: string, // e.g., '7 days'
-): Promise<Result<(Customer & { email: string })[], string>> {
+): Promise<Result<(Customer & { email: string; user_id: string })[], string>> {
   const query = `
-SELECT c.*, u.email
-FROM customers c
-JOIN customer_dashboard_users u ON c.customer_id = u.customer_id
-WHERE c.status = 'ACTIVE'
-  AND u.status = 'ACTIVE'
+SELECT c.*, u.email, u.user_id
+FROM customer_dashboard_users u
+JOIN customers c ON u.customer_id = c.customer_id
+WHERE u.status = 'ACTIVE'
+  AND c.status = 'ACTIVE'
   AND u.email_verified_at < NOW() - $1::interval
   AND NOT EXISTS (
       SELECT 1 FROM tss_sessions s WHERE s.customer_id = c.customer_id
   )
   AND NOT EXISTS (
-      SELECT 1 FROM inactive_app_reminders r WHERE r.customer_id = c.customer_id
+      SELECT 1 FROM reminders r WHERE r.target_id = u.user_id AND r.type = 'INACTIVE_APP'
   )
 `;
 
@@ -335,16 +335,16 @@ WHERE c.status = 'ACTIVE'
 
 export async function recordInactiveAppReminder(
   db: Pool | PoolClient,
-  customerId: string,
+  userId: string,
 ): Promise<Result<void, string>> {
   const query = `
-INSERT INTO inactive_app_reminders (customer_id)
-VALUES ($1)
-ON CONFLICT (customer_id) DO NOTHING
+INSERT INTO reminders (target_id, type)
+VALUES ($1, 'INACTIVE_APP')
+ON CONFLICT (target_id, type) DO NOTHING
 `;
 
   try {
-    await db.query(query, [customerId]);
+    await db.query(query, [userId]);
     return { success: true, data: void 0 };
   } catch (error) {
     return { success: false, err: String(error) };

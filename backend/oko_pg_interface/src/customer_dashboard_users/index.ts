@@ -333,7 +333,7 @@ WHERE u.status = 'ACTIVE'
   AND u.is_email_verified = false
   AND u.created_at < NOW() - $1::interval
   AND NOT EXISTS (
-      SELECT 1 FROM unverified_user_reminders r WHERE r.user_id = u.user_id
+      SELECT 1 FROM reminders r WHERE r.target_id = u.user_id AND r.type = 'UNVERIFIED_USER'
   )
 `;
 
@@ -350,9 +350,9 @@ export async function recordUnverifiedUserReminder(
   userId: string,
 ): Promise<Result<void, string>> {
   const query = `
-INSERT INTO unverified_user_reminders (user_id)
-VALUES ($1)
-ON CONFLICT (user_id) DO NOTHING
+INSERT INTO reminders (target_id, type)
+VALUES ($1, 'UNVERIFIED_USER')
+ON CONFLICT (target_id, type) DO NOTHING
 `;
 
   try {

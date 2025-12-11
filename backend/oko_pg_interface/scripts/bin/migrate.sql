@@ -300,30 +300,20 @@ CREATE TABLE public.server_keypairs (
 CREATE INDEX idx_server_keypairs_is_active ON public.server_keypairs USING btree (is_active) WHERE (is_active = true);
 
 
--- public.inactive_app_reminders definition
+-- public.reminders definition
 
 -- Drop table
 
--- DROP TABLE public.inactive_app_reminders;
+-- DROP TABLE public.reminders;
 
-CREATE TABLE public.inactive_app_reminders (
-	customer_id uuid NOT NULL,
+CREATE TABLE public.reminders (
+	id uuid DEFAULT gen_random_uuid() NOT NULL,
+	target_id uuid NOT NULL,
+	type text NOT NULL,
 	sent_at timestamptz DEFAULT now() NOT NULL,
-	CONSTRAINT inactive_app_reminders_pkey PRIMARY KEY (customer_id)
+	CONSTRAINT reminders_pkey PRIMARY KEY (id),
+	CONSTRAINT reminders_target_id_type_key UNIQUE (target_id, "type")
 );
 
 ALTER TABLE public.customer_dashboard_users ADD COLUMN email_verified_at timestamptz NULL;
-
-
--- public.unverified_user_reminders definition
-
--- Drop table
-
--- DROP TABLE public.unverified_user_reminders;
-
-CREATE TABLE public.unverified_user_reminders (
-	user_id uuid NOT NULL,
-	sent_at timestamptz DEFAULT now() NOT NULL,
-	CONSTRAINT unverified_user_reminders_pkey PRIMARY KEY (user_id)
-);
 

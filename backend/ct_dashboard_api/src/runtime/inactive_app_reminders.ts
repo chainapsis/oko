@@ -64,20 +64,21 @@ export function startInactiveAppReminderRuntime(
 
           const recordRes = await recordInactiveAppReminder(
             db,
-            customer.customer_id,
+            customer.user_id,
           );
 
           if (!recordRes.success) {
             logger.error(
               "Failed to record inactive reminder for %s: %s",
-              customer.customer_id,
+              customer.user_id,
               recordRes.err,
             );
           } else {
             logger.info(
-              "Sent inactive reminder to customer %s (%s)",
+              "Sent inactive reminder to customer %s (%s, user_id: %s)",
               customer.label,
               customer.customer_id,
+              customer.user_id,
             );
           }
         } catch (err) {

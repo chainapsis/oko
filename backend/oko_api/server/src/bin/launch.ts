@@ -91,8 +91,8 @@ async function main() {
   });
 
   startInactiveAppReminderRuntime(state.db, state.logger, {
-    intervalSeconds: 60 * 60, // 1 hour
-    inactiveThreshold: "7 days",
+    intervalSeconds: 60, // 1 hour
+    inactiveThreshold: "3 minutes",
     smtpConfig: {
       smtp_host: state.smtp_host,
       smtp_port: state.smtp_port,
@@ -103,8 +103,8 @@ async function main() {
   });
 
   startUnverifiedUserReminderRuntime(state.db, state.logger, {
-    intervalSeconds: 60 * 60, // 1 hour
-    unverifiedThreshold: "7 days",
+    intervalSeconds: 60, // 1 hour
+    unverifiedThreshold: "3 minutes",
     smtpConfig: {
       smtp_host: state.smtp_host,
       smtp_port: state.smtp_port,
