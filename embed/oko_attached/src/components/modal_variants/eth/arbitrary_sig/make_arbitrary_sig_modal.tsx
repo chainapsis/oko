@@ -44,7 +44,10 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
 
         <div className={styles.modalInnerContentContainer}>
           {!!siweMessage ? (
-            <EthereumSiweSignatureContent payload={data.payload} />
+            <EthereumSiweSignatureContent
+              payload={data.payload}
+              theme={theme}
+            />
           ) : (
             <EthereumArbitrarySignatureContent payload={data.payload} />
           )}
