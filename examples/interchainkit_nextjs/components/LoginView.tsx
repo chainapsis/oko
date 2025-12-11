@@ -7,7 +7,7 @@ import { WalletState } from "@interchain-kit/core";
 import Button from "./Button";
 
 export default function LoginView() {
-  const { status, openView } = useChain("osmosis");
+  const { status, openView } = useChain("osmosistestnet");
 
   const handleSignIn = () => {
     openView();

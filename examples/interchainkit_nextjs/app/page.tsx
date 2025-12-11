@@ -9,10 +9,10 @@ import "@interchain-kit/react/styles.css";
 
 const queryClient = new QueryClient();
 
-// Filter chains to only include osmosis for testing
-const filteredChains = chains.filter((chain) => chain.chainName === "osmosis");
+// Filter chains to only include osmosis testnet for testing
+const filteredChains = chains.filter((chain) => chain.chainName === "osmosistestnet");
 const filteredAssetLists = assetLists.filter(
-  (assetList) => assetList.chainName === "osmosis"
+  (assetList) => assetList.chainName === "osmosistestnet"
 );
 
 export default function Home() {

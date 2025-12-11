@@ -51,7 +51,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function TransactionForm({ className }: TransactionFormProps) {
-  const { address, wallet, getRpcEndpoint } = useChain("osmosis");
+  const { address, wallet, getRpcEndpoint } = useChain("osmosistestnet");
   const queryClient = useQueryClient();
 
   const {
@@ -72,7 +72,7 @@ export default function TransactionForm({ className }: TransactionFormProps) {
   );
 
   const explorerTxUrl = useMemo(() => {
-    return txHash ? `https://www.mintscan.io/osmosis/tx/${txHash}` : "";
+    return txHash ? `https://www.mintscan.io/osmosis-testnet/tx/${txHash}` : "";
   }, [txHash]);
 
   async function handleSendTransaction(values: FormValues) {
