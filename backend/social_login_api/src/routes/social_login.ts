@@ -8,7 +8,6 @@ import type {
 
 import { getXUserInfo } from "@oko-wallet-social-login-api/api/x";
 import {
-  SOCIAL_LOGIN_X_CALLBACK_URL,
   X_CLIENT_ID,
   X_SOCIAL_LOGIN_TOKEN_URL,
 } from "@oko-wallet-social-login-api/constants/x";
@@ -66,11 +65,11 @@ export function setSocialLoginRoutes(router: Router) {
       const state = req.app.locals;
       const body = req.body;
 
-      if (!body.code || !body.code_verifier) {
+      if (!body.code || !body.code_verifier || !body.redirect_uri) {
         res.status(400).json({
           success: false,
           code: "INVALID_REQUEST",
-          msg: "Code or code_verifier is not set",
+          msg: "Code, code_verifier, or redirect_uri is not set",
         });
         return;
       }
@@ -79,7 +78,7 @@ export function setSocialLoginRoutes(router: Router) {
         code: body.code,
         grant_type: "authorization_code",
         client_id: X_CLIENT_ID,
-        redirect_uri: SOCIAL_LOGIN_X_CALLBACK_URL,
+        redirect_uri: body.redirect_uri,
         code_verifier: body.code_verifier,
       });
       const response = await fetch(X_SOCIAL_LOGIN_TOKEN_URL, {
