@@ -309,3 +309,56 @@ export async function getCTDUsersByCustomerIdsMap(
     };
   }
 }
+
+export async function getUnverifiedCustomerDashboardUsers(
+  db: Pool | PoolClient,
+  thresholdInterval: string, // e.g., '7 days'
+): Promise<
+  Result<
+    {
+      user_id: string;
+      email: string;
+      customer_id: string;
+      customer_name: string;
+    }[],
+    string
+  >
+> {
+  const query = `
+SELECT u.user_id, u.email, u.customer_id, c.label AS customer_name
+FROM customer_dashboard_users u
+JOIN customers c ON u.customer_id = c.customer_id
+WHERE u.status = 'ACTIVE'
+  AND c.status = 'ACTIVE'
+  AND u.is_email_verified = false
+  AND u.created_at < NOW() - $1::interval
+  AND NOT EXISTS (
+      SELECT 1 FROM unverified_user_reminders r WHERE r.user_id = u.user_id
+  )
+`;
+
+  try {
+    const result = await db.query(query, [thresholdInterval]);
+    return { success: true, data: result.rows };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}
+
+export async function recordUnverifiedUserReminder(
+  db: Pool | PoolClient,
+  userId: string,
+): Promise<Result<void, string>> {
+  const query = `
+INSERT INTO unverified_user_reminders (user_id)
+VALUES ($1)
+ON CONFLICT (user_id) DO NOTHING
+`;
+
+  try {
+    await db.query(query, [userId]);
+    return { success: true, data: void 0 };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}

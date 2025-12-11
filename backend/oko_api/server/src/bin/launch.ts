@@ -6,6 +6,7 @@ import {
 } from "@oko-wallet/oko-api-server-state";
 import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 import { startInactiveAppReminderRuntime } from "@oko-wallet/ct-dashboard-api/src/runtime/inactive_app_reminders";
+import { startUnverifiedUserReminderRuntime } from "@oko-wallet/ct-dashboard-api/src/runtime/unverified_user_reminders";
 
 import { makeApp } from "@oko-wallet-api/app";
 import { ENV_FILE_NAME, envSchema } from "@oko-wallet-api/envs";
@@ -64,8 +65,20 @@ async function main() {
   });
 
   startInactiveAppReminderRuntime(state.db, state.logger, {
-    intervalSeconds: 60 * 60, // 1 hour
-    inactiveThreshold: "7 days",
+    intervalSeconds: 60, // 1 hour
+    inactiveThreshold: "3 minutes",
+    smtpConfig: {
+      smtp_host: state.smtp_host,
+      smtp_port: state.smtp_port,
+      smtp_user: state.smtp_user,
+      smtp_pass: state.smtp_pass,
+    },
+    fromEmail: state.from_email,
+  });
+
+  startUnverifiedUserReminderRuntime(state.db, state.logger, {
+    intervalSeconds: 60, // 1 hour
+    unverifiedThreshold: "3 minutes",
     smtpConfig: {
       smtp_host: state.smtp_host,
       smtp_port: state.smtp_port,
