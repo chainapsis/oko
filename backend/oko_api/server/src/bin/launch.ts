@@ -1,5 +1,8 @@
 loadEnv(ENV_FILE_NAME);
 
+import knex from "knex";
+import knexConfig from "@oko-wallet/oko-pg-interface/knexfile";
+
 import {
   type ServerState,
   makeServerState,
@@ -58,6 +61,29 @@ async function main() {
     telegram_bot_token: envs.TELEGRAM_BOT_TOKEN!,
   });
 
+  state.logger.info("Running database migrations...");
+  try {
+    const migrationConfig = {
+      client: "pg",
+      connection: {
+        host: envs.DB_HOST,
+        port: Number(envs.DB_PORT),
+        user: envs.DB_USER,
+        password: envs.DB_PASSWORD,
+        database: envs.DB_NAME,
+        ssl: envs.DB_SSL === "true",
+      },
+      migrations: knexConfig.migrations,
+    };
+    const knexInstance = knex(migrationConfig);
+    await knexInstance.migrate.latest();
+    await knexInstance.destroy();
+    state.logger.info("Database migrations completed successfully");
+  } catch (err) {
+    state.logger.error("Migration failed, err: %s", err);
+    process.exit(1);
+  }
+
   const app = makeApp(state);
 
   startKSNodeHealthCheckRuntime(state.db, state.logger, {
@@ -65,8 +91,8 @@ async function main() {
   });
 
   startInactiveAppReminderRuntime(state.db, state.logger, {
-    intervalSeconds: 60, // 1 hour
-    inactiveThreshold: "3 minutes",
+    intervalSeconds: 60 * 60, // 1 hour
+    inactiveThreshold: "7 days",
     smtpConfig: {
       smtp_host: state.smtp_host,
       smtp_port: state.smtp_port,
@@ -77,8 +103,8 @@ async function main() {
   });
 
   startUnverifiedUserReminderRuntime(state.db, state.logger, {
-    intervalSeconds: 60, // 1 hour
-    unverifiedThreshold: "3 minutes",
+    intervalSeconds: 60 * 60, // 1 hour
+    unverifiedThreshold: "7 days",
     smtpConfig: {
       smtp_host: state.smtp_host,
       smtp_port: state.smtp_port,
