@@ -179,6 +179,15 @@
   cursor: pointer;
   font: inherit;
   flex-shrink: 0;
+
+  &:disabled {
+    cursor: not-allowed !important;
+    color: var(--text-disabled, #717680) !important;
+  }
+
+  &.nextButtonActive:not(:disabled) {
+    color: var(--colors-text-text-primary-900, #181d27) !important;
+  }
 }
 
 .actions {
@@ -273,4 +282,3 @@
   display: flex;
   justify-content: center;
 }
-
