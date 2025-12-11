@@ -23,7 +23,54 @@ git checkout <version>
 cd oko/key_share_node/docker
 ```
 
-### 3. Upgrade the Key Share Node
+### 3. Check and Update Environment Variables
+
+New environment variables may be added in some upgrades. Check the upgrade
+announcement from the Keplr team to determine if new environment variables are
+required.
+
+> **Note**: If no new environment variables are required, you can skip this
+> step.
+
+If new environment variables are required:
+
+1. Edit the `.env` file:
+
+   ```bash
+   # Open .env file with a text editor
+   nano .env
+   # or
+   vi .env
+   ```
+
+2. Add the required environment variables to your `.env` file, referencing
+   `env.example` for guidance.
+
+   Example:
+
+   ```bash
+   # Add to .env file
+   NEW_ENV_VAR=your_value_here
+   ```
+
+3. Set the environment variable values:
+   - Follow the values or guidance provided in the upgrade announcement from the
+     Keplr team
+   - Securely manage sensitive information (tokens, passwords, etc.)
+   - Refer to comments in `env.example` to understand the purpose of each
+     environment variable
+
+4. Verify that your environment variable configuration is correct:
+
+   ```bash
+   # Validate Docker Compose configuration (checks for syntax errors in environment variables)
+   docker compose config
+   ```
+
+   This command validates the configuration file without starting containers. If
+   errors occur, review the syntax of your environment variable file.
+
+### 4. Upgrade the Key Share Node
 
 For most upgrades, use the standard upgrade process:
 
@@ -44,7 +91,7 @@ If explicitly requested by the Keplr team to reset the database:
 RESET_DB=true docker compose up -d --build key_share_node
 ```
 
-### 4. Verify the Upgrade
+### 5. Verify the Upgrade
 
 ```bash
 # Check container status
