@@ -11,7 +11,10 @@ by following the instructions in the README.
 ## Examples
 
 - **[Cosmos Next.js Example](cosmos_nextjs)** — Oko Cosmos SDK on Next.js
-- **[Interchain Kit Next.js Example](interchainkit_nextjs)** — Next.js + Interchain Kit with Oko multi-provider support
+- **[CosmosKit Next.js Example](cosmoskit_nextjs)** — Next.js + CosmosKit with
+  Oko
+- **[InterchainKit Next.js Example](interchainkit_nextjs)** — Next.js +
+  InterchainKit with Oko
 - **[EVM Next.js Example](evm_nextjs)** — Oko Ethereum SDK on Next.js
 - **[EVM Wagmi Next.js Example](evm_wagmi_nextjs)** — Next.js + wagmi +
   RainbowKit with Oko
