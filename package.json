@@ -7,6 +7,7 @@
       "key_share_node/server",
       "key_share_node/ksn_interface",
       "sdk/oko_cosmos_kit",
+      "sdk/oko_interchain_kit",
       "sdk/oko_sdk_common",
       "sdk/oko_sdk_core",
       "sdk/oko_sdk_cosmos",
