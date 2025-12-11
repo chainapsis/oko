@@ -1,10 +1,11 @@
+import type { FC, ReactNode } from "react";
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
+import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
+
 import styles from "./page.module.scss";
 import { AccountWidget } from "@oko-wallet-user-dashboard/components/widgets/account_widget/account_widget";
 import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard_header/dashboard_header";
 import { SignInImage } from "@oko-wallet-user-dashboard/components/sign_in_image/sign_in_image";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
-import type { FC, ReactNode } from "react";
 
 export default function Page() {
   return (
