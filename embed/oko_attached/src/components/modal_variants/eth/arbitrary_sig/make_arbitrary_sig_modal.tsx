@@ -11,6 +11,8 @@ import { useArbitrarySigModal } from "./hooks/use_arbitrary_sig_modal";
 import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
 import { EthereumArbitrarySignatureContent } from "./ethereum_arbitrary_signature_content";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
+import { getSiweMessage } from "@oko-wallet-attached/components/modal_variants/eth/siwe_message";
+import { EthereumSiweSignatureContent } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/make_siwe-siganature_content";
 
 export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
   getIsAborted,
@@ -31,6 +33,8 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
     modalId,
   });
 
+  const siweMessage = getSiweMessage(data.payload.data.message);
+
   return (
     <div className={styles.container}>
       <CommonModal className={styles.modal}>
@@ -39,10 +43,14 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
         </div>
 
         <div className={styles.modalInnerContentContainer}>
-          <EthereumArbitrarySignatureContent payload={data.payload} />
+          {!!siweMessage ? (
+            <EthereumSiweSignatureContent payload={data.payload} />
+          ) : (
+            <EthereumArbitrarySignatureContent payload={data.payload} />
+          )}
         </div>
 
-        <Spacing height={20} />
+        <Spacing height={!!siweMessage ? 12 : 20} />
         {!hasOnChainSchema && <ArbitrarySignatureDesc />}
 
         <Spacing height={20} />
