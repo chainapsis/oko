@@ -32,6 +32,14 @@ RUN yarn run build
 WORKDIR /home/node/key_share_node
 RUN yarn workspaces focus @oko-wallet/ksn-interface
 
+# Install dependencies for crypto-js
+WORKDIR /home/node/key_share_node
+RUN yarn workspaces focus @oko-wallet/crypto-js
+
+# Build crypto-js
+WORKDIR /home/node/key_share_node/crypto/crypto_js
+RUN yarn run build
+
 # Build ksn_interface
 WORKDIR /home/node/key_share_node/key_share_node/ksn_interface
 RUN yarn run build
