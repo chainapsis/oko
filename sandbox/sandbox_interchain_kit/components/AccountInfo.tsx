@@ -14,7 +14,7 @@ interface AccountInfoProps {
 }
 
 export default function AccountInfo({ className }: AccountInfoProps) {
-  const { address, disconnect, getRpcEndpoint } = useChain("osmosistestnet");
+  const { address, disconnect, getRpcEndpoint } = useChain("osmosis");
 
   const { data: balance } = useQuery({
     queryKey: ["balance", address],
@@ -162,11 +162,11 @@ function AvailableBalance({ value }: { value?: string }) {
           {value ?? "..."}
         </div>
         <Link
-          href="https://faucet.testnet.osmosis.zone/"
+          href="https://faucet.osmosis.zone/"
           target="_blank"
           className="inline-flex items-center gap-2 mt-3 text-sm text-gray-300 hover:text-white underline underline-offset-4"
         >
-          Get Osmosis testnet OSMO
+          Get Osmosis OSMO from faucet
           <svg
             className="h-3.5 w-3.5"
             viewBox="0 0 24 24"

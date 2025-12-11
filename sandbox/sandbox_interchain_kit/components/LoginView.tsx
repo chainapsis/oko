@@ -1,13 +1,37 @@
 "use client";
 
 import Image from "next/image";
-import { useChain } from "@interchain-kit/react";
+import { useChain, useWalletManager } from "@interchain-kit/react";
 import { WalletState } from "@interchain-kit/core";
 
 import Button from "./Button";
 
 export default function LoginView() {
-  const { connect, status } = useChain("osmosistestnet");
+  const { status } = useChain("osmosis");
+  const { wallets, setCurrentWalletName, setCurrentChainName, connect } =
+    useWalletManager();
+
+  const handleSignIn = async () => {
+    // Set current chain
+    setCurrentChainName("osmosis");
+
+    // Find oko-wallet
+    const okoWallet = wallets.find((w) => w.info.name === "oko-wallet");
+    if (!okoWallet) {
+      console.error("[LoginView] oko-wallet not found");
+      return;
+    }
+
+    // Set current wallet name BEFORE connecting
+    setCurrentWalletName("oko-wallet");
+
+    // Connect
+    try {
+      await connect("oko-wallet", "osmosis");
+    } catch (error) {
+      console.error("[LoginView] Connection failed:", error);
+    }
+  };
 
   return (
     <div className="text-center max-w-md mx-auto flex flex-col gap-6">
@@ -23,7 +47,7 @@ export default function LoginView() {
         </div>
       </div>
       <Button
-        onClick={connect}
+        onClick={handleSignIn}
         fullWidth
         size="lg"
         disabled={status !== WalletState.Disconnected}

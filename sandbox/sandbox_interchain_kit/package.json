@@ -3,8 +3,8 @@
   "version": "0.0.2-alpha.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --turbopack",
-    "build": "next build --turbopack",
+    "dev": "next dev",
+    "build": "next build",
     "start": "next start"
   },
   "dependencies": {
@@ -19,7 +19,9 @@
     "@interchain-kit/react": "^0.3.55",
     "@keplr-wallet/types": "^0.12.290",
     "@keplr-wallet/unit": "0.12.280",
-    "@oko-wallet/oko-cosmos-kit": "workspace:*",
+    "@oko-wallet/oko-interchain-kit": "workspace:*",
+    "@oko-wallet/oko-sdk-core": "workspace:*",
+    "@oko-wallet/oko-sdk-cosmos": "workspace:*",
     "@tanstack/react-query": "^5.90.12",
     "chain-registry": "^1.69.410",
     "next": "^16.0.7",

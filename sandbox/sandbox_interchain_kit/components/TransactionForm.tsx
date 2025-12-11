@@ -11,6 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import Button from "./Button";
 import { useChain } from "@interchain-kit/react";
+import { OfflineSigner } from "@cosmjs/proto-signing";
 
 interface TransactionFormProps {
   className?: string;
@@ -50,8 +51,7 @@ const formSchema = z.object({
 type FormValues = z.infer<typeof formSchema>;
 
 export default function TransactionForm({ className }: TransactionFormProps) {
-  const { address, getSigningClient, getRpcEndpoint } =
-    useChain("osmosistestnet");
+  const { address, wallet, getRpcEndpoint } = useChain("osmosis");
   const queryClient = useQueryClient();
 
   const {
@@ -72,11 +72,11 @@ export default function TransactionForm({ className }: TransactionFormProps) {
   );
 
   const explorerTxUrl = useMemo(() => {
-    return txHash ? `https://www.mintscan.io/osmosis-testnet/tx/${txHash}` : "";
+    return txHash ? `https://www.mintscan.io/osmosis/tx/${txHash}` : "";
   }, [txHash]);
 
   async function handleSendTransaction(values: FormValues) {
-    if (!address || isTxSending) {
+    if (!address || !wallet || isTxSending) {
       return;
     }
 
@@ -86,11 +86,11 @@ export default function TransactionForm({ className }: TransactionFormProps) {
     let txHashForTracking: string | null = null;
 
     try {
+      const offlineSigner = await wallet.getOfflineSigner();
       const rpcEndpoint = await getRpcEndpoint();
-      const signingClient = await getSigningClient();
       const client = await SigningStargateClient.connectWithSigner(
         rpcEndpoint,
-        signingClient as any,
+        offlineSigner as OfflineSigner,
       );
 
       const fee = {
@@ -154,7 +154,7 @@ export default function TransactionForm({ className }: TransactionFormProps) {
           register={register}
           errors={errors}
           onSubmit={handleSubmit(handleSendTransaction)}
-          canSend={!!address && isValid && !isTxSending}
+          canSend={!!address && !!wallet && isValid && !isTxSending}
           loading={isTxSending}
         />
       ) : txStatus === "pending" ? (
