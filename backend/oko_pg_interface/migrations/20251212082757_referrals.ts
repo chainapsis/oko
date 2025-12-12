@@ -1,8 +1,9 @@
 import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
-  if (!(await knex.schema.withSchema("public").hasTable("referrals"))) {
-    await knex.schema.withSchema("public").createTable("referrals", (table) => {
+  const publicSchemaBuilder = knex.schema.withSchema("public");
+  if (!(await publicSchemaBuilder.hasTable("referrals"))) {
+    await publicSchemaBuilder.createTable("referrals", (table) => {
       table
         .uuid("referral_id")
         .notNullable()
