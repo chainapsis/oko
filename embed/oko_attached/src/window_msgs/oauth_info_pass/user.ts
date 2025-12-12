@@ -27,12 +27,10 @@ import {
   doSendUserKeyShares,
   requestSplitShares,
 } from "@oko-wallet-attached/requests/ks_node";
-import {
-  importExternalSecretKey,
-  runKeygen,
-} from "@oko-wallet/cait-sith-keplr-hooks";
+import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
 import { reqKeygen } from "@oko-wallet/api-lib";
 import { Bytes } from "@oko-wallet/bytes";
+
 import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
 
 export async function handleExistingUser(
