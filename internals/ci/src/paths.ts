@@ -95,10 +95,40 @@ export const paths = (function () {
 
   const dockerfiles_oko = path.join(__dirname, "../../docker/oko");
 
+  const example_cosmos_nextjs = path.join(
+    __dirname,
+    "../../../examples/cosmos_nextjs",
+  );
+
+  const example_cosmoskit_nextjs = path.join(
+    __dirname,
+    "../../../examples/cosmoskit_nextjs",
+  );
+
+  const example_evm_nextjs = path.join(
+    __dirname,
+    "../../../examples/evm_nextjs",
+  );
+
+  const example_evm_wagmi_nextjs = path.join(
+    __dirname,
+    "../../../examples/evm_wagmi_nextjs",
+  );
+
+  const example_multi_ecosystem_react = path.join(
+    __dirname,
+    "../../../examples/cosmos_nextjs",
+  );
+
   return {
     root,
     stdlib,
     dotenv,
+    example_cosmoskit_nextjs,
+    example_cosmos_nextjs,
+    example_evm_nextjs,
+    example_evm_wagmi_nextjs,
+    example_multi_ecosystem_react,
     sdk_core,
     sdk_eth,
     sdk_cosmos_kit,

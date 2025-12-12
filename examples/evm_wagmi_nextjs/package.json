@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",
-    "@oko-wallet/oko-sdk-eth": "0.0.6-rc.133",
+    "@oko-wallet/oko-sdk-eth": "0.0.6-rc.140",
     "@rainbow-me/rainbowkit": "2.2.8",
     "@tanstack/react-query": "^5.90.12",
     "next": "^16.0.7",
