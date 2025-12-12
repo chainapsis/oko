@@ -57,6 +57,18 @@ export function init(
     try {
       sdkEndpointURL = new URL(sdkEndpoint);
       sdkEndpointURL.searchParams.append("host_origin", hostOrigin);
+
+      // Forward UTM parameters to attached iframe for referral tracking
+      const currentUrl = new URL(window.location.toString());
+      const utmSource = currentUrl.searchParams.get("utm_source");
+      const utmCampaign = currentUrl.searchParams.get("utm_campaign");
+
+      if (utmSource) {
+        sdkEndpointURL.searchParams.append("utm_source", utmSource);
+      }
+      if (utmCampaign) {
+        sdkEndpointURL.searchParams.append("utm_campaign", utmCampaign);
+      }
     } catch (err) {
       return {
         success: false,
