@@ -21,6 +21,9 @@ export function useXCallback() {
         if (cbRes.success) {
           window.close();
         } else {
+          if (cbRes.err.type === "login_canceled_by_user") {
+            window.close();
+          }
           setError(cbRes.err.type);
         }
       } catch (err) {
@@ -56,7 +59,14 @@ export async function handleXCallback(): Promise<
   const code = urlParams.get("code");
   const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE) || "{}";
 
-  if (!code || !stateParam) {
+  if (!code) {
+    return {
+      success: false,
+      err: { type: "login_canceled_by_user" },
+    };
+  }
+
+  if (!stateParam) {
     return {
       success: false,
       err: { type: "params_not_sufficient" },
