@@ -1,4 +1,4 @@
-import type { Wallet } from "@cosmos-kit/core";
+import type { Wallet } from "@interchain-kit/core";
 import type { SignInType } from "@oko-wallet/oko-sdk-core";
 
 export interface OkoLoginMethod {
