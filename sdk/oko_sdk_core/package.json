@@ -4,10 +4,8 @@
   "type": "module",
   "scripts": {
     "clean": "del-cli dist",
+    "build": "yarn clean && rollup -c && tsc-alias",
     "typecheck": "tsc --noEmit",
-    "build-type-legacy": "tsc --build --force --emitDeclarationOnly && tsc-alias",
-    "build": "yarn rollup-build",
-    "rollup-build": "yarn clean && rollup --c",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "publishConfig": {
