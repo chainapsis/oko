@@ -10415,6 +10415,13 @@ __metadata:
     "@keplr-wallet/types": "npm:^0.12.290"
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.125"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.151"
+    "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-node-resolve": "npm:^15.0.0"
+    "@rollup/plugin-typescript": "npm:^11.0.0"
+    del-cli: "npm:^6.0.0"
+    rollup: "npm:^4.0.0"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
   peerDependencies:
     "@cosmjs/amino": ">= 0.28"
     "@cosmjs/proto-signing": ">= 0.28"
@@ -10429,6 +10436,13 @@ __metadata:
     "@keplr-wallet/types": "npm:^0.12.290"
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.124"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.150"
+    "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-node-resolve": "npm:^15.0.0"
+    "@rollup/plugin-typescript": "npm:^11.0.0"
+    del-cli: "npm:^6.0.0"
+    rollup: "npm:^4.0.0"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
