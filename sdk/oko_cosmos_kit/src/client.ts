@@ -19,12 +19,12 @@ import type {
   WalletClient,
 } from "@cosmos-kit/core";
 import { BroadcastMode } from "@keplr-wallet/types";
+import type { SignInType } from "@oko-wallet/oko-sdk-core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
-import type { OkoLoginProvider } from "./types";
 
 export class OkoWalletClient implements WalletClient {
   readonly client: OkoCosmosWalletInterface;
-  readonly loginProvider: OkoLoginProvider;
+  readonly loginProvider: SignInType;
   private _defaultSignOptions: SignOptions = {
     preferNoSetFee: false,
     preferNoSetMemo: false,
@@ -39,10 +39,7 @@ export class OkoWalletClient implements WalletClient {
     this._defaultSignOptions = options;
   }
 
-  constructor(
-    client: OkoCosmosWalletInterface,
-    loginProvider: OkoLoginProvider,
-  ) {
+  constructor(client: OkoCosmosWalletInterface, loginProvider: SignInType) {
     this.client = client;
     this.loginProvider = loginProvider;
   }

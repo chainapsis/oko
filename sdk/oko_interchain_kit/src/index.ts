@@ -1,11 +1,18 @@
 import type { SignInType } from "@oko-wallet/oko-sdk-core";
 
-import { PROVIDER_CONFIG } from "./constant";
-import { OkoMainWallet } from "./main-wallet";
+import { OkoWallet } from "./oko-wallet";
 import { okoWalletInfo } from "./registry";
 import type { OkoWalletOptions } from "./types";
+import { initializeOkoCosmosWallet } from "./init";
+import { PROVIDER_CONFIG } from "./constant";
 
-export const makeOkoWallets = (options: OkoWalletOptions): OkoMainWallet[] => {
+export const makeOkoWallets = (options: OkoWalletOptions): OkoWallet[] => {
+  if (typeof window === "undefined") {
+    throw new Error(
+      "Oko Wallet can only be initialized in browser environment",
+    );
+  }
+
   // If no loginMethods specified, use all available providers
   const providers =
     options.loginMethods?.map((m) => m.provider) ??
@@ -14,26 +21,23 @@ export const makeOkoWallets = (options: OkoWalletOptions): OkoMainWallet[] => {
   return providers.map((provider) => {
     const providerConfig = PROVIDER_CONFIG[provider];
 
-    const { loginMethods, ...baseOptions } = options;
     const internalOptions = {
-      ...baseOptions,
+      ...options,
       loginProvider: provider,
     };
 
-    return new OkoMainWallet({
+    const okoClient = initializeOkoCosmosWallet(internalOptions);
+
+    const walletInfo = {
       ...okoWalletInfo,
       name: okoWalletInfo.name + "_" + provider,
       prettyName: providerConfig?.name || okoWalletInfo.prettyName,
-      logo: providerConfig?.logo
-        ? { major: okoWalletInfo.logo as string, minor: providerConfig.logo }
-        : okoWalletInfo.logo,
-      options: internalOptions,
-    });
+      logo: okoWalletInfo.logo,
+    };
+
+    return new OkoWallet(walletInfo, okoClient, provider);
   });
 };
 
-export { OkoChainWallet } from "./chain-wallet";
-export { OkoWalletClient } from "./client";
-export { OkoMainWallet } from "./main-wallet";
 export { okoWalletInfo } from "./registry";
 export type { OkoLoginMethod, OkoWalletOptions } from "./types";
