@@ -31,7 +31,7 @@ export class OkoMainWallet extends MainWalletBase {
         throw new Error("Oko API key is required");
       }
     } catch (error) {
-      this.initClientError(error);
+      this.initClientError(error as Error);
       return;
     }
 
@@ -50,7 +50,7 @@ export class OkoMainWallet extends MainWalletBase {
         new OkoWalletClient(cosmosWallet.data, options.loginProvider),
       );
     } catch (error) {
-      this.initClientError(error);
+      this.initClientError(error as Error);
     }
   }
 

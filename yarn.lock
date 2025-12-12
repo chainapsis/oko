@@ -10311,6 +10311,7 @@ __metadata:
     helmet: "npm:^8.0.0"
     jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
+    knex: "npm:^3.1.0"
     morgan: "npm:^1.10.0"
     nodemailer: "npm:^7.0.4"
     pg: "npm:^8.16.3"
@@ -10414,6 +10415,13 @@ __metadata:
     "@keplr-wallet/types": "npm:^0.12.290"
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.125"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.151"
+    "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-node-resolve": "npm:^15.0.0"
+    "@rollup/plugin-typescript": "npm:^11.0.0"
+    del-cli: "npm:^6.0.0"
+    rollup: "npm:^4.0.0"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
   peerDependencies:
     "@cosmjs/amino": ">= 0.28"
     "@cosmjs/proto-signing": ">= 0.28"
@@ -10428,6 +10436,13 @@ __metadata:
     "@keplr-wallet/types": "npm:^0.12.290"
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.124"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.150"
+    "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-node-resolve": "npm:^15.0.0"
+    "@rollup/plugin-typescript": "npm:^11.0.0"
+    del-cli: "npm:^6.0.0"
+    rollup: "npm:^4.0.0"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
 
@@ -10478,6 +10493,7 @@ __metadata:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.62"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-replace": "npm:^6.0.2"
     "@rollup/plugin-terser": "npm:^0.4.4"
@@ -10509,6 +10525,7 @@ __metadata:
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.125"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-terser": "npm:^0.4.4"
     "@rollup/plugin-typescript": "npm:^11.0.0"
@@ -10519,8 +10536,6 @@ __metadata:
     del-cli: "npm:^6.0.0"
     jest: "npm:^30.1.3"
     rollup: "npm:^4.0.0"
-    rollup-plugin-dts: "npm:^6.2.1"
-    rollup-plugin-tsconfig-paths: "npm:^1.5.2"
     ts-jest: "npm:^29.4.5"
     tsc-alias: "npm:^1.8.16"
     typescript: "npm:^5.8.3"
@@ -10548,6 +10563,7 @@ __metadata:
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.125"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-replace": "npm:^6.0.2"
     "@rollup/plugin-terser": "npm:^0.4.4"
@@ -10560,8 +10576,6 @@ __metadata:
     hardhat: "npm:^2.25.0"
     jest: "npm:^30.1.3"
     rollup: "npm:^4.0.0"
-    rollup-plugin-dts: "npm:^6.2.1"
-    rollup-plugin-tsconfig-paths: "npm:^1.5.2"
     ts-jest: "npm:^29.4.5"
     tsc-alias: "npm:^1.8.16"
     typescript: "npm:^5.8.3"
@@ -13577,6 +13591,20 @@ __metadata:
     rollup:
       optional: true
   checksum: 10c0/22d10cf44fa56a6683d5ac4df24a9003379b3dcaae9897f5c30c844afc2ebca83cfaa5557f13a1399b1c8a0d312c3217bcacd508b7ebc4b2cbee401bd1ec8be2
+  languageName: node
+  linkType: hard
+
+"@rollup/plugin-json@npm:^6.1.0":
+  version: 6.1.0
+  resolution: "@rollup/plugin-json@npm:6.1.0"
+  dependencies:
+    "@rollup/pluginutils": "npm:^5.1.0"
+  peerDependencies:
+    rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+  peerDependenciesMeta:
+    rollup:
+      optional: true
+  checksum: 10c0/9400c431b5e0cf3088ba2eb2d038809a2b0fb2a84ed004997da85582f48cd64958ed3168893c4f2c8109e38652400ed68282d0c92bf8ec07a3b2ef2e1ceab0b7
   languageName: node
   linkType: hard
 

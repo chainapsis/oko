@@ -1,3 +1,5 @@
+@use "../../styles/viewport.module.scss" as *;
+
 .modalBackground {
   position: fixed;
   top: 0;
@@ -21,9 +23,14 @@
   border-radius: 20px;
   border: 1px solid var(--border-primary);
   box-shadow: var(--shadow-xl);
-  width: 400px;
+  width: 100%;
+  max-width: 400px;
   box-sizing: border-box;
   padding: 20px;
+
+  @media (min-width: $desktop_min_width) {
+    width: 400px;
+  }
 }
 
 .closeButton {
@@ -70,7 +77,9 @@
 }
 
 .searchInput {
+  width: 100%;
   color: var(--text-primary);
+  font-family: Inter;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
   line-height: var(--font-line-height-md);
@@ -83,7 +92,4 @@
 
 .searchInput::placeholder {
   color: var(--text-placeholder);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--font-line-height-md);
 }

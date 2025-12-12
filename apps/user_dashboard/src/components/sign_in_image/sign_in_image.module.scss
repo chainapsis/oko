@@ -1,5 +1,17 @@
+@use "../../styles/viewport.module.scss" as *;
+
+@keyframes slideUpFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .container {
-  width: 50%;
   height: 100%;
   background-size: cover;
   background-position: center;
@@ -9,10 +21,4 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 7px;
-}
-
-.description {
-  text-align: center;
-  max-width: 498px;
 }

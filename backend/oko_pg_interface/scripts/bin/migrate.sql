@@ -49,6 +49,7 @@ CREATE TABLE public.customer_dashboard_users (
 	email varchar NOT NULL,
 	is_email_verified bool NOT NULL,
 	password_hash varchar(255) NOT NULL,
+	email_verified_at timestamptz NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	CONSTRAINT customer_dashboard_users_email_key UNIQUE (email),
@@ -321,3 +322,18 @@ CREATE TABLE public.referrals (
 CREATE UNIQUE INDEX idx_referrals_unique_source ON public.referrals USING btree (public_key, origin);
 CREATE INDEX idx_referrals_public_key ON public.referrals USING btree (public_key);
 CREATE INDEX idx_referrals_origin ON public.referrals USING btree (origin);
+
+-- public.email_sent_logs definition
+
+-- Drop table
+
+-- DROP TABLE public.email_sent_logs;
+
+CREATE TABLE public.email_sent_logs (
+	log_id uuid DEFAULT gen_random_uuid() NOT NULL,
+	target_id uuid NOT NULL,
+	type varchar(32) NOT NULL,
+	email varchar(255) NOT NULL,
+	sent_at timestamptz DEFAULT now() NOT NULL,
+	CONSTRAINT email_sent_logs_pkey PRIMARY KEY (log_id)
+);

@@ -30,9 +30,9 @@ import type { ChainInfoModule, ModularChainInfo } from "./chain-info";
 
 const forceFindCurrencyCache: Map<string, AppCurrency> = new Map();
 
-export class ChainInfoImpl<C extends ChainInfo = ChainInfo>
-  implements IChainInfoImpl<C>
-{
+export class ChainInfoImpl<
+  C extends ChainInfo = ChainInfo,
+> implements IChainInfoImpl<C> {
   @observable.ref
   protected _embedded: C;
 
@@ -582,9 +582,9 @@ export class ChainInfoImpl<C extends ChainInfo = ChainInfo>
   }
 }
 
-export class ModularChainInfoImpl<M extends ModularChainInfo = ModularChainInfo>
-  implements IModularChainInfoImpl<M>
-{
+export class ModularChainInfoImpl<
+  M extends ModularChainInfo = ModularChainInfo,
+> implements IModularChainInfoImpl<M> {
   @observable.ref
   protected _embedded: M;
 
@@ -1532,9 +1532,9 @@ export class ModularChainInfoImpl<M extends ModularChainInfo = ModularChainInfo>
   }
 }
 
-export class ChainStore<C extends ChainInfo = ChainInfo>
-  implements IChainStore<C>
-{
+export class ChainStore<
+  C extends ChainInfo = ChainInfo,
+> implements IChainStore<C> {
   @observable.ref
   protected _chainInfos: ChainInfoImpl<C>[] = [];
   @observable.ref
@@ -1713,6 +1713,7 @@ export class ChainStore<C extends ChainInfo = ChainInfo>
           chainId: chainInfo.chainId,
           chainName: chainInfo.chainName,
           chainSymbolImageUrl: chainInfo.chainSymbolImageUrl,
+          isTestnet: chainInfo.isTestnet,
           isNative: true,
           cosmos: chainInfo as C,
           ...(chainInfo.evm && {
@@ -1778,6 +1779,7 @@ export class ChainStore<C extends ChainInfo = ChainInfo>
           chainName: cosmos.chainName,
           chainSymbolImageUrl: cosmos.chainSymbolImageUrl,
           isNative: chainInfo.isNative || !cosmos.beta,
+          isTestnet: cosmos.isTestnet,
           cosmos,
           ...(cosmos.evm && {
             evm: {

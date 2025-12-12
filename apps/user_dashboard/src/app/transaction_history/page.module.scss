@@ -1,0 +1,24 @@
+@use "../../styles/viewport.module.scss" as *;
+
+.textContainer {
+  text-align: center;
+  margin-top: 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.gridContainer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  width: 100%;
+  max-width: 476px;
+  margin: 24px auto;
+
+  @media (min-width: desktop_min_width) {
+    width: 476px;
+  }
+}

@@ -1,3 +1,4 @@
+import pJson from "../package.json";
 import { sendMsgToIframe } from "./methods/send_msg_to_iframe";
 import { openModal } from "./methods/open_modal";
 import { signIn } from "./methods/sign_in";
@@ -11,6 +12,7 @@ import { init } from "./static/init";
 import { OkoWallet } from "./constructor";
 
 OkoWallet.init = init;
+OkoWallet.version = pJson.version;
 
 const ptype: OkoWalletInterface = OkoWallet.prototype;
 

@@ -65,7 +65,11 @@ async function main() {
   command
     .command("deploy")
     .option("--app <app>", "App to deploy")
-    .option("--prod", "Deploy to production", false)
+    .option(
+      "--env <env>",
+      "Deployment environment (preview|develop|prod). Default: preview",
+      "preview",
+    )
     .action(deploy);
 
   program.parse(process.argv);

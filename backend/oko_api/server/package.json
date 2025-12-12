@@ -30,6 +30,7 @@
     "express": "^4.21.1",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "knex": "^3.1.0",
     "morgan": "^1.10.0",
     "nodemailer": "^7.0.4",
     "pg": "^8.16.3",

@@ -7,13 +7,12 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "composite": true,
     "removeComments": true,
     "noImplicitAny": true,
     "noEmit": true,
-    "emitDeclarationOnly": true,
     "strict": true,
     "declaration": true,
     "noImplicitThis": true,
@@ -29,6 +28,6 @@
       "@oko-wallet-sdk-core/*": ["./src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["**/*", "*.json"],
   "exclude": ["node_modules", "dist"]
 }
