@@ -7,7 +7,7 @@ import { sendInactiveAppReminderEmail } from "@oko-wallet/ct-dashboard-api/src/e
 
 export interface InactiveCustomerUserReminderRuntimeConfig {
   intervalSeconds: number;
-  inactiveThreshold: string; // e.g., '7 days'
+  timeUntilInactiveMs: number; // milliseconds
   smtpConfig: SMTPConfig;
   fromEmail: string;
 }
@@ -17,17 +17,22 @@ export function startInactiveCustomerUserReminderRuntime(
   logger: Logger,
   config: InactiveCustomerUserReminderRuntimeConfig,
 ) {
-  logger.info("Starting inactive customer user reminder runtime...");
+  logger.info(
+    "Starting inactive user reminder runtime with interval %d seconds",
+    config.intervalSeconds,
+  );
 
   const run = async () => {
     try {
-      logger.debug("Checking for inactive apps...");
+      logger.info(
+        "Inactive user reminder runtime: checking for inactive users",
+      );
       const inactiveCustomerDashboardUsersRes =
-        await getInactiveCustomerDashboardUsers(db, config.inactiveThreshold);
+        await getInactiveCustomerDashboardUsers(db, config.timeUntilInactiveMs);
 
       if (!inactiveCustomerDashboardUsersRes.success) {
         logger.error(
-          "Failed to get inactive customer users: %s",
+          "Inactive user reminder runtime: failed to get inactive users: %s",
           inactiveCustomerDashboardUsersRes.err,
         );
         return;
@@ -39,7 +44,7 @@ export function startInactiveCustomerUserReminderRuntime(
       }
 
       logger.info(
-        "Found %d inactive customer users to remind",
+        "Inactive user reminder runtime: found %d inactive users to remind",
         customerDashboardUsers.length,
       );
 
@@ -54,7 +59,7 @@ export function startInactiveCustomerUserReminderRuntime(
 
           if (!emailRes.success) {
             logger.error(
-              "Failed to send inactive reminder email to %s: %s",
+              "Inactive user reminder runtime: failed to send inactive reminder email to %s: %s",
               customerDashboardUser.user.email,
               emailRes.error,
             );
@@ -69,13 +74,13 @@ export function startInactiveCustomerUserReminderRuntime(
 
           if (!recordRes.success) {
             logger.error(
-              "Failed to insert email sent log for %s: %s",
+              "Inactive user reminder runtime: failed to insert email sent log for %s: %s",
               customerDashboardUser.user.user_id,
               recordRes.err,
             );
           } else {
             logger.info(
-              "Sent inactive reminder to customer user %s (%s, user_id: %s)",
+              "Inactive user reminder runtime: sent inactive reminder to customer user %s (%s, user_id: %s)",
               customerDashboardUser.label,
               customerDashboardUser.customer_id,
               customerDashboardUser.user.user_id,
@@ -83,17 +88,14 @@ export function startInactiveCustomerUserReminderRuntime(
           }
         } catch (err) {
           logger.error(
-            "Error processing inactive customer user %s: %s",
+            "Inactive user reminder runtime: error processing inactive user %s: %s",
             customerDashboardUser.customer_id,
             err,
           );
         }
       }
     } catch (error) {
-      logger.error(
-        "Error in inactive customer user reminder runtime: %s",
-        error,
-      );
+      logger.error("Inactive user reminder runtime: error: %s", error);
     }
   };
 

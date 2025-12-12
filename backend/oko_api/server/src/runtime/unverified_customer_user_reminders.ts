@@ -12,7 +12,7 @@ import { sendUnverifiedUserReminderEmail } from "@oko-wallet/ct-dashboard-api/sr
 
 export interface UnverifiedCustomerUserReminderRuntimeConfig {
   intervalSeconds: number;
-  unverifiedThreshold: string; // e.g., '7 days'
+  timeUntilVerifiedMs: number; // milliseconds
   smtpConfig: SMTPConfig;
   fromEmail: string;
 }
@@ -22,19 +22,24 @@ export function startUnverifiedCustomerUserReminderRuntime(
   logger: Logger,
   config: UnverifiedCustomerUserReminderRuntimeConfig,
 ) {
-  logger.info("Starting unverified customer user reminder runtime...");
+  logger.info(
+    "Starting unverified user reminder runtime with interval %d seconds",
+    config.intervalSeconds,
+  );
 
   const run = async () => {
     try {
-      logger.debug("Checking for unverified users...");
+      logger.info(
+        "Unverified user reminder runtime: checking for unverified users",
+      );
       const unverifiedUsersRes = await getUnverifiedCustomerDashboardUsers(
         db,
-        config.unverifiedThreshold,
+        config.timeUntilVerifiedMs,
       );
 
       if (!unverifiedUsersRes.success) {
         logger.error(
-          "Failed to get unverified users: %s",
+          "Unverified user reminder runtime: failed to get unverified users: %s",
           unverifiedUsersRes.err,
         );
         return;
@@ -45,7 +50,10 @@ export function startUnverifiedCustomerUserReminderRuntime(
         return;
       }
 
-      logger.info("Found %d unverified users to remind", users.length);
+      logger.info(
+        "Unverified user reminder runtime: found %d unverified users to remind",
+        users.length,
+      );
 
       for (const user of users) {
         try {
@@ -64,7 +72,7 @@ export function startUnverifiedCustomerUserReminderRuntime(
 
           if (!emailRes.success) {
             logger.error(
-              "Failed to send unverified reminder email to %s: %s",
+              "Unverified user reminder runtime: failed to send unverified reminder email to %s: %s",
               user.user.email,
               emailRes.error,
             );
@@ -106,14 +114,15 @@ export function startUnverifiedCustomerUserReminderRuntime(
             await client.query("COMMIT");
 
             logger.info(
-              "Sent unverified reminder to user %s (%s)",
-              user.user.email,
+              "Unverified user reminder runtime: sent unverified reminder to customer user %s (%s, user_id: %s)",
+              user.label,
+              user.customer_id,
               user.user.user_id,
             );
           } catch (err) {
             await client.query("ROLLBACK");
             logger.error(
-              "Error processing unverified user %s: %s",
+              "Unverified user reminder runtime: error processing unverified user %s: %s",
               user.customer_id,
               err,
             );
@@ -122,14 +131,14 @@ export function startUnverifiedCustomerUserReminderRuntime(
           }
         } catch (err) {
           logger.error(
-            "Error processing unverified user %s: %s",
+            "Unverified user reminder runtime: error processing unverified user %s: %s",
             user.customer_id,
             err,
           );
         }
       }
     } catch (error) {
-      logger.error("Error in unverified user reminder runtime: %s", error);
+      logger.error("Unverified user reminder runtime: error: %s", error);
     }
   };
 

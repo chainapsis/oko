@@ -312,7 +312,7 @@ export async function getCTDUsersByCustomerIdsMap(
 
 export async function getUnverifiedCustomerDashboardUsers(
   db: Pool | PoolClient,
-  thresholdInterval: string, // e.g., '7 days'
+  timeUntilVerifiedMs: number,
 ): Promise<Result<CustomerAndCTDUser[], string>> {
   const query = `
 SELECT 
@@ -330,7 +330,7 @@ JOIN customers c ON u.customer_id = c.customer_id
 WHERE u.status = 'ACTIVE'
   AND c.status = 'ACTIVE'
   AND u.is_email_verified = false
-  AND u.created_at < NOW() - $1::interval
+  AND u.created_at < NOW() - ($1::bigint * interval '1 millisecond')
   AND NOT EXISTS (
       SELECT 1 FROM email_sent_logs r WHERE r.target_id = u.user_id AND r.type = $2
   )
@@ -338,7 +338,7 @@ WHERE u.status = 'ACTIVE'
 
   try {
     const result = await db.query(query, [
-      thresholdInterval,
+      timeUntilVerifiedMs,
       "UNVERIFIED_CUSTOMER_USER",
     ]);
     const data: CustomerAndCTDUser[] = result.rows.map((row) => ({
@@ -363,7 +363,7 @@ WHERE u.status = 'ACTIVE'
 
 export async function getInactiveCustomerDashboardUsers(
   db: Pool | PoolClient,
-  thresholdInterval: string, // e.g., '7 days'
+  timeUntilInactiveMs: number,
 ): Promise<Result<CustomerAndCTDUser[], string>> {
   const query = `
 SELECT 
@@ -380,7 +380,7 @@ FROM customer_dashboard_users u
 JOIN customers c ON u.customer_id = c.customer_id
 WHERE u.status = 'ACTIVE'
   AND c.status = 'ACTIVE'
-  AND u.email_verified_at < NOW() - $1::interval
+  AND u.email_verified_at < NOW() - ($1::bigint * interval '1 millisecond')
   AND NOT EXISTS (
       SELECT 1 FROM tss_sessions s WHERE s.customer_id = c.customer_id
   )
@@ -391,7 +391,7 @@ WHERE u.status = 'ACTIVE'
 
   try {
     const result = await db.query(query, [
-      thresholdInterval,
+      timeUntilInactiveMs,
       "INACTIVE_CUSTOMER_USER",
     ]);
     const data: CustomerAndCTDUser[] = result.rows.map((row) => ({
