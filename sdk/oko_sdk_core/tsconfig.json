@@ -29,6 +29,6 @@
       "@oko-wallet-sdk-core/*": ["./src/*"]
     }
   },
-  "include": ["**/*"],
+  "include": ["**/*", "*.json"],
   "exclude": ["node_modules", "dist"]
 }
