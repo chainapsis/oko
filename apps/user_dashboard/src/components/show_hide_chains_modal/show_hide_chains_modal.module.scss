@@ -77,7 +77,9 @@
 }
 
 .searchInput {
+  width: 100%;
   color: var(--text-primary);
+  font-family: Inter;
   font-size: var(--font-size-sm);
   font-weight: var(--font-weight-regular);
   line-height: var(--font-line-height-md);
@@ -90,7 +92,4 @@
 
 .searchInput::placeholder {
   color: var(--text-placeholder);
-  font-size: var(--font-size-sm);
-  font-weight: var(--font-weight-regular);
-  line-height: var(--font-line-height-md);
 }

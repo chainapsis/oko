@@ -20,11 +20,12 @@ export const WholePageLoading: FC = () => {
           <SignInImage>
             <div className={styles.inner}>
               <Image
-                src="/oko_home.svg"
+                src="/oko_home.png"
                 alt="Oko Home"
                 width={231.78}
                 height={36}
                 className={styles.title}
+                quality={100}
               />
               <Typography
                 tagType="p"
