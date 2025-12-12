@@ -94,6 +94,16 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
         if (!aIsEnabled && bIsEnabled) {
           return 1;
         }
+
+        const aIsTestnet = !!a.isTestnet;
+        const bIsTestnet = !!b.isTestnet;
+
+        if (aIsTestnet && !bIsTestnet) {
+          return 1;
+        } else if (!aIsTestnet && bIsTestnet) {
+          return -1;
+        }
+
         return 0;
       },
     );

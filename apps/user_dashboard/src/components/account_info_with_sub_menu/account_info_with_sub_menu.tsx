@@ -16,7 +16,7 @@ export const AccountInfoWithSubMenu = () => {
 
   return (
     <AnchoredMenu
-      placement="right-end"
+      placement="top-start"
       TriggerComponent={
         <div className={styles.userDetailInfo}>
           <Typography size="sm" color="tertiary" className={styles.userEmail}>
