@@ -76,6 +76,7 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
   };
 
   const errorCode = error || "unknown_error";
+  const isParamsNotSufficient = errorCode === "params_not_sufficient";
 
   return (
     <div className={telegramStyles.errorContainer}>
@@ -101,15 +102,17 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
               Error Code: {errorCode}
             </Typography>
           </div>
-          <div className={telegramStyles.errorTextRow}>
-            <Typography
-              size="sm"
-              weight="semibold"
-              className={telegramStyles.errorMessageText}
-            >
-              Failed to get the required information from Telegram. Please contact Oko for support.
-            </Typography>
-          </div>
+          {isParamsNotSufficient && (
+            <div className={telegramStyles.errorTextRow}>
+              <Typography
+                size="sm"
+                weight="semibold"
+                className={telegramStyles.errorMessageText}
+              >
+                Failed to get the required information from Telegram. Please contact Oko for support.
+              </Typography>
+            </div>
+          )}
         </div>
         <Typography
           tagType="a"
