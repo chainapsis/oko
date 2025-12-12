@@ -31,8 +31,8 @@ export const config: RollupOptions[] = [
       nodeResolve(),
       commonjs(),
       typescript({
+        tsconfig: "./tsconfig.rollup.json",
         noEmitOnError: true,
-        declaration: true,
       }),
     ],
   },

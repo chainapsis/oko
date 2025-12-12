@@ -33,9 +33,8 @@ const config: RollupOptions[] = [
         transformMixedEsModules: true,
       }),
       typescript({
-        // declaration: false,
+        tsconfig: "./tsconfig.rollup.json",
         noEmitOnError: true,
-        exclude: ["**/*.test.ts", "**/tests/**/*", "**/*.spec.ts"],
       }),
     ],
   },
