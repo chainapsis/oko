@@ -2,6 +2,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       SERVER_PORT: string;
+      NEXT_PUBLIC_OKO_SDK_ENDPOINT: string;
       NEXT_PUBLIC_OKO_API_ENDPOINT: string;
       NEXT_PUBLIC_OKO_DOCS_ENDPOINT: string;
       NEXT_PUBLIC_OKO_DEMO_ENDPOINT: string;
