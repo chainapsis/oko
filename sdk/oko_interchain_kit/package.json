@@ -49,8 +49,7 @@
     "@interchain-kit/core": "^0.3.55",
     "@keplr-wallet/types": "^0.12.290",
     "@oko-wallet/oko-sdk-core": "^0.0.6-rc.124",
-    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.150",
-    "@oko-wallet/oko-sdk-eth": "^0.0.6-rc.139"
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.150"
   },
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
