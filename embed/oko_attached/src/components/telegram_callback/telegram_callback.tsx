@@ -76,7 +76,6 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
   };
 
   const errorCode = error || "unknown_error";
-  const errorMessage = error || "An unknown error occurred.";
 
   return (
     <div className={telegramStyles.errorContainer}>
@@ -108,7 +107,7 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
               weight="semibold"
               className={telegramStyles.errorMessageText}
             >
-              {errorMessage}
+              Failed to get the required information from Telegram. Please contact Oko for support.
             </Typography>
           </div>
         </div>
