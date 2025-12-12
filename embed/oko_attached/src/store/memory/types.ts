@@ -10,10 +10,17 @@ export interface ModalRequest {
   msg: OkoWalletMsgOpenModal;
 }
 
+export interface ReferralInfo {
+  origin: string;
+  utmSource: string | null;
+  utmCampaign: string | null;
+}
+
 export interface MemoryState {
   hostOrigin: string | null;
   modalRequest: ModalRequest | null;
   error: AppError | null;
+  referralInfo: ReferralInfo | null;
 }
 
 export interface MemoryActions {
@@ -22,4 +29,6 @@ export interface MemoryActions {
   closeModal: (payload: OpenModalAckPayload) => void;
   setError: (error: AppError) => void;
   clearError: () => void;
+  setReferralInfo: (info: ReferralInfo) => void;
+  clearReferralInfo: () => void;
 }

@@ -33,6 +33,7 @@ import {
 } from "@oko-wallet/cait-sith-keplr-hooks";
 import { reqKeygen } from "@oko-wallet/api-lib";
 import { Bytes } from "@oko-wallet/bytes";
+import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
 
 export async function handleExistingUser(
   idToken: string,
@@ -187,6 +188,7 @@ export async function handleNewUser(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
   authType: OAuthProvider,
+  referralInfo?: ReferralInfo | null,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   // TODO: @jinwoo, (wip) importing secret key
   // const keygenRes = keygenOptions?.secretKeyImport
@@ -254,6 +256,20 @@ export async function handleNewUser(
     };
   }
 
+  // Save referral info after successful keygen
+  if (referralInfo?.origin) {
+    try {
+      await saveReferral(reqKeygenRes.data.token, {
+        origin: referralInfo.origin,
+        utm_source: referralInfo.utmSource,
+        utm_campaign: referralInfo.utmCampaign,
+      });
+    } catch (err) {
+      // Log but don't fail keygen if referral save fails
+      console.warn("[attached] Failed to save referral:", err);
+    }
+  }
+
   return {
     success: true,
     data: {
@@ -264,6 +280,35 @@ export async function handleNewUser(
       isNewUser: true,
     },
   };
+}
+
+interface SaveReferralRequest {
+  origin: string;
+  utm_source: string | null;
+  utm_campaign: string | null;
+}
+
+interface SaveReferralResponse {
+  referral_id: string;
+}
+
+async function saveReferral(
+  authToken: string,
+  data: SaveReferralRequest,
+): Promise<void> {
+  const res = await makeAuthorizedOkoApiRequest<
+    SaveReferralRequest,
+    SaveReferralResponse
+  >("referral", authToken, data);
+
+  if (!res.success) {
+    throw new Error(`Save referral fetch failed: ${JSON.stringify(res.err)}`);
+  }
+
+  const apiResponse = res.data;
+  if (!apiResponse.success) {
+    throw new Error(`Save referral API error: ${apiResponse.msg}`);
+  }
 }
 
 export async function handleReshare(
