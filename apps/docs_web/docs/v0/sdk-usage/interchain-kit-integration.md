@@ -126,10 +126,10 @@ interface OkoWalletOptions {
 }
 
 interface OkoLoginMethod {
-  provider: OkoLoginProvider;
+  provider: SignInType;
 }
 
-type OkoLoginProvider = "google" | "email" | "x" | "telegram" | "discord";
+type SignInType = "google"; // More providers coming soon
 ```
 
 ### Login Providers
