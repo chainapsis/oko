@@ -14,6 +14,9 @@
 }
 
 .floatingWrapper {
+  width: 100%;
+  max-width: 440px;
+
   &:focus-visible {
     outline: none;
   }
