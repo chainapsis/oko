@@ -89,7 +89,6 @@ export function useInitializeApp() {
 
         setHostOrigin(hostOrigin);
 
-        // Store referral info for keygen flow
         setReferralInfo({
           origin: hostOrigin,
           utmSource,
