@@ -1,5 +1,11 @@
+@use "../../styles/viewport.module.scss" as *;
+
 .wrapper {
-  width: 360px;
+  width: 100%;
+
+  @media (min-width: $desktop_min_width) {
+    width: 360px;
+  }
 }
 
 .header {

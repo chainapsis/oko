@@ -1,9 +1,35 @@
+@use "../../styles/viewport.module.scss" as *;
+
 .wrapper {
-  display: flex;
+  display: none;
   flex-direction: column;
   height: 100vh;
   width: 100vw;
   background: var(--bg-primary);
+
+  &.desktop {
+    display: none;
+  }
+  &.mobile {
+    display: flex;
+  }
+
+  @media (min-width: $desktop_min_width) {
+    &.desktop {
+      display: flex;
+    }
+    &.mobile {
+      display: none;
+    }
+  }
+}
+
+.spinnerWrapper {
+  height: 96px;
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .body {
@@ -24,8 +50,20 @@
   background: var(--bg-primary);
 
   display: flex;
-  flex-direction: row;
-  gap: 20px;
   align-items: center;
   justify-content: center;
+}
+
+.inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 18.6px;
+}
+
+.description {
+  text-align: center;
+  max-width: 498px;
+  white-space: pre-line;
 }

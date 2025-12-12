@@ -7,7 +7,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
-import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown/dropdown";
+import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 

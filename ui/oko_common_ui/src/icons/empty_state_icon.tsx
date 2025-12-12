@@ -13,7 +13,7 @@ export const EmptyStateIcon: React.FC<BasicIconProps> = ({
       fill="none"
       className={className}
     >
-      <g clip-path="url(#clip0_239_3873)">
+      <g clipPath="url(#clip0_239_3873)">
         <rect width="28" height="28" rx="14" fill="#F5F5F5" />
         <mask
           id="mask0_239_3873"

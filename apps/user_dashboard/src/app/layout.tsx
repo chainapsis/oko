@@ -25,17 +25,17 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Oko dApp Dashboard",
-  description: "Oko dApp Dashboard",
+  title: "Oko User Dashboard",
+  description: "Oko User Dashboard",
   icons: {
     icon: "/oko_favicon.png",
   },
   openGraph: {
     type: "website",
     url: "https://dashboard.oko.app",
-    title: "Oko dApp Dashboard",
-    description: "Oko dApp Dashboard",
-    siteName: "Oko dApp Dashboard",
+    title: "Oko User Dashboard",
+    description: "Oko User Dashboard",
+    siteName: "Oko User Dashboard",
     images: [
       {
         url: "https://oko-wallet.s3.ap-northeast-2.amazonaws.com/assets/oko-dapp-og-image.png",
