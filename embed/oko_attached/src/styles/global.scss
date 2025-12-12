@@ -2,6 +2,20 @@
 @use "@oko-wallet/oko-common-ui/styles/typography";
 @use "@oko-wallet/oko-common-ui/styles/shadow";
 
+:root {
+  /* Design tokens (light mode) */
+  --ColorsEffectsShadowsshadow-xs: rgba(10, 13, 18, 0.05);
+  --ColorsBackgroundbg-primary: #ffffff;
+  --ColorsEffectsFocusringsfocus-ring: #a4a7ae;
+}
+
+[data-theme="dark"] {
+  /* Design tokens (dark mode) */
+  --ColorsEffectsShadowsshadow-xs: rgba(255, 255, 255, 0);
+  --ColorsBackgroundbg-primary: #0c0e12;
+  --ColorsEffectsFocusringsfocus-ring: #a4a7ae;
+}
+
 html,
 body {
   max-width: 100vw;

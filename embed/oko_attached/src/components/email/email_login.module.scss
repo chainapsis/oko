@@ -1,7 +1,7 @@
 .wrapper {
   min-height: 100vh;
   display: flex;
-  background-color: var(--color-bg-primary);
+  background-color: var(--bg-primary);
   padding: 0;
 }
 
@@ -37,3 +37,8 @@
   border-radius: 16px;
 }
 
+@media (hover: none) and (pointer: coarse) {
+  .wrapper {
+    background-color: var(--bg-secondary);
+  }
+}

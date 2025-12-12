@@ -34,9 +34,12 @@ async function validateOAuthPayloadOfX(
     };
   }
 
+  const redirectUri = `${window.location.origin}/x/callback`;
+
   const tokenRes = await getAccessTokenOfX(
     payload.code,
     codeVerifierRegistered,
+    redirectUri,
   );
 
   if (!tokenRes.success) {

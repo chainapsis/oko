@@ -1,6 +1,7 @@
 export type SocialLoginXBody = {
   code: string;
   code_verifier: string;
+  redirect_uri: string;
 };
 
 export type SocialLoginXResponse = {

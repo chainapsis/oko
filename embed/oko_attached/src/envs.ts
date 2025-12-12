@@ -12,4 +12,5 @@ export const envSchema = z.object({
   VITE_TX_INTERPRETER_API_ENDPOINT: z.string(),
   VITE_AMPLITUDE_API_KEY: z.string().optional().default(""),
   VITE_IPFS_GATEWAY_URL: z.string().optional().default(""),
+  VITE_TELEGRAM_BOT_NAME: z.string(),
 });

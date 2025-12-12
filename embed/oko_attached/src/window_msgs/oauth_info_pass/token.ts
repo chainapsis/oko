@@ -100,7 +100,7 @@ export async function verifyIdToken(
         };
       }
 
-      if (!xTokenInfo.data.email) {
+      if (!xTokenInfo.data.id) {
         return {
           success: false,
           err: "X email not found",
@@ -111,7 +111,7 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "x",
-          email: xTokenInfo.data.email,
+          email: xTokenInfo.data.id,
           name: xTokenInfo.data.name,
         },
       };
