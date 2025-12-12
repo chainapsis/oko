@@ -13,7 +13,6 @@
     "removeComments": true,
     "noImplicitAny": true,
     "noEmit": true,
-    "emitDeclarationOnly": true,
     "strict": true,
     "declaration": true,
     "noImplicitThis": true,

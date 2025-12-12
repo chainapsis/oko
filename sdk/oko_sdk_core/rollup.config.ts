@@ -1,9 +1,9 @@
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
+import type { RollupOptions } from "rollup";
 
-/** @type {import('ts').JestConfigWithTsJest} */
-export default [
+const config: RollupOptions[] = [
   {
     input: "src/index.ts",
     output: {
@@ -28,3 +28,5 @@ export default [
   //   plugins: [terser()],
   // },
 ];
+
+export default config;
