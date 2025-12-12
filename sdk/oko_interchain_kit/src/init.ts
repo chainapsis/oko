@@ -1,6 +1,7 @@
 import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
-import type { OkoWalletOptions } from "./types";
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
+
+import type { OkoWalletOptions } from "./types";
 
 export function initializeOkoCosmosWallet(
   options: OkoWalletOptions,

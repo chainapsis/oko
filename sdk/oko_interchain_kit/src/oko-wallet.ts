@@ -7,6 +7,7 @@ import type {
   WalletAccount,
 } from "@interchain-kit/core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
+
 import type { OkoLoginProvider } from "./types";
 
 /**
@@ -68,7 +69,13 @@ export class OkoWallet extends CosmosWallet {
 
     // Ensure pubkey is a Uint8Array (handles deserialized Buffer format)
     let pubkey = key.pubKey;
-    if (pubkey && typeof pubkey === 'object' && 'type' in pubkey && pubkey.type === 'Buffer' && 'data' in pubkey) {
+    if (
+      pubkey &&
+      typeof pubkey === "object" &&
+      "type" in pubkey &&
+      pubkey.type === "Buffer" &&
+      "data" in pubkey
+    ) {
       // Convert from {type: "Buffer", data: [...]} to Uint8Array
       pubkey = new Uint8Array((pubkey as any).data);
     }

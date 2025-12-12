@@ -20,6 +20,7 @@ import type {
 } from "@cosmos-kit/core";
 import { BroadcastMode } from "@keplr-wallet/types";
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
+
 import type { OkoLoginProvider } from "./types";
 
 export class OkoWalletClient implements WalletClient {
