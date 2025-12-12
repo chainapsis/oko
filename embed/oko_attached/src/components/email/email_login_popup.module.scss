@@ -75,16 +75,33 @@
   margin-top: 0;
 }
 
+.otpCodeSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 340px;
+  align-items: center;
+}
+
+.otpErrorMessage {
+  width: 100%;
+  padding: 0 29px;
+  text-align: left;
+}
+
+.otpInputRow > div {
+  gap: 6px !important;
+}
+
 .otpInputRow input {
   width: 48px !important;
   height: 48px !important;
   background: var(--bg-primary) !important;
-  border: 1px solid var(--border-secondary) !important;
+  border: 1px solid var(--border-primary) !important;
+  border-radius: 7.5px !important;
+  box-shadow: 0 0.75px 1.5px 0 var(--ColorsEffectsShadowsshadow-xs) !important;
   color: var(--text-primary) !important;
   caret-color: var(--text-primary) !important;
-  box-shadow:
-    0 1px 2px rgba(15, 23, 42, 0.08),
-    0 1px 1px rgba(15, 23, 42, 0.04);
   font-family: var(--font-family-body) !important;
   font-weight: 500 !important;
   font-style: normal !important;
@@ -105,22 +122,30 @@
     text-align: center !important;
   }
 
-  &:not(:placeholder-shown),
-  &:focus {
-    border: 1px solid var(--border-secondary) !important;
-    color: var(--text-primary) !important;
-  }
-
   &:not(:placeholder-shown) {
-    box-shadow: 0px 0.75px 1.5px 0px var(--shadow-xs);
+    border: 1.5px solid var(--border-brand) !important;
   }
 
   &:focus {
+    border: 1.5px solid var(--border-brand) !important;
+    background: var(--bg-primary) !important;
     box-shadow:
-      0px 0px 0px 3px var(--brand-500),
-      0px 0px 0px 1.5px var(--bg-primary),
-      0px 0.75px 1.5px 0px var(--shadow-xs);
+      0 0.75px 1.5px 0 var(--ColorsEffectsShadowsshadow-xs),
+      0 0 0 1.5px var(--bg-primary),
+      0 0 0 3px var(--ColorsEffectsFocusringsfocus-ring) !important;
   }
+}
+
+.otpInputRowError input,
+.otpInputRowError input:not(:placeholder-shown),
+.otpInputRowError input:focus {
+  border: 1.5px solid var(--border-error) !important;
+  color: var(--text-error-primary) !important;
+  caret-color: var(--text-error-primary) !important;
+}
+
+.otpInputRowError input::placeholder {
+  color: var(--text-error-primary) !important;
 }
 
 .fieldHeader {
@@ -276,7 +301,8 @@
 .cardTop {
   width: 376px;
   height: 126px;
-  padding: var(--spacing-3xl) var(--spacing-2xl) var(--spacing-2xl) var(--spacing-2xl);
+  padding: var(--spacing-3xl) var(--spacing-2xl) var(--spacing-2xl)
+    var(--spacing-2xl);
   display: flex;
   flex-direction: column;
   align-items: center;

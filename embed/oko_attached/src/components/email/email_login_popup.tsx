@@ -112,17 +112,33 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
                   {`Enter the 6-digit code sent to ${email || "your email"}.`}
                 </div>
 
-                <div className={styles.otpInputRow}>
-                  <OtpInput
-                    length={6}
-                    value={otpDigits}
-                    onChange={(digits) => {
-                      resetError();
-                      setOtpDigits(digits);
-                    }}
-                    disabled={isSubmitting}
-                    isError={!!errorMessage}
-                  />
+                <div className={styles.otpCodeSection}>
+                  <div
+                    className={`${styles.otpInputRow} ${errorMessage ? styles.otpInputRowError : ""}`}
+                  >
+                    <OtpInput
+                      length={6}
+                      value={otpDigits}
+                      onChange={(digits) => {
+                        resetError();
+                        setOtpDigits(digits);
+                      }}
+                      disabled={isSubmitting}
+                      isError={!!errorMessage}
+                    />
+                  </div>
+
+                  {errorMessage && (
+                    <Typography
+                      tagType="div"
+                      size="xs"
+                      weight="medium"
+                      color="error-primary"
+                      className={styles.otpErrorMessage}
+                    >
+                      {errorMessage}
+                    </Typography>
+                  )}
                 </div>
 
                 <div className={styles.resendRow}>
@@ -151,12 +167,6 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
               <div className={styles.actions} />
             </form>
           </div>
-        )}
-
-        {step !== "enter_email" && errorMessage && (
-          <Typography size="sm" color="error-primary" className={styles.error}>
-            {errorMessage}
-          </Typography>
         )}
       </div>
     </div>
