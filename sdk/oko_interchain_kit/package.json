@@ -1,0 +1,53 @@
+{
+  "name": "@oko-wallet/oko-interchain-kit",
+  "version": "0.0.1-rc.1",
+  "type": "module",
+  "description": "interchain-kit wallet connector for Oko Wallet",
+  "author": "oko-wallet",
+  "homepage": "https://github.com/hyperweb-io/interchain-kit#readme",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "!CHANGELOG.md",
+    "!LICENSE"
+  ],
+  "scripts": {
+    "clean": "del-cli dist",
+    "build": "yarn clean && rollup -c --configPlugin typescript && tsc-alias",
+    "lint": "eslint --ext .tsx,.ts .",
+    "format": "eslint --ext .tsx,.ts --fix ."
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "interchain-kit",
+    "cosmos",
+    "oko",
+    "wallet",
+    "embed"
+  ],
+  "dependencies": {
+    "@interchain-kit/core": "^0.3.55",
+    "@keplr-wallet/types": "^0.12.290",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.124",
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.150"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "del-cli": "^6.0.0",
+    "rollup": "^4.0.0",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.8.3"
+  }
+}

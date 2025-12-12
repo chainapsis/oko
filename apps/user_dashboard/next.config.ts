@@ -1,7 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  typescript: {
+    ignoreBuildErrors: true, // Rita: it should be removed after modularChainInfo changes in Wallet packages
+  },
 };
 
 export default nextConfig;

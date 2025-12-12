@@ -44,8 +44,7 @@ services:
       - encryption_secret
     depends_on:
       - key_share_node_pg
-    command: >
-      sh -c '[ "${RESET_DB}" = "true" ] && yarn start --reset-db || yarn start'
+    command: yarn start
 
 secrets:
   encryption_secret:

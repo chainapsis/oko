@@ -7,4 +7,5 @@ export const envSchema = z.object({
   SERVER_PORT: z.string(),
   NEXT_PUBLIC_OKO_SDK_ENDPOINT: z.string(),
   NEXT_PUBLIC_OKO_DOCS_ENDPOINT: z.string(),
+  NEXT_PUBLIC_S3_BUCKET_URL: z.string(),
 });

@@ -133,10 +133,10 @@ interface OkoWalletOptions {
 }
 
 interface OkoLoginMethod {
-  provider: OkoLoginProvider;
+  provider: SignInType;
 }
 
-type OkoLoginProvider = "google"; // More providers coming soon
+type SignInType = "google"; // More providers coming soon
 ```
 
 ### Login Providers

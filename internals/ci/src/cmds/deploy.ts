@@ -36,17 +36,29 @@ function listDeployableApps(): void {
   });
 }
 
+type DeploymentEnv = "preview" | "develop" | "prod";
+
 interface DeployOptions {
   app?: keyof typeof APP_CONFIGS;
-  prod?: boolean;
+  env?: DeploymentEnv;
 }
 
 export async function deploy(options: DeployOptions) {
-  const { app, prod = false } = options;
+  const { app, env = "preview" } = options;
 
   if (!app) {
     listDeployableApps();
     console.error(chalk.red("Please specify an app using --app <app>"));
+    process.exit(1);
+  }
+
+  const validEnvs: DeploymentEnv[] = ["preview", "develop", "prod"];
+  if (!validEnvs.includes(env)) {
+    console.error(
+      chalk.red(
+        `Invalid environment: ${env}. Must be one of: ${validEnvs.join(", ")}\n`,
+      ),
+    );
     process.exit(1);
   }
 
@@ -57,9 +69,7 @@ export async function deploy(options: DeployOptions) {
     process.exit(1);
   }
 
-  console.log(
-    chalk.bold(`Deploying ${app}${prod ? " (Production)" : " (Preview)"}...\n`),
-  );
+  console.log(chalk.bold(`Deploying ${app} (${env})...\n`));
 
   // Step 0: Clean .vercel directory
   const vercelDir = path.join(paths.root, ".vercel");
@@ -85,9 +95,12 @@ export async function deploy(options: DeployOptions) {
   // Step 2: Build
   console.log(chalk.blue("Step 2/3:"), "Building...");
   const buildArgs = ["build", "--yes"];
-  if (prod) {
+  if (env === "prod") {
     buildArgs.push("--prod");
+  } else if (env === "develop") {
+    buildArgs.push("--target=develop");
   }
+
   const buildRet = spawnSync("vercel", buildArgs, {
     cwd: paths.root,
     stdio: "inherit",
@@ -98,9 +111,12 @@ export async function deploy(options: DeployOptions) {
   // Step 3: Deploy
   console.log(chalk.blue("Step 3/3:"), "Deploying...");
   const deployArgs = ["deploy", "--prebuilt"];
-  if (prod) {
+  if (env === "prod") {
     deployArgs.push("--prod");
+  } else if (env === "develop") {
+    deployArgs.push("--target=develop");
   }
+
   const deployRet = spawnSync("vercel", deployArgs, {
     cwd: paths.root,
     stdio: "inherit",

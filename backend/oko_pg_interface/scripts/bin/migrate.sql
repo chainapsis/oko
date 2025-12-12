@@ -49,6 +49,7 @@ CREATE TABLE public.customer_dashboard_users (
 	email varchar NOT NULL,
 	is_email_verified bool NOT NULL,
 	password_hash varchar(255) NOT NULL,
+	email_verified_at timestamptz NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	CONSTRAINT customer_dashboard_users_email_key UNIQUE (email),
@@ -298,3 +299,19 @@ CREATE TABLE public.server_keypairs (
 	CONSTRAINT server_keypairs_version_key UNIQUE (version)
 );
 CREATE INDEX idx_server_keypairs_is_active ON public.server_keypairs USING btree (is_active) WHERE (is_active = true);
+
+
+-- public.email_sent_logs definition
+
+-- Drop table
+
+-- DROP TABLE public.email_sent_logs;
+
+CREATE TABLE public.email_sent_logs (
+	log_id uuid DEFAULT gen_random_uuid() NOT NULL,
+	target_id uuid NOT NULL,
+	type varchar(32) NOT NULL,
+	email varchar(255) NOT NULL,
+	sent_at timestamptz DEFAULT now() NOT NULL,
+	CONSTRAINT email_sent_logs_pkey PRIMARY KEY (log_id)
+);

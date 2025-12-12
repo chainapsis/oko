@@ -1,26 +1,18 @@
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
-import tsConfigPaths from "rollup-plugin-tsconfig-paths";
-import dts from "rollup-plugin-dts";
 import commonjs from "@rollup/plugin-commonjs";
-// import commonjs from "@rollup/plugin-commonjs";
-// import terser from "@rollup/plugin-terser";
+import json from "@rollup/plugin-json";
+import type { RollupOptions } from "rollup";
 
-export default [
+export const config: RollupOptions[] = [
   {
     input: "src/index.ts",
     output: [
       {
-        file: "dist/index.js",
+        dir: "dist",
         format: "esm",
         sourcemap: true,
       },
-      // {
-      //   file: "dist/index.min.js",
-      //   format: "esm",
-      //   sourcemap: true,
-      //   plugins: [terser()],
-      // },
     ],
     external: [
       "@oko-wallet/oko-sdk-core",
@@ -35,21 +27,15 @@ export default [
       "buffer",
     ],
     plugins: [
+      json(),
       nodeResolve(),
       commonjs(),
       typescript({
-        tsconfig: "./tsconfig.json",
+        tsconfig: "./tsconfig.rollup.json",
         noEmitOnError: true,
-        declaration: true,
       }),
     ],
   },
-  {
-    input: "src/index.ts",
-    output: {
-      file: "dist/index.d.ts", // Output path for the bundled declaration file
-      format: "esm",
-    },
-    plugins: [tsConfigPaths(), nodeResolve(), dts()],
-  },
 ];
+
+export default config;

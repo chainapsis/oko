@@ -50,5 +50,6 @@ services:
       ES_USERNAME: ${ES_USERNAME:-}
       ES_PASSWORD: ${ES_PASSWORD:-}
       TYPEFORM_WEBHOOK_SECRET: ${TYPEFORM_WEBHOOK_SECRET}
+      TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
     depends_on:
       - pg_local

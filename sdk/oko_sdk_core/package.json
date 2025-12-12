@@ -3,11 +3,9 @@
   "version": "0.0.6-rc.125",
   "type": "module",
   "scripts": {
-    "clean": "del-cli dist",
+    "clean": "del-cli dist tsconfig.rollup.tsbuildinfo",
+    "build": "yarn clean && rollup -c && tsc-alias",
     "typecheck": "tsc --noEmit",
-    "build-type-legacy": "tsc --build --force --emitDeclarationOnly && tsc-alias",
-    "build": "yarn rollup-build",
-    "rollup-build": "yarn clean && rollup --c",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "publishConfig": {
@@ -40,6 +38,7 @@
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
