@@ -6,7 +6,6 @@ import {
   isAddress,
 } from "viem";
 import { v4 as uuidv4 } from "uuid";
-import pJson from "../../package.json";
 
 import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import type {
@@ -37,8 +36,7 @@ import {
   RpcErrorCode,
   isConnectionError,
 } from "./error";
-
-const VERSION = pJson.version;
+import { VERSION } from "@oko-wallet-sdk-eth/version";
 
 export class OkoEIP1193Provider
   extends ProviderEventEmitter
