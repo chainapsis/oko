@@ -125,7 +125,8 @@ export class HugeQueriesStore {
                   modularChainInfo.evm.currencies[0].coinMinimalDenom ===
                     currency.coinMinimalDenom
                 ) {
-                  // Intentionally left empty: display the native currency (first in the list), even if its balance is zero.
+                  // Intentionally left empty:
+                  // display the native currency (first in the list), even if its balance is zero.
                 } else {
                   continue;
                 }
@@ -333,7 +334,8 @@ export class HugeQueriesStore {
               modularChainInfo.evm.currencies[0].coinMinimalDenom ===
                 currency.coinMinimalDenom
             ) {
-              // Intentionally left empty: display the native currency (first in the list), even if its balance is zero.
+              // Intentionally left empty:
+              // display the native currency (first in the list), even if its balance is zero.
             } else {
               continue;
             }
