@@ -120,7 +120,15 @@ export class HugeQueriesStore {
 
             if (balance) {
               if (balance.balance.toDec().isZero()) {
-                continue;
+                if (
+                  modularChainInfo.evm.currencies.length > 0 &&
+                  modularChainInfo.evm.currencies[0].coinMinimalDenom ===
+                    currency.coinMinimalDenom
+                ) {
+                  // Intentionally left empty: display the native currency (first in the list), even if its balance is zero.
+                } else {
+                  continue;
+                }
               }
 
               keysUsed.set(key, true);
@@ -320,7 +328,15 @@ export class HugeQueriesStore {
             balance.balance.toDec().equals(HugeQueriesStore.zeroDec) &&
             (denomHelper.type === "native" || denomHelper.type === "erc20")
           ) {
-            continue;
+            if (
+              modularChainInfo.evm.currencies.length > 0 &&
+              modularChainInfo.evm.currencies[0].coinMinimalDenom ===
+                currency.coinMinimalDenom
+            ) {
+              // Intentionally left empty: display the native currency (first in the list), even if its balance is zero.
+            } else {
+              continue;
+            }
           }
 
           tokensByChainId.get(chainIdentifier)!.push({
