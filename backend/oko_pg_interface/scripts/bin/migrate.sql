@@ -298,3 +298,26 @@ CREATE TABLE public.server_keypairs (
 	CONSTRAINT server_keypairs_version_key UNIQUE (version)
 );
 CREATE INDEX idx_server_keypairs_is_active ON public.server_keypairs USING btree (is_active) WHERE (is_active = true);
+
+
+-- public.referrals definition
+
+-- Drop table
+
+-- DROP TABLE public.referrals;
+
+CREATE TABLE public.referrals (
+	referral_id uuid DEFAULT gen_random_uuid() NOT NULL,
+	user_id uuid NOT NULL,
+	public_key bytea NOT NULL,
+	origin varchar(512) NOT NULL,
+	utm_source varchar(128) NULL,
+	utm_campaign varchar(128) NULL,
+	created_at timestamptz DEFAULT now() NOT NULL,
+	updated_at timestamptz DEFAULT now() NOT NULL,
+	CONSTRAINT referrals_pkey PRIMARY KEY (referral_id),
+	CONSTRAINT referrals_user_id_fkey FOREIGN KEY (user_id) REFERENCES public.ewallet_users(user_id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX idx_referrals_unique_source ON public.referrals USING btree (public_key, origin);
+CREATE INDEX idx_referrals_public_key ON public.referrals USING btree (public_key);
+CREATE INDEX idx_referrals_origin ON public.referrals USING btree (origin);
