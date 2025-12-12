@@ -96,6 +96,7 @@ async function tryXSignIn(
 
   return new Promise<OkoWalletMsgOAuthSignInUpdate>((resolve, reject) => {
     let timeout: number;
+    let popupCheckInterval: number;
 
     function onMessage(event: MessageEvent) {
       if (event.ports.length < 1) {
@@ -128,6 +129,15 @@ async function tryXSignIn(
 
     window.addEventListener("message", onMessage);
 
+    // Check if popup was closed by the user
+    popupCheckInterval = window.setInterval(() => {
+      if (popup.closed) {
+        console.log("[oko] Popup was closed by user, rejecting sign-in");
+        cleanup();
+        reject(new Error("Sign-in cancelled"));
+      }
+    }, 500);
+
     timeout = window.setTimeout(() => {
       cleanup();
       reject(new Error("Timeout: no response within 5 minutes"));
@@ -137,6 +147,7 @@ async function tryXSignIn(
     function cleanup() {
       console.log("[oko] X login - clean up oauth sign in listener");
       window.clearTimeout(timeout);
+      window.clearInterval(popupCheckInterval);
       window.removeEventListener("message", onMessage);
     }
   });

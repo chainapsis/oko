@@ -21,6 +21,9 @@ export function useDiscordCallback() {
         if (cbRes.success) {
           window.close();
         } else {
+          if (cbRes.err.type === "login_canceled_by_user") {
+            window.close();
+          }
           setError(cbRes.err.type);
         }
       } catch (err) {
@@ -58,7 +61,14 @@ export async function handleDiscordCallback(): Promise<
 
   console.log("[discord callback] code: %s, stateParam: %s", code, stateParam);
 
-  if (!code || !stateParam) {
+  if (!code) {
+    return {
+      success: false,
+      err: { type: "login_canceled_by_user" },
+    };
+  }
+
+  if (!stateParam) {
     return {
       success: false,
       err: { type: "params_not_sufficient" },
