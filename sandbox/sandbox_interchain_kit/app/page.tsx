@@ -12,7 +12,7 @@ const queryClient = new QueryClient();
 // Filter chains to only include osmosis for testing
 const filteredChains = chains.filter((chain) => chain.chainName === "osmosis");
 const filteredAssetLists = assetLists.filter(
-  (assetList) => assetList.chainName === "osmosis"
+  (assetList) => assetList.chainName === "osmosis",
 );
 
 export default function Home() {

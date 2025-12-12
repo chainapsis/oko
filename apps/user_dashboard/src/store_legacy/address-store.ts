@@ -3,7 +3,7 @@ import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
 
 /**
  * MobX store that caches addresses fetched from Zustand SDK state.
- * Addresses are fetched once per chainId and cached until SDK changes. 
+ * Addresses are fetched once per chainId and cached until SDK changes.
  * (Batching is used to reduce duplicate API requests to the SDK.)
  */
 export class OkoWalletAddressStore {
