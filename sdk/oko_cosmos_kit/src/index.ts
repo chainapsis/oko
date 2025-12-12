@@ -1,13 +1,15 @@
+import type { SignInType } from "@oko-wallet/oko-sdk-core";
+
 import { PROVIDER_CONFIG } from "./constant";
 import { OkoMainWallet } from "./main-wallet";
 import { okoWalletInfo } from "./registry";
-import type { OkoLoginProvider, OkoWalletOptions } from "./types";
+import type { OkoWalletOptions } from "./types";
 
 export const makeOkoWallets = (options: OkoWalletOptions): OkoMainWallet[] => {
   // If no loginMethods specified, use all available providers
   const providers =
     options.loginMethods?.map((m) => m.provider) ??
-    (Object.keys(PROVIDER_CONFIG) as OkoLoginProvider[]);
+    (Object.keys(PROVIDER_CONFIG) as SignInType[]);
 
   return providers.map((provider) => {
     const providerConfig = PROVIDER_CONFIG[provider];
@@ -34,8 +36,4 @@ export { OkoChainWallet } from "./chain-wallet";
 export { OkoWalletClient } from "./client";
 export { OkoMainWallet } from "./main-wallet";
 export { okoWalletInfo } from "./registry";
-export type {
-  OkoLoginMethod,
-  OkoLoginProvider,
-  OkoWalletOptions,
-} from "./types";
+export type { OkoLoginMethod, OkoWalletOptions } from "./types";

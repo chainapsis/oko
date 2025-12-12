@@ -1,9 +1,8 @@
 import type { Wallet } from "@cosmos-kit/core";
-
-export type OkoLoginProvider = "google"; // 'google' | 'email';
+import type { SignInType } from "@oko-wallet/oko-sdk-core";
 
 export interface OkoLoginMethod {
-  provider: OkoLoginProvider;
+  provider: SignInType;
 }
 
 export interface OkoWalletOptions {
@@ -15,7 +14,7 @@ export interface OkoWalletOptions {
 export interface OkoWalletInternalOptions {
   apiKey: string;
   sdkEndpoint?: string;
-  loginProvider: OkoLoginProvider;
+  loginProvider: SignInType;
 }
 
 export type OkoWalletInfo = Wallet & { options: OkoWalletInternalOptions };
