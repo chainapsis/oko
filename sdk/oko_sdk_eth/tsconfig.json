@@ -21,12 +21,12 @@
     "experimentalDecorators": true,
     "resolveJsonModule": true,
     "baseUrl": ".",
-    "rootDir": "./src",
+    "rootDir": ".",
     "paths": {
       "@oko-wallet-sdk-eth/*": ["./src/*"],
       "@oko-wallet-sdk-core/*": ["../oko_sdk_core/src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["**/*", "*.json"],
   "exclude": ["node_modules", "dist"]
 }

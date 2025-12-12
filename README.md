@@ -94,3 +94,13 @@ brew install postgresql@18
 echo 'export PATH="/opt/homebrew/opt/postgresql@18/bin:$PATH"' >> ~/.zshrc
 source ~/.zshrc
 ```
+
+### Continuous integration (CI)
+
+Please refer to `internals/ci`. It is where the commands that can be executed to
+automate some processes are.
+
+Notable CI commands include the following.
+
+- `yarn ci deps_check`, to check the NodeJS dependencies across the repository
+- `yarn ci lang_format`, to format NodeJS code across the repository

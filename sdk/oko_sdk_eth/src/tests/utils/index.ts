@@ -11,7 +11,6 @@ import { mainnet } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 
 import { hardhat } from "../hardhat";
-import { VERSION } from "@oko-wallet-sdk-eth/provider";
 import type {
   OkoEthSigner,
   EthSignParams,
@@ -21,6 +20,7 @@ import {
   parseTypedDataDefinition,
   toTransactionSerializable,
 } from "@oko-wallet-sdk-eth/utils";
+import { VERSION } from "@oko-wallet-sdk-eth/version";
 
 export * from "./viemHelpers";
 export * from "./ethersHelpers";

@@ -1,23 +1,17 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
-import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { ThemeContext } from "@oko-wallet/oko-common-ui/theme";
 
 import { TELEGRAM_BOT_NAME } from "@oko-wallet-attached/config/telegram";
 import telegramStyles from "./telegram_login_popup.module.scss";
-import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
-import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
 
 export const TelegramLoginPopup: React.FC = () => {
-  const [theme, setTheme] = useState<Theme>("light");
+  const theme = useContext(ThemeContext);
 
   useEffect(() => {
-    const systemTheme = getSystemTheme();
-    setColorScheme(systemTheme);
-    setTheme(systemTheme);
-
     const urlParams = new URLSearchParams(window.location.search);
 
     const stateParam = urlParams.get(RedirectUriSearchParamsKey.STATE);

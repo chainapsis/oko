@@ -11,10 +11,10 @@ Cosmos and EVM.
 
 ## Quick picks
 
-- **[Cosmos (Next.js)](https://github.com/chainapsis/oko/tree/main/examples/cosmos-nextjs)**
-- **[EVM (Next.js)](https://github.com/chainapsis/oko/tree/main/examples/evm-nextjs)**
-- **[EVM + wagmi (Next.js)](https://github.com/chainapsis/oko/tree/main/examples/evm-wagmi-nextjs)**
-- **[Cosmos + EVM (React + Vite)](https://github.com/chainapsis/oko/tree/main/examples/multi-ecosystem-react)**
+- **[Cosmos (Next.js)](https://github.com/chainapsis/oko/tree/main/examples/cosmos_nextjs)**
+- **[EVM (Next.js)](https://github.com/chainapsis/oko/tree/main/examples/evm_nextjs)**
+- **[EVM + wagmi (Next.js)](https://github.com/chainapsis/oko/tree/main/examples/evm_wagmi_nextjs)**
+- **[Cosmos + EVM (React + Vite)](https://github.com/chainapsis/oko/tree/main/examples/multi_ecosystem_react)**
 
 ## All templates
 

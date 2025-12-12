@@ -7,7 +7,8 @@
   },
   "exports": {
     ".": "./src/index.ts",
-    "./api": "./src/api/index.ts"
+    "./api": "./src/api/index.ts",
+    "./utils/password": "./src/utils/password.ts"
   },
   "dependencies": {
     "@oko-wallet/aws": "workspace:*",
