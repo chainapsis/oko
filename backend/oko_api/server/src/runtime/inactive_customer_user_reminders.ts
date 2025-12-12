@@ -5,6 +5,8 @@ import { getInactiveCustomerDashboardUsers } from "@oko-wallet/oko-pg-interface/
 import { insertEmailSentLog } from "@oko-wallet/oko-pg-interface/email_sent_logs";
 import { sendInactiveAppReminderEmail } from "@oko-wallet/ct-dashboard-api/src/email/inactive_reminder";
 
+import { sleep } from "@oko-wallet-api/utils";
+
 export interface InactiveCustomerUserReminderRuntimeConfig {
   intervalSeconds: number;
   timeUntilInactiveMs: number; // milliseconds
@@ -86,6 +88,8 @@ export function startInactiveCustomerUserReminderRuntime(
               customerDashboardUser.user.user_id,
             );
           }
+
+          await sleep(1500); // sleep for 1.5 seconds to avoid overwhelming the email server
         } catch (err) {
           logger.error(
             "Inactive user reminder runtime: error processing inactive user %s: %s",

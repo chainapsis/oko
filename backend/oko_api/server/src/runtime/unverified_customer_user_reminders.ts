@@ -10,6 +10,8 @@ import { hashPassword } from "@oko-wallet/crypto-js";
 import { generatePassword } from "@oko-wallet/admin-api/utils/password";
 import { sendUnverifiedUserReminderEmail } from "@oko-wallet/ct-dashboard-api/src/email/unverified_reminder";
 
+import { sleep } from "@oko-wallet-api/utils";
+
 export interface UnverifiedCustomerUserReminderRuntimeConfig {
   intervalSeconds: number;
   timeUntilVerifiedMs: number; // milliseconds
@@ -129,6 +131,8 @@ export function startUnverifiedCustomerUserReminderRuntime(
           } finally {
             client.release();
           }
+
+          await sleep(1500); // sleep for 1.5 seconds to avoid overwhelming the email server
         } catch (err) {
           logger.error(
             "Unverified user reminder runtime: error processing unverified user %s: %s",

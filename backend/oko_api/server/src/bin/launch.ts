@@ -103,7 +103,7 @@ async function main() {
   });
 
   startUnverifiedCustomerUserReminderRuntime(state.db, state.logger, {
-    intervalSeconds: 60 * 60, // 1 hour
+    intervalSeconds: 2 * 60 * 60, // 2 hours
     timeUntilVerifiedMs: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
     smtpConfig: {
       smtp_host: state.smtp_host,
