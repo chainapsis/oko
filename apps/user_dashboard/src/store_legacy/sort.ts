@@ -21,7 +21,7 @@ export class BinarySortArray<T> {
   constructor(
     compareFn: (a: T, b: T) => number,
     onObserved: () => void,
-    onUnobserved: () => void
+    onUnobserved: () => void,
   ) {
     this.compareFn = compareFn;
 
@@ -150,14 +150,14 @@ export class BinarySortArray<T> {
           for (let i = prevIndex + 1; i < mid; i++) {
             this.indexForKey.set(
               this._arr[i][BinarySortArray.SymbolKey],
-              i - 1
+              i - 1,
             );
           }
         } else {
           for (let i = mid; i < prevIndex; i++) {
             this.indexForKey.set(
               this._arr[i][BinarySortArray.SymbolKey],
-              i + 1
+              i + 1,
             );
           }
         }
