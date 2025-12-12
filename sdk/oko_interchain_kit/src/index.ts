@@ -1,20 +1,22 @@
+import type { SignInType } from "@oko-wallet/oko-sdk-core";
+
 import { OkoWallet } from "./oko-wallet";
 import { okoWalletInfo } from "./registry";
-import type { OkoLoginProvider, OkoWalletOptions } from "./types";
+import type { OkoWalletOptions } from "./types";
 import { initializeOkoCosmosWallet } from "./init";
 import { PROVIDER_CONFIG } from "./constant";
 
 export const makeOkoWallets = (options: OkoWalletOptions): OkoWallet[] => {
   if (typeof window === "undefined") {
     throw new Error(
-      "Oko Wallet can only be initialized in browser environment"
+      "Oko Wallet can only be initialized in browser environment",
     );
   }
 
   // If no loginMethods specified, use all available providers
   const providers =
     options.loginMethods?.map((m) => m.provider) ??
-    (Object.keys(PROVIDER_CONFIG) as OkoLoginProvider[]);
+    (Object.keys(PROVIDER_CONFIG) as SignInType[]);
 
   return providers.map((provider) => {
     const providerConfig = PROVIDER_CONFIG[provider];
@@ -38,8 +40,4 @@ export const makeOkoWallets = (options: OkoWalletOptions): OkoWallet[] => {
 };
 
 export { okoWalletInfo } from "./registry";
-export type {
-  OkoLoginMethod,
-  OkoLoginProvider,
-  OkoWalletOptions,
-} from "./types";
+export type { OkoLoginMethod, OkoWalletOptions } from "./types";

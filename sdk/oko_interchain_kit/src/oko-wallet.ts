@@ -1,4 +1,5 @@
 import { CosmosWallet } from "@interchain-kit/core";
+import type { SignInType } from "@oko-wallet/oko-sdk-core";
 import type {
   BroadcastMode,
   SignOptions,
@@ -8,14 +9,12 @@ import type {
 } from "@interchain-kit/core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
 
-import type { OkoLoginProvider } from "./types";
-
 /**
  * Oko Cosmos Wallet implementation for interchain-kit
  */
 export class OkoWallet extends CosmosWallet {
   private okoClient: OkoCosmosWalletInterface;
-  private loginProvider: OkoLoginProvider;
+  private loginProvider: SignInType;
   defaultSignOptions: {
     preferNoSetFee: boolean;
     preferNoSetMemo: boolean;
@@ -29,7 +28,7 @@ export class OkoWallet extends CosmosWallet {
   constructor(
     walletInfo: Wallet,
     okoClient: OkoCosmosWalletInterface,
-    loginProvider: OkoLoginProvider,
+    loginProvider: SignInType,
   ) {
     super(walletInfo);
     this.okoClient = okoClient;

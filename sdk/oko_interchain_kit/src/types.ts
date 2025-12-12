@@ -1,9 +1,8 @@
 import type { Wallet } from "@interchain-kit/core";
-
-export type OkoLoginProvider = "google" | "email" | "x" | "telegram" | "discord";
+import type { SignInType } from "@oko-wallet/oko-sdk-core";
 
 export interface OkoLoginMethod {
-  provider: OkoLoginProvider;
+  provider: SignInType;
 }
 
 export interface OkoWalletOptions {
@@ -15,7 +14,7 @@ export interface OkoWalletOptions {
 export interface OkoWalletInternalOptions {
   apiKey: string;
   sdkEndpoint?: string;
-  loginProvider: OkoLoginProvider;
+  loginProvider: SignInType;
 }
 
 export type OkoWalletInfo = Wallet & { options: OkoWalletInternalOptions };
