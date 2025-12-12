@@ -1,5 +1,6 @@
-import { type FC, type FormEvent } from "react";
+import { type FC, type FormEvent, useContext } from "react";
 import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
+import { ThemeContext } from "@oko-wallet/oko-common-ui/theme";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
@@ -17,6 +18,7 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
   modalId,
   data,
 }) => {
+  const theme = useContext(ThemeContext);
   const {
     step,
     email,
@@ -53,7 +55,7 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
         {step === "enter_email" ? (
           <div className={styles.card}>
             <div className={styles.cardTop}>
-              <Logo theme="light" />
+              <Logo theme={theme} />
               <div className={styles.fieldHeader}>
                 Enter your email to continue
               </div>
@@ -76,11 +78,10 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
                       autoFocus
                     />
                     <button
-                      className={`${styles.nextButton} ${
-                        isEmailValid && !isSubmitting
-                          ? styles.nextButtonActive
-                          : ""
-                      }`}
+                      className={`${styles.nextButton} ${isEmailValid && !isSubmitting
+                        ? styles.nextButtonActive
+                        : ""
+                        }`}
                       type="submit"
                       disabled={!isEmailValid || isSubmitting}
                     >

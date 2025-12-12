@@ -17,7 +17,7 @@
   min-width: 360px;
   min-height: 220px;
   border-radius: 12px;
-  background: #fafafa;
+  background: var(--bg-secondary);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -55,7 +55,7 @@
   font-size: var(--font-size-text-lg);
   line-height: var(--line-height-text-lg);
   letter-spacing: 0;
-  color: #16161b;
+  color: var(--text-primary);
   text-align: center;
 }
 
@@ -68,20 +68,20 @@
   font-size: 15px;
   line-height: 150%;
   letter-spacing: -0.01em;
-  color: #16161b;
+  color: var(--text-primary);
 }
 
 .otpInputRow {
   margin-top: 0;
 }
 
-.otpInputRow :global(input[class*="otpInput"]) {
-  width: 48px;
-  height: 48px;
-  background: #ffffff !important;
-  border: 1px solid #e2e8f0 !important;
-  color: #d5d7da !important;
-  caret-color: #d5d7da !important;
+.otpInputRow input {
+  width: 48px !important;
+  height: 48px !important;
+  background: var(--bg-primary) !important;
+  border: 1px solid var(--border-secondary) !important;
+  color: var(--text-primary) !important;
+  caret-color: var(--text-primary) !important;
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.08),
     0 1px 1px rgba(15, 23, 42, 0.04);
@@ -94,7 +94,7 @@
   text-align: center !important;
 
   &::placeholder {
-    color: #d5d7da !important;
+    color: var(--text-placeholder-subtle) !important;
     opacity: 1 !important;
     font-family: var(--font-family-body) !important;
     font-weight: 500 !important;
@@ -105,10 +105,21 @@
     text-align: center !important;
   }
 
-  &.filled,
-  &.focused {
-    border: 1px solid #e2e8f0 !important;
-    color: #d5d7da !important;
+  &:not(:placeholder-shown),
+  &:focus {
+    border: 1px solid var(--border-secondary) !important;
+    color: var(--text-primary) !important;
+  }
+
+  &:not(:placeholder-shown) {
+    box-shadow: 0px 0.75px 1.5px 0px var(--shadow-xs);
+  }
+
+  &:focus {
+    box-shadow:
+      0px 0px 0px 3px var(--brand-500),
+      0px 0px 0px 1.5px var(--bg-primary),
+      0px 0.75px 1.5px 0px var(--shadow-xs);
   }
 }
 
@@ -121,7 +132,7 @@
   font-size: var(--font-size-text-md);
   line-height: var(--line-height-text-md);
   letter-spacing: 0;
-  color: #181d27;
+  color: var(--text-primary);
 }
 
 .emailRow {
@@ -132,8 +143,8 @@
   width: 336px;
   height: 42px;
   border-radius: 12px;
-  border: 1px solid #e2e8f0;
-  background: #ffffff;
+  border: 1px solid var(--border-secondary);
+  background: var(--bg-primary);
   box-shadow:
     0 1px 2px rgba(15, 23, 42, 0.08),
     0 1px 1px rgba(15, 23, 42, 0.04);
@@ -148,7 +159,7 @@
 }
 
 .emailIcon {
-  color: #94a3b8;
+  color: var(--fg-quaternary);
   flex-shrink: 0;
 }
 
@@ -157,7 +168,7 @@
   border: none;
   outline: none;
   background: transparent;
-  color: #0f172a;
+  color: var(--text-primary);
   font-family: var(--font-family-body);
   font-weight: 400;
   font-style: normal;
@@ -166,14 +177,14 @@
   letter-spacing: 0;
 
   &::placeholder {
-    color: #717680;
+    color: var(--gray-500);
   }
 }
 
 .nextButton {
   height: 22px !important;
   padding: 0 4px !important;
-  color: #717680 !important;
+  color: var(--gray-500) !important;
   background: none;
   border: none;
   cursor: pointer;
@@ -186,7 +197,7 @@
   }
 
   &.nextButtonActive:not(:disabled) {
-    color: var(--colors-text-text-primary-900, #181d27) !important;
+    color: var(--text-primary) !important;
   }
 }
 
@@ -226,7 +237,7 @@
   font-size: var(--font-size-text-sm);
   line-height: var(--line-height-text-sm);
   letter-spacing: 0;
-  color: #16161b;
+  color: var(--text-primary);
 }
 
 .resendLink {
@@ -240,7 +251,7 @@
   line-height: var(--line-height-text-sm);
   letter-spacing: 0;
   text-decoration: underline;
-  color: #717680;
+  color: var(--text-primary);
   cursor: pointer;
 
   &:disabled {
@@ -265,8 +276,7 @@
 .cardTop {
   width: 376px;
   height: 126px;
-  padding: var(--spacing-3xl) var(--spacing-2xl) var(--spacing-2xl)
-    var(--spacing-2xl);
+  padding: var(--spacing-3xl) var(--spacing-2xl) var(--spacing-2xl) var(--spacing-2xl);
   display: flex;
   flex-direction: column;
   align-items: center;
