@@ -52,7 +52,8 @@ export function startUnverifiedCustomerUserReminderRuntime(
           // Generate new temporary password
           const temporaryPassword = generatePassword();
 
-          // Send email first (outside transaction to avoid holding DB connection)
+          // Send email first (outside transaction to avoid holding
+          // DB connection)
           const emailRes = await sendUnverifiedUserReminderEmail(
             user.user.email,
             user.label,

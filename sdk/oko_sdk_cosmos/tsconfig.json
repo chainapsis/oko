@@ -5,7 +5,7 @@
     "skipLibCheck": true,
     "sourceMap": true,
     "baseUrl": ".",
-    "rootDir": "./src",
+    "rootDir": ".",
     "outDir": "./dist",
     "module": "ESNext",
     "moduleResolution": "bundler",
@@ -26,6 +26,6 @@
       "@oko-wallet-sdk-core/*": ["../oko_sdk_core/src/*"]
     }
   },
-  "include": ["src/**/*"],
+  "include": ["**/*"],
   "exclude": ["node_modules", "dist"]
 }
