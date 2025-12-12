@@ -19,7 +19,7 @@ import { sendMsgToWindow } from "@oko-wallet-attached/window_msgs/send";
 import { setUserId } from "@oko-wallet-attached/analytics/amplitude";
 
 export function useInitializeApp() {
-  const { setHostOrigin } = useMemoryState();
+  const { setHostOrigin, setReferralInfo } = useMemoryState();
   const { getAuthToken, getWallet, setAuthToken, setTheme, getTheme } =
     useAppState();
   const [isHydrated, setIsHydrated] = useState(false);
@@ -63,6 +63,9 @@ export function useInitializeApp() {
         const searchParams = new URLSearchParams(window.location.search);
 
         const hostOrigin = searchParams.get("host_origin");
+        const utmSource = searchParams.get("utm_source");
+        const utmCampaign = searchParams.get("utm_campaign");
+
         const isPopupContext = window.parent === window && !!window.opener;
         const canNotifyParent = window.parent !== window;
 
@@ -85,6 +88,13 @@ export function useInitializeApp() {
         }
 
         setHostOrigin(hostOrigin);
+
+        // Store referral info for keygen flow
+        setReferralInfo({
+          origin: hostOrigin,
+          utmSource,
+          utmCampaign,
+        });
 
         const authToken = getAuthToken(hostOrigin);
         await silentlyRefreshAuthToken(authToken, hostOrigin, setAuthToken);
