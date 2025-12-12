@@ -10,12 +10,12 @@
 import { v7 as uuidv7 } from "uuid";
 import type { Bytes32 } from "@oko-wallet/bytes";
 import {
-  sha256,
   generateEddsaKeypair,
   deriveSessionKey,
   type EddsaKeypair,
   type EcdheSessionKey,
 } from "@oko-wallet/crypto-js/browser";
+import { sha256 } from "@oko-wallet/crypto-js";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 /** Session timeout: 5 minutes */
