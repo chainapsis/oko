@@ -36,3 +36,9 @@
   background: #ffffff;
   border-radius: 16px;
 }
+
+@media (hover: none) and (pointer: coarse) {
+  .wrapper {
+    background-color: var(--bg-secondary);
+  }
+}
