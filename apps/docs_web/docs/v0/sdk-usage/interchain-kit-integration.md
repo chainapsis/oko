@@ -5,6 +5,9 @@ sidebar_position: 7
 
 # Interchain Kit Integration
 
+:::warning Beta Feature This integration is currently in beta. APIs may change
+in future releases. EVM chain connections are not yet supported. :::
+
 Learn how to integrate Oko Wallet with Interchain Kit, the multi-chain wallet
 adapter for Cosmos ecosystem applications.
 
@@ -26,12 +29,6 @@ Install the required packages:
 
 ```bash
 npm install @oko-wallet/oko-interchain-kit @interchain-kit/react @interchain-kit/core
-```
-
-You'll also need the CosmJS and other peer dependencies:
-
-```bash
-npm install @cosmjs/amino @cosmjs/proto-signing @cosmjs/stargate
 ```
 
 ## Basic Setup
