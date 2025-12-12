@@ -6,6 +6,7 @@ import {
   isAddress,
 } from "viem";
 import { v4 as uuidv4 } from "uuid";
+import pJson from "../../package.json";
 
 import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import type {
@@ -30,13 +31,14 @@ import type {
   OkoEthRpcChain,
   OkoEthRpcChainWithStatus,
 } from "./types";
-import { VERSION } from "./version";
 import {
   EthereumRpcError,
   ProviderRpcErrorCode,
   RpcErrorCode,
   isConnectionError,
 } from "./error";
+
+const VERSION = pJson.version;
 
 export class OkoEIP1193Provider
   extends ProviderEventEmitter
@@ -49,7 +51,6 @@ export class OkoEIP1193Provider
 
   private lastConnectedEmittedEvent: "connect" | "disconnect" | null;
 
-  public readonly version: string = VERSION;
   public readonly name: string = "OkoEIP1193Provider";
 
   constructor(options: OkoEIP1193ProviderOptions) {
@@ -161,7 +162,7 @@ export class OkoEIP1193Provider
   ): Promise<RpcResponseData<M>> {
     switch (args.method) {
       case "web3_clientVersion":
-        return `${this.name}/${this.version}`;
+        return `${this.name}/${VERSION}`;
       case "eth_chainId":
         return this.activeChainState.chainId;
       default:

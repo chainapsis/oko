@@ -33,11 +33,9 @@
   },
   "scripts": {
     "clean": "del-cli dist",
-    "generate-version": "node scripts/generate-version.cjs",
     "build": "yarn clean && rollup -c && tsc-alias",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "hardhat": "npx hardhat node",
-    "version": "yarn generate-version && git add src/provider/version.ts",
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
@@ -52,6 +50,7 @@
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@rollup/plugin-replace": "^6.0.2",
     "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-typescript": "^11.0.0",
     "@types/jest": "^29.5.14",
     "@types/node": "^24.10.1",

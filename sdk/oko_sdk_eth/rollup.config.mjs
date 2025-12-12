@@ -1,6 +1,7 @@
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import { dts } from "rollup-plugin-dts";
 import tsConfigPaths from "rollup-plugin-tsconfig-paths";
 // import terser from "@rollup/plugin-terser";
@@ -25,6 +26,7 @@ export default [
       /^ox\//,
     ],
     plugins: [
+      json(),
       nodeResolve({
         preferBuiltins: false,
         browser: true,
@@ -48,6 +50,7 @@ export default [
     },
     plugins: [
       tsConfigPaths(),
+      json(),
       nodeResolve(),
       dts(),
       typescript({
@@ -56,10 +59,4 @@ export default [
       }),
     ],
   },
-  // {
-  //   file: "dist/index.min.js",
-  //   format: "esm",
-  //   sourcemap: true,
-  //   plugins: [terser()],
-  // },
 ];

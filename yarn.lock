@@ -10550,6 +10550,7 @@ __metadata:
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.125"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
+    "@rollup/plugin-json": "npm:^6.1.0"
     "@rollup/plugin-node-resolve": "npm:^15.0.0"
     "@rollup/plugin-replace": "npm:^6.0.2"
     "@rollup/plugin-terser": "npm:^0.4.4"
