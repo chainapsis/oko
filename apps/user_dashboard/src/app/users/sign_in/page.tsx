@@ -1,7 +1,7 @@
 import cn from "classnames";
 import Image from "next/image";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { OkoLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_logo_icon";
 
 import styles from "./page.module.scss";
 import { AccountWidget } from "@oko-wallet-user-dashboard/components/widgets/account_widget/account_widget";

@@ -4,7 +4,7 @@ import { type FC } from "react";
 import { observer } from "mobx-react-lite";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
-import { EmptyStateIcon } from "@oko-wallet-common-ui/icons/empty_state_icon";
+import { EmptyStateIcon } from "@oko-wallet/oko-common-ui/icons/empty_state_icon";
 
 import styles from "./tx_history_support_item.module.scss";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
