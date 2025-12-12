@@ -17,26 +17,23 @@ export function useTelegramCallback() {
 
   useEffect(() => {
     async function fn() {
-      // @TODO: Remove this after testing
-      setError("params_not_sufficient");
-      return;
-      // try {
-      //   const cbRes = await handleTelegramCallback();
+      try {
+        const cbRes = await handleTelegramCallback();
 
-      //   if (cbRes.success) {
-      //     window.close();
-      //   } else {
-      //     setError(cbRes.err.type);
-      //   }
-      // } catch (err) {
-      //   postLog({
-      //     level: "error",
-      //     message: "Telegram callback error",
-      //     error: errorToLog(err),
-      //   });
+        if (cbRes.success) {
+          window.close();
+        } else {
+          setError(cbRes.err.type);
+        }
+      } catch (err) {
+        postLog({
+          level: "error",
+          message: "Telegram callback error",
+          error: errorToLog(err),
+        });
 
-      //   setError(err instanceof Error ? err.message : "Unknown error");
-      // }
+        setError(err instanceof Error ? err.message : "Unknown error");
+      }
     }
 
     fn().then();
