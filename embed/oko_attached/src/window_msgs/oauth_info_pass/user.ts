@@ -18,6 +18,7 @@ import {
   makeAuthorizedOkoApiRequest,
   makeOkoApiRequest,
   TSS_V1_ENDPOINT,
+  SOCIAL_LOGIN_V1_ENDPOINT,
 } from "@oko-wallet-attached/requests/oko_api";
 import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
 import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
@@ -297,7 +298,7 @@ async function saveReferral(
   const res = await makeAuthorizedOkoApiRequest<
     SaveReferralRequest,
     SaveReferralResponse
-  >("referral", authToken, data);
+  >("referral", authToken, data, SOCIAL_LOGIN_V1_ENDPOINT);
 
   if (!res.success) {
     throw new Error(`Save referral fetch failed: ${JSON.stringify(res.err)}`);

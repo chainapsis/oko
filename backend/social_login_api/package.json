@@ -8,10 +8,14 @@
     "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
+    "@oko-wallet/bytes": "0.0.2-rc.41",
     "@oko-wallet/oko-api-error-codes": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
+    "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/oko-types": "workspace:*",
-    "express": "^4.21.1"
+    "@oko-wallet/stdlib-js": "0.0.2-rc.41",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",

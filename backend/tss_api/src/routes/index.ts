@@ -6,7 +6,6 @@ import { setPresignRoutes } from "./presign";
 import { setSignRoutes } from "./sign";
 import { setUserRoutes } from "./user";
 import { setTssSessionRoutes } from "./tss_session";
-import { setReferralRoutes } from "./referral";
 
 export function makeTssRouter() {
   const router = express.Router();
@@ -17,7 +16,6 @@ export function makeTssRouter() {
   setSignRoutes(router);
   setUserRoutes(router);
   setTssSessionRoutes(router);
-  setReferralRoutes(router);
 
   return router;
 }

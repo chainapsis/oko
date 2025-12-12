@@ -1,17 +1,19 @@
 import type { Response, Router, Request } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import {
-  ErrorResponseSchema,
-  UserAuthHeaderSchema,
-} from "@oko-wallet/oko-api-openapi/common";
+import { ErrorResponseSchema, UserAuthHeaderSchema } from "@oko-wallet/oko-api-openapi/common";
 import { registry } from "@oko-wallet/oko-api-openapi";
-import { z } from "zod";
+import {
+  SaveReferralRequestSchema,
+  SaveReferralSuccessResponseSchema,
+  GetReferralQuerySchema,
+  GetReferralSuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/social_login";
 import { Bytes } from "@oko-wallet/bytes";
 
 import {
   type UserAuthenticatedRequest,
   userJwtMiddleware,
-} from "@oko-wallet-tss-api/middleware/keplr_auth";
+} from "@oko-wallet-social-login-api/middleware/user_auth";
 import {
   createReferral,
   getReferralsByPublicKey,
@@ -37,24 +39,12 @@ interface GetReferralResponse {
   }>;
 }
 
-const SaveReferralRequestSchema = z.object({
-  origin: z.string().min(1).max(512),
-  utm_source: z.string().max(128).nullable().optional(),
-  utm_campaign: z.string().max(128).nullable().optional(),
-});
-
-const SaveReferralSuccessResponseSchema = z.object({
-  success: z.literal(true),
-  data: z.object({
-    referral_id: z.string().uuid(),
-  }),
-});
-
 export function setReferralRoutes(router: Router) {
+  // POST /referral - Save referral (requires auth)
   registry.registerPath({
     method: "post",
-    path: "/tss/v1/referral",
-    tags: ["TSS"],
+    path: "/social-login/v1/referral",
+    tags: ["Social Login"],
     summary: "Save referral information",
     description: "Records referral attribution data after successful keygen",
     security: [{ userAuth: [] }],
@@ -180,32 +170,17 @@ export function setReferralRoutes(router: Router) {
     },
   );
 
-  // Public API - Get referral by public key (no auth required)
-  const GetReferralSuccessResponseSchema = z.object({
-    success: z.literal(true),
-    data: z.object({
-      referrals: z.array(
-        z.object({
-          utm_source: z.string().nullable(),
-          utm_campaign: z.string().nullable(),
-          created_at: z.string().datetime(),
-        }),
-      ),
-    }),
-  });
-
+  // GET /referral - Query referral by public key (no auth)
   registry.registerPath({
     method: "get",
-    path: "/tss/v1/referral",
-    tags: ["TSS"],
+    path: "/social-login/v1/referral",
+    tags: ["Social Login"],
     summary: "Get referral information by public key",
     description:
       "Public API to retrieve referral attribution data. No authentication required.",
     security: [],
     request: {
-      query: z.object({
-        public_key: z.string().length(66).regex(/^[0-9a-fA-F]+$/),
-      }),
+      query: GetReferralQuerySchema,
     },
     responses: {
       200: {
