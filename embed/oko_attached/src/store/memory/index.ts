@@ -6,13 +6,14 @@ import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
 import { OKO_SDK_TARGET } from "@oko-wallet-attached/window_msgs/target";
-import type { MemoryActions, MemoryState } from "./types";
+import type { MemoryActions, MemoryState, ReferralInfo } from "./types";
 import { type AppError } from "@oko-wallet-attached/errors";
 
-const initialState = {
+const initialState: MemoryState = {
   hostOrigin: null,
   modalRequest: null,
   error: null,
+  referralInfo: null,
 };
 
 export const useMemoryState = create(
@@ -55,6 +56,12 @@ export const useMemoryState = create(
     },
     clearError: () => {
       set({ error: null });
+    },
+    setReferralInfo: (info: ReferralInfo) => {
+      set({ referralInfo: info });
+    },
+    clearReferralInfo: () => {
+      set({ referralInfo: null });
     },
   })),
 );

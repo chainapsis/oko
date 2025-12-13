@@ -15,6 +15,7 @@ import {
 } from "@oko-wallet-attached/window_msgs/target";
 import type { MsgEventContext } from "@oko-wallet-attached/window_msgs/types";
 import { useAppState } from "@oko-wallet-attached/store/app";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import {
   setUserId,
   setUserProperties,
@@ -168,7 +169,8 @@ export async function handleUserSignIn(
 
   // use user sign up flow
   if (!userExists.exists) {
-    const signInRes = await handleNewUser(idToken, meta, authType);
+    const { referralInfo } = useMemoryState.getState();
+    const signInRes = await handleNewUser(idToken, meta, authType, referralInfo);
     if (!signInRes.success) {
       return {
         success: false,
