@@ -1,6 +1,9 @@
 import type { Response, Router, Request } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { ErrorResponseSchema, UserAuthHeaderSchema } from "@oko-wallet/oko-api-openapi/common";
+import {
+  ErrorResponseSchema,
+  UserAuthHeaderSchema,
+} from "@oko-wallet/oko-api-openapi/common";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   SaveReferralRequestSchema,
@@ -9,17 +12,18 @@ import {
   GetReferralSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/social_login";
 import { Bytes } from "@oko-wallet/bytes";
-
-import {
-  type UserAuthenticatedRequest,
-  userJwtMiddleware,
-} from "@oko-wallet-social-login-api/middleware/user_auth";
 import {
   createReferral,
   getReferralsByPublicKey,
   type ReferralPublicInfo,
 } from "@oko-wallet/oko-pg-interface/referrals";
 import { getWalletById } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+
+import {
+  type UserAuthenticatedRequest,
+  userJwtMiddleware,
+} from "@oko-wallet-social-login-api/middleware/user_auth";
+import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
 
 interface SaveReferralRequest {
   origin: string;
@@ -97,6 +101,7 @@ export function setReferralRoutes(router: Router) {
 
   router.post(
     "/referral",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     userJwtMiddleware,
     async (
       req: UserAuthenticatedRequest<SaveReferralRequest>,
@@ -220,6 +225,7 @@ export function setReferralRoutes(router: Router) {
 
   router.get(
     "/referral",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 30 }),
     async (
       req: Request<{}, {}, {}, { public_key: string }>,
       res: Response<OkoApiResponse<GetReferralResponse>>,
