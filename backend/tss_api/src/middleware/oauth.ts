@@ -32,9 +32,15 @@ export type OAuthAuthenticatedRequest<T = {}> = Request<
   OAuthBody & T
 >;
 
+export interface OAuthUser {
+  type: AuthType;
+  email: string;
+  name?: string;
+  sub?: string;
+}
+
 export interface OAuthLocals {
-  oauth_user: { email: string };
-  oauth_provider: AuthType;
+  oauth_user: OAuthUser;
 }
 
 export async function oauthMiddleware(
@@ -44,9 +50,6 @@ export async function oauthMiddleware(
 ) {
   // default to google if auth_type is not provided
   const authType = (req.body?.auth_type ?? "google") as AuthType;
-
-  // Store auth_type in res.locals for use in route handlers
-  res.locals.oauth_provider = authType;
 
   switch (authType) {
     case "google":
