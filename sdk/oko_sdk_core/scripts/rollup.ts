@@ -1,6 +1,7 @@
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
+import chalk from "chalk";
 import {
   rollup,
   type InputOptions,
@@ -62,7 +63,11 @@ async function generateOutputs(
   outputOptionsList: OutputOptions[],
 ) {
   for (const outputOptions of outputOptionsList) {
-    console.log("generated: %s → %s", inputOptions.input, outputOptions.file);
+    console.log(
+      chalk.green("generated: %s → %s"),
+      chalk.bold(inputOptions.input),
+      chalk.bold(outputOptions.file),
+    );
 
     await bundle.write(outputOptions);
   }
