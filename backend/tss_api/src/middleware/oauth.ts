@@ -21,27 +21,13 @@ import {
   discordAuthMiddleware,
   type DiscordAuthenticatedRequest,
 } from "./discord_auth";
-
-export interface OAuthBody {
-  auth_type: AuthType;
-}
+import type { OAuthBody } from "./types";
 
 export type OAuthAuthenticatedRequest<T = {}> = Request<
   any,
   any,
   OAuthBody & T
 >;
-
-export interface OAuthUser {
-  type: AuthType;
-  email: string;
-  // `x` is username, `telegram` is username
-  name?: string;
-}
-
-export interface OAuthLocals {
-  oauth_user: OAuthUser;
-}
 
 export async function oauthMiddleware(
   req: OAuthAuthenticatedRequest,

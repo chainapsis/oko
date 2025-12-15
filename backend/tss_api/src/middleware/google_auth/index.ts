@@ -50,7 +50,6 @@ export async function googleAuthMiddleware(
       type: "google" as AuthType,
       email: result.data.email,
       name: result.data.name,
-      sub: result.data.sub,
     };
 
     next();

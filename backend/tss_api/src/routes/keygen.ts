@@ -4,6 +4,7 @@ import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { SignInResponse } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
@@ -81,7 +82,7 @@ export function setKeygenRoutes(router: Router) {
     [oauthMiddleware, tssActivateMiddleware],
     async (
       req: OAuthAuthenticatedRequest<KeygenBody>,
-      res: Response<OkoApiResponse<SignInResponse>>,
+      res: Response<OkoApiResponse<SignInResponse>, OAuthLocals>,
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;

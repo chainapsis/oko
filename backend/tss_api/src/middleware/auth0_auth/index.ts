@@ -54,7 +54,6 @@ export async function auth0AuthMiddleware(
       type: "auth0" as AuthType,
       email: result.data.email,
       name: result.data.name,
-      sub: result.data.sub,
     };
 
     next();
