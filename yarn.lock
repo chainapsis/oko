@@ -10447,6 +10447,7 @@ __metadata:
   dependencies:
     "@keplr-wallet/types": "npm:^0.12.290"
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.62"
+    "@oko-wallet/oko-types": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-json": "npm:^6.1.0"
@@ -10544,6 +10545,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-types@workspace:common/oko_types"
   dependencies:
+    "@oko-wallet/bytes": "npm:0.0.3-alpha.62"
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
     "@oko-wallet/cait-sith-keplr-express": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
