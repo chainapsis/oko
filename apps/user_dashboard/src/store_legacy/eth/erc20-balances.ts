@@ -97,7 +97,9 @@ export class ObservableQueryThirdpartyERC20BalancesImplParent extends Observable
   }
 }
 
-export class ObservableQueryThirdpartyERC20BalancesImpl implements IObservableQueryBalanceImpl {
+export class ObservableQueryThirdpartyERC20BalancesImpl
+  implements IObservableQueryBalanceImpl
+{
   constructor(
     protected readonly parent: ObservableQueryThirdpartyERC20BalancesImplParent,
     protected readonly chainId: string,
@@ -195,7 +197,9 @@ export class ObservableQueryThirdpartyERC20BalancesImpl implements IObservableQu
   }
 }
 
-export class ObservableQueryThirdpartyERC20BalanceRegistry implements BalanceRegistry {
+export class ObservableQueryThirdpartyERC20BalanceRegistry
+  implements BalanceRegistry
+{
   protected parentMap: Map<
     string,
     ObservableQueryThirdpartyERC20BalancesImplParent

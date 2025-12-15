@@ -27,14 +27,6 @@ export async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
 async function tryAuth0EmailSignIn(
   okoWallet: OkoWalletInterface,
 ): Promise<OkoWalletMsgOAuthSignInUpdate> {
-  const nonce = generateNonce();
-
-  const nonceAckPromise = okoWallet.sendMsgToIframe({
-    target: OKO_ATTACHED_TARGET,
-    msg_type: "set_oauth_nonce",
-    payload: nonce,
-  });
-
   const modalId = uuidv4();
 
   const oauthState: OAuthState = {
@@ -47,13 +39,7 @@ async function tryAuth0EmailSignIn(
 
   console.debug("[oko] oauthStateString: %s", oauthStateString);
 
-  const nonceAck = await nonceAckPromise;
-  if (
-    nonceAck.msg_type !== "set_oauth_nonce_ack" ||
-    !nonceAck.payload.success
-  ) {
-    throw new Error("Failed to set nonce for email oauth sign in");
-  }
+  const nonce = generateNonce();
 
   const modalMsg: OkoWalletMsgOpenModal = {
     target: OKO_ATTACHED_TARGET,
@@ -74,7 +60,6 @@ async function tryAuth0EmailSignIn(
   const oauthSignInUpdateWaiter = waitForOAuthSignInUpdate(okoWallet);
 
   const result = await okoWallet.openModal(modalMsg);
-  console.log("[oko] email sign in open modal result: %o", result);
   if (!result.success) {
     oauthSignInUpdateWaiter.cancel();
     throw new Error(`email sign in open modal failed, err: ${result.err.type}`);

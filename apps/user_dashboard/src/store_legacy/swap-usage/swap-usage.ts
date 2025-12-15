@@ -12,7 +12,7 @@ export class ObservableQuerySwapUsageInner extends ObservableQuery<SwapUsageResp
   constructor(
     sharedContext: QuerySharedContext,
     baseURL: string,
-    chainIdentifier: string
+    chainIdentifier: string,
   ) {
     super(sharedContext, baseURL, `/swap-usage/denoms/${chainIdentifier}`);
 
@@ -45,13 +45,13 @@ export class ObservableQuerySwapUsageInner extends ObservableQuery<SwapUsageResp
 export class ObservableQuerySwapUsage extends HasMapStore<ObservableQuerySwapUsageInner> {
   constructor(
     protected readonly sharedContext: QuerySharedContext,
-    protected readonly baseURL: string
+    protected readonly baseURL: string,
   ) {
     super((str) => {
       return new ObservableQuerySwapUsageInner(
         this.sharedContext,
         baseURL,
-        str
+        str,
       );
     });
   }

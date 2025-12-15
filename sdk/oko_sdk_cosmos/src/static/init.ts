@@ -24,5 +24,9 @@ export function init(
     };
   }
 
-  return { success: true, data: new (OkoCosmosWallet as any)(walletRes.data) };
+  const instance = new OkoCosmosWallet(
+    walletRes.data,
+  ) as unknown as OkoCosmosWalletInterface;
+
+  return { success: true, data: instance };
 }

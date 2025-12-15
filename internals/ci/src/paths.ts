@@ -24,6 +24,8 @@ export const paths = (function () {
 
   const stdlib = path.join(__dirname, "../../../lib/stdlib_js");
 
+  const oko_types = path.join(__dirname, "../../../common/oko_types/");
+
   const sdk_common = path.join(__dirname, "../../../sdk/oko_sdk_common/");
 
   const sdk_cosmos_kit = path.join(__dirname, "../../../sdk/oko_cosmos_kit/");
@@ -99,6 +101,7 @@ export const paths = (function () {
     root,
     stdlib,
     dotenv,
+    oko_types,
     sdk_core,
     sdk_eth,
     sdk_cosmos_kit,
