@@ -35,8 +35,8 @@ export type OAuthAuthenticatedRequest<T = {}> = Request<
 export interface OAuthUser {
   type: AuthType;
   email: string;
+  // `x` is username, `telegram` is username
   name?: string;
-  sub?: string;
 }
 
 export interface OAuthLocals {

@@ -48,7 +48,7 @@ export async function xAuthMiddleware(
     res.locals.oauth_user = {
       type: "x" as AuthType,
       email: result.data.id,
-      name: result.data.name,
+      name: result.data.username ?? undefined,
     };
 
     next();
