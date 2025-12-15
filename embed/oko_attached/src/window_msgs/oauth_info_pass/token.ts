@@ -1,5 +1,5 @@
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type {
   GoogleTokenInfo,
@@ -14,7 +14,7 @@ import { verifyIdTokenOfDiscord } from "./discord";
 import { verifyIdTokenOfX } from "./x";
 
 export async function verifyIdToken(
-  authType: OAuthProvider,
+  authType: AuthType,
   idToken: string,
   nonce?: string,
 ): Promise<Result<TokenInfo, string>> {

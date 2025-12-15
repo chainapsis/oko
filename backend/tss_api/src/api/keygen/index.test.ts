@@ -111,6 +111,7 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
+      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === false) {
@@ -172,7 +173,7 @@ describe("keygen_test", () => {
     const clientKeygenResult = napiRunKeygenClientCentralized();
     const { keygen_outputs } = clientKeygenResult;
 
-    const createUserRes = await createUser(pool, "test@test.com");
+    const createUserRes = await createUser(pool, "test@test.com", "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -205,6 +206,7 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
+      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {
@@ -245,6 +247,7 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
+      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {
@@ -281,6 +284,7 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
+      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {
@@ -319,6 +323,7 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
+      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {

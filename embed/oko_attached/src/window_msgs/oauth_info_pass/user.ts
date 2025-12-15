@@ -3,12 +3,12 @@ import type {
   CheckEmailResponse,
   SignInResponse,
 } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type {
   KeygenRequestBody,
   KeyShareNodeMetaWithNodeStatusInfo,
   WalletKSNodeStatus,
 } from "@oko-wallet/oko-types/tss";
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
@@ -37,7 +37,7 @@ import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
 export async function handleExistingUser(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
-  authType: OAuthProvider,
+  authType: AuthType,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   // 1. sign in to api server
   const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
@@ -186,7 +186,7 @@ user pk: ${signInResp.user.public_key}`,
 export async function handleNewUser(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
-  authType: OAuthProvider,
+  authType: AuthType,
   referralInfo?: ReferralInfo | null,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   // TODO: @jinwoo, (wip) importing secret key
@@ -313,7 +313,7 @@ async function saveReferral(
 export async function handleReshare(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
-  authType: OAuthProvider,
+  authType: AuthType,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponse>(
     "user/signin",

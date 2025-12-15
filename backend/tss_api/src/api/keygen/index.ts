@@ -8,11 +8,8 @@ import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
-import type {
-  SignInResponse,
-  User,
-  AuthType,
-} from "@oko-wallet/oko-types/user";
+import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   createWallet,

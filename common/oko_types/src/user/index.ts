@@ -1,6 +1,6 @@
 import type { NodeNameAndEndpoint } from "../user_key_share";
 import type { KeyShareNodeMetaWithNodeStatusInfo } from "../tss/ks_node";
-import type { OAuthRequest } from "../auth";
+import type { OAuthRequest, AuthType } from "../auth";
 
 export interface User {
   user_id: string;
@@ -10,8 +10,6 @@ export interface User {
   created_at: Date;
   updated_at: Date;
 }
-
-export type AuthType = "google" | "auth0" | "x" | "telegram" | "discord";
 
 export interface CheckEmailRequest {
   email: string;

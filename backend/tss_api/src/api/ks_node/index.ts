@@ -1,7 +1,7 @@
 import type { Bytes33 } from "@oko-wallet/bytes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { KeyShareNode } from "@oko-wallet-types/tss";
-import type { AuthType } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { requestCheckKeyShare } from "@oko-wallet-tss-api/requests";
 

@@ -5,8 +5,8 @@ import type {
   ReshareRequest,
   SignInResponse,
   SignInSilentlyResponse,
-  AuthType,
 } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
@@ -303,6 +303,7 @@ export function setUserRoutes(router: Router) {
           const signInRes = await signIn(
             state.db,
             payload.email.toLowerCase(),
+            "google",
             {
               secret: state.jwt_secret,
               expires_in: state.jwt_expires_in,

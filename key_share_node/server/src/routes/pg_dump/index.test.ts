@@ -5,7 +5,10 @@ import express from "express";
 import { Pool } from "pg";
 import fs from "node:fs/promises";
 import { getPgDumpById, getAllPgDumps } from "@oko-wallet/ksn-pg-interface";
-import { createUser, getUserByEmail } from "@oko-wallet/ksn-pg-interface";
+import {
+  createUser,
+  getUserByEmailAndAuthType,
+} from "@oko-wallet/ksn-pg-interface";
 import dayjs from "dayjs";
 import { Bytes } from "@oko-wallet/bytes";
 
@@ -468,7 +471,7 @@ WHERE dump_id = $1`,
 
       const createdUsers = [];
       for (const email of testEmails) {
-        const createUserRes = await createUser(pool, email);
+        const createUserRes = await createUser(pool, email, "google");
         expect(createUserRes.success).toBe(true);
         if (createUserRes.success) {
           createdUsers.push(createUserRes.data);
@@ -476,7 +479,11 @@ WHERE dump_id = $1`,
       }
 
       for (const email of testEmails) {
-        const getUserRes = await getUserByEmail(pool, email);
+        const getUserRes = await getUserByEmailAndAuthType(
+          pool,
+          email,
+          "google",
+        );
         expect(getUserRes.success).toBe(true);
         if (getUserRes.success) {
           expect(getUserRes.data).not.toBeNull();
@@ -493,7 +500,11 @@ WHERE dump_id = $1`,
       await resetPgDatabase(pool);
 
       for (const email of testEmails) {
-        const getUserRes = await getUserByEmail(pool, email);
+        const getUserRes = await getUserByEmailAndAuthType(
+          pool,
+          email,
+          "google",
+        );
         expect(getUserRes.success).toBe(true);
         if (getUserRes.success) {
           expect(getUserRes.data).toBeNull();
@@ -515,7 +526,11 @@ WHERE dump_id = $1`,
 
       // Verify data was restored
       for (const email of testEmails) {
-        const getUserRes = await getUserByEmail(pool, email);
+        const getUserRes = await getUserByEmailAndAuthType(
+          pool,
+          email,
+          "google",
+        );
         expect(getUserRes.success).toBe(true);
         if (getUserRes.success) {
           expect(getUserRes.data).not.toBeNull();

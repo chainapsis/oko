@@ -1,4 +1,4 @@
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export interface MsgEventContext {
   port: MessagePort;
@@ -57,7 +57,7 @@ export interface Auth0TokenInfo {
 }
 
 export interface TokenInfo {
-  provider: OAuthProvider;
+  provider: AuthType;
   email: string;
   email_verified?: boolean;
   nonce?: string;

@@ -1,7 +1,7 @@
 import type { Bytes33 } from "@oko-wallet/bytes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { CheckKeyShareResponse } from "@oko-wallet/ksn-interface/key_share";
-import type { AuthType } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export async function requestCheckKeyShare(
   ksNodeURI: string,

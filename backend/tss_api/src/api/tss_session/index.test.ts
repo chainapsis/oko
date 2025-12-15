@@ -58,7 +58,7 @@ describe("tss_session_test", () => {
     it("abort tss session success", async () => {
       const email = "test@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }
@@ -126,7 +126,7 @@ describe("tss_session_test", () => {
       const email = "test@test.com";
       const differentEmail = "different@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }
@@ -186,7 +186,7 @@ describe("tss_session_test", () => {
     it("abort tss session failure - not found", async () => {
       const email = "test@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }
@@ -224,7 +224,7 @@ describe("tss_session_test", () => {
     it("abort tss session failure - already completed", async () => {
       const email = "test@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }
@@ -289,7 +289,7 @@ describe("tss_session_test", () => {
     it("abort tss session failure - already failed", async () => {
       const email = "test@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }
@@ -354,7 +354,7 @@ describe("tss_session_test", () => {
     it("abort tss session failure - wallet_id does not match the session", async () => {
       const email = "test@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }
@@ -415,7 +415,7 @@ describe("tss_session_test", () => {
     it("abort tss session failure - database error", async () => {
       const email = "test@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }
@@ -473,7 +473,7 @@ describe("tss_session_test", () => {
     it("should fail triplesStep2 when session is aborted after triplesStep1", async () => {
       const email = "test@test.com";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error(`Failed to create user: ${createUserRes.err}`);
       }

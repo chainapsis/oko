@@ -8,8 +8,8 @@ import type {
   ReshareReason,
   SignInResponse,
   User,
-  AuthType,
 } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
