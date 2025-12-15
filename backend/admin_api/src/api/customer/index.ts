@@ -12,6 +12,7 @@ import type {
 } from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
+  CustomerTheme,
   CustomerWithAPIKeys,
 } from "@oko-wallet/oko-types/customers";
 import { uploadToS3 } from "@oko-wallet/aws";
@@ -91,6 +92,11 @@ export async function createCustomer(
         msg: "Label contains invalid characters",
       };
     }
+
+    const theme: CustomerTheme =
+      body.theme === "light" || body.theme === "dark" || body.theme === "system"
+        ? body.theme
+        : "system";
 
     const customer_id = uuidv4();
 
@@ -197,6 +203,7 @@ export async function createCustomer(
         url: body.url || null,
         logo_url,
         status: "ACTIVE",
+        theme,
       };
       const insertCustomerRes = await insertCustomer(client, customer);
       if (insertCustomerRes.success === false) {

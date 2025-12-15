@@ -1,6 +1,6 @@
 import { Pool, type PoolClient } from "pg";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { type Customer } from "@oko-wallet/oko-types/customers";
+import type { Customer, CustomerTheme } from "@oko-wallet/oko-types/customers";
 import { type CustomerAndCTDUser } from "@oko-wallet/oko-types/ct_dashboard";
 import type {
   DeleteCustomerRequest,
@@ -14,11 +14,11 @@ export async function insertCustomer(
   const query = `
 INSERT INTO customers (
   customer_id, label, status, 
-  url, logo_url
+  url, logo_url, theme
 )
 VALUES (
   $1, $2, $3, 
-  $4, $5
+  $4, $5, COALESCE($6, 'system')
 )
 RETURNING *
 `;
@@ -30,6 +30,7 @@ RETURNING *
       customer.status,
       customer.url?.length ? customer.url : null,
       customer.logo_url?.length ? customer.logo_url : null,
+      customer.theme ?? "system",
     ];
 
     const res = await db.query<Customer>(query, values);
@@ -244,6 +245,7 @@ export async function updateCustomerInfo(
     label?: string;
     url?: string | null;
     logo_url?: string | null;
+    theme?: string;
   },
 ): Promise<Result<Customer, string>> {
   try {
@@ -266,6 +268,12 @@ export async function updateCustomerInfo(
     if (updates.logo_url !== undefined) {
       updateFields.push(`logo_url = $${paramIndex}`);
       values.push(updates.logo_url);
+      paramIndex++;
+    }
+
+    if (updates.theme !== undefined) {
+      updateFields.push(`theme = $${paramIndex}`);
+      values.push(updates.theme);
       paramIndex++;
     }
 
