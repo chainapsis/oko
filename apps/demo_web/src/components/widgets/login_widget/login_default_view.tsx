@@ -30,6 +30,18 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
         <Logo theme={"light"} width={84} height={32} />
       </div>
 
+      {/* @TODO: remove comment after other socials are implemented for production */}
+      {/* <Button
+        variant="secondary"
+        size="md"
+        fullWidth
+        onClick={() => onSignIn("email")}
+      >
+        <MailboxIcon size={20} color={"var(--fg-tertiary)"} />
+        <Spacing width={2} />
+        Email
+      </Button> */}
+
       <Button
         variant="secondary"
         size="md"
@@ -40,6 +52,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
         Google
       </Button>
 
+      {/* @TODO: remove dividerRow after email login is implemented for production */}
       <div className={styles.dividerRow}>
         <div className={styles.line} />
         <Typography tagType="span" size="xs" weight="medium" color="quaternary">
@@ -49,6 +62,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
       </div>
 
       <div className={styles.loginMethodsWrapper}>
+        {/* @TODO: remove emailLoginMethod after email login is implemented for production */}
         <div className={styles.emailLoginMethod}>
           <MailboxIcon size={20} color={"var(--fg-quaternary)"} />
           <input
@@ -74,6 +88,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           size="md"
           fullWidth
           onClick={onShowSocials}
+          // @TODO: remove disabled after other socials are implemented for production
           disabled
         >
           <div className={styles.socialIconWrapper}>

@@ -20,6 +20,8 @@ import {
   insertCustomer,
   getCustomers,
   getCustomersCount,
+  getVerifiedCustomersCount,
+  getTxActiveCustomersCount,
   deleteCustomer,
   getCustomer,
 } from "@oko-wallet/oko-pg-interface/customers";
@@ -260,6 +262,8 @@ export async function getCustomerList(
       total: number;
       current_page: number;
       total_pages: number;
+      verified_count: number;
+      tx_active_count: number;
     };
   }>
 > {
@@ -318,6 +322,24 @@ export async function getCustomerList(
       };
     }
 
+    const verifiedCountResult = await getVerifiedCustomersCount(db);
+    if (verifiedCountResult.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get verified customers count: ${verifiedCountResult.err}`,
+      };
+    }
+
+    const txActiveCountResult = await getTxActiveCustomersCount(db);
+    if (txActiveCountResult.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get tx active customers count: ${txActiveCountResult.err}`,
+      };
+    }
+
     const total = customersCountResult.data;
     const totalPages = Math.ceil(total / limit);
     const currentPage = total ? Math.floor(offset / limit) + 1 : 0;
@@ -345,6 +367,8 @@ export async function getCustomerList(
           total,
           current_page: currentPage,
           total_pages: totalPages,
+          verified_count: verifiedCountResult.data,
+          tx_active_count: txActiveCountResult.data,
         },
       },
     };

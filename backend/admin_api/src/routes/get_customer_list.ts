@@ -15,6 +15,8 @@ export async function get_customer_list(
         total: number;
         current_page: number;
         total_pages: number;
+        verified_count: number;
+        tx_active_count: number;
       };
     }>
   >,

@@ -42,14 +42,8 @@ export async function oauthMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  const authType = req.body?.auth_type as AuthType | undefined;
-
-  if (!authType) {
-    res.status(400).json({
-      error: "auth_type is required in request body",
-    });
-    return;
-  }
+  // default to google if auth_type is not provided
+  const authType = (req.body?.auth_type ?? "google") as AuthType;
 
   // Store auth_type in res.locals for use in route handlers
   res.locals.oauth_provider = authType;

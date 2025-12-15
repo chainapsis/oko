@@ -116,6 +116,47 @@ WHERE status = 'ACTIVE'
   }
 }
 
+export async function getVerifiedCustomersCount(
+  db: Pool | PoolClient,
+): Promise<Result<number, string>> {
+  const query = `
+SELECT COUNT(DISTINCT c.customer_id)
+FROM customers c
+JOIN customer_dashboard_users u ON c.customer_id = u.customer_id
+WHERE c.status = 'ACTIVE'
+  AND u.status = 'ACTIVE'
+  AND u.is_email_verified = true
+`;
+
+  try {
+    const result = await db.query(query);
+    return { success: true, data: parseInt(result.rows[0].count, 10) };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}
+
+export async function getTxActiveCustomersCount(
+  db: Pool | PoolClient,
+): Promise<Result<number, string>> {
+  const query = `
+SELECT COUNT(DISTINCT customer_id)
+FROM tss_sessions
+WHERE customer_id IN (
+  SELECT customer_id 
+  FROM customers 
+  WHERE status = 'ACTIVE'
+)
+`;
+
+  try {
+    const result = await db.query(query);
+    return { success: true, data: parseInt(result.rows[0].count, 10) };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}
+
 export async function getCustomerAndCTDUserByCustomerId(
   db: Pool,
   customerDashboardUserId: string,

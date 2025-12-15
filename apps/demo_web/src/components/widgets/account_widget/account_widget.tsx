@@ -21,8 +21,17 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
   const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
-  // TODO: add other login methods, and update the type accordingly
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("google");
+
+  function isSupportedLoginMethod(method: LoginMethod) {
+    return (
+      method === "google" ||
+      method === "x" ||
+      method === "discord" ||
+      method === "telegram" ||
+      method === "email"
+    );
+  }
 
   async function handleSignIn(method: LoginMethod) {
     setLoginMethod(method);
@@ -32,14 +41,14 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
       return;
     }
 
-    if (method !== "google" && method !== "x" && method !== "discord") {
+    if (!isSupportedLoginMethod(method)) {
       console.error("Unsupported login method atm: %s", method);
       return;
     }
 
     try {
       setSigningInState({ status: "signing-in" });
-      await okoWallet.signIn(method as "google" | "x" | "discord");
+      await okoWallet.signIn(method);
 
       setSigningInState({ status: "ready" });
     } catch (error: any) {
@@ -72,7 +81,8 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
     return <>Loading...</>;
   }
 
-  if (signingInState.status === "signing-in") {
+  // The email login loading progress is shown in the Attached popup, so we don't need to show that here
+  if (signingInState.status === "signing-in" && loginMethod !== "email") {
     return <AuthProgressWidget method={loginMethod} status="loading" />;
   }
 

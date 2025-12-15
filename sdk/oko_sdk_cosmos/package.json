@@ -7,7 +7,7 @@
   },
   "scripts": {
     "clean": "del-cli dist",
-    "build": "yarn clean && rollup -c && tsc-alias",
+    "build": "yarn clean && rollup -c --configPlugin typescript && tsc-alias",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "main": "./dist/index.js",
@@ -33,8 +33,8 @@
     "directory": "sdk/oko_sdk_cosmos"
   },
   "dependencies": {
-    "@cosmjs/amino": "^0.33.1",
-    "@cosmjs/proto-signing": "^0.33.1",
+    "@cosmjs/amino": "0.36.1",
+    "@cosmjs/proto-signing": "0.36.1",
     "@keplr-wallet/proto-types": "^0.12.253",
     "@keplr-wallet/types": "^0.12.290",
     "@noble/curves": "1.9.7",
