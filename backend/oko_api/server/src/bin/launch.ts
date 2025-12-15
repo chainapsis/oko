@@ -71,7 +71,7 @@ async function main() {
         user: envs.DB_USER,
         password: envs.DB_PASSWORD,
         database: envs.DB_NAME,
-        ssl: envs.DB_SSL === "true",
+        ssl: envs.DB_SSL === "true" ? { rejectUnauthorized: false } : false,
       },
       migrations: knexConfig.migrations,
     };
