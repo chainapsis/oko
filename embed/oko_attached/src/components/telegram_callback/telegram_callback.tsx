@@ -109,7 +109,8 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
                 weight="semibold"
                 className={telegramStyles.errorMessageText}
               >
-                Failed to get the required information from Telegram. Please contact Oko for support.
+                Failed to get the required information from Telegram. Please
+                contact Oko for support.
               </Typography>
             </div>
           )}

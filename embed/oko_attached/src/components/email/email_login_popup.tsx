@@ -78,10 +78,11 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
                       autoFocus
                     />
                     <button
-                      className={`${styles.nextButton} ${isEmailValid && !isSubmitting
-                        ? styles.nextButtonActive
-                        : ""
-                        }`}
+                      className={`${styles.nextButton} ${
+                        isEmailValid && !isSubmitting
+                          ? styles.nextButtonActive
+                          : ""
+                      }`}
                       type="submit"
                       disabled={!isEmailValid || isSubmitting}
                     >
