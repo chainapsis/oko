@@ -76,7 +76,7 @@ export async function handleOAuthInfoPass(
 
     const { idToken, userIdentifier } = validateOauthRes.data;
 
-    const userExistsRes = await checkUserExists(userIdentifier);
+    const userExistsRes = await checkUserExists(userIdentifier, authType);
     if (!userExistsRes.success) {
       await bail(message, {
         type: "check_user_request_fail",

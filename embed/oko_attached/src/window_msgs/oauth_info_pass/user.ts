@@ -388,11 +388,13 @@ export async function handleReshare(
 
 export async function checkUserExists(
   email: string,
+  authType: AuthType,
 ): Promise<Result<OkoApiResponse<CheckEmailResponse>, FetchError>> {
   const res = await makeOkoApiRequest<CheckEmailRequest, CheckEmailResponse>(
     "user/check",
     {
       email,
+      auth_type: authType,
     },
   );
 
