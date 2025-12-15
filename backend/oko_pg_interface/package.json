@@ -4,9 +4,10 @@
   "type": "module",
   "scripts": {
     "knex": "knex",
-    "migrate": "tsx ../../node_modules/knex/bin/cli.js migrate:latest",
-    "seed": "tsx ../../node_modules/knex/bin/cli.js seed:run",
-    "down": "tsx ../../node_modules/knex/bin/cli.js migrate:down"
+    "migrate": "knex migrate:latest",
+    "seed": "knex seed:run",
+    "migrate_down": "knex migrate:down",
+    "schema_make": "knex migrate:make -x ts"
   },
   "exports": {
     "./admin_users": "./src/admin_users/index.ts",

@@ -9,7 +9,6 @@ import { dbMigrateKSN } from "./cmds/db_migrate_ksn";
 import { buildCs } from "./cmds/build_cs";
 import { DbSeedAPI } from "./cmds/db_seed_api";
 import { DbMigrateAPI } from "./cmds/db_migrate_api";
-import { DbMakeApi } from "./cmds/db_make_api";
 import { deploy } from "./cmds/deploy";
 import { langFormat } from "./cmds/lang_format";
 import { langCheck } from "./cmds/lang_check";
@@ -44,8 +43,6 @@ async function main() {
       false,
     )
     .action(DbMigrateAPI);
-
-  command.command("db_make_api <name>").action(DbMakeApi);
 
   command
     .command("db_seed_api")
