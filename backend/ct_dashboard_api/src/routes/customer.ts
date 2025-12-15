@@ -3,6 +3,7 @@ import sharp from "sharp";
 import { randomUUID } from "crypto";
 import type {
   Customer,
+  CustomerTheme,
   UpdateCustomerInfoRequest,
   UpdateCustomerInfoResponse,
 } from "@oko-wallet/oko-types/customers";
@@ -337,7 +338,7 @@ export function setCustomerRoutes(router: Router) {
       try {
         const state = req.app.locals as any;
         const userId = res.locals.user_id;
-        const { label, url, delete_logo } = req.body;
+        const { label, url, delete_logo, theme } = req.body;
 
         const shouldDeleteLogo = delete_logo === "true";
 
@@ -449,6 +450,7 @@ export function setCustomerRoutes(router: Router) {
           label?: string;
           url?: string | null;
           logo_url?: string | null;
+          theme?: CustomerTheme;
         } = {};
         if (label !== undefined && label.trim() !== "") {
           updates.label = label.trim();
@@ -458,6 +460,16 @@ export function setCustomerRoutes(router: Router) {
         }
         if (shouldUpdateLogo) {
           updates.logo_url = logo_url;
+        }
+        if (theme === "light" || theme === "dark" || theme === "system") {
+          updates.theme = theme;
+        } else if (theme !== undefined) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_REQUEST",
+            msg: "theme must be one of light, dark, system",
+          });
+          return;
         }
 
         if (Object.keys(updates).length === 0) {
