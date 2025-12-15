@@ -8090,6 +8090,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@keplr-wallet/types@npm:^0.12.253, @keplr-wallet/types@npm:^0.12.257":
+  version: 0.12.305
+  resolution: "@keplr-wallet/types@npm:0.12.305"
+  dependencies:
+    long: "npm:^4.0.0"
+  peerDependencies:
+    starknet: ^8
+  checksum: 10c0/4a467f294220a2a5032a98bcee1b5b12d49b50336c63a5b23ef790cab6eccca57f2d386c364f72c0f5c52883a4e2c9cdbef09020e20f2fa4928e30d170e0adba
+  languageName: node
+  linkType: hard
+
 "@keplr-wallet/unit@npm:0.12.257":
   version: 0.12.257
   resolution: "@keplr-wallet/unit@npm:0.12.257"
@@ -10955,7 +10966,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.125, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.124, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.125, @oko-wallet/oko-sdk-core@workspace:*, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
+"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.104":
+  version: 0.0.6-rc.104
+  resolution: "@oko-wallet/oko-sdk-core@npm:0.0.6-rc.104"
+  dependencies:
+    "@keplr-wallet/types": "npm:^0.12.257"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.26"
+  checksum: 10c0/e3a60b2946d38e4f0b2830033854d14bb7ff5526c00cd71e1157f0a9b662fa6c04e6291aab64d6449c9afbc568d1495c175a00840d348121c81d90e89a1bdc0a
+  languageName: node
+  linkType: hard
+
+"@oko-wallet/oko-sdk-core@npm:0.0.6-rc.125, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.112, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.124, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.125, @oko-wallet/oko-sdk-core@workspace:*, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core"
   dependencies:
@@ -10981,6 +11002,25 @@ __metadata:
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
+
+"@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.134":
+  version: 0.0.6-rc.134
+  resolution: "@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.134"
+  dependencies:
+    "@cosmjs/amino": "npm:^0.33.1"
+    "@cosmjs/proto-signing": "npm:^0.33.1"
+    "@keplr-wallet/proto-types": "npm:^0.12.253"
+    "@keplr-wallet/types": "npm:^0.12.253"
+    "@noble/curves": "npm:1.9.7"
+    "@noble/hashes": "npm:^1.8.0"
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.112"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.31"
+    bech32: "npm:^2.0.0"
+    buffer: "npm:^6.0.3"
+    uuid: "npm:*"
+  checksum: 10c0/deb60f74133132f2a8bc4ae31a8292e4118dbd1c8d0ba7df8cb46fca1ef9d7cbfa99d3865de0713fcf3db55b31c33a590d8ebb6d2bd303eecf1322498506e003
+  languageName: node
+  linkType: hard
 
 "@oko-wallet/oko-sdk-cosmos@npm:0.0.6-rc.151, @oko-wallet/oko-sdk-cosmos@npm:^0.0.6-rc.150, @oko-wallet/oko-sdk-cosmos@npm:^0.0.6-rc.151, @oko-wallet/oko-sdk-cosmos@workspace:*, @oko-wallet/oko-sdk-cosmos@workspace:sdk/oko_sdk_cosmos":
   version: 0.0.0-use.local
@@ -11012,6 +11052,19 @@ __metadata:
     uuid: "npm:^13.0.0"
   languageName: unknown
   linkType: soft
+
+"@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.125":
+  version: 0.0.6-rc.125
+  resolution: "@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.125"
+  dependencies:
+    "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.112"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.31"
+    eventemitter3: "npm:^5.0.1"
+    uuid: "npm:*"
+    viem: "npm:*"
+  checksum: 10c0/ee9479b1852c4b2ede945430104327da94ee1936f254344f29194e138a2944024f3a6504df769f5f0cb7571162aaa88c58e09e688c3e1eb4bb348cbb0eba255f
+  languageName: node
+  linkType: hard
 
 "@oko-wallet/oko-sdk-eth@npm:0.0.6-rc.140, @oko-wallet/oko-sdk-eth@workspace:sdk/oko_sdk_eth":
   version: 0.0.0-use.local
@@ -11191,7 +11244,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/stdlib-js@npm:^0.0.2-rc.41, @oko-wallet/stdlib-js@npm:^0.0.2-rc.42, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
+"@oko-wallet/stdlib-js@npm:^0.0.2-rc.26, @oko-wallet/stdlib-js@npm:^0.0.2-rc.31, @oko-wallet/stdlib-js@npm:^0.0.2-rc.41, @oko-wallet/stdlib-js@npm:^0.0.2-rc.42, @oko-wallet/stdlib-js@workspace:lib/stdlib_js":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/stdlib-js@workspace:lib/stdlib_js"
   dependencies:
@@ -37748,9 +37801,9 @@ __metadata:
   dependencies:
     "@cosmjs/stargate": "npm:^0.34.0"
     "@esbuild-plugins/node-globals-polyfill": "npm:^0.2.3"
-    "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.125"
-    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.151"
-    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.140"
+    "@oko-wallet/oko-sdk-core": "npm:0.0.6-rc.104"
+    "@oko-wallet/oko-sdk-cosmos": "npm:0.0.6-rc.134"
+    "@oko-wallet/oko-sdk-eth": "npm:0.0.6-rc.125"
     "@react-router/dev": "npm:^7.4.0"
     "@tanstack/react-query": "npm:^5.90.12"
     "@types/node": "npm:^24.10.1"
@@ -41234,21 +41287,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"uuid@npm:*, uuid@npm:^13.0.0":
+  version: 13.0.0
+  resolution: "uuid@npm:13.0.0"
+  bin:
+    uuid: dist-node/bin/uuid
+  checksum: 10c0/950e4c18d57fef6c69675344f5700a08af21e26b9eff2bf2180427564297368c538ea11ac9fb2e6528b17fc3966a9fd2c5049361b0b63c7d654f3c550c9b3d67
+  languageName: node
+  linkType: hard
+
 "uuid@npm:^11.1.0":
   version: 11.1.0
   resolution: "uuid@npm:11.1.0"
   bin:
     uuid: dist/esm/bin/uuid
   checksum: 10c0/34aa51b9874ae398c2b799c88a127701408cd581ee89ec3baa53509dd8728cbb25826f2a038f9465f8b7be446f0fbf11558862965b18d21c993684297628d4d3
-  languageName: node
-  linkType: hard
-
-"uuid@npm:^13.0.0":
-  version: 13.0.0
-  resolution: "uuid@npm:13.0.0"
-  bin:
-    uuid: dist-node/bin/uuid
-  checksum: 10c0/950e4c18d57fef6c69675344f5700a08af21e26b9eff2bf2180427564297368c538ea11ac9fb2e6528b17fc3966a9fd2c5049361b0b63c7d654f3c550c9b3d67
   languageName: node
   linkType: hard
 
@@ -41393,6 +41446,27 @@ __metadata:
     "@types/unist": "npm:^3.0.0"
     vfile-message: "npm:^4.0.0"
   checksum: 10c0/e5d9eb4810623f23758cfc2205323e33552fb5972e5c2e6587babe08fe4d24859866277404fb9e2a20afb71013860d96ec806cb257536ae463c87d70022ab9ef
+  languageName: node
+  linkType: hard
+
+"viem@npm:*":
+  version: 2.42.1
+  resolution: "viem@npm:2.42.1"
+  dependencies:
+    "@noble/curves": "npm:1.9.1"
+    "@noble/hashes": "npm:1.8.0"
+    "@scure/bip32": "npm:1.7.0"
+    "@scure/bip39": "npm:1.6.0"
+    abitype: "npm:1.1.0"
+    isows: "npm:1.0.7"
+    ox: "npm:0.9.6"
+    ws: "npm:8.18.3"
+  peerDependencies:
+    typescript: ">=5.0.4"
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 10c0/eb3c5c90c772bc1d78fdb46bf689ed73912cb913a782dddf6551a277ce4dab5c1d5c0cf3dac1c4abf9e20bc0c1bec4cc3c2a510c1237a60527a1a6dc34fa9689
   languageName: node
   linkType: hard
 
