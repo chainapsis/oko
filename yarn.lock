@@ -7839,34 +7839,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keplr-wallet/types@npm:0.12.263":
-  version: 0.12.263
-  resolution: "@keplr-wallet/types@npm:0.12.263"
-  dependencies:
-    long: "npm:^4.0.0"
-  peerDependencies:
-    starknet: ^7
-  checksum: 10c0/8b734419416383adfa8d96203d6cb7bf47523da03e6f1f90f3da9043d3dacf5524dc7163a3d9f87b01df3698805f2d26a980d4cb1add96afd2cf16e67ba49d8a
-  languageName: node
-  linkType: hard
-
 "@keplr-wallet/types@npm:0.12.28":
   version: 0.12.28
   resolution: "@keplr-wallet/types@npm:0.12.28"
   dependencies:
     long: "npm:^4.0.0"
   checksum: 10c0/a541088e55ee0a57ac0e5a9c56e8b788d6325f438fcb4f0a478ba4ce76e336660774d8373a2c3dc6b53e4c6d7b5d91be3128102f340728c71a25448d35245980
-  languageName: node
-  linkType: hard
-
-"@keplr-wallet/types@npm:0.12.280":
-  version: 0.12.280
-  resolution: "@keplr-wallet/types@npm:0.12.280"
-  dependencies:
-    long: "npm:^4.0.0"
-  peerDependencies:
-    starknet: ^7
-  checksum: 10c0/a1fba0ab2ced9826534a08f7d065f5a3e8222a4d631e974576ff56931c5f6042a25fa7a05c317ad22e31bad9d0d6a2e69f7edff73f1e396c59c92577bdecb064
   languageName: node
   linkType: hard
 
@@ -7892,17 +7870,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@keplr-wallet/unit@npm:0.12.263":
-  version: 0.12.263
-  resolution: "@keplr-wallet/unit@npm:0.12.263"
-  dependencies:
-    "@keplr-wallet/types": "npm:0.12.263"
-    big-integer: "npm:^1.6.48"
-    utility-types: "npm:^3.10.0"
-  checksum: 10c0/c28b05390718cc997dc70a4da6a27b0d741c657f9ccaeac4a0acdbe9d16c42b9d5201ece8bae936ff2454bea2da8e7caa7b1e0c7c8424dde4e285bbb8a0433ba
-  languageName: node
-  linkType: hard
-
 "@keplr-wallet/unit@npm:0.12.28":
   version: 0.12.28
   resolution: "@keplr-wallet/unit@npm:0.12.28"
@@ -7911,17 +7878,6 @@ __metadata:
     big-integer: "npm:^1.6.48"
     utility-types: "npm:^3.10.0"
   checksum: 10c0/08d86d9ba01a11fcf2acd6a8a8b2252381eda8dc7613e3c3a50d7ebf73433fcece862b437f4118410e8c968983535e0aa5c4f2747eef9fd9785635eff836f7a7
-  languageName: node
-  linkType: hard
-
-"@keplr-wallet/unit@npm:0.12.280":
-  version: 0.12.280
-  resolution: "@keplr-wallet/unit@npm:0.12.280"
-  dependencies:
-    "@keplr-wallet/types": "npm:0.12.280"
-    big-integer: "npm:^1.6.48"
-    utility-types: "npm:^3.10.0"
-  checksum: 10c0/a91d3a3fcde1a56090260b4813bde2e3d0dff8dcefa503d04e341e3b60ebc70c626e3b728cd6b97bfdd4af32a2a94f339beb1d108378efa8ecaee754518d411a
   languageName: node
   linkType: hard
 
@@ -10100,7 +10056,7 @@ __metadata:
     dayjs: "npm:^1.11.18"
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
-    express-rate-limit: "npm:^8.0.1"
+    express-rate-limit: "npm:8.2.1"
     helmet: "npm:^8.0.0"
     jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
@@ -10178,7 +10134,7 @@ __metadata:
     dayjs: "npm:^1.11.18"
     dotenv: "npm:^16.4.5"
     express: "npm:^4.21.1"
-    express-rate-limit: "npm:^8.0.1"
+    express-rate-limit: "npm:8.2.1"
     helmet: "npm:^8.0.0"
     jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
@@ -10330,8 +10286,8 @@ __metadata:
   resolution: "@oko-wallet/oko-attached@workspace:embed/oko_attached"
   dependencies:
     "@amplitude/analytics-browser": "npm:^2.18.1"
-    "@cosmjs/amino": "npm:^0.33.1"
-    "@cosmjs/proto-signing": "npm:^0.33.1"
+    "@cosmjs/amino": "npm:0.36.1"
+    "@cosmjs/proto-signing": "npm:0.36.1"
     "@floating-ui/dom": "npm:^1.7.4"
     "@floating-ui/react": "npm:^0.27.16"
     "@fontsource-variable/geist": "npm:^5.2.8"
@@ -10340,7 +10296,7 @@ __metadata:
     "@keplr-wallet/cosmos": "npm:^0.12.210"
     "@keplr-wallet/proto-types": "npm:^0.12.250"
     "@keplr-wallet/types": "npm:^0.12.290"
-    "@keplr-wallet/unit": "npm:0.12.263"
+    "@keplr-wallet/unit": "npm:0.12.297"
     "@oko-wallet/api-lib": "workspace:*"
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.62"
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
@@ -10516,8 +10472,8 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-cosmos@workspace:sdk/oko_sdk_cosmos"
   dependencies:
-    "@cosmjs/amino": "npm:^0.33.1"
-    "@cosmjs/proto-signing": "npm:^0.33.1"
+    "@cosmjs/amino": "npm:0.36.1"
+    "@cosmjs/proto-signing": "npm:0.36.1"
     "@keplr-wallet/proto-types": "npm:^0.12.253"
     "@keplr-wallet/types": "npm:^0.12.290"
     "@noble/curves": "npm:1.9.7"
@@ -10646,7 +10602,7 @@ __metadata:
     "@hookform/resolvers": "npm:5.2.2"
     "@interchain-ui/react": "npm:^1.26.3"
     "@keplr-wallet/types": "npm:^0.12.290"
-    "@keplr-wallet/unit": "npm:0.12.280"
+    "@keplr-wallet/unit": "npm:0.12.297"
     "@oko-wallet/oko-cosmos-kit": "workspace:*"
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-query": "npm:^5.90.12"
@@ -10678,7 +10634,7 @@ __metadata:
     "@interchain-kit/keplr-extension": "npm:^0.3.55"
     "@interchain-kit/react": "npm:^0.3.55"
     "@keplr-wallet/types": "npm:^0.12.290"
-    "@keplr-wallet/unit": "npm:0.12.280"
+    "@keplr-wallet/unit": "npm:0.12.297"
     "@oko-wallet/oko-interchain-kit": "workspace:*"
     "@oko-wallet/oko-sdk-core": "workspace:*"
     "@oko-wallet/oko-sdk-cosmos": "workspace:*"
@@ -10713,7 +10669,7 @@ __metadata:
     "@types/node": "npm:^24.10.1"
     "@types/supertest": "npm:^6.0.3"
     express: "npm:^4.21.1"
-    express-rate-limit: "npm:^7.5.0"
+    express-rate-limit: "npm:8.2.1"
     jest: "npm:^30.1.3"
     jsonwebtoken: "npm:^9.0.2"
     supertest: "npm:^7.0.0"
@@ -24233,7 +24189,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"express-rate-limit@npm:*, express-rate-limit@npm:8.2.1, express-rate-limit@npm:^8.0.1":
+"express-rate-limit@npm:*, express-rate-limit@npm:8.2.1":
   version: 8.2.1
   resolution: "express-rate-limit@npm:8.2.1"
   dependencies:
@@ -24241,15 +24197,6 @@ __metadata:
   peerDependencies:
     express: ">= 4.11"
   checksum: 10c0/54185f211c25655382436b8ad1a2136df0d5dc88f4d9d4438ca7cbc87cef0cd34cb01b8fc62d290445326aa6581470d2ff44502c3f1a34a5ed2c2ce56809fa01
-  languageName: node
-  linkType: hard
-
-"express-rate-limit@npm:^7.5.0":
-  version: 7.5.1
-  resolution: "express-rate-limit@npm:7.5.1"
-  peerDependencies:
-    express: ">= 4.11"
-  checksum: 10c0/b07de84d700a2c07c4bf2f040e7558ed5a1f660f03ed5f30bf8ff7b51e98ba7a85215640e70fc48cbbb9151066ea51239d9a1b41febc9b84d98c7915b0186161
   languageName: node
   linkType: hard
 
