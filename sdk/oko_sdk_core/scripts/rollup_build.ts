@@ -1,4 +1,5 @@
 import { deleteAsync } from "del";
+import path from "node:path";
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
@@ -9,11 +10,28 @@ import {
   type OutputOptions,
   type RollupBuild,
 } from "rollup";
+import { fileURLToPath } from "node:url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 async function main() {
   console.log("Start rollup-build");
 
   await removeDirtyFiles();
+  await bundle();
+}
+
+async function removeDirtyFiles() {
+  const tsbuildinfoPath = path.resolve(__dirname, "../*.tsbuildinfo");
+  const distPath = path.resolve(__dirname, "../dist");
+
+  const deletedFilePaths = await deleteAsync([distPath, tsbuildinfoPath]);
+  console.log("deleted: %s", deletedFilePaths.join(" "));
+}
+
+async function bundle() {
+  console.log("Start bundling");
 
   let bundle: RollupBuild;
 
@@ -59,8 +77,6 @@ async function main() {
     await bundle.close();
   }
 }
-
-async function removeDirtyFiles() {}
 
 async function generateOutputs(
   bundle: RollupBuild,
