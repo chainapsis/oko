@@ -15,23 +15,8 @@ export const AppsViewHeader: React.FC = () => {
 
   const hasApps = data && data.pagination && data.pagination.total > 0;
 
-  const verifiedCount = React.useMemo(() => {
-    if (!data?.customerWithAPIKeysList) return undefined;
-
-    return data.customerWithAPIKeysList.filter((customer) => {
-      return customer.customer_dashboard_users?.some(
-        (user) => user.is_email_verified === true,
-      );
-    }).length;
-  }, [data]);
-
-  const txGenCount = React.useMemo(() => {
-    if (!data?.customerWithAPIKeysList) return undefined;
-
-    return data.customerWithAPIKeysList.filter(
-      (customer) => customer.has_tss_sessions === true,
-    ).length;
-  }, [data]);
+  const verifiedCount = data?.pagination?.verified_count;
+  const txGenCount = data?.pagination?.tx_active_count;
 
   return (
     <TitleHeader
