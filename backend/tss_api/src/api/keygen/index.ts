@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import {
   createUser,
-  getUserByEmailAndVendor,
+  getUserByEmailAndAuthType,
 } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
@@ -11,7 +11,7 @@ import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
 import type {
   SignInResponse,
   User,
-  AuthVendor,
+  AuthType,
 } from "@oko-wallet/oko-types/user";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
@@ -35,18 +35,18 @@ export async function runKeygen(
     expires_in: string;
   },
   keygenRequest: KeygenRequest,
-  vendor: AuthVendor,
+  auth_type: AuthType,
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
     const { email, keygen_2 } = keygenRequest;
 
-    const getUserRes = await getUserByEmailAndVendor(db, email, vendor);
+    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmailAndVendor error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndAuthType error: ${getUserRes.err}`,
       };
     }
 
@@ -74,7 +74,7 @@ export async function runKeygen(
         };
       }
     } else {
-      const createUserRes = await createUser(db, email, vendor);
+      const createUserRes = await createUser(db, email, auth_type);
       if (createUserRes.success === false) {
         return {
           success: false,

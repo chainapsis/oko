@@ -1,5 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
-import type { AuthVendor } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/user";
 
 import {
   type GoogleAuthenticatedRequest,
@@ -23,7 +23,7 @@ import {
 } from "./discord_auth";
 
 export interface OAuthBody {
-  auth_type: AuthVendor;
+  auth_type: AuthType;
 }
 
 export type OAuthAuthenticatedRequest<T = {}> = Request<
@@ -34,7 +34,7 @@ export type OAuthAuthenticatedRequest<T = {}> = Request<
 
 export interface OAuthLocals {
   oauth_user: { email: string };
-  oauth_provider: AuthVendor;
+  oauth_provider: AuthType;
 }
 
 export async function oauthMiddleware(
@@ -42,7 +42,7 @@ export async function oauthMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  const authType = req.body?.auth_type as AuthVendor | undefined;
+  const authType = req.body?.auth_type as AuthType | undefined;
 
   if (!authType) {
     res.status(400).json({
