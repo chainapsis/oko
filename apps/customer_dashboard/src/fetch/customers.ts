@@ -1,6 +1,7 @@
 import type { APIKey } from "@oko-wallet/oko-types/ct_dashboard";
 import type {
   Customer,
+  CustomerTheme,
   UpdateCustomerInfoResponse,
 } from "@oko-wallet/oko-types/customers";
 
@@ -55,12 +56,14 @@ export async function requestUpdateCustomerInfo({
   url,
   logoFile,
   deleteLogo,
+  theme,
 }: {
   token: string;
   label?: string;
   url?: string;
   logoFile?: File | null;
   deleteLogo?: boolean;
+  theme?: CustomerTheme;
 }) {
   // Note: Reasons for using FormData:
   // - Need to send file upload (logo) and text data together
@@ -81,6 +84,10 @@ export async function requestUpdateCustomerInfo({
 
   if (deleteLogo) {
     formData.append("delete_logo", "true");
+  }
+
+  if (theme !== undefined) {
+    formData.append("theme", theme);
   }
 
   return errorHandle<UpdateCustomerInfoResponse>(() =>
