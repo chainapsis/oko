@@ -23,6 +23,7 @@
     "./tss_activate": "./src/tss_activate/index.ts",
     "./key_share_node_meta": "./src/key_share_node_meta/index.ts",
     "./server_keypairs": "./src/server_keypairs/index.ts",
+    "./referrals": "./src/referrals/index.ts",
     "./knexfile": "./knexfile.ts"
   },
   "dependencies": {
