@@ -2,6 +2,7 @@ import type { APIKey } from "../ct_dashboard/api_key";
 import type { CustomerDashboardUserWithReminderStatus } from "../ct_dashboard/customer_dashboard_user";
 
 export type CustomerStatus = "ACTIVE" | "DELETED";
+export type CustomerTheme = "light" | "dark" | "system";
 
 export interface Customer {
   customer_id: string;
@@ -9,6 +10,7 @@ export interface Customer {
   status: CustomerStatus;
   url: string | null;
   logo_url: string | null;
+  theme?: CustomerTheme;
 }
 
 export type GetCustomerRequest = { customer_id: string };
@@ -33,6 +35,7 @@ export interface UpdateCustomerInfoRequest {
   label?: string;
   url?: string;
   delete_logo?: string; // "true" to delete logo
+  theme?: CustomerTheme;
 }
 
 export interface UpdateCustomerInfoResponse {
