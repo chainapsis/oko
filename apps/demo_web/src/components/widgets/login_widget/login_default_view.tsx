@@ -30,34 +30,65 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
         <Logo theme={"light"} width={84} height={32} />
       </div>
 
-      <div className={styles.loginMethodsWrapper}>
-        <Button
-          variant="secondary"
-          size="md"
-          fullWidth
-          onClick={() => onSignIn("email")}
-        >
-          <MailboxIcon size={20} color={"var(--fg-tertiary)"} />
-          <Spacing width={2} />
-          Email
-        </Button>
+      {/* @TODO: remove comment after other socials are implemented for production */}
+      {/* <Button
+        variant="secondary"
+        size="md"
+        fullWidth
+        onClick={() => onSignIn("email")}
+      >
+        <MailboxIcon size={20} color={"var(--fg-tertiary)"} />
+        <Spacing width={2} />
+        Email
+      </Button> */}
 
-        <Button
-          variant="secondary"
-          size="md"
-          fullWidth
-          onClick={() => onSignIn("google")}
-        >
-          <GoogleIcon width={20} height={20} />
-          Google
-        </Button>
+      <Button
+        variant="secondary"
+        size="md"
+        fullWidth
+        onClick={() => onSignIn("google")}
+      >
+        <GoogleIcon width={20} height={20} />
+        Google
+      </Button>
+
+      {/* @TODO: remove dividerRow after email login is implemented for production */}
+      <div className={styles.dividerRow}>
+        <div className={styles.line} />
+        <Typography tagType="span" size="xs" weight="medium" color="quaternary">
+          Coming soon
+        </Typography>
+        <div className={styles.line} />
+      </div>
+
+      <div className={styles.loginMethodsWrapper}>
+        {/* @TODO: remove emailLoginMethod after email login is implemented for production */}
+        <div className={styles.emailLoginMethod}>
+          <MailboxIcon size={20} color={"var(--fg-quaternary)"} />
+          <input
+            placeholder="your@email.com"
+            value=""
+            readOnly
+            className={styles.emailInput}
+            type="email"
+            disabled
+          />
+          <Button
+            variant="ghost"
+            size="md"
+            className={styles.loginButton}
+            disabled
+          >
+            Next
+          </Button>
+        </div>
 
         <Button
           variant="secondary"
           size="md"
           fullWidth
           onClick={onShowSocials}
-          // @TODO: remove after other socials are implemented for production
+          // @TODO: remove disabled after other socials are implemented for production
           disabled
         >
           <div className={styles.socialIconWrapper}>
