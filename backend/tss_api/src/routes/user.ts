@@ -188,7 +188,7 @@ export function setUserRoutes(router: Router) {
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
-      const auth_type = res.locals.oauth_provider as AuthType;
+      const auth_type = oauthUser.type as AuthType;
 
       if (!oauthUser?.email) {
         res.status(401).json({
@@ -403,7 +403,7 @@ export function setUserRoutes(router: Router) {
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
-      const auth_type = res.locals.oauth_provider as AuthType;
+      const auth_type = oauthUser.type as AuthType;
       const { public_key, reshared_key_shares } = req.body;
 
       if (!oauthUser?.email) {

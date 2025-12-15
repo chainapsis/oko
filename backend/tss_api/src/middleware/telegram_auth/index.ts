@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import {
   validateTelegramHash,
@@ -54,7 +55,7 @@ export async function telegramAuthMiddleware(
     const userInfo: TelegramUserInfo = result.data;
 
     res.locals.oauth_user = {
-      type: "telegram",
+      type: "telegram" as AuthType,
       // in telegram, use telegram id as email
       email: userInfo.id,
       name: userInfo.username ?? userInfo.id,

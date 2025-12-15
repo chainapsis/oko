@@ -1,4 +1,5 @@
 import type { Request, Response, NextFunction } from "express";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { validateAuth0IdToken } from "./validate";
 import { AUTH0_CLIENT_ID, AUTH0_DOMAIN } from "./client_id";
@@ -50,7 +51,7 @@ export async function auth0AuthMiddleware(
     }
 
     res.locals.oauth_user = {
-      type: "auth0",
+      type: "auth0" as AuthType,
       email: result.data.email,
       name: result.data.name,
       sub: result.data.sub,
