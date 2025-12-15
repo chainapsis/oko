@@ -2,9 +2,9 @@
 
 import React, { createContext, type PropsWithChildren } from "react";
 
-export type Theme = "light" | "dark";
+export type Theme = "light" | "dark" | "system";
 
-export const ThemeContext = createContext<Theme>("dark");
+export const ThemeContext = createContext<Theme>("system");
 
 export const ThemeProvider: React.FC<PropsWithChildren<ThemeProviderProps>> = ({
   children,
