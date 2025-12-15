@@ -22,6 +22,7 @@ async function main() {
       typescript({
         tsconfig: "./tsconfig.rollup.json",
         noEmitOnError: true,
+        outputToFilesystem: true,
       }),
     ],
   };
@@ -41,9 +42,10 @@ async function main() {
   ];
 
   try {
+    console.log("input: %s", inputOptions.input);
     bundle = await rollup(inputOptions);
 
-    await generateOutputs(bundle, outputOptionsList);
+    await generateOutputs(bundle, inputOptions, outputOptionsList);
   } catch (error) {
     console.error(error);
     process.exit(1);
@@ -56,9 +58,12 @@ async function main() {
 
 async function generateOutputs(
   bundle: RollupBuild,
+  inputOptions: InputOptions,
   outputOptionsList: OutputOptions[],
 ) {
   for (const outputOptions of outputOptionsList) {
+    console.log("generated: %s → %s", inputOptions.input, outputOptions.file);
+
     await bundle.write(outputOptions);
   }
 }
