@@ -24,7 +24,7 @@ LIMIT 1
   try {
     const result = await db.query<Customer>(query, [hostOrigin]);
     const row = result.rows[0];
-    console.log("[attached] row: %o", row);
+    
     if (!row) {
       return { success: false, err: "Customer not found" };
     }
