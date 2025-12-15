@@ -1,5 +1,8 @@
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
+import { getThemeByHostOrigin } from "@oko-wallet-attached/requests/theme";
+import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
+
 export function setColorScheme(theme: Theme) {
   const root = window.document.documentElement;
 
@@ -16,19 +19,28 @@ export function setColorScheme(theme: Theme) {
   // root.style.colorScheme = "light dark";
 }
 
+function resolveTheme(theme: Theme): Theme | null {
+  if (theme === "light" || theme === "dark") {
+    return theme;
+  }
+  if (theme === "system") {
+    return getSystemTheme();
+  }
+  return null;
+}
+
 export async function determineTheme(
-  _hostOrigin: string,
+  hostOrigin: string,
   oldTheme: Theme | null,
 ): Promise<Theme> {
-  // Ignore oldTheme to prevent getting stuck in a previous theme
-  // default to system preference
+  const fallbackTheme: Theme = oldTheme ?? getSystemTheme();
 
-  if (
-    typeof window !== "undefined" &&
-    window.matchMedia("(prefers-color-scheme: dark)").matches
-  ) {
-    return "dark";
+  const themeRes = await getThemeByHostOrigin(hostOrigin);
+
+  if (themeRes.success) {
+    const resolvedTheme = resolveTheme(themeRes.data);
+    return resolvedTheme ?? fallbackTheme;
   }
 
-  return "light";
+  return fallbackTheme;
 }
