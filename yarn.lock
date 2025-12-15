@@ -11583,6 +11583,43 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@phantom/browser-injected-sdk@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@phantom/browser-injected-sdk@npm:1.0.0"
+  dependencies:
+    "@phantom/constants": "npm:^1.0.0"
+    "@phantom/sdk-types": "npm:^1.0.0"
+  checksum: 10c0/96c2c65ba55a8df91ae6d31f85b63b37291f5ce41a4c35eae4899fd30291055f6fa91cd4c53f26ad0efb42cc1ebe58e7fc1b0cc88c2b6b281938376a86fd8711
+  languageName: node
+  linkType: hard
+
+"@phantom/constants@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@phantom/constants@npm:1.0.0"
+  checksum: 10c0/947be5ab383f16a1c239973d1f40aa79dcb2767be592d7f3d71f4faad383b46c612654972cefb6f53adb258843e6fd2d6a03ada2401ef14423f9ee67bfd4e8f9
+  languageName: node
+  linkType: hard
+
+"@phantom/openapi-wallet-service@npm:0.1.11":
+  version: 0.1.11
+  resolution: "@phantom/openapi-wallet-service@npm:0.1.11"
+  dependencies:
+    axios: "npm:^1.12.2"
+  checksum: 10c0/b9af2580907c055967b2d0fa7003ad9ee94953c37c62093e49d15e466599d7e242049c7d0eaeefc0b7ea466daeddf28d75aa01d5b68d9d651921f598ed7b6c5f
+  languageName: node
+  linkType: hard
+
+"@phantom/sdk-types@npm:^1.0.0":
+  version: 1.0.0
+  resolution: "@phantom/sdk-types@npm:1.0.0"
+  dependencies:
+    "@phantom/openapi-wallet-service": "npm:0.1.11"
+    "@solana/web3.js": "npm:^1.95.4"
+    buffer: "npm:^6.0.3"
+  checksum: 10c0/48d759a94a7e07028924f78a8f450019aa129a8c371f97652e0fee541f14a20adcdf42d84f24f01f876d5518c79e233e52d9f2b91bb248705729f40b72a62632
+  languageName: node
+  linkType: hard
+
 "@pkgjs/parseargs@npm:^0.11.0":
   version: 0.11.0
   resolution: "@pkgjs/parseargs@npm:0.11.0"
@@ -15418,7 +15455,11 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "@solana/web3.js@npm:^1.98.4":
+=======
+"@solana/web3.js@npm:^1.95.4":
+>>>>>>> da9a6194 (oko_sdk_sol: add oko_sdk_sol interface skeleton)
   version: 1.98.4
   resolution: "@solana/web3.js@npm:1.98.4"
   dependencies:
@@ -19489,7 +19530,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.12.0":
+"axios@npm:^1.12.0, axios@npm:^1.12.2":
   version: 1.13.2
   resolution: "axios@npm:1.13.2"
   dependencies:
@@ -23852,6 +23893,7 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "es-toolkit@npm:1.39.3":
   version: 1.39.3
   resolution: "es-toolkit@npm:1.39.3"
@@ -23864,6 +23906,8 @@ __metadata:
   languageName: node
   linkType: hard
 
+=======
+>>>>>>> da9a6194 (oko_sdk_sol: add oko_sdk_sol interface skeleton)
 "es6-promise@npm:^4.0.3, es6-promise@npm:^4.2.8":
   version: 4.2.8
   resolution: "es6-promise@npm:4.2.8"
@@ -33099,6 +33143,14 @@ __metadata:
   languageName: node
   linkType: hard
 
+"oko_sdk_sol@workspace:sdk/oko_sdk_sol":
+  version: 0.0.0-use.local
+  resolution: "oko_sdk_sol@workspace:sdk/oko_sdk_sol"
+  dependencies:
+    "@phantom/browser-injected-sdk": "npm:^1.0.0"
+  languageName: unknown
+  linkType: soft
+
 "on-exit-leak-free@npm:^0.2.0":
   version: 0.2.0
   resolution: "on-exit-leak-free@npm:0.2.0"
@@ -42202,7 +42254,11 @@ __metadata:
   languageName: node
   linkType: hard
 
+<<<<<<< HEAD
 "ws@npm:8.18.3, ws@npm:^8.14.0, ws@npm:^8.18.0, ws@npm:^8.5.0":
+=======
+"ws@npm:8.18.3, ws@npm:^8.18.0, ws@npm:^8.5.0":
+>>>>>>> da9a6194 (oko_sdk_sol: add oko_sdk_sol interface skeleton)
   version: 8.18.3
   resolution: "ws@npm:8.18.3"
   peerDependencies:
