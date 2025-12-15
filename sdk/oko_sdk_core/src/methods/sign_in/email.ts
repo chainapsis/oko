@@ -60,7 +60,6 @@ async function tryAuth0EmailSignIn(
   const oauthSignInUpdateWaiter = waitForOAuthSignInUpdate(okoWallet);
 
   const result = await okoWallet.openModal(modalMsg);
-  console.log("[oko] email sign in open modal result: %o", result);
   if (!result.success) {
     oauthSignInUpdateWaiter.cancel();
     throw new Error(`email sign in open modal failed, err: ${result.err.type}`);
