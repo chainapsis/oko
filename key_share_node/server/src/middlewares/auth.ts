@@ -5,11 +5,9 @@ import type {
   DiscordTokenInfo,
   GoogleTokenInfo,
 } from "@oko-wallet/ksn-interface/auth";
+import type { AuthType } from "@oko-wallet/ksn-interface/user";
 
-import type {
-  OAuthProvider,
-  OAuthValidationFail,
-} from "@oko-wallet-ksn-server/auth/types";
+import type { OAuthValidationFail } from "@oko-wallet-ksn-server/auth/types";
 import {
   validateAuth0Token,
   validateDiscordOAuthToken,
@@ -27,7 +25,7 @@ import type {
 } from "@oko-wallet-ksn-server/auth/telegram";
 
 type OAuthBody = {
-  auth_type?: OAuthProvider;
+  auth_type?: AuthType;
 };
 
 type VerifyResult =
@@ -52,8 +50,11 @@ type VerifyResult =
       data: Result<DiscordTokenInfo, OAuthValidationFail>;
     };
 
-export interface AuthenticatedRequest<T = any>
-  extends Request<any, any, T & OAuthBody> {}
+export interface AuthenticatedRequest<T = any> extends Request<
+  any,
+  any,
+  T & OAuthBody
+> {}
 
 export async function bearerTokenMiddleware(
   req: AuthenticatedRequest,
@@ -62,7 +63,7 @@ export async function bearerTokenMiddleware(
 ) {
   const authHeader = req.headers.authorization;
   // default to google if auth_type is not provided
-  const authType = req.body?.auth_type ?? "google";
+  const authType = (req.body?.auth_type ?? "google") as AuthType;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     const errorRes: KSNodeApiErrorResponse = {
