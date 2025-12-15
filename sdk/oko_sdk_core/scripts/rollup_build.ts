@@ -11,17 +11,22 @@ import {
   type RollupBuild,
 } from "rollup";
 import { fileURLToPath } from "node:url";
+import { replaceTscAliasPaths } from "tsc-alias";
 
 import tsConfigJson from "../tsconfig.json";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+const PKG_ROOT = path.resolve(__dirname, "..");
 
 async function main() {
   console.log("Start rollup-build");
 
   await removeDirtyFiles();
   await bundle();
+  replaceTscAlias();
+
+  console.log("Done rollup-build");
 }
 
 async function removeDirtyFiles() {
@@ -30,11 +35,16 @@ async function removeDirtyFiles() {
 
   console.log("deleting: %s, %s", TS_BUILD_INFO, DIST);
 
-  const pkgRoot = path.resolve(__dirname);
   await deleteAsync([
-    path.resolve(pkgRoot, DIST),
-    path.resolve(pkgRoot, TS_BUILD_INFO),
+    path.resolve(PKG_ROOT, DIST),
+    path.resolve(PKG_ROOT, TS_BUILD_INFO),
   ]);
+}
+
+function replaceTscAlias() {
+  console.log("Start replacing tsc aliases");
+
+  replaceTscAliasPaths({ configFile: path.resolve(PKG_ROOT, "tsconfig.json") });
 }
 
 async function bundle() {
@@ -78,7 +88,7 @@ async function bundle() {
 
   let bundle: RollupBuild;
   try {
-    console.log("input: %s", inputOptions.input);
+    console.log(chalk.cyan("input: %s"), chalk.bold(inputOptions.input));
     bundle = await rollup(inputOptions);
 
     await generateOutputs(bundle, inputOptions, outputOptionsList);
