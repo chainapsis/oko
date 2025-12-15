@@ -20,7 +20,15 @@ export async function determineTheme(
   _hostOrigin: string,
   oldTheme: Theme | null,
 ): Promise<Theme> {
-  // noop
-  // fetch Oko api
-  return oldTheme || "dark";
+  // Ignore oldTheme to prevent getting stuck in a previous theme
+  // default to system preference
+
+  if (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    return "dark";
+  }
+
+  return "light";
 }

@@ -22,6 +22,8 @@ export async function getCustomerListWithAPIKeys({
       total: number;
       current_page: number;
       total_pages: number;
+      verified_count: number;
+      tx_active_count: number;
     };
   }>(
     `${OKO_ADMIN_API_ENDPOINT_V1}/customer/get_customer_list?limit=${limit}&offset=${offset}`,

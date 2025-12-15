@@ -24,7 +24,7 @@ export async function handleXSignIn(okoWallet: OkoWalletInterface) {
   }
 }
 
-async function tryXSignIn(
+function tryXSignIn(
   sdkEndpoint: string,
   apiKey: string,
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>,
@@ -45,13 +45,14 @@ async function tryXSignIn(
     provider: "x",
   };
 
-  //https://devcommunity.x.com/t/redirect-url-receiving-state-parameter-with-some-characters-stripped-out/170092/13
+  // https://devcommunity.x.com/t/redirect-url-receiving-state-parameter-with-some-characters-stripped-out/170092/13
   // If the provider is X and the state is an object,
-  // there is an issue where encoding disappears when the state is passed to the callback.
-  // Therefore, only in this case, send it encoded as base64.
+  // there is an issue where encoding disappears when the state is passed to
+  // the callback. Therefore, only in this case, send it encoded as base64.
   const oauthStateString = btoa(JSON.stringify(oauthState));
-
   console.debug("[oko] X login - oauthStateString: %s", oauthStateString);
+
+  // NOTE:
   // Open popup immediately to avoid Safari popup blocker
   // Use a blank page first, then redirect after PKCE is ready
   const popup = window.open("about:blank", "x_oauth", "width=1200,height=800");
@@ -60,41 +61,43 @@ async function tryXSignIn(
     throw new Error("Failed to open new window for X oauth sign in");
   }
 
-  const { codeVerifier, codeChallenge } = await createPkcePair();
+  return new Promise<OkoWalletMsgOAuthSignInUpdate>(async (resolve, reject) => {
+    const { codeVerifier, codeChallenge } = await createPkcePair();
 
-  const codeVerifierAckPromise = sendMsgToIframe({
-    target: "oko_attached",
-    msg_type: "set_code_verifier",
-    payload: codeVerifier,
-  });
+    const codeVerifierAckPromise = sendMsgToIframe({
+      target: "oko_attached",
+      msg_type: "set_code_verifier",
+      payload: codeVerifier,
+    });
 
-  // Build the actual auth URL with PKCE
-  const authUrl = new URL("https://twitter.com/i/oauth2/authorize");
-  authUrl.searchParams.set("response_type", "code");
-  authUrl.searchParams.set("client_id", clientId);
-  authUrl.searchParams.set("redirect_uri", redirectUri);
-  authUrl.searchParams.set("scope", X_SCOPES);
-  authUrl.searchParams.set("code_challenge", codeChallenge);
-  authUrl.searchParams.set("code_challenge_method", "S256");
-  authUrl.searchParams.set(RedirectUriSearchParamsKey.STATE, oauthStateString);
-
-  // Redirect popup to actual auth URL
-  try {
-    popup.location.href = authUrl.toString();
-  } catch (error) {
-    popup.close();
-    throw new Error(
-      `Failed to redirect popup to auth URL: ${error instanceof Error ? error.message : String(error)}`,
+    // Build the actual auth URL with PKCE
+    const authUrl = new URL("https://twitter.com/i/oauth2/authorize");
+    authUrl.searchParams.set("response_type", "code");
+    authUrl.searchParams.set("client_id", clientId);
+    authUrl.searchParams.set("redirect_uri", redirectUri);
+    authUrl.searchParams.set("scope", X_SCOPES);
+    authUrl.searchParams.set("code_challenge", codeChallenge);
+    authUrl.searchParams.set("code_challenge_method", "S256");
+    authUrl.searchParams.set(
+      RedirectUriSearchParamsKey.STATE,
+      oauthStateString,
     );
-  }
 
-  const ack = await codeVerifierAckPromise;
+    // Redirect popup to actual auth URL
+    try {
+      popup.location.href = authUrl.toString();
+    } catch (error) {
+      popup.close();
+      throw new Error(
+        `Failed to redirect popup to auth URL: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    }
 
-  if (ack.msg_type !== "set_code_verifier_ack" || !ack.payload.success) {
-    throw new Error("Failed to set code verifier for X oauth sign in");
-  }
+    const ack = await codeVerifierAckPromise;
 
-  return new Promise<OkoWalletMsgOAuthSignInUpdate>((resolve, reject) => {
+    if (ack.msg_type !== "set_code_verifier_ack" || !ack.payload.success) {
+      throw new Error("Failed to set code verifier for X oauth sign in");
+    }
     let timeout: number;
     let popupCheckInterval: number;
 

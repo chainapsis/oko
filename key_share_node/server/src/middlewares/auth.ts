@@ -61,7 +61,8 @@ export async function bearerTokenMiddleware(
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
-  let authType = req.body?.auth_type;
+  // default to google if auth_type is not provided
+  const authType = req.body?.auth_type ?? "google";
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     const errorRes: KSNodeApiErrorResponse = {
@@ -74,18 +75,6 @@ export async function bearerTokenMiddleware(
   }
 
   const bearerToken = authHeader.substring(7).trim(); // skip "Bearer "
-
-  if (authType === undefined) {
-    console.log("auth type is not defined, resolving it to 'google'");
-    authType = "google";
-    // const errorRes: KSNodeApiErrorResponse = {
-    //   success: false,
-    //   code: "UNAUTHORIZED",
-    //   msg: "auth_type is required in request body",
-    // };
-    // res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
-    // return;
-  }
 
   try {
     let result: VerifyResult;
