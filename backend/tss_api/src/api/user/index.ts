@@ -8,9 +8,10 @@ import type {
   ReshareReason,
   SignInResponse,
   User,
+  AuthVendor,
 } from "@oko-wallet/oko-types/user";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { getUserByEmail } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { getUserByEmailAndVendor } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   getActiveKSNodes,
   getWalletKSNodesByWalletId,
@@ -32,25 +33,26 @@ import { checkKeyShareFromKSNodes } from "@oko-wallet-tss-api/api/ks_node";
 export async function signIn(
   db: Pool,
   email: string,
+  vendor: AuthVendor,
   jwt_config: {
     secret: string;
     expires_in: string;
   },
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const getUserRes = await getUserByEmail(db, email);
+    const getUserRes = await getUserByEmailAndVendor(db, email, vendor);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmail error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndVendor error: ${getUserRes.err}`,
       };
     }
     if (getUserRes.data === null) {
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email}`,
+        msg: `User not found: ${email} (vendor: ${vendor})`,
       };
     }
 
@@ -111,15 +113,16 @@ export async function signIn(
 export async function checkEmail(
   db: Pool,
   email: string,
+  vendor: AuthVendor,
 ): Promise<OkoApiResponse<CheckEmailResponse>> {
   try {
     // Check if user exists and has an active wallet
-    const getUserRes = await getUserByEmail(db, email);
+    const getUserRes = await getUserByEmailAndVendor(db, email, vendor);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmail error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndVendor error: ${getUserRes.err}`,
       };
     }
     const user = getUserRes.data;
@@ -265,23 +268,24 @@ export async function checkEmail(
 export async function updateWalletKSNodesForReshare(
   db: Pool,
   email: string,
+  vendor: AuthVendor,
   public_key: Bytes33,
   reshared_key_shares: NodeNameAndEndpoint[],
 ): Promise<OkoApiResponse<void>> {
   try {
-    const getUserRes = await getUserByEmail(db, email);
+    const getUserRes = await getUserByEmailAndVendor(db, email, vendor);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmail error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndVendor error: ${getUserRes.err}`,
       };
     }
     if (getUserRes.data === null) {
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email}`,
+        msg: `User not found: ${email} (vendor: ${vendor})`,
       };
     }
 

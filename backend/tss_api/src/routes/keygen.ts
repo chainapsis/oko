@@ -2,7 +2,7 @@ import type { Response, Router } from "express";
 import type { KeygenBody } from "@oko-wallet/oko-types/tss";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { SignInResponse } from "@oko-wallet/oko-types/user";
+import type { SignInResponse, AuthVendor } from "@oko-wallet/oko-types/user";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
@@ -84,6 +84,7 @@ export function setKeygenRoutes(router: Router) {
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
+      const vendor = res.locals.oauth_provider as AuthVendor;
       const body = req.body;
 
       if (!oauthUser?.email) {
@@ -107,6 +108,7 @@ export function setKeygenRoutes(router: Router) {
           email: oauthUser.email.toLowerCase(),
           keygen_2: body.keygen_2,
         },
+        vendor,
         state.encryption_secret,
       );
 

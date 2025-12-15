@@ -6,12 +6,16 @@ export interface User {
   user_id: string;
   email: string;
   status: string;
+  vendor: AuthVendor;
   created_at: Date;
   updated_at: Date;
 }
 
+export type AuthVendor = "google" | "auth0" | "x" | "telegram" | "discord";
+
 export interface CheckEmailRequest {
   email: string;
+  vendor: AuthVendor;
 }
 
 export interface CheckEmailResponse {

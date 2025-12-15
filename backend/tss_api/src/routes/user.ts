@@ -5,6 +5,7 @@ import type {
   ReshareRequest,
   SignInResponse,
   SignInSilentlyResponse,
+  AuthVendor,
 } from "@oko-wallet/oko-types/user";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
@@ -91,7 +92,7 @@ export function setUserRoutes(router: Router) {
     ) => {
       const state = req.app.locals;
 
-      const { email } = req.body;
+      const { email, vendor } = req.body;
 
       if (!email) {
         res.status(400).json({
@@ -102,7 +103,20 @@ export function setUserRoutes(router: Router) {
         return;
       }
 
-      const checkEmailRes = await checkEmail(state.db, email.toLowerCase());
+      if (!vendor) {
+        res.status(400).json({
+          success: false,
+          code: "INVALID_REQUEST",
+          msg: "vendor is required",
+        });
+        return;
+      }
+
+      const checkEmailRes = await checkEmail(
+        state.db,
+        email.toLowerCase(),
+        vendor,
+      );
       if (checkEmailRes.success === false) {
         res
           .status(ErrorCodeMap[checkEmailRes.code] ?? 500) //
@@ -181,6 +195,7 @@ export function setUserRoutes(router: Router) {
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
+      const vendor = res.locals.oauth_provider as AuthVendor;
 
       if (!oauthUser?.email) {
         res.status(401).json({
@@ -193,7 +208,7 @@ export function setUserRoutes(router: Router) {
 
       const userEmail = oauthUser.email.toLowerCase();
 
-      const signInRes = await signIn(state.db, userEmail, {
+      const signInRes = await signIn(state.db, userEmail, vendor, {
         secret: state.jwt_secret,
         expires_in: state.jwt_expires_in,
       });
@@ -394,6 +409,7 @@ export function setUserRoutes(router: Router) {
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
+      const vendor = res.locals.oauth_provider as AuthVendor;
       const { public_key, reshared_key_shares } = req.body;
 
       if (!oauthUser?.email) {
@@ -427,6 +443,7 @@ export function setUserRoutes(router: Router) {
       const reshareRes = await updateWalletKSNodesForReshare(
         state.db,
         oauthUser.email.toLowerCase(),
+        vendor,
         publicKeyRes.data,
         reshared_key_shares,
       );
