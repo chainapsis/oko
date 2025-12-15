@@ -42,9 +42,9 @@ async function removeDirtyFiles() {
 }
 
 function replaceTscAlias() {
-  console.log("Start replacing tsc aliases");
-
   replaceTscAliasPaths({ configFile: path.resolve(PKG_ROOT, "tsconfig.json") });
+
+  console.log("Done tsc-alias");
 }
 
 async function bundle() {
