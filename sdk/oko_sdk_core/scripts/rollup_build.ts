@@ -12,6 +12,8 @@ import {
 } from "rollup";
 import { fileURLToPath } from "node:url";
 
+import tsConfigJson from "../tsconfig.json";
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -23,17 +25,28 @@ async function main() {
 }
 
 async function removeDirtyFiles() {
-  const tsbuildinfoPath = path.resolve(__dirname, "../*.tsbuildinfo");
-  const distPath = path.resolve(__dirname, "../dist");
+  const TS_BUILD_INFO = "*.tsbuildinfo";
+  const DIST = "dist";
 
-  const deletedFilePaths = await deleteAsync([distPath, tsbuildinfoPath]);
-  console.log("deleted: %s", deletedFilePaths.join(" "));
+  console.log("deleting: %s, %s", TS_BUILD_INFO, DIST);
+
+  const pkgRoot = path.resolve(__dirname);
+  await deleteAsync([
+    path.resolve(pkgRoot, DIST),
+    path.resolve(pkgRoot, TS_BUILD_INFO),
+  ]);
 }
 
 async function bundle() {
   console.log("Start bundling");
 
-  let bundle: RollupBuild;
+  const srcPath = path.resolve(__dirname, "../src");
+
+  const tsConfig = {
+    ...tsConfigJson,
+  };
+  tsConfig.compilerOptions.rootDir = srcPath;
+  tsConfig.include = [`${srcPath}/**/*`];
 
   const inputOptions: InputOptions = {
     input: "src/index.ts",
@@ -42,7 +55,7 @@ async function bundle() {
       json(),
       nodeResolve(),
       typescript({
-        tsconfig: "./tsconfig.rollup.json",
+        ...tsConfig,
         noEmitOnError: true,
         outputToFilesystem: true,
       }),
@@ -63,6 +76,7 @@ async function bundle() {
     // },
   ];
 
+  let bundle: RollupBuild;
   try {
     console.log("input: %s", inputOptions.input);
     bundle = await rollup(inputOptions);

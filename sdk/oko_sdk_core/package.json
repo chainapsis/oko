@@ -4,9 +4,9 @@
   "type": "module",
   "scripts": {
     "clean": "del-cli dist tsconfig.rollup.tsbuildinfo",
-    "rollup-build": "rollup -c --configPlugin typescript",
-    "build2": "tsx ./scripts/rollup_build.ts",
-    "build": "yarn clean && yarn rollup-build &&tsc-alias",
+    "rollup-build-backup": "rollup -c --configPlugin typescript",
+    "rollup-build": "tsx ./scripts/rollup_build.ts",
+    "build": "yarn rollup-build && tsc-alias",
     "typecheck": "tsc --noEmit",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
