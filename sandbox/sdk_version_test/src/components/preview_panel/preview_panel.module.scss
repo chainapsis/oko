@@ -1,0 +1,39 @@
+@use "../../styles/viewport.module.scss" as *;
+
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  height: 100%;
+  background-color: var(--bg-primary);
+  padding: 0;
+  overflow-y: hidden;
+}
+
+@media (min-width: $width_360) {
+  .wrapper {
+    padding: 16px 24px 44px 0;
+  }
+}
+
+.inner {
+  border-radius: 20px;
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+
+  padding: 32px;
+  overflow: auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 12px;
+  row-gap: 24px;
+}
+
+.col {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex: 1;
+  gap: 16px;
+}
