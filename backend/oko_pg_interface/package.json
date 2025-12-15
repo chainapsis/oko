@@ -5,7 +5,7 @@
   "scripts": {
     "knex": "knex",
     "migrate": "knex migrate:latest",
-    "seed": "knex seed:run",
+    "seed": "tsx ../../node_modules/knex/bin/cli.js seed:run",
     "migrate_down": "knex migrate:down",
     "schema_make": "knex migrate:make -x ts"
   },
