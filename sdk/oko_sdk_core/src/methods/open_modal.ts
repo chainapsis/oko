@@ -148,9 +148,8 @@ function openEmailLoginPopup(
       popupWindow.location.href = url.toString();
     } catch (error) {
       popupWindow.close();
-      throw new Error(
-        `Failed to redirect popup to email login URL: ${error instanceof Error ? error.message : String(error)}`,
-      );
+      const errorMsg = error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to redirect popup: ${errorMsg}`);
     }
 
     // Wait for popup to be ready
