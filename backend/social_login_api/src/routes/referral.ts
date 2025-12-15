@@ -14,9 +14,11 @@ import {
 import { Bytes } from "@oko-wallet/bytes";
 import {
   createReferral,
-  getReferralsByPublicKey,
+  getReferralsByPublicKeyAndOrigin,
   type ReferralPublicInfo,
 } from "@oko-wallet/oko-pg-interface/referrals";
+
+const CIVITIA_ORIGIN = "https://app.civitia.org";
 import { getWalletById } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
 
 import {
@@ -175,14 +177,14 @@ export function setReferralRoutes(router: Router) {
     },
   );
 
-  // GET /referral - Query referral by public key (no auth)
+  // GET /referrals/civitia - Civitia-specific referral query (no auth)
   registry.registerPath({
     method: "get",
-    path: "/social-login/v1/referral",
+    path: "/social-login/v1/referrals/civitia",
     tags: ["Social Login"],
-    summary: "Get referral information by public key",
+    summary: "Get Civitia referral information by public key",
     description:
-      "Public API to retrieve referral attribution data. No authentication required.",
+      "Public API for Civitia to retrieve referral attribution data. Only returns referrals from Civitia origin.",
     security: [],
     request: {
       query: GetReferralQuerySchema,
@@ -217,7 +219,7 @@ export function setReferralRoutes(router: Router) {
   });
 
   router.get(
-    "/referral",
+    "/referrals/civitia",
     rateLimitMiddleware({ windowSeconds: 60, maxRequests: 30 }),
     async (
       req: Request<{}, {}, {}, { public_key: string }>,
@@ -246,9 +248,10 @@ export function setReferralRoutes(router: Router) {
           return;
         }
 
-        const referralsRes = await getReferralsByPublicKey(
+        const referralsRes = await getReferralsByPublicKeyAndOrigin(
           state.db,
           Buffer.from(publicKeyRes.data.toUint8Array()),
+          CIVITIA_ORIGIN,
         );
 
         if (!referralsRes.success) {
@@ -271,7 +274,7 @@ export function setReferralRoutes(router: Router) {
           },
         });
       } catch (error) {
-        console.error("Get referral error:", error);
+        console.error("Get Civitia referral error:", error);
         res.status(500).json({
           success: false,
           code: "UNKNOWN_ERROR",
