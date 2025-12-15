@@ -83,8 +83,8 @@ function tryGoogleSignIn(
       throw new Error("Failed to set nonce for google oauth sign in");
     }
 
-    let timeout: number;
-    let popupCheckInterval: number;
+    let popupTimeoutTimer: number;
+    let popupCloseCheckTimer: number;
 
     function onMessage(event: MessageEvent) {
       if (event.ports.length < 1) {
@@ -118,7 +118,7 @@ function tryGoogleSignIn(
     window.addEventListener("message", onMessage);
 
     // Check if popup was closed by the user
-    popupCheckInterval = window.setInterval(() => {
+    popupCloseCheckTimer = window.setInterval(() => {
       if (popup.closed) {
         console.log("[oko] Popup was closed by user, rejecting sign-in");
         cleanup();
@@ -126,7 +126,7 @@ function tryGoogleSignIn(
       }
     }, 500);
 
-    timeout = window.setTimeout(() => {
+    popupTimeoutTimer = window.setTimeout(() => {
       cleanup();
       reject(new Error("Timeout: no response within 5 minutes"));
       closePopup(popup);
@@ -134,8 +134,8 @@ function tryGoogleSignIn(
 
     function cleanup() {
       console.log("[oko] clean up oauth sign in listener");
-      window.clearTimeout(timeout);
-      window.clearInterval(popupCheckInterval);
+      window.clearTimeout(popupTimeoutTimer);
+      window.clearInterval(popupCloseCheckTimer);
       window.removeEventListener("message", onMessage);
     }
   });
