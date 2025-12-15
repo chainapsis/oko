@@ -92,22 +92,15 @@ export function setUserRoutes(router: Router) {
     ) => {
       const state = req.app.locals;
 
-      const { email, auth_type } = req.body;
+      const { email } = req.body;
+      // default to google if auth_type is not provided
+      const auth_type = (req.body.auth_type ?? "google") as AuthType;
 
       if (!email) {
         res.status(400).json({
           success: false,
           code: "INVALID_REQUEST",
           msg: "email is required",
-        });
-        return;
-      }
-
-      if (!auth_type) {
-        res.status(400).json({
-          success: false,
-          code: "INVALID_REQUEST",
-          msg: "auth_type is required",
         });
         return;
       }

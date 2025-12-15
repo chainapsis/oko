@@ -47,11 +47,16 @@ export const SignInSuccessResponseSchema = registry.register(
   }),
 );
 
+const AuthTypeEnum = z.enum(["google", "auth0", "x", "telegram", "discord"]);
+
 export const CheckEmailRequestSchema = registry.register(
   "TssUserCheckEmailRequest",
   z.object({
     email: z.email().openapi({
       description: "User email address to check",
+    }),
+    auth_type: AuthTypeEnum.optional().default("google").openapi({
+      description: "Authentication provider type (defaults to 'google')",
     }),
   }),
 );

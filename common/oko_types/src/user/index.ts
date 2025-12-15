@@ -15,7 +15,7 @@ export type AuthType = "google" | "auth0" | "x" | "telegram" | "discord";
 
 export interface CheckEmailRequest {
   email: string;
-  auth_type: AuthType;
+  auth_type?: AuthType;
 }
 
 export interface CheckEmailResponse {
