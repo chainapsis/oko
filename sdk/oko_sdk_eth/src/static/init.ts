@@ -28,8 +28,10 @@ export function init(
     };
   }
 
+  const instance = new (OkoEthWallet as any)(okoEthWalletRes.data);
+
   return {
     success: true,
-    data: new (OkoEthWallet as any)(okoEthWalletRes.data),
+    data: instance,
   };
 }

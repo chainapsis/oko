@@ -212,6 +212,27 @@ const DeleteCustomerAndCustomerDashboardUsersResponseSchema = registry.register(
   }),
 );
 
+const CustomerListPaginationSchema = registry.register(
+  "CustomerListPagination",
+  z.object({
+    total: z.number().openapi({
+      description: "Total number of customers",
+    }),
+    current_page: z.number().openapi({
+      description: "Current page number",
+    }),
+    total_pages: z.number().openapi({
+      description: "Total number of pages",
+    }),
+    verified_count: z.number().openapi({
+      description: "Total number of verified customers",
+    }),
+    tx_active_count: z.number().openapi({
+      description: "Total number of customers with active transactions",
+    }),
+  }),
+);
+
 const CustomerListDataSchema = registry.register(
   "CustomerListData",
   z.object({
@@ -224,7 +245,7 @@ const CustomerListDataSchema = registry.register(
       .openapi({
         description: "List of customers with API keys",
       }),
-    pagination: PaginationSchema,
+    pagination: CustomerListPaginationSchema,
   }),
 );
 

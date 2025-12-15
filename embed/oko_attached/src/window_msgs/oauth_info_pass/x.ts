@@ -6,6 +6,7 @@ import { OKO_API_ENDPOINT } from "@oko-wallet-attached/requests/endpoints";
 export async function getAccessTokenOfX(
   code: string,
   codeVerifier: string,
+  redirectUri: string,
 ): Promise<Result<string, string>> {
   try {
     const response = await fetch(
@@ -15,7 +16,11 @@ export async function getAccessTokenOfX(
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ code, code_verifier: codeVerifier }),
+        body: JSON.stringify({
+          code,
+          code_verifier: codeVerifier,
+          redirect_uri: redirectUri,
+        }),
       },
     );
 
