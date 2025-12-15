@@ -10594,6 +10594,8 @@ __metadata:
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
+    del-cli: "npm:^6.0.0"
+    tsc-alias: "npm:^1.8.16"
     typescript: "npm:^5.8.3"
     viem: "npm:^2.41.2"
   languageName: unknown
