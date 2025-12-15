@@ -189,7 +189,7 @@ export function setReferralRoutes(router: Router) {
     },
     responses: {
       200: {
-        description: "Referral data retrieved successfully",
+        description: "Referral data retrieved successfully (empty array if none found)",
         content: {
           "application/json": {
             schema: GetReferralSuccessResponseSchema,
@@ -198,14 +198,6 @@ export function setReferralRoutes(router: Router) {
       },
       400: {
         description: "Invalid public key format",
-        content: {
-          "application/json": {
-            schema: ErrorResponseSchema,
-          },
-        },
-      },
-      404: {
-        description: "No referrals found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -263,15 +255,6 @@ export function setReferralRoutes(router: Router) {
             success: false,
             code: "UNKNOWN_ERROR",
             msg: referralsRes.err,
-          });
-          return;
-        }
-
-        if (referralsRes.data.length === 0) {
-          res.status(404).json({
-            success: false,
-            code: "REFERRAL_NOT_FOUND",
-            msg: "No referrals found for this public key",
           });
           return;
         }
