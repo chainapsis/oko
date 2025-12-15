@@ -1,7 +1,10 @@
 {
   "name": "@oko-wallet/oko-types",
-  "private": true,
+  "version": "0.0.1-alpha.0",
   "type": "module",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
