@@ -1,3 +1,4 @@
+import { deleteAsync } from "del";
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
@@ -10,7 +11,9 @@ import {
 } from "rollup";
 
 async function main() {
-  console.log("Start rollup build");
+  console.log("Start rollup-build");
+
+  await removeDirtyFiles();
 
   let bundle: RollupBuild;
 
@@ -56,6 +59,8 @@ async function main() {
     await bundle.close();
   }
 }
+
+async function removeDirtyFiles() {}
 
 async function generateOutputs(
   bundle: RollupBuild,
