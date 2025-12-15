@@ -123,7 +123,7 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
           disabled={isSigningIn}
           data-testid="email-login-btn"
         >
-          Email Login (dummy)
+          Email Login
         </button>
         <button
           onClick={() => handleSignIn("telegram")}
