@@ -22,6 +22,8 @@ export function useGetCustomerListWithAPIKeys(page: number = 0) {
       total: number;
       current_page: number;
       total_pages: number;
+      verified_count: number;
+      tx_active_count: number;
     };
   }>({
     queryKey: ["customer_list", token, page],

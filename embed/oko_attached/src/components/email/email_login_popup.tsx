@@ -1,5 +1,6 @@
-import { type FC, type FormEvent } from "react";
+import { type FC, type FormEvent, useContext } from "react";
 import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
+import { ThemeContext } from "@oko-wallet/oko-common-ui/theme";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
@@ -17,6 +18,7 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
   modalId,
   data,
 }) => {
+  const theme = useContext(ThemeContext);
   const {
     step,
     email,
@@ -53,7 +55,7 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
         {step === "enter_email" ? (
           <div className={styles.card}>
             <div className={styles.cardTop}>
-              <Logo theme="light" />
+              <Logo theme={theme} />
               <div className={styles.fieldHeader}>
                 Enter your email to continue
               </div>
@@ -76,7 +78,11 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
                       autoFocus
                     />
                     <button
-                      className={styles.nextButton}
+                      className={`${styles.nextButton} ${
+                        isEmailValid && !isSubmitting
+                          ? styles.nextButtonActive
+                          : ""
+                      }`}
                       type="submit"
                       disabled={!isEmailValid || isSubmitting}
                     >
@@ -107,17 +113,33 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
                   {`Enter the 6-digit code sent to ${email || "your email"}.`}
                 </div>
 
-                <div className={styles.otpInputRow}>
-                  <OtpInput
-                    length={6}
-                    value={otpDigits}
-                    onChange={(digits) => {
-                      resetError();
-                      setOtpDigits(digits);
-                    }}
-                    disabled={isSubmitting}
-                    isError={!!errorMessage}
-                  />
+                <div className={styles.otpCodeSection}>
+                  <div
+                    className={`${styles.otpInputRow} ${errorMessage ? styles.otpInputRowError : ""}`}
+                  >
+                    <OtpInput
+                      length={6}
+                      value={otpDigits}
+                      onChange={(digits) => {
+                        resetError();
+                        setOtpDigits(digits);
+                      }}
+                      disabled={isSubmitting}
+                      isError={!!errorMessage}
+                    />
+                  </div>
+
+                  {errorMessage && (
+                    <Typography
+                      tagType="div"
+                      size="xs"
+                      weight="medium"
+                      color="error-primary"
+                      className={styles.otpErrorMessage}
+                    >
+                      {errorMessage}
+                    </Typography>
+                  )}
                 </div>
 
                 <div className={styles.resendRow}>
@@ -146,12 +168,6 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
               <div className={styles.actions} />
             </form>
           </div>
-        )}
-
-        {step !== "enter_email" && errorMessage && (
-          <Typography size="sm" color="error-primary" className={styles.error}>
-            {errorMessage}
-          </Typography>
         )}
       </div>
     </div>

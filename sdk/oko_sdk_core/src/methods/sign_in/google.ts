@@ -24,7 +24,9 @@ export async function handleGoogleSignIn(okoWallet: OkoWalletInterface) {
   }
 }
 
-async function tryGoogleSignIn(
+// NOTE: Opening popup window should not reside in the async function
+// Or at least any async function should not come before window.open()
+function tryGoogleSignIn(
   sdkEndpoint: string,
   apiKey: string,
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>,
@@ -75,12 +77,12 @@ async function tryGoogleSignIn(
     throw new Error("Failed to open new window for google oauth sign in");
   }
 
-  const ack = await nonceAckPromise;
-  if (ack.msg_type !== "set_oauth_nonce_ack" || !ack.payload.success) {
-    throw new Error("Failed to set nonce for google oauth sign in");
-  }
+  return new Promise<OkoWalletMsgOAuthSignInUpdate>(async (resolve, reject) => {
+    const ack = await nonceAckPromise;
+    if (ack.msg_type !== "set_oauth_nonce_ack" || !ack.payload.success) {
+      throw new Error("Failed to set nonce for google oauth sign in");
+    }
 
-  return new Promise<OkoWalletMsgOAuthSignInUpdate>((resolve, reject) => {
     let timeout: number;
     let popupCheckInterval: number;
 

@@ -8,7 +8,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "removeComments": true,
-    "noEmit": true,
+    "declaration": true,
     "noImplicitAny": true,
     "strict": true,
     "noImplicitThis": true,
@@ -19,8 +19,8 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "verbatimModuleSyntax": true,
     "baseUrl": ".",
+    "rootDir": "./src",
     "paths": {
       "@oko-wallet-types/*": ["./src/*"]
     }

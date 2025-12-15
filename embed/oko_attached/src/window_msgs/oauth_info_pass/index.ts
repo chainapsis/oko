@@ -170,7 +170,12 @@ export async function handleUserSignIn(
   // use user sign up flow
   if (!userExists.exists) {
     const { referralInfo } = useMemoryState.getState();
-    const signInRes = await handleNewUser(idToken, meta, authType, referralInfo);
+    const signInRes = await handleNewUser(
+      idToken,
+      meta,
+      authType,
+      referralInfo,
+    );
     if (!signInRes.success) {
       return {
         success: false,

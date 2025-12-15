@@ -57,6 +57,12 @@ const SuccessMessage: React.FC = () => {
 };
 
 const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
+  const errorCode = error || "unknown_error";
+  const isParamsNotSufficient = errorCode === "params_not_sufficient";
+  const errorMessage = isParamsNotSufficient
+    ? `Error Code: ${errorCode}\n\nFailed to get the required information from Auth0. Please contact Oko for support.`
+    : `Error Code: ${errorCode}`;
+
   return (
     <>
       <div className={styles.errorIconContainer}>
@@ -89,7 +95,7 @@ const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
       <Spacing height={32} />
       <div className={styles.errorMessageContainer}>
         <Typography size="sm" weight="medium" color="error-primary">
-          {error}
+          {errorMessage}
         </Typography>
       </div>
     </>

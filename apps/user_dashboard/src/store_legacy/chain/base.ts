@@ -30,9 +30,9 @@ import type { ChainInfoModule, ModularChainInfo } from "./chain-info";
 
 const forceFindCurrencyCache: Map<string, AppCurrency> = new Map();
 
-export class ChainInfoImpl<
-  C extends ChainInfo = ChainInfo,
-> implements IChainInfoImpl<C> {
+export class ChainInfoImpl<C extends ChainInfo = ChainInfo>
+  implements IChainInfoImpl<C>
+{
   @observable.ref
   protected _embedded: C;
 
@@ -582,9 +582,9 @@ export class ChainInfoImpl<
   }
 }
 
-export class ModularChainInfoImpl<
-  M extends ModularChainInfo = ModularChainInfo,
-> implements IModularChainInfoImpl<M> {
+export class ModularChainInfoImpl<M extends ModularChainInfo = ModularChainInfo>
+  implements IModularChainInfoImpl<M>
+{
   @observable.ref
   protected _embedded: M;
 
@@ -1532,9 +1532,9 @@ export class ModularChainInfoImpl<
   }
 }
 
-export class ChainStore<
-  C extends ChainInfo = ChainInfo,
-> implements IChainStore<C> {
+export class ChainStore<C extends ChainInfo = ChainInfo>
+  implements IChainStore<C>
+{
   @observable.ref
   protected _chainInfos: ChainInfoImpl<C>[] = [];
   @observable.ref

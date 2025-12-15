@@ -24,7 +24,8 @@ export async function handleDiscordSignIn(okoWallet: OkoWalletInterface) {
   }
 }
 
-async function tryDiscordSignIn(
+// This should open popup immediately to avoid Safari popup blocker
+function tryDiscordSignIn(
   sdkEndpoint: string,
   apiKey: string,
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>,
@@ -49,7 +50,6 @@ async function tryDiscordSignIn(
 
   console.debug("[oko] Discord login - oauthStateString: %s", oauthStateString);
 
-  // Open popup immediately to avoid Safari popup blocker
   const popup = window.open(
     "about:blank",
     "discord_oauth",
@@ -60,42 +60,45 @@ async function tryDiscordSignIn(
     throw new Error("Failed to open new window for Discord oauth sign in");
   }
 
-  // Generate PKCE pair
-  const { codeVerifier, codeChallenge } = await createPkcePair();
+  return new Promise<OkoWalletMsgOAuthSignInUpdate>(async (resolve, reject) => {
+    // Generate PKCE pair
+    const { codeVerifier, codeChallenge } = await createPkcePair();
 
-  console.debug("[oko] Discord login - codeVerifier: %s", codeVerifier);
-  console.debug("[oko] Discord login - codeChallenge: %s", codeChallenge);
+    console.debug("[oko] Discord login - codeVerifier: %s", codeVerifier);
+    console.debug("[oko] Discord login - codeChallenge: %s", codeChallenge);
 
-  const codeVerifierAckPromise = sendMsgToIframe({
-    target: "oko_attached",
-    msg_type: "set_code_verifier",
-    payload: codeVerifier,
-  });
+    const codeVerifierAckPromise = sendMsgToIframe({
+      target: "oko_attached",
+      msg_type: "set_code_verifier",
+      payload: codeVerifier,
+    });
 
-  const authUrl = new URL("https://discord.com/api/oauth2/authorize");
-  authUrl.searchParams.set("response_type", "code");
-  authUrl.searchParams.set("client_id", clientId);
-  authUrl.searchParams.set("redirect_uri", redirectUri);
-  authUrl.searchParams.set("scope", DISCORD_SCOPES);
-  authUrl.searchParams.set("code_challenge", codeChallenge);
-  authUrl.searchParams.set("code_challenge_method", "S256");
-  authUrl.searchParams.set(RedirectUriSearchParamsKey.STATE, oauthStateString);
+    const authUrl = new URL("https://discord.com/api/oauth2/authorize");
+    authUrl.searchParams.set("response_type", "code");
+    authUrl.searchParams.set("client_id", clientId);
+    authUrl.searchParams.set("redirect_uri", redirectUri);
+    authUrl.searchParams.set("scope", DISCORD_SCOPES);
+    authUrl.searchParams.set("code_challenge", codeChallenge);
+    authUrl.searchParams.set("code_challenge_method", "S256");
+    authUrl.searchParams.set(
+      RedirectUriSearchParamsKey.STATE,
+      oauthStateString,
+    );
 
-  try {
-    popup.location.href = authUrl.toString();
-  } catch (error) {
-    popup.close();
-    const errorMessage = error instanceof Error ? error.message : String(error);
-    throw new Error(`Failed to redirect popup to auth URL: ${errorMessage}`);
-  }
+    try {
+      popup.location.href = authUrl.toString();
+    } catch (error) {
+      popup.close();
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      throw new Error(`Failed to redirect popup to auth URL: ${errorMessage}`);
+    }
 
-  const ack = await codeVerifierAckPromise;
+    const ack = await codeVerifierAckPromise;
 
-  if (ack.msg_type !== "set_code_verifier_ack" || !ack.payload.success) {
-    throw new Error("Failed to set code verifier for Discord oauth sign in");
-  }
-
-  return new Promise<OkoWalletMsgOAuthSignInUpdate>((resolve, reject) => {
+    if (ack.msg_type !== "set_code_verifier_ack" || !ack.payload.success) {
+      throw new Error("Failed to set code verifier for Discord oauth sign in");
+    }
     let timeout: number;
 
     function onMessage(event: MessageEvent) {

@@ -6,7 +6,7 @@ export class ObservableQueryEthereumGasPrice extends ObservableEvmChainJsonRpcQu
   constructor(
     sharedContext: QuerySharedContext,
     chainId: string,
-    chainGetter: ChainGetter
+    chainGetter: ChainGetter,
   ) {
     super(sharedContext, chainId, chainGetter, "eth_gasPrice", []);
 

@@ -69,7 +69,7 @@ const SCORE_NONE = -Infinity;
 const getScore = (
   fieldValue: string,
   queryLower: string,
-  index: number
+  index: number,
 ): number => {
   if (!fieldValue) {
     return SCORE_NONE;
@@ -92,7 +92,7 @@ const THROTTLE_DELAY = 500;
 export function performSearch<T>(
   data: T[],
   query: string,
-  fields: SearchField<T>[]
+  fields: SearchField<T>[],
 ): T[] {
   const queryLower = query.toLowerCase().trim();
   if (!queryLower) {
@@ -117,7 +117,7 @@ export function performSearch<T>(
             const fieldValue = String(rawValue[i]).toLowerCase();
             if (typeof rawValue[i] !== "string") {
               console.log(
-                `[Warning] field ${field} is not a string: ${rawValue[i]}`
+                `[Warning] field ${field} is not a string: ${rawValue[i]}`,
               );
             }
 
@@ -133,7 +133,7 @@ export function performSearch<T>(
             rawValue != null ? String(rawValue).toLowerCase() : "";
           if (typeof rawValue !== "string") {
             console.log(
-              `[Warning] field ${field} is not a string: ${rawValue}`
+              `[Warning] field ${field} is not a string: ${rawValue}`,
             );
           }
 
@@ -178,7 +178,7 @@ export function performSearch<T>(
 export function useSearch<T>(
   data: T[],
   query: string,
-  fields: SearchField<T>[]
+  fields: SearchField<T>[],
 ) {
   const [searchResults, setSearchResults] = useState<T[]>(data.slice());
 
@@ -186,12 +186,12 @@ export function useSearch<T>(
     (
       currentData: T[],
       currentQuery: string,
-      currentFields: SearchField<T>[]
+      currentFields: SearchField<T>[],
     ) => {
       const results = performSearch(currentData, currentQuery, currentFields);
       setSearchResults(results);
     },
-    []
+    [],
   );
 
   const throttledSearch = useMemo(() => {

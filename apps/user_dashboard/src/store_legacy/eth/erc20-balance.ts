@@ -72,7 +72,9 @@ export class ObservableQueryEthereumERC20BalanceImpl
   }
 }
 
-export class ObservableQueryEthereumERC20BalanceRegistry implements BalanceRegistry {
+export class ObservableQueryEthereumERC20BalanceRegistry
+  implements BalanceRegistry
+{
   constructor(protected readonly sharedContext: QuerySharedContext) {}
 
   getBalanceImpl(

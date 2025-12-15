@@ -1,2 +1,1 @@
-// @TODO: replace with the actual bot name
-export const TELEGRAM_BOT_NAME = "auth234198_bot";
+export const TELEGRAM_BOT_NAME = import.meta.env.VITE_TELEGRAM_BOT_NAME;
