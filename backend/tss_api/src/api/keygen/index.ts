@@ -131,6 +131,7 @@ export async function runKeygen(
       email,
       publicKeyBytes,
       activeKSNodes,
+      auth_type,
     );
     if (checkKeyshareFromKSNodesRes.success === false) {
       return checkKeyshareFromKSNodesRes;

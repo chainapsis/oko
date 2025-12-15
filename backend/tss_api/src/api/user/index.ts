@@ -357,6 +357,7 @@ export async function updateWalletKSNodesForReshare(
       email,
       public_key,
       getKSNodesRes.data,
+      auth_type,
     );
     if (checkKeyshareFromKSNodesRes.success === false) {
       return checkKeyshareFromKSNodesRes;
