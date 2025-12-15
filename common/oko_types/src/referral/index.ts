@@ -1,3 +1,6 @@
+export const UTM_SOURCE = "utm_source";
+export const UTM_CAMPAIGN = "utm_campaign";
+
 export interface Referral {
   referral_id: string;
   user_id: string;

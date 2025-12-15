@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import type { SignInSilentlyResponse } from "@oko-wallet/oko-types/user";
 import type { OkoWalletMsgInit } from "@oko-wallet/oko-sdk-core";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { UTM_SOURCE, UTM_CAMPAIGN } from "@oko-wallet/oko-types/referral";
 
 import { initKeplrWasm } from "@oko-wallet-attached/wasm";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
@@ -63,8 +64,8 @@ export function useInitializeApp() {
         const searchParams = new URLSearchParams(window.location.search);
 
         const hostOrigin = searchParams.get("host_origin");
-        const utmSource = searchParams.get("utm_source");
-        const utmCampaign = searchParams.get("utm_campaign");
+        const utmSource = searchParams.get(UTM_SOURCE);
+        const utmCampaign = searchParams.get(UTM_CAMPAIGN);
 
         const isPopupContext = window.parent === window && !!window.opener;
         const canNotifyParent = window.parent !== window;

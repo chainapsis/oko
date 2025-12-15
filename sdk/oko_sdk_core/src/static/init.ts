@@ -1,4 +1,5 @@
 import { type Result } from "@oko-wallet/stdlib-js";
+import { UTM_SOURCE, UTM_CAMPAIGN } from "@oko-wallet/oko-types/referral";
 
 import { setUpIframeElement } from "@oko-wallet-sdk-core/iframe";
 import type {
@@ -60,14 +61,14 @@ export function init(
 
       // Forward UTM parameters to attached iframe for referral tracking
       const currentUrl = new URL(window.location.toString());
-      const utmSource = currentUrl.searchParams.get("utm_source");
-      const utmCampaign = currentUrl.searchParams.get("utm_campaign");
+      const utmSource = currentUrl.searchParams.get(UTM_SOURCE);
+      const utmCampaign = currentUrl.searchParams.get(UTM_CAMPAIGN);
 
       if (utmSource) {
-        sdkEndpointURL.searchParams.append("utm_source", utmSource);
+        sdkEndpointURL.searchParams.append(UTM_SOURCE, utmSource);
       }
       if (utmCampaign) {
-        sdkEndpointURL.searchParams.append("utm_campaign", utmCampaign);
+        sdkEndpointURL.searchParams.append(UTM_CAMPAIGN, utmCampaign);
       }
     } catch (err) {
       return {
