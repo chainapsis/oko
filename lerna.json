@@ -11,6 +11,7 @@
     "backend/oko_api_server_state",
     "backend/oko_pg_interface",
     "backend/log_api",
+    "backend/attached_api",
     "backend/ct_dashboard_api",
     "backend/user_dashboard_api",
     "backend/social_login_api",
