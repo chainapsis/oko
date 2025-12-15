@@ -7,7 +7,7 @@
   },
   "scripts": {
     "clean": "del-cli dist",
-    "build": "yarn clean && rollup -c && tsc-alias",
+    "build": "yarn clean && rollup -c --configPlugin typescript && tsc-alias",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "main": "./dist/index.js",
