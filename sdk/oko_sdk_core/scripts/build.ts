@@ -20,13 +20,13 @@ const __dirname = path.dirname(__filename);
 const PKG_ROOT = path.resolve(__dirname, "..");
 
 async function main() {
-  console.log("Start rollup-build");
+  console.log("Start building");
 
   await removeDirtyFiles();
   await bundle();
   replaceTscAlias();
 
-  console.log("Done rollup-build");
+  console.log("Done");
 }
 
 async function removeDirtyFiles() {

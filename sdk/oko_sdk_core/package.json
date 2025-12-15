@@ -5,7 +5,7 @@
   "scripts": {
     "clean": "del-cli dist tsconfig.rollup.tsbuildinfo",
     "rollup-build-backup": "rollup -c --configPlugin typescript",
-    "build": "tsx ./scripts/rollup_build.ts",
+    "build": "tsx ./scripts/build.ts",
     "typecheck": "tsc --noEmit",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
