@@ -1,37 +1,27 @@
 {
   "name": "@oko-wallet/oko-cosmos-kit",
   "version": "0.0.1-rc.14",
+  "type": "module",
   "description": "cosmos-kit wallet connector for Oko Wallet",
   "author": "oko-wallet",
   "homepage": "https://github.com/hyperweb-io/cosmos-kit#readme",
   "license": "SEE LICENSE IN LICENSE",
-  "main": "./cjs/index.js",
-  "module": "./esm/index.js",
-  "types": "./cjs/index.d.ts",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./esm/index.js",
-      "types": "./esm/index.d.ts",
-      "require": "./cjs/index.js"
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
     }
   },
-  "directories": {
-    "lib": "src"
-  },
   "files": [
-    "cjs",
-    "esm",
+    "dist",
     "!CHANGELOG.md",
     "!LICENSE"
   ],
   "scripts": {
-    "build:cjs": "tsc -p tsconfig.json --outDir cjs --module commonjs || true",
-    "build:esm": "tsc -p tsconfig.json --outDir esm --module es2022 || true",
-    "clean:cjs": "rimraf cjs",
-    "clean:esm": "rimraf esm",
-    "clean": "npm run clean:cjs && npm run clean:esm",
-    "build": "npm run clean && npm run build:cjs && npm run build:esm",
-    "prepare": "npm run build",
+    "clean": "del-cli dist",
+    "build": "yarn clean && rollup -c --configPlugin typescript && tsc-alias",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix ."
   },
@@ -54,6 +44,15 @@
   "peerDependencies": {
     "@cosmjs/amino": ">= 0.28",
     "@cosmjs/proto-signing": ">= 0.28"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "del-cli": "^6.0.0",
+    "rollup": "^4.0.0",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.8.3"
   },
   "gitHead": "b1c4753a3a1aa996a2f5c28297d71adbe2457945"
 }

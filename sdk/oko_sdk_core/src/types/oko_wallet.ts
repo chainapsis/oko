@@ -12,6 +12,7 @@ import type { SignInType } from "./oauth";
 
 export interface OkoWalletStaticInterface {
   new (apiKey: string, iframe: HTMLIFrameElement, sdkEndpoint: string): void;
+  version: string;
   init: (
     args: OkoWalletInitArgs,
   ) => Result<OkoWalletInterface, OkoWalletInitError>;

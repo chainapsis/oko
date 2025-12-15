@@ -1,0 +1,41 @@
+{
+  "name": "@oko-wallet/sandbox-interchain-kit",
+  "version": "0.0.2-alpha.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "dependencies": {
+    "@chain-registry/v2": "^1.71.237",
+    "@cosmjs/amino": "0.36.1",
+    "@cosmjs/encoding": "0.36.1",
+    "@cosmjs/proto-signing": "0.36.1",
+    "@cosmjs/stargate": "0.36.1",
+    "@hookform/resolvers": "5.2.2",
+    "@interchain-kit/core": "^0.3.55",
+    "@interchain-kit/keplr-extension": "^0.3.55",
+    "@interchain-kit/react": "^0.3.55",
+    "@keplr-wallet/types": "^0.12.290",
+    "@keplr-wallet/unit": "0.12.280",
+    "@oko-wallet/oko-interchain-kit": "^0.0.1-rc.1",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.125",
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.151",
+    "@tanstack/react-query": "^5.90.12",
+    "chain-registry": "^1.69.410",
+    "next": "^16.0.7",
+    "react": "^19.2.1",
+    "react-dom": "^19.2.1",
+    "react-hook-form": "7.65.0",
+    "zod": "^4.1.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^24.10.1",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "tailwindcss": "^4.1.3",
+    "typescript": "^5.8.3"
+  }
+}

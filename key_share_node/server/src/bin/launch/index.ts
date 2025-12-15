@@ -14,7 +14,6 @@ import type { ServerState } from "@oko-wallet-ksn-server/state";
 import { getGitCommitHash } from "./git";
 import pJson from "@oko-wallet-ksn-server/../package.json";
 import { logger } from "@oko-wallet-ksn-server/logger";
-import { resetDB } from "./reset_db";
 import { initializeServerKeypair } from "./init_keypair";
 
 const ONE_DAY_MS = 1 * 86400;
@@ -38,30 +37,6 @@ async function main() {
     logger.error("Encryption secret invalid, err: %s", loadEncSecretRes.err);
 
     process.exit(1);
-  }
-
-  if (opts.resetDb) {
-    logger.info("DB reset flag detected, running migration...");
-
-    const resetDBRes = await resetDB({
-      database: process.env.DB_NAME,
-      host: process.env.DB_HOST,
-      password: process.env.DB_PASSWORD,
-      user: process.env.DB_USER,
-      port: Number(process.env.DB_PORT),
-      ssl: process.env.DB_SSL === "true" ? true : false,
-    });
-    if (!resetDBRes.success) {
-      logger.error(
-        "%s: DB reset failed, exiting process, err: %s",
-        chalk.bold.red("Error"),
-        resetDBRes.err,
-      );
-
-      process.exit(1);
-    }
-
-    logger.info("DB reset completed");
   }
 
   if (opts.nodeId === "1") {

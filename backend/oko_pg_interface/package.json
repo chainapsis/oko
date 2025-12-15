@@ -5,7 +5,7 @@
   "scripts": {
     "knex": "knex",
     "migrate": "tsx ../../node_modules/knex/bin/cli.js migrate:latest",
-    "seed": "tsx ../../node_modules/knex/bin/cli.js seed:run "
+    "seed": "tsx ../../node_modules/knex/bin/cli.js seed:run"
   },
   "exports": {
     "./admin_users": "./src/admin_users/index.ts",
@@ -14,12 +14,15 @@
     "./customer_dashboard_users": "./src/customer_dashboard_users/index.ts",
     "./customers": "./src/customers/index.ts",
     "./email_verifications": "./src/email_verifications/index.ts",
+    "./email_sent_logs": "./src/email_sent_logs/index.ts",
     "./ewallet_users": "./src/ewallet_users/index.ts",
     "./ewallet_wallets": "./src/ewallet_wallets/index.ts",
     "./tss": "./src/tss/index.ts",
     "./tss_activate": "./src/tss_activate/index.ts",
     "./key_share_node_meta": "./src/key_share_node_meta/index.ts",
-    "./server_keypairs": "./src/server_keypairs/index.ts"
+    "./server_keypairs": "./src/server_keypairs/index.ts",
+    "./referrals": "./src/referrals/index.ts",
+    "./knexfile": "./knexfile.ts"
   },
   "dependencies": {
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",

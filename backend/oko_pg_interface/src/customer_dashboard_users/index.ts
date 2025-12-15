@@ -159,7 +159,7 @@ LIMIT 1
 }
 
 export async function updateCustomerDashboardUserPassword(
-  db: Pool,
+  db: Pool | PoolClient,
   request: UpdateCustomerAccountPasswordRequest,
 ): Promise<Result<UpdateCustomerAccountPasswordReseponse, string>> {
   const query = `
@@ -202,6 +202,7 @@ export async function verifyCustomerDashboardUserEmail(
 UPDATE customer_dashboard_users
 SET
   is_email_verified = true,
+  email_verified_at = now(),
   updated_at = now()
 WHERE user_id = $1 AND status = 'ACTIVE'
 RETURNING *
@@ -306,5 +307,109 @@ export async function getCTDUsersByCustomerIdsMap(
       success: false,
       err: String(error),
     };
+  }
+}
+
+export async function getUnverifiedCustomerDashboardUsers(
+  db: Pool | PoolClient,
+  timeUntilVerifiedMs: number,
+): Promise<Result<CustomerAndCTDUser[], string>> {
+  const query = `
+SELECT 
+  c.customer_id,
+  c.label,
+  c.status,
+  c.url,
+  c.logo_url,
+  u.user_id,
+  u.email,
+  u.status as user_status,
+  u.is_email_verified
+FROM customer_dashboard_users u
+JOIN customers c ON u.customer_id = c.customer_id
+WHERE u.status = 'ACTIVE'
+  AND c.status = 'ACTIVE'
+  AND u.is_email_verified = false
+  AND u.created_at < NOW() - ($1::bigint * interval '1 millisecond')
+  AND NOT EXISTS (
+      SELECT 1 FROM email_sent_logs r WHERE r.target_id = u.user_id AND r.type = $2
+  )
+`;
+
+  try {
+    const result = await db.query(query, [
+      timeUntilVerifiedMs,
+      "UNVERIFIED_CUSTOMER_USER",
+    ]);
+    const data: CustomerAndCTDUser[] = result.rows.map((row) => ({
+      customer_id: row.customer_id,
+      label: row.label,
+      status: row.status,
+      url: row.url,
+      logo_url: row.logo_url,
+      user: {
+        customer_id: row.customer_id,
+        user_id: row.user_id,
+        email: row.email,
+        status: row.user_status,
+        is_email_verified: row.is_email_verified,
+      },
+    }));
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}
+
+export async function getInactiveCustomerDashboardUsers(
+  db: Pool | PoolClient,
+  timeUntilInactiveMs: number,
+): Promise<Result<CustomerAndCTDUser[], string>> {
+  const query = `
+SELECT 
+  c.customer_id,
+  c.label,
+  c.status,
+  c.url,
+  c.logo_url,
+  u.user_id,
+  u.email,
+  u.status as user_status,
+  u.is_email_verified
+FROM customer_dashboard_users u
+JOIN customers c ON u.customer_id = c.customer_id
+WHERE u.status = 'ACTIVE'
+  AND c.status = 'ACTIVE'
+  AND u.email_verified_at < NOW() - ($1::bigint * interval '1 millisecond')
+  AND NOT EXISTS (
+      SELECT 1 FROM tss_sessions s WHERE s.customer_id = c.customer_id
+  )
+  AND NOT EXISTS (
+      SELECT 1 FROM email_sent_logs r WHERE r.target_id = u.user_id AND r.type = $2
+  )
+`;
+
+  try {
+    const result = await db.query(query, [
+      timeUntilInactiveMs,
+      "INACTIVE_CUSTOMER_USER",
+    ]);
+    const data: CustomerAndCTDUser[] = result.rows.map((row) => ({
+      customer_id: row.customer_id,
+      label: row.label,
+      status: row.status,
+      url: row.url,
+      logo_url: row.logo_url,
+      user: {
+        customer_id: row.customer_id,
+        user_id: row.user_id,
+        email: row.email,
+        status: row.user_status,
+        is_email_verified: row.is_email_verified,
+      },
+    }));
+    return { success: true, data };
+  } catch (error) {
+    return { success: false, err: String(error) };
   }
 }

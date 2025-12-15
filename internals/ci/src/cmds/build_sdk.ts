@@ -5,11 +5,11 @@ import { paths } from "../paths";
 import { expectSuccess } from "../expect";
 import { getPkgName } from "../pkg_name";
 
-export function buildSDK(..._args: any[]) {
-  doBuildSDK();
+export async function buildSDK(..._args: any[]) {
+  await doBuildSDK();
 }
 
-export function doBuildSDK() {
+export async function doBuildSDK() {
   // Order matters!
   const pkgsInOrder = [
     paths.sdk_core,
@@ -28,7 +28,7 @@ export function doBuildSDK() {
       stdio: "inherit",
     });
 
-    const name = getPkgName(path);
+    const name = await getPkgName(path);
 
     expectSuccess(coreRet, `build ${name} failed`);
     console.log("%s %s", chalk.bold.green("Done"), name);

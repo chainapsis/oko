@@ -1,45 +1,59 @@
 "use client";
 
 import { type FC } from "react";
+import { usePathname } from "next/navigation";
+import cn from "classnames";
 import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
-import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
 
-import { paths } from "@oko-wallet-user-dashboard/paths";
 import styles from "./left_bar.module.scss";
+import { navigationItems } from "./constant";
 import { AccountInfoWithSubMenu } from "../account_info_with_sub_menu/account_info_with_sub_menu";
 import { ExternalLinkItem } from "../external_link_item/external_link_item";
+import { useViewState } from "@oko-wallet-user-dashboard/state/view";
 
 export const LeftBar: FC = () => {
+  const isLeftBarOpen = useViewState((state) => state.isLeftBarOpen);
+  const toggleLeftBarOpen = useViewState((state) => state.toggleLeftBarOpen);
+  const pathname = usePathname();
+
   return (
-    <div className={styles.wrapper}>
-      <ul className={styles.mainMenu}>
-        <MenuItem
-          href={paths.home}
-          label="Home"
-          Icon={
-            <HomeOutlinedIcon color="var(--gray-400)" className={styles.icon} />
-          }
-          active={true}
-        />
-      </ul>
+    <>
+      <div
+        className={cn(styles.overlay, { [styles.isOpen]: isLeftBarOpen })}
+        onClick={toggleLeftBarOpen}
+      />
 
-      <div className={styles.subMenu}>
-        <AccountInfoWithSubMenu />
+      <div className={cn(styles.wrapper, { [styles.isOpen]: isLeftBarOpen })}>
+        <ul className={styles.mainMenu}>
+          {navigationItems.map((item) => (
+            <MenuItem
+              key={item.href}
+              href={item.href}
+              label={item.label}
+              Icon={item.icon}
+              active={pathname === item.href}
+            />
+          ))}
+        </ul>
 
-        <div>
-          <ExternalLinkItem
-            href={process.env.NEXT_PUBLIC_OKO_FEATURE_REQUEST_ENDPOINT}
-          >
-            Feature Request
-          </ExternalLinkItem>
+        <div className={styles.subMenu}>
+          <AccountInfoWithSubMenu />
 
-          <ExternalLinkItem
-            href={process.env.NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT}
-          >
-            Get Support
-          </ExternalLinkItem>
+          <div>
+            <ExternalLinkItem
+              href={process.env.NEXT_PUBLIC_OKO_FEATURE_REQUEST_ENDPOINT}
+            >
+              Feature Request
+            </ExternalLinkItem>
+
+            <ExternalLinkItem
+              href={process.env.NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT}
+            >
+              Get Support
+            </ExternalLinkItem>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

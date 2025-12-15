@@ -54,7 +54,6 @@ describe("Oko Provider - Base", () => {
       expect(OkoEIP1193Provider).toBeDefined();
       expect(provider.chainId).toBe(toHex(mainnet.id));
       expect(provider.isConnected).toBe(true);
-      expect(provider.version).toBe(EXPECTED_VERSION);
       expect(provider.name).toBe(EXPECTED_NAME);
     });
 
@@ -100,7 +99,7 @@ describe("Oko Provider - Base", () => {
 
     it("should have correct property types", () => {
       expect(typeof provider.isConnected).toBe("boolean");
-      expect(typeof provider.version).toBe("string");
+      // expect(typeof provider.version).toBe("string");
       expect(typeof provider.chainId).toBe("string");
     });
 

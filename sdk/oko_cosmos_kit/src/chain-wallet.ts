@@ -1,9 +1,9 @@
 import {
-  ChainRecord,
+  type ChainRecord,
   ChainWalletBase,
-  SignType,
+  type SignType,
   State,
-  Wallet,
+  type Wallet,
 } from "@cosmos-kit/core";
 
 import { OkoMainWallet } from "./main-wallet";

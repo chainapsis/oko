@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import type { SignInSilentlyResponse } from "@oko-wallet/oko-types/user";
 import type { OkoWalletMsgInit } from "@oko-wallet/oko-sdk-core";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { UTM_SOURCE, UTM_CAMPAIGN } from "@oko-wallet/oko-types/referral";
 
 import { initKeplrWasm } from "@oko-wallet-attached/wasm";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
@@ -19,7 +20,7 @@ import { sendMsgToWindow } from "@oko-wallet-attached/window_msgs/send";
 import { setUserId } from "@oko-wallet-attached/analytics/amplitude";
 
 export function useInitializeApp() {
-  const { setHostOrigin } = useMemoryState();
+  const { setHostOrigin, setReferralInfo } = useMemoryState();
   const { getAuthToken, getWallet, setAuthToken, setTheme, getTheme } =
     useAppState();
   const [isHydrated, setIsHydrated] = useState(false);
@@ -63,6 +64,9 @@ export function useInitializeApp() {
         const searchParams = new URLSearchParams(window.location.search);
 
         const hostOrigin = searchParams.get("host_origin");
+        const utmSource = searchParams.get(UTM_SOURCE);
+        const utmCampaign = searchParams.get(UTM_CAMPAIGN);
+
         const isPopupContext = window.parent === window && !!window.opener;
         const canNotifyParent = window.parent !== window;
 
@@ -85,6 +89,12 @@ export function useInitializeApp() {
         }
 
         setHostOrigin(hostOrigin);
+
+        setReferralInfo({
+          origin: hostOrigin,
+          utmSource,
+          utmCampaign,
+        });
 
         const authToken = getAuthToken(hostOrigin);
         await silentlyRefreshAuthToken(authToken, hostOrigin, setAuthToken);

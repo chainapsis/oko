@@ -18,8 +18,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
 }) => {
   return (
     <Fragment>
-      <Logo theme={"light"} width={58} height={22} />
-      <Spacing height={52} />
+      <Logo theme="light" width={58} height={22} className={styles.logo} />
 
       <div className={styles.loginMethodsWrapper}>
         <Button

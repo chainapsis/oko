@@ -1,10 +1,15 @@
 loadEnv(ENV_FILE_NAME);
 
+import knex from "knex";
+import knexConfig from "@oko-wallet/oko-pg-interface/knexfile";
+
 import {
   type ServerState,
   makeServerState,
 } from "@oko-wallet/oko-api-server-state";
 import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
+import { startInactiveCustomerUserReminderRuntime } from "@oko-wallet-api/runtime/inactive_customer_user_reminders";
+import { startUnverifiedCustomerUserReminderRuntime } from "@oko-wallet-api/runtime/unverified_customer_user_reminders";
 
 import { makeApp } from "@oko-wallet-api/app";
 import { ENV_FILE_NAME, envSchema } from "@oko-wallet-api/envs";
@@ -56,10 +61,57 @@ async function main() {
     telegram_bot_token: envs.TELEGRAM_BOT_TOKEN!,
   });
 
+  state.logger.info("Running database migrations...");
+  try {
+    const migrationConfig = {
+      client: "pg",
+      connection: {
+        host: envs.DB_HOST,
+        port: Number(envs.DB_PORT),
+        user: envs.DB_USER,
+        password: envs.DB_PASSWORD,
+        database: envs.DB_NAME,
+        ssl: envs.DB_SSL === "true" ? { rejectUnauthorized: false } : false,
+      },
+      migrations: knexConfig.migrations,
+    };
+    const knexInstance = knex(migrationConfig);
+    await knexInstance.migrate.latest();
+    await knexInstance.destroy();
+    state.logger.info("Database migrations completed successfully");
+  } catch (err) {
+    state.logger.error("Migration failed, err: %s", err);
+    process.exit(1);
+  }
+
   const app = makeApp(state);
 
   startKSNodeHealthCheckRuntime(state.db, state.logger, {
     intervalSeconds: 10 * 60, // 10 minutes
+  });
+
+  startInactiveCustomerUserReminderRuntime(state.db, state.logger, {
+    intervalSeconds: 60 * 60, // 1 hour
+    timeUntilInactiveMs: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+    smtpConfig: {
+      smtp_host: state.smtp_host,
+      smtp_port: state.smtp_port,
+      smtp_user: state.smtp_user,
+      smtp_pass: state.smtp_pass,
+    },
+    fromEmail: state.from_email,
+  });
+
+  startUnverifiedCustomerUserReminderRuntime(state.db, state.logger, {
+    intervalSeconds: 2 * 60 * 60, // 2 hours
+    timeUntilVerifiedMs: 7 * 24 * 60 * 60 * 1000, // 7 days in milliseconds
+    smtpConfig: {
+      smtp_host: state.smtp_host,
+      smtp_port: state.smtp_port,
+      smtp_user: state.smtp_user,
+      smtp_pass: state.smtp_pass,
+    },
+    fromEmail: state.from_email,
   });
 
   app.listen(envs.SERVER_PORT, () => {
