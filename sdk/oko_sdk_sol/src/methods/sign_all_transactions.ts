@@ -1,12 +1,15 @@
 import type { Transaction, VersionedTransaction } from "@solana/web3.js";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { makeSignature, SolanaRpcError, SolanaRpcErrorCode } from "./make_signature";
+import {
+  makeSignature,
+  SolanaRpcError,
+  SolanaRpcErrorCode,
+} from "./make_signature";
 
-export async function signAllTransactions<T extends Transaction | VersionedTransaction>(
-  this: OkoSolWalletInterface,
-  transactions: T[],
-): Promise<T[]> {
+export async function signAllTransactions<
+  T extends Transaction | VersionedTransaction,
+>(this: OkoSolWalletInterface, transactions: T[]): Promise<T[]> {
   if (!this.connected || !this.publicKey) {
     throw new SolanaRpcError(
       SolanaRpcErrorCode.Internal,

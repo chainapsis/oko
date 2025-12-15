@@ -1,5 +1,9 @@
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { makeSignature, SolanaRpcError, SolanaRpcErrorCode } from "./make_signature";
+import {
+  makeSignature,
+  SolanaRpcError,
+  SolanaRpcErrorCode,
+} from "./make_signature";
 
 export async function signMessage(
   this: OkoSolWalletInterface,
