@@ -189,7 +189,8 @@ export function setReferralRoutes(router: Router) {
     },
     responses: {
       200: {
-        description: "Referral data retrieved successfully (empty array if none found)",
+        description:
+          "Referral data retrieved successfully (empty array if none found)",
         content: {
           "application/json": {
             schema: GetReferralSuccessResponseSchema,
