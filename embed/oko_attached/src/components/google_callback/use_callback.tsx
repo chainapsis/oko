@@ -84,7 +84,7 @@ export async function handleGoogleCallback(): Promise<
   return { success: true, data: void 0 };
 }
 
-function getOAuthStateFromUrl() {
+export function getOAuthStateFromUrl() {
   const params = new URLSearchParams(window.location.hash.substring(1));
   const oauthState = JSON.parse(
     params.get(RedirectUriSearchParamsKey.STATE) || "{}",

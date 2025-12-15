@@ -7,21 +7,13 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 import { ErrorIcon } from "@oko-wallet/oko-common-ui/icons/error_icon";
 import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
-import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import styles from "@oko-wallet-attached/components/google_callback/google_callback.module.scss";
-import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
-import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
-import { useDiscordCallback } from "./use_callback";
+import { useDiscordCallback } from "@oko-wallet-attached/components/discord_callback/use_callback";
+import { useSetThemeInCallback } from "@oko-wallet-attached/hooks/theme";
 
 export const DiscordCallback: React.FC = () => {
-  const [theme, setTheme] = useState<Theme>("light");
-
-  useEffect(() => {
-    const theme = getSystemTheme();
-    setColorScheme(theme);
-    setTheme(theme);
-  }, []);
+  const theme = useSetThemeInCallback("discord");
 
   const { error } = useDiscordCallback();
 
