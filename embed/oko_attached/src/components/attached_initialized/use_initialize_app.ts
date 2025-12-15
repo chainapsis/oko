@@ -100,16 +100,15 @@ export function useInitializeApp() {
         await silentlyRefreshAuthToken(authToken, hostOrigin, setAuthToken);
 
         const oldTheme = getTheme(hostOrigin);
-        const _theme = await determineTheme(hostOrigin, oldTheme);
-        setTheme(hostOrigin, _theme);
-        setColorScheme(_theme);
-
-        console.log(
-          "[attached] old theme: %s, resolved theme: %s",
+        const determinedThemeByCustomer = await determineTheme(
+          hostOrigin,
           oldTheme,
-          _theme,
         );
-        setResolvedTheme(_theme);
+
+        setTheme(hostOrigin, determinedThemeByCustomer);
+        setColorScheme(determinedThemeByCustomer);
+
+        setResolvedTheme(determinedThemeByCustomer);
 
         const wallet = getWallet(hostOrigin);
         const authType = wallet?.authType;
