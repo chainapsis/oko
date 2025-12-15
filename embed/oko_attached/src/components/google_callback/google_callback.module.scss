@@ -76,7 +76,7 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
+[data-theme="dark"] {
   .wrapperForSystemTheme {
     --gray-50: #{$gray-50-dark};
     --gray-100: #{$gray-100-dark};
