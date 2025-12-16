@@ -136,10 +136,11 @@ function setupCosmosListener(cosmosSDK: OkoCosmosWalletInterface) {
   if (cosmosSDK) {
     cosmosSDK.on({
       type: "accountsChanged",
-      handler: ({ email, publicKey }) => {
+      handler: ({ email, publicKey, name }) => {
         setUserInfo({
           email: email || null,
           publicKey: publicKey ? Buffer.from(publicKey).toString("hex") : null,
+          name: name || null,
         });
       },
     });

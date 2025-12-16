@@ -17,6 +17,7 @@ export type AccountInfoWidgetProps = {
   type: LoginMethod;
   email: string;
   publicKey: string;
+  name?: string | null;
   onSignOut: () => void;
 };
 
@@ -24,6 +25,7 @@ export const AccountInfoWidget: React.FC<AccountInfoWidgetProps> = ({
   type,
   email,
   publicKey,
+  name,
   onSignOut,
 }) => {
   return (
@@ -42,7 +44,7 @@ export const AccountInfoWidget: React.FC<AccountInfoWidgetProps> = ({
             color="primary"
             className={styles.email}
           >
-            {email}
+            {name || email}
           </Typography>
         </div>
         <Spacing height={20} />

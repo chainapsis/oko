@@ -89,7 +89,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           fullWidth
           onClick={onShowSocials}
           // @TODO: remove disabled after other socials are implemented for production
-          disabled
+          // disabled
         >
           <div className={styles.socialIconWrapper}>
             <XIcon size={16} />

@@ -4,6 +4,7 @@ import { combine } from "zustand/middleware";
 interface UserInfoState {
   email: string | null;
   publicKey: string | null;
+  name: string | null;
   isSignedIn: boolean;
 }
 
@@ -11,6 +12,7 @@ interface UserInfoActions {
   setUserInfo: (info: {
     email: string | null;
     publicKey: string | null;
+    name?: string | null;
   }) => void;
   clearUserInfo: () => void;
 }
@@ -20,6 +22,7 @@ export const useUserInfoState = create(
     {
       email: null,
       publicKey: null,
+      name: null,
       isSignedIn: false,
     },
     (set) => ({
@@ -27,6 +30,7 @@ export const useUserInfoState = create(
         set({
           email: info.email,
           publicKey: info.publicKey,
+          name: info.name ?? null,
           isSignedIn: !!(info.email && info.publicKey),
         });
       },
@@ -34,6 +38,7 @@ export const useUserInfoState = create(
         set({
           email: null,
           publicKey: null,
+          name: null,
           isSignedIn: false,
         });
       },

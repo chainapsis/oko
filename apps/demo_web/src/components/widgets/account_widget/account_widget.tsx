@@ -18,6 +18,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   });
   const email = useUserInfoState((state) => state.email);
   const publicKey = useUserInfoState((state) => state.publicKey);
+  const name = useUserInfoState((state) => state.name);
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
   const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
@@ -102,6 +103,7 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
         type={loginMethod}
         email={email || ""}
         publicKey={publicKey || ""}
+        name={name}
         onSignOut={handleSignOut}
       />
     );
