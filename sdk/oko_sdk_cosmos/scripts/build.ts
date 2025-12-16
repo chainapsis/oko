@@ -12,6 +12,7 @@ import {
 } from "rollup";
 import { fileURLToPath } from "node:url";
 import { replaceTscAliasPaths } from "tsc-alias";
+import commonjs from "@rollup/plugin-commonjs";
 
 import tsConfigJson from "../tsconfig.json";
 
@@ -50,7 +51,7 @@ function replaceTscAlias() {
 async function bundle() {
   console.log("Start bundling");
 
-  const srcPath = path.resolve(PKG_ROOT, "./src");
+  const srcPath = path.resolve(__dirname, "../src");
 
   const tsConfig = {
     ...tsConfigJson,
@@ -60,10 +61,22 @@ async function bundle() {
 
   const inputOptions: InputOptions = {
     input: "src/index.ts",
-    external: ["@oko-wallet/stdlib-js", "@keplr-wallet/types"],
+    external: [
+      "@oko-wallet/oko-sdk-core",
+      "@cosmjs/amino",
+      "@cosmjs/proto-signing",
+      "@oko-wallet/stdlib-js",
+      "@keplr-wallet/proto-types",
+      "@keplr-wallet/types",
+      "@noble/curves",
+      "@noble/hashes",
+      "bech32",
+      "buffer",
+    ],
     plugins: [
       json(),
       nodeResolve(),
+      commonjs(),
       typescript({
         ...tsConfig,
         noEmitOnError: true,
@@ -78,12 +91,6 @@ async function bundle() {
       format: "esm",
       sourcemap: true,
     },
-    // {
-    //   file: "dist/index.min.js",
-    //   format: "esm",
-    //   sourcemap: true,
-    //   plugins: [terser()],
-    // },
   ];
 
   let bundle: RollupBuild;
