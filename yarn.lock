@@ -10811,9 +10811,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-cosmos-kit@npm:^0.0.1-rc.14, @oko-wallet/oko-cosmos-kit@workspace:*, @oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit":
+"@oko-wallet/oko-cosmos-kit@npm:^0.0.1-rc.14, @oko-wallet/oko-cosmos-kit@workspace:*, @oko-wallet/oko-cosmos-kit@workspace:integrations/oko_cosmos_kit":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit"
+  resolution: "@oko-wallet/oko-cosmos-kit@workspace:integrations/oko_cosmos_kit"
   dependencies:
     "@cosmos-kit/core": "npm:^2.16.7"
     "@keplr-wallet/types": "npm:^0.12.290"
@@ -10832,9 +10832,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-interchain-kit@workspace:*, @oko-wallet/oko-interchain-kit@workspace:sdk/oko_interchain_kit":
+"@oko-wallet/oko-interchain-kit@workspace:*, @oko-wallet/oko-interchain-kit@workspace:integrations/oko_interchain_kit":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/oko-interchain-kit@workspace:sdk/oko_interchain_kit"
+  resolution: "@oko-wallet/oko-interchain-kit@workspace:integrations/oko_interchain_kit"
   dependencies:
     "@interchain-kit/core": "npm:^0.3.55"
     "@keplr-wallet/types": "npm:^0.12.290"
