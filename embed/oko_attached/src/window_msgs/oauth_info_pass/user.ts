@@ -139,6 +139,7 @@ export async function handleExistingUser(
           jwtToken: signInResp.token,
           keyshare_1: keyshare_1_res.data,
           isNewUser: false,
+          name: signInResp.user.name,
         },
       };
     }
@@ -179,6 +180,7 @@ user pk: ${signInResp.user.public_key}`,
       jwtToken: signInResp.token,
       keyshare_1: keyshare_1_res.data,
       isNewUser: false,
+      name: signInResp.user.name,
     },
   };
 }
@@ -277,6 +279,7 @@ export async function handleNewUser(
       jwtToken: reqKeygenRes.data.token,
       keyshare_1: keygen_1.tss_private_share.toHex(),
       isNewUser: true,
+      name: reqKeygenRes.data.user.name,
     },
   };
 }
@@ -382,6 +385,7 @@ export async function handleReshare(
       jwtToken: signInResp.token,
       keyshare_1: keyshare_1_res.data,
       isNewUser: false,
+      name: signInResp.user.name,
     },
   };
 }

@@ -8,6 +8,7 @@ interface WalletState {
   walletId: string;
   publicKey: string;
   email: string;
+  name?: string;
 }
 
 interface PerOriginState {

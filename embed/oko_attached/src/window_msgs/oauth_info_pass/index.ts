@@ -120,6 +120,7 @@ export async function handleOAuthInfoPass(
       walletId: signInResult.walletId,
       publicKey: signInResult.publicKey,
       email: userIdentifier,
+      name: signInResult.name,
     });
 
     hasSignedIn = true;
