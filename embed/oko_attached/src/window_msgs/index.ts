@@ -7,6 +7,7 @@ import { handleSetCodeVerifier } from "./set_code_verifier";
 import { handleOpenModal } from "./open_modal";
 import { handleSignOut } from "./sign_out";
 import { handleGetEmail } from "./get_email";
+import { handleGetName } from "./get_name";
 import { handleGetCosmosChain } from "./get_cosmos_chain_info";
 import { handleOAuthInfoPass } from "./oauth_info_pass";
 import { handleGetEthChain } from "./get_eth_chain_info";
@@ -57,6 +58,11 @@ export function makeMsgHandler() {
 
       case "get_email": {
         await handleGetEmail(ctx);
+        break;
+      }
+
+      case "get_name": {
+        await handleGetName(ctx);
         break;
       }
 

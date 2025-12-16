@@ -114,6 +114,7 @@ export function useInitializeApp() {
         const wallet = getWallet(hostOrigin);
         const email = wallet?.email;
         const publicKey = wallet?.publicKey;
+        const name = wallet?.name;
 
         if (wallet?.walletId) {
           setUserId(wallet.walletId);
@@ -127,6 +128,7 @@ export function useInitializeApp() {
             data: {
               public_key: publicKey ?? null,
               email: email ?? null,
+              name,
             },
           },
         };

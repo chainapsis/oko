@@ -133,6 +133,18 @@ export type OkoWalletMsgGetEmailAck = {
   payload: Result<string, string>;
 };
 
+export type OkoWalletMsgGetName = {
+  target: "oko_attached";
+  msg_type: "get_name";
+  payload: null;
+};
+
+export type OkoWalletMsgGetNameAck = {
+  target: "oko_sdk";
+  msg_type: "get_name_ack";
+  payload: Result<string, string>;
+};
+
 export type OkoWalletMsgGetCosmosChainInfo = {
   target: "oko_attached";
   msg_type: "get_cosmos_chain_info";
@@ -194,6 +206,8 @@ export type OkoWalletMsg =
   | OkoWalletMsgHideModalAck
   | OkoWalletMsgGetEmail
   | OkoWalletMsgGetEmailAck
+  | OkoWalletMsgGetName
+  | OkoWalletMsgGetNameAck
   | OkoWalletMsgGetCosmosChainInfo
   | OkoWalletMsgGetCosmosChainInfoAck
   | OkoWalletMsgGetEthChainInfo

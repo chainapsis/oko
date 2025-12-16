@@ -28,15 +28,16 @@ export async function lazyInit(
   const registerRes = await registerMsgListener(okoWallet);
   if (registerRes.success) {
     const initResult = registerRes.data;
-    const { email, public_key } = initResult;
+    const { email, public_key, name } = initResult;
 
-    okoWallet.state = { email, publicKey: public_key };
+    okoWallet.state = { email, publicKey: public_key, name };
 
     if (email && public_key) {
       okoWallet.eventEmitter.emit({
         type: "CORE__accountsChanged",
         email: email,
         publicKey: public_key,
+        name,
       });
     }
 

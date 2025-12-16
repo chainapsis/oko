@@ -3,6 +3,7 @@ import type { Key } from "@keplr-wallet/types";
 export interface AccountChangePayload {
   email: string | null;
   publicKey: Key["pubKey"] | null;
+  name?: string;
 }
 
 export type OkoCosmosWalletEvent2 =

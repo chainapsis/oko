@@ -35,6 +35,7 @@ export async function signIn(this: OkoWalletInterface, type: SignInType) {
 
   const publicKey = await this.getPublicKey();
   const email = await this.getEmail();
+  const name = await this.getName();
 
   if (!!publicKey && !!email) {
     console.log("[oko] emit CORE__accountsChanged");
@@ -43,6 +44,7 @@ export async function signIn(this: OkoWalletInterface, type: SignInType) {
       type: "CORE__accountsChanged",
       email,
       publicKey,
+      name: name ?? undefined,
     });
   }
 }
