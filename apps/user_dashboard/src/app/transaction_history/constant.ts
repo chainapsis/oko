@@ -21,7 +21,7 @@ export const TRANSACTION_HISTORY_SUPPORT_LIST = [
   },
   {
     chainId: "omniflixhub-1",
-    explorerName: "ChainRoot",
+    explorerName: "EzStaking",
     explorerUrl: "https://ezstaking.app/omniflixhub",
   },
   {
