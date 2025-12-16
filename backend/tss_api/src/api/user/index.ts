@@ -38,6 +38,7 @@ export async function signIn(
     secret: string;
     expires_in: string;
   },
+  name?: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
     const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
@@ -98,6 +99,7 @@ export async function signIn(
           email: getUserRes.data.email,
           wallet_id: walletRes.data.wallet_id,
           public_key: walletRes.data.public_key.toString("hex"),
+          name: name,
         },
       },
     };

@@ -383,7 +383,7 @@ export function makeKeyshareRouter() {
       res: Response<KSNodeApiResponse<CheckKeyShareResponse>>,
     ) => {
       const body = req.body;
-      // default to google if auth_type is not provided
+      // @NOTE: default to google if auth_type is not provided
       const auth_type = (body.auth_type ?? "google") as AuthType;
 
       const publicKeyBytesRes = Bytes.fromHexString(body.public_key, 33);

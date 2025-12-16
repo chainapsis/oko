@@ -34,7 +34,7 @@ export async function oauthMiddleware(
   res: Response,
   next: NextFunction,
 ) {
-  // default to google if auth_type is not provided
+  // @NOTE: default to google if auth_type is not provided
   const authType = (req.body?.auth_type ?? "google") as AuthType;
 
   switch (authType) {

@@ -94,7 +94,7 @@ export function setUserRoutes(router: Router) {
       const state = req.app.locals;
 
       const { email } = req.body;
-      // default to google if auth_type is not provided
+      // @NOTE: default to google if auth_type is not provided
       const auth_type = (req.body.auth_type ?? "google") as AuthType;
 
       if (!email) {
@@ -202,10 +202,16 @@ export function setUserRoutes(router: Router) {
 
       const userEmail = oauthUser.email.toLowerCase();
 
-      const signInRes = await signIn(state.db, userEmail, auth_type, {
-        secret: state.jwt_secret,
-        expires_in: state.jwt_expires_in,
-      });
+      const signInRes = await signIn(
+        state.db,
+        userEmail,
+        auth_type,
+        {
+          secret: state.jwt_secret,
+          expires_in: state.jwt_expires_in,
+        },
+        oauthUser.name,
+      );
       if (signInRes.success === false) {
         res
           .status(ErrorCodeMap[signInRes.code] ?? 500) //

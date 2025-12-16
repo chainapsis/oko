@@ -62,7 +62,7 @@ export async function bearerTokenMiddleware(
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
-  // default to google if auth_type is not provided
+  // @NOTE: default to google if auth_type is not provided
   const authType = (req.body?.auth_type ?? "google") as AuthType;
 
   if (!authHeader || !authHeader.startsWith("Bearer ")) {

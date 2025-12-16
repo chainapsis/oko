@@ -152,8 +152,10 @@ describe("keygen_route_test", () => {
           expires_in: "1h",
         },
         {
+          auth_type: "google",
           email: "test@example.com",
           keygen_2: testKeygenBody.keygen_2,
+          name: "Test User",
         },
         TEMP_ENC_SECRET,
       );
@@ -187,8 +189,10 @@ describe("keygen_route_test", () => {
           expires_in: "1h",
         },
         {
+          auth_type: "google",
           email: "test@example.com",
           keygen_2: testKeygenBody.keygen_2,
+          name: "Test User",
         },
         TEMP_ENC_SECRET,
       );
