@@ -117,6 +117,7 @@ export async function handleOAuthInfoPass(
     appState.setKeyshare_1(hostOrigin, signInResult.keyshare_1);
     appState.setAuthToken(hostOrigin, signInResult.jwtToken);
     appState.setWallet(hostOrigin, {
+      authType,
       walletId: signInResult.walletId,
       publicKey: signInResult.publicKey,
       email: userIdentifier,

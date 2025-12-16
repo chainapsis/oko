@@ -24,6 +24,7 @@ export const OkoWallet = function (
     OkoWalletCoreEventHandler2
   >();
   this.state = {
+    authType: null,
     email: null,
     publicKey: null,
   };

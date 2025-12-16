@@ -28,9 +28,9 @@ export async function lazyInit(
   const registerRes = await registerMsgListener(okoWallet);
   if (registerRes.success) {
     const initResult = registerRes.data;
-    const { email, public_key, name } = initResult;
+    const { email, public_key, name, auth_type } = initResult;
 
-    okoWallet.state = { email, publicKey: public_key, name };
+    okoWallet.state = { email, publicKey: public_key, name, authType: auth_type };
 
     if (email && public_key) {
       okoWallet.eventEmitter.emit({
@@ -38,6 +38,7 @@ export async function lazyInit(
         email: email,
         publicKey: public_key,
         name,
+        authType: auth_type,
       });
     }
 

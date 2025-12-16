@@ -33,18 +33,17 @@ export async function signIn(this: OkoWalletInterface, type: SignInType) {
     throw new Error(`Sign in error, err: ${err}`);
   }
 
-  const publicKey = await this.getPublicKey();
-  const email = await this.getEmail();
-  const name = await this.getName();
+  const walletInfo = await this.getWalletInfo();
 
-  if (!!publicKey && !!email) {
+  if (walletInfo?.publicKey && walletInfo?.email) {
     console.log("[oko] emit CORE__accountsChanged");
 
     this.eventEmitter.emit({
       type: "CORE__accountsChanged",
-      email,
-      publicKey,
-      name: name ?? undefined,
+      authType: walletInfo.authType,
+      email: walletInfo.email,
+      publicKey: walletInfo.publicKey,
+      name: walletInfo.name,
     });
   }
 }

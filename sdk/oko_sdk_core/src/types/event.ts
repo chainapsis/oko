@@ -1,16 +1,16 @@
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+
 export interface AccountsChangedPayload {
+  authType: AuthType | null;
   email: string | null;
   publicKey: string | null;
   name?: string;
 }
 
 export type OkoWalletCoreEvent2 =
-  | {
+  | ({
       type: "CORE__accountsChanged";
-      email: string | null;
-      publicKey: string | null;
-      name?: string;
-    }
+    } & AccountsChangedPayload)
   | {
       type: "CORE__chainChanged";
     };

@@ -1,6 +1,7 @@
 import type { ChainInfo } from "@keplr-wallet/types";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { Bytes32 } from "@oko-wallet/bytes";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type {
   OpenModalAckPayload,
@@ -145,6 +146,25 @@ export type OkoWalletMsgGetNameAck = {
   payload: Result<string, string>;
 };
 
+export type WalletInfo = {
+  authType: AuthType;
+  publicKey: string;
+  email: string;
+  name?: string;
+};
+
+export type OkoWalletMsgGetWalletInfo = {
+  target: "oko_attached";
+  msg_type: "get_wallet_info";
+  payload: null;
+};
+
+export type OkoWalletMsgGetWalletInfoAck = {
+  target: "oko_sdk";
+  msg_type: "get_wallet_info_ack";
+  payload: Result<WalletInfo, string>;
+};
+
 export type OkoWalletMsgGetCosmosChainInfo = {
   target: "oko_attached";
   msg_type: "get_cosmos_chain_info";
@@ -208,6 +228,8 @@ export type OkoWalletMsg =
   | OkoWalletMsgGetEmailAck
   | OkoWalletMsgGetName
   | OkoWalletMsgGetNameAck
+  | OkoWalletMsgGetWalletInfo
+  | OkoWalletMsgGetWalletInfoAck
   | OkoWalletMsgGetCosmosChainInfo
   | OkoWalletMsgGetCosmosChainInfoAck
   | OkoWalletMsgGetEthChainInfo
