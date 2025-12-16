@@ -5,6 +5,7 @@ import { paths } from "../paths";
 import { doBuildPkgs } from "./build_pkgs";
 import { expectSuccess } from "../expect";
 import { sleep } from "../time";
+import { doBuildSDK } from "./build_sdk";
 
 export async function version(..._args: any[]) {
   console.log("Start versioning packages...");
@@ -12,7 +13,8 @@ export async function version(..._args: any[]) {
   console.log("We will re-build the packages now just to make sure\n");
   await sleep(500);
 
-  doBuildPkgs();
+  await doBuildPkgs();
+  await doBuildSDK();
 
   console.log("Testing type definition in sandbox simple host");
   const testSandboxRet = spawnSync("yarn", ["tsc"], {
