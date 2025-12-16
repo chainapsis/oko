@@ -31,6 +31,16 @@ export async function typeCheck(..._args: any[]) {
     // paths.user_dashboard,
   ];
 
+  // NOTE: Currently not used
+  const _thoroughCheckPkgPaths = [
+    ...pkgPaths,
+    paths.example_cosmoskit_nextjs,
+    paths.example_cosmos_nextjs,
+    paths.example_evm_nextjs,
+    paths.example_evm_wagmi_nextjs,
+    paths.example_multi_ecosystem_react,
+  ];
+
   console.log("Type checking, total (%s)", pkgPaths.length);
 
   const chunckedPaths = chunkArr(pkgPaths, WORKER_COUNT);

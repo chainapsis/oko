@@ -26,7 +26,7 @@ function toOko(args: OkoEthWalletInitArgs): () => Wallet {
     id: "oko",
     name: "Oko",
     // TODO:
-    iconUrl: okoIcon.src,
+    iconUrl: (okoIcon as any).src,
     shortName: "Oko",
     rdns: "oko.app",
     iconBackground: "#0c2f78",
@@ -71,7 +71,7 @@ function okoConnector(
       id: "oko",
       name: "Oko",
       type: "oko" as const,
-      icon: okoIcon.src,
+      icon: (okoIcon as any).src,
       setup: async () => {
         // Only setup in browser environment
         if (typeof window !== "undefined") {
