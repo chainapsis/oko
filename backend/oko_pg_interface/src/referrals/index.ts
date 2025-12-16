@@ -104,6 +104,32 @@ ORDER BY created_at DESC
   }
 }
 
+export async function getReferralsByPublicKeyAndOrigin(
+  db: Pool | PoolClient,
+  publicKey: Buffer,
+  origin: string,
+): Promise<Result<ReferralPublicInfo[], string>> {
+  try {
+    const query = `
+SELECT utm_source, utm_campaign, created_at
+FROM referrals
+WHERE public_key = $1 AND origin = $2
+ORDER BY created_at DESC
+`;
+    const result = await db.query<ReferralPublicInfo>(query, [
+      publicKey,
+      origin,
+    ]);
+
+    return {
+      success: true,
+      data: result.rows,
+    };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}
+
 // export async function getReferralsByUserId(
 //   db: Pool | PoolClient,
 //   userId: string,

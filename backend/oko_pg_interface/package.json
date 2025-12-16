@@ -7,6 +7,7 @@
     "migrate": "tsx ../../node_modules/knex/bin/cli.js migrate:latest",
     "seed": "tsx ../../node_modules/knex/bin/cli.js seed:run",
     "migrate_down": "tsx ../../node_modules/knex/bin/cli.js migrate:down",
+    "migrate_up": "tsx ../../node_modules/knex/bin/cli.js migrate:up",
     "schema_make": "tsx ../../node_modules/knex/bin/cli.js migrate:make -x ts"
   },
   "exports": {
