@@ -7,7 +7,7 @@ import { useUserInfoState } from "@/state/user_info";
 import { useAddresses } from "@/hooks/use_addresses";
 import { CosmosAccountsModal } from "@/components/cosmos_accounts_modal/cosmos_accounts_modal";
 
-type SignInStrategy = "google" | "email" | "telegram";
+type SignInStrategy = "google" | "email" | "telegram" | "x";
 
 export const LoginWidget: FC<LoginWidgetProps> = () => {
   const { okoCosmos } = useOko();
@@ -51,7 +51,9 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
               ? "email"
               : signInStrategy === "telegram"
                 ? "telegram"
-                : "google"}
+                : signInStrategy === "x"
+                  ? "x"
+                  : "google"}
           </div>
           <p>
             Signing in{" "}
@@ -59,7 +61,9 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
               ? "(email iframe)"
               : signInStrategy === "telegram"
                 ? "(Telegram OAuth)"
-                : "(Google OAuth)"}
+                : signInStrategy === "x"
+                  ? "(X OAuth)"
+                  : "(Google OAuth)"}
           </p>
         </div>
       </Widget>
@@ -123,7 +127,7 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
           disabled={isSigningIn}
           data-testid="email-login-btn"
         >
-          Email Login (dummy)
+          Email Login
         </button>
         <button
           onClick={() => handleSignIn("telegram")}
@@ -131,6 +135,13 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
           data-testid="telegram-login-btn"
         >
           Telegram Login
+        </button>
+        <button
+          onClick={() => handleSignIn("x")}
+          disabled={isSigningIn}
+          data-testid="x-login-btn"
+        >
+          Twitter(x) Login
         </button>
         <button
           onClick={() => {
@@ -172,4 +183,4 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
   );
 };
 
-export interface LoginWidgetProps {}
+export interface LoginWidgetProps { }
