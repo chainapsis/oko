@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet-examples/cosmos-nextjs",
-  "version": "0.0.2-alpha.1",
+  "version": "0.0.2-alpha.2",
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
@@ -15,7 +15,7 @@
     "@hookform/resolvers": "5.2.2",
     "@keplr-wallet/types": "^0.12.290",
     "@keplr-wallet/unit": "0.12.297",
-    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.151",
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.152",
     "next": "^16.0.7",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
