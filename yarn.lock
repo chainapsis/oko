@@ -10875,20 +10875,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-sdk-common@workspace:sdk/oko_sdk_common":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/oko-sdk-common@workspace:sdk/oko_sdk_common"
-  dependencies:
-    "@jest/globals": "npm:^29.7.0"
-    "@types/jest": "npm:^29.5.14"
-    "@types/node": "npm:^24.10.1"
-    del-cli: "npm:^6.0.0"
-    ts-jest: "npm:^29.4.5"
-    tsc-alias: "npm:^1.8.16"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/oko-sdk-core@npm:0.0.6-rc.125, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.124, @oko-wallet/oko-sdk-core@npm:^0.0.6-rc.125, @oko-wallet/oko-sdk-core@workspace:*, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core"
