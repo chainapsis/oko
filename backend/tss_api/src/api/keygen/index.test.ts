@@ -90,6 +90,7 @@ describe("keygen_test", () => {
     const keygen_2 = keygen_outputs[Participant.P1];
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2,
     };
@@ -111,7 +112,6 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
-      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === false) {
@@ -195,6 +195,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -206,7 +207,6 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
-      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {
@@ -236,6 +236,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -247,7 +248,6 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
-      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {
@@ -273,6 +273,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -284,7 +285,6 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
-      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {
@@ -312,6 +312,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -323,7 +324,6 @@ describe("keygen_test", () => {
       pool,
       jwtConfig,
       keygenRequest,
-      "google",
       TEMP_ENC_SECRET,
     );
     if (keygenResponse.success === true) {

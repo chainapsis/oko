@@ -9,7 +9,6 @@ import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
 import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
 import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   createWallet,
@@ -32,11 +31,10 @@ export async function runKeygen(
     expires_in: string;
   },
   keygenRequest: KeygenRequest,
-  auth_type: AuthType,
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const { email, keygen_2 } = keygenRequest;
+    const { auth_type, email, keygen_2, name } = keygenRequest;
 
     const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
     if (getUserRes.success === false) {
@@ -222,6 +220,7 @@ export async function runKeygen(
           email: email,
           wallet_id: wallet.wallet_id,
           public_key: keygen_2.public_key,
+          name: name,
         },
       },
     };

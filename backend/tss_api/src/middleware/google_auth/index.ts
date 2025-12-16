@@ -3,6 +3,7 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { validateOAuthToken } from "./validate";
 import { GOOGLE_CLIENT_ID } from "./client_id";
+import type { OAuthUser } from "../types";
 
 export interface GoogleAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -49,8 +50,7 @@ export async function googleAuthMiddleware(
     res.locals.oauth_user = {
       type: "google" as AuthType,
       email: result.data.email,
-      name: result.data.name,
-    };
+    } as OAuthUser;
 
     next();
     return;

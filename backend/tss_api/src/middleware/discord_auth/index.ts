@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { validateDiscordOAuthToken } from "./validate";
+import type { OAuthUser } from "../types";
 
 export interface DiscordAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -49,7 +50,7 @@ export async function discordAuthMiddleware(
       type: "discord" as AuthType,
       email: result.data.email,
       name: result.data.username,
-    };
+    } as OAuthUser;
 
     next();
     return;

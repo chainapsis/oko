@@ -2,6 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { validateAccessTokenOfX } from "./validate";
+import type { OAuthUser } from "../types";
 
 export interface XAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -47,9 +48,10 @@ export async function xAuthMiddleware(
 
     res.locals.oauth_user = {
       type: "x" as AuthType,
+      // in x, use x id as email
       email: result.data.id,
-      name: result.data.username ?? undefined,
-    };
+      name: result.data.username,
+    } as OAuthUser;
 
     next();
     return;

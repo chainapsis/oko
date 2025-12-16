@@ -32,6 +32,7 @@ export interface SignInResponse {
     email: string;
     wallet_id: string;
     public_key: string;
+    name?: string;
   };
 }
 

@@ -134,6 +134,7 @@ async function setUpTssStage(pool: Pool) {
   });
 
   const keygenRequest: KeygenRequest = {
+    auth_type: "google",
     email: email,
     keygen_2,
   };
@@ -141,7 +142,6 @@ async function setUpTssStage(pool: Pool) {
     pool,
     jwtConfig,
     keygenRequest,
-    "google",
     TEMP_ENC_SECRET,
   );
   if (keygenResponse.success === false) {

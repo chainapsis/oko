@@ -107,10 +107,11 @@ export function setKeygenRoutes(router: Router) {
         state.db,
         jwtConfig,
         {
+          auth_type,
           email: oauthUser.email.toLowerCase(),
           keygen_2: body.keygen_2,
+          name: oauthUser.name,
         },
-        auth_type,
         state.encryption_secret,
       );
 

@@ -3,6 +3,7 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { validateAuth0IdToken } from "./validate";
 import { AUTH0_CLIENT_ID, AUTH0_DOMAIN } from "./client_id";
+import type { OAuthUser } from "../types";
 
 export interface Auth0AuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -53,8 +54,7 @@ export async function auth0AuthMiddleware(
     res.locals.oauth_user = {
       type: "auth0" as AuthType,
       email: result.data.email,
-      name: result.data.name,
-    };
+    } as OAuthUser;
 
     next();
     return;

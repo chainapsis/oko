@@ -6,6 +6,7 @@ import {
   type TelegramUserData,
   type TelegramUserInfo,
 } from "./validate";
+import type { OAuthUser } from "../types";
 
 export interface TelegramAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -58,8 +59,8 @@ export async function telegramAuthMiddleware(
       type: "telegram" as AuthType,
       // in telegram, use telegram id as email
       email: userInfo.id,
-      name: userInfo.username ?? userInfo.id,
-    };
+      name: userInfo.username,
+    } as OAuthUser;
 
     next();
     return;
