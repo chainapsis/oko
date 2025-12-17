@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-types",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "type": "module",
   "publishConfig": {
     "access": "public"
@@ -30,7 +30,7 @@
     "./referral": "./dist/referral/index.js"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "^0.0.3-alpha.63",
+    "@oko-wallet/bytes": "^0.0.3-alpha.64",
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/cait-sith-keplr-express": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.41",

@@ -1,7 +1,7 @@
 {
   "name": "@oko-wallet/cait-sith-keplr-addon",
   "private": true,
-  "version": "0.0.2-alpha.2",
+  "version": "0.0.2-alpha.3",
   "type": "module",
   "workspaces": {
     "packages": [
@@ -22,7 +22,7 @@
     "shamir-secret-sharing": "^0.0.4"
   },
   "devDependencies": {
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.43",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.44",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.6",
     "@types/jest": "^29.5.14",
