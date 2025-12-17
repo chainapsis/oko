@@ -4,7 +4,6 @@ import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { SignInResponse } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
@@ -19,6 +18,7 @@ import {
   oauthMiddleware,
 } from "@oko-wallet-tss-api/middleware/oauth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export function setKeygenRoutes(router: Router) {
   registry.registerPath({

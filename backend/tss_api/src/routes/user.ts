@@ -8,7 +8,6 @@ import type {
 } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
@@ -38,6 +37,7 @@ import {
   type OAuthAuthenticatedRequest,
   oauthMiddleware,
 } from "@oko-wallet-tss-api/middleware/oauth";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export function setUserRoutes(router: Router) {
   registry.registerPath({
