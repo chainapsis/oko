@@ -9,8 +9,9 @@ import type {
   SignInResponse,
   User,
 } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { getUserByEmail } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import {
   getActiveKSNodes,
   getWalletKSNodesByWalletId,
@@ -32,25 +33,27 @@ import { checkKeyShareFromKSNodes } from "@oko-wallet-tss-api/api/ks_node";
 export async function signIn(
   db: Pool,
   email: string,
+  auth_type: AuthType,
   jwt_config: {
     secret: string;
     expires_in: string;
   },
+  name?: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const getUserRes = await getUserByEmail(db, email);
+    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmail error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndAuthType error: ${getUserRes.err}`,
       };
     }
     if (getUserRes.data === null) {
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email}`,
+        msg: `User not found: ${email} (auth_type: ${auth_type})`,
       };
     }
 
@@ -96,6 +99,7 @@ export async function signIn(
           email: getUserRes.data.email,
           wallet_id: walletRes.data.wallet_id,
           public_key: walletRes.data.public_key.toString("hex"),
+          name: name,
         },
       },
     };
@@ -111,15 +115,16 @@ export async function signIn(
 export async function checkEmail(
   db: Pool,
   email: string,
+  auth_type: AuthType,
 ): Promise<OkoApiResponse<CheckEmailResponse>> {
   try {
     // Check if user exists and has an active wallet
-    const getUserRes = await getUserByEmail(db, email);
+    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmail error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndAuthType error: ${getUserRes.err}`,
       };
     }
     const user = getUserRes.data;
@@ -265,23 +270,24 @@ export async function checkEmail(
 export async function updateWalletKSNodesForReshare(
   db: Pool,
   email: string,
+  auth_type: AuthType,
   public_key: Bytes33,
   reshared_key_shares: NodeNameAndEndpoint[],
 ): Promise<OkoApiResponse<void>> {
   try {
-    const getUserRes = await getUserByEmail(db, email);
+    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmail error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndAuthType error: ${getUserRes.err}`,
       };
     }
     if (getUserRes.data === null) {
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email}`,
+        msg: `User not found: ${email} (auth_type: ${auth_type})`,
       };
     }
 
@@ -353,6 +359,7 @@ export async function updateWalletKSNodesForReshare(
       email,
       public_key,
       getKSNodesRes.data,
+      auth_type,
     );
     if (checkKeyshareFromKSNodesRes.success === false) {
       return checkKeyshareFromKSNodesRes;

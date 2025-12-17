@@ -1,10 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import {
   validateTelegramHash,
   type TelegramUserData,
   type TelegramUserInfo,
-} from "./validate";
+} from "@oko-wallet-tss-api/middleware/telegram_auth/validate";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export interface TelegramAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -12,7 +14,7 @@ export interface TelegramAuthenticatedRequest<T = any> extends Request {
 
 export async function telegramAuthMiddleware(
   req: TelegramAuthenticatedRequest,
-  res: Response,
+  res: Response<unknown, OAuthLocals>,
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
@@ -54,10 +56,10 @@ export async function telegramAuthMiddleware(
     const userInfo: TelegramUserInfo = result.data;
 
     res.locals.oauth_user = {
-      type: "telegram",
+      type: "telegram" as AuthType,
       // in telegram, use telegram id as email
       email: userInfo.id,
-      name: userInfo.username ?? userInfo.id,
+      name: userInfo.username,
     };
 
     next();

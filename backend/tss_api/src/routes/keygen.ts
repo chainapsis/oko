@@ -3,6 +3,7 @@ import type { KeygenBody } from "@oko-wallet/oko-types/tss";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { SignInResponse } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
@@ -17,6 +18,7 @@ import {
   oauthMiddleware,
 } from "@oko-wallet-tss-api/middleware/oauth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export function setKeygenRoutes(router: Router) {
   registry.registerPath({
@@ -77,13 +79,15 @@ export function setKeygenRoutes(router: Router) {
   });
   router.post(
     "/keygen",
-    [oauthMiddleware, tssActivateMiddleware],
+    oauthMiddleware,
+    tssActivateMiddleware,
     async (
       req: OAuthAuthenticatedRequest<KeygenBody>,
-      res: Response<OkoApiResponse<SignInResponse>>,
+      res: Response<OkoApiResponse<SignInResponse>, OAuthLocals>,
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
+      const auth_type = oauthUser.type as AuthType;
       const body = req.body;
 
       if (!oauthUser?.email) {
@@ -104,8 +108,10 @@ export function setKeygenRoutes(router: Router) {
         state.db,
         jwtConfig,
         {
+          auth_type,
           email: oauthUser.email.toLowerCase(),
           keygen_2: body.keygen_2,
+          name: oauthUser.name,
         },
         state.encryption_secret,
       );

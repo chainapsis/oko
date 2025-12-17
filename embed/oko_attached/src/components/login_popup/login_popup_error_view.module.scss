@@ -23,7 +23,7 @@
 }
 
 .title {
-  font-family: var(--font-family-body);
+  font-family: var(--font-family-body, Inter);
   font-weight: 600;
   font-size: var(--font-size-text-lg);
   line-height: var(--line-height-text-lg);
@@ -65,6 +65,7 @@
   -webkit-box-orient: vertical;
   color: var(--colors-text-text-warning-primary-600, #dc6803);
   letter-spacing: 0;
+  font-family: var(--font-family-body, Inter);
 }
 
 .supportLink {
@@ -77,6 +78,7 @@
   cursor: pointer;
   margin-top: 12px;
   display: block;
+  font-family: var(--font-family-body, Inter);
 }
 
 .bottomSection {
@@ -91,4 +93,3 @@
   border-top: 1px solid var(--border-subtle);
   /* Optional: separator */
 }
-

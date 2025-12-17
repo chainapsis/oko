@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import {
   createUser,
-  getUserByEmail,
+  getUserByEmailAndAuthType,
 } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
@@ -34,14 +34,14 @@ export async function runKeygen(
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const { email, keygen_2 } = keygenRequest;
+    const { auth_type, email, keygen_2, name } = keygenRequest;
 
-    const getUserRes = await getUserByEmail(db, email);
+    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getUserByEmail error: ${getUserRes.err}`,
+        msg: `getUserByEmailAndAuthType error: ${getUserRes.err}`,
       };
     }
 
@@ -69,7 +69,7 @@ export async function runKeygen(
         };
       }
     } else {
-      const createUserRes = await createUser(db, email);
+      const createUserRes = await createUser(db, email, auth_type);
       if (createUserRes.success === false) {
         return {
           success: false,
@@ -126,6 +126,7 @@ export async function runKeygen(
       email,
       publicKeyBytes,
       activeKSNodes,
+      auth_type,
     );
     if (checkKeyshareFromKSNodesRes.success === false) {
       return checkKeyshareFromKSNodesRes;
@@ -219,6 +220,7 @@ export async function runKeygen(
           email: email,
           wallet_id: wallet.wallet_id,
           public_key: keygen_2.public_key,
+          name: name,
         },
       },
     };

@@ -70,7 +70,7 @@ describe("user_test", () => {
   describe("signIn", () => {
     it("should return USER_NOT_FOUND when user does not exist", async () => {
       const email = "nonexistent@example.com";
-      const signInRes = await signIn(pool, email, {
+      const signInRes = await signIn(pool, email, "google", {
         secret: "test-jwt-secret",
         expires_in: "1h",
       });
@@ -86,12 +86,12 @@ describe("user_test", () => {
 
     it("should return WALLET_NOT_FOUND when user exists but wallet does not", async () => {
       const email = "test@example.com";
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
 
-      const signInRes = await signIn(pool, email, {
+      const signInRes = await signIn(pool, email, "google", {
         secret: "test-jwt-secret",
         expires_in: "1h",
       });
@@ -109,7 +109,7 @@ describe("user_test", () => {
       const email = "test@example.com";
       const publicKey = "test_public_key";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -135,7 +135,7 @@ describe("user_test", () => {
         throw new Error("Failed to update wallet status");
       }
 
-      const signInRes = await signIn(pool, email, {
+      const signInRes = await signIn(pool, email, "google", {
         secret: "test-jwt-secret",
         expires_in: "1h",
       });
@@ -153,7 +153,7 @@ describe("user_test", () => {
       const email = "test@example.com";
       const publicKey = "test_public_key";
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -170,7 +170,7 @@ describe("user_test", () => {
         throw new Error("Failed to create wallet");
       }
 
-      const signInRes = await signIn(pool, email, {
+      const signInRes = await signIn(pool, email, "google", {
         secret: "test-jwt-secret",
         expires_in: "1h",
       });
@@ -194,7 +194,7 @@ describe("user_test", () => {
       await pool.end();
 
       const email = "test@example.com";
-      const signInRes = await signIn(pool, email, {
+      const signInRes = await signIn(pool, email, "google", {
         secret: "test-jwt-secret",
         expires_in: "1h",
       });
@@ -231,7 +231,7 @@ describe("user_test", () => {
       const email = "nonexistent@example.com";
       const ksNodes = await setUpKSNodes(pool);
 
-      const checkEmailRes = await checkEmail(pool, email);
+      const checkEmailRes = await checkEmail(pool, email, "google");
       if (checkEmailRes.success === false) {
         throw new Error("checkEmail should succeed");
       }
@@ -250,12 +250,12 @@ describe("user_test", () => {
       const email = "nonexistent@example.com";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
 
-      const checkEmailRes = await checkEmail(pool, email);
+      const checkEmailRes = await checkEmail(pool, email, "google");
       if (checkEmailRes.success === false) {
         throw new Error("checkEmail should succeed");
       }
@@ -275,7 +275,7 @@ describe("user_test", () => {
       const publicKey = "test_public_key";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -301,7 +301,7 @@ describe("user_test", () => {
         throw new Error("Failed to update wallet status");
       }
 
-      const checkEmailRes = await checkEmail(pool, email);
+      const checkEmailRes = await checkEmail(pool, email, "google");
       if (checkEmailRes.success === false) {
         throw new Error("checkEmail should succeed");
       }
@@ -321,7 +321,7 @@ describe("user_test", () => {
       const publicKey = "test_public_key";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -347,7 +347,7 @@ describe("user_test", () => {
         throw new Error("Failed to create wallet ks nodes");
       }
 
-      const checkEmailRes = await checkEmail(pool, email);
+      const checkEmailRes = await checkEmail(pool, email, "google");
       if (checkEmailRes.success === false) {
         throw new Error("checkEmail should succeed");
       }
@@ -365,7 +365,7 @@ describe("user_test", () => {
       const publicKey = "test_public_key";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -398,7 +398,7 @@ describe("user_test", () => {
         [createWalletRes.data.wallet_id, ksNodes[0].node_id],
       );
 
-      const checkEmailRes = await checkEmail(pool, email);
+      const checkEmailRes = await checkEmail(pool, email, "google");
       if (checkEmailRes.success === false) {
         throw new Error("checkEmail should succeed");
       }
@@ -431,7 +431,7 @@ describe("user_test", () => {
       const publicKey = "test_public_key";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -458,7 +458,7 @@ describe("user_test", () => {
         throw new Error("Failed to create wallet ks nodes");
       }
 
-      const checkEmailRes = await checkEmail(pool, email);
+      const checkEmailRes = await checkEmail(pool, email, "google");
       if (checkEmailRes.success === false) {
         throw new Error("checkEmail should succeed");
       }
@@ -488,7 +488,7 @@ describe("user_test", () => {
       const publicKey = "test_public_key";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -516,7 +516,7 @@ describe("user_test", () => {
         throw new Error("Failed to create wallet ks nodes");
       }
 
-      const checkEmailRes = await checkEmail(pool, email);
+      const checkEmailRes = await checkEmail(pool, email, "google");
       if (checkEmailRes.success === false) {
         throw new Error("checkEmail should succeed");
       }

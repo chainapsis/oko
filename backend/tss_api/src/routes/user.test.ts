@@ -141,7 +141,7 @@ describe("user_route_test", () => {
       const email = "test@example.com";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -166,7 +166,7 @@ describe("user_route_test", () => {
       const publicKey = "test_public_key";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -212,7 +212,7 @@ describe("user_route_test", () => {
       const publicKey = "test_public_key";
       const ksNodes = await setUpKSNodes(pool);
 
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -294,7 +294,7 @@ describe("user_route_test", () => {
     it("should return 404 when user exists but wallet does not", async () => {
       // Create a user without a wallet
       const email = "test@example.com";
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -315,7 +315,7 @@ describe("user_route_test", () => {
     it("should return 404 when user exists but wallet status is INACTIVE", async () => {
       // Create a user without a wallet
       const email = "test@example.com";
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }
@@ -357,7 +357,7 @@ describe("user_route_test", () => {
     it("should return 200 with token when signin is successful", async () => {
       // Create a user and wallet
       const email = "test@example.com";
-      const createUserRes = await createUser(pool, email);
+      const createUserRes = await createUser(pool, email, "google");
       if (createUserRes.success === false) {
         throw new Error("Failed to create user");
       }

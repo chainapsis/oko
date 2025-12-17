@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 import { AuthProgressWidget } from "./auth_progress_widget";
@@ -11,6 +12,16 @@ type SigningInState =
   | { status: "signing-in" }
   | { status: "failed"; error: string };
 
+function authTypeToLoginMethod(authType: AuthType | null): LoginMethod {
+  if (!authType) {
+    return "google";
+  }
+  if (authType === "auth0") {
+    return "email";
+  }
+  return authType;
+}
+
 export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
   const [signingInState, setSigningInState] = useState<SigningInState>({
@@ -18,10 +29,16 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   });
   const email = useUserInfoState((state) => state.email);
   const publicKey = useUserInfoState((state) => state.publicKey);
+  const name = useUserInfoState((state) => state.name);
+  const authType = useUserInfoState((state) => state.authType);
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
   const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
   const [loginMethod, setLoginMethod] = useState<LoginMethod>("google");
+
+  const displayLoginMethod = isSignedIn
+    ? authTypeToLoginMethod(authType)
+    : loginMethod;
 
   function isSupportedLoginMethod(method: LoginMethod) {
     return (
@@ -99,9 +116,10 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   if (isSignedIn) {
     return (
       <AccountInfoWidget
-        type={loginMethod}
+        type={displayLoginMethod}
         email={email || ""}
         publicKey={publicKey || ""}
+        name={name}
         onSignOut={handleSignOut}
       />
     );

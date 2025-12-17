@@ -2,21 +2,23 @@ import type { Pool, PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { User } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export async function createUser(
   db: Pool,
   email: string,
+  auth_type: AuthType,
 ): Promise<Result<User, string>> {
   try {
     const query = `
 INSERT INTO ewallet_users (
-  user_id, email
+  user_id, email, auth_type
 ) VALUES (
-  $1, $2
+  $1, $2, $3
 ) 
 RETURNING *
 `;
-    const values = [uuidv4(), email.toLowerCase()];
+    const values = [uuidv4(), email.toLowerCase(), auth_type];
 
     const result = await db.query<User>(query, values);
 
@@ -40,19 +42,20 @@ RETURNING *
   }
 }
 
-export async function getUserByEmail(
+export async function getUserByEmailAndAuthType(
   db: Pool | PoolClient,
   email: string,
+  auth_type: AuthType,
 ): Promise<Result<User | null, string>> {
   try {
     const query = `
 SELECT * 
 FROM ewallet_users 
-WHERE email = $1 
+WHERE email = $1 AND auth_type = $2
 LIMIT 1
 `;
 
-    const result = await db.query(query, [email.toLowerCase()]);
+    const result = await db.query(query, [email.toLowerCase(), auth_type]);
 
     let user: User | null = null;
     if (result.rows.length > 0) {

@@ -1,11 +1,11 @@
-export type OAuthProvider = "google" | "auth0" | "x" | "telegram" | "discord";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export type SignInType = "google" | "email" | "x" | "telegram" | "discord";
 
 export type OAuthState = {
   apiKey: string;
   targetOrigin: string;
-  provider: OAuthProvider;
+  provider: AuthType;
   modalId?: string;
   codeVerifier?: string;
 };
@@ -19,7 +19,7 @@ export interface OAuthPayload {
   id_token: string;
   api_key: string;
   target_origin: string;
-  auth_type: "google" | "auth0";
+  auth_type: AuthType;
 }
 export type OAuthTokenRequestPayload =
   | OAuthTokenRequestPayloadOfX

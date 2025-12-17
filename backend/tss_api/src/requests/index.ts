@@ -1,11 +1,13 @@
 import type { Bytes33 } from "@oko-wallet/bytes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { CheckKeyShareResponse } from "@oko-wallet/ksn-interface/key_share";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export async function requestCheckKeyShare(
   ksNodeURI: string,
   userEmail: string,
   publicKey: Bytes33,
+  auth_type: AuthType,
 ) {
   const res = await fetch(`${ksNodeURI}/keyshare/v1/check`, {
     method: "POST",
@@ -14,6 +16,7 @@ export async function requestCheckKeyShare(
     },
     body: JSON.stringify({
       email: userEmail,
+      auth_type,
       public_key: publicKey.toHex(),
     }),
   });
