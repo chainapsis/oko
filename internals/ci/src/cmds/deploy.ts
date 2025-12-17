@@ -3,8 +3,8 @@ import path from "node:path";
 import fs from "node:fs";
 import chalk from "chalk";
 
-import { paths } from "../paths";
-import { expectSuccess } from "../expect";
+import { paths } from "@oko-wallet-ci/paths";
+import { expectSuccess } from "@oko-wallet-ci/expect";
 
 const VERCEL_SCOPE = "keplrwallet";
 

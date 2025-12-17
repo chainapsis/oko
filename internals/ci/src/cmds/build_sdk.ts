@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
-import { paths } from "../paths";
-import { expectSuccess } from "../expect";
-import { getPkgName } from "../pkg_name";
+import { paths } from "@oko-wallet-ci/paths";
+import { expectSuccess } from "@oko-wallet-ci/expect";
+import { getPkgName } from "@oko-wallet-ci/pkg_name";
 
 export async function buildSDK(..._args: any[]) {
   await doBuildSDK();

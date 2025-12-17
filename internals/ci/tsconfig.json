@@ -21,7 +21,9 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "resolveJsonModule": true,
-    "paths": {}
+    "paths": {
+      "@oko-wallet-ci/*": ["./src/*"]
+    }
   },
   "include": ["src/**/*.ts", "tests/**/*.ts"],
   "exclude": ["node_modules", "dist"]
