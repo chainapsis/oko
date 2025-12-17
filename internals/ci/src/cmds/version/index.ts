@@ -1,3 +1,4 @@
+import fs from "node:fs";
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
@@ -7,8 +8,50 @@ import { expectSuccess } from "@oko-wallet-ci/expect";
 import { sleep } from "@oko-wallet-ci/time";
 import { doBuildSDK } from "../build_sdk";
 
+function checkWorkspaceVersions() {
+  console.log('Checking for "workspace:" versions in publishable packages...');
+
+  const result = spawnSync(
+    "grep",
+    ["-r", '"workspace:', "--include=package.json", paths.root],
+    { encoding: "utf-8" },
+  );
+
+  if (result.stdout) {
+    const lines = result.stdout.split("\n").filter((line) => {
+      if (!line) return false;
+      if (line.includes("node_modules")) return false;
+
+      const filePath = line.split(":")[0];
+      try {
+        const content = fs.readFileSync(filePath, "utf-8");
+        const pkg = JSON.parse(content);
+        return pkg.private !== true;
+      } catch {
+        return false;
+      }
+    });
+
+    if (lines.length > 0) {
+      console.error(
+        chalk.bold.red("Error:"),
+        'Found "workspace:" versions in publishable packages:',
+      );
+      lines.forEach((line) => console.error("  ", line));
+      console.error(
+        "\nPlease replace workspace: with actual version numbers before versioning.",
+      );
+      process.exit(1);
+    }
+  }
+
+  console.log('No "workspace:" versions found in publishable packages');
+}
+
 export async function version(..._args: any[]) {
   console.log("Start versioning packages...");
+
+  checkWorkspaceVersions();
 
   console.log("We will re-build the packages now just to make sure\n");
   await sleep(500);
