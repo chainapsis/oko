@@ -1,9 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
-import { validateAuth0IdToken } from "./validate";
-import { AUTH0_CLIENT_ID, AUTH0_DOMAIN } from "./client_id";
-import type { OAuthUser } from "../types";
+import { validateAuth0IdToken } from "@oko-wallet-tss-api/middleware/auth0_auth/validate";
+import {
+  AUTH0_CLIENT_ID,
+  AUTH0_DOMAIN,
+} from "@oko-wallet-tss-api/middleware/auth0_auth/client_id";
+import type { OAuthUser } from "@oko-wallet-tss-api/middleware/types";
 
 export interface Auth0AuthenticatedRequest<T = any> extends Request {
   body: T;

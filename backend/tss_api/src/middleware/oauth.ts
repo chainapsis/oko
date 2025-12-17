@@ -20,8 +20,8 @@ import {
 import {
   discordAuthMiddleware,
   type DiscordAuthenticatedRequest,
-} from "./discord_auth";
-import type { OAuthBody } from "./types";
+} from "@oko-wallet-tss-api/middleware/discord_auth";
+import type { OAuthBody } from "@oko-wallet-tss-api/middleware/types";
 
 export type OAuthAuthenticatedRequest<T = {}> = Request<
   any,
