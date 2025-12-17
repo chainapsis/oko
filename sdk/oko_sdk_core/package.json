@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-core",
-  "version": "0.0.6-rc.126",
+  "version": "0.0.6-rc.127",
   "type": "module",
   "scripts": {
     "build": "tsx ./scripts/build.ts",
