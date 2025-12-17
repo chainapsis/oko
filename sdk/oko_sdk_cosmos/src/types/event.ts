@@ -5,7 +5,7 @@ export interface AccountChangePayload {
   authType: AuthType | null;
   email: string | null;
   publicKey: Key["pubKey"] | null;
-  name?: string;
+  name: string | null;
 }
 
 export type OkoCosmosWalletEvent2 =

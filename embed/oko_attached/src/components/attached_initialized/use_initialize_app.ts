@@ -130,7 +130,7 @@ export function useInitializeApp() {
               auth_type: authType ?? null,
               email: email ?? null,
               public_key: publicKey ?? null,
-              name,
+              name: name ?? null,
             },
           },
         };
