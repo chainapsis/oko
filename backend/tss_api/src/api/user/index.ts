@@ -99,7 +99,7 @@ export async function signIn(
           email: getUserRes.data.email,
           wallet_id: walletRes.data.wallet_id,
           public_key: walletRes.data.public_key.toString("hex"),
-          name: name,
+          name: name ?? null,
         },
       },
     };
