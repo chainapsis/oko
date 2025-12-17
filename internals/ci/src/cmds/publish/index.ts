@@ -47,8 +47,6 @@ token.",
     process.exit(1);
   }
 
-  return;
-
   const publishRet = spawnSync(
     "yarn",
     ["lerna", "publish", "from-package", "--loglevel", "verbose"],
