@@ -3,8 +3,8 @@ import path from "node:path";
 import chalk from "chalk";
 import { Client } from "pg";
 
-import { paths } from "../paths";
-import { expectSuccess } from "../expect";
+import { paths } from "@oko-wallet-ci/paths";
+import { expectSuccess } from "@oko-wallet-ci/expect";
 
 export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
   console.log("Start DB migrating");

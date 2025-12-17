@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 
-import { paths } from "../paths";
-import { expectSuccess } from "../expect";
+import { paths } from "@oko-wallet-ci/paths";
+import { expectSuccess } from "@oko-wallet-ci/expect";
 
 export async function langCheck(..._args: any[]) {
   console.log("Checking language of codebase...");
