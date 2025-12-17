@@ -99,7 +99,8 @@ function tryDiscordSignIn(
     if (ack.msg_type !== "set_code_verifier_ack" || !ack.payload.success) {
       throw new Error("Failed to set code verifier for Discord oauth sign in");
     }
-    let timeout: number;
+    let popupTimeoutTimer: number;
+    let popupCloseCheckTimer: number;
 
     function onMessage(event: MessageEvent) {
       if (event.ports.length < 1) {
@@ -134,8 +135,16 @@ function tryDiscordSignIn(
     }
 
     window.addEventListener("message", onMessage);
+    // Check if popup was closed by the user
+    popupCloseCheckTimer = window.setInterval(() => {
+      if (popup.closed) {
+        console.log("[oko] Popup was closed by user, rejecting sign-in");
+        cleanup();
+        reject(new Error("Sign-in cancelled"));
+      }
+    }, 500);
 
-    timeout = window.setTimeout(() => {
+    popupTimeoutTimer = window.setTimeout(() => {
       cleanup();
       reject(new Error("Timeout: no response within 5 minutes"));
       closePopup(popup);
@@ -143,7 +152,8 @@ function tryDiscordSignIn(
 
     function cleanup() {
       console.log("[oko] Discord login - clean up oauth sign in listener");
-      window.clearTimeout(timeout);
+      window.clearTimeout(popupTimeoutTimer);
+      window.clearInterval(popupCloseCheckTimer);
       window.removeEventListener("message", onMessage);
     }
   });
