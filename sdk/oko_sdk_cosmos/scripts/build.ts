@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 const PKG_ROOT = path.resolve(__dirname, "..");
 
 async function main() {
-  console.log("Start building");
+  console.log("Start build");
 
   await removeDirtyFiles();
   await bundle();
