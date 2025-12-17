@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-attached",
-  "version": "0.1.1-alpha.6",
+  "version": "0.1.1-alpha.7",
   "private": true,
   "type": "module",
   "scripts": {
@@ -38,7 +38,7 @@
     "@oko-wallet/ksn-interface": "^0.0.2-alpha.60",
     "@oko-wallet/oko-common-ui": "workspace:*",
     "@oko-wallet/oko-sdk-core": "^0.0.6-rc.128",
-    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.154",
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.155",
     "@oko-wallet/oko-sdk-eth": "^0.0.6-rc.143",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.44",
     "@oko-wallet/tecdsa-interface": "0.0.2-alpha.22",

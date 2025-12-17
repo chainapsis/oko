@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-cosmos",
-  "version": "0.0.6-rc.154",
+  "version": "0.0.6-rc.155",
   "type": "module",
   "publishConfig": {
     "access": "public"
