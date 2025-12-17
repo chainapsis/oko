@@ -376,8 +376,7 @@ export async function getCustomerList(
             customer_dashboard_users: (
               ctdUsersByCustomerIdsMapRes.data.get(customer.customer_id) || []
             ).map((user) => {
-              const logs =
-                emailSentLogsMapRes.data.get(user.user_id) || [];
+              const logs = emailSentLogsMapRes.data.get(user.user_id) || [];
               return {
                 ...user,
                 has_sent_inactive_reminder: logs.some(
