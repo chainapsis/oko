@@ -8,9 +8,13 @@ export interface AccountsChangedPayload {
 }
 
 export type OkoWalletCoreEvent2 =
-  | ({
+  | {
       type: "CORE__accountsChanged";
-    } & AccountsChangedPayload)
+      authType: AuthType | null;
+      email: string | null;
+      publicKey: string | null;
+      name?: string;
+    }
   | {
       type: "CORE__chainChanged";
     };
