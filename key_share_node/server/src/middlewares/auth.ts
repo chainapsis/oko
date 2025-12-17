@@ -161,7 +161,7 @@ export async function bearerTokenMiddleware(
         res.locals.oauth_user = {
           type: result.auth_type,
           email: `x_${result.data.data.id}`,
-          name: result.data.data.name,
+          name: result.data.data.username,
         };
         break;
       }
@@ -178,7 +178,7 @@ export async function bearerTokenMiddleware(
         res.locals.oauth_user = {
           type: result.auth_type,
           email: `telegram_${result.data.data.id}`,
-          name: result.data.data.username ?? result.data.data.id,
+          name: result.data.data.username,
         };
         break;
       }
