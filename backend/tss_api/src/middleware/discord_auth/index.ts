@@ -2,7 +2,7 @@ import type { Request, Response, NextFunction } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { validateDiscordOAuthToken } from "@oko-wallet-tss-api/middleware/discord_auth/validate";
-import type { OAuthUser } from "@oko-wallet-tss-api/middleware/types";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export interface DiscordAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -10,7 +10,7 @@ export interface DiscordAuthenticatedRequest<T = any> extends Request {
 
 export async function discordAuthMiddleware(
   req: DiscordAuthenticatedRequest,
-  res: Response,
+  res: Response<unknown, OAuthLocals>,
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
@@ -50,7 +50,7 @@ export async function discordAuthMiddleware(
       type: "discord" as AuthType,
       email: result.data.email,
       name: result.data.username,
-    } as OAuthUser;
+    };
 
     next();
     return;

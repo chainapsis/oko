@@ -79,7 +79,8 @@ export function setKeygenRoutes(router: Router) {
   });
   router.post(
     "/keygen",
-    [oauthMiddleware, tssActivateMiddleware],
+    oauthMiddleware,
+    tssActivateMiddleware,
     async (
       req: OAuthAuthenticatedRequest<KeygenBody>,
       res: Response<OkoApiResponse<SignInResponse>, OAuthLocals>,

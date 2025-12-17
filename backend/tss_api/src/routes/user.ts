@@ -1,4 +1,4 @@
-import type { Response, Router, Request } from "express";
+import type { Request, Response, Router } from "express";
 import type {
   CheckEmailRequest,
   CheckEmailResponse,
@@ -182,7 +182,8 @@ export function setUserRoutes(router: Router) {
   });
   router.post(
     "/user/signin",
-    [oauthMiddleware, tssActivateMiddleware],
+    oauthMiddleware,
+    tssActivateMiddleware,
     async (
       req: OAuthAuthenticatedRequest,
       res: Response<OkoApiResponse<SignInResponse>, OAuthLocals>,
@@ -403,7 +404,8 @@ export function setUserRoutes(router: Router) {
 
   router.post(
     "/user/reshare",
-    [oauthMiddleware, tssActivateMiddleware],
+    oauthMiddleware,
+    tssActivateMiddleware,
     async (
       req: OAuthAuthenticatedRequest<ReshareRequest>,
       res: Response<OkoApiResponse<void>, OAuthLocals>,

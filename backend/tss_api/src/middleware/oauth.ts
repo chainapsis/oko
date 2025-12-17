@@ -21,7 +21,10 @@ import {
   discordAuthMiddleware,
   type DiscordAuthenticatedRequest,
 } from "@oko-wallet-tss-api/middleware/discord_auth";
-import type { OAuthBody } from "@oko-wallet-tss-api/middleware/types";
+import type {
+  OAuthBody,
+  OAuthLocals,
+} from "@oko-wallet-tss-api/middleware/types";
 
 export type OAuthAuthenticatedRequest<T = {}> = Request<
   any,
@@ -31,9 +34,9 @@ export type OAuthAuthenticatedRequest<T = {}> = Request<
 
 export async function oauthMiddleware(
   req: OAuthAuthenticatedRequest,
-  res: Response,
+  res: Response<unknown, OAuthLocals>,
   next: NextFunction,
-) {
+): Promise<void> {
   // @NOTE: default to google if auth_type is not provided
   const authType = (req.body?.auth_type ?? "google") as AuthType;
 
