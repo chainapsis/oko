@@ -35,7 +35,11 @@ export async function signIn(this: OkoWalletInterface, type: SignInType) {
 
   const walletInfo = await this.getWalletInfo();
 
-  if (walletInfo?.publicKey && walletInfo?.email) {
+  if (!walletInfo) {
+    return;
+  }
+
+  if (walletInfo.publicKey && walletInfo.email) {
     console.log("[oko] emit CORE__accountsChanged");
 
     this.eventEmitter.emit({
