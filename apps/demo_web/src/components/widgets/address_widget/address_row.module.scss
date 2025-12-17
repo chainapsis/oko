@@ -39,9 +39,14 @@
   gap: 4px;
 }
 
+.placeholderPrefix {
+  color: var(--Colors-Text-text-disabled, #717680);
+}
+
 .address {
   overflow: hidden;
   word-break: break-all;
+  color: var(--Colors-Text-text-disabled, #717680);
 }
 
 .dot {

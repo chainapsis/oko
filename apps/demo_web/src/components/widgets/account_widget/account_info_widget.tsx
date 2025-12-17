@@ -58,12 +58,7 @@ export const AccountInfoWidget: React.FC<AccountInfoWidgetProps> = ({
           >
             Public Key
           </Typography>
-          <Typography
-            size="sm"
-            weight="medium"
-            color="disabled"
-            className={styles.publicKey}
-          >
+          <Typography size="sm" weight="medium" className={styles.publicKey}>
             {publicKey}
           </Typography>
         </div>
