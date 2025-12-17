@@ -5,7 +5,11 @@ export async function up(knex: Knex): Promise<void> {
 
   // 1. Add auth_type column with default 'google'
   await publicSchemaBuilder.alterTable("ewallet_users", (table) => {
-    table.string("auth_type", 64).notNullable().defaultTo("google").after("email");
+    table
+      .string("auth_type", 64)
+      .notNullable()
+      .defaultTo("google")
+      .after("email");
   });
 
   // 2. Drop the old unique constraint on email only
