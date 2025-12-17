@@ -27,7 +27,7 @@ async function main() {
   await bundle();
   replaceTscAlias();
 
-  console.log("Done");
+  console.log("Done build");
 }
 
 async function removeDirtyFiles() {
