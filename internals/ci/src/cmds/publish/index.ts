@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 
-import { paths } from "../paths";
-import { expectSuccess } from "../expect";
+import { paths } from "../../paths";
+import { expectSuccess } from "../../expect";
 
 export async function publish(..._args: any[]) {
   console.log("Publishing packages...");
