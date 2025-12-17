@@ -107,10 +107,10 @@ export function useEmailLogin({
   }, [resendTimer]);
 
   useEffect(() => {
-    if (isOtpComplete && !isSubmitting) {
+    if (isOtpComplete && !isSubmitting && !errorMessage) {
       void handleVerifyCode();
     }
-  }, [isOtpComplete]);
+  }, [isOtpComplete, isSubmitting, errorMessage]);
 
   const resetError = () => setErrorMessage(null);
 
@@ -267,6 +267,7 @@ export function useEmailLogin({
       onError: (err) => {
         console.error(`${LOG_PREFIX} passwordlessLogin error`, err);
         setErrorMessage(err.message);
+        setInfoMessage(null);
         setIsSubmitting(false);
       },
     });
