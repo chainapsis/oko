@@ -37,7 +37,7 @@
     "@cosmjs/amino": "0.36.1",
     "@cosmjs/proto-signing": "0.36.1",
     "@keplr-wallet/proto-types": "^0.12.253",
-    "@keplr-wallet/types": "^0.12.290",
+    "@keplr-wallet/types": "0.12.297",
     "@noble/curves": "1.9.7",
     "@noble/hashes": "^1.8.0",
     "@oko-wallet/oko-sdk-core": "^0.0.6-rc.126",

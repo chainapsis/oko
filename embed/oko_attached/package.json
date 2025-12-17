@@ -27,7 +27,7 @@
     "@fontsource-variable/inter": "^5.2.8",
     "@keplr-wallet/cosmos": "^0.12.210",
     "@keplr-wallet/proto-types": "^0.12.250",
-    "@keplr-wallet/types": "^0.12.290",
+    "@keplr-wallet/types": "0.12.297",
     "@keplr-wallet/unit": "0.12.297",
     "@oko-wallet/api-lib": "workspace:*",
     "@oko-wallet/bytes": "^0.0.3-alpha.63",

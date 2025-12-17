@@ -17,7 +17,7 @@
     "@interchain-kit/core": "^0.3.55",
     "@interchain-kit/keplr-extension": "^0.3.55",
     "@interchain-kit/react": "^0.3.55",
-    "@keplr-wallet/types": "^0.12.290",
+    "@keplr-wallet/types": "0.12.297",
     "@keplr-wallet/unit": "0.12.297",
     "@oko-wallet/oko-interchain-kit": "workspace:*",
     "@oko-wallet/oko-sdk-core": "workspace:*",
