@@ -57,5 +57,5 @@ export interface OkoWalletState {
   authType: AuthType | null;
   email: string | null;
   publicKey: string | null;
-  name?: string;
+  name: string | null;
 }

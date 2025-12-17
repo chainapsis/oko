@@ -27,6 +27,7 @@ export const OkoWallet = function (
     authType: null,
     email: null,
     publicKey: null,
+    name: null,
   };
   this.waitUntilInitialized = lazyInit(this).then();
 } as any as OkoWalletStaticInterface;

@@ -15,6 +15,6 @@ export async function signOut(this: OkoWalletInterface) {
     authType: null,
     email: null,
     publicKey: null,
-    name: undefined,
+    name: null,
   });
 }

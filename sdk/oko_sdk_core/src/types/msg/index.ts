@@ -150,7 +150,7 @@ export type WalletInfo = {
   authType: AuthType;
   publicKey: string;
   email: string;
-  name?: string;
+  name: string | null;
 };
 
 export type OkoWalletMsgGetWalletInfo = {

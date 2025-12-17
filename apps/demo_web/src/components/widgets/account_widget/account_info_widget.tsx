@@ -17,7 +17,7 @@ export type AccountInfoWidgetProps = {
   type: LoginMethod;
   email: string;
   publicKey: string;
-  name?: string | null;
+  name: string | null;
   onSignOut: () => void;
 };
 

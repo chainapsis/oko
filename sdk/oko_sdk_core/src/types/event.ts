@@ -4,7 +4,7 @@ export interface AccountsChangedPayload {
   authType: AuthType | null;
   email: string | null;
   publicKey: string | null;
-  name?: string;
+  name: string | null;
 }
 
 export type OkoWalletCoreEvent2 =
@@ -13,7 +13,7 @@ export type OkoWalletCoreEvent2 =
       authType: AuthType | null;
       email: string | null;
       publicKey: string | null;
-      name?: string;
+      name: string | null;
     }
   | {
       type: "CORE__chainChanged";
