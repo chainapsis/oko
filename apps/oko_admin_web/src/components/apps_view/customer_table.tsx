@@ -79,6 +79,8 @@ const createColumns = (
         return {
           email: user.email,
           is_email_verified: user.is_email_verified,
+          has_sent_inactive_reminder: user.has_sent_inactive_reminder,
+          has_sent_unverified_reminder: user.has_sent_unverified_reminder,
         };
       }),
     {

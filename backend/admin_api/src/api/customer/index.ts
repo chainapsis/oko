@@ -37,6 +37,7 @@ import {
   insertCustomerDashboardUser,
   updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
+import { getEmailSentLogsByUserIdsMap } from "@oko-wallet/oko-pg-interface/email_sent_logs";
 import { getTssSessionsExistenceByCustomerIds } from "@oko-wallet/oko-pg-interface/tss";
 import type {
   APIKey,
@@ -303,6 +304,23 @@ export async function getCustomerList(
       };
     }
 
+    const allUserIds: string[] = [];
+    ctdUsersByCustomerIdsMapRes.data.forEach((users) => {
+      users.forEach((u) => allUserIds.push(u.user_id));
+    });
+
+    const emailSentLogsMapRes = await getEmailSentLogsByUserIdsMap(
+      db,
+      allUserIds,
+    );
+    if (emailSentLogsMapRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get email sent logs: ${emailSentLogsMapRes.err}`,
+      };
+    }
+
     const tssSessionsExistenceMapRes =
       await getTssSessionsExistenceByCustomerIds(db, customerIds);
     if (tssSessionsExistenceMapRes.success === false) {
@@ -355,9 +373,21 @@ export async function getCustomerList(
             api_keys:
               apiKeysByCustomerIdsMapRes.data.get(customer.customer_id) ||
               ([] as APIKey[]),
-            customer_dashboard_users:
-              ctdUsersByCustomerIdsMapRes.data.get(customer.customer_id) ||
-              ([] as CustomerDashboardUser[]),
+            customer_dashboard_users: (
+              ctdUsersByCustomerIdsMapRes.data.get(customer.customer_id) || []
+            ).map((user) => {
+              const logs =
+                emailSentLogsMapRes.data.get(user.user_id) || [];
+              return {
+                ...user,
+                has_sent_inactive_reminder: logs.some(
+                  (l) => l.type === "INACTIVE_CUSTOMER_USER",
+                ),
+                has_sent_unverified_reminder: logs.some(
+                  (l) => l.type === "UNVERIFIED_CUSTOMER_USER",
+                ),
+              };
+            }),
             has_tss_sessions:
               tssSessionsExistenceMapRes.data.get(customer.customer_id) ||
               false,
