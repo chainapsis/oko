@@ -13,8 +13,12 @@ type SigningInState =
   | { status: "failed"; error: string };
 
 function authTypeToLoginMethod(authType: AuthType | null): LoginMethod {
-  if (!authType) return "google";
-  if (authType === "auth0") return "email";
+  if (!authType) {
+    return "google";
+  }
+  if (authType === "auth0") {
+    return "email";
+  }
   return authType;
 }
 
