@@ -10911,7 +10911,7 @@ __metadata:
   dependencies:
     "@keplr-wallet/types": "npm:0.12.297"
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.63"
-    "@oko-wallet/oko-types": "workspace:*"
+    "@oko-wallet/oko-types": "npm:0.0.1-alpha.1"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.43"
     "@rollup/plugin-commonjs": "npm:^25.0.0"
     "@rollup/plugin-json": "npm:^6.1.0"
@@ -11028,7 +11028,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-types@workspace:*, @oko-wallet/oko-types@workspace:common/oko_types":
+"@oko-wallet/oko-types@npm:0.0.1-alpha.1, @oko-wallet/oko-types@workspace:*, @oko-wallet/oko-types@workspace:common/oko_types":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-types@workspace:common/oko_types"
   dependencies:
