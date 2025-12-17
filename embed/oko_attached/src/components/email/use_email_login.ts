@@ -12,7 +12,7 @@ import {
 } from "@oko-wallet-attached/lib/auth0";
 
 const CODE_LENGTH = 6;
-const RESEND_COOLDOWN_SECONDS = 30;
+const RESEND_COOLDOWN_SECONDS = 180; // 3 minutes
 const LOG_PREFIX = "[attached][email_login]";
 const EMAIL_STORAGE_KEY = "oko_email_login_pending_email";
 
@@ -266,7 +266,17 @@ export function useEmailLogin({
       state: oauthContext!.state,
       onError: (err) => {
         console.error(`${LOG_PREFIX} passwordlessLogin error`, err);
-        setErrorMessage(err.message);
+        // Customize error message for invalid verification code
+        const errorMsg = err.message.toLowerCase();
+        if (
+          errorMsg.includes("wrong email") ||
+          errorMsg.includes("verification code") ||
+          errorMsg.includes("invalid code")
+        ) {
+          setErrorMessage("Invalid code. Try again.");
+        } else {
+          setErrorMessage(err.message);
+        }
         setInfoMessage(null);
         setIsSubmitting(false);
       },
