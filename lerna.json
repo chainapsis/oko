@@ -33,7 +33,6 @@
     "sdk/oko_sdk_eth",
     "crypto/bytes",
     "crypto/crypto_js",
-    "crypto/sss",
     "crypto/tecdsa/tecdsa_interface",
     "crypto/tecdsa/cait_sith_keplr_hooks",
     "crypto/tecdsa/cait_sith_keplr_addon",
