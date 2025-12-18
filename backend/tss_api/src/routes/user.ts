@@ -28,8 +28,11 @@ import { registry } from "@oko-wallet/oko-api-openapi";
 
 import {
   signIn,
+  signInEd25519,
+  checkEd25519Wallet,
   checkEmail,
   updateWalletKSNodesForReshare,
+  type CheckEd25519WalletResponse,
 } from "@oko-wallet-tss-api/api/user";
 import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
@@ -223,6 +226,176 @@ export function setUserRoutes(router: Router) {
       res.status(200).json({
         success: true,
         data: signInRes.data,
+      });
+    },
+  );
+
+  // Ed25519 sign-in route for Solana wallets
+  registry.registerPath({
+    method: "post",
+    path: "/tss/v1/user/signin_ed25519",
+    tags: ["TSS"],
+    summary: "Sign in with OAuth (Ed25519)",
+    description:
+      "Authenticates user using OAuth token and returns Ed25519 wallet information with JWT token",
+    security: [{ oauthAuth: [] }],
+    request: {
+      headers: OAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: SignInRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully signed in",
+        content: {
+          "application/json": {
+            schema: SignInSuccessResponseSchema,
+          },
+        },
+      },
+      401: {
+        description:
+          "Unauthorized - Invalid or missing OAuth token or auth_type",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Not Found - User or Ed25519 wallet not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/user/signin_ed25519",
+    [oauthMiddleware, tssActivateMiddleware],
+    async (
+      req: OAuthAuthenticatedRequest,
+      res: Response<OkoApiResponse<SignInResponse>>,
+    ) => {
+      const state = req.app.locals;
+      const oauthUser = res.locals.oauth_user;
+
+      if (!oauthUser?.email) {
+        res.status(401).json({
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "User email not found",
+        });
+        return;
+      }
+
+      const userEmail = oauthUser.email.toLowerCase();
+
+      const signInRes = await signInEd25519(state.db, userEmail, {
+        secret: state.jwt_secret,
+        expires_in: state.jwt_expires_in,
+      });
+      if (signInRes.success === false) {
+        res
+          .status(ErrorCodeMap[signInRes.code] ?? 500) //
+          .json(signInRes);
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: signInRes.data,
+      });
+    },
+  );
+
+  // Check if user has Ed25519 wallet
+  registry.registerPath({
+    method: "post",
+    path: "/tss/v1/user/check_ed25519_wallet",
+    tags: ["TSS"],
+    summary: "Check if user has Ed25519 wallet",
+    description:
+      "Checks if the authenticated user has an existing Ed25519 wallet",
+    security: [{ oauthAuth: [] }],
+    request: {
+      headers: OAuthHeaderSchema,
+    },
+    responses: {
+      200: {
+        description: "Successfully checked wallet status",
+        content: {
+          "application/json": {
+            schema: SuccessResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing OAuth token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/user/check_ed25519_wallet",
+    [oauthMiddleware, tssActivateMiddleware],
+    async (
+      req: OAuthAuthenticatedRequest,
+      res: Response<OkoApiResponse<CheckEd25519WalletResponse>>,
+    ) => {
+      const state = req.app.locals;
+      const oauthUser = res.locals.oauth_user;
+
+      if (!oauthUser?.email) {
+        res.status(401).json({
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "User email not found",
+        });
+        return;
+      }
+
+      const userEmail = oauthUser.email.toLowerCase();
+
+      const checkRes = await checkEd25519Wallet(state.db, userEmail);
+      if (checkRes.success === false) {
+        res
+          .status(ErrorCodeMap[checkRes.code] ?? 500)
+          .json(checkRes);
+        return;
+      }
+
+      res.status(200).json({
+        success: true,
+        data: checkRes.data,
       });
     },
   );
