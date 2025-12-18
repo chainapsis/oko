@@ -13,10 +13,16 @@ interface WalletState {
   name: string | null;
 }
 
+interface KeyPackageEd25519State {
+  keyPackage: string;
+  publicKeyPackage: string;
+}
+
 interface PerOriginState {
   theme: Theme | null;
   apiKey: string | null;
   keyshare_1: string | null;
+  keyPackageEd25519: KeyPackageEd25519State | null;
   nonce: string | null;
   codeVerifier: string | null;
   authToken: string | null;
@@ -42,6 +48,12 @@ interface AppActions {
 
   getKeyshare_1: (hostOrigin: string) => string | null;
   setKeyshare_1: (hostOrigin: string, keyshare_1: string | null) => void;
+
+  getKeyPackageEd25519: (hostOrigin: string) => KeyPackageEd25519State | null;
+  setKeyPackageEd25519: (
+    hostOrigin: string,
+    keyPackage: KeyPackageEd25519State | null,
+  ) => void;
 
   getApiKey: (hostOrigin: string) => string | null;
   setApiKey: (hostOrigin: string, apiKey: string | null) => void;
@@ -103,6 +115,23 @@ export const useAppState = create(
           },
         });
       },
+      setKeyPackageEd25519: (
+        hostOrigin: string,
+        keyPackageEd25519: KeyPackageEd25519State | null,
+      ) => {
+        set({
+          perOrigin: {
+            ...get().perOrigin,
+            [hostOrigin]: {
+              ...get().perOrigin[hostOrigin],
+              keyPackageEd25519,
+            },
+          },
+        });
+      },
+      getKeyPackageEd25519: (hostOrigin: string) => {
+        return get().perOrigin[hostOrigin]?.keyPackageEd25519;
+      },
       setAuthToken: (hostOrigin: string, authToken: string | null) => {
         set({
           perOrigin: {
@@ -123,6 +152,7 @@ export const useAppState = create(
               theme: null,
               apiKey: null,
               keyshare_1: null,
+              keyPackageEd25519: null,
               nonce: null,
               codeVerifier: null,
               authToken: null,
