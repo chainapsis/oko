@@ -20,9 +20,15 @@ export interface CustomerDashboardUser {
   email: string;
   status: CustomerDashboardUserStatus;
   is_email_verified: boolean;
-  has_sent_inactive_reminder?: boolean;
-  has_sent_unverified_reminder?: boolean;
 }
+
+export interface CustomerDashboardUserReminderStatus {
+  has_sent_inactive_reminder: boolean;
+  has_sent_unverified_reminder: boolean;
+}
+
+export type CustomerDashboardUserWithReminderStatus = CustomerDashboardUser &
+  CustomerDashboardUserReminderStatus;
 
 export interface PasswordHash {
   password_hash: string;

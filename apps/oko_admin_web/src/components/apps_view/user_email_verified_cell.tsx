@@ -1,16 +1,20 @@
 import { type FC } from "react";
 import { Badge } from "@oko-wallet/oko-common-ui/badge";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { CustomerDashboardUserWithReminderStatus } from "@oko-wallet/oko-types/ct_dashboard";
 
 import styles from "./user_email_verified_cell.module.scss";
 
+type UserEmailVerifiedCellUser = Pick<
+  CustomerDashboardUserWithReminderStatus,
+  | "email"
+  | "is_email_verified"
+  | "has_sent_inactive_reminder"
+  | "has_sent_unverified_reminder"
+>;
+
 interface UserEmailVerifiedCellProps {
-  users: {
-    email: string;
-    is_email_verified: boolean;
-    has_sent_inactive_reminder?: boolean;
-    has_sent_unverified_reminder?: boolean;
-  }[];
+  users: UserEmailVerifiedCellUser[];
 }
 
 export const UserEmailVerifiedCell: FC<UserEmailVerifiedCellProps> = ({

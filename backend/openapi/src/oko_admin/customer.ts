@@ -111,6 +111,24 @@ const CustomerDashboardUserSchema = registry.register(
   }),
 );
 
+const CustomerDashboardUserReminderStatusSchema = registry.register(
+  "CustomerDashboardUserReminderStatus",
+  z.object({
+    has_sent_inactive_reminder: z.boolean().openapi({
+      description: "Whether an inactive reminder email has been sent",
+    }),
+
+    has_sent_unverified_reminder: z.boolean().openapi({
+      description: "Whether an unverified reminder email has been sent",
+    }),
+  }),
+);
+
+const CustomerDashboardUserWithReminderStatusSchema = registry.register(
+  "CustomerDashboardUserWithReminderStatus",
+  CustomerDashboardUserSchema.merge(CustomerDashboardUserReminderStatusSchema),
+);
+
 const CustomerWithAPIKeysSchema = registry.register(
   "CustomerWithAPIKeys",
   z.object({
@@ -122,9 +140,11 @@ const CustomerWithAPIKeysSchema = registry.register(
       description: "List of API keys for the customer",
     }),
 
-    customer_dashboard_users: z.array(CustomerDashboardUserSchema).openapi({
-      description: "List of customer dashboard users",
-    }),
+    customer_dashboard_users: z
+      .array(CustomerDashboardUserWithReminderStatusSchema)
+      .openapi({
+        description: "List of customer dashboard users",
+      }),
 
     has_tss_sessions: z.boolean().optional().openapi({
       description:
