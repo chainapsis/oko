@@ -35,12 +35,12 @@ export async function getEmailSentLogsByUserIdsMap(
   }
 
   const query = `
-    SELECT
-      log_id, target_id, type, email, sent_at
-    FROM
-      email_sent_logs
-    WHERE
-      target_id = ANY($1)
+SELECT
+  log_id, target_id, type, email, sent_at
+FROM
+  email_sent_logs
+WHERE
+  target_id = ANY($1)
   `;
 
   try {
