@@ -5,10 +5,29 @@ members = [
   "crypto/tecdsa/sandbox",
   "crypto/tecdsa/cait_sith_keplr_addon/addon",
   "crypto/tecdsa/cait_sith_keplr_wasm/wasm",
+  "crypto/teddsa/frost_core",
+  "crypto/teddsa/frost_ed25519_keplr",
+  "crypto/teddsa/frost_rerandomized",
   "key_share_node/key_share_node_2/core",
   "key_share_node/key_share_node_2/pg_interface",
   "key_share_node/key_share_node_2/server",
+
 ]
 
 [workspace.dependencies]
 cait_sith_keplr = { version = "=0.0.2-rc.4" }
+
+# for frost_ed25519
+frost_core = { path = "crypto/teddsa/frost_core", version = "2.2.0", default-features = false }
+frost_rerandomized = { path = "crypto/teddsa/frost_rerandomized", version = "2.2.0", default-features = false }
+
+criterion = "0.6"
+document-features = "0.2.7"
+hex = { version = "0.4.3", default-features = false, features = ["alloc"] }
+insta = { version = "1.31.0", features = ["yaml"] }
+lazy_static = "1.4"
+proptest = "1.0"
+rand = "0.8"
+rand_chacha = "0.3"
+rand_core = "0.6"
+serde_json = "1.0"
