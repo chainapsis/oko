@@ -9,22 +9,12 @@ import { expectSuccess } from "@oko-wallet-ci/expect";
 import { sleep } from "@oko-wallet-ci/time";
 import { doBuildSDK } from "../build_sdk";
 
-function findPackageJsonFiles(dir: string) {
-  const results: string[] = [];
-  const entries = fs.readdirSync(dir, { withFileTypes: true });
+function getPackageJsonPaths(): string[] {
+  const lernaJsonPath = path.join(paths.root, "lerna.json");
+  const lernaJson = JSON.parse(fs.readFileSync(lernaJsonPath, "utf-8"));
+  const packages: string[] = lernaJson.packages ?? [];
 
-  for (const entry of entries) {
-    const fullPath = path.join(dir, entry.name);
-
-    if (entry.isDirectory()) {
-      if (entry.name === "node_modules") continue;
-      results.push(...findPackageJsonFiles(fullPath));
-    } else if (entry.name === "package.json") {
-      results.push(fullPath);
-    }
-  }
-
-  return results;
+  return packages.map((pkg) => path.join(paths.root, pkg, "package.json"));
 }
 
 interface WorkspaceDepInfo {
@@ -66,7 +56,7 @@ function findWorkspaceDeps(pkg: Record<string, unknown>): WorkspaceDep[] {
 function checkWorkspaceVersions() {
   console.log('Checking for "workspace:" versions in publishable packages...');
 
-  const packageJsonFiles = findPackageJsonFiles(paths.root);
+  const packageJsonFiles = getPackageJsonPaths();
   const issues: WorkspaceDepInfo[] = [];
 
   for (const filePath of packageJsonFiles) {
@@ -74,13 +64,20 @@ function checkWorkspaceVersions() {
       const content = fs.readFileSync(filePath, "utf-8");
       const pkg = JSON.parse(content);
 
-      if (pkg.private === true) continue;
+      if (pkg.private === true) {
+        continue;
+      }
 
       const workspaceDeps = findWorkspaceDeps(pkg);
       for (const dep of workspaceDeps) {
         issues.push({ filePath, depName: dep.name, depVersion: dep.version });
       }
-    } catch {
+    } catch (err) {
+      console.warn(
+        chalk.yellow("Warning:"),
+        `Failed to read ${filePath}:`,
+        err instanceof Error ? err.message : err,
+      );
       continue;
     }
   }
@@ -96,7 +93,7 @@ function checkWorkspaceVersions() {
       );
     }
     console.error(
-      "\nPlease replace workspace: with actual version numbers before versioning.",
+      '\nPlease replace "workspace:" with actual version numbers before versioning.',
     );
     process.exit(1);
   }
