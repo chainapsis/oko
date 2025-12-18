@@ -5,15 +5,15 @@ import type { CustomerDashboardUserStatus } from "@oko-wallet/oko-types/ct_dashb
 
 import styles from "./user_email_verified_cell.module.scss";
 
-type UserEmailVerifiedCellUser = {
-  customer_id: string;
-  user_id: string;
+interface UserEmailVerifiedCellUser {
+  // customer_id: string;
+  // user_id: string;
+  // status: CustomerDashboardUserStatus;
   email: string;
-  status: CustomerDashboardUserStatus;
   is_email_verified: boolean;
   has_sent_inactive_reminder: boolean;
   has_sent_unverified_reminder: boolean;
-};
+}
 
 interface UserEmailVerifiedCellProps {
   users: UserEmailVerifiedCellUser[];
