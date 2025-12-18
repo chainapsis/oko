@@ -23,6 +23,7 @@ export const AccountWidget: FC<AccountWidgetProps> = () => {
   });
   const router = useRouter();
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
+  const setAuthType = useUserInfoState((state) => state.setAuthType);
 
   // TODO: add other login methods, and update the type accordingly
   const [loginMethod, setLoginMethod] = useState<
@@ -48,9 +49,11 @@ export const AccountWidget: FC<AccountWidgetProps> = () => {
       setSigningInState({ status: "signing-in" });
       await okoWallet.signIn(method);
 
+      setAuthType(method === "google" ? "google" : "auth0");
       setSigningInState({ status: "ready" });
     } catch (error: any) {
       console.error("sign in fail, err: %s", error);
+      setAuthType(null);
 
       const errorMessage =
         error instanceof Error ? error.message : "Login failed";
