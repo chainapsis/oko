@@ -171,7 +171,7 @@ describe("pg_dump_route_test", () => {
 
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("UNAUTHORIZED");
-      expect(response.body.msg).toBe("Invalid admin password");
+      expect(response.body.msg).toBe("Admin password is required");
     });
 
     it("should fail with empty password", async () => {
@@ -182,7 +182,7 @@ describe("pg_dump_route_test", () => {
 
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("UNAUTHORIZED");
-      expect(response.body.msg).toBe("Invalid admin password");
+      expect(response.body.msg).toBe("Admin password is required");
     });
 
     it("should handle database configuration errors", async () => {
@@ -312,6 +312,7 @@ describe("pg_dump_route_test", () => {
 
       const response = await request(app)
         .post("/pg_dump/v1/get_backup_history")
+        .send({ password: testAdminPassword })
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -337,7 +338,7 @@ describe("pg_dump_route_test", () => {
 
       const response = await request(app)
         .post("/pg_dump/v1/get_backup_history")
-        .send({ days: 7 })
+        .send({ password: testAdminPassword, days: 7 })
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -352,6 +353,7 @@ describe("pg_dump_route_test", () => {
     it("should return empty array when no dumps exist", async () => {
       const response = await request(app)
         .post("/pg_dump/v1/get_backup_history")
+        .send({ password: testAdminPassword })
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -381,6 +383,7 @@ describe("pg_dump_route_test", () => {
 
       const response = await request(invalidApp)
         .post("/pg_dump/v1/get_backup_history")
+        .send({ password: testAdminPassword })
         .expect(500);
 
       expect(response.body.success).toBe(false);
@@ -397,6 +400,7 @@ describe("pg_dump_route_test", () => {
 
       const response = await request(app)
         .post("/pg_dump/v1/get_backup_history")
+        .send({ password: testAdminPassword })
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -425,7 +429,7 @@ WHERE dump_id = $1`,
 
       const response = await request(app)
         .post("/pg_dump/v1/get_backup_history")
-        .send({ days: 1 })
+        .send({ password: testAdminPassword, days: 1 })
         .expect(200);
 
       expect(response.body.success).toBe(true);
@@ -440,7 +444,7 @@ WHERE dump_id = $1`,
       // Get dumps for last 3 days (should include both dumps)
       const response2 = await request(app)
         .post("/pg_dump/v1/get_backup_history")
-        .send({ days: 3 })
+        .send({ password: testAdminPassword, days: 3 })
         .expect(200);
 
       expect(response2.body.success).toBe(true);
@@ -569,7 +573,7 @@ WHERE dump_id = $1`,
 
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("UNAUTHORIZED");
-      expect(response.body.msg).toBe("Invalid admin password");
+      expect(response.body.msg).toBe("Admin password is required");
     });
 
     it("should fail with empty password", async () => {
@@ -585,7 +589,7 @@ WHERE dump_id = $1`,
 
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("UNAUTHORIZED");
-      expect(response.body.msg).toBe("Invalid admin password");
+      expect(response.body.msg).toBe("Admin password is required");
     });
 
     it("should fail with missing dump_path", async () => {
