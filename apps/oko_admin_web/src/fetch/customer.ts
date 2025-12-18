@@ -7,6 +7,11 @@ import type {
 import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
+export interface DeleteCustomerAndCTDUsersArgs {
+  token: string;
+  customer_id: string;
+}
+
 export async function getCustomerListWithAPIKeys({
   token,
   limit = 10,
@@ -91,10 +96,8 @@ export async function addCustomer({
 export async function deleteCustomerAndCTDUsers({
   token,
   customer_id,
-}: {
-  token: string;
-  customer_id: string;
-}) {
+}: DeleteCustomerAndCTDUsersArgs) {
+  // TODO: typing
   return doFetch<any>(
     `${OKO_ADMIN_API_ENDPOINT_V1}/customer/delete_customer/${customer_id}`,
     {

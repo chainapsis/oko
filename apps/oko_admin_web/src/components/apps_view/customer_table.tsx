@@ -34,6 +34,7 @@ const defaultData: CustomerWithAPIKeys[] = [];
 const columnHelper = createColumnHelper<CustomerWithAPIKeys>();
 
 function createColumns(
+  // TODO: no "ReturnType"
   deleteCustomerAndCTDUsers: ReturnType<typeof useDeleteCustomerAndCTDUsers>,
 ) {
   return [
