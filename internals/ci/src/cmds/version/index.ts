@@ -6,8 +6,9 @@ import chalk from "chalk";
 import { paths } from "@oko-wallet-ci/paths";
 import { doBuildPkgs } from "@oko-wallet-ci/cmds/build_pkgs";
 import { expectSuccess } from "@oko-wallet-ci/expect";
-import { sleep } from "@oko-wallet-ci/time";
 import { doBuildSDK } from "@oko-wallet-ci/cmds/build_sdk";
+
+const WILD_CHARACTER_VERSION = "workspace:*";
 
 function getPackageJsonPaths(): string[] {
   const lernaJsonPath = path.join(paths.root, "lerna.json");
@@ -42,7 +43,10 @@ function findWorkspaceDeps(pkg: Record<string, unknown>): WorkspaceDep[] {
 
     if (deps && typeof deps === "object") {
       for (const [name, version] of Object.entries(deps)) {
-        if (typeof version === "string" && version.startsWith("workspace:")) {
+        if (
+          typeof version === "string" &&
+          version.startsWith(WILD_CHARACTER_VERSION)
+        ) {
           found.push({ name, version });
         }
       }
@@ -96,8 +100,9 @@ function checkWorkspaceVersions() {
     }
 
     console.error(
-      `Please replace "workspace:" with actual version numbers before 
-versioning.`,
+      `Please replace wildcard versions ("%s") with actual version numbers 
+beforeversioning.`,
+      WILD_CHARACTER_VERSION,
     );
 
     process.exit(1);
@@ -115,7 +120,6 @@ export async function version(..._args: any[]) {
   checkWorkspaceVersions();
 
   console.log("We will re-build the packages now just to make sure\n");
-  await sleep(500);
 
   await doBuildPkgs();
   await doBuildSDK();
