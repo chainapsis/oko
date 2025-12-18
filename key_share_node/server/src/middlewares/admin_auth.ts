@@ -1,16 +1,26 @@
 import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 import type { Request, Response, NextFunction } from "express";
-import { createHash, timingSafeEqual } from "crypto";
+import { pbkdf2, timingSafeEqual } from "crypto";
+import { promisify } from "util";
 
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
+
+const pbkdf2Async = promisify(pbkdf2);
 
 export interface AdminAuthenticatedRequest<T = any> extends Request {
   body: T;
 }
 
-function timingSafeCompare(a: string, b: string): boolean {
-  const hashA = createHash("sha256").update(a).digest();
-  const hashB = createHash("sha256").update(b).digest();
+const PBKDF2_ITERATIONS = 100000;
+const PBKDF2_KEYLEN = 32;
+const PBKDF2_DIGEST = "sha256";
+const PBKDF2_SALT = Buffer.from("ksn-admin-auth", "utf8");
+
+async function timingSafeCompare(a: string, b: string): Promise<boolean> {
+  const [hashA, hashB] = await Promise.all([
+    pbkdf2Async(a, PBKDF2_SALT, PBKDF2_ITERATIONS, PBKDF2_KEYLEN, PBKDF2_DIGEST),
+    pbkdf2Async(b, PBKDF2_SALT, PBKDF2_ITERATIONS, PBKDF2_KEYLEN, PBKDF2_DIGEST),
+  ]);
   return timingSafeEqual(hashA, hashB);
 }
 
@@ -31,7 +41,7 @@ export async function adminAuthMiddleware(
     return res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
   }
 
-  if (!adminPassword || !timingSafeCompare(password, adminPassword)) {
+  if (!adminPassword || !(await timingSafeCompare(password, adminPassword))) {
     const errorRes: KSNodeApiErrorResponse = {
       success: false,
       code: "UNAUTHORIZED",
