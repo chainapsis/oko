@@ -5,18 +5,25 @@ import type {
   OkoWalletMsgOAuthSignInUpdate,
   OkoWalletMsgOAuthSignInUpdateAck,
 } from "@oko-wallet-sdk-core/types";
-import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
+import {
+  type CurveType,
+  RedirectUriSearchParamsKey,
+} from "@oko-wallet-sdk-core/types/oauth";
 import { X_CLIENT_ID } from "@oko-wallet-sdk-core/auth/x";
 import { createPkcePair } from "./utils";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 const X_SCOPES = ["tweet.read", "users.read", "offline.access"].join(" ");
 
-export async function handleXSignIn(okoWallet: OkoWalletInterface) {
+export async function handleXSignIn(
+  okoWallet: OkoWalletInterface,
+  curveType?: CurveType,
+) {
   const signInRes = await tryXSignIn(
     okoWallet.sdkEndpoint,
     okoWallet.apiKey,
     okoWallet.sendMsgToIframe.bind(okoWallet),
+    curveType,
   );
 
   if (!signInRes.payload.success) {
@@ -28,6 +35,7 @@ function tryXSignIn(
   sdkEndpoint: string,
   apiKey: string,
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>,
+  curveType?: CurveType,
 ): Promise<OkoWalletMsgOAuthSignInUpdate> {
   const clientId = X_CLIENT_ID;
   if (!clientId) {
@@ -43,6 +51,7 @@ function tryXSignIn(
     apiKey,
     targetOrigin: window.location.origin,
     provider: "x",
+    curveType,
   };
 
   // https://devcommunity.x.com/t/redirect-url-receiving-state-parameter-with-some-characters-stripped-out/170092/13

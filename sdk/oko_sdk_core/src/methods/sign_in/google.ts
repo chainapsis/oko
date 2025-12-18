@@ -5,18 +5,25 @@ import type {
   OkoWalletMsgOAuthSignInUpdate,
   OkoWalletMsgOAuthSignInUpdateAck,
 } from "@oko-wallet-sdk-core/types";
-import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
+import {
+  type CurveType,
+  RedirectUriSearchParamsKey,
+} from "@oko-wallet-sdk-core/types/oauth";
 import { GOOGLE_CLIENT_ID } from "@oko-wallet-sdk-core/auth/google";
 
 import { generateNonce } from "./utils";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 
-export async function handleGoogleSignIn(okoWallet: OkoWalletInterface) {
+export async function handleGoogleSignIn(
+  okoWallet: OkoWalletInterface,
+  curveType?: CurveType,
+) {
   const signInRes = await tryGoogleSignIn(
     okoWallet.sdkEndpoint,
     okoWallet.apiKey,
     okoWallet.sendMsgToIframe.bind(okoWallet),
+    curveType,
   );
 
   if (!signInRes.payload.success) {
@@ -30,6 +37,7 @@ function tryGoogleSignIn(
   sdkEndpoint: string,
   apiKey: string,
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>,
+  curveType?: CurveType,
 ): Promise<OkoWalletMsgOAuthSignInUpdate> {
   const clientId = GOOGLE_CLIENT_ID;
   if (!clientId) {
@@ -53,6 +61,7 @@ function tryGoogleSignIn(
     apiKey,
     targetOrigin: window.location.origin,
     provider: "google",
+    curveType,
   };
   const oauthStateString = JSON.stringify(oauthState);
 

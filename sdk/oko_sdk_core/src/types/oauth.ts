@@ -8,11 +8,14 @@ export type OAuthState = {
   provider: AuthType;
   modalId?: string;
   codeVerifier?: string;
+  curveType?: CurveType;
 };
 
 export enum RedirectUriSearchParamsKey {
   STATE = "state",
 }
+
+export type CurveType = "secp256k1" | "ed25519";
 
 export interface OAuthPayload {
   access_token: string;
@@ -20,6 +23,7 @@ export interface OAuthPayload {
   api_key: string;
   target_origin: string;
   auth_type: AuthType;
+  curve_type?: CurveType;
 }
 export type OAuthTokenRequestPayload =
   | OAuthTokenRequestPayloadOfX
@@ -31,6 +35,7 @@ export interface OAuthTokenRequestPayloadOfX {
   api_key: string;
   target_origin: string;
   auth_type: "x";
+  curve_type?: CurveType;
 }
 
 export interface OAuthTokenRequestPayloadOfDiscord {
@@ -38,6 +43,7 @@ export interface OAuthTokenRequestPayloadOfDiscord {
   api_key: string;
   target_origin: string;
   auth_type: "discord";
+  curve_type?: CurveType;
 }
 
 export interface OAuthTokenRequestPayloadOfTelegram {
@@ -45,4 +51,5 @@ export interface OAuthTokenRequestPayloadOfTelegram {
   api_key: string;
   target_origin: string;
   auth_type: "telegram";
+  curve_type?: CurveType;
 }
