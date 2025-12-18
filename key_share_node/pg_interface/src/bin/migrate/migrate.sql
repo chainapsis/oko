@@ -44,11 +44,12 @@ CREATE TABLE public.pg_dumps (
 CREATE TABLE public.users (
 	user_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	email varchar(255) NOT NULL,
+	auth_type varchar(64) DEFAULT 'google'::character varying NOT NULL,
 	status varchar(16) DEFAULT 'active'::character varying NOT NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
-	CONSTRAINT users_email_key UNIQUE (email),
+	CONSTRAINT users_email_auth_type_key UNIQUE (email, auth_type),
 	CONSTRAINT users_pkey PRIMARY KEY (user_id)
 );
 

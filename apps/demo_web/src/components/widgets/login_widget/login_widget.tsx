@@ -15,7 +15,7 @@ export const LoginWidget: React.FC<LoginWidgetProps> = ({ onSignIn }) => {
 
   return (
     <Widget>
-      <div className={styles.container}>
+      <div className={showSocials ? styles.socialsContainer : styles.container}>
         {!showSocials ? (
           <LoginDefaultView
             onSignIn={onSignIn}

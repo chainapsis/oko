@@ -64,7 +64,7 @@ describe("tss_session_route_test", () => {
       sss_threshold: SSS_THRESHOLD,
     });
 
-    const createUserRes = await createUser(pool, "test@example.com");
+    const createUserRes = await createUser(pool, "test@example.com", "google");
     if (createUserRes.success === false) {
       throw new Error(`Failed to create user: ${createUserRes.err}`);
     }

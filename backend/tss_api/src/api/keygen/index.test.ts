@@ -90,6 +90,7 @@ describe("keygen_test", () => {
     const keygen_2 = keygen_outputs[Participant.P1];
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2,
     };
@@ -172,7 +173,7 @@ describe("keygen_test", () => {
     const clientKeygenResult = napiRunKeygenClientCentralized();
     const { keygen_outputs } = clientKeygenResult;
 
-    const createUserRes = await createUser(pool, "test@test.com");
+    const createUserRes = await createUser(pool, "test@test.com", "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -194,6 +195,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -234,6 +236,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -270,6 +273,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -308,6 +312,7 @@ describe("keygen_test", () => {
     };
 
     const keygenRequest: KeygenRequest = {
+      auth_type: "google",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,

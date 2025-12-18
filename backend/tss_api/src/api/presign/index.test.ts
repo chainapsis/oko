@@ -134,6 +134,7 @@ async function setUpTssStage(pool: Pool) {
   });
 
   const keygenRequest: KeygenRequest = {
+    auth_type: "google",
     email: email,
     keygen_2,
   };
@@ -608,7 +609,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -659,7 +660,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -753,7 +754,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -846,7 +847,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -953,7 +954,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -1002,7 +1003,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -1089,7 +1090,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -1177,7 +1178,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -1226,7 +1227,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");
@@ -1313,7 +1314,7 @@ describe("presign_test", () => {
     const { keygen_outputs } = clientKeygenResult;
     const keygen_2 = keygen_outputs[Participant.P1];
 
-    const createUserRes = await createUser(pool, email);
+    const createUserRes = await createUser(pool, email, "google");
     if (createUserRes.success === false) {
       console.error(createUserRes.err);
       throw new Error("Failed to create user");

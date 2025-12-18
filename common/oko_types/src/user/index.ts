@@ -1,17 +1,19 @@
 import type { NodeNameAndEndpoint } from "../user_key_share";
 import type { KeyShareNodeMetaWithNodeStatusInfo } from "../tss/ks_node";
-import type { OAuthRequest } from "../auth";
+import type { OAuthRequest, AuthType } from "../auth";
 
 export interface User {
   user_id: string;
   email: string;
   status: string;
+  auth_type: AuthType;
   created_at: Date;
   updated_at: Date;
 }
 
 export interface CheckEmailRequest {
   email: string;
+  auth_type?: AuthType;
 }
 
 export interface CheckEmailResponse {
@@ -30,6 +32,7 @@ export interface SignInResponse {
     email: string;
     wallet_id: string;
     public_key: string;
+    name?: string;
   };
 }
 

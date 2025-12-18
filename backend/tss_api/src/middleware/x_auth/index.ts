@@ -1,6 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
-import { validateAccessTokenOfX } from "./validate";
+import { validateAccessTokenOfX } from "@oko-wallet-tss-api/middleware/x_auth/validate";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export interface XAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -8,7 +10,7 @@ export interface XAuthenticatedRequest<T = any> extends Request {
 
 export async function xAuthMiddleware(
   req: XAuthenticatedRequest,
-  res: Response,
+  res: Response<unknown, OAuthLocals>,
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
@@ -45,9 +47,10 @@ export async function xAuthMiddleware(
     }
 
     res.locals.oauth_user = {
-      type: "x",
+      type: "x" as AuthType,
+      // in x, use x id as email
       email: result.data.id,
-      name: result.data.name,
+      name: result.data.username,
     };
 
     next();

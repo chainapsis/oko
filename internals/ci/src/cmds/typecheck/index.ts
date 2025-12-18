@@ -3,7 +3,7 @@ import { Worker } from "node:worker_threads";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { paths } from "../../paths";
+import { paths } from "@oko-wallet-ci/paths";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

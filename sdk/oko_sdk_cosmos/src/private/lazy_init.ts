@@ -31,8 +31,10 @@ export async function lazyInit(
 
     okoCosmosWallet.eventEmitter.emit({
       type: "accountsChanged",
+      authType: walletState.authType,
       email: walletState.email,
       publicKey: pk,
+      name: walletState.name,
     });
   } else {
     okoCosmosWallet.state = {
@@ -42,8 +44,10 @@ export async function lazyInit(
 
     okoCosmosWallet.eventEmitter.emit({
       type: "accountsChanged",
+      authType: walletState.authType,
       email: walletState.email,
       publicKey: null,
+      name: walletState.name,
     });
   }
 
@@ -61,7 +65,7 @@ export function setUpEventHandlers(this: OkoCosmosWalletInterface): void {
         JSON.stringify(payload),
       );
 
-      const { publicKey, email } = payload;
+      const { publicKey, email, name, authType } = payload;
 
       if (this.state.publicKeyRaw !== publicKey) {
         if (publicKey !== null) {
@@ -82,6 +86,8 @@ export function setUpEventHandlers(this: OkoCosmosWalletInterface): void {
           type: "accountsChanged",
           email: email,
           publicKey: this.state.publicKey,
+          name,
+          authType,
         });
       }
     },

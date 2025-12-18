@@ -97,7 +97,7 @@ export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
           <Typography
             size="sm"
             weight="semibold"
-            color="secondary"
+            color="disabled"
             style={{ padding: "0 2px" }}
           >
             Apple

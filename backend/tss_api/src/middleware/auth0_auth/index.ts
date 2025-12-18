@@ -1,7 +1,12 @@
 import type { Request, Response, NextFunction } from "express";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
-import { validateAuth0IdToken } from "./validate";
-import { AUTH0_CLIENT_ID, AUTH0_DOMAIN } from "./client_id";
+import { validateAuth0IdToken } from "@oko-wallet-tss-api/middleware/auth0_auth/validate";
+import {
+  AUTH0_CLIENT_ID,
+  AUTH0_DOMAIN,
+} from "@oko-wallet-tss-api/middleware/auth0_auth/client_id";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export interface Auth0AuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -9,7 +14,7 @@ export interface Auth0AuthenticatedRequest<T = any> extends Request {
 
 export async function auth0AuthMiddleware(
   req: Auth0AuthenticatedRequest,
-  res: Response,
+  res: Response<unknown, OAuthLocals>,
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
@@ -50,10 +55,8 @@ export async function auth0AuthMiddleware(
     }
 
     res.locals.oauth_user = {
-      type: "auth0",
+      type: "auth0" as AuthType,
       email: result.data.email,
-      name: result.data.name,
-      sub: result.data.sub,
     };
 
     next();

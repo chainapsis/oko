@@ -12,7 +12,9 @@ export async function signOut(this: OkoWalletInterface) {
 
   this.eventEmitter.emit({
     type: "CORE__accountsChanged",
+    authType: null,
     email: null,
     publicKey: null,
+    name: null,
   });
 }

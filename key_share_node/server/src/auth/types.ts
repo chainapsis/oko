@@ -1,7 +1,7 @@
-export type OAuthProvider = "google" | "auth0" | "x" | "telegram" | "discord";
+import type { AuthType } from "@oko-wallet/ksn-interface/user";
 
 export interface OAuthUser {
-  type: OAuthProvider;
+  type: AuthType;
   email: string;
   name?: string;
   sub?: string;

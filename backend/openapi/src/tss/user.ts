@@ -28,6 +28,10 @@ export const SignInResponseSchema = registry.register(
         public_key: z.string().openapi({
           description: "Public key in hex format",
         }),
+        name: z.string().optional().openapi({
+          description:
+            "User name (optional) Only for OAuth providers that support it",
+        }),
       })
       .openapi({ description: "Authenticated user information" }),
   }),
@@ -47,11 +51,16 @@ export const SignInSuccessResponseSchema = registry.register(
   }),
 );
 
+const AuthTypeEnum = z.enum(["google", "auth0", "x", "telegram", "discord"]);
+
 export const CheckEmailRequestSchema = registry.register(
   "TssUserCheckEmailRequest",
   z.object({
     email: z.email().openapi({
       description: "User email address to check",
+    }),
+    auth_type: AuthTypeEnum.optional().default("google").openapi({
+      description: "Authentication provider type (defaults to 'google')",
     }),
   }),
 );

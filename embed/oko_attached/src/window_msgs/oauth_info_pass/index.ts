@@ -6,7 +6,7 @@ import type {
   OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
 import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { sendMsgToWindow } from "../send";
 import {
@@ -62,7 +62,7 @@ export async function handleOAuthInfoPass(
     }
     appState.setApiKey(hostOrigin, apiKey);
 
-    const authType: OAuthProvider = message.payload.auth_type;
+    const authType: AuthType = message.payload.auth_type;
 
     const validateOauthRes = await getCredentialsFromPayload(
       message.payload,
@@ -76,7 +76,7 @@ export async function handleOAuthInfoPass(
 
     const { idToken, userIdentifier } = validateOauthRes.data;
 
-    const userExistsRes = await checkUserExists(userIdentifier);
+    const userExistsRes = await checkUserExists(userIdentifier, authType);
     if (!userExistsRes.success) {
       await bail(message, {
         type: "check_user_request_fail",
@@ -117,9 +117,11 @@ export async function handleOAuthInfoPass(
     appState.setKeyshare_1(hostOrigin, signInResult.keyshare_1);
     appState.setAuthToken(hostOrigin, signInResult.jwtToken);
     appState.setWallet(hostOrigin, {
+      authType,
       walletId: signInResult.walletId,
       publicKey: signInResult.publicKey,
       email: userIdentifier,
+      name: signInResult.name,
     });
 
     hasSignedIn = true;
@@ -142,7 +144,7 @@ export async function handleOAuthInfoPass(
         setUserId(wallet.walletId);
         if (isNewUser) {
           setUserProperties({
-            authType: message.payload.auth_type,
+            authType: message.payload.auth_type as AuthType,
             createdOrigin: hostOrigin,
           });
         }
@@ -163,7 +165,7 @@ export async function handleOAuthInfoPass(
 export async function handleUserSignIn(
   idToken: string,
   userExists: CheckEmailResponse,
-  authType: OAuthProvider,
+  authType: AuthType,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   const meta = userExists.keyshare_node_meta;
 

@@ -106,10 +106,11 @@ CREATE INDEX idx_email_verifications_expires ON public.email_verifications USING
 CREATE TABLE public.ewallet_users (
 	user_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	email varchar(255) NOT NULL,
+	auth_type varchar(64) DEFAULT 'google'::character varying NOT NULL,
 	status varchar(32) DEFAULT 'ACTIVE'::character varying NOT NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
-	CONSTRAINT ewallet_users_email_key UNIQUE (email),
+	CONSTRAINT ewallet_users_email_auth_type_key UNIQUE (email, auth_type),
 	CONSTRAINT ewallet_users_pkey PRIMARY KEY (user_id)
 );
 
