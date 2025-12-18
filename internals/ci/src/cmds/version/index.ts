@@ -1,4 +1,5 @@
 import fs from "node:fs";
+import path from "node:path";
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
@@ -8,41 +9,93 @@ import { expectSuccess } from "@oko-wallet-ci/expect";
 import { sleep } from "@oko-wallet-ci/time";
 import { doBuildSDK } from "../build_sdk";
 
+function findPackageJsonFiles(dir: string): string[] {
+  const results: string[] = [];
+  const entries = fs.readdirSync(dir, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const fullPath = path.join(dir, entry.name);
+
+    if (entry.isDirectory()) {
+      if (entry.name === "node_modules") continue;
+      results.push(...findPackageJsonFiles(fullPath));
+    } else if (entry.name === "package.json") {
+      results.push(fullPath);
+    }
+  }
+
+  return results;
+}
+
+interface WorkspaceDepInfo {
+  filePath: string;
+  depName: string;
+  depVersion: string;
+}
+
+function findWorkspaceDeps(
+  pkg: Record<string, unknown>,
+): { name: string; version: string }[] {
+  const depFields = [
+    "dependencies",
+    "devDependencies",
+    "peerDependencies",
+    "optionalDependencies",
+  ];
+  const found: { name: string; version: string }[] = [];
+
+  for (const field of depFields) {
+    const deps = pkg[field];
+    if (deps && typeof deps === "object") {
+      for (const [name, version] of Object.entries(
+        deps as Record<string, string>,
+      )) {
+        if (typeof version === "string" && version.startsWith("workspace:")) {
+          found.push({ name, version });
+        }
+      }
+    }
+  }
+
+  return found;
+}
+
 function checkWorkspaceVersions() {
   console.log('Checking for "workspace:" versions in publishable packages...');
 
-  const result = spawnSync(
-    "grep",
-    ["-r", '"workspace:', "--include=package.json", paths.root],
-    { encoding: "utf-8" },
-  );
+  const packageJsonFiles = findPackageJsonFiles(paths.root);
+  const issues: WorkspaceDepInfo[] = [];
 
-  if (result.stdout) {
-    const lines = result.stdout.split("\n").filter((line) => {
-      if (!line) return false;
-      if (line.includes("node_modules")) return false;
+  for (const filePath of packageJsonFiles) {
+    try {
+      const content = fs.readFileSync(filePath, "utf-8");
+      const pkg = JSON.parse(content);
 
-      const filePath = line.split(":")[0];
-      try {
-        const content = fs.readFileSync(filePath, "utf-8");
-        const pkg = JSON.parse(content);
-        return pkg.private !== true;
-      } catch {
-        return false;
+      if (pkg.private === true) continue;
+
+      const workspaceDeps = findWorkspaceDeps(pkg);
+      for (const dep of workspaceDeps) {
+        issues.push({ filePath, depName: dep.name, depVersion: dep.version });
       }
-    });
-
-    if (lines.length > 0) {
-      console.error(
-        chalk.bold.red("Error:"),
-        'Found "workspace:" versions in publishable packages:',
-      );
-      lines.forEach((line) => console.error("  ", line));
-      console.error(
-        "\nPlease replace workspace: with actual version numbers before versioning.",
-      );
-      process.exit(1);
+    } catch {
+      continue;
     }
+  }
+
+  if (issues.length > 0) {
+    console.error(
+      chalk.bold.red("Error:"),
+      'Found "workspace:" versions in publishable packages:',
+    );
+    for (const issue of issues) {
+      console.error(
+        `   ${issue.filePath}: ${issue.depName} -> ${issue.depVersion}`,
+      );
+    }
+    console.error(
+      "\nPlease replace workspace: with actual version numbers before versioning.",
+    );
+    process.exit(1);
   }
 
   console.log('No "workspace:" versions found in publishable packages');
