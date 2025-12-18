@@ -1,10 +1,17 @@
 import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 import type { Request, Response, NextFunction } from "express";
+import { createHash, timingSafeEqual } from "crypto";
 
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 
 export interface AdminAuthenticatedRequest<T = any> extends Request {
   body: T;
+}
+
+function timingSafeCompare(a: string, b: string): boolean {
+  const hashA = createHash("sha256").update(a).digest();
+  const hashB = createHash("sha256").update(b).digest();
+  return timingSafeEqual(hashA, hashB);
 }
 
 export async function adminAuthMiddleware(
@@ -13,8 +20,9 @@ export async function adminAuthMiddleware(
   next: NextFunction,
 ) {
   const { password } = req.body;
+  const adminPassword = process.env.ADMIN_PASSWORD;
 
-  if (!password) {
+  if (!password || typeof password !== "string") {
     const errorRes: KSNodeApiErrorResponse = {
       success: false,
       code: "UNAUTHORIZED",
@@ -23,7 +31,7 @@ export async function adminAuthMiddleware(
     return res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
   }
 
-  if (password !== process.env.ADMIN_PASSWORD) {
+  if (!adminPassword || !timingSafeCompare(password, adminPassword)) {
     const errorRes: KSNodeApiErrorResponse = {
       success: false,
       code: "UNAUTHORIZED",
