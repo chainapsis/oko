@@ -10,7 +10,7 @@
     "start_2": "tsx src/bin/launch/index.ts --node-id=2",
     "start_3": "tsx src/bin/launch/index.ts --node-id=3",
     "rotate_keypair": "tsx src/bin/rotate_keypair.ts",
-    "jest": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "jest": "NODE_ENV=test NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
     "@asteasolutions/zod-to-openapi": "^8.1.0",

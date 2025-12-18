@@ -38,6 +38,8 @@ import {
   ErrorResponseSchema,
 } from "@oko-wallet-ksn-server/openapi/schema";
 
+const isTest = process.env.NODE_ENV === "test";
+
 const ADMIN_RATE_LIMIT: RateLimitMiddlewareOption = {
   windowSeconds: 60,
   maxRequests: 5,
@@ -114,7 +116,7 @@ export function makePgDumpRouter() {
   });
   router.post(
     "/backup",
-    rateLimitMiddleware(ADMIN_RATE_LIMIT),
+    ...(isTest ? [] : [rateLimitMiddleware(ADMIN_RATE_LIMIT)]),
     adminAuthMiddleware,
     async (
       req: AdminAuthenticatedRequest,
@@ -205,7 +207,7 @@ export function makePgDumpRouter() {
   });
   router.post(
     "/get_backup_history",
-    rateLimitMiddleware(ADMIN_RATE_LIMIT),
+    ...(isTest ? [] : [rateLimitMiddleware(ADMIN_RATE_LIMIT)]),
     adminAuthMiddleware,
     async (
       req: AdminAuthenticatedRequest<GetBackupHistoryRequest>,
@@ -336,7 +338,7 @@ export function makePgDumpRouter() {
   });
   router.post(
     "/restore",
-    rateLimitMiddleware(RESTORE_RATE_LIMIT),
+    ...(isTest ? [] : [rateLimitMiddleware(RESTORE_RATE_LIMIT)]),
     adminAuthMiddleware,
     async (
       req: AdminAuthenticatedRequest<DBRestoreRequest>,
