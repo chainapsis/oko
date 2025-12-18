@@ -1,6 +1,8 @@
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
+
+// Dummy type to replace missing @oko-wallet/oko-types/auth
+type AuthType = string;
 
 interface UserInfoState {
   authType: AuthType | null;
