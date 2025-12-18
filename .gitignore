@@ -418,6 +418,6 @@ pg_data/
 
 cjs/
 esm/
-.env*.local
 
-.npmrc
+# env
+.env*.local

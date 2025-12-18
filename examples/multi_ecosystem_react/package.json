@@ -1,7 +1,7 @@
 {
   "name": "@oko-wallet-examples/multi-ecosystem-react",
   "private": true,
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.7",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -15,8 +15,8 @@
     "@hookform/resolvers": "5.2.2",
     "@keplr-wallet/types": "0.12.297",
     "@keplr-wallet/unit": "0.12.297",
-    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.153",
-    "@oko-wallet/oko-sdk-eth": "^0.0.6-rc.142",
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.157",
+    "@oko-wallet/oko-sdk-eth": "^0.0.6-rc.145",
     "@tanstack/react-query": "^5.90.12",
     "buffer": "^6.0.3",
     "react": "^19.2.1",
