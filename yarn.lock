@@ -8795,6 +8795,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/env@npm:15.5.9":
+  version: 15.5.9
+  resolution: "@next/env@npm:15.5.9"
+  checksum: 10c0/92c4e29d81a8e78c33c2da179648a4f478a9a6852966192e079007b19ec9955e72530d5ca7df55ea0efeccbf5b1c9d0efcaf80433e26af89c6478193e1d088f1
+  languageName: node
+  linkType: hard
+
 "@next/env@npm:16.0.10":
   version: 16.0.10
   resolution: "@next/env@npm:16.0.10"
@@ -8811,10 +8818,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/swc-darwin-arm64@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-darwin-arm64@npm:15.5.7"
+  conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
 "@next/swc-darwin-arm64@npm:16.0.10":
   version: 16.0.10
   resolution: "@next/swc-darwin-arm64@npm:16.0.10"
   conditions: os=darwin & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@next/swc-darwin-x64@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-darwin-x64@npm:15.5.7"
+  conditions: os=darwin & cpu=x64
   languageName: node
   linkType: hard
 
@@ -8825,10 +8846,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/swc-linux-arm64-gnu@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-linux-arm64-gnu@npm:15.5.7"
+  conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
 "@next/swc-linux-arm64-gnu@npm:16.0.10":
   version: 16.0.10
   resolution: "@next/swc-linux-arm64-gnu@npm:16.0.10"
   conditions: os=linux & cpu=arm64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@next/swc-linux-arm64-musl@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-linux-arm64-musl@npm:15.5.7"
+  conditions: os=linux & cpu=arm64 & libc=musl
   languageName: node
   linkType: hard
 
@@ -8839,10 +8874,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/swc-linux-x64-gnu@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-linux-x64-gnu@npm:15.5.7"
+  conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
 "@next/swc-linux-x64-gnu@npm:16.0.10":
   version: 16.0.10
   resolution: "@next/swc-linux-x64-gnu@npm:16.0.10"
   conditions: os=linux & cpu=x64 & libc=glibc
+  languageName: node
+  linkType: hard
+
+"@next/swc-linux-x64-musl@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-linux-x64-musl@npm:15.5.7"
+  conditions: os=linux & cpu=x64 & libc=musl
   languageName: node
   linkType: hard
 
@@ -8853,10 +8902,24 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/swc-win32-arm64-msvc@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-win32-arm64-msvc@npm:15.5.7"
+  conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
 "@next/swc-win32-arm64-msvc@npm:16.0.10":
   version: 16.0.10
   resolution: "@next/swc-win32-arm64-msvc@npm:16.0.10"
   conditions: os=win32 & cpu=arm64
+  languageName: node
+  linkType: hard
+
+"@next/swc-win32-x64-msvc@npm:15.5.7":
+  version: 15.5.7
+  resolution: "@next/swc-win32-x64-msvc@npm:15.5.7"
+  conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
@@ -10754,6 +10817,9 @@ __metadata:
     "@oko-wallet/oko-sdk-eth": "npm:^0.0.6-rc.145"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
+    "@oko-wallet/teddsa-hooks": "workspace:*"
+    "@oko-wallet/teddsa-interface": "workspace:*"
+    "@oko-wallet/teddsa-wasm": "workspace:*"
     "@tanstack/react-query": "npm:^5.90.12"
     "@tanstack/react-router": "npm:^1.136.8"
     "@tanstack/react-router-devtools": "npm:^1.136.8"
@@ -11134,6 +11200,24 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/sandbox-sol@workspace:sandbox/sandbox_sol":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/sandbox-sol@workspace:sandbox/sandbox_sol"
+  dependencies:
+    "@oko-wallet/oko-sdk-sol": "workspace:*"
+    "@solana/web3.js": "npm:^1.98.0"
+    "@types/node": "npm:^22.0.0"
+    "@types/react": "npm:^19.0.0"
+    "@types/react-dom": "npm:^19.0.0"
+    bs58: "npm:^6.0.0"
+    next: "npm:^15.1.3"
+    react: "npm:^19.0.0"
+    react-dom: "npm:^19.0.0"
+    typescript: "npm:^5.7.0"
+    zustand: "npm:^5.0.0"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/social-login-api@workspace:*, @oko-wallet/social-login-api@workspace:backend/social_login_api":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/social-login-api@workspace:backend/social_login_api"
@@ -11204,6 +11288,49 @@ __metadata:
     ts-jest: "npm:^29.4.5"
     tsc-alias: "npm:^1.8.16"
     typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/teddsa-hooks@workspace:*, @oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks"
+  dependencies:
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.62"
+    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
+    "@oko-wallet/teddsa-wasm": "workspace:*"
+    "@types/node": "npm:^24.10.1"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/teddsa-interface@workspace:*, @oko-wallet/teddsa-interface@workspace:crypto/teddsa/teddsa_interface":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/teddsa-interface@workspace:crypto/teddsa/teddsa_interface"
+  dependencies:
+    "@types/node": "npm:^24.10.1"
+    del-cli: "npm:^6.0.0"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/teddsa-keplr-addon@workspace:crypto/teddsa/teddsa_keplr_addon":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/teddsa-keplr-addon@workspace:crypto/teddsa/teddsa_keplr_addon"
+  dependencies:
+    "@oko-wallet/teddsa-interface": "workspace:*"
+    "@types/node": "npm:^24.10.1"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
+"@oko-wallet/teddsa-wasm@workspace:*, @oko-wallet/teddsa-wasm@workspace:crypto/teddsa/teddsa_wasm":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/teddsa-wasm@workspace:crypto/teddsa/teddsa_wasm"
+  dependencies:
+    "@types/node": "npm:^24.10.1"
+    typescript: "npm:^5.8.3"
+    wasm-pack: "npm:^0.13.1"
   languageName: unknown
   linkType: soft
 
@@ -16818,6 +16945,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node@npm:^22.0.0":
+  version: 22.19.3
+  resolution: "@types/node@npm:22.19.3"
+  dependencies:
+    undici-types: "npm:~6.21.0"
+  checksum: 10c0/a30a75d503da795ddbd5f8851014f3e91925c2a63fa3f14128d54c998f25d682dfba96dc9589c73cf478b87a16d88beb790b11697bb8cd5bee913079237a58f2
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^24.0.3, @types/node@npm:^24.10.1":
   version: 24.10.4
   resolution: "@types/node@npm:24.10.4"
@@ -16951,7 +17087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/react@npm:*, @types/react@npm:16 || 17 || 18 || 19, @types/react@npm:^19.2.7":
+"@types/react@npm:*, @types/react@npm:16 || 17 || 18 || 19, @types/react@npm:^19.0.0, @types/react@npm:^19.2.7":
   version: 19.2.7
   resolution: "@types/react@npm:19.2.7"
   dependencies:
@@ -32251,6 +32387,65 @@ __metadata:
   languageName: node
   linkType: hard
 
+"next@npm:^15.1.3":
+  version: 15.5.9
+  resolution: "next@npm:15.5.9"
+  dependencies:
+    "@next/env": "npm:15.5.9"
+    "@next/swc-darwin-arm64": "npm:15.5.7"
+    "@next/swc-darwin-x64": "npm:15.5.7"
+    "@next/swc-linux-arm64-gnu": "npm:15.5.7"
+    "@next/swc-linux-arm64-musl": "npm:15.5.7"
+    "@next/swc-linux-x64-gnu": "npm:15.5.7"
+    "@next/swc-linux-x64-musl": "npm:15.5.7"
+    "@next/swc-win32-arm64-msvc": "npm:15.5.7"
+    "@next/swc-win32-x64-msvc": "npm:15.5.7"
+    "@swc/helpers": "npm:0.5.15"
+    caniuse-lite: "npm:^1.0.30001579"
+    postcss: "npm:8.4.31"
+    sharp: "npm:^0.34.3"
+    styled-jsx: "npm:5.1.6"
+  peerDependencies:
+    "@opentelemetry/api": ^1.1.0
+    "@playwright/test": ^1.51.1
+    babel-plugin-react-compiler: "*"
+    react: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
+    react-dom: ^18.2.0 || 19.0.0-rc-de68d2f4-20241204 || ^19.0.0
+    sass: ^1.3.0
+  dependenciesMeta:
+    "@next/swc-darwin-arm64":
+      optional: true
+    "@next/swc-darwin-x64":
+      optional: true
+    "@next/swc-linux-arm64-gnu":
+      optional: true
+    "@next/swc-linux-arm64-musl":
+      optional: true
+    "@next/swc-linux-x64-gnu":
+      optional: true
+    "@next/swc-linux-x64-musl":
+      optional: true
+    "@next/swc-win32-arm64-msvc":
+      optional: true
+    "@next/swc-win32-x64-msvc":
+      optional: true
+    sharp:
+      optional: true
+  peerDependenciesMeta:
+    "@opentelemetry/api":
+      optional: true
+    "@playwright/test":
+      optional: true
+    babel-plugin-react-compiler:
+      optional: true
+    sass:
+      optional: true
+  bin:
+    next: dist/bin/next
+  checksum: 10c0/6a120afbc45b96aa14debba6375602d6319093af4e3e8c648cf22b12ffb9db016c889df5e764cf5e0aa414ad60505db4e2095624a19f4b71316561076158651a
+  languageName: node
+  linkType: hard
+
 "next@npm:^16.0.7":
   version: 16.0.10
   resolution: "next@npm:16.0.10"
@@ -36063,7 +36258,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-dom@npm:^19.2.1":
+"react-dom@npm:^19.0.0, react-dom@npm:^19.2.1":
   version: 19.2.3
   resolution: "react-dom@npm:19.2.3"
   dependencies:
@@ -36497,7 +36692,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^19.2.1":
+"react@npm:^19.0.0, react@npm:^19.2.1":
   version: 19.2.3
   resolution: "react@npm:19.2.3"
   checksum: 10c0/094220b3ba3a76c1b668f972ace1dd15509b157aead1b40391d1c8e657e720c201d9719537375eff08f5e0514748c0319063392a6f000e31303aafc4471f1436
@@ -38159,7 +38354,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sharp@npm:^0.34.4":
+"sharp@npm:^0.34.3, sharp@npm:^0.34.4":
   version: 0.34.5
   resolution: "sharp@npm:0.34.5"
   dependencies:
@@ -39612,6 +39807,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"teddsa-addon@workspace:crypto/teddsa/teddsa_keplr_addon/addon":
+  version: 0.0.0-use.local
+  resolution: "teddsa-addon@workspace:crypto/teddsa/teddsa_keplr_addon/addon"
+  dependencies:
+    "@napi-rs/cli": "npm:^2.18.4"
+    ava: "npm:^6.0.1"
+  languageName: unknown
+  linkType: soft
+
 "temp-dir@npm:1.0.0":
   version: 1.0.0
   resolution: "temp-dir@npm:1.0.0"
@@ -40568,6 +40772,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"undici-types@npm:~6.21.0":
+  version: 6.21.0
+  resolution: "undici-types@npm:6.21.0"
+  checksum: 10c0/c01ed51829b10aa72fc3ce64b747f8e74ae9b60eafa19a7b46ef624403508a54c526ffab06a14a26b3120d055e1104d7abe7c9017e83ced038ea5cf52f8d5e04
+  languageName: node
+  linkType: hard
+
 "undici-types@npm:~7.16.0":
   version: 7.16.0
   resolution: "undici-types@npm:7.16.0"
@@ -41202,7 +41413,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"uuid@npm:^9.0.1":
+"uuid@npm:^9.0.0, uuid@npm:^9.0.1":
   version: 9.0.1
   resolution: "uuid@npm:9.0.1"
   bin:

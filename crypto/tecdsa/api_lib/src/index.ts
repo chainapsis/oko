@@ -192,6 +192,52 @@ export async function reqKeygen(
   return resp;
 }
 
+/**
+ * Request body for Ed25519 keygen
+ */
+export interface KeygenEd25519RequestBody {
+  keygen_2: {
+    /** Serialized KeyPackage as hex string */
+    key_package: string;
+    /** Serialized PublicKeyPackage as hex string */
+    public_key_package: string;
+    /** Ed25519 public key (32 bytes) as hex string */
+    public_key: string;
+  };
+}
+
+export async function reqKeygenEd25519(
+  endpoint: string,
+  payload: KeygenEd25519RequestBody,
+  authToken: string,
+) {
+  const resp: OkoApiResponse<SignInResponse> = await makePostRequest(
+    endpoint,
+    "keygen_ed25519",
+    payload,
+    undefined,
+    authToken,
+  );
+  return resp;
+}
+
+/**
+ * Sign in for existing users with Ed25519 wallet
+ */
+export async function reqSignInEd25519(
+  endpoint: string,
+  authToken: string,
+) {
+  const resp: OkoApiResponse<SignInResponse> = await makePostRequest(
+    endpoint,
+    "user/signin_ed25519",
+    {},
+    undefined,
+    authToken,
+  );
+  return resp;
+}
+
 export async function reqTriplesStep1(
   endpoint: string,
   payload: TriplesStep1Body,
