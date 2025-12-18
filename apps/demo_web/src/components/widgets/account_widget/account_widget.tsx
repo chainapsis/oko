@@ -128,4 +128,4 @@ export const AccountWidget: React.FC<AccountWidgetProps> = () => {
   return <LoginWidget onSignIn={handleSignIn} />;
 };
 
-export interface AccountWidgetProps {}
+export interface AccountWidgetProps { }
