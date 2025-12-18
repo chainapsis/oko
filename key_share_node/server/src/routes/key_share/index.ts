@@ -7,6 +7,7 @@ import type {
   RegisterKeyShareBody,
   ReshareKeyShareBody,
 } from "@oko-wallet/ksn-interface/key_share";
+import type { AuthType } from "@oko-wallet/ksn-interface/user";
 import { Bytes, type Bytes64 } from "@oko-wallet/bytes";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
@@ -144,6 +145,7 @@ export function makeKeyshareRouter() {
       res: Response<KSNodeApiResponse<void>, ResponseLocal>,
     ) => {
       const oauthUser = res.locals.oauth_user;
+      const auth_type = oauthUser.type;
       const state = req.app.locals;
       const body = req.body;
 
@@ -171,6 +173,7 @@ export function makeKeyshareRouter() {
         state.db,
         {
           email: oauthUser.email,
+          auth_type,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,
           share: shareBytes,
@@ -281,9 +284,10 @@ export function makeKeyshareRouter() {
     bearerTokenMiddleware,
     async (
       req: AuthenticatedRequest<GetKeyShareRequestBody>,
-      res: Response<KSNodeApiResponse<GetKeyShareResponse>>,
+      res: Response<KSNodeApiResponse<GetKeyShareResponse>, ResponseLocal>,
     ) => {
       const oauthUser = res.locals.oauth_user;
+      const auth_type = oauthUser.type;
       const state = req.app.locals;
 
       const publicKeyBytesRes = Bytes.fromHexString(req.body.public_key, 33);
@@ -299,6 +303,7 @@ export function makeKeyshareRouter() {
         state.db,
         {
           email: oauthUser.email,
+          auth_type,
           public_key: publicKeyBytesRes.data,
         },
         state.encryptionSecret,
@@ -378,6 +383,8 @@ export function makeKeyshareRouter() {
       res: Response<KSNodeApiResponse<CheckKeyShareResponse>>,
     ) => {
       const body = req.body;
+      // @NOTE: default to google if auth_type is not provided
+      const auth_type = (body.auth_type ?? "google") as AuthType;
 
       const publicKeyBytesRes = Bytes.fromHexString(body.public_key, 33);
       if (publicKeyBytesRes.success === false) {
@@ -390,6 +397,7 @@ export function makeKeyshareRouter() {
 
       const checkKeyShareRes = await checkKeyShare(req.app.locals.db, {
         email: body.email.toLowerCase(),
+        auth_type,
         public_key: publicKeyBytesRes.data,
       });
       if (checkKeyShareRes.success === false) {
@@ -534,6 +542,7 @@ export function makeKeyshareRouter() {
       res: Response<KSNodeApiResponse<void>, ResponseLocal>,
     ) => {
       const oauthUser = res.locals.oauth_user;
+      const auth_type = oauthUser.type;
       const state = req.app.locals;
       const body = req.body;
 
@@ -561,6 +570,7 @@ export function makeKeyshareRouter() {
         state.db,
         {
           email: oauthUser.email,
+          auth_type,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,
           share: shareBytes,

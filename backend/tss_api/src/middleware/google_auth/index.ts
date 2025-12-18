@@ -1,7 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
-import { validateOAuthToken } from "./validate";
-import { GOOGLE_CLIENT_ID } from "./client_id";
+import { validateOAuthToken } from "@oko-wallet-tss-api/middleware/google_auth/validate";
+import { GOOGLE_CLIENT_ID } from "@oko-wallet-tss-api/middleware/google_auth/client_id";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export interface GoogleAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -9,7 +11,7 @@ export interface GoogleAuthenticatedRequest<T = any> extends Request {
 
 export async function googleAuthMiddleware(
   req: GoogleAuthenticatedRequest,
-  res: Response,
+  res: Response<unknown, OAuthLocals>,
   next: NextFunction,
 ) {
   const authHeader = req.headers.authorization;
@@ -46,10 +48,8 @@ export async function googleAuthMiddleware(
     }
 
     res.locals.oauth_user = {
-      type: "google",
+      type: "google" as AuthType,
       email: result.data.email,
-      name: result.data.name,
-      sub: result.data.sub,
     };
 
     next();

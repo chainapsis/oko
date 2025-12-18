@@ -6,7 +6,7 @@ import { makeApp } from "@oko-wallet-tss-api/testing/app";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
-import { userJwtMiddleware } from "./keplr_auth";
+import { userJwtMiddleware } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
 describe("keplr_auth_test", () => {

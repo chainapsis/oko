@@ -1,8 +1,8 @@
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
-import { paths } from "../paths";
-import { expectSuccess } from "../expect";
+import { paths } from "@oko-wallet-ci/paths";
+import { expectSuccess } from "@oko-wallet-ci/expect";
 
 export async function DbSeedAPI(options: {
   useEnvFile: boolean;

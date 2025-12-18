@@ -112,8 +112,10 @@ export function useInitializeApp() {
         setResolvedTheme(_theme);
 
         const wallet = getWallet(hostOrigin);
+        const authType = wallet?.authType;
         const email = wallet?.email;
         const publicKey = wallet?.publicKey;
+        const name = wallet?.name;
 
         if (wallet?.walletId) {
           setUserId(wallet.walletId);
@@ -125,8 +127,10 @@ export function useInitializeApp() {
           payload: {
             success: true,
             data: {
-              public_key: publicKey ?? null,
+              auth_type: authType ?? null,
               email: email ?? null,
+              public_key: publicKey ?? null,
+              name: name ?? null,
             },
           },
         };

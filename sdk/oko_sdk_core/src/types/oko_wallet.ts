@@ -1,14 +1,17 @@
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type { EventEmitter3 } from "@oko-wallet-sdk-core/event";
 import type { OkoWalletCoreEvent2, OkoWalletCoreEventHandler2 } from "./event";
-import type { OkoWalletMsg, OkoWalletMsgOpenModal } from "./msg";
+import type { OkoWalletMsg, OkoWalletMsgOpenModal, WalletInfo } from "./msg";
 import type { OpenModalAckPayload } from "./modal";
 import type {
   OkoWalletInitError,
   OpenModalError,
 } from "@oko-wallet-sdk-core/errors";
 import type { SignInType } from "./oauth";
+
+export type { WalletInfo };
 
 export interface OkoWalletStaticInterface {
   new (apiKey: string, iframe: HTMLIFrameElement, sdkEndpoint: string): void;
@@ -38,6 +41,8 @@ export interface OkoWalletInterface {
   signOut: () => Promise<void>;
   getPublicKey: () => Promise<string | null>;
   getEmail: () => Promise<string | null>;
+  getName: () => Promise<string | null>;
+  getWalletInfo: () => Promise<WalletInfo | null>;
   startEmailSignIn: (email: string) => Promise<void>;
   completeEmailSignIn: (email: string, code: string) => Promise<void>;
   on: (handlerDef: OkoWalletCoreEventHandler2) => void;
@@ -49,6 +54,8 @@ export interface OkoWalletInitArgs {
 }
 
 export interface OkoWalletState {
+  authType: AuthType | null;
   email: string | null;
   publicKey: string | null;
+  name: string | null;
 }

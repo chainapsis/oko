@@ -1,10 +1,16 @@
-export interface ResponseLocals {
-  oauth_user?: OAuthUser;
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+
+export interface OAuthBody {
+  auth_type: AuthType;
 }
 
 export interface OAuthUser {
-  type: "google" | "auth0";
+  type: AuthType;
   email: string;
+  // `x` is username, `telegram` is username
   name?: string;
-  sub: string;
+}
+
+export interface OAuthLocals {
+  oauth_user: OAuthUser;
 }

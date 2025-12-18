@@ -50,7 +50,7 @@ const SuccessMessage: React.FC = () => {
       </Typography>
       <Spacing height={16} />
       <Typography size="xs" weight="medium" color="secondary">
-        Received Auth0 tokens. Completing sign-in...
+        Verified successfully. Signing you in...
       </Typography>
     </>
   );

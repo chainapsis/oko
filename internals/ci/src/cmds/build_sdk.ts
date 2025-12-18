@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
-import { paths } from "../paths";
-import { expectSuccess } from "../expect";
-import { getPkgName } from "../pkg_name";
+import { paths } from "@oko-wallet-ci/paths";
+import { expectSuccess } from "@oko-wallet-ci/expect";
+import { getPkgName } from "@oko-wallet-ci/pkg_name";
 
 export async function buildSDK(..._args: any[]) {
   await doBuildSDK();
@@ -18,7 +18,7 @@ export async function doBuildSDK() {
     paths.sdk_cosmos_kit,
   ];
 
-  console.log("Building sdk packages, total (%s)", pkgsInOrder.length);
+  console.log("Building SDK packages, total (%s)", pkgsInOrder.length);
 
   for (const path of pkgsInOrder) {
     console.log("Building %s", path);

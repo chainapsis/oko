@@ -1,9 +1,9 @@
 import { registry } from "../registry";
 import { z } from "zod";
 
-const oauthProviderSchema = z
-  .enum(["google", "auth0"])
-  .describe("OAuth provider type")
+const authTypeSchema = z
+  .enum(["google", "auth0", "x", "telegram", "discord"])
+  .describe("Authentication provider type")
   .openapi({ example: "google" });
 
 const curveTypeSchema = z
@@ -24,7 +24,7 @@ export const RegisterKeyShareBodySchema = registry.register(
   "RegisterKeyShareBody",
   z
     .object({
-      auth_type: oauthProviderSchema,
+      auth_type: authTypeSchema,
       curve_type: curveTypeSchema,
       public_key: publicKeySchema,
       share: shareSchema,
@@ -38,7 +38,7 @@ export const GetKeyShareRequestBodySchema = registry.register(
   "GetKeyShareRequestBody",
   z
     .object({
-      auth_type: oauthProviderSchema,
+      auth_type: authTypeSchema,
       public_key: publicKeySchema,
     })
     .openapi("GetKeyShareRequestBody", {
@@ -69,6 +69,7 @@ export const CheckKeyShareRequestBodySchema = registry.register(
         .email()
         .describe("Email address")
         .openapi({ example: "test@example.com" }),
+      auth_type: authTypeSchema.optional().default("google"),
       public_key: publicKeySchema,
     })
     .openapi("CheckKeyShareRequestBody", {
@@ -94,7 +95,7 @@ export const ReshareKeyShareBodySchema = registry.register(
   "ReshareKeyShareBody",
   z
     .object({
-      auth_type: oauthProviderSchema,
+      auth_type: authTypeSchema,
       curve_type: curveTypeSchema,
       public_key: publicKeySchema,
       share: shareSchema.describe(

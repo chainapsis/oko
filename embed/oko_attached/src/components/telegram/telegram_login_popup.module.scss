@@ -35,7 +35,7 @@
   display: flex;
   padding: 32px;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   background: var(--Colors-Background-bg-primary, #fff);
   width: 100%;
   height: 100%;
@@ -99,7 +99,7 @@
   background: var(--Colors-Background-bg-tertiary, #22262f);
   color: var(--colors-text-text-secondary-700, #cecfd2);
   text-align: center;
-  font-family: var(--Font-family-font-family-body, Inter);
+  font-family: var(--font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 500;
@@ -121,7 +121,7 @@
   background: var(--Colors-Background-bg-tertiary, #f5f5f5);
   color: var(--colors-text-text-secondary-700, #414651);
   text-align: center;
-  font-family: var(--Font-family-font-family-body, Inter);
+  font-family: var(--font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 500;
@@ -152,7 +152,7 @@
 
 .stepText {
   color: var(--colors-text-text-primary-900, #181d27);
-  font-family: var(--Font-family-font-family-body, Inter);
+  font-family: var(--font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 500;
@@ -174,7 +174,7 @@
 
 .continueText {
   color: var(--colors-text-text-primary-900, #181d27);
-  font-family: var(--Font-family-font-family-body, Inter);
+  font-family: var(--font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 500;
@@ -231,7 +231,7 @@
 .signingText {
   color: var(--colors-text-text-primary-900, #181d27);
   text-align: center;
-  font-family: var(--Font-family-font-family-body, Inter);
+  font-family: var(--font-family-body, Inter);
   font-size: var(--Font-size-text-md, 15px);
   font-style: normal;
   font-weight: 500;
@@ -286,7 +286,7 @@
 
 .errorTitle {
   color: var(--colors-text-text-secondary-700, #414651);
-  font-family: var(--Font-family-font-family-body, Inter);
+  font-family: var(--font-family-body, Inter);
   font-size: var(--Font-size-text-lg, 18px);
   font-style: normal;
   font-weight: 600;
@@ -328,7 +328,7 @@
 .errorMessageText {
   color: var(--colors-text-text-warning-primary-600, #dc6803);
 
-  font-family: var(--Font-family-font-family-body, Inter);
+  font-family: var(--font-family-body, Inter);
   font-size: var(--Font-size-text-sm, 14px);
   font-style: normal;
   font-weight: 600;
@@ -348,6 +348,7 @@
   cursor: pointer;
   display: block;
   align-self: center;
+  font-family: var(--font-family-body, Inter);
 
   :global([data-theme="dark"]) & {
     color: var(--colors-text-text-tertiary-600, #94979c);
@@ -421,7 +422,7 @@
 
   :global(span) {
     color: var(--colors-text-text-secondary-700, #414651);
-    font-family: var(--Font-family-font-family-body, Inter);
+    font-family: var(--font-family-body, Inter);
     font-size: var(--Font-size-text-md, 15px);
     font-style: normal;
     font-weight: 600;

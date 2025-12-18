@@ -195,15 +195,39 @@ export async function getCredentialsFromPayload(
   payload: OAuthPayload | OAuthTokenRequestPayload,
   hostOrigin: string,
 ): Promise<OAuthCredentialResult> {
-  switch (payload.auth_type) {
-    case "x":
-      return validateOAuthPayloadOfX(payload, hostOrigin);
-    case "telegram":
-      return validateOAuthPayloadOfTelegram(payload);
-    case "discord":
-      return validateOAuthPayloadOfDiscord(payload, hostOrigin);
-    case "google":
-    case "auth0":
-      return validateOAuthPayload(payload, hostOrigin);
+  if (isOAuthTokenRequestPayload(payload)) {
+    switch (payload.auth_type) {
+      case "x":
+        return validateOAuthPayloadOfX(payload, hostOrigin);
+      case "telegram":
+        return validateOAuthPayloadOfTelegram(payload);
+      case "discord":
+        return validateOAuthPayloadOfDiscord(payload, hostOrigin);
+    }
+  } else {
+    // payload is OAuthPayload
+    switch (payload.auth_type) {
+      case "google":
+      case "auth0":
+        return validateOAuthPayload(payload, hostOrigin);
+      default:
+        return {
+          success: false,
+          err: {
+            type: "unknown",
+            error: `Unsupported auth_type: ${payload.auth_type}`,
+          },
+        };
+    }
   }
+}
+
+function isOAuthTokenRequestPayload(
+  payload: OAuthPayload | OAuthTokenRequestPayload,
+): payload is OAuthTokenRequestPayload {
+  return (
+    payload.auth_type === "x" ||
+    payload.auth_type === "telegram" ||
+    payload.auth_type === "discord"
+  );
 }

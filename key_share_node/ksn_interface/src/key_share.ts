@@ -1,6 +1,7 @@
 import type { Bytes33, Bytes64 } from "@oko-wallet/bytes";
 
 import type { CurveType } from "./curve_type";
+import type { AuthType } from "./user";
 
 export type KeyShareStatus = "active" | "inactive";
 
@@ -28,6 +29,7 @@ export type UpdateKeyShareRequest = {
 
 export interface RegisterKeyShareRequest {
   email: string;
+  auth_type: AuthType;
   curve_type: CurveType;
   public_key: Bytes33;
   share: Bytes64;
@@ -41,6 +43,7 @@ export type RegisterKeyShareBody = {
 
 export interface GetKeyShareRequest {
   email: string;
+  auth_type: AuthType;
   public_key: Bytes33;
 }
 
@@ -55,6 +58,7 @@ export type GetKeyShareRequestBody = {
 
 export interface CheckKeyShareRequest {
   email: string;
+  auth_type: AuthType;
   public_key: Bytes33;
 }
 
@@ -64,11 +68,13 @@ export interface CheckKeyShareResponse {
 
 export interface CheckKeyShareRequestBody {
   email: string;
+  auth_type?: AuthType;
   public_key: string; // hex string
 }
 
 export interface ReshareKeyShareRequest {
   email: string;
+  auth_type: AuthType;
   curve_type: CurveType;
   public_key: Bytes33;
   share: Bytes64;

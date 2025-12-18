@@ -1,4 +1,4 @@
-import type { Response, Router, Request } from "express";
+import type { Request, Response, Router } from "express";
 import type {
   CheckEmailRequest,
   CheckEmailResponse,
@@ -6,6 +6,7 @@ import type {
   SignInResponse,
   SignInSilentlyResponse,
 } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
@@ -36,6 +37,7 @@ import {
   type OAuthAuthenticatedRequest,
   oauthMiddleware,
 } from "@oko-wallet-tss-api/middleware/oauth";
+import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export function setUserRoutes(router: Router) {
   registry.registerPath({
@@ -92,6 +94,8 @@ export function setUserRoutes(router: Router) {
       const state = req.app.locals;
 
       const { email } = req.body;
+      // @NOTE: default to google if auth_type is not provided
+      const auth_type = (req.body.auth_type ?? "google") as AuthType;
 
       if (!email) {
         res.status(400).json({
@@ -102,7 +106,11 @@ export function setUserRoutes(router: Router) {
         return;
       }
 
-      const checkEmailRes = await checkEmail(state.db, email.toLowerCase());
+      const checkEmailRes = await checkEmail(
+        state.db,
+        email.toLowerCase(),
+        auth_type,
+      );
       if (checkEmailRes.success === false) {
         res
           .status(ErrorCodeMap[checkEmailRes.code] ?? 500) //
@@ -174,13 +182,15 @@ export function setUserRoutes(router: Router) {
   });
   router.post(
     "/user/signin",
-    [oauthMiddleware, tssActivateMiddleware],
+    oauthMiddleware,
+    tssActivateMiddleware,
     async (
       req: OAuthAuthenticatedRequest,
-      res: Response<OkoApiResponse<SignInResponse>>,
+      res: Response<OkoApiResponse<SignInResponse>, OAuthLocals>,
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
+      const auth_type = oauthUser.type as AuthType;
 
       if (!oauthUser?.email) {
         res.status(401).json({
@@ -193,10 +203,16 @@ export function setUserRoutes(router: Router) {
 
       const userEmail = oauthUser.email.toLowerCase();
 
-      const signInRes = await signIn(state.db, userEmail, {
-        secret: state.jwt_secret,
-        expires_in: state.jwt_expires_in,
-      });
+      const signInRes = await signIn(
+        state.db,
+        userEmail,
+        auth_type,
+        {
+          secret: state.jwt_secret,
+          expires_in: state.jwt_expires_in,
+        },
+        oauthUser.name,
+      );
       if (signInRes.success === false) {
         res
           .status(ErrorCodeMap[signInRes.code] ?? 500) //
@@ -295,6 +311,7 @@ export function setUserRoutes(router: Router) {
           const signInRes = await signIn(
             state.db,
             payload.email.toLowerCase(),
+            "google",
             {
               secret: state.jwt_secret,
               expires_in: state.jwt_expires_in,
@@ -387,13 +404,15 @@ export function setUserRoutes(router: Router) {
 
   router.post(
     "/user/reshare",
-    [oauthMiddleware, tssActivateMiddleware],
+    oauthMiddleware,
+    tssActivateMiddleware,
     async (
       req: OAuthAuthenticatedRequest<ReshareRequest>,
-      res: Response<OkoApiResponse<void>>,
+      res: Response<OkoApiResponse<void>, OAuthLocals>,
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
+      const auth_type = oauthUser.type as AuthType;
       const { public_key, reshared_key_shares } = req.body;
 
       if (!oauthUser?.email) {
@@ -427,6 +446,7 @@ export function setUserRoutes(router: Router) {
       const reshareRes = await updateWalletKSNodesForReshare(
         state.db,
         oauthUser.email.toLowerCase(),
+        auth_type,
         publicKeyRes.data,
         reshared_key_shares,
       );
