@@ -9,7 +9,7 @@ import { expectSuccess } from "@oko-wallet-ci/expect";
 import { sleep } from "@oko-wallet-ci/time";
 import { doBuildSDK } from "../build_sdk";
 
-function findPackageJsonFiles(dir: string): string[] {
+function findPackageJsonFiles(dir: string) {
   const results: string[] = [];
   const entries = fs.readdirSync(dir, { withFileTypes: true });
 
@@ -33,9 +33,12 @@ interface WorkspaceDepInfo {
   depVersion: string;
 }
 
-function findWorkspaceDeps(
-  pkg: Record<string, unknown>,
-): { name: string; version: string }[] {
+interface WorkspaceDep {
+  name: string;
+  version: string;
+}
+
+function findWorkspaceDeps(pkg: Record<string, unknown>): WorkspaceDep[] {
   const depFields = [
     "dependencies",
     "devDependencies",
