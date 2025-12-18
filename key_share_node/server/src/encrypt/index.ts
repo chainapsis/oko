@@ -14,7 +14,6 @@ export function encryptData(data: string, password: string): string {
   const salt = randomBytes(16);
   const iv = randomBytes(12);
   const key = pbkdf2Sync(password, salt, 100000, 32, "sha256");
-  console.log("encrypt key", key.toString("hex"));
 
   const cipher = createCipheriv("aes-256-gcm", key, iv);
   const encrypted = Buffer.concat([
