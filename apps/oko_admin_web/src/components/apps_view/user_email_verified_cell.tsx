@@ -39,12 +39,12 @@ export const UserEmailVerifiedCell: FC<UserEmailVerifiedCellProps> = ({
               size="sm"
             />
             {user.has_sent_inactive_reminder && (
-              <Badge label="Inactive Reminder Sent" color="warning" size="sm" />
+              <Badge label="Inactive Reminder Sent" color="success" size="sm" />
             )}
             {user.has_sent_unverified_reminder && (
               <Badge
                 label="Verification Reminder Sent"
-                color="warning"
+                color="success"
                 size="sm"
               />
             )}
