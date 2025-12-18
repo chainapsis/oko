@@ -35,6 +35,7 @@ const columnHelper = createColumnHelper<CustomerWithAPIKeys>();
 
 function createColumns(
   // TODO: no "ReturnType"
+  // Define a concrete type
   deleteCustomerAndCTDUsers: ReturnType<typeof useDeleteCustomerAndCTDUsers>,
 ) {
   return [
