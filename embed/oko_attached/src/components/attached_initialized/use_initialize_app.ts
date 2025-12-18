@@ -5,7 +5,7 @@ import type { OkoWalletMsgInit } from "@oko-wallet/oko-sdk-core";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import { UTM_SOURCE, UTM_CAMPAIGN } from "@oko-wallet/oko-types/referral";
 
-import { initKeplrWasm } from "@oko-wallet-attached/wasm";
+import { initKeplrWasm, initTeddsaWasmModule } from "@oko-wallet-attached/wasm";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import { makeAuthorizedOkoApiRequest } from "@oko-wallet-attached/requests/oko_api";
@@ -60,6 +60,7 @@ export function useInitializeApp() {
         initErrorLogging();
 
         await initKeplrWasm();
+        await initTeddsaWasmModule();
 
         const searchParams = new URLSearchParams(window.location.search);
 

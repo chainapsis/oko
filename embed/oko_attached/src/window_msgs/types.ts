@@ -73,3 +73,25 @@ export interface UserSignInResult {
   isNewUser: boolean;
   name: string | null;
 }
+
+/**
+ * Result type for Ed25519 user sign-in
+ */
+export interface UserSignInResultEd25519 {
+  publicKey: string;
+  walletId: string;
+  jwtToken: string;
+  /**
+   * Hex-encoded key_package for client-side signing.
+   * Present for new users (from keygen), absent for existing users
+   * (should be retrieved from local storage).
+   */
+  keyPackage?: string;
+  /**
+   * Hex-encoded public_key_package for signature aggregation.
+   * Present for new users (from keygen), absent for existing users
+   * (should be retrieved from local storage).
+   */
+  publicKeyPackage?: string;
+  isNewUser: boolean;
+}
