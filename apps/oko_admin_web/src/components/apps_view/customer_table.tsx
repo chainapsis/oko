@@ -33,11 +33,7 @@ const defaultData: CustomerWithAPIKeys[] = [];
 
 const columnHelper = createColumnHelper<CustomerWithAPIKeys>();
 
-function createColumns(
-  // TODO: no "ReturnType"
-  // Define a concrete type
-  deleteCustomerAndCTDUsers: ReturnType<typeof useDeleteCustomerAndCTDUsers>,
-) {
+function createColumns(onDeleteCustomer: (customerId: string) => void) {
   return [
     columnHelper.accessor(
       (row) => {
@@ -134,9 +130,7 @@ function createColumns(
                 `Are you sure you want to delete this customer and related CTD users?: customer_id: ${info.getValue()}`,
               )
             ) {
-              deleteCustomerAndCTDUsers.mutate({
-                customer_id: info.getValue(),
-              });
+              onDeleteCustomer(info.getValue());
             }
           }}
         >
@@ -150,6 +144,9 @@ function createColumns(
 export const CustomerTable: FC = () => {
   const router = useRouter();
   const deleteCustomerAndCTDUsers = useDeleteCustomerAndCTDUsers();
+  const handleDeleteCustomer = (customerId: string) => {
+    deleteCustomerAndCTDUsers.mutate({ customer_id: customerId });
+  };
 
   const {
     pageIndex,
@@ -166,7 +163,7 @@ export const CustomerTable: FC = () => {
   const customerList = data?.customerWithAPIKeysList ?? defaultData;
   const totalPages = data?.pagination?.total_pages ?? 0;
 
-  const columns = createColumns(deleteCustomerAndCTDUsers);
+  const columns = createColumns(handleDeleteCustomer);
 
   const table = useTable({
     columns,
