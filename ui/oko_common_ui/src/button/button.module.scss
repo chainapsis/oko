@@ -44,6 +44,10 @@
       pointer-events: none;
     }
 
+    &:hover:not(.disabled) {
+      background: var(--bg-primary-hover);
+    }
+
     &.disabled {
       color: var(--fg-disabled);
       border: none;
