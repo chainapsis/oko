@@ -15,6 +15,7 @@ import styles from "./token_item.module.scss";
 import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
+import { displayToast } from "@oko-wallet-user-dashboard/components/toast";
 
 interface TokenItemProps {
   viewToken: ViewToken;
@@ -47,6 +48,11 @@ export const TokenItem: FunctionComponent<TokenItemProps> = observer(
       try {
         await navigator.clipboard.writeText(address);
         setIsCopied(true);
+
+        displayToast({
+          variant: "success",
+          title: "Copied",
+        });
         setTimeout(() => setIsCopied(false), 1500);
       } catch (error) {
         console.error("Failed to copy address:", error);
