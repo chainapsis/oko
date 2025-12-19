@@ -7,6 +7,7 @@ import { SettingIcon } from "@oko-wallet/oko-common-ui/icons/setting_icon";
 import styles from "./my_assets.module.scss";
 import { ShowHideChainsModal } from "@oko-wallet-user-dashboard/components/show_hide_chains_modal/show_hide_chains_modal";
 import { TokenList } from "./components/token_list/token_list";
+import { Button } from "@oko-wallet-common-ui/button/button";
 
 export const MyAssets: FC = () => {
   return (
@@ -18,12 +19,12 @@ export const MyAssets: FC = () => {
 
         <ShowHideChainsModal
           renderTrigger={({ onOpen }) => (
-            <div className={styles.showHideChains} onClick={onOpen}>
+            <Button variant="ghost" onClick={onOpen}>
               <SettingIcon size={16} color="var(--fg-quaternary)" />
               <Typography size="sm" weight="semibold" color="tertiary">
                 Show/Hide Chains
               </Typography>
-            </div>
+            </Button>
           )}
         />
       </div>
