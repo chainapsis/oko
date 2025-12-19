@@ -5,25 +5,18 @@ import type {
   OkoWalletMsgOAuthSignInUpdate,
   OkoWalletMsgOAuthSignInUpdateAck,
 } from "@oko-wallet-sdk-core/types";
-import {
-  type CurveType,
-  RedirectUriSearchParamsKey,
-} from "@oko-wallet-sdk-core/types/oauth";
+import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
 import { DISCORD_CLIENT_ID } from "@oko-wallet-sdk-core/auth/discord";
 import { createPkcePair } from "./utils";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 const DISCORD_SCOPES = ["identify", "email"].join(" ");
 
-export async function handleDiscordSignIn(
-  okoWallet: OkoWalletInterface,
-  curveType?: CurveType,
-) {
+export async function handleDiscordSignIn(okoWallet: OkoWalletInterface) {
   const signInRes = await tryDiscordSignIn(
     okoWallet.sdkEndpoint,
     okoWallet.apiKey,
     okoWallet.sendMsgToIframe.bind(okoWallet),
-    curveType,
   );
 
   if (!signInRes.payload.success) {
@@ -36,7 +29,6 @@ function tryDiscordSignIn(
   sdkEndpoint: string,
   apiKey: string,
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>,
-  curveType?: CurveType,
 ): Promise<OkoWalletMsgOAuthSignInUpdate> {
   const clientId = DISCORD_CLIENT_ID;
   if (!clientId) {
@@ -52,7 +44,6 @@ function tryDiscordSignIn(
     apiKey,
     targetOrigin: window.location.origin,
     provider: "discord",
-    curveType,
   };
 
   const oauthStateString = btoa(JSON.stringify(oauthState));

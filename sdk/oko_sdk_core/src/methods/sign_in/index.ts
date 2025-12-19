@@ -1,40 +1,30 @@
 import type { OkoWalletInterface } from "@oko-wallet-sdk-core/types";
-import type { CurveType, SignInType } from "@oko-wallet-sdk-core/types/oauth";
+import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";
 import { handleGoogleSignIn } from "./google";
 import { handleEmailSignIn } from "./email";
 import { handleXSignIn } from "./x";
 import { handleTelegramSignIn } from "./telegram";
 import { handleDiscordSignIn } from "./discord";
 
-export interface SignInOptions {
-  curveType?: CurveType;
-}
-
-export async function signIn(
-  this: OkoWalletInterface,
-  type: SignInType,
-  options?: SignInOptions,
-) {
+export async function signIn(this: OkoWalletInterface, type: SignInType) {
   await this.waitUntilInitialized;
-
-  const curveType = options?.curveType;
 
   try {
     switch (type) {
       case "google":
-        await handleGoogleSignIn(this, curveType);
+        await handleGoogleSignIn(this);
         break;
       case "email":
         await handleEmailSignIn(this);
         break;
       case "x":
-        await handleXSignIn(this, curveType);
+        await handleXSignIn(this);
         break;
       case "telegram":
-        await handleTelegramSignIn(this, curveType);
+        await handleTelegramSignIn(this);
         break;
       case "discord":
-        await handleDiscordSignIn(this, curveType);
+        await handleDiscordSignIn(this);
         break;
       default:
         throw new Error(`not supported sign in type, type: ${type}`);

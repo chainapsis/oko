@@ -9,15 +9,11 @@ import type {
   OkoWalletMsgOAuthSignInUpdateAck,
   OkoWalletMsgOpenModal,
 } from "@oko-wallet-sdk-core/types";
-import type { CurveType } from "@oko-wallet-sdk-core/types/oauth";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 
-export async function handleTelegramSignIn(
-  okoWallet: OkoWalletInterface,
-  curveType?: CurveType,
-) {
-  const signInRes = await tryTelegramSignIn(okoWallet, curveType);
+export async function handleTelegramSignIn(okoWallet: OkoWalletInterface) {
+  const signInRes = await tryTelegramSignIn(okoWallet);
 
   if (!signInRes.payload.success) {
     throw new Error(
@@ -28,7 +24,6 @@ export async function handleTelegramSignIn(
 
 async function tryTelegramSignIn(
   okoWallet: OkoWalletInterface,
-  curveType?: CurveType,
 ): Promise<OkoWalletMsgOAuthSignInUpdate> {
   const modalId = uuidv4();
 
@@ -37,7 +32,6 @@ async function tryTelegramSignIn(
     targetOrigin: window.location.origin,
     provider: "telegram",
     modalId,
-    curveType,
   };
   const oauthStateString = JSON.stringify(oauthState);
 

@@ -9,11 +9,7 @@ import type {
   OkoWalletInitError,
   OpenModalError,
 } from "@oko-wallet-sdk-core/errors";
-import type { CurveType, SignInType } from "./oauth";
-
-export interface SignInOptions {
-  curveType?: CurveType;
-}
+import type { SignInType } from "./oauth";
 
 export type { WalletInfo };
 
@@ -41,7 +37,7 @@ export interface OkoWalletInterface {
   ) => Promise<Result<OpenModalAckPayload, OpenModalError>>;
   closeModal: () => void;
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>;
-  signIn: (type: SignInType, options?: SignInOptions) => Promise<void>;
+  signIn: (type: SignInType) => Promise<void>;
   signOut: () => Promise<void>;
   getPublicKey: () => Promise<string | null>;
   getEmail: () => Promise<string | null>;
