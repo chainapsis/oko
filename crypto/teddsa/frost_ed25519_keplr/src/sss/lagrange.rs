@@ -1,7 +1,6 @@
 use alloc::collections::BTreeSet;
 use alloc::string::String;
 use alloc::vec::Vec;
-
 use frost_core::{Ciphersuite, Error, Field, Group, Identifier, Scalar, SigningKey};
 
 use crate::point::Point256;
