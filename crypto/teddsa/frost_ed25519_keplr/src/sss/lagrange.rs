@@ -1,10 +1,13 @@
-use std::collections::BTreeSet;
+use alloc::collections::BTreeSet;
+use alloc::string::String;
+use alloc::vec::Vec;
 
 use frost_core::{Ciphersuite, Error, Field, Group, Identifier, Scalar, SigningKey};
-use frost_ed25519::Ed25519Sha512;
 
 use crate::point::Point256;
+use crate::Ed25519Sha512;
 
+/// Computes the Lagrange coefficient for a given identifier.
 pub fn compute_lagrange_coefficient<C: Ciphersuite>(
     x_set: &BTreeSet<Identifier<C>>,
     x: Option<Identifier<C>>,
@@ -43,6 +46,7 @@ pub fn compute_lagrange_coefficient<C: Ciphersuite>(
     )
 }
 
+/// Interpolates Ed25519 keyshares to recover the secret.
 pub fn interpolate_ed25519(keyshares: Vec<&Point256>) -> Result<[u8; 32], String> {
     let x_vec = keyshares.iter().map(|k| k.x).collect::<Vec<_>>();
     let identifiers = x_vec

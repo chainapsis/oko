@@ -1,16 +1,19 @@
+use alloc::string::String;
+use alloc::vec::Vec;
+
 use frost_core::SigningKey;
-use frost_ed25519::{
-    keys::{split, IdentifierList},
-    rand_core::OsRng,
-    Ed25519Sha512, Identifier,
-};
+use rand_core::{CryptoRng, RngCore};
 
+use crate::keys::{split, IdentifierList};
 use crate::point::Point256;
+use crate::{Ed25519Sha512, Identifier};
 
-pub fn sss_split_ed25519(
+/// Splits an Ed25519 secret into shares using Shamir's Secret Sharing.
+pub fn sss_split_ed25519<R: RngCore + CryptoRng>(
     secret_be: [u8; 32],
     point_xs: Vec<[u8; 32]>,
     t: u32,
+    rng: &mut R,
 ) -> Result<Vec<Point256>, String> {
     let mut secret_le = secret_be;
     secret_le.reverse();
@@ -27,13 +30,12 @@ pub fn sss_split_ed25519(
         .collect::<Vec<_>>();
     let identifier_list = IdentifierList::Custom(&identifiers);
 
-    let mut rng = OsRng;
     let share_map_tup = split(
         &signing_key,
         max_signers,
         min_signers,
         identifier_list,
-        &mut rng,
+        rng,
     )
     .expect("Failed to split");
     let share_vec = share_map_tup.0.into_iter().collect::<Vec<_>>();
@@ -52,6 +54,7 @@ pub fn sss_split_ed25519(
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rand_core::OsRng;
 
     #[test]
     fn test_sss_split_ed25519() {
