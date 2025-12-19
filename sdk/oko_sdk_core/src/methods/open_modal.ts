@@ -8,7 +8,7 @@ import type {
 } from "@oko-wallet-sdk-core/types";
 import type { OpenModalError } from "@oko-wallet-sdk-core/errors";
 
-const FIVE_MINS = 60 * 5 * 1000;
+const TEN_MINS = 60 * 10 * 1000;
 const POPUP_READY_TIMEOUT = 30 * 1000;
 
 interface PopupContext {
@@ -43,7 +43,7 @@ export async function openModal(
     this.iframe.style.display = "block";
   }
 
-  const { timeoutPromise, cancelTimeout } = createTimeout(FIVE_MINS);
+  const { timeoutPromise, cancelTimeout } = createTimeout(TEN_MINS);
 
   try {
     if (popupContext) {

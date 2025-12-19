@@ -57,8 +57,8 @@ export async function telegramAuthMiddleware(
 
     res.locals.oauth_user = {
       type: "telegram" as AuthType,
-      // in telegram, use telegram id as email
-      email: userInfo.id,
+      // in telegram, use telegram id as email with prefix
+      email: `telegram_${userInfo.id}`,
       name: userInfo.username,
     };
 

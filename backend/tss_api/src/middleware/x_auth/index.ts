@@ -48,8 +48,8 @@ export async function xAuthMiddleware(
 
     res.locals.oauth_user = {
       type: "x" as AuthType,
-      // in x, use x id as email
-      email: result.data.id,
+      // in x, use x id as email with prefix
+      email: `x_${result.data.id}`,
       name: result.data.username,
     };
 

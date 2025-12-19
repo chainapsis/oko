@@ -28,9 +28,9 @@ export const SignInResponseSchema = registry.register(
         public_key: z.string().openapi({
           description: "Public key in hex format",
         }),
-        name: z.string().optional().openapi({
+        name: z.string().nullable().openapi({
           description:
-            "User name (optional) Only for OAuth providers that support it",
+            "User name (nullable) Only for OAuth providers that support it",
         }),
       })
       .openapi({ description: "Authenticated user information" }),

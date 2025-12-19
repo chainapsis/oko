@@ -3,18 +3,40 @@ import type { ChainInfo } from "@keplr-wallet/types";
 import type { ChainInfoWithCoreTypes } from "@keplr-wallet/background";
 import { type KVStore, toGenerator } from "@keplr-wallet/common";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
+import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 
 import { ChainStore as BaseChainStore } from "./base";
 import { type ModularChainInfo } from "./chain-info";
 
+type UserKey = `${OAuthProvider}/${string}`;
+
 const CHAIN_INFO_ENDPOINT = "https://keplr-api.keplr.app/v1/chains";
+const DEFAULT_ENABLED_CHAIN_IDENTIFIERS = [
+  "cosmoshub",
+  "osmosis",
+  "eip155:1",
+] as const;
+const KVSTORE_KEY_ENABLED_CHAINS_BY_USER_KEY =
+  "enabledChainIdentifiersByUserKey";
+
+function createUserKey(params: {
+  authType: OAuthProvider;
+  email: string;
+}): UserKey {
+  return `${params.authType}/${params.email.trim()}`;
+}
 
 export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
   @observable
   protected _isInitializing: boolean = false;
 
   @observable.ref
-  protected _enabledChainIdentifiers: string[] = [];
+  protected _enabledChainIdentifiersByUserKey: Record<string, string[]> = {};
+
+  @observable
+  protected _activeUserKey: UserKey | null = null;
+
+  protected _hasLoadedEnabledChainsByUserKeyFromStorage: boolean = false;
 
   @observable.ref
   protected _chainInfosFromAPI: (ModularChainInfo | ChainInfo)[] = [];
@@ -55,42 +77,46 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
 
   @computed
   protected get enabledChainIdentifiesMap(): Map<string, true> {
-    if (this._enabledChainIdentifiers.length === 0) {
-      // Should be enabled at least one chain.
-      const map = new Map<string, true>();
-      map.set(
-        ChainIdHelper.parse(this.embedChainInfos[0].chainId).identifier,
-        true,
-      );
-      return map;
-    }
+    const enabledChainIdentifiers = this.enabledChainIdentifiers;
 
+    const identifiersToMap =
+      enabledChainIdentifiers.length > 0
+        ? enabledChainIdentifiers
+        : this.getFallbackEnabledChainIdentifiers();
     const map = new Map<string, true>();
-    for (const chainIdentifier of this._enabledChainIdentifiers) {
+    for (const chainIdentifier of identifiersToMap) {
       map.set(chainIdentifier, true);
     }
     return map;
+  }
+
+  private getFallbackEnabledChainIdentifiers(): string[] {
+    if (this.embedChainInfos.length > 0) {
+      return [ChainIdHelper.parse(this.embedChainInfos[0].chainId).identifier];
+    }
+
+    return [DEFAULT_ENABLED_CHAIN_IDENTIFIERS[0]];
   }
 
   @computed
   override get modularChainInfos(): ModularChainInfo[] {
     // Sort by chain name.
     // The first chain has priority to be the first.
+    const firstChainIdentifier =
+      this.embedChainInfos.length > 0
+        ? ChainIdHelper.parse(this.embedChainInfos[0].chainId).identifier
+        : null;
     return super.modularChainInfos.sort((a, b) => {
       const aChainIdentifier = ChainIdHelper.parse(a.chainId).identifier;
       const bChainIdentifier = ChainIdHelper.parse(b.chainId).identifier;
 
-      if (
-        aChainIdentifier ===
-        ChainIdHelper.parse(this.embedChainInfos[0].chainId).identifier
-      ) {
-        return -1;
-      }
-      if (
-        bChainIdentifier ===
-        ChainIdHelper.parse(this.embedChainInfos[0].chainId).identifier
-      ) {
-        return 1;
+      if (firstChainIdentifier) {
+        if (aChainIdentifier === firstChainIdentifier) {
+          return -1;
+        }
+        if (bChainIdentifier === firstChainIdentifier) {
+          return 1;
+        }
       }
 
       return a.chainName.trim().localeCompare(b.chainName.trim());
@@ -142,7 +168,45 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
   }
 
   get enabledChainIdentifiers(): string[] {
-    return this._enabledChainIdentifiers;
+    const activeUserKey = this._activeUserKey;
+    if (!activeUserKey) {
+      return Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+    }
+
+    const identifiers = this._enabledChainIdentifiersByUserKey[activeUserKey];
+    if (identifiers && identifiers.length > 0) {
+      return identifiers;
+    }
+
+    return Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+  }
+
+  @flow
+  *setActiveUserKey(userKey: UserKey | null) {
+    this._activeUserKey = userKey;
+    if (!userKey) {
+      return;
+    }
+
+    if (!this._hasLoadedEnabledChainsByUserKeyFromStorage) {
+      const savedEnabledChainsByUserKey = yield* toGenerator(
+        this.kvStore.get<Record<string, string[]>>(
+          KVSTORE_KEY_ENABLED_CHAINS_BY_USER_KEY,
+        ),
+      );
+      if (savedEnabledChainsByUserKey) {
+        this._enabledChainIdentifiersByUserKey = {
+          ...savedEnabledChainsByUserKey,
+          ...this._enabledChainIdentifiersByUserKey,
+        };
+      }
+
+      this._hasLoadedEnabledChainsByUserKeyFromStorage = true;
+    }
+  }
+
+  setActiveUser(params: { authType: OAuthProvider; email: string }) {
+    this.setActiveUserKey(createUserKey(params));
   }
 
   @computed
@@ -223,24 +287,48 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
 
   @flow
   *enableChainInfoInUI(...chainIds: string[]) {
-    const newIdentifiers = new Set(this._enabledChainIdentifiers);
+    const activeUserKey = this._activeUserKey;
+    if (!activeUserKey) {
+      console.error("Active user key is not set, cannot enable chain in UI");
+      return;
+    }
+
+    const currentIdentifiers =
+      this._enabledChainIdentifiersByUserKey[activeUserKey] ??
+      Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+
+    const newIdentifiers = new Set(currentIdentifiers);
 
     for (const chainId of chainIds) {
       const identifier = ChainIdHelper.parse(chainId).identifier;
       newIdentifiers.add(identifier);
     }
 
-    this._enabledChainIdentifiers = Array.from(newIdentifiers);
+    const nextEnabledChainIdentifiers = Array.from(newIdentifiers);
+    this._enabledChainIdentifiersByUserKey = {
+      ...this._enabledChainIdentifiersByUserKey,
+      [activeUserKey]: nextEnabledChainIdentifiers,
+    };
 
     yield this.kvStore.set(
-      "enabledChainIdentifiers",
-      this._enabledChainIdentifiers,
+      KVSTORE_KEY_ENABLED_CHAINS_BY_USER_KEY,
+      this._enabledChainIdentifiersByUserKey,
     );
   }
 
   @flow
   *disableChainInfoInUI(...chainIds: string[]) {
-    const newIdentifiers = new Set(this._enabledChainIdentifiers);
+    const activeUserKey = this._activeUserKey;
+    if (!activeUserKey) {
+      console.error("Active user key is not set, cannot disable chain in UI");
+      return;
+    }
+
+    const currentIdentifiers =
+      this._enabledChainIdentifiersByUserKey[activeUserKey] ??
+      Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+
+    const newIdentifiers = new Set(currentIdentifiers);
 
     for (const chainId of chainIds) {
       const identifier = ChainIdHelper.parse(chainId).identifier;
@@ -249,22 +337,39 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
 
     // Ensure at least one chain is enabled
     if (newIdentifiers.size === 0) {
-      newIdentifiers.add(
-        ChainIdHelper.parse(this.embedChainInfos[0].chainId).identifier,
-      );
+      const fallbackIdentifier = this.getFallbackEnabledChainIdentifiers()[0];
+      newIdentifiers.add(fallbackIdentifier);
     }
 
-    this._enabledChainIdentifiers = Array.from(newIdentifiers);
+    const nextEnabledChainIdentifiers = Array.from(newIdentifiers);
+    this._enabledChainIdentifiersByUserKey = {
+      ...this._enabledChainIdentifiersByUserKey,
+      [activeUserKey]: nextEnabledChainIdentifiers,
+    };
 
     yield this.kvStore.set(
-      "enabledChainIdentifiers",
-      this._enabledChainIdentifiers,
+      KVSTORE_KEY_ENABLED_CHAINS_BY_USER_KEY,
+      this._enabledChainIdentifiersByUserKey,
     );
   }
 
   @flow
   protected *init() {
     this._isInitializing = true;
+
+    const savedEnabledChainsByUserKey = yield* toGenerator(
+      this.kvStore.get<Record<string, string[]>>(
+        KVSTORE_KEY_ENABLED_CHAINS_BY_USER_KEY,
+      ),
+    );
+    if (savedEnabledChainsByUserKey) {
+      this._enabledChainIdentifiersByUserKey = {
+        ...savedEnabledChainsByUserKey,
+        ...this._enabledChainIdentifiersByUserKey,
+      };
+    }
+
+    this._hasLoadedEnabledChainsByUserKeyFromStorage = true;
 
     try {
       const response = yield* toGenerator(fetch(CHAIN_INFO_ENDPOINT));
@@ -282,22 +387,9 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
             embedded: true,
           })),
         );
-
-        // Set default enabled chain identifier
-        if (this._enabledChainIdentifiers.length === 0) {
-          this._enabledChainIdentifiers = ["cosmoshub", "osmosis", "eip155:1"];
-        }
       }
     } catch (error) {
       console.error("Failed to fetch chain infos from Keplr API:", error);
-    }
-
-    const savedEnabledChains = yield* toGenerator(
-      this.kvStore.get<string[]>("enabledChainIdentifiers"),
-    );
-
-    if (savedEnabledChains && savedEnabledChains.length > 0) {
-      this._enabledChainIdentifiers = savedEnabledChains;
     }
 
     this._isInitializing = false;

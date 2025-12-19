@@ -1,0 +1,45 @@
+[package]
+name = "frost_rerandomized"
+edition = "2021"
+# rust-version.workspace = true
+version = "2.2.0"
+readme = "README.md"
+authors = [
+    "Deirdre Connolly <durumcrustulum@gmail.com>",
+    "Chelsea Komlo <me@chelseakomlo.com>",
+    "Conrado Gouvea <conradoplg@gmail.com>",
+    "Natalie Eskinazi <natalie@znfd.org>",
+]
+repository = "https://github.com/ZcashFoundation/frost"
+# license.workspace = true
+keywords = ["cryptography", "threshold", "signature", "schnorr", "randomized"]
+description = "Types and traits to support implementing a re-randomized variant of Flexible Round-Optimized Schnorr Threshold signature schemes (FROST)."
+
+[package.metadata.docs.rs]
+features = ["serde"]
+rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+derive-getters = "0.5.0"
+document-features.workspace = true
+frost_core = { workspace = true, features = ["internals"] }
+hex.workspace = true
+rand_core.workspace = true
+
+[dev-dependencies]
+
+[features]
+default = ["serialization", "cheater-detection", "std"]
+# No longer needed. Kept for retrocompatibility until 3.0.0
+std = []
+#! ## Features
+## Enable `serde` support for types that need to be communicated. You
+## can use `serde` to serialize structs with any encoder that supports
+## `serde` (e.g. JSON with `serde_json`).
+serde = ["frost_core/serde"]
+# Exposes ciphersuite-generic tests for other crates to use
+test-impl = ["frost_core/test-impl", "serialization"]
+## Enable cheater detection
+cheater-detection = ["frost_core/cheater-detection"]
+## Enable a default serialization format. Enables `serde`.
+serialization = ["serde", "frost_core/serialization"]

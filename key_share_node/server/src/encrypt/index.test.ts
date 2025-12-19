@@ -1,41 +1,11 @@
-import {
-  encryptData,
-  decryptData,
-  encryptDataAsync,
-  decryptDataAsync,
-} from "./index";
+import { encryptDataAsync, decryptDataAsync } from "./index";
 
-describe("Encryption/Decryption Cross Compatibility Tests", () => {
+describe("Encryption/Decryption Tests", () => {
   const testPassword = "test_password_123";
   const testData = "This is sensitive data that needs to be encrypted";
 
-  describe("Cross compatibility between async and sync functions", () => {
-    it("should decrypt data encrypted by encryptDataAsync using decryptData", async () => {
-      const encrypted = await encryptDataAsync(testData, testPassword);
-
-      const decrypted = decryptData(encrypted, testPassword);
-
-      expect(decrypted).toBe(testData);
-    });
-
-    it("should decrypt data encrypted by encryptData using decryptDataAsync", async () => {
-      const encrypted = encryptData(testData, testPassword);
-
-      const decrypted = await decryptDataAsync(encrypted, testPassword);
-
-      expect(decrypted).toBe(testData);
-    });
-  });
-
   describe("Basic encryption/decryption functionality", () => {
-    it("should encrypt and decrypt data using sync functions", () => {
-      const encrypted = encryptData(testData, testPassword);
-      const decrypted = decryptData(encrypted, testPassword);
-
-      expect(decrypted).toBe(testData);
-    });
-
-    it("should encrypt and decrypt data using async functions", async () => {
+    it("should encrypt and decrypt data", async () => {
       const encrypted = await encryptDataAsync(testData, testPassword);
       const decrypted = await decryptDataAsync(encrypted, testPassword);
 
@@ -56,15 +26,8 @@ describe("Encryption/Decryption Cross Compatibility Tests", () => {
     ];
 
     testCases.forEach(({ name, data }) => {
-      it(`should handle ${name} with encryptDataAsync -> decryptData`, async () => {
+      it(`should handle ${name}`, async () => {
         const encrypted = await encryptDataAsync(data, testPassword);
-        const decrypted = decryptData(encrypted, testPassword);
-
-        expect(decrypted).toBe(data);
-      });
-
-      it(`should handle ${name} with encryptData -> decryptDataAsync`, async () => {
-        const encrypted = encryptData(data, testPassword);
         const decrypted = await decryptDataAsync(encrypted, testPassword);
 
         expect(decrypted).toBe(data);
@@ -73,35 +36,27 @@ describe("Encryption/Decryption Cross Compatibility Tests", () => {
   });
 
   describe("Error handling", () => {
-    it("should throw error with wrong password using decryptData", async () => {
+    it("should throw error with wrong password", async () => {
       const encrypted = await encryptDataAsync(testData, testPassword);
-
-      expect(() => {
-        decryptData(encrypted, "wrong_password");
-      }).toThrow();
-    });
-
-    it("should throw error with wrong password using decryptDataAsync", async () => {
-      const encrypted = encryptData(testData, testPassword);
 
       await expect(
         decryptDataAsync(encrypted, "wrong_password"),
       ).rejects.toThrow();
     });
 
-    it("should throw error with invalid encrypted data", () => {
-      expect(() => {
-        decryptData("invalid_base64_data", testPassword);
-      }).toThrow();
+    it("should throw error with invalid encrypted data", async () => {
+      await expect(
+        decryptDataAsync("invalid_base64_data", testPassword),
+      ).rejects.toThrow();
     });
 
     it("should throw error with corrupted encrypted data", async () => {
       const encrypted = await encryptDataAsync(testData, testPassword);
       const corrupted = encrypted.slice(0, -5) + "xxxxx";
 
-      expect(() => {
-        decryptData(corrupted, testPassword);
-      }).toThrow();
+      await expect(
+        decryptDataAsync(corrupted, testPassword),
+      ).rejects.toThrow();
     });
   });
 
@@ -114,39 +69,23 @@ describe("Encryption/Decryption Cross Compatibility Tests", () => {
     ];
 
     passwords.forEach((password) => {
-      it(`should work with password: "${password.substring(0, 20)}..." using cross functions`, async () => {
-        // async encrypt -> sync decrypt
-        const encrypted1 = await encryptDataAsync(testData, password);
-        const decrypted1 = decryptData(encrypted1, password);
-        expect(decrypted1).toBe(testData);
-
-        // sync encrypt -> async decrypt
-        const encrypted2 = encryptData(testData, password);
-        const decrypted2 = await decryptDataAsync(encrypted2, password);
-        expect(decrypted2).toBe(testData);
+      it(`should work with password: "${password.substring(0, 20)}..."`, async () => {
+        const encrypted = await encryptDataAsync(testData, password);
+        const decrypted = await decryptDataAsync(encrypted, password);
+        expect(decrypted).toBe(testData);
       });
     });
   });
 
   describe("Encryption uniqueness", () => {
-    it("should generate different ciphertext for same data (async)", async () => {
+    it("should generate different ciphertext for same data", async () => {
       const encrypted1 = await encryptDataAsync(testData, testPassword);
       const encrypted2 = await encryptDataAsync(testData, testPassword);
 
       expect(encrypted1).not.toBe(encrypted2);
 
-      expect(decryptData(encrypted1, testPassword)).toBe(testData);
-      expect(decryptData(encrypted2, testPassword)).toBe(testData);
-    });
-
-    it("should generate different ciphertext for same data (sync)", () => {
-      const encrypted1 = encryptData(testData, testPassword);
-      const encrypted2 = encryptData(testData, testPassword);
-
-      expect(encrypted1).not.toBe(encrypted2);
-
-      expect(decryptData(encrypted1, testPassword)).toBe(testData);
-      expect(decryptData(encrypted2, testPassword)).toBe(testData);
+      expect(await decryptDataAsync(encrypted1, testPassword)).toBe(testData);
+      expect(await decryptDataAsync(encrypted2, testPassword)).toBe(testData);
     });
   });
 });

@@ -21,7 +21,9 @@ import {
 } from "@oko-wallet-ksn-server/pg_dump/dump";
 import {
   adminAuthMiddleware,
+  rateLimitMiddleware,
   type AdminAuthenticatedRequest,
+  type RateLimitMiddlewareOption,
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
@@ -35,6 +37,18 @@ import {
   PgDumpHistoryQuerySchema,
   ErrorResponseSchema,
 } from "@oko-wallet-ksn-server/openapi/schema";
+
+const isTest = process.env.NODE_ENV === "test";
+
+const ADMIN_RATE_LIMIT: RateLimitMiddlewareOption = {
+  windowSeconds: 60,
+  maxRequests: 5,
+};
+
+const RESTORE_RATE_LIMIT: RateLimitMiddlewareOption = {
+  windowSeconds: 60,
+  maxRequests: 3,
+};
 
 export function makePgDumpRouter() {
   const router = Router();
@@ -102,6 +116,7 @@ export function makePgDumpRouter() {
   });
   router.post(
     "/backup",
+    ...(isTest ? [] : [rateLimitMiddleware(ADMIN_RATE_LIMIT)]),
     adminAuthMiddleware,
     async (
       req: AdminAuthenticatedRequest,
@@ -192,8 +207,10 @@ export function makePgDumpRouter() {
   });
   router.post(
     "/get_backup_history",
+    ...(isTest ? [] : [rateLimitMiddleware(ADMIN_RATE_LIMIT)]),
+    adminAuthMiddleware,
     async (
-      req: KSNodeRequest<GetBackupHistoryRequest>,
+      req: AdminAuthenticatedRequest<GetBackupHistoryRequest>,
       res: Response<KSNodeApiResponse<PgDump[]>>,
     ) => {
       const { days } = req.body;
@@ -321,6 +338,7 @@ export function makePgDumpRouter() {
   });
   router.post(
     "/restore",
+    ...(isTest ? [] : [rateLimitMiddleware(RESTORE_RATE_LIMIT)]),
     adminAuthMiddleware,
     async (
       req: AdminAuthenticatedRequest<DBRestoreRequest>,

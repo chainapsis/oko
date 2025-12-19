@@ -396,7 +396,7 @@ export function makeKeyshareRouter() {
       }
 
       const checkKeyShareRes = await checkKeyShare(req.app.locals.db, {
-        email: body.email.toLowerCase(),
+        email: body.email,
         auth_type,
         public_key: publicKeyBytesRes.data,
       });

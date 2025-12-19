@@ -12,7 +12,7 @@ import type {
 
 import { generateNonce } from "./utils";
 
-const FIVE_MINS_MS = 5 * 60 * 1000;
+const TEN_MINS_MS = 10 * 60 * 1000;
 
 export async function handleEmailSignIn(okoWallet: OkoWalletInterface) {
   const signInRes = await tryAuth0EmailSignIn(okoWallet);
@@ -119,9 +119,9 @@ function waitForOAuthSignInUpdate(okoWallet: OkoWalletInterface) {
       const timeout = window.setTimeout(() => {
         cleanup?.();
         cleanup = null;
-        reject(new Error("Timeout: no response within 5 minutes"));
+        reject(new Error("Timeout: no response within 10 minutes"));
         okoWallet.closeModal();
-      }, FIVE_MINS_MS);
+      }, TEN_MINS_MS);
 
       cleanup = () => {
         console.log("[oko] clean up oauth sign in listener");

@@ -111,6 +111,7 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "x",
+          // in x, use x id as email
           email: xTokenInfo.data.id,
           name: xTokenInfo.data.name,
         },

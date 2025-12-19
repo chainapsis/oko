@@ -1,5 +1,5 @@
 import type { APIKey } from "../ct_dashboard/api_key";
-import type { CustomerDashboardUser } from "../ct_dashboard/customer_dashboard_user";
+import type { CustomerDashboardUserWithReminderStatus } from "../ct_dashboard/customer_dashboard_user";
 
 export type CustomerStatus = "ACTIVE" | "DELETED";
 
@@ -24,7 +24,7 @@ export interface DeleteCustomerAndCustomerDashboardUsersResponse {
 
 export interface CustomerWithAPIKeys {
   customer: Customer;
-  customer_dashboard_users: CustomerDashboardUser[];
+  customer_dashboard_users: CustomerDashboardUserWithReminderStatus[];
   api_keys: APIKey[];
   has_tss_sessions?: boolean;
 }
