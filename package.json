@@ -56,10 +56,10 @@
       "crypto/tecdsa/cait_sith_keplr_wasm",
       "crypto/tecdsa/client_example",
       "crypto/tecdsa/api_lib",
-      "crypto/teddsa/teddsa_interface",
-      "crypto/teddsa/teddsa_wasm",
-      "crypto/teddsa/teddsa_hooks",
-      "crypto/teddsa/teddsa_keplr_addon",
+      "crypto/teddsa/teddsa_interface_mock",
+      "crypto/teddsa/teddsa_wasm_mock",
+      "crypto/teddsa/teddsa_hooks_mock",
+      "crypto/teddsa/teddsa_keplr_addon_mock",
       "sandbox/sandbox_sol",
       "internals2/manual_deployment"
     ]
