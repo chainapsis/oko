@@ -7,4 +7,4 @@ pub use lagrange::*;
 pub use split::*;
 
 #[cfg(test)]
-mod test;
+mod tests;
