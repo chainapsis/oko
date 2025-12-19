@@ -1,6 +1,6 @@
 import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
 import { initWasm } from "@oko-wallet/cait-sith-keplr-wasm";
-import * as teddsaWasmModule from "@oko-wallet/teddsa-wasm-mock/pkg/teddsa_wasm";
+import * as teddsaWasmModule from "@oko-wallet/teddsa-wasm-mock/pkg/teddsa_wasm_mock";
 import { initWasm as initTeddsaWasm } from "@oko-wallet/teddsa-wasm-mock";
 
 export async function initKeplrWasm() {
@@ -16,7 +16,7 @@ export async function initTeddsaWasmModule() {
   try {
     await initTeddsaWasm(
       teddsaWasmModule,
-      "/pkg/teddsa_wasm_bg.wasm",
+      "/pkg/teddsa_wasm_mock_bg.wasm",
     );
     console.log("[attached] TEdDSA WASM initialized");
   } catch (err) {

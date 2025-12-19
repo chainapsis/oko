@@ -8,10 +8,12 @@ members = [
   "crypto/teddsa/frost_core",
   "crypto/teddsa/frost_ed25519_keplr",
   "crypto/teddsa/frost_rerandomized",
+  "crypto/teddsa/teddsa_keplr_mock",
+  "crypto/teddsa/teddsa_wasm_mock/wasm",
+  "crypto/teddsa/teddsa_keplr_addon_mock/addon",
   "key_share_node/key_share_node_2/core",
   "key_share_node/key_share_node_2/pg_interface",
   "key_share_node/key_share_node_2/server",
-
 ]
 
 [workspace.dependencies]
@@ -19,6 +21,7 @@ cait_sith_keplr = { version = "=0.0.2-rc.4" }
 
 # for frost_ed25519
 frost_core = { path = "crypto/teddsa/frost_core", version = "2.2.0", default-features = false }
+frost_ed25519 = { path = "crypto/teddsa/frost_ed25519_keplr", version = "2.2.0", default-features = false }
 frost_rerandomized = { path = "crypto/teddsa/frost_rerandomized", version = "2.2.0", default-features = false }
 
 criterion = "0.6"

@@ -1,4 +1,4 @@
-import * as wasmModule from "../pkg/teddsa_wasm";
+import * as wasmModule from "../pkg/teddsa_wasm_mock";
 
 export { wasmModule };
 
