@@ -1,3 +1,6 @@
+import { Bounce, ToastContainer } from "react-toastify";
+import { ToastCloseButton } from "@oko-wallet-common-ui/toast/toast";
+
 import styles from "./page.module.scss";
 import { Authorized } from "@oko-wallet-user-dashboard/components/authorized/authorized";
 import { DashboardBody } from "@oko-wallet-user-dashboard/components/dashboard_body/dashboard_body";
@@ -23,6 +26,12 @@ export default function Home() {
           </DashboardBody>
         </div>
       </div>
+      <ToastContainer
+        stacked
+        transition={Bounce}
+        toastClassName="custom-toast"
+        closeButton={ToastCloseButton}
+      />
     </Authorized>
   );
 }
