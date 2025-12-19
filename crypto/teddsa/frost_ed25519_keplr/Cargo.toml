@@ -1,5 +1,5 @@
 [package]
-name = "frost_ed25519"
+name = "frost_ed25519_keplr"
 edition = "2021"
 # rust-version.workspace = true
 version = "2.2.0"
