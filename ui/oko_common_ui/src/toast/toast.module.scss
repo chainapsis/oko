@@ -3,13 +3,7 @@
   border-radius: 12px;
   border: 1px solid var(--border-primary);
   background-color: var(--white);
-  box-shadow:
-    0 12px 16px -4px
-      var(--Colors-Effects-Shadows-shadow-lg_01, rgba(10, 13, 18, 0.08)),
-    0 4px 6px -2px
-      var(--Colors-Effects-Shadows-shadow-lg_02, rgba(10, 13, 18, 0.03)),
-    0 2px 2px -1px
-      var(--Colors-Effects-Shadows-shadow-lg_03, rgba(10, 13, 18, 0.04));
+  box-shadow: var(--shadow-lg);
   min-height: fit-content;
   padding: 16px;
 }
