@@ -6,7 +6,7 @@ import type {
   TeddsaAggregateOutput,
   TeddsaCommitmentEntry,
   TeddsaSignatureShareEntry,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/teddsa-interface-mock";
 
 // Import from the native addon
 // Note: The addon must be built first with `npm run build:addon`

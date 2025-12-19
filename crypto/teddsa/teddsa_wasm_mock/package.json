@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/teddsa-wasm",
+  "name": "@oko-wallet/teddsa-wasm-mock",
   "version": "0.1.0",
   "private": true,
   "main": "./src/index.ts",

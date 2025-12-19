@@ -1,7 +1,7 @@
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 use serde::{Deserialize, Serialize};
-use teddsa_keplr::{aggregate, sign_round1, sign_round2, verify};
+use teddsa_keplr_mock::{aggregate, sign_round1, sign_round2, verify};
 
 /// Commitment entry for signing
 #[derive(Serialize, Deserialize)]

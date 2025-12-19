@@ -21,7 +21,7 @@
 //! ## Key Generation
 //!
 //! ```rust,ignore
-//! use teddsa_keplr::keygen_centralized::keygen_centralized;
+//! use teddsa_keplr_mock::keygen_centralized::keygen_centralized;
 //!
 //! let keygen_output = keygen_centralized().expect("keygen failed");
 //!
@@ -39,7 +39,7 @@
 //! 3. **Aggregation**: Signature shares are combined into the final signature
 //!
 //! ```rust,ignore
-//! use teddsa_keplr::sign::{sign_round1, sign_round2, aggregate};
+//! use teddsa_keplr_mock::sign::{sign_round1, sign_round2, aggregate};
 //!
 //! // Round 1: Generate commitments
 //! let round1_1 = sign_round1(&key_package_1)?;

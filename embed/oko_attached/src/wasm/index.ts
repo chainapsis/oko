@@ -1,7 +1,7 @@
 import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
 import { initWasm } from "@oko-wallet/cait-sith-keplr-wasm";
-import * as teddsaWasmModule from "@oko-wallet/teddsa-wasm/pkg/teddsa_wasm";
-import { initWasm as initTeddsaWasm } from "@oko-wallet/teddsa-wasm";
+import * as teddsaWasmModule from "@oko-wallet/teddsa-wasm-mock/pkg/teddsa_wasm";
+import { initWasm as initTeddsaWasm } from "@oko-wallet/teddsa-wasm-mock";
 
 export async function initKeplrWasm() {
   try {

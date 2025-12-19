@@ -1,4 +1,4 @@
-use teddsa_keplr::{aggregate, sign_round1, sign_round2, verify};
+use teddsa_keplr_mock::{aggregate, sign_round1, sign_round2, verify};
 use gloo_utils::format::JsValueSerdeExt;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;

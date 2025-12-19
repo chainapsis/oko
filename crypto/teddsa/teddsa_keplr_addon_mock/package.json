@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/teddsa-keplr-addon",
+  "name": "@oko-wallet/teddsa-keplr-addon-mock",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -13,7 +13,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@oko-wallet/teddsa-interface": "workspace:*"
+    "@oko-wallet/teddsa-interface-mock": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

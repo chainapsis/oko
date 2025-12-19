@@ -1,4 +1,4 @@
-use teddsa_keplr::{keygen_centralized, keygen_import};
+use teddsa_keplr_mock::{keygen_centralized, keygen_import};
 use gloo_utils::format::JsValueSerdeExt;
 use wasm_bindgen::prelude::*;
 

@@ -1,7 +1,7 @@
 import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { OAuthSignInError } from "@oko-wallet/oko-sdk-core";
-import { runTeddsaKeygen } from "@oko-wallet/teddsa-hooks";
+import { runTeddsaKeygen } from "@oko-wallet/teddsa-hooks-mock";
 import {
   reqKeygenEd25519,
   reqSignInEd25519,

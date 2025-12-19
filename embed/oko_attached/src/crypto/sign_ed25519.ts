@@ -3,12 +3,12 @@ import {
   teddsaSignRound2,
   teddsaAggregate,
   type TeddsaSignError,
-} from "@oko-wallet/teddsa-hooks";
+} from "@oko-wallet/teddsa-hooks-mock";
 import type {
   CommitmentEntry,
   SignatureShareEntry,
   TeddsaKeygenOutputBytes,
-} from "@oko-wallet/teddsa-hooks/src/types";
+} from "@oko-wallet/teddsa-hooks-mock/src/types";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";

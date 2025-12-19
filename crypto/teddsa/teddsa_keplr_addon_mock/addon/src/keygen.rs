@@ -1,6 +1,6 @@
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
-use teddsa_keplr::{keygen_centralized, keygen_import};
+use teddsa_keplr_mock::{keygen_centralized, keygen_import};
 
 /// Generate a 2-of-2 threshold Ed25519 key using centralized key generation.
 ///

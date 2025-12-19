@@ -1,4 +1,4 @@
-import { wasmModule } from "@oko-wallet/teddsa-wasm";
+import { wasmModule } from "@oko-wallet/teddsa-wasm-mock";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {

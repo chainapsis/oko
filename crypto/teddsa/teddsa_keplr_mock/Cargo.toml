@@ -1,5 +1,5 @@
 [package]
-name = "teddsa_keplr"
+name = "teddsa_keplr_mock"
 description = "Threshold EdDSA (FROST) for Ed25519"
 repository = "https://github.com/chainapsis/oko"
 version = "0.0.1-rc.0"
