@@ -8,6 +8,7 @@ members = [
   "crypto/teddsa/frost_core",
   "crypto/teddsa/frost_ed25519_keplr",
   "crypto/teddsa/frost_rerandomized",
+  "crypto/teddsa/frost_ed25519_keplr_wasm/wasm",
   "key_share_node/key_share_node_2/core",
   "key_share_node/key_share_node_2/pg_interface",
   "key_share_node/key_share_node_2/server",
