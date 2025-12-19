@@ -12,12 +12,10 @@ pub fn sss_combine_ed25519(split_points: Vec<Point256>, t: u32) -> Result<[u8; 3
 
     let truncated_split_points = split_points.iter().take(t as usize).collect::<Vec<_>>();
 
-    let combined_secret_le = interpolate_ed25519(truncated_split_points);
-    if combined_secret_le.is_err() {
-        return Err(combined_secret_le.err().unwrap());
+    let combined_secret = interpolate_ed25519(truncated_split_points);
+    if combined_secret.is_err() {
+        return Err(combined_secret.err().unwrap());
     }
-    let mut combined_secret = combined_secret_le.unwrap();
-    combined_secret.reverse();
 
-    Ok(combined_secret)
+    Ok(combined_secret.unwrap())
 }

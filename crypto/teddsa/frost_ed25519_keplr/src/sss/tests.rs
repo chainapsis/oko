@@ -6,14 +6,14 @@ use crate::sss::{sss_combine_ed25519, sss_split_ed25519};
 #[test]
 fn test_sss_combine_ed25519() {
     let mut secret = [0; 32];
-    secret[0] = 1;
+    secret[31] = 1;
 
     let mut point_1 = [0; 32];
-    point_1[0] = 1;
+    point_1[31] = 1;
     let mut point_2 = [0; 32];
-    point_2[0] = 2;
+    point_2[31] = 2;
     let mut point_3 = [0; 32];
-    point_3[0] = 3;
+    point_3[31] = 3;
 
     let mut rng = OsRng;
 
