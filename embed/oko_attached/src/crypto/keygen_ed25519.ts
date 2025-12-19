@@ -1,5 +1,5 @@
 import { Bytes } from "@oko-wallet/bytes";
-import type { TeddsaKeygenOutputBytes } from "@oko-wallet/teddsa-hooks/src/types";
+import type { TeddsaKeygenOutputBytes } from "@oko-wallet/teddsa-hooks-mock/src/types";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 /**
