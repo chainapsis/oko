@@ -30,14 +30,8 @@ pub fn sss_split_ed25519<R: RngCore + CryptoRng>(
         .collect::<Vec<_>>();
     let identifier_list = IdentifierList::Custom(&identifiers);
 
-    let share_map_tup = split(
-        &signing_key,
-        max_signers,
-        min_signers,
-        identifier_list,
-        rng,
-    )
-    .expect("Failed to split");
+    let share_map_tup = split(&signing_key, max_signers, min_signers, identifier_list, rng)
+        .expect("Failed to split");
     let share_vec = share_map_tup.0.into_iter().collect::<Vec<_>>();
 
     let share_points: Vec<Point256> = share_vec
@@ -53,8 +47,12 @@ pub fn sss_split_ed25519<R: RngCore + CryptoRng>(
 
 #[cfg(test)]
 mod tests {
+    extern crate std;
+
     use super::*;
+    use alloc::vec;
     use rand_core::OsRng;
+    use std::eprintln;
 
     #[test]
     fn test_sss_split_ed25519() {
@@ -93,23 +91,24 @@ mod tests {
         let i_0 = identifiers.get(0).unwrap();
         let out_0 = out.0.get(identifiers.get(0).unwrap()).unwrap();
         let out_0_signing_share = out_0.signing_share();
-        println!("out_0_signing_share: {:?}", out_0_signing_share.to_scalar());
-        println!("i_0: {:?}", i_0.to_scalar().to_bytes());
+        eprintln!("out_0_signing_share: {:?}", out_0_signing_share.to_scalar());
+        eprintln!("i_0: {:?}", i_0.to_scalar().to_bytes());
 
         let i_1 = identifiers.get(1).unwrap();
         let out_1 = out.0.get(identifiers.get(1).unwrap()).unwrap();
         let out_1_signing_share = out_1.signing_share();
-        println!("out_1_signing_share: {:?}", out_1_signing_share.to_scalar());
-        println!("i_1: {:?}", i_1.to_scalar().to_bytes());
+        eprintln!("out_1_signing_share: {:?}", out_1_signing_share.to_scalar());
+        eprintln!("i_1: {:?}", i_1.to_scalar().to_bytes());
     }
 
     #[test]
-    fn test_secret_key_endian() {
-        println!("test_secret_key_endian");
-        let mut secret = [255u8; 32];
-        secret[0] = 0;
-        let signing_key = SigningKey::<Ed25519Sha512>::deserialize(secret.as_slice())
-            .expect("Failed to deserialize signing key");
-        println!("signing_key: {:?}", signing_key.to_scalar());
+    fn test_secret_key_out_of_range() {
+        // Value exceeds Ed25519 scalar field order (~2^252), should fail
+        let secret = [255u8; 32];
+        let result = SigningKey::<Ed25519Sha512>::deserialize(secret.as_slice());
+        assert!(
+            result.is_err(),
+            "Expected MalformedScalar error for out-of-range value"
+        );
     }
 }
