@@ -23,6 +23,7 @@ services:
       - ${SERVER_PORT}:${SERVER_PORT}
     restart: unless-stopped
     environment:
+      NODE_ENV: "production"
       PORT: ${SERVER_PORT}
       DB_HOST: "key_share_node_pg"
       DB_PORT: "5432"

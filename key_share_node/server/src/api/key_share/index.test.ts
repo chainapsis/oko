@@ -16,10 +16,9 @@ import {
   getKeyShare,
   registerKeyShare,
 } from "@oko-wallet-ksn-server/api/key_share";
-import {
-  decryptDataAsync,
-  TEMP_ENC_SECRET,
-} from "@oko-wallet-ksn-server/encrypt";
+import { decryptDataAsync } from "@oko-wallet-ksn-server/encrypt";
+
+const TEST_ENC_SECRET = "test_enc_secret";
 
 describe("key_share_test", () => {
   let pool: Pool;
@@ -79,7 +78,7 @@ describe("key_share_test", () => {
           public_key: publicKeyBytes,
           share,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       expect(registerKeyShareRes.success).toBe(true);
@@ -121,7 +120,7 @@ describe("key_share_test", () => {
 
       const decryptedShare = await decryptDataAsync(
         getKeyShareRes.data?.enc_share.toString("utf-8")!,
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       expect(getKeyShareRes.data).toBeDefined();
@@ -165,7 +164,7 @@ describe("key_share_test", () => {
           public_key: publicKeyBytes,
           share,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       if (registerKeyShareRes.success === true) {
@@ -210,7 +209,7 @@ describe("key_share_test", () => {
           public_key: publicKeyBytes,
           share,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       const getKeyShareRes = await getKeyShare(
@@ -220,7 +219,7 @@ describe("key_share_test", () => {
           auth_type: "google",
           public_key: publicKeyBytes,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       if (getKeyShareRes.success === false) {
@@ -264,7 +263,7 @@ describe("key_share_test", () => {
           public_key: publicKeyBytes,
           share,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       const getKeyShareRes = await getKeyShare(
@@ -274,7 +273,7 @@ describe("key_share_test", () => {
           auth_type: "google",
           public_key: publicKeyBytes,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       expect(getKeyShareRes.success).toBe(false);
@@ -330,7 +329,7 @@ describe("key_share_test", () => {
           public_key: publicKeyBytes2,
           share,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       const getKeyShareRes = await getKeyShare(
@@ -340,7 +339,7 @@ describe("key_share_test", () => {
           auth_type: "google",
           public_key: publicKeyBytes,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       expect(getKeyShareRes.success).toBe(false);
@@ -378,7 +377,7 @@ describe("key_share_test", () => {
           auth_type: "google",
           public_key: publicKeyBytes,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       expect(getKeyShareRes.success).toBe(false);
@@ -424,7 +423,7 @@ describe("key_share_test", () => {
           auth_type: "google",
           public_key: publicKeyBytes,
         },
-        TEMP_ENC_SECRET,
+        TEST_ENC_SECRET,
       );
 
       expect(getKeyShareRes.success).toBe(false);
