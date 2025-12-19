@@ -33,112 +33,120 @@ const defaultData: CustomerWithAPIKeys[] = [];
 
 const columnHelper = createColumnHelper<CustomerWithAPIKeys>();
 
-const createColumns = (
-  deleteCustomerAndCTDUsers: ReturnType<typeof useDeleteCustomerAndCTDUsers>,
-) => [
-  columnHelper.accessor(
-    (row) => {
-      console.log(row.customer.logo_url);
-      return {
-        customer_id: row.customer.customer_id,
-        label: row.customer.label,
-        logo_url: row.customer.logo_url,
-      };
-    },
-    {
-      id: "customer_id",
-      header: "App Name",
+function createColumns(onDeleteCustomer: (customerId: string) => void) {
+  return [
+    columnHelper.accessor(
+      (row) => {
+        console.log(row.customer.logo_url);
+        return {
+          customer_id: row.customer.customer_id,
+          label: row.customer.label,
+          logo_url: row.customer.logo_url,
+        };
+      },
+      {
+        id: "customer_id",
+        header: "App Name",
+        cell: (info) => (
+          <Link href={`/apps/${info.getValue().customer_id}`}>
+            <AccountInfoBase
+              username={info.getValue().label}
+              email=""
+              avatarUrl={info.getValue().logo_url ?? undefined}
+            />
+          </Link>
+        ),
+      },
+    ),
+    columnHelper.accessor(
+      (row) =>
+        row.api_keys.map((apiKey) => {
+          return {
+            api_key: apiKey.hashed_key,
+            is_active: apiKey.is_active,
+          };
+        }),
+      {
+        id: "api_keys",
+        header: "API Key",
+        cell: (info) => <APIKeyCell apiKeys={info.getValue()} />,
+      },
+    ),
+    columnHelper.accessor(
+      (row) =>
+        row.customer_dashboard_users.map((user) => {
+          return {
+            email: user.email,
+            is_email_verified: user.is_email_verified,
+            has_sent_inactive_reminder: user.has_sent_inactive_reminder,
+            has_sent_unverified_reminder: user.has_sent_unverified_reminder,
+          };
+        }),
+      {
+        id: "users",
+        header: "Users",
+        cell: (info) => {
+          const val = info.getValue();
+          return <UserEmailVerifiedCell users={info.getValue()} />;
+        },
+      },
+    ),
+    columnHelper.accessor((row) => row.customer.url, {
+      id: "url",
+      header: "App URL",
       cell: (info) => (
-        <Link href={`/apps/${info.getValue().customer_id}`}>
-          <AccountInfoBase
-            username={info.getValue().label}
-            email=""
-            avatarUrl={info.getValue().logo_url ?? undefined}
-          />
+        <Link href={info.getValue() || ""} target="_blank">
+          <Typography
+            color="tertiary"
+            size="sm"
+            weight="medium"
+            className={styles.urlText}
+          >
+            {info.getValue()}
+          </Typography>
         </Link>
       ),
-    },
-  ),
-  columnHelper.accessor(
-    (row) =>
-      row.api_keys.map((apiKey) => {
-        return {
-          api_key: apiKey.hashed_key,
-          is_active: apiKey.is_active,
-        };
-      }),
-    {
-      id: "api_keys",
-      header: "API Key",
-      cell: (info) => <APIKeyCell apiKeys={info.getValue()} />,
-    },
-  ),
-  columnHelper.accessor(
-    (row) =>
-      row.customer_dashboard_users.map((user) => {
-        return {
-          email: user.email,
-          is_email_verified: user.is_email_verified,
-        };
-      }),
-    {
-      id: "users",
-      header: "Users",
-      cell: (info) => <UserEmailVerifiedCell users={info.getValue()} />,
-    },
-  ),
-  columnHelper.accessor((row) => row.customer.url, {
-    id: "url",
-    header: "App URL",
-    cell: (info) => (
-      <Link href={info.getValue() || ""} target="_blank">
-        <Typography
-          color="tertiary"
+    }),
+    columnHelper.accessor((row) => row.has_tss_sessions ?? false, {
+      id: "has_tss_sessions",
+      header: "TxActive",
+      cell: (info) => (
+        <Badge
+          label={info.getValue() ? "Active" : "Inactive"}
+          color={info.getValue() ? "success" : "error"}
           size="sm"
-          weight="medium"
-          className={styles.urlText}
+        />
+      ),
+    }),
+    columnHelper.accessor((row) => row.customer.customer_id, {
+      id: "delete",
+      header: "Delete",
+      cell: (info) => (
+        <Button
+          className={styles.deleteButton}
+          onClick={() => {
+            if (
+              confirm(
+                `Are you sure you want to delete this customer and related CTD users?: customer_id: ${info.getValue()}`,
+              )
+            ) {
+              onDeleteCustomer(info.getValue());
+            }
+          }}
         >
-          {info.getValue()}
-        </Typography>
-      </Link>
-    ),
-  }),
-  columnHelper.accessor((row) => row.has_tss_sessions ?? false, {
-    id: "has_tss_sessions",
-    header: "TxActive",
-    cell: (info) => (
-      <Badge
-        label={info.getValue() ? "Active" : "Inactive"}
-        color={info.getValue() ? "success" : "error"}
-        size="sm"
-      />
-    ),
-  }),
-  columnHelper.accessor((row) => row.customer.customer_id, {
-    id: "delete",
-    header: "Delete",
-    cell: (info) => (
-      <Button
-        className={styles.deleteButton}
-        onClick={() => {
-          if (
-            confirm(
-              `Are you sure you want to delete this customer and related CTD users?: customer_id: ${info.getValue()}`,
-            )
-          ) {
-            deleteCustomerAndCTDUsers.mutate({ customer_id: info.getValue() });
-          }
-        }}
-      >
-        Delete
-      </Button>
-    ),
-  }),
-];
+          Delete
+        </Button>
+      ),
+    }),
+  ];
+}
 
 export const CustomerTable: FC = () => {
   const router = useRouter();
   const deleteCustomerAndCTDUsers = useDeleteCustomerAndCTDUsers();
+  const handleDeleteCustomer = (customerId: string) => {
+    deleteCustomerAndCTDUsers.mutate({ customer_id: customerId });
+  };
 
   const {
     pageIndex,
@@ -155,7 +163,7 @@ export const CustomerTable: FC = () => {
   const customerList = data?.customerWithAPIKeysList ?? defaultData;
   const totalPages = data?.pagination?.total_pages ?? 0;
 
-  const columns = createColumns(deleteCustomerAndCTDUsers);
+  const columns = createColumns(handleDeleteCustomer);
 
   const table = useTable({
     columns,

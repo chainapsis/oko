@@ -2,10 +2,16 @@ import type { CreateCustomerWithDashboardUserRequest } from "@oko-wallet/oko-typ
 import type {
   Customer,
   CustomerWithAPIKeys,
+  DeleteCustomerAndCustomerDashboardUsersResponse,
 } from "@oko-wallet/oko-types/customers";
 
 import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
+
+export interface DeleteCustomerAndCTDUsersArgs {
+  token: string;
+  customer_id: string;
+}
 
 export async function getCustomerListWithAPIKeys({
   token,
@@ -91,11 +97,8 @@ export async function addCustomer({
 export async function deleteCustomerAndCTDUsers({
   token,
   customer_id,
-}: {
-  token: string;
-  customer_id: string;
-}) {
-  return doFetch<any>(
+}: DeleteCustomerAndCTDUsersArgs) {
+  return doFetch<DeleteCustomerAndCustomerDashboardUsersResponse>(
     `${OKO_ADMIN_API_ENDPOINT_V1}/customer/delete_customer/${customer_id}`,
     {
       method: "POST",
