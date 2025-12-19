@@ -4,7 +4,6 @@ import type {
   OkoWalletMsgOAuthInfoPassAck,
   OkoWalletMsgOAuthSignInUpdate,
   OAuthSignInError,
-  CurveType,
 } from "@oko-wallet/oko-sdk-core";
 import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
@@ -21,20 +20,13 @@ import {
   setUserId,
   setUserProperties,
 } from "@oko-wallet-attached/analytics/amplitude";
-import type {
-  UserSignInResult,
-  UserSignInResultEd25519,
-} from "@oko-wallet-attached/window_msgs/types";
+import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
 import {
   checkUserExists,
   handleExistingUser,
   handleNewUser,
   handleReshare,
 } from "./user";
-import {
-  handleNewUserEd25519,
-  handleExistingUserEd25519,
-} from "./user_ed25519";
 import { bail } from "./errors";
 import { getCredentialsFromPayload } from "./validate_social_login";
 
@@ -71,8 +63,6 @@ export async function handleOAuthInfoPass(
     appState.setApiKey(hostOrigin, apiKey);
 
     const authType: AuthType = message.payload.auth_type;
-    const curveType: CurveType | undefined =
-      "curve_type" in message.payload ? message.payload.curve_type : undefined;
 
     const validateOauthRes = await getCredentialsFromPayload(
       message.payload,
@@ -117,7 +107,6 @@ export async function handleOAuthInfoPass(
       idToken,
       userExists,
       authType,
-      curveType,
     );
     if (!handleUserSignInRes.success) {
       await bail(message, handleUserSignInRes.err);
@@ -125,36 +114,7 @@ export async function handleOAuthInfoPass(
     }
 
     const signInResult = handleUserSignInRes.data;
-    // Handle both secp256k1 and ed25519 results
-    if ("keyshare_1" in signInResult) {
-      // Secp256k1 result
-      appState.setKeyshare_1(hostOrigin, signInResult.keyshare_1);
-    } else {
-      // Ed25519 result
-      if (signInResult.keyPackage && signInResult.publicKeyPackage) {
-        // New user - store key package from keygen
-        appState.setKeyshare_1(hostOrigin, signInResult.keyPackage);
-        appState.setKeyPackageEd25519(hostOrigin, {
-          keyPackage: signInResult.keyPackage,
-          publicKeyPackage: signInResult.publicKeyPackage,
-        });
-      } else {
-        // Existing user - keyPackage should be in local storage already
-        const existingKeyPackage = appState.getKeyPackageEd25519(hostOrigin);
-        if (!existingKeyPackage) {
-          // No keyPackage in local storage - can't proceed with ed25519 signing
-          // This happens when user signs in from a new device
-          await bail(message, {
-            type: "sign_in_request_fail",
-            error:
-              "Ed25519 key package not found in local storage. Please use the device where you originally created your Solana wallet.",
-          });
-          return;
-        }
-        // Use existing keyPackage from local storage (already set)
-        appState.setKeyshare_1(hostOrigin, existingKeyPackage.keyPackage);
-      }
-    }
+    appState.setKeyshare_1(hostOrigin, signInResult.keyshare_1);
     appState.setAuthToken(hostOrigin, signInResult.jwtToken);
     appState.setWallet(hostOrigin, {
       authType,
@@ -206,28 +166,11 @@ export async function handleUserSignIn(
   idToken: string,
   userExists: CheckEmailResponse,
   authType: AuthType,
-  curveType?: CurveType,
-): Promise<Result<UserSignInResult | UserSignInResultEd25519, OAuthSignInError>> {
+): Promise<Result<UserSignInResult, OAuthSignInError>> {
   const meta = userExists.keyshare_node_meta;
 
   // use user sign up flow
   if (!userExists.exists) {
-    // For ed25519 (Solana), use the TEdDSA keygen flow
-    if (curveType === "ed25519") {
-      const signInRes = await handleNewUserEd25519(idToken, authType);
-      if (!signInRes.success) {
-        return {
-          success: false,
-          err: signInRes.err,
-        };
-      }
-      return {
-        success: true,
-        data: signInRes.data,
-      };
-    }
-
-    // Default secp256k1 flow
     const { referralInfo } = useMemoryState.getState();
     const signInRes = await handleNewUser(
       idToken,
@@ -248,21 +191,6 @@ export async function handleUserSignIn(
   }
   // existing user sign in or reshare flow
   else {
-    // Ed25519 existing user flow
-    if (curveType === "ed25519") {
-      const signInRes = await handleExistingUserEd25519(idToken, authType);
-      if (!signInRes.success) {
-        return {
-          success: false,
-          err: signInRes.err,
-        };
-      }
-      return {
-        success: true,
-        data: signInRes.data,
-      };
-    }
-
     // reshare flow
     if (userExists.needs_reshare) {
       const signInRes = await handleReshare(idToken, meta, authType);

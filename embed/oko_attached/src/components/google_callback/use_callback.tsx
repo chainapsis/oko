@@ -64,7 +64,6 @@ export async function handleGoogleCallback(): Promise<
       api_key: apiKey,
       target_origin: targetOrigin,
       auth_type: oauthState.provider,
-      curve_type: oauthState.curveType,
     };
 
     const sendRes = await sendOAuthPayloadToEmbeddedWindow(payload);
