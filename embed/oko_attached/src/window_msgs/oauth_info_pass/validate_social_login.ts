@@ -72,7 +72,7 @@ async function validateOAuthPayloadOfX(
     success: true,
     data: {
       idToken: tokenInfo,
-      userIdentifier: userInfo.email,
+      userIdentifier: `x_${userInfo.email}`,
     },
   };
 }
@@ -94,7 +94,7 @@ async function validateOAuthPayloadOfTelegram(
     success: true,
     data: {
       idToken: JSON.stringify(payload.telegram_data),
-      userIdentifier: payload.telegram_data.id,
+      userIdentifier: `telegram_${payload.telegram_data.id}`,
     },
   };
 }

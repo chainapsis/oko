@@ -29,7 +29,6 @@ export const AddressRow: React.FC<AddressRowProps> = ({
           tagType="span"
           size="sm"
           weight="medium"
-          color="disabled"
           className={styles.address}
         >
           {address}
@@ -40,7 +39,12 @@ export const AddressRow: React.FC<AddressRowProps> = ({
     return (
       <Tooltip title="Login to see details" placement="bottom">
         <div className={styles.placeholderContent}>
-          <Typography tagType="span" size="md" weight="medium" color="disabled">
+          <Typography
+            tagType="span"
+            size="md"
+            weight="medium"
+            className={styles.placeholderPrefix}
+          >
             {prefix}
           </Typography>
           {Array.from({ length: 8 }).map((_, i) => (

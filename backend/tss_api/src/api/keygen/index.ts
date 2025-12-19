@@ -220,7 +220,7 @@ export async function runKeygen(
           email: email,
           wallet_id: wallet.wallet_id,
           public_key: keygen_2.public_key,
-          name: name,
+          name: name ?? null,
         },
       },
     };

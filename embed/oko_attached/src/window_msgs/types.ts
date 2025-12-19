@@ -71,5 +71,5 @@ export interface UserSignInResult {
   jwtToken: string;
   keyshare_1: string;
   isNewUser: boolean;
-  name?: string;
+  name: string | null;
 }
