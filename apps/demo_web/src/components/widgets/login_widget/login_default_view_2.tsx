@@ -10,7 +10,7 @@ import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
 import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
-import { OkoLogoWithNameIcon } from "@oko-wallet-common-ui/icons/oko_logo_with_name_icon";
+import { OkoLogoWithNameIcon } from "@oko-wallet/oko-common-ui/icons/oko_logo_with_name_icon";
 
 import styles from "./login_widget.module.scss";
 import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
