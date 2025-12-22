@@ -9,6 +9,11 @@ easier to review and ship.
 - Keep PRs **small and focused**; avoid mixing unrelated changes.
 - Update docs and examples when behavior changes.
 
+## Development guide
+
+See https://docs.oko.app/docs/v0/development/environment-setup for local setup
+and tooling.
+
 ## Tests
 
 - Cover new/changed logic with unit/integration tests.
