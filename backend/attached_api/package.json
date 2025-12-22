@@ -10,7 +10,7 @@
   "dependencies": {
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-pg-interface": "workspace:*",
-    "@oko-wallet/oko-types": "workspace:*",
+    "@oko-wallet/oko-types": "^0.0.1-alpha.4",
     "express": "^4.21.1",
     "zod": "^4.1.12"
   },

@@ -38,7 +38,7 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.125",
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.130",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.42",
     "@solana/web3.js": "^1.98.0",
     "eventemitter3": "^5.0.1",
