@@ -20,25 +20,27 @@ features = ["serde"]
 rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
+frost_rerandomized = { workspace = true }
+frost_core = { workspace = true }
+
 curve25519-dalek = { version = "=4.1.3", features = ["rand_core"] }
-document-features.workspace = true
-frost_core.workspace = true
-frost_rerandomized.workspace = true
-rand_core.workspace = true
+document-features = { workspace = true }
+rand_core = { workspace = true }
 sha2 = { version = "0.10.2", default-features = false }
 
 [dev-dependencies]
-criterion.workspace = true
 frost_core = { workspace = true, features = ["test-impl"] }
 frost_rerandomized = { workspace = true, features = ["test-impl"] }
+
+criterion = { workspace = true }
 ed25519-dalek = "2.1.0"
-insta.workspace = true
-hex.workspace = true
-lazy_static.workspace = true
-proptest.workspace = true
-rand.workspace = true
-rand_chacha.workspace = true
-serde_json.workspace = true
+insta = { workspace = true }
+hex = { workspace = true }
+lazy_static = { workspace = true }
+proptest = { workspace = true }
+rand = { workspace = true }
+rand_chacha = { workspace = true }
+serde_json = { workspace = true }
 
 [features]
 default = ["serialization", "cheater-detection", "std"]
