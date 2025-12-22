@@ -60,8 +60,8 @@
       "crypto/teddsa/teddsa_wasm_mock",
       "crypto/teddsa/teddsa_hooks_mock",
       "crypto/teddsa/teddsa_keplr_addon_mock",
-      "sandbox/sandbox_sol",
-      "internals2/manual_deployment"
+      "crypto/teddsa/frost_ed25519_keplr_wasm",
+      "sandbox/sandbox_sol"
     ]
   },
   "packageManager": "yarn@4.10.3",
