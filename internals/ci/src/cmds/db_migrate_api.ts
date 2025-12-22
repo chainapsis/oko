@@ -15,7 +15,7 @@ export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
   };
 
   if (options.useEnvFile === false) {
-    console.log("Starting pg_local container");
+    console.log("Start pg_local container");
 
     const pgLocalComposeFile = path.join(
       paths.dockerfiles,
@@ -36,7 +36,7 @@ export async function DbMigrateAPI(options: { useEnvFile: boolean }) {
       await waitForPgContainer(pgLocalComposeFile);
     } else {
       console.log(
-        "pg_local is not spanwed but we will continue as there is a change \
+        "pg_local is not spanwed but we will continue as there is a chance \
         that some other pg instance may be running",
       );
     }
@@ -106,9 +106,11 @@ async function ensureDatabaseExists(): Promise<void> {
 
   await client.connect();
 
-  const res = await client.query(
-    `SELECT datname FROM pg_catalog.pg_database WHERE datname = '${dbName}'`,
-  );
+  const res = await client.query(`
+SELECT datname 
+FROM pg_catalog.pg_database 
+WHERE datname = '${dbName}'
+`);
 
   if (res.rowCount === 0) {
     console.log(`Database "${dbName}" does not exist. Creating...`);
