@@ -11,10 +11,13 @@ function normalizeCustomerTheme(
   return undefined;
 }
 
+interface GetCustomerThemeByHostOriginResult {
+  theme: CustomerTheme;
+}
 export async function getCustomerThemeByHostOrigin(
   db: Pool | PoolClient,
   hostOrigin: string,
-): Promise<Result<{ theme: CustomerTheme } | null, string>> {
+): Promise<Result<GetCustomerThemeByHostOriginResult, string>> {
   const query = `
 SELECT customer_id, theme
 FROM customers
@@ -24,7 +27,7 @@ LIMIT 1
   try {
     const result = await db.query<Customer>(query, [hostOrigin]);
     const row = result.rows[0];
-    
+
     if (!row) {
       return { success: false, err: "Customer not found" };
     }

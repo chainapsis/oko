@@ -256,25 +256,26 @@ export async function updateCustomerInfo(
     if (updates.label !== undefined) {
       updateFields.push(`label = $${paramIndex}`);
       values.push(updates.label);
-      paramIndex++;
+      paramIndex += 1;
     }
 
     if (updates.url !== undefined) {
       updateFields.push(`url = $${paramIndex}`);
       values.push(updates.url);
-      paramIndex++;
+      paramIndex += 1;
     }
 
     if (updates.logo_url !== undefined) {
       updateFields.push(`logo_url = $${paramIndex}`);
       values.push(updates.logo_url);
-      paramIndex++;
+      paramIndex += 1;
     }
 
     if (updates.theme !== undefined) {
       updateFields.push(`theme = $${paramIndex}`);
       values.push(updates.theme);
-      paramIndex++;
+
+      paramIndex += 1;
     }
 
     if (updateFields.length === 0) {
