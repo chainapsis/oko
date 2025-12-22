@@ -23,5 +23,6 @@ export const useSdkStore = create<SdkState>((set) => ({
   setOkoWallet: (wallet) => set({ okoWallet: wallet }),
   setOkoSolWallet: (wallet) => set({ okoSolWallet: wallet }),
   setInitialized: (initialized) => set({ isInitialized: initialized }),
-  setConnected: (connected, publicKey) => set({ isConnected: connected, publicKey }),
+  setConnected: (connected, publicKey) =>
+    set({ isConnected: connected, publicKey }),
 }));

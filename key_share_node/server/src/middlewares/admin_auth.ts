@@ -18,8 +18,20 @@ const PBKDF2_SALT = Buffer.from("ksn-admin-auth", "utf8");
 
 async function timingSafeCompare(a: string, b: string): Promise<boolean> {
   const [hashA, hashB] = await Promise.all([
-    pbkdf2Async(a, PBKDF2_SALT, PBKDF2_ITERATIONS, PBKDF2_KEYLEN, PBKDF2_DIGEST),
-    pbkdf2Async(b, PBKDF2_SALT, PBKDF2_ITERATIONS, PBKDF2_KEYLEN, PBKDF2_DIGEST),
+    pbkdf2Async(
+      a,
+      PBKDF2_SALT,
+      PBKDF2_ITERATIONS,
+      PBKDF2_KEYLEN,
+      PBKDF2_DIGEST,
+    ),
+    pbkdf2Async(
+      b,
+      PBKDF2_SALT,
+      PBKDF2_ITERATIONS,
+      PBKDF2_KEYLEN,
+      PBKDF2_DIGEST,
+    ),
   ]);
   return timingSafeEqual(hashA, hashB);
 }

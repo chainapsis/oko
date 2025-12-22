@@ -1,7 +1,4 @@
-import type {
-  TeddsaCommitmentEntry,
-  TeddsaSignatureShareEntry,
-} from "../sign";
+import type { TeddsaCommitmentEntry, TeddsaSignatureShareEntry } from "../sign";
 
 /**
  * Request body for TEdDSA sign round 1

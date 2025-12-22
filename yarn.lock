@@ -10449,7 +10449,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ksn-pg-interface@workspace:key_share_node/pg_interface"
   dependencies:
-    "@oko-wallet/bytes": "workspace:*"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
     "@oko-wallet/ksn-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "workspace:*"
     "@types/jest": "npm:^29.5.14"
@@ -10469,7 +10469,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/log-api@workspace:backend/log_api"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.63"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
@@ -10720,7 +10720,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-cosmos-kit@npm:^0.0.1-rc.20, @oko-wallet/oko-cosmos-kit@workspace:*, @oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit":
+"@oko-wallet/oko-cosmos-kit@npm:^0.0.1-rc.20, @oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit"
   dependencies:
@@ -11018,7 +11018,7 @@ __metadata:
     "@interchain-ui/react": "npm:^1.26.3"
     "@keplr-wallet/types": "npm:0.12.297"
     "@keplr-wallet/unit": "npm:0.12.297"
-    "@oko-wallet/oko-cosmos-kit": "workspace:*"
+    "@oko-wallet/oko-cosmos-kit": "npm:^0.0.1-rc.20"
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-query": "npm:^5.90.12"
     "@types/node": "npm:^24.10.1"
@@ -11146,7 +11146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/tecdsa-interface@workspace:*, @oko-wallet/tecdsa-interface@workspace:crypto/tecdsa/tecdsa_interface":
+"@oko-wallet/tecdsa-interface@workspace:crypto/tecdsa/tecdsa_interface":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/tecdsa-interface@workspace:crypto/tecdsa/tecdsa_interface"
   dependencies:
@@ -11219,7 +11219,7 @@ __metadata:
     "@oko-wallet/postgres-lib": "workspace:*"
     "@oko-wallet/social-login-api": "workspace:*"
     "@oko-wallet/stdlib-js": "workspace:*"
-    "@oko-wallet/tecdsa-interface": "workspace:*"
+    "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.14"

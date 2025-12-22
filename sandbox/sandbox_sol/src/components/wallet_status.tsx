@@ -22,8 +22,10 @@ export function WalletStatus({
   onDisconnect,
 }: WalletStatusProps) {
   const getStatus = () => {
-    if (isInitializing) return { text: "Initializing...", className: styles.pending };
-    if (!isInitialized) return { text: "Not Initialized", className: styles.pending };
+    if (isInitializing)
+      return { text: "Initializing...", className: styles.pending };
+    if (!isInitialized)
+      return { text: "Not Initialized", className: styles.pending };
     if (isConnected) return { text: "Connected", className: styles.success };
     return { text: "Ready", className: styles.ready };
   };

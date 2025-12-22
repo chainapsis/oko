@@ -6,11 +6,8 @@ type OAuthBody = {
   auth_type?: AuthType;
 };
 
-export interface KSNodeRequest<T = any> extends Request<
-  any,
-  any,
-  T & OAuthBody
-> {}
+export interface KSNodeRequest<T = any>
+  extends Request<any, any, T & OAuthBody> {}
 
 export interface ResponseLocal {
   oauth_user: OAuthUser;

@@ -16,7 +16,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "workspace:*",
+    "@oko-wallet/bytes": "^0.0.3-alpha.64",
     "@oko-wallet/ksn-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "workspace:*",
     "knex": "^3.1.0",

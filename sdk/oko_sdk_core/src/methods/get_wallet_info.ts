@@ -1,4 +1,7 @@
-import type { OkoWalletInterface, WalletInfo } from "@oko-wallet-sdk-core/types";
+import type {
+  OkoWalletInterface,
+  WalletInfo,
+} from "@oko-wallet-sdk-core/types";
 import { OKO_ATTACHED_TARGET } from "@oko-wallet-sdk-core/window_msg/target";
 
 export async function getWalletInfo(
@@ -18,4 +21,3 @@ export async function getWalletInfo(
 
   return null;
 }
-
