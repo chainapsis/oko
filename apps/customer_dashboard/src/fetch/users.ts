@@ -1,5 +1,5 @@
-import { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import {
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
   ChangePasswordResponse,
   LoginResponse,
   SendVerificationResponse,

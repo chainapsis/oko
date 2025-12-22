@@ -1,6 +1,12 @@
 "use client";
 
-import { ChangeEvent, useRef, useState, DragEvent } from "react";
+import {
+  type ChangeEvent,
+  useRef,
+  useState,
+  type DragEvent,
+  type FC,
+} from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@oko-wallet/oko-common-ui/input";
@@ -17,7 +23,7 @@ import styles from "./edit_info_form.module.scss";
 
 const THEME_OPTIONS: CustomerTheme[] = ["light", "dark", "system"];
 
-export const EditInfoForm = () => {
+export const EditInfoForm: FC = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const customer = useCustomerInfo();

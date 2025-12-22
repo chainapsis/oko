@@ -6,7 +6,7 @@ import {
   QueryClient,
   QueryClientProvider,
 } from "@tanstack/react-query";
-import React, { PropsWithChildren } from "react";
+import { type FC, type PropsWithChildren } from "react";
 
 function makeTanStackQueryClient() {
   // Create a client
@@ -16,7 +16,7 @@ function makeTanStackQueryClient() {
 
 const queryClient = makeTanStackQueryClient();
 
-export const Providers: React.FC<PropsWithChildren> = ({ children }) => {
+export const Providers: FC<PropsWithChildren> = ({ children }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <HydrationBoundary state={dehydrate(queryClient)}>

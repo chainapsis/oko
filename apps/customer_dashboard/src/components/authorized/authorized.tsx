@@ -1,12 +1,12 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useState } from "react";
+import { type PropsWithChildren, useEffect, useState, type FC } from "react";
 import { useRouter } from "next/navigation";
 
 import { paths } from "@oko-wallet-ct-dashboard/paths";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 
-export const Authorized: React.FC<PropsWithChildren> = ({ children }) => {
+export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
   const user = useAppState((state) => state.user);
   const token = useAppState((state) => state.token);
