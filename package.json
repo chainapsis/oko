@@ -12,6 +12,7 @@
       "sdk/oko_sdk_core",
       "sdk/oko_sdk_cosmos",
       "sdk/oko_sdk_eth",
+      "sdk/oko_sdk_sol",
       "examples/cosmos_nextjs",
       "examples/cosmoskit_nextjs",
       "examples/evm_nextjs",
@@ -56,7 +57,12 @@
       "crypto/tecdsa/cait_sith_keplr_wasm",
       "crypto/tecdsa/client_example",
       "crypto/tecdsa/api_lib",
-      "internals2/manual_deployment"
+      "crypto/teddsa/teddsa_interface_mock",
+      "crypto/teddsa/teddsa_wasm_mock",
+      "crypto/teddsa/teddsa_hooks_mock",
+      "crypto/teddsa/teddsa_keplr_addon_mock",
+      "crypto/teddsa/frost_ed25519_keplr_wasm",
+      "sandbox/sandbox_sol"
     ]
   },
   "packageManager": "yarn@4.10.3",
