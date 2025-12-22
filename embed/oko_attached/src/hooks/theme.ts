@@ -12,7 +12,7 @@ import { getOAuthStateFromUrl } from "@oko-wallet-attached/components/google_cal
 import { useAppState } from "@oko-wallet-attached/store/app";
 
 export function useSetThemeInCallback(providerType: OAuthProvider) {
-  const { setTheme, getTheme } = useAppState();
+  const { getTheme } = useAppState();
   const initialTheme = getSystemTheme();
   const [_theme, _setTheme] = useState<Theme>(initialTheme);
 
@@ -53,7 +53,7 @@ export function useSetThemeInCallback(providerType: OAuthProvider) {
     }
 
     fn();
-  }, [setTheme]);
+  }, []);
 
   return _theme;
 }
