@@ -34,7 +34,6 @@
   "scripts": {
     "clean": "del-cli dist",
     "build": "tsx ./scripts/build.ts",
-    "build_backup": "yarn clean && rollup -c --configPlugin typescript && tsc-alias",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",
     "hardhat": "npx hardhat node",
     "prepublishOnly": "yarn build"
