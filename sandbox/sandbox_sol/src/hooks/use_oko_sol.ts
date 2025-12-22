@@ -56,6 +56,14 @@ export function useOkoSol() {
 
         setInitialized(true);
         console.log("[sandbox_sol] SDK initialized");
+
+        const existingPubkey = await solWallet.okoWallet.getPublicKey();
+        if (existingPubkey) {
+          await solWallet.connect();
+          const pk = solWallet.publicKey?.toBase58() ?? null;
+          setConnected(true, pk);
+          console.log("[sandbox_sol] Reconnected:", pk);
+        }
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
         setError(message);
@@ -72,9 +80,9 @@ export function useOkoSol() {
     setOkoWallet,
     setOkoSolWallet,
     setInitialized,
+    setConnected,
   ]);
 
-  // Connect wallet
   const connect = useCallback(async () => {
     if (!okoSolWallet) {
       setError("SDK not initialized");
@@ -83,6 +91,12 @@ export function useOkoSol() {
 
     try {
       setError(null);
+
+      const existingPubkey = await okoSolWallet.okoWallet.getPublicKey();
+      if (!existingPubkey) {
+        await okoSolWallet.okoWallet.signIn("google");
+      }
+
       await okoSolWallet.connect();
       const pk = okoSolWallet.publicKey?.toBase58() ?? null;
       setConnected(true, pk);
