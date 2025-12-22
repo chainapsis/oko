@@ -2,7 +2,7 @@
 //!
 //! Refer to [`frost_core::keys::refresh`] for more details.
 
-use crate::{
+use crate::tss::{
     frost,
     keys::dkg::{round1, round2},
     Ciphersuite, CryptoRng, Error, Identifier, RngCore,

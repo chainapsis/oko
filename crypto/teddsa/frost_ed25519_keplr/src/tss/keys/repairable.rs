@@ -9,8 +9,8 @@ use alloc::collections::BTreeMap;
 // This is imported separately to make `gencode` work.
 // (if it were below, the position of the import would vary between ciphersuites
 //  after `cargo fmt`)
-use crate::{frost, Ciphersuite, CryptoRng, Identifier, RngCore, Scalar};
-use crate::{Ed25519Sha512, Error};
+use crate::tss::{frost, Ciphersuite, CryptoRng, Identifier, RngCore, Scalar};
+use crate::tss::{Ed25519Sha512, Error};
 
 use super::{SecretShare, VerifiableSecretSharingCommitment};
 
@@ -61,11 +61,11 @@ mod tests {
 
     use serde_json::Value;
 
-    use crate::Ed25519Sha512;
+    use crate::tss::Ed25519Sha512;
 
     lazy_static! {
         pub static ref REPAIR_SHARE: Value =
-            serde_json::from_str(include_str!("../../tests/helpers/repair-share.json").trim())
+            serde_json::from_str(include_str!("../../../tests/helpers/repair-share.json").trim())
                 .unwrap();
     }
 

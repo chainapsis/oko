@@ -62,16 +62,12 @@ async function bundle() {
   const inputOptions: InputOptions = {
     input: "src/index.ts",
     external: [
+      "@cosmos-kit/core",
+      "@keplr-wallet/types",
       "@oko-wallet/oko-sdk-core",
+      "@oko-wallet/oko-sdk-cosmos",
       "@cosmjs/amino",
       "@cosmjs/proto-signing",
-      "@oko-wallet/stdlib-js",
-      "@keplr-wallet/proto-types",
-      "@keplr-wallet/types",
-      "@noble/curves",
-      "@noble/hashes",
-      "bech32",
-      "buffer",
     ],
     plugins: [
       json(),

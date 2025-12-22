@@ -21,7 +21,7 @@
   ],
   "scripts": {
     "clean": "del-cli dist",
-    "build": "yarn clean && rollup -c --configPlugin typescript && tsc-alias",
+    "build": "tsx ./scripts/build.ts",
     "lint": "eslint --ext .tsx,.ts .",
     "format": "eslint --ext .tsx,.ts --fix ."
   },
@@ -52,6 +52,7 @@
     "del-cli": "^6.0.0",
     "rollup": "^4.0.0",
     "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
   "gitHead": "b1c4753a3a1aa996a2f5c28297d71adbe2457945"

@@ -9,16 +9,10 @@ easier to review and ship.
 - Keep PRs **small and focused**; avoid mixing unrelated changes.
 - Update docs and examples when behavior changes.
 
-## Quick start
+## Development guide
 
-```bash
-# 1) Fork and clone
-git clone https://github.com/chainapsis/oko.git
-cd oko
-
-# 2) Install & run & CI
-#    See https://docs.oko.app/docs/v0/standalone/self-hosting-standalone for setup and execution steps.
-```
+See https://docs.oko.app/docs/v0/development/environment-setup for local setup
+and tooling.
 
 ## Tests
 

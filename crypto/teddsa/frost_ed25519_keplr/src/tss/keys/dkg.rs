@@ -1,4 +1,4 @@
-#![doc = include_str!("../../dkg.md")]
+#![doc = include_str!("../../../dkg.md")]
 use super::*;
 
 /// DKG Round 1 structures.

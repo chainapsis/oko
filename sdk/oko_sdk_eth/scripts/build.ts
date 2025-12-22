@@ -1,5 +1,6 @@
 import { deleteAsync } from "del";
 import path from "node:path";
+import commonjs from "@rollup/plugin-commonjs";
 import typescript from "@rollup/plugin-typescript";
 import { nodeResolve } from "@rollup/plugin-node-resolve";
 import json from "@rollup/plugin-json";
@@ -12,7 +13,6 @@ import {
 } from "rollup";
 import { fileURLToPath } from "node:url";
 import { replaceTscAliasPaths } from "tsc-alias";
-import commonjs from "@rollup/plugin-commonjs";
 
 import tsConfigJson from "../tsconfig.json";
 
@@ -21,13 +21,13 @@ const __dirname = path.dirname(__filename);
 const PKG_ROOT = path.resolve(__dirname, "..");
 
 async function main() {
-  console.log("Start build");
+  console.log("Start building");
 
   await removeDirtyFiles();
   await bundle();
   replaceTscAlias();
 
-  console.log("Done build");
+  console.log("Done");
 }
 
 async function removeDirtyFiles() {
@@ -51,7 +51,7 @@ function replaceTscAlias() {
 async function bundle() {
   console.log("Start bundling");
 
-  const srcPath = path.resolve(__dirname, "../src");
+  const srcPath = path.resolve(PKG_ROOT, "./src");
 
   const rollupTSConfig = {
     ...tsConfigJson,
@@ -62,21 +62,25 @@ async function bundle() {
   const inputOptions: InputOptions = {
     input: "src/index.ts",
     external: [
-      "@oko-wallet/oko-sdk-core",
-      "@cosmjs/amino",
-      "@cosmjs/proto-signing",
       "@oko-wallet/stdlib-js",
-      "@keplr-wallet/proto-types",
       "@keplr-wallet/types",
-      "@noble/curves",
-      "@noble/hashes",
-      "bech32",
-      "buffer",
+      "@oko-wallet/oko-sdk-core",
+      "eventemitter3",
+      "viem",
+      "uuid",
+      /^viem\//,
+      /^ox\//,
     ],
     plugins: [
       json(),
-      nodeResolve(),
-      commonjs(),
+      nodeResolve({
+        preferBuiltins: false,
+        browser: true,
+      }),
+      commonjs({
+        include: /node_modules/,
+        transformMixedEsModules: true,
+      }),
       typescript({
         ...rollupTSConfig,
         noEmitOnError: true,
@@ -91,6 +95,12 @@ async function bundle() {
       format: "esm",
       sourcemap: true,
     },
+    // {
+    //   file: "dist/index.min.js",
+    //   format: "esm",
+    //   sourcemap: true,
+    //   plugins: [terser()],
+    // },
   ];
 
   let bundle: RollupBuild;

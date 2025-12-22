@@ -3,6 +3,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 
+import { displayToast } from "@oko-wallet-user-dashboard/components/toast";
 import styles from "./address_chip.module.scss";
 
 interface AddressChipProps {
@@ -51,6 +52,11 @@ export const AddressChip: FC<AddressChipProps> = ({
     try {
       await navigator.clipboard.writeText(address);
       setIsCopied(true);
+
+      displayToast({
+        variant: "success",
+        title: "Copied",
+      });
       setTimeout(() => setIsCopied(false), 1500);
     } catch (error) {
       console.error("Failed to copy address:", error);
