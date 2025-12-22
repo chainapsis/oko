@@ -1,6 +1,6 @@
 import { useLayoutEffect, useState } from "react";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 
 import {
@@ -11,7 +11,7 @@ import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/
 import { getOAuthStateFromUrl } from "@oko-wallet-attached/components/google_callback/use_callback";
 import { useAppState } from "@oko-wallet-attached/store/app";
 
-export function useSetThemeInCallback(providerType: OAuthProvider) {
+export function useSetThemeInCallback(providerType: AuthType) {
   const { getTheme } = useAppState();
   const initialTheme = getSystemTheme();
   const [_theme, _setTheme] = useState<Theme>(initialTheme);

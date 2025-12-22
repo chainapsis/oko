@@ -1,6 +1,3 @@
-import crypto from "crypto";
-import type { Result } from "@oko-wallet/stdlib-js";
-
 export interface TypeformWebhookBody {
   event_id?: string;
   event_type?: string;

@@ -10433,6 +10433,7 @@ __metadata:
   resolution: "@oko-wallet/ksn-interface@workspace:key_share_node/ksn_interface"
   dependencies:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
+    "@oko-wallet/oko-types": "npm:^0.0.1-alpha.4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"

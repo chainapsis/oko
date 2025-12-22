@@ -10,7 +10,7 @@ export interface Customer {
   status: CustomerStatus;
   url: string | null;
   logo_url: string | null;
-  theme?: CustomerTheme;
+  theme: CustomerTheme;
 }
 
 export type GetCustomerRequest = { customer_id: string };
