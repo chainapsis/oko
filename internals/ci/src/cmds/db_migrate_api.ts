@@ -117,7 +117,7 @@ WHERE datname = '${dbName}'
     await client.query(`CREATE DATABASE "${dbName}"`);
     console.log(`Database "${dbName}" created.`);
   } else {
-    console.log(`Database "${dbName}" already exists.`);
+    console.log(`Database "${dbName}" does exist.`);
   }
 
   await client.end();
