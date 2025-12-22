@@ -53,11 +53,11 @@ async function bundle() {
 
   const srcPath = path.resolve(__dirname, "../src");
 
-  const tsConfig = {
+  const rollupTSConfig = {
     ...tsConfigJson,
   };
-  tsConfig.compilerOptions.rootDir = srcPath;
-  tsConfig.include = [`${srcPath}/**/*`];
+  rollupTSConfig.compilerOptions.rootDir = srcPath;
+  rollupTSConfig.include = [`${srcPath}/**/*`];
 
   const inputOptions: InputOptions = {
     input: "src/index.ts",
@@ -78,7 +78,7 @@ async function bundle() {
       nodeResolve(),
       commonjs(),
       typescript({
-        ...tsConfig,
+        ...rollupTSConfig,
         noEmitOnError: true,
         outputToFilesystem: true,
       }),

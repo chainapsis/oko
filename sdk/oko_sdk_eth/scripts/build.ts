@@ -53,11 +53,11 @@ async function bundle() {
 
   const srcPath = path.resolve(PKG_ROOT, "./src");
 
-  const tsConfig = {
+  const rollupTSConfig = {
     ...tsConfigJson,
   };
-  tsConfig.compilerOptions.rootDir = srcPath;
-  tsConfig.include = [`${srcPath}/**/*`];
+  rollupTSConfig.compilerOptions.rootDir = srcPath;
+  rollupTSConfig.include = [`${srcPath}/**/*`];
 
   const inputOptions: InputOptions = {
     input: "src/index.ts",
@@ -82,8 +82,9 @@ async function bundle() {
         transformMixedEsModules: true,
       }),
       typescript({
-        tsconfig: "./tsconfig.rollup.json",
+        ...rollupTSConfig,
         noEmitOnError: true,
+        outputToFilesystem: true,
       }),
     ],
   };
