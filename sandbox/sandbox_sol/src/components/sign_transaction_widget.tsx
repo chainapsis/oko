@@ -8,8 +8,9 @@ import {
   Transaction,
   LAMPORTS_PER_SOL,
 } from "@solana/web3.js";
-import { useSdkStore } from "@/store/sdk";
 import bs58 from "bs58";
+
+import { useSdkStore } from "@/store/sdk";
 import styles from "./widget.module.css";
 
 const DEVNET_CONNECTION = new Connection(
@@ -51,7 +52,9 @@ export function SignTransactionWidget() {
   }, [fetchBalance]);
 
   const handleSignTransaction = async () => {
-    if (!okoSolWallet || !publicKey) return;
+    if (!okoSolWallet || !publicKey) {
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -104,7 +107,9 @@ export function SignTransactionWidget() {
   };
 
   const handleSendTransaction = async () => {
-    if (!okoSolWallet || !publicKey) return;
+    if (!okoSolWallet || !publicKey) {
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -153,6 +158,12 @@ export function SignTransactionWidget() {
     }
   };
 
+  const balanceLabel = isLoadingBalance
+    ? "Loading..."
+    : balance !== null
+      ? `${balance.toFixed(4)} SOL`
+      : "—";
+
   return (
     <div className={styles.card}>
       <h3 className={styles.title}>Sign Transaction</h3>
@@ -163,13 +174,7 @@ export function SignTransactionWidget() {
       {publicKey && (
         <div className={styles.balanceRow}>
           <span className={styles.balanceLabel}>Balance:</span>
-          <span className={styles.balanceValue}>
-            {isLoadingBalance
-              ? "Loading..."
-              : balance !== null
-                ? `${balance.toFixed(4)} SOL`
-                : "—"}
-          </span>
+          <span className={styles.balanceValue}>{balanceLabel}</span>
           <button
             className={styles.refreshButton}
             onClick={fetchBalance}
