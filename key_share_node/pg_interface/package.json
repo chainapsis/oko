@@ -18,7 +18,7 @@
   "dependencies": {
     "@oko-wallet/bytes": "^0.0.3-alpha.64",
     "@oko-wallet/ksn-interface": "workspace:*",
-    "@oko-wallet/stdlib-js": "workspace:*",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.44",
     "knex": "^3.1.0",
     "pg": "^8.16.3",
     "pgsql-parser": "^17.7.8",
