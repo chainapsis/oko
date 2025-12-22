@@ -1,0 +1,58 @@
+:global(.custom-toast) {
+  display: flex;
+  border-radius: 12px;
+  border: 1px solid var(--border-primary);
+  background-color: var(--white);
+  box-shadow: var(--shadow-lg);
+  min-height: fit-content;
+  padding: 16px;
+}
+
+.successIcon {
+  color: var(--fg-success-primary);
+  position: relative;
+  width: 20px;
+  height: 20px;
+
+  .successIconOuterRing1 {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    width: calc(100% + 8px);
+    height: calc(100% + 8px);
+    border-radius: 9999px;
+    border: 2px solid;
+    border-color: rgba(#079455, 0.3);
+  }
+
+  .successIconOuterRing2 {
+    position: absolute;
+    top: -9px;
+    left: -9px;
+    width: calc(100% + 18px);
+    height: calc(100% + 18px);
+    border-radius: 9999px;
+    border: 2px solid;
+    border-color: rgba(#079455, 0.1);
+  }
+}
+
+.toastInner {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+
+  gap: 16px;
+  width: 100%;
+}
+
+.closeButton {
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+
+  width: 20px;
+  height: 20px;
+}
