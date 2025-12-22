@@ -4,8 +4,18 @@ title: Self-Hosting Guide
 
 ## Overview
 
-This guide explains how to self-host Oko in a standalone setup. It covers how to
-run each service locally or on servers and the recommended boot order.
+This guide covers how to run each service locally or on servers and the
+recommended boot order for a standalone setup. For prerequisites, build steps,
+and tooling, see
+[Development Setup](../development/environment-setup).
+
+## Before you start
+
+Self-hosting uses Docker images that are built locally, so you need a working
+development setup before running any Docker Compose stacks. Make sure you
+complete the prerequisites and build steps in
+[Development Setup](../development/environment-setup) (Node/Yarn/Rust, install,
+and `yarn ci build_pkgs` / `yarn ci build_cs`) before continuing.
 
 ## Components (to run)
 
@@ -51,49 +61,6 @@ functionality.
 - oko_attached: 3201
 - customer_dashboard: 3203
 - oko_admin_web: 3204
-
-## Prerequisites
-
-- OS: Oko supports only Linux/macOS. On Windows, use WSL2.
-- Node 22 + Yarn 4
-- Rust toolchain (via rustup)
-- Docker + Docker Compose (recommended for keyshare node in production)
-- PostgreSQL 17+ (non-Docker setups only; separate DBs for keyshare node and
-  oko_api; or separate DB names on the same server)
-- Build tools for native Node addons (make, gcc/g++, and Python 3 for node-gyp)
-  - Ubuntu/Debian:
-    ```bash
-    sudo apt update
-    sudo apt install -y build-essential python3
-    ```
-  - Rocky Linux / RHEL / Fedora:
-    ```bash
-    sudo dnf groupinstall -y "Development Tools"
-    sudo dnf install -y python3
-    ```
-  - Verify:
-    ```bash
-    make --version
-    gcc --version
-    python3 --version
-    ```
-
-## Clone the Repository
-
-```bash
-git clone https://github.com/chainapsis/oko.git
-cd oko
-```
-
-## Install/Build
-
-```bash
-cd oko && yarn && yarn ci build_pkgs && yarn ci build_cs
-```
-
-This installs dependencies and builds core packages and Cait Sith. See
-[Local CI helpers (yarn ci)](#local-ci-helpers-yarn-ci) below for detailed
-descriptions of each command.
 
 ## keyshare node
 
@@ -243,8 +210,9 @@ docker compose ps
 curl http://localhost:4200/
 ```
 
-The database will be automatically migrated on first startup. See
-[Database Seeding](#database-seeding) below for seeding instructions.
+The database will be automatically migrated on first startup. For migration and
+seeding commands, see
+[Development Setup](../development/environment-setup).
 
 Option B — Local (dev)
 
@@ -298,14 +266,10 @@ ES_USERNAME=username               # Elasticsearch username (optional)
 ES_PASSWORD=pw                     # Elasticsearch password (optional)
 ```
 
-3. **Migrate database**:
+3. **Migrate/seed database**:
 
-```bash
-# Migrate database schema
-USE_ENV=true yarn workspace @oko-wallet/oko-pg-interface migrate
-```
-
-See [Database Seeding](#database-seeding) below for seeding instructions.
+See [Development Setup](../development/environment-setup) for migration and
+seed commands.
 
 4. **Run server**:
 
@@ -325,43 +289,6 @@ curl http://localhost:4200/
 
 # API documentation
 # Open in browser: http://localhost:4200/api_docs
-```
-
-### Database Seeding
-
-After the database migration is complete, you can seed the database with initial
-development/test data.
-
-Seeding populates the database with:
-
-- **Admin user**: Admin account for oko_admin_web (`admin@keplr.app` / password:
-  `0000`)
-- **Customer**: Demo customer record (`demo_web`)
-- **Customer dashboard user**: User for customer_dashboard (`demo@keplr.app` /
-  password: `00000000`)
-- **API keys**: API keys for customer authentication
-- **Key share nodes**: Key share node server URLs (dev: `http://localhost:4201`,
-  `http://localhost:4202`)
-- **Key share node metadata**: SSS threshold configuration (default: 2)
-- **TSS activation settings**: Master switch for TSS operations
-
-To seed the database with initial data, run the following command from the
-project root:
-
-**For Option A (Docker Compose):**
-
-```bash
-cd oko
-# Replace DB_* values with those from your backend/docker/.env file
-DB_HOST=localhost DB_PORT=5432 DB_USER=postgres DB_PASSWORD=postgres DB_NAME=oko_dev DB_SSL=false TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
-```
-
-**For Option B (Local):**
-
-```bash
-cd oko
-# Uses environment variables from ~/.oko/oko_api_server.env
-USE_ENV=true TARGET=dev yarn workspace @oko-wallet/oko-pg-interface seed
 ```
 
 ## oko_attached (embedded app)
@@ -451,35 +378,3 @@ Open: `http://localhost:3204`
 - Strong secrets (ADMIN_PASSWORD, ENCRYPTION_SECRET, JWT_SECRET, etc.) and a
   secret manager (KMS/Secret Manager)
 - Managed/dedicated Postgres with automated backups and recovery plan
-
-## CI/CD script
-
-Execute `yarn ci` at the workspace root to conduct CI/CD operations. CLI
-Arguments are forwarded to the operation script.
-
-### Workspace root
-
-- Build packages: `yarn ci build_pkgs`
-  - Packages are built in the right order
-  - Required for all services that depend on these core packages
-- Build Cait Sith: `yarn ci build_cs`
-  - Builds Rust addon (required for `oko_api` TSS operations: triples, presign,
-    sign)
-  - Builds WASM (required for `oko_attached` client-side TSS operations: keygen,
-    combine, reshare, signing)
-  - Copies WASM into `oko_attached/public/pkg/`
-- Typecheck: `yarn ci typecheck`
-- keyshare node DB migration: `yarn ci db_migrate_ksn --use-env-file`
-  - With `--use-env-file`, reads `~/.oko/key_share_node*.env` to create/migrate
-    per-node DBs
-  - Without it, uses local defaults (`localhost:5432`, `key_share_node_dev*`)
-- DB migration: `yarn ci db_migrate_api --use-env-file`
-  - With `--use-env-file`, uses `~/.oko/oko_api_server.env`
-  - Without it, auto-starts internal Docker Compose (`pg_local`) and migrates
-    with test config
-- DB seed: `yarn ci db_seed_api --use-env-file --target dev`
-  - `--target` supports `dev | prod` (use `dev` for local)
-
-Note: `yarn ci` is a thin wrapper around
-`yarn --cwd ./internals/ci run start <command>`. Run `yarn ci --help` to list
-available commands.
