@@ -1,8 +1,8 @@
-use frost_ed25519 as frost;
 use frost::keys::{KeyPackage, PublicKeyPackage};
 use frost::round1::{SigningCommitments, SigningNonces};
 use frost::round2::SignatureShare;
 use frost::{Identifier, SigningPackage};
+use frost_ed25519_keplr as frost;
 use rand_core::OsRng;
 use std::collections::BTreeMap;
 
@@ -95,7 +95,7 @@ pub fn sign_round2(
 /// from all participants.
 pub fn aggregate(
     message: &[u8],
-    all_commitments: &[(Vec<u8>, Vec<u8>)],    // Vec of (identifier, commitments)
+    all_commitments: &[(Vec<u8>, Vec<u8>)], // Vec of (identifier, commitments)
     all_signature_shares: &[(Vec<u8>, Vec<u8>)], // Vec of (identifier, signature_share)
     public_key_package_bytes: &[u8],
 ) -> Result<SignatureOutput, FrostError> {

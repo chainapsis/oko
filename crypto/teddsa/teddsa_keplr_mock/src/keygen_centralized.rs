@@ -1,5 +1,5 @@
-use frost_ed25519 as frost;
 use frost::keys::KeyPackage;
+use frost_ed25519_keplr as frost;
 use rand_core::OsRng;
 
 use crate::error::FrostError;
@@ -164,7 +164,7 @@ mod tests {
         // In practice, keygen_import would be used with an externally provided key
 
         // Generate a valid signing key for testing
-        use frost_ed25519 as frost;
+        use frost_ed25519_keplr as frost;
         use rand_core::OsRng;
 
         let mut rng = OsRng;

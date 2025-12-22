@@ -7,7 +7,7 @@ edition = "2021"
 license = "MIT"
 
 [dependencies]
-frost_ed25519 = { workspace = true, features = ["serialization"] }
+frost_ed25519_keplr = { workspace = true, features = ["serialization"] }
 rand_core = { workspace = true, features = ["getrandom"] }
 getrandom = { version = "0.2", features = ["js"] }
 serde = { version = "1.0", features = ["derive"] }
