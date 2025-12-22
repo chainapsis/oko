@@ -10473,6 +10473,16 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/frost-ed25519-keplr-wasm@workspace:crypto/teddsa/frost_ed25519_keplr_wasm":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/frost-ed25519-keplr-wasm@workspace:crypto/teddsa/frost_ed25519_keplr_wasm"
+  dependencies:
+    "@types/node": "npm:^24.10.1"
+    typescript: "npm:^5.8.3"
+    wasm-pack: "npm:^0.13.1"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/key-share-node-server@workspace:key_share_node/server":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/key-share-node-server@workspace:key_share_node/server"
