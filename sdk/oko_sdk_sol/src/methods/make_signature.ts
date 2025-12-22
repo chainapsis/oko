@@ -1,9 +1,15 @@
-import type { OkoWalletMsgOpenModal, MakeSolanaSigData } from "@oko-wallet/oko-sdk-core";
+import type {
+  OkoWalletMsgOpenModal,
+  MakeSolanaSigData,
+} from "@oko-wallet/oko-sdk-core";
 import type { PublicKey } from "@solana/web3.js";
 import { v4 as uuidv4 } from "uuid";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import type { SolSignParams, SolSignResult } from "@oko-wallet-sdk-sol/types/sign";
+import type {
+  SolSignParams,
+  SolSignResult,
+} from "@oko-wallet-sdk-sol/types/sign";
 
 export class SolanaRpcError extends Error {
   code: number;
@@ -169,7 +175,11 @@ async function handleSigningFlow(
 
         const sigResult = ackPayload.data.sig_result;
 
-        return convertSigResultToOutput(sigResult, params, okoSolWallet.publicKey!);
+        return convertSigResultToOutput(
+          sigResult,
+          params,
+          okoSolWallet.publicKey!,
+        );
       }
 
       case "reject": {
@@ -211,13 +221,17 @@ async function handleSigningFlow(
 }
 
 function convertSigResultToOutput(
-  sigResult: { type: "signature"; signature: string } | { type: "signatures"; signatures: string[] },
+  sigResult:
+    | { type: "signature"; signature: string }
+    | { type: "signatures"; signatures: string[] },
   params: SolSignParams,
   publicKey: PublicKey,
 ): SolSignResult {
   switch (params.type) {
     case "sign_transaction": {
-      const signatureHex = (sigResult as { type: "signature"; signature: string }).signature;
+      const signatureHex = (
+        sigResult as { type: "signature"; signature: string }
+      ).signature;
       const signatureBytes = Buffer.from(signatureHex, "hex");
 
       // Add signature to transaction
@@ -227,8 +241,8 @@ function convertSigResultToOutput(
       if ("version" in tx) {
         // VersionedTransaction - signatures are stored differently
         // For versioned transactions, we need to set the signature in the signatures array
-        const signerIndex = tx.message.staticAccountKeys.findIndex(
-          (key) => key.equals(publicKey),
+        const signerIndex = tx.message.staticAccountKeys.findIndex((key) =>
+          key.equals(publicKey),
         );
         if (signerIndex !== -1) {
           tx.signatures[signerIndex] = signatureBytes;
@@ -245,15 +259,17 @@ function convertSigResultToOutput(
     }
 
     case "sign_all_transactions": {
-      const signatures = (sigResult as { type: "signatures"; signatures: string[] }).signatures;
+      const signatures = (
+        sigResult as { type: "signatures"; signatures: string[] }
+      ).signatures;
 
       const signedTransactions = params.transactions.map((tx, index) => {
         const signatureHex = signatures[index];
         const signatureBytes = Buffer.from(signatureHex, "hex");
 
         if ("version" in tx) {
-          const signerIndex = tx.message.staticAccountKeys.findIndex(
-            (key) => key.equals(publicKey),
+          const signerIndex = tx.message.staticAccountKeys.findIndex((key) =>
+            key.equals(publicKey),
           );
           if (signerIndex !== -1) {
             tx.signatures[signerIndex] = signatureBytes;
@@ -272,7 +288,9 @@ function convertSigResultToOutput(
     }
 
     case "sign_message": {
-      const signatureHex = (sigResult as { type: "signature"; signature: string }).signature;
+      const signatureHex = (
+        sigResult as { type: "signature"; signature: string }
+      ).signature;
       const signatureBytes = new Uint8Array(Buffer.from(signatureHex, "hex"));
 
       return {

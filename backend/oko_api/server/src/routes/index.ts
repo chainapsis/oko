@@ -5,9 +5,11 @@ import { makeTssRouter } from "@oko-wallet/tss-api";
 import { makeUserRouter } from "@oko-wallet/user-dashboard-api";
 import { makeLogRouter } from "@oko-wallet/log-api";
 import { makeSocialLoginRouter } from "@oko-wallet/social-login-api";
+import { makeAttachedRouter } from "@oko-wallet/attached-api";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
+  app.use("/attached/v1", makeAttachedRouter());
   app.use("/oko_admin/v1", makeOkoAdminRouter());
   app.use("/tss/v1", makeTssRouter());
   app.use("/user_dashboard/v1", makeUserRouter());

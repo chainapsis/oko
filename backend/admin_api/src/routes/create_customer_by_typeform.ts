@@ -7,7 +7,7 @@ import { createCustomerByTypeform } from "@oko-wallet-admin-api/api/customer";
 import {
   type TypeformWebhookBody,
   extractTypeformData,
-} from "@oko-wallet-admin-api/api/customer/typefrom";
+} from "@oko-wallet-admin-api/api/customer/typeform";
 
 export async function create_customer_by_typeform(
   req: Request,

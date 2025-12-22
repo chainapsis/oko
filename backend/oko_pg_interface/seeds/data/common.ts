@@ -24,50 +24,61 @@ export const CUSTOMER_DASHBOARD_USER_PASSWORD = "00000000";
 export const API_KEY =
   "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c";
 
-export const createKeyShareNodeMeta = (): KeyShareNodeMeta => ({
-  sss_threshold: 2,
-});
+export function createKeyShareNodeMeta(): KeyShareNodeMeta {
+  return {
+    sss_threshold: 2,
+  };
+}
 
-export const createAdmin = async (): Promise<EWalletAdminUser> => ({
-  user_id: ADMIN_USER_ID,
-  email: ADMIN_EMAIL,
-  password_hash: await hashPassword(ADMIN_PASSWORD),
-  role: "admin",
-  is_active: true,
-});
+export async function createAdmin(): Promise<EWalletAdminUser> {
+  return {
+    user_id: ADMIN_USER_ID,
+    email: ADMIN_EMAIL,
+    password_hash: await hashPassword(ADMIN_PASSWORD),
+    role: "admin",
+    is_active: true,
+  };
+}
 
-export const createCustomer = (): Customer => ({
-  customer_id: CUSTOMER_ID,
-  status: "ACTIVE",
-  label: "demo_web",
-  url: `http://localhost:3200`,
-  logo_url: "",
-});
+export function createCustomer(): Customer {
+  return {
+    customer_id: CUSTOMER_ID,
+    status: "ACTIVE",
+    label: "demo_web",
+    url: `http://localhost:3200`,
+    logo_url: "",
+    theme: "system",
+  };
+}
 
-export const createCustomerDashboardUser = async (): Promise<
+export async function createCustomerDashboardUser(): Promise<
   CustomerDashboardUser & PasswordHash
-> => ({
-  user_id: CUSTOMER_DASHBOARD_USER_ID,
-  customer_id: CUSTOMER_ID,
-  email: CUSTOMER_DASHBOARD_USER_EMAIL,
-  status: "ACTIVE",
-  is_email_verified: true,
-  password_hash: await hashPassword(CUSTOMER_DASHBOARD_USER_PASSWORD),
-});
+> {
+  return {
+    user_id: CUSTOMER_DASHBOARD_USER_ID,
+    customer_id: CUSTOMER_ID,
+    email: CUSTOMER_DASHBOARD_USER_EMAIL,
+    status: "ACTIVE",
+    is_email_verified: true,
+    password_hash: await hashPassword(CUSTOMER_DASHBOARD_USER_PASSWORD),
+  };
+}
 
-export const createApiKeys = (): {
+export function createApiKeys(): {
   customer_id: string;
   hashed_key: string;
-}[] => [
-  {
-    customer_id: CUSTOMER_ID,
-    hashed_key: API_KEY,
-  },
-];
+}[] {
+  return [
+    {
+      customer_id: CUSTOMER_ID,
+      hashed_key: API_KEY,
+    },
+  ];
+}
 
-export const createDummyCustomerSets = async (): Promise<
+export async function createDummyCustomerSets(): Promise<
   CustomerAndCTDUserWithPasswordHash[]
-> => {
+> {
   const ret = [];
   for (let i = 0; i < 100; i++) {
     const customer_id = uuidv4();
@@ -85,16 +96,17 @@ export const createDummyCustomerSets = async (): Promise<
         is_email_verified: true,
         password_hash: await hashPassword(`0000`),
       },
+      theme: "system",
     };
     ret.push(customer);
   }
   return ret;
-};
+}
 
-export const createDummyTssSessionsRequest = (
+export function createDummyTssSessionsRequest(
   customerId: string,
   walletId: string,
-) => {
+) {
   const ret = [];
   for (let i = 0; i < 2; i++) {
     const tss_session = {
@@ -104,14 +116,17 @@ export const createDummyTssSessionsRequest = (
     ret.push(tss_session);
   }
   return ret;
-};
+}
 
-export const createDummyOkoUsers = (): string[] =>
-  Array.from({ length: 15 }).map((_, i) => `testuser${i + 1}@test.com`);
+export function createDummyOkoUsers(): string[] {
+  return Array.from({ length: 15 }).map((_, i) => `testuser${i + 1}@test.com`);
+}
 
-export const createTssActivationSettings = (): TssActivationSetting => ({
-  activation_key: "tss_all",
-  is_enabled: true,
-  description: "Master switch for all TSS operations",
-  updated_at: new Date(),
-});
+export function createTssActivationSettings(): TssActivationSetting {
+  return {
+    activation_key: "tss_all",
+    is_enabled: true,
+    description: "Master switch for all TSS operations",
+    updated_at: new Date(),
+  };
+}

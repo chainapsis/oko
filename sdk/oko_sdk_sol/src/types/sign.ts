@@ -1,7 +1,4 @@
-import type {
-  Transaction,
-  VersionedTransaction,
-} from "@solana/web3.js";
+import type { Transaction, VersionedTransaction } from "@solana/web3.js";
 
 export type SolSignTransactionParams = {
   type: "sign_transaction";

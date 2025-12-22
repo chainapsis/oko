@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@oko-wallet/admin-api": "workspace:*",
+    "@oko-wallet/attached-api": "workspace:*",
     "@oko-wallet/crypto-js": "0.0.2-alpha.6",
     "@oko-wallet/ct-dashboard-api": "workspace:*",
     "@oko-wallet/dotenv": "0.0.2-alpha.26",
@@ -19,7 +20,7 @@
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-api-server-state": "workspace:*",
     "@oko-wallet/oko-pg-interface": "workspace:*",
-    "@oko-wallet/oko-types": "workspace:*",
+    "@oko-wallet/oko-types": "^0.0.1-alpha.4",
     "@oko-wallet/social-login-api": "workspace:*",
     "@oko-wallet/stdlib-js": "0.0.2-rc.41",
     "@oko-wallet/tss-api": "workspace:*",

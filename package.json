@@ -31,6 +31,7 @@
       "backend/log_api",
       "backend/social_login_api",
       "backend/ct_dashboard_api",
+      "backend/attached_api",
       "backend/oko_pg_interface",
       "backend/admin_api",
       "backend/tss_api",

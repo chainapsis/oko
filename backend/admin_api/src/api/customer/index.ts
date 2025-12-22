@@ -12,6 +12,7 @@ import type {
 } from "@oko-wallet/oko-types/admin";
 import type {
   Customer,
+  CustomerTheme,
   CustomerWithAPIKeys,
 } from "@oko-wallet/oko-types/customers";
 import { uploadToS3 } from "@oko-wallet/aws";
@@ -41,13 +42,12 @@ import { getEmailSentLogsByUserIdsMap } from "@oko-wallet/oko-pg-interface/email
 import { getTssSessionsExistenceByCustomerIds } from "@oko-wallet/oko-pg-interface/tss";
 import type {
   APIKey,
-  CustomerDashboardUser,
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
 
 import { generatePassword } from "@oko-wallet-admin-api/utils/password";
 import { sendCustomerUserPasswordEmail } from "@oko-wallet-admin-api/email";
-import type { ExtractedTypeformData } from "./typefrom";
+import type { ExtractedTypeformData } from "./typeform";
 
 export async function createCustomer(
   db: Pool,
@@ -91,6 +91,11 @@ export async function createCustomer(
         msg: "Label contains invalid characters",
       };
     }
+
+    const theme: CustomerTheme =
+      body.theme === "light" || body.theme === "dark" || body.theme === "system"
+        ? body.theme
+        : "system";
 
     const customer_id = uuidv4();
 
@@ -197,6 +202,7 @@ export async function createCustomer(
         url: body.url || null,
         logo_url,
         status: "ACTIVE",
+        theme,
       };
       const insertCustomerRes = await insertCustomer(client, customer);
       if (insertCustomerRes.success === false) {

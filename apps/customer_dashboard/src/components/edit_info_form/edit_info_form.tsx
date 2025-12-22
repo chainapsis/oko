@@ -1,19 +1,29 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  useRef,
+  useState,
+  type DragEvent,
+  type FC,
+} from "react";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
 import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { PlusIcon } from "@oko-wallet/oko-common-ui/icons/plus";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
 import styles from "./edit_info_form.module.scss";
 
-export const EditInfoForm = () => {
+const THEME_OPTIONS: CustomerTheme[] = ["light", "dark", "system"];
+
+export const EditInfoForm: FC = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const customer = useCustomerInfo();
@@ -23,6 +33,10 @@ export const EditInfoForm = () => {
 
   const [label, setLabel] = useState(customer.data?.label ?? "");
   const [url, setUrl] = useState(customer.data?.url ?? "");
+  const [theme, setTheme] = useState<CustomerTheme>(
+    customer.data?.theme ?? "system",
+  );
+
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
     customer.data?.logo_url ?? null,
@@ -95,7 +109,7 @@ export const EditInfoForm = () => {
     }
   };
 
-  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileSelect = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       handleLogoUpload(file);
@@ -107,29 +121,29 @@ export const EditInfoForm = () => {
   };
 
   // Drag and drop handlers
-  const handleDragEnter = (e: React.DragEvent) => {
+  const handleDragEnter = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(true);
   };
 
-  const handleDragLeave = (e: React.DragEvent) => {
+  const handleDragLeave = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
   };
 
-  const handleDrop = (e: React.DragEvent) => {
+  const handleDrop = (e: DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
     setIsDragging(false);
 
-    const file = e.dataTransfer.files?.[0];
+    const file = e.dataTransfer?.files?.[0];
     if (file) {
       handleLogoUpload(file);
     }
@@ -147,9 +161,20 @@ export const EditInfoForm = () => {
     const hasLabelChange = label !== customer.data?.label;
     const hasUrlChange = url !== (customer.data?.url ?? "");
     const hasLogoChange = logoFile !== null || shouldDeleteLogo;
+    const hasThemeChange = theme !== customer.data?.theme;
 
-    if (!hasLabelChange && !hasUrlChange && !hasLogoChange) {
+    if (!hasLabelChange && !hasUrlChange && !hasLogoChange && !hasThemeChange) {
       setError("No changes to save.");
+      return;
+    }
+
+    if (!url || url.trim() === "") {
+      setError("App URL is required.");
+      return;
+    }
+
+    if (hasUrlChange && !validateUrl(url)) {
+      setError("App URL format is invalid.");
       return;
     }
 
@@ -162,6 +187,7 @@ export const EditInfoForm = () => {
         label: hasLabelChange ? label : undefined,
         url: hasUrlChange ? url : undefined,
         logoFile: logoFile,
+        theme: hasThemeChange ? theme : undefined,
         deleteLogo: shouldDeleteLogo,
       });
 
@@ -189,7 +215,8 @@ export const EditInfoForm = () => {
     label !== customer.data?.label ||
     url !== (customer.data?.url ?? "") ||
     logoFile !== null ||
-    shouldDeleteLogo;
+    shouldDeleteLogo ||
+    theme !== customer.data?.theme;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -212,6 +239,46 @@ export const EditInfoForm = () => {
         placeholder="https://example.com"
         className={styles.input}
       />
+
+      <div className={styles.themeSection}>
+        <div className={styles.themeHeader}>
+          <span className={styles.themeLabel}>Oko Wallet Theme</span>
+          <span className={styles.themeDescription}>
+            Choose the default theme for the Oko wallet.
+          </span>
+        </div>
+
+        <div className={styles.themeOptions}>
+          {THEME_OPTIONS.map((option) => {
+            const label =
+              option === "system"
+                ? "System"
+                : option === "light"
+                  ? "Light"
+                  : "Dark";
+
+            return (
+              <button
+                key={option}
+                type="button"
+                className={`${styles.themeOptionButton} ${
+                  theme === option ? styles.themeOptionButtonActive : ""
+                }`}
+                onClick={() => setTheme(option)}
+                disabled={isLoading}
+              >
+                <Typography
+                  size="sm"
+                  weight="medium"
+                  color={theme === option ? "primary-on-brand" : "primary"}
+                >
+                  {label}
+                </Typography>
+              </button>
+            );
+          })}
+        </div>
+      </div>
 
       {/* Logo Upload with drag & drop */}
       <div className={styles.appLogoUploadWrapper}>
@@ -289,3 +356,12 @@ export const EditInfoForm = () => {
     </form>
   );
 };
+
+function validateUrl(url: string): boolean {
+  try {
+    const urlObj = new URL(url);
+    return urlObj.protocol === "https:" || urlObj.protocol === "http:";
+  } catch {
+    return false;
+  }
+}

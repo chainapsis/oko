@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useState, ReactNode, FC, useCallback } from "react";
+import {
+  useEffect,
+  useState,
+  type ReactNode,
+  type FC,
+  useCallback,
+} from "react";
 
 type ExpiryTimerProps = {
   duration?: number;

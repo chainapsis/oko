@@ -38,8 +38,8 @@
   "dependencies": {
     "@interchain-kit/core": "^0.3.55",
     "@keplr-wallet/types": "0.12.297",
-    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.124",
-    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.150"
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.130",
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.157"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",

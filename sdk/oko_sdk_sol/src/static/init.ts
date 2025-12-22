@@ -30,6 +30,10 @@ export function init(
 
   return {
     success: true,
-    data: new (OkoSolWallet as unknown as new (...args: unknown[]) => OkoSolWalletInterface)(okoSolWalletRes.data),
+    data: new (
+      OkoSolWallet as unknown as new (
+        ...args: unknown[]
+      ) => OkoSolWalletInterface
+    )(okoSolWalletRes.data),
   };
 }
