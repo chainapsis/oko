@@ -7,7 +7,7 @@ sidebar_position: 1
 
 This guide covers prerequisites, local setup, and common development tooling.
 For running services, see
-[Self-Hosting (Run)](../standalone/self-hosting-standalone).
+[Self-Hosting Guide](../standalone/self-hosting-standalone).
 
 ## Prerequisites
 
