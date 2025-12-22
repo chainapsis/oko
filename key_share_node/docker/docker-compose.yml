@@ -24,6 +24,7 @@ services:
     environment:
       NODE_ENV: "production"
       PORT: ${SERVER_PORT}
+      # Only key_share_node is meant to access db
       DB_HOST: "key_share_node_pg"
       DB_PORT: "5432"
       DB_USER: ${DB_USER}
