@@ -1,0 +1,144 @@
+"use client";
+
+import { useState } from "react";
+import { useQueryClient } from "@tanstack/react-query";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+
+import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
+import { useAppState } from "@oko-wallet-ct-dashboard/state";
+import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
+import styles from "./design_section.module.scss";
+import { ThemeButton } from "./theme_button";
+
+const THEME_OPTIONS: CustomerTheme[] = ["light", "dark", "system"];
+
+export const DesignSection = () => {
+  const queryClient = useQueryClient();
+  const customer = useCustomerInfo();
+  const token = useAppState((state) => state.token);
+  const [savedTheme, setSavedTheme] = useState<CustomerTheme>(
+    customer.data?.theme ?? "system",
+  );
+  const [draftTheme, setDraftTheme] = useState<CustomerTheme>(
+    customer.data?.theme ?? "system",
+  );
+
+  const [isSavingTheme, setIsSavingTheme] = useState(false);
+  const [themeError, setThemeError] = useState<string | null>(null);
+
+  const hasThemeChange = draftTheme !== savedTheme;
+
+  const handleThemeSelect = (option: CustomerTheme) => {
+    if (isSavingTheme) {
+      return;
+    }
+
+    setThemeError(null);
+    setDraftTheme(option);
+  };
+
+  const handleThemeCancel = () => {
+    if (!hasThemeChange || isSavingTheme) {
+      return;
+    }
+
+    setThemeError(null);
+    setDraftTheme(savedTheme);
+  };
+
+  const handleThemeSave = async () => {
+    if (!hasThemeChange || isSavingTheme) {
+      return;
+    }
+
+    if (!token) {
+      setThemeError("Please log in to continue.");
+      return;
+    }
+
+    setIsSavingTheme(true);
+    setThemeError(null);
+
+    try {
+      const result = await requestUpdateCustomerInfo({
+        token,
+        theme: draftTheme,
+      });
+
+      if (result.success) {
+        setSavedTheme(draftTheme);
+        await queryClient.invalidateQueries({ queryKey: ["customer"] });
+      } else {
+        setThemeError(result.msg ?? "Failed to update theme.");
+      }
+    } catch (err) {
+      setThemeError("An error occurred while updating the theme.");
+    } finally {
+      setIsSavingTheme(false);
+    }
+  };
+
+  return (
+    <div className={styles.wrapper}>
+      <div>
+        <Typography size="display-xs" weight="semibold" color="primary">
+          Design
+        </Typography>
+
+        <Spacing height={8} />
+
+        <Typography size="md" weight="medium" color="quaternary">
+          View and manage your API keys
+        </Typography>
+      </div>
+      <div className={styles.themeSection}>
+        <div className={styles.themeOptions}>
+          {THEME_OPTIONS.map((option) => {
+            const label =
+              option === "system"
+                ? "System"
+                : option === "light"
+                  ? "Light"
+                  : "Dark";
+
+            return (
+              <ThemeButton
+                theme={option}
+                onClick={() => handleThemeSelect(option)}
+                active={draftTheme === option}
+                label={label}
+              />
+            );
+          })}
+        </div>
+
+        <div className={styles.themeActions}>
+          <Button
+            type="button"
+            variant="primary"
+            size="md"
+            onClick={handleThemeSave}
+            disabled={!hasThemeChange}
+            isLoading={isSavingTheme}
+          >
+            Save
+          </Button>
+          <Button
+            type="button"
+            variant="secondary"
+            size="md"
+            onClick={handleThemeCancel}
+            disabled={isSavingTheme}
+          >
+            Cancel
+          </Button>
+        </div>
+
+        {themeError && <div className={styles.error}>{themeError}</div>}
+      </div>
+    </div>
+  );
+};

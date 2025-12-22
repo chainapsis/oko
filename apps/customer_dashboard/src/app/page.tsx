@@ -9,6 +9,8 @@ import { AccountInfo } from "@oko-wallet-ct-dashboard/components/account_info/ac
 import { HomeBanner } from "@oko-wallet-ct-dashboard/components/home_banner/home_banner";
 // import { SDKInstallationGuide } from "@oko-wallet-ct-dashboard/components/sdk_installation_guide/sdk_installation_guide";
 import { APIKeyList } from "@oko-wallet-ct-dashboard/components/api_key_list/api_key_list";
+import { DesignSection } from "@oko-wallet-ct-dashboard/components/design_section/design_section";
+import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
 
 export default function Home() {
   return (
@@ -38,6 +40,9 @@ export default function Home() {
             {/* TODO: @Ryz0nd, @lidarbtc */}
             {/* <SDKInstallationGuide /> */}
             <APIKeyList />
+
+            <Spacing height={66} />
+            <DesignSection />
           </DashboardBody>
         </div>
       </div>
