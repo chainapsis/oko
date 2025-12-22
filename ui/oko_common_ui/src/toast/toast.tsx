@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type MouseEvent } from "react";
+import { type FC, type MouseEvent } from "react";
 
 import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
 import { ErrorIcon } from "@oko-wallet-common-ui/icons/error_icon";
@@ -17,7 +17,7 @@ export type ToastItemProps = {
   variant: ToastVariant;
 };
 
-const SuccessToastIcon = () => {
+const SuccessToastIcon: FC = () => {
   return (
     <div className={styles.successIcon}>
       <div className={styles.successIconOuterRing1} />
@@ -27,24 +27,23 @@ const SuccessToastIcon = () => {
   );
 };
 
-const ToastIcon: React.FC<{ variant: ToastVariant }> = ({ variant }) => {
-  if (variant === "success") {
-    return <SuccessToastIcon />;
+interface ToastIconProps {
+  variant: ToastVariant;
+}
+const ToastIcon: FC<ToastIconProps> = ({ variant }) => {
+  switch (variant) {
+    case "success":
+      return <SuccessToastIcon />;
+    case "error":
+      return <ErrorIcon size={20} />;
+    case "warning":
+      return <WarningIcon size={20} />;
+    default:
+      return <InfoCircleIcon size={20} />;
   }
-  if (variant === "error") {
-    return <ErrorIcon size={20} />;
-  }
-  if (variant === "warning") {
-    return <WarningIcon size={20} />;
-  }
-  return <InfoCircleIcon size={20} />;
 };
 
-export const Toast: React.FC<ToastItemProps> = ({
-  title,
-  description,
-  variant,
-}) => {
+export const Toast: FC<ToastItemProps> = ({ title, description, variant }) => {
   return (
     <div
       className={styles.toastInner}
@@ -62,11 +61,10 @@ export const Toast: React.FC<ToastItemProps> = ({
   );
 };
 
-export const ToastCloseButton = ({
-  closeToast,
-}: {
+interface ToastCloseButtonProps {
   closeToast: (e: MouseEvent<HTMLElement>) => void;
-}) => {
+}
+export const ToastCloseButton: FC<ToastCloseButtonProps> = ({ closeToast }) => {
   return (
     <button className={styles.closeButton} onClick={closeToast}>
       <XCloseIcon color="var(--fg-quaternary)" size={20} />

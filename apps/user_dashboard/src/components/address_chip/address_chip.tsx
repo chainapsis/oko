@@ -2,6 +2,7 @@ import { type FC, type MouseEvent, useMemo, useState } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
+
 import { displayToast } from "@oko-wallet-user-dashboard/components/toast";
 import styles from "./address_chip.module.scss";
 
