@@ -80,10 +80,10 @@ export const EthereumSiweSignatureContent: React.FC<
       <div className={styles.chainInfoContainer}>
         <div className={styles.chainInfoRow}>
           <Typography size="xs" color="secondary" weight="semibold">
-            Estimated in balance
+            Impact on balance
           </Typography>
           <Typography size="sm" color="secondary" weight="medium">
-            No changes
+            None
           </Typography>
         </div>
 
