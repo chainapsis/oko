@@ -12,10 +12,11 @@ export async function connect(this: OkoSolWalletInterface): Promise<void> {
   try {
     await this.waitUntilInitialized;
 
-    const publicKeyHex = await this.okoWallet.getPublicKey();
+    // Solana uses Ed25519, not secp256k1
+    const publicKeyHex = await this.okoWallet.getPublicKeyEd25519();
 
     if (!publicKeyHex) {
-      throw new Error("Not signed in");
+      throw new Error("No Ed25519 key found. Please sign in first.");
     }
 
     const publicKeyBytes = Buffer.from(publicKeyHex, "hex");
