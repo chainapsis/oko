@@ -107,6 +107,7 @@ export async function handleOAuthInfoPass(
       idToken,
       userExists,
       authType,
+      apiKey,
     );
     if (!handleUserSignInRes.success) {
       await bail(message, handleUserSignInRes.err);
@@ -123,6 +124,11 @@ export async function handleOAuthInfoPass(
       email: userIdentifier,
       name: signInResult.name,
     });
+
+    // Store Ed25519 key package if available (for Solana support)
+    if (signInResult.keyPackageEd25519) {
+      appState.setKeyPackageEd25519(hostOrigin, signInResult.keyPackageEd25519);
+    }
 
     hasSignedIn = true;
     isNewUser = signInResult.isNewUser;
@@ -166,6 +172,7 @@ export async function handleUserSignIn(
   idToken: string,
   userExists: CheckEmailResponse,
   authType: AuthType,
+  apiKey: string,
 ): Promise<Result<UserSignInResult, OAuthSignInError>> {
   const meta = userExists.keyshare_node_meta;
 
@@ -176,6 +183,7 @@ export async function handleUserSignIn(
       idToken,
       meta,
       authType,
+      apiKey,
       referralInfo,
     );
     if (!signInRes.success) {
@@ -204,7 +212,7 @@ export async function handleUserSignIn(
     }
     // sign in flow
     else {
-      const signInRes = await handleExistingUser(idToken, meta, authType);
+      const signInRes = await handleExistingUser(idToken, meta, authType, apiKey);
       if (!signInRes.success) {
         throw signInRes.err;
       }
