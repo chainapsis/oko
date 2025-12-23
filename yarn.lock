@@ -10963,6 +10963,7 @@ __metadata:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
+    "@oko-wallet/teddsa-interface": "workspace:*"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
@@ -11169,7 +11170,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/teddsa-addon@workspace:crypto/teddsa/teddsa_addon":
+"@oko-wallet/teddsa-addon@workspace:*, @oko-wallet/teddsa-addon@workspace:crypto/teddsa/teddsa_addon":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-addon@workspace:crypto/teddsa/teddsa_addon"
   dependencies:
@@ -11283,6 +11284,8 @@ __metadata:
     "@oko-wallet/social-login-api": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
+    "@oko-wallet/teddsa-addon": "workspace:*"
+    "@oko-wallet/teddsa-interface": "workspace:*"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
     "@types/jest": "npm:^29.5.14"

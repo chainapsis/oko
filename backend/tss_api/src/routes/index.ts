@@ -1,6 +1,7 @@
 import express from "express";
 
 import { setKeygenRoutes } from "./keygen";
+import { setKeygenEd25519Routes } from "./keygen_ed25519";
 import { setTriplesRoutes } from "./triples";
 import { setPresignRoutes } from "./presign";
 import { setSignRoutes } from "./sign";
@@ -11,6 +12,7 @@ export function makeTssRouter() {
   const router = express.Router();
 
   setKeygenRoutes(router);
+  setKeygenEd25519Routes(router);
   setTriplesRoutes(router);
   setPresignRoutes(router);
   setSignRoutes(router);
