@@ -11,6 +11,7 @@ import { HomeBanner } from "@oko-wallet-ct-dashboard/components/home_banner/home
 import { APIKeyList } from "@oko-wallet-ct-dashboard/components/api_key_list/api_key_list";
 import { DesignSection } from "@oko-wallet-ct-dashboard/components/design_section/design_section";
 import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
+import { ToastContainer } from "@oko-wallet-ct-dashboard/components/toast";
 
 export default function Home() {
   return (
@@ -40,9 +41,9 @@ export default function Home() {
             {/* TODO: @Ryz0nd, @lidarbtc */}
             {/* <SDKInstallationGuide /> */}
             <APIKeyList />
-
             <Spacing height={66} />
             <DesignSection />
+            <ToastContainer />
           </DashboardBody>
         </div>
       </div>

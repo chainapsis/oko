@@ -12,6 +12,7 @@ import { useAppState } from "@oko-wallet-ct-dashboard/state";
 import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
 import styles from "./design_section.module.scss";
 import { ThemeButton } from "./theme_button";
+import { displayToast } from "@oko-wallet-ct-dashboard/components/toast";
 
 const THEME_OPTIONS: CustomerTheme[] = ["light", "dark", "system"];
 
@@ -70,6 +71,10 @@ export const DesignSection = () => {
 
       if (result.success) {
         setSavedTheme(draftTheme);
+        displayToast({
+          variant: "success",
+          title: "Saved",
+        });
         await queryClient.invalidateQueries({ queryKey: ["customer"] });
       } else {
         setThemeError(result.msg ?? "Failed to update theme.");
