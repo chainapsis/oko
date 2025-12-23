@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import type { EthereumArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -15,6 +15,7 @@ import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/compone
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { SiweRiskWarningBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe-risk-warning-box";
 import { getFaviconUrl } from "@oko-wallet-attached/utils/favicon";
+import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 
 interface EthereumSiweSignatureContentProps {
   payload: EthereumArbitrarySignPayload;
@@ -91,16 +92,20 @@ export const EthereumSiweSignatureContent: React.FC<
           <Typography size="xs" color="secondary" weight="semibold">
             Network
           </Typography>
-          <Typography size="sm" color="secondary" weight="medium">
-            {payload.chain_info.chain_name}
-          </Typography>
+
+          <div className={styles.chainInfoRowContent}>
+            <Avatar
+              src={payload.chain_info.chain_symbol_image_url}
+              alt="chain icon"
+              size="sm"
+              variant="rounded"
+            />
+            <Typography size="sm" color="secondary" weight="medium">
+              {payload.chain_info.chain_name}
+            </Typography>
+          </div>
         </div>
       </div>
-      {/* <MetadataContent
-        origin={payload.origin}
-        chainInfo={payload.chain_info}
-        signer={payload.signer}
-      /> */}
 
       <Spacing height={16} />
       <MakeSignatureRawCodeBlockContainer className={styles.messageContainer}>
