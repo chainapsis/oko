@@ -1,0 +1,30 @@
+[package]
+name = "teddsa_wasm"
+description = "WASM bindings for FROST Ed25519 threshold signatures"
+version = "0.0.1"
+categories = ["wasm"]
+edition = "2021"
+
+[lib]
+crate-type = ["cdylib"]
+
+[profile.release]
+lto = true
+strip = true
+
+[dependencies]
+teddsa_core = { path = "../../teddsa_core" }
+frost_ed25519_keplr = { workspace = true }
+wasm-bindgen = "0.2.100"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+gloo-utils = "0.2.0"
+# Always include panic hook for better error messages in browser
+console_error_panic_hook = "0.1.5"
+
+[dependencies.web-sys]
+version = "0.3.22"
+features = ["console"]
+
+[dev-dependencies]
+wasm-bindgen-test = "0.3"
