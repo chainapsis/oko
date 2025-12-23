@@ -6,19 +6,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import styles from "./metadata_content.module.scss";
 import { SignerAddressOrEmail } from "./signer_address_or_email/signer_address_or_email";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
-
-function getFaviconUrl(origin: string): string {
-  if (!origin) return "";
-
-  try {
-    const parsed = new URL(origin);
-    return `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(
-      parsed.origin,
-    )}`;
-  } catch (error) {
-    return "";
-  }
-}
+import { getFaviconUrl } from "@oko-wallet-attached/utils/favicon";
 
 interface MakeSignatureModalMetadataContentProps {
   origin: string;
