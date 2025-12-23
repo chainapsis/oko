@@ -170,16 +170,6 @@ export const EditInfoForm = () => {
       return;
     }
 
-    if (!url || url.trim() === "") {
-      setError("App URL is required.");
-      return;
-    }
-
-    if (hasUrlChange && !validateUrl(url)) {
-      setError("App URL format is invalid.");
-      return;
-    }
-
     setIsLoading(true);
     setError(null);
 
