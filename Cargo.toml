@@ -9,6 +9,7 @@ members = [
   "crypto/teddsa/frost_ed25519_keplr",
   "crypto/teddsa/frost_rerandomized",
   "crypto/teddsa/teddsa_core",
+  "crypto/teddsa/teddsa_wasm/wasm",
   "crypto/teddsa/teddsa_keplr_mock",
   "crypto/teddsa/teddsa_wasm_mock/wasm",
   "crypto/teddsa/teddsa_keplr_addon_mock/addon",
