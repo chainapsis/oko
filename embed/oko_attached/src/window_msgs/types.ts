@@ -1,4 +1,5 @@
 import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { KeyPackageEd25519Hex } from "@oko-wallet-attached/crypto/keygen_ed25519";
 
 export interface MsgEventContext {
   port: MessagePort;
@@ -72,4 +73,5 @@ export interface UserSignInResult {
   keyshare_1: string;
   isNewUser: boolean;
   name: string | null;
+  keyPackageEd25519: KeyPackageEd25519Hex | null;
 }
