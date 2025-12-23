@@ -25,6 +25,10 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y
 RUN mkdir -p /home/node/oko && chown -R node:node /home/node/oko
 WORKDIR /home/node/oko
 COPY --chown=node:node ../../.. .
+
+# Remove .npmrc before yarn set version to avoid NPM_TOKEN env var error
+# .npmrc is only needed for publishing, not for building
+RUN rm -f .npmrc || true
  
 RUN yarn set version 4.7.0
 

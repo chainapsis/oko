@@ -1,7 +1,7 @@
 import type { Bytes33, Bytes64 } from "@oko-wallet/bytes";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type { CurveType } from "./curve_type";
-import type { AuthType } from "./user";
 
 export type KeyShareStatus = "active" | "inactive";
 
