@@ -1,5 +1,16 @@
-import { Toast, type ToastVariant } from "@oko-wallet/oko-common-ui/toast";
-import { type ToastOptions, toast } from "react-toastify";
+"use client";
+
+import {
+  Toast,
+  ToastCloseButton,
+  type ToastVariant,
+} from "@oko-wallet/oko-common-ui/toast";
+import {
+  type ToastOptions,
+  toast,
+  Bounce,
+  ToastContainer as ReactToastifyToastContainer,
+} from "react-toastify";
 
 export function displayToast({
   variant,
@@ -31,3 +42,16 @@ export function displayToast({
     toastOptions,
   );
 }
+
+export const ToastContainer = () => {
+  return (
+    <ReactToastifyToastContainer
+      stacked
+      transition={Bounce}
+      toastClassName="custom-toast"
+      closeButton={(props) => (
+        <ToastCloseButton closeToast={props.closeToast} />
+      )}
+    />
+  );
+};
