@@ -103,7 +103,7 @@ export const DesignSection = () => {
         <Spacing height={8} />
 
         <Typography size="md" weight="medium" color="quaternary">
-          View and manage your API keys
+          You can configure the Oko UI theme integrated into your app.
         </Typography>
       </div>
       <div className={styles.themeSection}>
