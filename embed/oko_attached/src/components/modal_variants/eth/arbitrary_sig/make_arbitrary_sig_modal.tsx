@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useState } from "react";
 import type { MakeArbitrarySigData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
@@ -11,18 +11,29 @@ import { useArbitrarySigModal } from "./hooks/use_arbitrary_sig_modal";
 import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
 import { EthereumArbitrarySignatureContent } from "./ethereum_arbitrary_signature_content";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
-import { getSiweMessage } from "@oko-wallet-attached/components/modal_variants/eth/siwe_message";
+import {
+  getSiweMessage,
+  verifySiweMessage,
+} from "@oko-wallet-attached/components/modal_variants/eth/siwe_message";
 import { EthereumSiweSignatureContent } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/make_siwe-siganature_content";
+import { SiweRiskWarningCheckBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe-risk-warning-box";
 
 export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
   getIsAborted,
   data,
   modalId,
 }) => {
+  const siweMessage = getSiweMessage(data.payload.data.message);
+  const isValidSiweMessage = siweMessage
+    ? verifySiweMessage(siweMessage, data.payload.origin)
+    : false;
+  const [isSiweRiskWarningChecked, setIsSiweRiskWarningChecked] =
+    useState(false);
+
   const {
     onReject,
     onApprove,
-    isApproveEnabled,
+    isApproveEnabled: isApproveEnabledOriginal,
     isLoading,
     isDemo,
     theme,
@@ -32,8 +43,18 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
     data,
     modalId,
   });
+  const isApproveEnabled = useMemo(() => {
+    if (siweMessage && !isValidSiweMessage) {
+      return isApproveEnabledOriginal && isSiweRiskWarningChecked;
+    }
 
-  const siweMessage = getSiweMessage(data.payload.data.message);
+    return isApproveEnabledOriginal;
+  }, [
+    isApproveEnabledOriginal,
+    isSiweRiskWarningChecked,
+    siweMessage,
+    isValidSiweMessage,
+  ]);
 
   return (
     <div className={styles.container}>
@@ -57,6 +78,16 @@ export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
         {!hasOnChainSchema && <ArbitrarySignatureDesc />}
 
         <Spacing height={20} />
+
+        {siweMessage && !isValidSiweMessage && (
+          <>
+            <SiweRiskWarningCheckBox
+              checked={isSiweRiskWarningChecked}
+              onChange={setIsSiweRiskWarningChecked}
+            />
+            <Spacing height={12} />
+          </>
+        )}
 
         <div className={styles.buttonContainer}>
           <Button

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import type { EthereumArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -13,6 +13,8 @@ import { SiweSigTitleBadge } from "@oko-wallet-attached/components/modal_variant
 import { SignerAddressOrEmailForSiwe } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/signer_address_or_email_for_siwe";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
+import { SiweRiskWarningBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe-risk-warning-box";
+import { getFaviconUrl } from "@oko-wallet-attached/utils/favicon";
 
 interface EthereumSiweSignatureContentProps {
   payload: EthereumArbitrarySignPayload;
@@ -23,6 +25,7 @@ export const EthereumSiweSignatureContent: React.FC<
   EthereumSiweSignatureContentProps
 > = ({ payload, theme }) => {
   const message = getSiweMessage(payload.data.message);
+  const faviconUrl = getFaviconUrl(payload.origin);
 
   if (!message) {
     // @unreachable
@@ -30,23 +33,38 @@ export const EthereumSiweSignatureContent: React.FC<
   }
 
   const isValidSiweMessage = verifySiweMessage(message, payload.origin);
-  if (!isValidSiweMessage) {
-    throw new Error("Invalid SIWE message");
-  }
 
   return (
     <div>
-      <SiweSigTitleBadge theme={theme} />
+      {isValidSiweMessage ? (
+        <SiweSigTitleBadge theme={theme} />
+      ) : (
+        <SiweRiskWarningBox />
+      )}
+
       <div className={styles.metadataContainer}>
-        <Spacing height={8} />
+        <Spacing height={isValidSiweMessage ? 8 : 12} />
         <Typography size="lg" color="primary" weight="semibold">
           Sign in to
         </Typography>
 
         <Spacing height={4} />
-        <Typography size="lg" color="primary" weight="semibold">
-          {payload.origin.replace(/^https?:\/\//, "")}
-        </Typography>
+        <div className={styles.originRow}>
+          {faviconUrl && faviconUrl.length > 0 && (
+            <img
+              src={faviconUrl}
+              alt="favicon"
+              className={styles.originFavicon}
+            />
+          )}
+          <Typography
+            size="lg"
+            color={isValidSiweMessage ? "primary" : "warning-primary"}
+            weight="semibold"
+          >
+            {payload.origin.replace(/^https?:\/\//, "")}
+          </Typography>
+        </div>
 
         <Spacing height={8} />
         <SignerAddressOrEmailForSiwe
