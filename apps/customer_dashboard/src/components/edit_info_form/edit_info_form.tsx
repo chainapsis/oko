@@ -14,12 +14,10 @@ import { Button } from "@oko-wallet/oko-common-ui/button";
 import { PlusIcon } from "@oko-wallet/oko-common-ui/icons/plus";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 
-
 import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
 import styles from "./edit_info_form.module.scss";
-
 
 export const EditInfoForm = () => {
   const router = useRouter();
@@ -31,9 +29,6 @@ export const EditInfoForm = () => {
 
   const [label, setLabel] = useState(customer.data?.label ?? "");
   const [url, setUrl] = useState(customer.data?.url ?? "");
-  const [theme, setTheme] = useState<CustomerTheme>(
-    customer.data?.theme ?? "system",
-  );
 
   const [logoFile, setLogoFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(
@@ -159,9 +154,7 @@ export const EditInfoForm = () => {
     const hasLabelChange = label !== customer.data?.label;
     const hasUrlChange = url !== (customer.data?.url ?? "");
     const hasLogoChange = logoFile !== null || shouldDeleteLogo;
-    const hasThemeChange = theme !== customer.data?.theme;
 
-    if (!hasLabelChange && !hasUrlChange && !hasLogoChange && !hasThemeChange) {
     if (!hasLabelChange && !hasUrlChange && !hasLogoChange) {
       setError("No changes to save.");
       return;
@@ -196,7 +189,6 @@ export const EditInfoForm = () => {
         label: hasLabelChange ? label : undefined,
         url: hasUrlChange ? url : undefined,
         logoFile: logoFile,
-        theme: hasThemeChange ? theme : undefined,
         deleteLogo: shouldDeleteLogo,
       });
 
@@ -224,8 +216,7 @@ export const EditInfoForm = () => {
     label !== customer.data?.label ||
     url !== (customer.data?.url ?? "") ||
     logoFile !== null ||
-    shouldDeleteLogo ||
-    theme !== customer.data?.theme;
+    shouldDeleteLogo;
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -248,46 +239,6 @@ export const EditInfoForm = () => {
         placeholder="https://example.com"
         className={styles.input}
       />
-
-      <div className={styles.themeSection}>
-        <div className={styles.themeHeader}>
-          <span className={styles.themeLabel}>Oko Wallet Theme</span>
-          <span className={styles.themeDescription}>
-            Choose the default theme for the Oko wallet.
-          </span>
-        </div>
-
-        <div className={styles.themeOptions}>
-          {THEME_OPTIONS.map((option) => {
-            const label =
-              option === "system"
-                ? "System"
-                : option === "light"
-                  ? "Light"
-                  : "Dark";
-
-            return (
-              <button
-                key={option}
-                type="button"
-                className={`${styles.themeOptionButton} ${
-                  theme === option ? styles.themeOptionButtonActive : ""
-                }`}
-                onClick={() => setTheme(option)}
-                disabled={isLoading}
-              >
-                <Typography
-                  size="sm"
-                  weight="medium"
-                  color={theme === option ? "primary-on-brand" : "primary"}
-                >
-                  {label}
-                </Typography>
-              </button>
-            );
-          })}
-        </div>
-      </div>
 
       {/* Logo Upload with drag & drop */}
       <div className={styles.appLogoUploadWrapper}>
