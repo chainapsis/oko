@@ -11183,6 +11183,17 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/teddsa-interface@workspace:crypto/teddsa/teddsa_interface":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/teddsa-interface@workspace:crypto/teddsa/teddsa_interface"
+  dependencies:
+    "@types/node": "npm:^24.10.1"
+    del-cli: "npm:^6.0.0"
+    tsc-alias: "npm:^1.8.16"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/teddsa-keplr-addon-mock@workspace:crypto/teddsa/teddsa_keplr_addon_mock":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-keplr-addon-mock@workspace:crypto/teddsa/teddsa_keplr_addon_mock"
