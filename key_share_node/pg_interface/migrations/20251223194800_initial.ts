@@ -2,6 +2,69 @@ import type { Knex } from "knex";
 
 export async function up(knex: Knex): Promise<void> {
   //
+  // public.2_users
+  //
+  const usersExists = await knex.schema
+    .withSchema("public")
+    .hasTable("2_users");
+  if (!usersExists) {
+    await knex.schema.withSchema("public").createTable("2_users", (table) => {
+      table
+        .uuid("user_id")
+        .notNullable()
+        .defaultTo(knex.raw("gen_random_uuid()"))
+        .primary({ constraintName: "users_pkey" });
+      table.string("auth_type", 64).notNullable();
+      table.string("email", 255).notNullable();
+      table.string("status", 16).notNullable().defaultTo("active");
+      table
+        .timestamp("created_at", { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table
+        .timestamp("updated_at", { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table.jsonb("aux");
+
+      table.unique(["auth_type", "email"], {
+        indexName: "users_auth_type_email_key",
+      });
+    });
+  }
+
+  //
+  // public.2_wallets
+  //
+  const walletsExists = await knex.schema
+    .withSchema("public")
+    .hasTable("2_wallets");
+  if (!walletsExists) {
+    await knex.schema.withSchema("public").createTable("2_wallets", (table) => {
+      table
+        .uuid("wallet_id")
+        .notNullable()
+        .defaultTo(knex.raw("gen_random_uuid()"))
+        .primary({ constraintName: "wallets_pkey" });
+      table.uuid("user_id").notNullable();
+      table.string("curve_type", 16).notNullable();
+      table
+        .binary("public_key")
+        .notNullable()
+        .unique({ indexName: "wallets_public_key_key" });
+      table
+        .timestamp("created_at", { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table
+        .timestamp("updated_at", { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table.jsonb("aux");
+    });
+  }
+
+  //
   // public.2_key_shares
   //
   const keySharesExists = await knex.schema
@@ -40,98 +103,6 @@ export async function up(knex: Knex): Promise<void> {
   }
 
   //
-  // public.2_pg_dumps
-  //
-  const pgDumpsExists = await knex.schema
-    .withSchema("public")
-    .hasTable("2_pg_dumps");
-  if (!pgDumpsExists) {
-    await knex.schema
-      .withSchema("public")
-      .createTable("2_pg_dumps", (table) => {
-        table
-          .uuid("dump_id")
-          .notNullable()
-          .defaultTo(knex.raw("gen_random_uuid()"))
-          .primary({ constraintName: "pg_dumps_pkey" });
-        table.string("status", 16).notNullable();
-        table.string("dump_path", 255);
-        table.jsonb("meta");
-        table
-          .timestamp("created_at", { useTz: true })
-          .notNullable()
-          .defaultTo(knex.fn.now());
-        table
-          .timestamp("updated_at", { useTz: true })
-          .notNullable()
-          .defaultTo(knex.fn.now());
-      });
-  }
-
-  //
-  // public.2_users
-  //
-  const usersExists = await knex.schema
-    .withSchema("public")
-    .hasTable("2_users");
-  if (!usersExists) {
-    await knex.schema.withSchema("public").createTable("2_users", (table) => {
-      table
-        .uuid("user_id")
-        .notNullable()
-        .defaultTo(knex.raw("gen_random_uuid()"))
-        .primary({ constraintName: "users_pkey" });
-      table.string("email", 255).notNullable();
-      table.string("auth_type", 64).notNullable();
-      table.string("status", 16).notNullable().defaultTo("active");
-      table
-        .timestamp("created_at", { useTz: true })
-        .notNullable()
-        .defaultTo(knex.fn.now());
-      table
-        .timestamp("updated_at", { useTz: true })
-        .notNullable()
-        .defaultTo(knex.fn.now());
-      table.jsonb("aux");
-
-      table.unique(["email", "auth_type"], {
-        indexName: "users_email_auth_type_key",
-      });
-    });
-  }
-
-  //
-  // public.2_wallets
-  //
-  const walletsExists = await knex.schema
-    .withSchema("public")
-    .hasTable("2_wallets");
-  if (!walletsExists) {
-    await knex.schema.withSchema("public").createTable("2_wallets", (table) => {
-      table
-        .uuid("wallet_id")
-        .notNullable()
-        .defaultTo(knex.raw("gen_random_uuid()"))
-        .primary({ constraintName: "wallets_pkey" });
-      table.uuid("user_id").notNullable();
-      table.string("curve_type", 16).notNullable();
-      table
-        .binary("public_key")
-        .notNullable()
-        .unique({ indexName: "wallets_public_key_key" });
-      table
-        .timestamp("created_at", { useTz: true })
-        .notNullable()
-        .defaultTo(knex.fn.now());
-      table
-        .timestamp("updated_at", { useTz: true })
-        .notNullable()
-        .defaultTo(knex.fn.now());
-      table.jsonb("aux");
-    });
-  }
-
-  //
   // public.2_server_keypairs
   //
   const serverKeypairsExists = await knex.schema
@@ -165,6 +136,35 @@ export async function up(knex: Knex): Promise<void> {
       });
   }
 
+  //
+  // public.2_pg_dumps
+  //
+  const pgDumpsExists = await knex.schema
+    .withSchema("public")
+    .hasTable("2_pg_dumps");
+  if (!pgDumpsExists) {
+    await knex.schema
+      .withSchema("public")
+      .createTable("2_pg_dumps", (table) => {
+        table
+          .uuid("dump_id")
+          .notNullable()
+          .defaultTo(knex.raw("gen_random_uuid()"))
+          .primary({ constraintName: "pg_dumps_pkey" });
+        table.string("status", 16).notNullable();
+        table.string("dump_path", 255);
+        table.jsonb("meta");
+        table
+          .timestamp("created_at", { useTz: true })
+          .notNullable()
+          .defaultTo(knex.fn.now());
+        table
+          .timestamp("updated_at", { useTz: true })
+          .notNullable()
+          .defaultTo(knex.fn.now());
+      });
+  }
+
   await knex.raw(`
     CREATE INDEX IF NOT EXISTS idx_server_keypairs_is_active
     ON public.2_server_keypairs (is_active)
@@ -173,9 +173,9 @@ export async function up(knex: Knex): Promise<void> {
 }
 
 export async function down(knex: Knex): Promise<void> {
-  await knex.schema.withSchema("public").dropTableIfExists("2_server_keypairs");
-  await knex.schema.withSchema("public").dropTableIfExists("2_wallets");
   await knex.schema.withSchema("public").dropTableIfExists("2_users");
-  await knex.schema.withSchema("public").dropTableIfExists("2_pg_dumps");
+  await knex.schema.withSchema("public").dropTableIfExists("2_wallets");
   await knex.schema.withSchema("public").dropTableIfExists("2_key_shares");
+  await knex.schema.withSchema("public").dropTableIfExists("2_server_keypairs");
+  await knex.schema.withSchema("public").dropTableIfExists("2_pg_dumps");
 }
