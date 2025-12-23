@@ -1,10 +1,10 @@
--- public.key_shares definition
+-- public.2_key_shares definition
 
 -- Drop table
 
--- DROP TABLE public.key_shares;
+-- DROP TABLE public.2_key_shares;
 
-CREATE TABLE public.key_shares (
+CREATE TABLE public.2_key_shares (
 	share_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	wallet_id uuid NOT NULL,
 	enc_share bytea NOT NULL,
@@ -18,13 +18,13 @@ CREATE TABLE public.key_shares (
 );
 
 
--- public.pg_dumps definition
+-- public.2_pg_dumps definition
 
 -- Drop table
 
--- DROP TABLE public.pg_dumps;
+-- DROP TABLE public.2_pg_dumps;
 
-CREATE TABLE public.pg_dumps (
+CREATE TABLE public.2_pg_dumps (
 	dump_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	status varchar(16) NOT NULL,
 	dump_path varchar(255) NULL,
@@ -35,16 +35,16 @@ CREATE TABLE public.pg_dumps (
 );
 
 
--- public.users definition
+-- public.2_users definition
 
 -- Drop table
 
--- DROP TABLE public.users;
+-- DROP TABLE public.2_users;
 
-CREATE TABLE public.users (
+CREATE TABLE public.2_users (
 	user_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	email varchar(255) NOT NULL,
-	auth_type varchar(64) DEFAULT 'google'::character varying NOT NULL,
+	auth_type varchar(64) NOT NULL,
 	status varchar(16) DEFAULT 'active'::character varying NOT NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
@@ -54,13 +54,13 @@ CREATE TABLE public.users (
 );
 
 
--- public.wallets definition
+-- public.2_wallets definition
 
 -- Drop table
 
--- DROP TABLE public.wallets;
+-- DROP TABLE public.2_wallets;
 
-CREATE TABLE public.wallets (
+CREATE TABLE public.2_wallets (
 	wallet_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	user_id uuid NOT NULL,
 	curve_type varchar(16) NOT NULL,
@@ -73,13 +73,13 @@ CREATE TABLE public.wallets (
 );
 
 
--- public.server_keypairs definition
+-- public.2_server_keypairs definition
 
 -- Drop table
 
--- DROP TABLE public.server_keypairs;
+-- DROP TABLE public.2_server_keypairs;
 
-CREATE TABLE public.server_keypairs (
+CREATE TABLE public.2_server_keypairs (
 	keypair_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	version int4 GENERATED ALWAYS AS IDENTITY NOT NULL,
 	public_key bytea NOT NULL,
@@ -91,4 +91,4 @@ CREATE TABLE public.server_keypairs (
 	CONSTRAINT server_keypairs_pkey PRIMARY KEY (keypair_id),
 	CONSTRAINT server_keypairs_version_key UNIQUE (version)
 );
-CREATE INDEX idx_server_keypairs_is_active ON public.server_keypairs USING btree (is_active) WHERE (is_active = true);
+CREATE INDEX idx_server_keypairs_is_active ON public.2_server_keypairs USING btree (is_active) WHERE (is_active = true);
