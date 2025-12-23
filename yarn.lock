@@ -11194,7 +11194,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/teddsa-wasm@workspace:crypto/teddsa/teddsa_wasm":
+"@oko-wallet/teddsa-wasm@workspace:*, @oko-wallet/teddsa-wasm@workspace:crypto/teddsa/teddsa_wasm":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-wasm@workspace:crypto/teddsa/teddsa_wasm"
   dependencies:
