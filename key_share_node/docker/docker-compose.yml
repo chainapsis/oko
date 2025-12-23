@@ -11,7 +11,6 @@ services:
       PGTZ: "UTC"
     volumes:
       - ${PG_DATA_DIR}:/var/lib/postgresql/data
-      - ../../key_share_node/pg_interface/src/bin/migrate/migrate.sql:/docker-entrypoint-initdb.d/migrate.sql
 
   key_share_node:
     build:
