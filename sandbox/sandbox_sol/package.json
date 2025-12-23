@@ -1,0 +1,27 @@
+{
+  "name": "@oko-wallet/sandbox-sol",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3205",
+    "build": "next build",
+    "start": "next start -p 3205",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@oko-wallet/oko-sdk-sol": "workspace:*",
+    "@solana/web3.js": "^1.98.0",
+    "bs58": "^6.0.0",
+    "next": "^15.1.3",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.8.3"
+  }
+}

@@ -4,7 +4,7 @@
   "main": "./src/index.ts",
   "type": "module",
   "dependencies": {
-    "@oko-wallet/oko-types": "workspace:*"
+    "@oko-wallet/oko-types": "^0.0.1-alpha.4"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

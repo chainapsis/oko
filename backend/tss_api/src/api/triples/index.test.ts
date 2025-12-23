@@ -62,6 +62,7 @@ import {
   runTriplesStep8,
   runTriplesStep9,
 } from ".";
+import { TEST_CUSTOMER } from "@oko-wallet-tss-api/api/tests";
 
 const SSS_THRESHOLD = 2;
 
@@ -120,13 +121,7 @@ describe("triples_test", () => {
     }
     const wallet = createWalletRes.data;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -707,13 +702,7 @@ describe("triples_test", () => {
   it("run triples step 1 failure - unauthorized", async () => {
     const walletId = "550e8400-e29b-41d4-a716-446655440000";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -819,13 +808,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -907,13 +890,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1051,13 +1028,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1146,13 +1117,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1293,13 +1258,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1384,13 +1343,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1527,13 +1480,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1618,13 +1565,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1759,13 +1700,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1847,13 +1782,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1985,13 +1914,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2073,13 +1996,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2211,13 +2128,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2299,13 +2210,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2441,13 +2346,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2532,13 +2431,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2679,13 +2572,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2773,13 +2660,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -2917,13 +2798,7 @@ describe("triples_test", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -3006,13 +2881,7 @@ describe("triples_test", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -3092,13 +2961,7 @@ describe("triples_test", () => {
     }
     const wallet = createWalletRes.data;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");

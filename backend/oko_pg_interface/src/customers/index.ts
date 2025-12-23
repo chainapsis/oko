@@ -18,7 +18,7 @@ INSERT INTO customers (
 )
 VALUES (
   $1, $2, $3, 
-  $4, $5, COALESCE($6, 'system')
+  $4, $5, $6
 )
 RETURNING *
 `;
@@ -30,7 +30,7 @@ RETURNING *
       customer.status,
       customer.url?.length ? customer.url : null,
       customer.logo_url?.length ? customer.logo_url : null,
-      customer.theme ?? "system",
+      customer.theme,
     ];
 
     const res = await db.query<Customer>(query, values);
@@ -163,10 +163,13 @@ export async function getCustomerAndCTDUserByCustomerId(
   customerDashboardUserId: string,
 ): Promise<Result<CustomerAndCTDUser, string>> {
   const query = `
-SELECT c.*, u.user_id, u.email, u.status as user_status, u.is_email_verified
+SELECT 
+  c.*, u.user_id, u.email, u.status as user_status, 
+  u.is_email_verified
 FROM customers c
 JOIN customer_dashboard_users u ON c.customer_id = u.customer_id
-WHERE c.customer_id = $1 AND c.status = 'ACTIVE' 
+WHERE 
+  c.customer_id = $1 AND c.status = 'ACTIVE' 
   AND u.status = 'ACTIVE'
 LIMIT 1
 `;
@@ -192,6 +195,7 @@ LIMIT 1
         status: row.user_status,
         is_email_verified: row.is_email_verified,
       },
+      theme: row.theme,
     };
 
     return {
@@ -256,25 +260,26 @@ export async function updateCustomerInfo(
     if (updates.label !== undefined) {
       updateFields.push(`label = $${paramIndex}`);
       values.push(updates.label);
-      paramIndex++;
+      paramIndex += 1;
     }
 
     if (updates.url !== undefined) {
       updateFields.push(`url = $${paramIndex}`);
       values.push(updates.url);
-      paramIndex++;
+      paramIndex += 1;
     }
 
     if (updates.logo_url !== undefined) {
       updateFields.push(`logo_url = $${paramIndex}`);
       values.push(updates.logo_url);
-      paramIndex++;
+      paramIndex += 1;
     }
 
     if (updates.theme !== undefined) {
       updateFields.push(`theme = $${paramIndex}`);
       values.push(updates.theme);
-      paramIndex++;
+
+      paramIndex += 1;
     }
 
     if (updateFields.length === 0) {

@@ -1,4 +1,4 @@
-export type AuthType = "google" | "auth0" | "x" | "telegram" | "discord";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export interface KSNodeUser {
   user_id: string;

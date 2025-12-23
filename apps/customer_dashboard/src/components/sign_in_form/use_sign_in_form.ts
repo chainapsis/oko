@@ -1,4 +1,4 @@
-import { useForm, SubmitHandler, Resolver } from "react-hook-form";
+import { useForm, type SubmitHandler, type Resolver } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 

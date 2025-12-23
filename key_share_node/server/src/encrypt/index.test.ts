@@ -54,9 +54,7 @@ describe("Encryption/Decryption Tests", () => {
       const encrypted = await encryptDataAsync(testData, testPassword);
       const corrupted = encrypted.slice(0, -5) + "xxxxx";
 
-      await expect(
-        decryptDataAsync(corrupted, testPassword),
-      ).rejects.toThrow();
+      await expect(decryptDataAsync(corrupted, testPassword)).rejects.toThrow();
     });
   });
 

@@ -86,6 +86,7 @@ import {
 } from "@oko-wallet-tss-api/api/presign";
 import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/sign";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
+import { TEST_CUSTOMER } from "@oko-wallet-tss-api/api/tests";
 
 const mockCheckKeyShareFromActiveKSNodes = jest.fn() as jest.Mock;
 
@@ -156,13 +157,7 @@ async function setUpTssStage(pool: Pool) {
   const walletId = keygenResponse.data?.user.wallet_id;
   const keygen0 = keygen_outputs[Participant.P0];
 
-  const insertCustomerRes = await insertCustomer(pool, {
-    customer_id: "110e8400-e29b-41d4-a716-446655440001",
-    label: "test customer",
-    status: "ACTIVE",
-    url: "https://test.com",
-    logo_url: "https://test.com/logo.png",
-  });
+  const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
   if (insertCustomerRes.success === false) {
     console.error(insertCustomerRes.err);
     throw new Error("Failed to insert customer");
@@ -706,13 +701,7 @@ describe("sign_test_1", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -795,13 +784,7 @@ describe("sign_test_1", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -884,13 +867,7 @@ describe("sign_test_1", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1041,13 +1018,7 @@ describe("sign_test_1", () => {
     const walletId = wallet.wallet_id;
     const invalidWalletId = "110e8400-e29b-41d4-a716-446655440001";
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");
@@ -1129,13 +1100,7 @@ describe("sign_test_1", () => {
 
     const walletId = wallet.wallet_id;
 
-    const insertCustomerRes = await insertCustomer(pool, {
-      customer_id: "110e8400-e29b-41d4-a716-446655440001",
-      label: "test customer",
-      status: "ACTIVE",
-      url: "https://test.com",
-      logo_url: "https://test.com/logo.png",
-    });
+    const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
     if (insertCustomerRes.success === false) {
       console.error(insertCustomerRes.err);
       throw new Error("Failed to insert customer");

@@ -1,6 +1,6 @@
 "use client";
 
-import { FC, useState } from "react";
+import { type FC, useState } from "react";
 import { Badge } from "@oko-wallet/oko-common-ui/badge";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { EyeIcon } from "@oko-wallet/oko-common-ui/icons/eye";

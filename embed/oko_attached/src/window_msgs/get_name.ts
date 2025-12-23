@@ -28,4 +28,3 @@ export async function handleGetName(ctx: MsgEventContext) {
   };
   port.postMessage(ack);
 }
-

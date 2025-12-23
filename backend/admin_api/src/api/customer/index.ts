@@ -42,13 +42,12 @@ import { getEmailSentLogsByUserIdsMap } from "@oko-wallet/oko-pg-interface/email
 import { getTssSessionsExistenceByCustomerIds } from "@oko-wallet/oko-pg-interface/tss";
 import type {
   APIKey,
-  CustomerDashboardUser,
   InsertCustomerDashboardUserRequest,
 } from "@oko-wallet/oko-types/ct_dashboard";
 
 import { generatePassword } from "@oko-wallet-admin-api/utils/password";
 import { sendCustomerUserPasswordEmail } from "@oko-wallet-admin-api/email";
-import type { ExtractedTypeformData } from "./typefrom";
+import type { ExtractedTypeformData } from "./typeform";
 
 export async function createCustomer(
   db: Pool,

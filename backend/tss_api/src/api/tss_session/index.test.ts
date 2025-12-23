@@ -22,6 +22,7 @@ import {
   runTriplesStep1,
   runTriplesStep2,
 } from "@oko-wallet-tss-api/api/triples";
+import { TEST_CUSTOMER } from "@oko-wallet-tss-api/api/tests";
 
 const SSS_THRESHOLD = 2;
 
@@ -77,13 +78,7 @@ describe("tss_session_test", () => {
 
       const walletId = createWalletRes.data.wallet_id;
 
-      const insertCustomerRes = await insertCustomer(pool, {
-        customer_id: "110e8400-e29b-41d4-a716-446655440001",
-        label: "test customer",
-        status: "ACTIVE",
-        url: "https://test.com",
-        logo_url: "https://test.com/logo.png",
-      });
+      const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to insert customer: ${insertCustomerRes.err}`);
       }
@@ -145,13 +140,7 @@ describe("tss_session_test", () => {
 
       const walletId = createWalletRes.data.wallet_id;
 
-      const insertCustomerRes = await insertCustomer(pool, {
-        customer_id: "110e8400-e29b-41d4-a716-446655440001",
-        label: "test customer",
-        status: "ACTIVE",
-        url: "https://test.com",
-        logo_url: "https://test.com/logo.png",
-      });
+      const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to insert customer: ${insertCustomerRes.err}`);
       }
@@ -243,13 +232,7 @@ describe("tss_session_test", () => {
 
       const walletId = createWalletRes.data.wallet_id;
 
-      const insertCustomerRes = await insertCustomer(pool, {
-        customer_id: "110e8400-e29b-41d4-a716-446655440001",
-        label: "test customer",
-        status: "ACTIVE",
-        url: "https://test.com",
-        logo_url: "https://test.com/logo.png",
-      });
+      const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to insert customer: ${insertCustomerRes.err}`);
       }
@@ -308,13 +291,7 @@ describe("tss_session_test", () => {
 
       const walletId = createWalletRes.data.wallet_id;
 
-      const insertCustomerRes = await insertCustomer(pool, {
-        customer_id: "110e8400-e29b-41d4-a716-446655440001",
-        label: "test customer",
-        status: "ACTIVE",
-        url: "https://test.com",
-        logo_url: "https://test.com/logo.png",
-      });
+      const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to insert customer: ${insertCustomerRes.err}`);
       }
@@ -374,13 +351,7 @@ describe("tss_session_test", () => {
       const walletId = createWalletRes.data.wallet_id;
       const differentWalletId = "660e8400-e29b-41d4-a716-446655440000";
 
-      const insertCustomerRes = await insertCustomer(pool, {
-        customer_id: "110e8400-e29b-41d4-a716-446655440001",
-        label: "test customer",
-        status: "ACTIVE",
-        url: "https://test.com",
-        logo_url: "https://test.com/logo.png",
-      });
+      const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to insert customer: ${insertCustomerRes.err}`);
       }
@@ -434,13 +405,7 @@ describe("tss_session_test", () => {
 
       const walletId = createWalletRes.data.wallet_id;
 
-      const insertCustomerRes = await insertCustomer(pool, {
-        customer_id: "110e8400-e29b-41d4-a716-446655440001",
-        label: "test customer",
-        status: "ACTIVE",
-        url: "https://test.com",
-        logo_url: "https://test.com/logo.png",
-      });
+      const insertCustomerRes = await insertCustomer(pool, TEST_CUSTOMER);
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to insert customer: ${insertCustomerRes.err}`);
       }
@@ -498,6 +463,7 @@ describe("tss_session_test", () => {
         status: "ACTIVE",
         url: "https://test.com",
         logo_url: "https://test.com/logo.png",
+        theme: "system",
       });
       if (insertCustomerRes.success === false) {
         throw new Error(`Failed to insert customer: ${insertCustomerRes.err}`);
