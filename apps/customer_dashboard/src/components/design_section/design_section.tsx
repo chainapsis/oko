@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -26,6 +26,13 @@ export const DesignSection = () => {
   const [draftTheme, setDraftTheme] = useState<CustomerTheme>(
     customer.data?.theme ?? "system",
   );
+
+  useLayoutEffect(() => {
+    if (customer.data?.theme) {
+      setSavedTheme(customer.data.theme);
+      setDraftTheme(customer.data.theme);
+    }
+  }, [customer.data?.theme]);
 
   const [isSavingTheme, setIsSavingTheme] = useState(false);
   const [themeError, setThemeError] = useState<string | null>(null);
@@ -111,6 +118,7 @@ export const DesignSection = () => {
 
             return (
               <ThemeButton
+                key={option}
                 theme={option}
                 onClick={() => handleThemeSelect(option)}
                 active={draftTheme === option}
