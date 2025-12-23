@@ -127,6 +127,7 @@ export async function runKeygen(
       publicKeyBytes,
       activeKSNodes,
       auth_type,
+      "secp256k1",
     );
     if (checkKeyshareFromKSNodesRes.success === false) {
       return checkKeyshareFromKSNodesRes;

@@ -32,7 +32,7 @@ export async function registerKeyShare(
     const { email, auth_type, curve_type, public_key, share } =
       registerKeyShareRequest;
 
-    if (curve_type !== "secp256k1") {
+    if (curve_type !== "secp256k1" && curve_type !== "ed25519") {
       return {
         success: false,
         code: "CURVE_TYPE_NOT_SUPPORTED",
@@ -226,7 +226,7 @@ export async function reshareKeyShare(
     const { email, auth_type, curve_type, public_key, share } =
       reshareKeyShareRequest;
 
-    if (curve_type !== "secp256k1") {
+    if (curve_type !== "secp256k1" && curve_type !== "ed25519") {
       return {
         success: false,
         code: "CURVE_TYPE_NOT_SUPPORTED",

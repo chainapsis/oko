@@ -149,7 +149,11 @@ export function makeKeyshareRouter() {
       const state = req.app.locals;
       const body = req.body;
 
-      const publicKeyBytesRes = Bytes.fromHexString(body.public_key, 33);
+      const publicKeyLength = body.curve_type === "ed25519" ? 32 : 33;
+      const publicKeyBytesRes = Bytes.fromHexString(
+        body.public_key,
+        publicKeyLength,
+      );
       if (publicKeyBytesRes.success === false) {
         return res.status(400).json({
           success: false,
@@ -290,7 +294,11 @@ export function makeKeyshareRouter() {
       const auth_type = oauthUser.type;
       const state = req.app.locals;
 
-      const publicKeyBytesRes = Bytes.fromHexString(req.body.public_key, 33);
+      const publicKeyLength = req.body.curve_type === "ed25519" ? 32 : 33;
+      const publicKeyBytesRes = Bytes.fromHexString(
+        req.body.public_key,
+        publicKeyLength,
+      );
       if (publicKeyBytesRes.success === false) {
         return res.status(400).json({
           success: false,
@@ -304,6 +312,7 @@ export function makeKeyshareRouter() {
         {
           email: oauthUser.email,
           auth_type,
+          curve_type: req.body.curve_type,
           public_key: publicKeyBytesRes.data,
         },
         state.encryptionSecret,
@@ -386,7 +395,11 @@ export function makeKeyshareRouter() {
       // @NOTE: default to google if auth_type is not provided
       const auth_type = (body.auth_type ?? "google") as AuthType;
 
-      const publicKeyBytesRes = Bytes.fromHexString(body.public_key, 33);
+      const publicKeyLength = body.curve_type === "ed25519" ? 32 : 33;
+      const publicKeyBytesRes = Bytes.fromHexString(
+        body.public_key,
+        publicKeyLength,
+      );
       if (publicKeyBytesRes.success === false) {
         return res.status(400).json({
           success: false,
@@ -398,6 +411,7 @@ export function makeKeyshareRouter() {
       const checkKeyShareRes = await checkKeyShare(req.app.locals.db, {
         email: body.email,
         auth_type,
+        curve_type: body.curve_type,
         public_key: publicKeyBytesRes.data,
       });
       if (checkKeyShareRes.success === false) {
@@ -546,7 +560,11 @@ export function makeKeyshareRouter() {
       const state = req.app.locals;
       const body = req.body;
 
-      const publicKeyBytesRes = Bytes.fromHexString(body.public_key, 33);
+      const publicKeyLength = body.curve_type === "ed25519" ? 32 : 33;
+      const publicKeyBytesRes = Bytes.fromHexString(
+        body.public_key,
+        publicKeyLength,
+      );
       if (publicKeyBytesRes.success === false) {
         return res.status(400).json({
           success: false,

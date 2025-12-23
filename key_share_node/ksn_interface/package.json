@@ -9,6 +9,10 @@
     "build": "yarn clean && tsc --build --force && tsc-alias"
   },
   "exports": {
+    "./curve_type": {
+      "import": "./dist/curve_type.js",
+      "types": "./dist/curve_type.d.ts"
+    },
     "./key_share": {
       "import": "./dist/key_share.js",
       "types": "./dist/key_share.d.ts"

@@ -1,15 +1,17 @@
-import type { Bytes33 } from "@oko-wallet/bytes";
+import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { KeyShareNode } from "@oko-wallet-types/tss";
+import type { KeyShareNode } from "@oko-wallet/oko-types/tss";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { CurveType } from "@oko-wallet/ksn-interface/curve_type";
 
 import { requestCheckKeyShare } from "@oko-wallet-tss-api/requests";
 
 export async function checkKeyShareFromKSNodes(
   userEmail: string,
-  publicKey: Bytes33,
+  publicKey: Bytes32 | Bytes33,
   targetKSNodes: KeyShareNode[],
   auth_type: AuthType,
+  curve_type: CurveType,
 ): Promise<OkoApiResponse<{ nodeIds: string[] }>> {
   try {
     const nodeServerUrls: string[] = [];
@@ -27,6 +29,7 @@ export async function checkKeyShareFromKSNodes(
           userEmail,
           publicKey,
           auth_type,
+          curve_type,
         );
 
         if (res.success === false) {
