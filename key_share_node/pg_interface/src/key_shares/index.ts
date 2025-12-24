@@ -13,7 +13,7 @@ export async function createKeyShare(
 ): Promise<Result<KeyShare, string>> {
   try {
     const query = `
-INSERT INTO key_shares (
+INSERT INTO "2_key_shares" (
   share_id, wallet_id, enc_share, status
 )
 VALUES (
@@ -48,7 +48,7 @@ export async function getKeyShareByShareId(
 ): Promise<Result<KeyShare | null, string>> {
   try {
     const query = `
-SELECT * FROM key_shares 
+SELECT * FROM "2_key_shares" 
 WHERE share_id = $1 
 LIMIT 1
 `;
@@ -71,7 +71,7 @@ export async function getKeyShareByWalletId(
 ): Promise<Result<KeyShare | null, string>> {
   try {
     const query = `
-SELECT * FROM key_shares 
+SELECT * FROM "2_key_shares" 
 WHERE wallet_id = $1 
 LIMIT 1
 `;
@@ -94,7 +94,7 @@ export async function updateReshare(
 ): Promise<Result<KeyShare, string>> {
   try {
     const query = `
-UPDATE key_shares AS ks
+UPDATE "2_key_shares" AS ks
 SET 
   status = $1,
   reshared_at = NOW(),

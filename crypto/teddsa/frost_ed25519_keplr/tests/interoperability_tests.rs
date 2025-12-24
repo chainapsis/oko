@@ -1,5 +1,5 @@
 use crate::Ed25519Sha512;
-use frost_ed25519::*;
+use frost_ed25519_keplr::*;
 
 mod helpers;
 
