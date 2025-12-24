@@ -63,10 +63,15 @@ function replaceWorkspaceVersions() {
 
       for (const field of depFields) {
         const deps = pkg[field];
-        if (!deps || typeof deps !== "object") continue;
+        if (!deps || typeof deps !== "object") {
+          continue;
+        }
 
         for (const [depName, depVersion] of Object.entries(deps)) {
-          if (typeof depVersion === "string" && depVersion.startsWith("workspace:")) {
+          if (
+            typeof depVersion === "string" &&
+            depVersion.startsWith("workspace:")
+          ) {
             const actualVersion = versionMap.get(depName);
             if (actualVersion) {
               // workspace:* → ^X.Y.Z, workspace:^ → ^X.Y.Z, workspace:~ → ~X.Y.Z
@@ -80,7 +85,7 @@ function replaceWorkspaceVersions() {
               }
               deps[depName] = `${prefix}${actualVersion}`;
               modified = true;
-              replacedCount++;
+              replacedCount += 1;
             }
           }
         }
@@ -118,7 +123,9 @@ function getChangedPackages(
   return changed;
 }
 
-function createGitCommitAndTags(changedPackages: Array<{ name: string; version: string }>) {
+function createGitCommitAndTags(
+  changedPackages: Array<{ name: string; version: string }>,
+) {
   console.log("Creating git commit and tags...");
 
   if (changedPackages.length === 0) {
@@ -137,17 +144,15 @@ function createGitCommitAndTags(changedPackages: Array<{ name: string; version: 
   const versionList = changedPackages
     .map((pkg) => `- ${pkg.name}@${pkg.version}`)
     .join("\n");
-  const commitMessage = `chore: publish\n\n${versionList}`;
+  const commitMessage = `chore: publish
+
+${versionList}`;
 
   // Create commit
-  const commitRet = spawnSync(
-    "git",
-    ["commit", "-m", commitMessage],
-    {
-      cwd: paths.root,
-      stdio: "inherit",
-    },
-  );
+  const commitRet = spawnSync("git", ["commit", "-m", commitMessage], {
+    cwd: paths.root,
+    stdio: "inherit",
+  });
   expectSuccess(commitRet, "git commit failed");
 
   // Create tags only for changed packages
@@ -163,14 +168,22 @@ function createGitCommitAndTags(changedPackages: Array<{ name: string; version: 
     }
   }
 
-  console.log("%s Created commit and %d tags", chalk.green.bold("Done"), changedPackages.length);
+  console.log(
+    "%s Created commit and %d tags",
+    chalk.green.bold("Done"),
+    changedPackages.length,
+  );
 
   // Push commit and tags to remote
   console.log("Pushing commit and tags to origin...");
-  const pushRet = spawnSync("git", ["push", "-u", "origin", "HEAD", "--follow-tags"], {
-    cwd: paths.root,
-    stdio: "inherit",
-  });
+  const pushRet = spawnSync(
+    "git",
+    ["push", "-u", "origin", "HEAD", "--follow-tags"],
+    {
+      cwd: paths.root,
+      stdio: "inherit",
+    },
+  );
   expectSuccess(pushRet, "git push failed");
   console.log("%s Pushed to origin", chalk.green.bold("Done"));
 }
@@ -201,10 +214,14 @@ export async function version(..._args: any[]) {
   // Save version map before lerna version
   const beforeVersionMap = buildWorkspaceVersionMap();
 
-  spawnSync("yarn", ["lerna", "version", "--no-private", "--no-git-tag-version"], {
-    cwd: paths.root,
-    stdio: "inherit",
-  });
+  spawnSync(
+    "yarn",
+    ["lerna", "version", "--no-private", "--no-git-tag-version"],
+    {
+      cwd: paths.root,
+      stdio: "inherit",
+    },
+  );
 
   // Get version map after lerna version and find changed packages
   const afterVersionMap = buildWorkspaceVersionMap();
@@ -213,7 +230,10 @@ export async function version(..._args: any[]) {
   try {
     replaceWorkspaceVersions();
   } catch (err) {
-    console.error("%s replaceWorkspaceVersions failed, rolling back...", chalk.bold.red("Error"));
+    console.error(
+      "%s replaceWorkspaceVersions failed, rolling back...",
+      chalk.bold.red("Error"),
+    );
     spawnSync("git", ["checkout", "--", "."], {
       cwd: paths.root,
       stdio: "inherit",
