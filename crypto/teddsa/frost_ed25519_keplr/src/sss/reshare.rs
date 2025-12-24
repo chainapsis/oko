@@ -13,6 +13,7 @@ use crate::{Ed25519Sha512, Identifier};
 
 /// Result of a reshare operation.
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct ReshareResult {
     /// Threshold value (minimum shares required to reconstruct).
     pub t: u32,
