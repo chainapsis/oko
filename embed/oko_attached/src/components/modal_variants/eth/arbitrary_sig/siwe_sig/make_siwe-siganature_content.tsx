@@ -14,7 +14,6 @@ import { SignerAddressOrEmailForSiwe } from "@oko-wallet-attached/components/mod
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { SiweRiskWarningBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe-risk-warning-box";
-import { getFaviconUrl } from "@oko-wallet-attached/utils/favicon";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 
 interface EthereumSiweSignatureContentProps {
@@ -26,8 +25,6 @@ export const EthereumSiweSignatureContent: React.FC<
   EthereumSiweSignatureContentProps
 > = ({ payload, theme }) => {
   const message = getSiweMessage(payload.data.message);
-  const faviconUrl = getFaviconUrl(payload.origin);
-
   if (!message) {
     // @unreachable
     throw new Error("unreachable");
@@ -51,13 +48,6 @@ export const EthereumSiweSignatureContent: React.FC<
 
         <Spacing height={4} />
         <div className={styles.originRow}>
-          {faviconUrl && faviconUrl.length > 0 && (
-            <img
-              src={faviconUrl}
-              alt="favicon"
-              className={styles.originFavicon}
-            />
-          )}
           <Typography
             size="lg"
             color={isValidSiweMessage ? "primary" : "warning-primary"}
