@@ -25,7 +25,7 @@ export const APIKeyList = () => {
       <div>
         <Typography
           tagType="h1"
-          size="display-sm"
+          size="display-xs"
           weight="semibold"
           color="primary"
         >
