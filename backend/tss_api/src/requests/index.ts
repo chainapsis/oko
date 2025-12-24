@@ -15,7 +15,7 @@ export async function requestCheckKeyShare(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      email: userEmail,
+      user_auth_id: userEmail,
       auth_type,
       public_key: publicKey.toHex(),
     }),

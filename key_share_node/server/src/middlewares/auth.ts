@@ -5,7 +5,7 @@ import type {
   DiscordTokenInfo,
   GoogleTokenInfo,
 } from "@oko-wallet/ksn-interface/auth";
-import type { AuthType } from "@oko-wallet/ksn-interface/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type { OAuthValidationFail } from "@oko-wallet-ksn-server/auth/types";
 import {

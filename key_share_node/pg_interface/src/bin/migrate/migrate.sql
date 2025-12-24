@@ -44,13 +44,13 @@ CREATE TABLE public."2_pg_dumps" (
 CREATE TABLE public."2_users" (
 	user_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	auth_type varchar(64) NOT NULL,
-	email varchar(255) NOT NULL,
+	user_auth_id varchar(255) NOT NULL,
 	status varchar(16) DEFAULT 'active'::character varying NOT NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
 	CONSTRAINT 2_users_pkey PRIMARY KEY (user_id),
-	CONSTRAINT 2_users_auth_type_email_key UNIQUE (auth_type, email)
+	CONSTRAINT 2_users_auth_type_user_auth_id_key UNIQUE (auth_type, user_auth_id)
 );
 
 

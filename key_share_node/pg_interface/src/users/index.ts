@@ -1,16 +1,17 @@
 import type { Pool, PoolClient } from "pg";
-import type { KSNodeUser, AuthType } from "@oko-wallet/ksn-interface/user";
+import type { KSNodeUser } from "@oko-wallet/ksn-interface/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function createUser(
   db: Pool | PoolClient,
-  email: string,
   auth_type: AuthType,
+  user_auth_id: string,
 ): Promise<Result<KSNodeUser, string>> {
   try {
     const query = `
 INSERT INTO "2_users" (
-  email, auth_type
+  auth_type, user_auth_id
 ) 
 VALUES (
   $1, $2
@@ -18,7 +19,7 @@ VALUES (
 RETURNING *
 `;
 
-    const values = [email, auth_type];
+    const values = [auth_type, user_auth_id];
 
     const result = await db.query(query, values);
 
@@ -33,18 +34,18 @@ RETURNING *
   }
 }
 
-export async function getUserByEmailAndAuthType(
+export async function getUserByAuthTypeAndUserAuthId(
   db: Pool | PoolClient,
-  email: string,
   auth_type: AuthType,
+  user_auth_id: string,
 ): Promise<Result<KSNodeUser | null, string>> {
   try {
     const query = `
 SELECT * FROM "2_users" 
-WHERE email = $1 AND auth_type = $2
+WHERE auth_type = $1 AND user_auth_id = $2
 LIMIT 1
 `;
-    const result = await db.query(query, [email, auth_type]);
+    const result = await db.query(query, [auth_type, user_auth_id]);
 
     const row = result.rows[0];
     if (!row) {

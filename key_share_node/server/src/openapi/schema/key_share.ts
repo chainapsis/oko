@@ -65,9 +65,9 @@ export const CheckKeyShareRequestBodySchema = registry.register(
   "CheckKeyShareRequestBody",
   z
     .object({
-      email: z
-        .email()
-        .describe("Email address")
+      user_auth_id: z
+        .string()
+        .describe("User authentication ID")
         .openapi({ example: "test@example.com" }),
       auth_type: authTypeSchema.optional().default("google"),
       public_key: publicKeySchema,
