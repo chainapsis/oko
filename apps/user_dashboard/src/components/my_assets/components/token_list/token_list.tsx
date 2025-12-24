@@ -4,13 +4,13 @@ import { CoinPretty } from "@keplr-wallet/unit";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
+import { ImageWithAlt } from "@oko-wallet/oko-common-ui/imageWithAlt";
 
 import styles from "./token_list.module.scss";
 import { TokenItem } from "../token_item/token_item";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
 import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
-import { ImageWithAlt } from "@oko-wallet-common-ui/image-with-alt/image-with-alt";
 import { ShowHideChainsModal } from "@oko-wallet-user-dashboard/components/show_hide_chains_modal/show_hide_chains_modal";
 
 export const TokenList = observer(() => {
