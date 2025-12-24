@@ -1,24 +1,11 @@
 import { Router, type Response } from "express";
-import fs from "node:fs/promises";
 import type {
   KSNodeApiErrorResponse,
   KSNodeApiResponse,
 } from "@oko-wallet/ksn-interface/response";
-import {
-  getAllPgDumps,
-  restore,
-  type PgDump,
-} from "@oko-wallet/ksn-pg-interface";
-import type {
-  GetBackupHistoryRequest,
-  DBRestoreRequest,
-  DBRestoreResponse,
-} from "@oko-wallet/ksn-interface/db_backup";
+import { getAllPgDumps, type PgDump } from "@oko-wallet/ksn-pg-interface";
+import type { GetBackupHistoryRequest } from "@oko-wallet/ksn-interface/db_backup";
 
-import {
-  processPgDump,
-  type PgDumpResult,
-} from "@oko-wallet-ksn-server/pg_dump/dump";
 import {
   adminAuthMiddleware,
   rateLimitMiddleware,
@@ -26,14 +13,9 @@ import {
   type RateLimitMiddlewareOption,
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import type { KSNodeRequest } from "@oko-wallet-ksn-server/routes/io";
 import { registry } from "@oko-wallet-ksn-server/openapi/registry";
 import {
-  PgDumpRequestBodySchema,
-  PgRestoreRequestBodySchema,
-  PgDumpSuccessResponseSchema,
   PgDumpHistorySuccessResponseSchema,
-  PgRestoreSuccessResponseSchema,
   PgDumpHistoryQuerySchema,
   ErrorResponseSchema,
 } from "@oko-wallet-ksn-server/openapi/schema";
@@ -45,13 +27,90 @@ const ADMIN_RATE_LIMIT: RateLimitMiddlewareOption = {
   maxRequests: 5,
 };
 
-const RESTORE_RATE_LIMIT: RateLimitMiddlewareOption = {
-  windowSeconds: 60,
-  maxRequests: 3,
-};
-
 export function makePgDumpRouter() {
   const router = Router();
+
+  registry.registerPath({
+    method: "post",
+    path: "/pg_dump/v1/get_backup_history",
+    tags: ["PG Dump"],
+    summary: "Get pg dump history",
+    description: "Get pg dump history for the specified number of days.",
+    request: {
+      query: PgDumpHistoryQuerySchema,
+    },
+    responses: {
+      200: {
+        description: "Successfully retrieved pg dump history",
+        content: {
+          "application/json": {
+            schema: PgDumpHistorySuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid days parameter",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              INVALID_DAYS: {
+                value: {
+                  success: false,
+                  code: "INVALID_DAYS",
+                  msg: "Days parameter must be between 1 and 1000",
+                },
+              },
+            },
+          },
+        },
+      },
+      500: {
+        description: "Failed to retrieve pg dump history",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+            examples: {
+              UNKNOWN_ERROR: {
+                value: {
+                  success: false,
+                  code: "UNKNOWN_ERROR",
+                  msg: "Failed to retrieve pg dump history",
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/get_backup_history",
+    ...(isTest ? [] : [rateLimitMiddleware(ADMIN_RATE_LIMIT)]),
+    adminAuthMiddleware,
+    async (
+      req: AdminAuthenticatedRequest<GetBackupHistoryRequest>,
+      res: Response<KSNodeApiResponse<PgDump[]>>,
+    ) => {
+      const { days } = req.body;
+      const state = req.app.locals;
+
+      const dumpsResult = await getAllPgDumps(state.db, days);
+      if (dumpsResult.success === false) {
+        const errorRes: KSNodeApiErrorResponse = {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: dumpsResult.err,
+        };
+        return res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+      }
+
+      return res.status(200).json({
+        success: true,
+        data: dumpsResult.data,
+      });
+    },
+  );
 
   // registry.registerPath({
   //   method: "post",
@@ -150,88 +209,6 @@ export function makePgDumpRouter() {
   //     });
   //   },
   // );
-
-  registry.registerPath({
-    method: "post",
-    path: "/pg_dump/v1/get_backup_history",
-    tags: ["PG Dump"],
-    summary: "Get pg dump history",
-    description: "Get pg dump history for the specified number of days.",
-    request: {
-      query: PgDumpHistoryQuerySchema,
-    },
-    responses: {
-      200: {
-        description: "Successfully retrieved pg dump history",
-        content: {
-          "application/json": {
-            schema: PgDumpHistorySuccessResponseSchema,
-          },
-        },
-      },
-      400: {
-        description: "Invalid days parameter",
-        content: {
-          "application/json": {
-            schema: ErrorResponseSchema,
-            examples: {
-              INVALID_DAYS: {
-                value: {
-                  success: false,
-                  code: "INVALID_DAYS",
-                  msg: "Days parameter must be between 1 and 1000",
-                },
-              },
-            },
-          },
-        },
-      },
-      500: {
-        description: "Failed to retrieve pg dump history",
-        content: {
-          "application/json": {
-            schema: ErrorResponseSchema,
-            examples: {
-              UNKNOWN_ERROR: {
-                value: {
-                  success: false,
-                  code: "UNKNOWN_ERROR",
-                  msg: "Failed to retrieve pg dump history",
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
-  router.post(
-    "/get_backup_history",
-    ...(isTest ? [] : [rateLimitMiddleware(ADMIN_RATE_LIMIT)]),
-    adminAuthMiddleware,
-    async (
-      req: AdminAuthenticatedRequest<GetBackupHistoryRequest>,
-      res: Response<KSNodeApiResponse<PgDump[]>>,
-    ) => {
-      const { days } = req.body;
-      const state = req.app.locals;
-
-      const dumpsResult = await getAllPgDumps(state.db, days);
-      if (dumpsResult.success === false) {
-        const errorRes: KSNodeApiErrorResponse = {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: dumpsResult.err,
-        };
-        return res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
-      }
-
-      return res.status(200).json({
-        success: true,
-        data: dumpsResult.data,
-      });
-    },
-  );
 
   // registry.registerPath({
   //   method: "post",
