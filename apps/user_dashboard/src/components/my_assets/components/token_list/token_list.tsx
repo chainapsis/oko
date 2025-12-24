@@ -1,4 +1,4 @@
-import { type ChangeEvent, Fragment, useState } from "react";
+import { type ChangeEvent, type FC, Fragment, useState } from "react";
 import { observer } from "mobx-react-lite";
 import { CoinPretty } from "@keplr-wallet/unit";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
@@ -10,6 +10,8 @@ import { TokenItem } from "../token_item/token_item";
 import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
 import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
+import { ImageWithAlt } from "@oko-wallet-common-ui/image-with-alt/image-with-alt";
+import { ShowHideChainsModal } from "@oko-wallet-user-dashboard/components/show_hide_chains_modal/show_hide_chains_modal";
 
 export const TokenList = observer(() => {
   const { hugeQueriesStore, chainStore, okoWalletAddressStore } =
@@ -97,7 +99,44 @@ export const TokenList = observer(() => {
             </Fragment>
           );
         })}
+        {balances.length === 0 && <EmptyState />}
       </div>
     </>
   );
 });
+
+const EmptyState: FC = () => {
+  const emptyImage = `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/assets/oko_user_dashboard_assets_empty.webp`;
+  const emptyImageAlt = `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/assets/oko_user_dashboard_assets_empty.png`;
+
+  return (
+    <div className={styles.emptyState}>
+      <ImageWithAlt
+        srcSet={emptyImage}
+        srcAlt={emptyImageAlt}
+        alt="Empty Assets Image"
+        className={styles.emptyImage}
+      />
+
+      <Typography tagType="p" size="sm" weight="semibold" color="tertiary">
+        No Assets Found
+      </Typography>
+
+      <Typography tagType="p" size="sm" weight="medium" color="quaternary">
+        If you have assets but they’re not appearing, please check if Hide Low{" "}
+        Balance is turned on or if the chain is hidden in{" "}
+        <ShowHideChainsModal
+          renderTrigger={({ onOpen }) => (
+            <span
+              className={styles.showHideChainsLink}
+              aria-role="button"
+              onClick={onOpen}
+            >
+              Show/Hide Chains
+            </span>
+          )}
+        />
+      </Typography>
+    </div>
+  );
+};
