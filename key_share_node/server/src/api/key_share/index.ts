@@ -4,7 +4,7 @@ import {
   createUser,
   createWallet,
   getKeyShareByWalletId,
-  getUserByUserAuthIdAndAuthType,
+  getUserByAuthTypeAndUserAuthId,
   getWalletByPublicKey,
   updateReshare,
 } from "@oko-wallet/ksn-pg-interface";
@@ -57,16 +57,16 @@ export async function registerKeyShare(
       };
     }
 
-    const getUserRes = await getUserByUserAuthIdAndAuthType(
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
-      user_auth_id,
       auth_type,
+      user_auth_id,
     );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
       };
     }
 
@@ -76,7 +76,7 @@ export async function registerKeyShare(
 
       let user_id: string;
       if (getUserRes.data === null) {
-        const createUserRes = await createUser(client, user_auth_id, auth_type);
+        const createUserRes = await createUser(client, auth_type, user_auth_id);
         if (createUserRes.success === false) {
           throw new Error(`Failed to createUser: ${createUserRes.err}`);
         }
@@ -140,16 +140,16 @@ export async function getKeyShare(
   try {
     const { user_auth_id, auth_type, public_key } = getKeyShareRequest;
 
-    const getUserRes = await getUserByUserAuthIdAndAuthType(
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
-      user_auth_id,
       auth_type,
+      user_auth_id,
     );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
       };
     }
 
@@ -261,16 +261,16 @@ export async function reshareKeyShare(
     let wallet_id = getWalletRes.data.wallet_id;
 
     // Get user to verify ownership
-    const getUserRes = await getUserByUserAuthIdAndAuthType(
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
-      user_auth_id,
       auth_type,
+      user_auth_id,
     );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
       };
     }
 
@@ -350,16 +350,16 @@ export async function checkKeyShare(
   try {
     const { user_auth_id, auth_type, public_key } = checkKeyShareRequest;
 
-    const getUserRes = await getUserByUserAuthIdAndAuthType(
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
-      user_auth_id,
       auth_type,
+      user_auth_id,
     );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
       };
     }
     if (getUserRes.data === null) {

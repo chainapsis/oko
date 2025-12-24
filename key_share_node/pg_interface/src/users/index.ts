@@ -5,13 +5,13 @@ import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function createUser(
   db: Pool | PoolClient,
-  user_auth_id: string,
   auth_type: AuthType,
+  user_auth_id: string,
 ): Promise<Result<KSNodeUser, string>> {
   try {
     const query = `
 INSERT INTO "2_users" (
-  user_auth_id, auth_type
+  auth_type, user_auth_id
 ) 
 VALUES (
   $1, $2
@@ -19,7 +19,7 @@ VALUES (
 RETURNING *
 `;
 
-    const values = [user_auth_id, auth_type];
+    const values = [auth_type, user_auth_id];
 
     const result = await db.query(query, values);
 
@@ -34,18 +34,18 @@ RETURNING *
   }
 }
 
-export async function getUserByUserAuthIdAndAuthType(
+export async function getUserByAuthTypeAndUserAuthId(
   db: Pool | PoolClient,
-  user_auth_id: string,
   auth_type: AuthType,
+  user_auth_id: string,
 ): Promise<Result<KSNodeUser | null, string>> {
   try {
     const query = `
 SELECT * FROM "2_users" 
-WHERE user_auth_id = $1 AND auth_type = $2
+WHERE auth_type = $1 AND user_auth_id = $2
 LIMIT 1
 `;
-    const result = await db.query(query, [user_auth_id, auth_type]);
+    const result = await db.query(query, [auth_type, user_auth_id]);
 
     const row = result.rows[0];
     if (!row) {
