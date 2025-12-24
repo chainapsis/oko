@@ -1,5 +1,5 @@
-use frost_ed25519_keplr as frost;
 use frost::{sss_combine_ed25519, sss_split_ed25519, Point256};
+use frost_ed25519_keplr as frost;
 use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
 use wasm_bindgen::prelude::*;
@@ -40,18 +40,16 @@ fn reconstruct_key_package_inner(
     public_key_package_bytes: &[u8],
     identifier_bytes: &[u8],
 ) -> Result<Vec<u8>, String> {
-    let public_key_package =
-        frost::keys::PublicKeyPackage::deserialize(public_key_package_bytes)
-            .map_err(|e| e.to_string())?;
+    let public_key_package = frost::keys::PublicKeyPackage::deserialize(public_key_package_bytes)
+        .map_err(|e| e.to_string())?;
 
     let identifier_arr: [u8; 32] = identifier_bytes
         .try_into()
         .map_err(|_| "Invalid identifier length".to_string())?;
-    let identifier =
-        frost::Identifier::deserialize(&identifier_arr).map_err(|e| e.to_string())?;
+    let identifier = frost::Identifier::deserialize(&identifier_arr).map_err(|e| e.to_string())?;
 
-    let signing_share = frost::keys::SigningShare::deserialize(&signing_share_bytes)
-        .map_err(|e| e.to_string())?;
+    let signing_share =
+        frost::keys::SigningShare::deserialize(&signing_share_bytes).map_err(|e| e.to_string())?;
 
     let verifying_shares = public_key_package.verifying_shares();
     let verifying_share = verifying_shares

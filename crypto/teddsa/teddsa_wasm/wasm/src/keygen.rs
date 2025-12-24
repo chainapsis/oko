@@ -1,5 +1,5 @@
-use frost_ed25519_keplr as frost;
 use frost::keys::KeyPackage;
+use frost_ed25519_keplr as frost;
 use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
@@ -40,8 +40,7 @@ fn keygen_centralized_inner() -> Result<CentralizedKeygenOutput, String> {
 
     let mut keygen_outputs = Vec::with_capacity(shares.len());
     for (identifier, secret_share) in shares {
-        let key_package =
-            KeyPackage::try_from(secret_share).map_err(|e| e.to_string())?;
+        let key_package = KeyPackage::try_from(secret_share).map_err(|e| e.to_string())?;
         let key_package_bytes = key_package.serialize().map_err(|e| e.to_string())?;
         let identifier_bytes = identifier.serialize().to_vec();
 
@@ -82,8 +81,7 @@ fn keygen_import_inner(secret: [u8; 32]) -> Result<CentralizedKeygenOutput, Stri
 
     let mut keygen_outputs = Vec::with_capacity(shares.len());
     for (identifier, secret_share) in shares {
-        let key_package =
-            KeyPackage::try_from(secret_share).map_err(|e| e.to_string())?;
+        let key_package = KeyPackage::try_from(secret_share).map_err(|e| e.to_string())?;
         let key_package_bytes = key_package.serialize().map_err(|e| e.to_string())?;
         let identifier_bytes = identifier.serialize().to_vec();
 

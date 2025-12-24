@@ -1,8 +1,8 @@
-use frost_ed25519_keplr as frost;
 use frost::keys::{KeyPackage, PublicKeyPackage};
 use frost::round1::{SigningCommitments, SigningNonces};
 use frost::round2::SignatureShare;
 use frost::{Identifier, SigningPackage};
+use frost_ed25519_keplr as frost;
 use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
@@ -68,8 +68,7 @@ pub struct VerifyInput {
 fn sign_round1_inner(key_package_bytes: &[u8]) -> Result<SigningCommitmentOutput, String> {
     let mut rng = OsRng;
 
-    let key_package =
-        KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
+    let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
 
     let (nonces, commitments) = frost::round1::commit(key_package.signing_share(), &mut rng);
 
@@ -90,23 +89,21 @@ fn sign_round2_inner(
     nonces_bytes: &[u8],
     all_commitments: &[(Vec<u8>, Vec<u8>)],
 ) -> Result<SignatureShareOutput, String> {
-    let key_package =
-        KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
+    let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
 
     let nonces = SigningNonces::deserialize(nonces_bytes).map_err(|e| e.to_string())?;
 
     let mut commitments_map: BTreeMap<Identifier, SigningCommitments> = BTreeMap::new();
     for (id_bytes, comm_bytes) in all_commitments {
         let identifier = Identifier::deserialize(id_bytes).map_err(|e| e.to_string())?;
-        let commitments =
-            SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
+        let commitments = SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
         commitments_map.insert(identifier, commitments);
     }
 
     let signing_package = SigningPackage::new(commitments_map, message);
 
-    let signature_share = frost::round2::sign(&signing_package, &nonces, &key_package)
-        .map_err(|e| e.to_string())?;
+    let signature_share =
+        frost::round2::sign(&signing_package, &nonces, &key_package).map_err(|e| e.to_string())?;
 
     let signature_share_bytes = signature_share.serialize();
     let identifier_bytes = key_package.identifier().serialize().to_vec();
@@ -129,8 +126,7 @@ fn aggregate_inner(
     let mut commitments_map: BTreeMap<Identifier, SigningCommitments> = BTreeMap::new();
     for (id_bytes, comm_bytes) in all_commitments {
         let identifier = Identifier::deserialize(id_bytes).map_err(|e| e.to_string())?;
-        let commitments =
-            SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
+        let commitments = SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
         commitments_map.insert(identifier, commitments);
     }
 
@@ -165,8 +161,7 @@ fn verify_inner(
         .try_into()
         .map_err(|_| "Invalid signature length".to_string())?;
 
-    let signature =
-        frost::Signature::deserialize(&signature_array).map_err(|e| e.to_string())?;
+    let signature = frost::Signature::deserialize(&signature_array).map_err(|e| e.to_string())?;
 
     let verifying_key = pubkey_package.verifying_key();
     match verifying_key.verify(message, &signature) {
@@ -197,9 +192,13 @@ pub fn cli_sign_round2_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
         .map(|c| (c.identifier, c.commitments))
         .collect();
 
-    let out =
-        sign_round2_inner(&input.message, &input.key_package, &input.nonces, &all_commitments)
-            .map_err(|err| JsValue::from_str(&err))?;
+    let out = sign_round2_inner(
+        &input.message,
+        &input.key_package,
+        &input.nonces,
+        &all_commitments,
+    )
+    .map_err(|err| JsValue::from_str(&err))?;
 
     JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
 }
