@@ -13,8 +13,9 @@ lto = true
 strip = true
 
 [dependencies]
-teddsa_core = { path = "../../teddsa_core" }
-frost_ed25519_keplr = { workspace = true }
+frost_ed25519_keplr = { workspace = true, features = ["serialization"] }
+rand_core = { workspace = true, features = ["getrandom"] }
+getrandom = { version = "0.2", features = ["js"] }
 wasm-bindgen = "0.2.100"
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
