@@ -15,6 +15,7 @@ import { makeApp } from "@oko-wallet-api/app";
 import { ENV_FILE_NAME, envSchema } from "@oko-wallet-api/envs";
 import { getCommitHash } from "@oko-wallet-api/git";
 import { startKSNodeHealthCheckRuntime } from "@oko-wallet-api/runtime/health_check_node";
+import { startKSNodeHeartbeatRuntime } from "@oko-wallet-api/runtime/ks_node_monitor";
 
 async function main() {
   console.log("NODE_ENV: %s", process.env.NODE_ENV);
@@ -88,6 +89,10 @@ async function main() {
 
   startKSNodeHealthCheckRuntime(state.db, state.logger, {
     intervalSeconds: 10 * 60, // 10 minutes
+  });
+
+  startKSNodeHeartbeatRuntime(state.db, state.logger, {
+    intervalSeconds: 60, // 1 minute
   });
 
   startInactiveCustomerUserReminderRuntime(state.db, state.logger, {

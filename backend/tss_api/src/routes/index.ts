@@ -6,6 +6,7 @@ import { setPresignRoutes } from "./presign";
 import { setSignRoutes } from "./sign";
 import { setUserRoutes } from "./user";
 import { setTssSessionRoutes } from "./tss_session";
+import { setKSNodeTelemetryRoutes } from "./ks_node_telemetry";
 
 export function makeTssRouter() {
   const router = express.Router();
@@ -16,6 +17,7 @@ export function makeTssRouter() {
   setSignRoutes(router);
   setUserRoutes(router);
   setTssSessionRoutes(router);
+  setKSNodeTelemetryRoutes(router);
 
   return router;
 }
