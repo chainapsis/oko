@@ -5,14 +5,15 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
-import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
+import { DiscordIcon } from "@oko-wallet/oko-common-ui/icons/discord_icon";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import styles from "./auth_progress_widget.module.scss";
 import { Spinner } from "@oko-wallet-user-dashboard/components/spinner/spinner";
 
 type AuthProgressWidgetProps = {
-  method: "email" | "google" | "telegram" | "x" | "apple";
+  method: AuthType;
   status?: "loading" | "failed";
   onRetry?: () => void;
 };
@@ -27,13 +28,11 @@ export const AuthProgressWidget: FC<AuthProgressWidgetProps> = ({
   return (
     <div className={cn(styles.signingInWrapper, { [styles.failed]: isFailed })}>
       <div className={styles.signingInCircle}>
-        {method === "email" && (
-          <MailboxIcon size={36} color="var(--fg-tertiary)" />
-        )}
+        {method === "auth0" && <MailboxIcon size={36} />}
         {method === "google" && <GoogleIcon width={48} height={48} />}
         {method === "telegram" && <TelegramIcon size={48} />}
         {method === "x" && <XIcon size={48} />}
-        {method === "apple" && <AppleIcon size={48} />}
+        {method === "discord" && <DiscordIcon size={48} />}
         <Spinner
           size={62}
           className={styles.spinnerOverlay}

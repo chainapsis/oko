@@ -3,7 +3,8 @@ import { Button } from "@oko-wallet/oko-common-ui/button";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
-import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
+import { DiscordIcon } from "@oko-wallet-common-ui/icons/discord_icon";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 
@@ -11,7 +12,7 @@ import styles from "./login_widget.module.scss";
 
 export interface LoginSocialsViewProps {
   onBack: () => void;
-  onSignIn: (method: "telegram" | "x" | "apple") => void;
+  onSignIn: (method: AuthType) => void;
 }
 
 export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
@@ -67,8 +68,24 @@ export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
             Telegram
           </Typography>
         </Button>
-
         <Button
+          variant="secondary"
+          size="md"
+          fullWidth
+          onClick={() => onSignIn("discord")}
+        >
+          <DiscordIcon size={20} />
+          <Typography
+            size="sm"
+            weight="semibold"
+            color="secondary"
+            style={{ padding: "0 2px" }}
+          >
+            Discord
+          </Typography>
+        </Button>
+
+        {/* <Button
           variant="secondary"
           size="md"
           fullWidth
@@ -83,7 +100,7 @@ export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
           >
             Apple
           </Typography>
-        </Button>
+        </Button> */}
       </div>
     </Fragment>
   );

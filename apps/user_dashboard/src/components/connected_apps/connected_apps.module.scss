@@ -1,0 +1,22 @@
+.emptyState {
+  margin-top: 24px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding-left: 45px;
+  gap: 8px;
+
+  text-align: center;
+}
+
+.emptyImage {
+  width: 176px;
+  height: 146px;
+}
+
+.emptyImageWrapper {
+  padding: 26.8px 65.3px 26.6px 28.6px;
+}

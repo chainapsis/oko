@@ -1,11 +1,12 @@
 import { type FC, useState } from "react";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import styles from "./login_widget.module.scss";
 import { LoginDefaultView } from "./login_default_view";
 import { LoginSocialsView } from "./login_socials_view";
 
 export interface LoginWidgetProps {
-  onSignIn: (method: "email" | "google" | "telegram" | "x" | "apple") => void;
+  onSignIn: (method: AuthType) => void;
 }
 
 export const LoginWidget: FC<LoginWidgetProps> = ({ onSignIn }) => {
