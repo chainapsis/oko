@@ -20,8 +20,9 @@ export async function hashKeyshareNodeNames(
     }
     const hash = hashResult.data;
     const hashU8Arr = new Uint8Array(hash.toUint8Array());
-    // Set first byte to 0 for secp256k1 scalar compatibility (big-endian)
-    // secp256k1 scalar order is ~2^256, so 248 bits of entropy is sufficient
+    // 1 bytes prefix for compatibility with a range of a secret key(0, n);
+    // n is the order of a elliptic curve
+    // this hash has 31 bytes(248 bits) as a entropy.
     hashU8Arr[0] = 0;
     const bytesRes = Bytes.fromUint8Array(hashU8Arr, 32);
     if (bytesRes.success === false) {
