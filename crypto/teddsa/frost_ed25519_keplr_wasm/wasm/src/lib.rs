@@ -1,9 +1,12 @@
-pub mod sss;
+mod keygen;
+mod sign;
+mod sss;
 
-use console_error_panic_hook;
 use std::sync::Once;
 use wasm_bindgen::prelude::*;
 
+pub use keygen::*;
+pub use sign::*;
 pub use sss::*;
 
 // Ensure initialization happens only once
