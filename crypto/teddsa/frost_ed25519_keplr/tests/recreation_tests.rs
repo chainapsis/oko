@@ -1,7 +1,7 @@
 //! Test for recreating packages from their components, which shows that they
 //! can be serialized and deserialized as the user wishes.
 
-use frost_ed25519::{
+use frost_ed25519_keplr::{
     keys::{
         dkg::{round1, round2},
         KeyPackage, PublicKeyPackage, SecretShare,

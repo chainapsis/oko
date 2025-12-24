@@ -4,6 +4,7 @@ use curve25519_dalek::scalar::Scalar;
 
 /// A 256-bit point with x and y coordinates.
 #[derive(Clone, Debug, PartialEq, Eq)]
+#[cfg_attr(feature = "serde", derive(serde::Serialize, serde::Deserialize))]
 pub struct Point256 {
     /// X coordinate (32 bytes)
     pub x: [u8; 32],
