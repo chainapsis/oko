@@ -13,7 +13,7 @@ export async function up(knex: Knex): Promise<void> {
         .uuid("user_id")
         .notNullable()
         .defaultTo(knex.raw("gen_random_uuid()"))
-        .primary({ constraintName: "users_pkey" });
+        .primary({ constraintName: "2_users_pkey" });
       table.string("auth_type", 64).notNullable();
       table.string("email", 255).notNullable();
       table.string("status", 16).notNullable().defaultTo("active");
@@ -28,7 +28,7 @@ export async function up(knex: Knex): Promise<void> {
       table.jsonb("aux");
 
       table.unique(["auth_type", "email"], {
-        indexName: "users_auth_type_email_key",
+        indexName: "2_users_auth_type_email_key",
       });
     });
   }
@@ -45,13 +45,13 @@ export async function up(knex: Knex): Promise<void> {
         .uuid("wallet_id")
         .notNullable()
         .defaultTo(knex.raw("gen_random_uuid()"))
-        .primary({ constraintName: "wallets_pkey" });
+        .primary({ constraintName: "2_wallets_pkey" });
       table.uuid("user_id").notNullable();
       table.string("curve_type", 16).notNullable();
       table
         .binary("public_key")
         .notNullable()
-        .unique({ indexName: "wallets_public_key_key" });
+        .unique({ indexName: "2_wallets_public_key_key" });
       table
         .timestamp("created_at", { useTz: true })
         .notNullable()
@@ -78,7 +78,7 @@ export async function up(knex: Knex): Promise<void> {
           .uuid("share_id")
           .notNullable()
           .defaultTo(knex.raw("gen_random_uuid()"))
-          .primary({ constraintName: "key_shares_pkey" });
+          .primary({ constraintName: "2_key_shares_pkey" });
         table.uuid("wallet_id").notNullable();
         table.binary("enc_share").notNullable();
         table.string("status").notNullable();
@@ -97,7 +97,7 @@ export async function up(knex: Knex): Promise<void> {
         table.jsonb("aux");
 
         table.unique(["wallet_id"], {
-          indexName: "key_shares_unique",
+          indexName: "2_key_shares_unique",
         });
       });
   }
@@ -116,11 +116,11 @@ export async function up(knex: Knex): Promise<void> {
           .uuid("keypair_id")
           .notNullable()
           .defaultTo(knex.raw("gen_random_uuid()"))
-          .primary({ constraintName: "server_keypairs_pkey" });
+          .primary({ constraintName: "2_server_keypairs_pkey" });
         table
           .specificType("version", "integer generated always as identity")
           .notNullable()
-          .unique({ indexName: "server_keypairs_version_key" });
+          .unique({ indexName: "2_server_keypairs_version_key" });
         table.binary("public_key").notNullable();
         table.text("enc_private_key").notNullable();
         table.boolean("is_active").notNullable().defaultTo(true);
@@ -150,7 +150,7 @@ export async function up(knex: Knex): Promise<void> {
           .uuid("dump_id")
           .notNullable()
           .defaultTo(knex.raw("gen_random_uuid()"))
-          .primary({ constraintName: "pg_dumps_pkey" });
+          .primary({ constraintName: "2_pg_dumps_pkey" });
         table.string("status", 16).notNullable();
         table.string("dump_path", 255);
         table.jsonb("meta");
@@ -166,7 +166,7 @@ export async function up(knex: Knex): Promise<void> {
   }
 
   await knex.raw(`
-    CREATE INDEX IF NOT EXISTS idx_server_keypairs_is_active
+    CREATE INDEX IF NOT EXISTS idx_2_server_keypairs_is_active
     ON public.2_server_keypairs (is_active)
     WHERE is_active = true
   `);
