@@ -4,7 +4,7 @@ import {
   createUser,
   createWallet,
   getKeyShareByWalletId,
-  getUserByEmailAndAuthType,
+  getUserByUserAuthIdAndAuthType,
   getWalletByPublicKey,
   updateReshare,
 } from "@oko-wallet/ksn-pg-interface";
@@ -29,7 +29,7 @@ export async function registerKeyShare(
   encryptionSecret: string,
 ): Promise<KSNodeApiResponse<void>> {
   try {
-    const { email, auth_type, curve_type, public_key, share } =
+    const { user_auth_id, auth_type, curve_type, public_key, share } =
       registerKeyShareRequest;
 
     if (curve_type !== "secp256k1") {
@@ -57,12 +57,16 @@ export async function registerKeyShare(
       };
     }
 
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByUserAuthIdAndAuthType(
+      db,
+      user_auth_id,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByEmailAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
       };
     }
 
@@ -72,7 +76,7 @@ export async function registerKeyShare(
 
       let user_id: string;
       if (getUserRes.data === null) {
-        const createUserRes = await createUser(client, email, auth_type);
+        const createUserRes = await createUser(client, user_auth_id, auth_type);
         if (createUserRes.success === false) {
           throw new Error(`Failed to createUser: ${createUserRes.err}`);
         }
@@ -134,14 +138,18 @@ export async function getKeyShare(
   encryptionSecret: string,
 ): Promise<KSNodeApiResponse<GetKeyShareResponse>> {
   try {
-    const { email, auth_type, public_key } = getKeyShareRequest;
+    const { user_auth_id, auth_type, public_key } = getKeyShareRequest;
 
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByUserAuthIdAndAuthType(
+      db,
+      user_auth_id,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByEmailAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
       };
     }
 
@@ -149,7 +157,7 @@ export async function getKeyShare(
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email} (auth_type: ${auth_type})`,
+        msg: `User not found: ${user_auth_id} (auth_type: ${auth_type})`,
       };
     }
 
@@ -223,7 +231,7 @@ export async function reshareKeyShare(
   encryptionSecret: string,
 ): Promise<KSNodeApiResponse<void>> {
   try {
-    const { email, auth_type, curve_type, public_key, share } =
+    const { user_auth_id, auth_type, curve_type, public_key, share } =
       reshareKeyShareRequest;
 
     if (curve_type !== "secp256k1") {
@@ -253,12 +261,16 @@ export async function reshareKeyShare(
     let wallet_id = getWalletRes.data.wallet_id;
 
     // Get user to verify ownership
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByUserAuthIdAndAuthType(
+      db,
+      user_auth_id,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByEmailAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
       };
     }
 
@@ -266,7 +278,7 @@ export async function reshareKeyShare(
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email} (auth_type: ${auth_type})`,
+        msg: `User not found: ${user_auth_id} (auth_type: ${auth_type})`,
       };
     }
 
@@ -336,14 +348,18 @@ export async function checkKeyShare(
   checkKeyShareRequest: CheckKeyShareRequest,
 ): Promise<KSNodeApiResponse<CheckKeyShareResponse>> {
   try {
-    const { email, auth_type, public_key } = checkKeyShareRequest;
+    const { user_auth_id, auth_type, public_key } = checkKeyShareRequest;
 
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByUserAuthIdAndAuthType(
+      db,
+      user_auth_id,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByEmailAndAuthType: ${getUserRes.err}`,
+        msg: `Failed to getUserByUserAuthIdAndAuthType: ${getUserRes.err}`,
       };
     }
     if (getUserRes.data === null) {

@@ -1,4 +1,4 @@
-import type { AuthType } from "@oko-wallet/ksn-interface/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export interface OAuthUser {
   type: AuthType;

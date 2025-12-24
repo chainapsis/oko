@@ -7,7 +7,7 @@ import type {
   RegisterKeyShareBody,
   ReshareKeyShareBody,
 } from "@oko-wallet/ksn-interface/key_share";
-import type { AuthType } from "@oko-wallet/ksn-interface/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { Bytes, type Bytes64 } from "@oko-wallet/bytes";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
@@ -172,7 +172,7 @@ export function makeKeyshareRouter() {
       const registerKeyShareRes = await registerKeyShare(
         state.db,
         {
-          email: oauthUser.email,
+          user_auth_id: oauthUser.email,
           auth_type,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,
@@ -302,7 +302,7 @@ export function makeKeyshareRouter() {
       const getKeyShareRes = await getKeyShare(
         state.db,
         {
-          email: oauthUser.email,
+          user_auth_id: oauthUser.email,
           auth_type,
           public_key: publicKeyBytesRes.data,
         },
@@ -329,7 +329,7 @@ export function makeKeyshareRouter() {
     tags: ["Key Share"],
     summary: "Check if a key share exists",
     description:
-      "Check if a key share exists for the provided email and public key.",
+      "Check if a key share exists for the provided user_auth_id and public key.",
     request: {
       body: {
         required: true,
@@ -396,7 +396,7 @@ export function makeKeyshareRouter() {
       }
 
       const checkKeyShareRes = await checkKeyShare(req.app.locals.db, {
-        email: body.email,
+        user_auth_id: body.user_auth_id,
         auth_type,
         public_key: publicKeyBytesRes.data,
       });
@@ -569,7 +569,7 @@ export function makeKeyshareRouter() {
       const reshareKeyShareRes = await reshareKeyShare(
         state.db,
         {
-          email: oauthUser.email,
+          user_auth_id: oauthUser.email,
           auth_type,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,

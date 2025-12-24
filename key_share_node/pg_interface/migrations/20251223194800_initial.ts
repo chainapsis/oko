@@ -15,7 +15,7 @@ export async function up(knex: Knex): Promise<void> {
         .defaultTo(knex.raw("gen_random_uuid()"))
         .primary({ constraintName: "2_users_pkey" });
       table.string("auth_type", 64).notNullable();
-      table.string("email", 255).notNullable();
+      table.string("user_auth_id", 255).notNullable();
       table.string("status", 16).notNullable().defaultTo("active");
       table
         .timestamp("created_at", { useTz: true })
@@ -27,8 +27,8 @@ export async function up(knex: Knex): Promise<void> {
         .defaultTo(knex.fn.now());
       table.jsonb("aux");
 
-      table.unique(["auth_type", "email"], {
-        indexName: "2_users_auth_type_email_key",
+      table.unique(["auth_type", "user_auth_id"], {
+        indexName: "2_users_auth_type_user_auth_id_key",
       });
     });
   }

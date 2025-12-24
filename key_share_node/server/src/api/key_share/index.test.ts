@@ -4,7 +4,7 @@ import {
   createUser,
   createWallet,
   getKeyShareByWalletId,
-  getUserByEmailAndAuthType,
+  getUserByUserAuthIdAndAuthType,
   getWalletByPublicKey,
 } from "@oko-wallet/ksn-pg-interface";
 import { Bytes, type Bytes33, type Bytes64 } from "@oko-wallet/bytes";
@@ -72,7 +72,7 @@ describe("key_share_test", () => {
       const registerKeyShareRes = await registerKeyShare(
         pool,
         {
-          email: "test@test.com",
+          user_auth_id: "test@test.com",
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -87,7 +87,7 @@ describe("key_share_test", () => {
         throw new Error("Failed to register key share");
       }
 
-      const getUserRes = await getUserByEmailAndAuthType(
+      const getUserRes = await getUserByUserAuthIdAndAuthType(
         pool,
         "test@test.com",
         "google",
@@ -158,7 +158,7 @@ describe("key_share_test", () => {
       const registerKeyShareRes = await registerKeyShare(
         pool,
         {
-          email: "test@test.com",
+          user_auth_id: "test@test.com",
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -203,7 +203,7 @@ describe("key_share_test", () => {
       await registerKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -215,7 +215,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -257,7 +257,7 @@ describe("key_share_test", () => {
       await registerKeyShare(
         pool,
         {
-          email: "test2@test.com",
+          user_auth_id: "test2@test.com",
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -269,7 +269,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -323,7 +323,7 @@ describe("key_share_test", () => {
       await registerKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes2,
@@ -335,7 +335,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -373,7 +373,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -419,7 +419,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -475,7 +475,7 @@ describe("key_share_test", () => {
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -501,7 +501,7 @@ describe("key_share_test", () => {
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -533,7 +533,7 @@ describe("key_share_test", () => {
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -575,7 +575,7 @@ describe("key_share_test", () => {
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -617,7 +617,7 @@ describe("key_share_test", () => {
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
