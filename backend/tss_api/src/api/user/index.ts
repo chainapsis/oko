@@ -23,8 +23,8 @@ import type {
   WalletKSNodeStatus,
 } from "@oko-wallet/oko-types/tss";
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
-import type { Wallet } from "@oko-wallet-types/wallets";
-import type { NodeNameAndEndpoint } from "@oko-wallet-types/user_key_share";
+import type { Wallet } from "@oko-wallet/oko-types/wallets";
+import type { NodeNameAndEndpoint } from "@oko-wallet/oko-types/user_key_share";
 import type { Bytes33 } from "@oko-wallet/bytes";
 
 import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
@@ -77,8 +77,20 @@ export async function signIn(
       };
     }
 
+    // Also look up ed25519 wallet if exists
+    const ed25519WalletRes = await getActiveWalletByUserIdAndCurveType(
+      db,
+      getUserRes.data.user_id,
+      "ed25519",
+    );
+    // Don't fail if ed25519 wallet doesn't exist, it's optional
+    const ed25519WalletId = ed25519WalletRes.success && ed25519WalletRes.data
+      ? ed25519WalletRes.data.wallet_id
+      : undefined;
+
     const tokenResult = generateUserToken({
       wallet_id: walletRes.data.wallet_id,
+      wallet_id_ed25519: ed25519WalletId,
       email: getUserRes.data.email,
       jwt_config,
     });
@@ -360,6 +372,7 @@ export async function updateWalletKSNodesForReshare(
       public_key,
       getKSNodesRes.data,
       auth_type,
+      wallet.curve_type,
     );
     if (checkKeyshareFromKSNodesRes.success === false) {
       return checkKeyshareFromKSNodesRes;
