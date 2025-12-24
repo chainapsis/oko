@@ -7,7 +7,6 @@ import { getAllPgDumps, type PgDump } from "@oko-wallet/ksn-pg-interface";
 import type { GetBackupHistoryRequest } from "@oko-wallet/ksn-interface/db_backup";
 
 import {
-  adminAuthMiddleware,
   rateLimitMiddleware,
   type AdminAuthenticatedRequest,
   type RateLimitMiddlewareOption,
@@ -87,7 +86,6 @@ export function makePgDumpRouter() {
   router.post(
     "/get_backup_history",
     ...(isTest ? [] : [rateLimitMiddleware(ADMIN_RATE_LIMIT)]),
-    adminAuthMiddleware,
     async (
       req: AdminAuthenticatedRequest<GetBackupHistoryRequest>,
       res: Response<KSNodeApiResponse<PgDump[]>>,
