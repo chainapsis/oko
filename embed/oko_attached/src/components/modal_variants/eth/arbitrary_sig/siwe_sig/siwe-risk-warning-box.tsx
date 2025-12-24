@@ -24,6 +24,10 @@ export const SiweRiskWarningCheckBox: FC<SiweRiskWarningCheckBoxProps> = ({
           size: "xs",
           weight: "medium",
         }}
+        checkboxContainerClassName={styles.siweRiskWarningCheckBoxContainer}
+        checkBoxInputContainerClassName={
+          styles.siweRiskWarningCheckBoxInputContainerClassName
+        }
       />
     </div>
   );
