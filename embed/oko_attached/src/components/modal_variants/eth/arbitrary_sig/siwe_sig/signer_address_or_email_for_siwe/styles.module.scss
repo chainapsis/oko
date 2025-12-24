@@ -1,7 +1,8 @@
 .wrapper {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 0.5rem;
   width: 100%;
   word-break: break-all;
   word-wrap: break-word;
@@ -17,12 +18,6 @@
 
   cursor: pointer;
   border-radius: 12px;
-  background-color: var(--bg-secondary);
+  background: var(--bg-secondary);
   width: fit-content;
-
-  transition: background-color 0.15s ease-in-out;
-
-  &:hover {
-    background-color: var(--bg-secondary-hover);
-  }
 }

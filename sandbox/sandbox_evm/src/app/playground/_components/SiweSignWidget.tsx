@@ -14,14 +14,23 @@ export function SiweSignWidget() {
 
   const [signedMessage, setSignedMessage] = useState("");
 
-  const handleSiweSign = async () => {
+  const handleSiweSign = async (isWrongUriTest: boolean = false) => {
     if (!walletClient || !address || !chainId) {
       return;
     }
 
+    const localDomain =
+      typeof window !== "undefined" ? window.location.host : "localhost:3000";
+    const localUri =
+      typeof window !== "undefined"
+        ? window.location.href
+        : "http://localhost:3000";
+    const wrongDomain = "demo.oko.app";
+    const wrongUri = "https://demo.oko.app/test";
+
     const siweMessage = createSiweMessage({
-      domain: "oko-wallet-sandbox.vercel.app",
-      uri: "https://oko-wallet-sandbox.vercel.app",
+      domain: isWrongUriTest ? wrongDomain : localDomain,
+      uri: isWrongUriTest ? wrongUri : localUri,
       address,
       chainId,
       nonce: generateSiweNonce(),
@@ -63,11 +72,19 @@ export function SiweSignWidget() {
         </p>
 
         <button
-          onClick={handleSiweSign}
+          onClick={() => handleSiweSign(false)}
           disabled={!walletClient || !address || !chainId || isLoading}
           className="btn btn-primary w-full mt-4"
         >
           {isLoading ? "Signing..." : "Sign SIWE Message"}
+        </button>
+
+        <button
+          onClick={() => handleSiweSign(true)}
+          disabled={!walletClient || !address || !chainId || isLoading}
+          className="btn btn-primary w-full mt-4"
+        >
+          {isLoading ? "Signing..." : "Sign SIWE Message (with wrong URI)"}
         </button>
 
         {error && (
