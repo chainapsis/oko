@@ -2,9 +2,9 @@
 
 -- Drop table
 
--- DROP TABLE public.2_key_shares;
+-- DROP TABLE public."2_key_shares";
 
-CREATE TABLE public.2_key_shares (
+CREATE TABLE public."2_key_shares" (
 	share_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	wallet_id uuid NOT NULL,
 	enc_share bytea NOT NULL,
@@ -13,8 +13,8 @@ CREATE TABLE public.2_key_shares (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
-	CONSTRAINT key_shares_pkey PRIMARY KEY (share_id),
-	CONSTRAINT key_shares_unique UNIQUE (wallet_id)
+	CONSTRAINT 2_key_shares_pkey PRIMARY KEY (share_id),
+	CONSTRAINT 2_key_shares_unique UNIQUE (wallet_id)
 );
 
 
@@ -22,16 +22,16 @@ CREATE TABLE public.2_key_shares (
 
 -- Drop table
 
--- DROP TABLE public.2_pg_dumps;
+-- DROP TABLE public."2_pg_dumps";
 
-CREATE TABLE public.2_pg_dumps (
+CREATE TABLE public."2_pg_dumps" (
 	dump_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	status varchar(16) NOT NULL,
 	dump_path varchar(255) NULL,
 	meta jsonb NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
-	CONSTRAINT pg_dumps_pkey PRIMARY KEY (dump_id)
+	CONSTRAINT 2_pg_dumps_pkey PRIMARY KEY (dump_id)
 );
 
 
@@ -39,9 +39,9 @@ CREATE TABLE public.2_pg_dumps (
 
 -- Drop table
 
--- DROP TABLE public.2_users;
+-- DROP TABLE public."2_users";
 
-CREATE TABLE public.2_users (
+CREATE TABLE public."2_users" (
 	user_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	auth_type varchar(64) NOT NULL,
 	email varchar(255) NOT NULL,
@@ -49,8 +49,8 @@ CREATE TABLE public.2_users (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
-	CONSTRAINT users_pkey PRIMARY KEY (user_id)
-	CONSTRAINT users_auth_type_email_key UNIQUE (auth_type, email),
+	CONSTRAINT 2_users_pkey PRIMARY KEY (user_id),
+	CONSTRAINT 2_users_auth_type_email_key UNIQUE (auth_type, email)
 );
 
 
@@ -58,9 +58,9 @@ CREATE TABLE public.2_users (
 
 -- Drop table
 
--- DROP TABLE public.2_wallets;
+-- DROP TABLE public."2_wallets";
 
-CREATE TABLE public.2_wallets (
+CREATE TABLE public."2_wallets" (
 	wallet_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	user_id uuid NOT NULL,
 	curve_type varchar(16) NOT NULL,
@@ -68,8 +68,8 @@ CREATE TABLE public.2_wallets (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
-	CONSTRAINT wallets_pkey PRIMARY KEY (wallet_id),
-	CONSTRAINT wallets_public_key_key UNIQUE (public_key)
+	CONSTRAINT 2_wallets_pkey PRIMARY KEY (wallet_id),
+	CONSTRAINT 2_wallets_public_key_key UNIQUE (public_key)
 );
 
 
@@ -77,9 +77,9 @@ CREATE TABLE public.2_wallets (
 
 -- Drop table
 
--- DROP TABLE public.2_server_keypairs;
+-- DROP TABLE public."2_server_keypairs";
 
-CREATE TABLE public.2_server_keypairs (
+CREATE TABLE public."2_server_keypairs" (
 	keypair_id uuid DEFAULT gen_random_uuid() NOT NULL,
 	version int4 GENERATED ALWAYS AS IDENTITY NOT NULL,
 	public_key bytea NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE public.2_server_keypairs (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	rotated_at timestamptz NULL,
-	CONSTRAINT server_keypairs_pkey PRIMARY KEY (keypair_id),
-	CONSTRAINT server_keypairs_version_key UNIQUE (version)
+	CONSTRAINT 2_server_keypairs_pkey PRIMARY KEY (keypair_id),
+	CONSTRAINT 2_server_keypairs_version_key UNIQUE (version)
 );
-CREATE INDEX idx_server_keypairs_is_active ON public.2_server_keypairs USING btree (is_active) WHERE (is_active = true);
+CREATE INDEX idx_2_server_keypairs_is_active ON public."2_server_keypairs" USING btree (is_active) WHERE (is_active = true);

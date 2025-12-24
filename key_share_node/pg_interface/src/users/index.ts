@@ -9,7 +9,7 @@ export async function createUser(
 ): Promise<Result<KSNodeUser, string>> {
   try {
     const query = `
-INSERT INTO 2_users (
+INSERT INTO "2_users" (
   email, auth_type
 ) 
 VALUES (
@@ -40,7 +40,7 @@ export async function getUserByEmailAndAuthType(
 ): Promise<Result<KSNodeUser | null, string>> {
   try {
     const query = `
-SELECT * FROM 2_users 
+SELECT * FROM "2_users" 
 WHERE email = $1 AND auth_type = $2
 LIMIT 1
 `;
@@ -63,7 +63,7 @@ export async function getUserFromUserId(
 ): Promise<Result<KSNodeUser, string>> {
   try {
     const query = `
-SELECT * FROM 2_users 
+SELECT * FROM "2_users" 
 WHERE user_id = $1 
 LIMIT 1
 `;

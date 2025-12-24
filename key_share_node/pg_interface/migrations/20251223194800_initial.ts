@@ -167,7 +167,7 @@ export async function up(knex: Knex): Promise<void> {
 
   await knex.raw(`
     CREATE INDEX IF NOT EXISTS idx_2_server_keypairs_is_active
-    ON public.2_server_keypairs (is_active)
+    ON public."2_server_keypairs" (is_active)
     WHERE is_active = true
   `);
 }

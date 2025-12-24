@@ -13,7 +13,7 @@ export async function createWallet(
 ): Promise<Result<KSNodeWallet, string>> {
   try {
     const query = `
-INSERT INTO 2_wallets (
+INSERT INTO "2_wallets" (
   wallet_id, user_id, curve_type, 
   public_key
 )
@@ -59,7 +59,7 @@ export async function getWalletById(
 ): Promise<Result<KSNodeWallet | null, string>> {
   try {
     const query = `
-SELECT * FROM 2_wallets 
+SELECT * FROM "2_wallets" 
 WHERE wallet_id = $1 
 LIMIT 1
 `;
@@ -89,7 +89,7 @@ export async function getWalletByPublicKey(
 ): Promise<Result<KSNodeWallet | null, string>> {
   try {
     const query = `
-SELECT * FROM 2_wallets 
+SELECT * FROM "2_wallets" 
 WHERE public_key = $1 
 LIMIT 1
 `;

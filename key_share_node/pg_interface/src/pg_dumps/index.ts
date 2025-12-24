@@ -22,7 +22,7 @@ export interface PgDump {
 export async function createPgDump(db: Pool): Promise<Result<PgDump, string>> {
   try {
     const query = `
-INSERT INTO 2_pg_dumps (
+INSERT INTO "2_pg_dumps" (
   dump_id, status
 ) VALUES (
   $1, $2
@@ -54,7 +54,7 @@ export async function updatePgDump(
 ): Promise<Result<void, string>> {
   try {
     const query = `
-UPDATE 2_pg_dumps
+UPDATE "2_pg_dumps"
 SET status = $1, dump_path = $2, meta = $3, updated_at = NOW()
 WHERE dump_id = $4
 `;
@@ -76,7 +76,7 @@ export async function updatePgDumpStatus(
 ): Promise<Result<void, string>> {
   try {
     const query = `
-UPDATE 2_pg_dumps
+UPDATE "2_pg_dumps"
 SET status = $1, updated_at = NOW()
 WHERE dump_id = $2
 `;
@@ -102,7 +102,7 @@ export async function getOldCompletedPgDumps(
 
     const query = `
 SELECT *
-FROM 2_pg_dumps
+FROM "2_pg_dumps"
 WHERE status = 'COMPLETED'
 AND created_at < NOW() - ($1 * INTERVAL '1 second')
 ORDER BY created_at ASC
@@ -122,7 +122,7 @@ export async function getPgDumpById(
   try {
     const query = `
 SELECT * 
-FROM 2_pg_dumps 
+FROM "2_pg_dumps" 
 WHERE dump_id = $1
 `;
     const result = await db.query(query, [dumpId]);
@@ -141,7 +141,7 @@ export async function getAllPgDumps(
 ): Promise<Result<PgDump[], string>> {
   try {
     let query = `
-SELECT * FROM 2_pg_dumps
+SELECT * FROM "2_pg_dumps"
 `;
 
     const values = [];
@@ -164,7 +164,7 @@ export async function getLatestCompletedPgDump(
 ): Promise<Result<PgDump | null, string>> {
   try {
     const query = `
-SELECT * FROM 2_pg_dumps 
+SELECT * FROM "2_pg_dumps" 
 WHERE status = 'COMPLETED' 
 ORDER BY created_at DESC 
 LIMIT 1
