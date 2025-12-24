@@ -1,5 +1,5 @@
 import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
-import { wasmModule } from "@oko-wallet/teddsa-wasm";
+import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type {
   PointNumArr,

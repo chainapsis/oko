@@ -10311,7 +10311,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/frost-ed25519-keplr-wasm@workspace:crypto/teddsa/frost_ed25519_keplr_wasm":
+"@oko-wallet/frost-ed25519-keplr-wasm@workspace:*, @oko-wallet/frost-ed25519-keplr-wasm@workspace:crypto/teddsa/frost_ed25519_keplr_wasm":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/frost-ed25519-keplr-wasm@workspace:crypto/teddsa/frost_ed25519_keplr_wasm"
   dependencies:
@@ -10597,6 +10597,7 @@ __metadata:
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@oko-wallet/crypto-js": "npm:^0.0.2-alpha.8"
     "@oko-wallet/dotenv": "npm:^0.0.2-alpha.29"
+    "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*"
     "@oko-wallet/ksn-interface": "npm:^0.0.2-alpha.60"
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.130"
@@ -10604,6 +10605,8 @@ __metadata:
     "@oko-wallet/oko-sdk-eth": "npm:^0.0.6-rc.145"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
     "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
+    "@oko-wallet/teddsa-hooks": "workspace:*"
+    "@oko-wallet/teddsa-interface": "workspace:*"
     "@tanstack/react-query": "npm:^5.90.12"
     "@tanstack/react-router": "npm:^1.136.8"
     "@tanstack/react-router-devtools": "npm:^1.136.8"
@@ -11139,11 +11142,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks":
+"@oko-wallet/teddsa-hooks@workspace:*, @oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks"
   dependencies:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.62"
+    "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@oko-wallet/teddsa-interface": "workspace:*"
     "@oko-wallet/teddsa-wasm-mock": "workspace:*"
