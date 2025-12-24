@@ -1,8 +1,8 @@
-use frost_ed25519_keplr as frost;
 use frost::keys::{KeyPackage, PublicKeyPackage};
 use frost::round1::{SigningCommitments, SigningNonces};
 use frost::round2::SignatureShare;
 use frost::{Identifier, SigningPackage};
+use frost_ed25519_keplr as frost;
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 use rand_core::OsRng;
@@ -44,11 +44,12 @@ pub struct SignatureShareEntry {
     pub signature_share: Vec<u8>,
 }
 
-fn sign_round1_inner(key_package_bytes: &[u8]) -> std::result::Result<SigningCommitmentOutput, String> {
+fn sign_round1_inner(
+    key_package_bytes: &[u8],
+) -> std::result::Result<SigningCommitmentOutput, String> {
     let mut rng = OsRng;
 
-    let key_package =
-        KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
+    let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
 
     let (nonces, commitments) = frost::round1::commit(key_package.signing_share(), &mut rng);
 
@@ -69,23 +70,21 @@ fn sign_round2_inner(
     nonces_bytes: &[u8],
     all_commitments: &[(Vec<u8>, Vec<u8>)],
 ) -> std::result::Result<SignatureShareOutput, String> {
-    let key_package =
-        KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
+    let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
 
     let nonces = SigningNonces::deserialize(nonces_bytes).map_err(|e| e.to_string())?;
 
     let mut commitments_map: BTreeMap<Identifier, SigningCommitments> = BTreeMap::new();
     for (id_bytes, comm_bytes) in all_commitments {
         let identifier = Identifier::deserialize(id_bytes).map_err(|e| e.to_string())?;
-        let commitments =
-            SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
+        let commitments = SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
         commitments_map.insert(identifier, commitments);
     }
 
     let signing_package = SigningPackage::new(commitments_map, message);
 
-    let signature_share = frost::round2::sign(&signing_package, &nonces, &key_package)
-        .map_err(|e| e.to_string())?;
+    let signature_share =
+        frost::round2::sign(&signing_package, &nonces, &key_package).map_err(|e| e.to_string())?;
 
     let signature_share_bytes = signature_share.serialize();
     let identifier_bytes = key_package.identifier().serialize().to_vec();
@@ -108,8 +107,7 @@ fn aggregate_inner(
     let mut commitments_map: BTreeMap<Identifier, SigningCommitments> = BTreeMap::new();
     for (id_bytes, comm_bytes) in all_commitments {
         let identifier = Identifier::deserialize(id_bytes).map_err(|e| e.to_string())?;
-        let commitments =
-            SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
+        let commitments = SigningCommitments::deserialize(comm_bytes).map_err(|e| e.to_string())?;
         commitments_map.insert(identifier, commitments);
     }
 
@@ -144,8 +142,7 @@ fn verify_inner(
         .try_into()
         .map_err(|_| "Invalid signature length".to_string())?;
 
-    let signature =
-        frost::Signature::deserialize(&signature_array).map_err(|e| e.to_string())?;
+    let signature = frost::Signature::deserialize(&signature_array).map_err(|e| e.to_string())?;
 
     let verifying_key = pubkey_package.verifying_key();
     match verifying_key.verify(message, &signature) {
@@ -180,24 +177,26 @@ pub fn napi_sign_round2_ed25519(
     nonces: Vec<u8>,
     all_commitments: serde_json::Value,
 ) -> Result<serde_json::Value> {
-    let commitments: Vec<CommitmentEntry> = serde_json::from_value(all_commitments).map_err(|e| {
-        napi::Error::new(
-            napi::Status::GenericFailure,
-            format!("deserialization error (all_commitments): {:?}", e),
-        )
-    })?;
+    let commitments: Vec<CommitmentEntry> =
+        serde_json::from_value(all_commitments).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("deserialization error (all_commitments): {:?}", e),
+            )
+        })?;
 
     let commitments_vec: Vec<(Vec<u8>, Vec<u8>)> = commitments
         .into_iter()
         .map(|c| (c.identifier, c.commitments))
         .collect();
 
-    let output = sign_round2_inner(&message, &key_package, &nonces, &commitments_vec).map_err(|e| {
-        napi::Error::new(
-            napi::Status::GenericFailure,
-            format!("sign_round2 error: {:?}", e),
-        )
-    })?;
+    let output =
+        sign_round2_inner(&message, &key_package, &nonces, &commitments_vec).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("sign_round2 error: {:?}", e),
+            )
+        })?;
 
     serde_json::to_value(output).map_err(|e| {
         napi::Error::new(
@@ -215,15 +214,16 @@ pub fn napi_aggregate_ed25519(
     all_signature_shares: serde_json::Value,
     public_key_package: Vec<u8>,
 ) -> Result<serde_json::Value> {
-    let commitments: Vec<CommitmentEntry> = serde_json::from_value(all_commitments).map_err(|e| {
-        napi::Error::new(
-            napi::Status::GenericFailure,
-            format!("deserialization error (all_commitments): {:?}", e),
-        )
-    })?;
+    let commitments: Vec<CommitmentEntry> =
+        serde_json::from_value(all_commitments).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("deserialization error (all_commitments): {:?}", e),
+            )
+        })?;
 
-    let sig_shares: Vec<SignatureShareEntry> =
-        serde_json::from_value(all_signature_shares).map_err(|e| {
+    let sig_shares: Vec<SignatureShareEntry> = serde_json::from_value(all_signature_shares)
+        .map_err(|e| {
             napi::Error::new(
                 napi::Status::GenericFailure,
                 format!("deserialization error (all_signature_shares): {:?}", e),

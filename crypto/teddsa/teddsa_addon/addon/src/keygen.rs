@@ -1,5 +1,5 @@
-use frost_ed25519_keplr as frost;
 use frost::keys::KeyPackage;
+use frost_ed25519_keplr as frost;
 use napi::bindgen_prelude::*;
 use napi_derive::napi;
 use rand_core::OsRng;
