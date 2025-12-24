@@ -2,7 +2,7 @@
 
 mod helpers;
 
-use frost_ed25519::SigningKey;
+use frost_ed25519_keplr::SigningKey;
 use helpers::samples;
 
 #[allow(clippy::unnecessary_literal_unwrap)]

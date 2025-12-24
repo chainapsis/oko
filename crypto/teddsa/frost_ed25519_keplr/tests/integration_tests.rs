@@ -1,4 +1,4 @@
-use frost_ed25519::*;
+use frost_ed25519_keplr::*;
 use lazy_static::lazy_static;
 use serde_json::Value;
 
