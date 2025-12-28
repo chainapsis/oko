@@ -41,6 +41,83 @@ import {
 } from "@oko-wallet-attached/crypto/keygen_ed25519";
 import { recoverEd25519Keygen } from "@oko-wallet-attached/crypto/sss_ed25519";
 
+async function recoverEd25519KeyPackage(
+  idToken: string,
+  keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: AuthType,
+): Promise<KeyPackageEd25519Hex | null> {
+  const publicInfoRes = await fetch(
+    `${TSS_V1_ENDPOINT}/wallet_ed25519/public_info`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${idToken}`,
+      },
+      body: JSON.stringify({}),
+    },
+  );
+
+  if (!publicInfoRes.ok) {
+    console.warn(
+      "[attached] Ed25519 public info HTTP error:",
+      publicInfoRes.status,
+    );
+    return null;
+  }
+
+  const publicInfoData = await publicInfoRes.json();
+  if (!publicInfoData.success) {
+    console.warn(
+      "[attached] Ed25519 public info request failed:",
+      publicInfoData.msg,
+    );
+    return null;
+  }
+
+  const {
+    public_key: publicKeyHex,
+    public_key_package,
+    identifier,
+  } = publicInfoData.data;
+
+  const publicKeyBytesRes = Bytes.fromHexString(publicKeyHex, 32);
+  if (!publicKeyBytesRes.success) {
+    console.warn(
+      "[attached] Invalid Ed25519 public key:",
+      publicKeyBytesRes.err,
+    );
+    return null;
+  }
+
+  const sharesRes = await requestSplitSharesEd25519(
+    publicKeyBytesRes.data,
+    idToken,
+    keyshareNodeMeta.nodes,
+    keyshareNodeMeta.threshold,
+    authType,
+  );
+  if (!sharesRes.success) {
+    console.warn("[attached] Ed25519 shares request failed:", sharesRes.err);
+    return null;
+  }
+
+  const recoveryRes = await recoverEd25519Keygen(
+    sharesRes.data,
+    keyshareNodeMeta.threshold,
+    Uint8Array.from(public_key_package),
+    Uint8Array.from(identifier),
+    publicKeyBytesRes.data,
+  );
+  if (!recoveryRes.success) {
+    console.warn("[attached] Ed25519 key recovery failed:", recoveryRes.err);
+    return null;
+  }
+
+  console.log("[attached] Ed25519 key recovered successfully");
+  return teddsaKeygenToHex(recoveryRes.data);
+}
+
 export async function handleExistingUser(
   idToken: string,
   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
@@ -800,6 +877,12 @@ export async function handleReshare(
     };
   }
 
+  const keyPackageEd25519 = await recoverEd25519KeyPackage(
+    idToken,
+    keyshareNodeMeta,
+    authType,
+  );
+
   return {
     success: true,
     data: {
@@ -810,7 +893,7 @@ export async function handleReshare(
       isNewUser: false,
       email: signInResp.user.email ?? null,
       name: signInResp.user.name ?? null,
-      keyPackageEd25519: null,
+      keyPackageEd25519,
     },
   };
 }
