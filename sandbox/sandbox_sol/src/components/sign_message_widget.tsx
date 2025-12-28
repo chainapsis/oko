@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useSdkStore } from "@/store/sdk";
 import bs58 from "bs58";
-import styles from "./widget.module.css";
+import Button from "./Button";
 
 export function SignMessageWidget() {
   const { okoSolWallet } = useSdkStore();
@@ -36,16 +36,20 @@ export function SignMessageWidget() {
   };
 
   return (
-    <div className={styles.card}>
-      <h3 className={styles.title}>Sign Message</h3>
-      <p className={styles.description}>
+    <div className="bg-widget border border-widget-border rounded-3xl p-10 shadow-xl">
+      <h3 className="text-2xl font-semibold tracking-tight mb-2">
+        Sign Message
+      </h3>
+      <p className="text-gray-400 text-sm mb-6">
         Sign an arbitrary message with your Solana wallet
       </p>
 
-      <div className={styles.field}>
-        <label className={styles.label}>Message</label>
+      <div className="flex flex-col gap-3 mb-6">
+        <label className="block text-xs font-semibold tracking-wide uppercase text-gray-300">
+          Message
+        </label>
         <textarea
-          className={styles.textarea}
+          className="w-full bg-widget-field border border-widget-border rounded-2xl px-6 py-5 text-sm focus:outline-none focus:border-widget-border-hover focus:ring-2 focus:ring-widget-border-hover transition-all resize-none"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           placeholder="Enter message to sign..."
@@ -53,20 +57,30 @@ export function SignMessageWidget() {
         />
       </div>
 
-      <button
-        className={styles.button}
+      <Button
         onClick={handleSignMessage}
         disabled={isLoading || !message}
+        loading={isLoading}
+        fullWidth
+        size="lg"
       >
-        {isLoading ? "Signing..." : "Sign Message"}
-      </button>
+        Sign Message
+      </Button>
 
-      {error && <div className={styles.error}>{error}</div>}
+      {error && (
+        <div className="mt-4 p-4 bg-red-500/10 border border-red-500/30 rounded-xl text-red-400 text-sm">
+          {error}
+        </div>
+      )}
 
       {signature && (
-        <div className={styles.result}>
-          <label className={styles.label}>Signature (base58)</label>
-          <code className={styles.code}>{signature}</code>
+        <div className="mt-6 flex flex-col gap-3">
+          <label className="block text-xs font-semibold tracking-wide uppercase text-gray-300">
+            Signature (base58)
+          </label>
+          <code className="block bg-widget-field border border-widget-border rounded-2xl px-6 py-5 font-mono text-xs break-all text-green-400">
+            {signature}
+          </code>
         </div>
       )}
     </div>
