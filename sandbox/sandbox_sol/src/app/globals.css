@@ -1,38 +1,31 @@
+@import "tailwindcss";
+
 :root {
-  --bg-primary: #0a0a0a;
-  --bg-secondary: #141414;
-  --bg-tertiary: #1a1a1a;
-  --text-primary: #ffffff;
-  --text-secondary: #a0a0a0;
-  --border: #2a2a2a;
-  --accent: #9945ff;
-  --accent-hover: #7c35d9;
-  --success: #14f195;
-  --error: #ff4444;
+  --background: #0a0a0a;
+  --foreground: #ededed;
 }
 
-* {
-  box-sizing: border-box;
-  padding: 0;
-  margin: 0;
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  /* UI tokens */
+  --color-widget: #24262a;
+  --color-widget-border: #2f3136;
+  --color-widget-field: #1f2125;
+  --color-widget-border-hover: #3a3f45;
+  /* Solana brand colors */
+  --color-solana-purple: #9945ff;
+  --color-solana-green: #14f195;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
-    Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-}
-
-body {
-  background: var(--bg-primary);
-  color: var(--text-primary);
-  min-height: 100vh;
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
+@layer base {
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
