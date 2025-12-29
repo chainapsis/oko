@@ -77,9 +77,9 @@ For new users, distributed key shares are created:
    - Stores encrypted shares in key share nodes
 
 2. Database Updates:
-   - ewallet_wallets table: new entry with public key
+   - oko_wallets table: new entry with public key
    - wallet_ks_nodes table: key share node assignments
-   - ewallet_users table: user account information
+   - oko_users table: user account information
 ```
 
 **User Experience:**
