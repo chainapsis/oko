@@ -1,6 +1,7 @@
-use frost_ed25519_keplr::keys::PublicKeyPackage;
+use frost_ed25519_keplr::keys::{PublicKeyPackage, VerifyingShare};
+use frost_ed25519_keplr::{Identifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
-use std::collections::HashMap;
+use std::collections::{BTreeMap, HashMap};
 
 use super::IdentifierHex;
 
@@ -35,5 +36,22 @@ impl PublicKeyPackageRaw {
             verifying_shares,
             verifying_key,
         })
+    }
+
+    pub fn to_public_key_package(&self) -> Result<PublicKeyPackage, String> {
+        let mut verifying_shares: BTreeMap<Identifier, VerifyingShare> = BTreeMap::new();
+
+        for (id_hex, share_bytes) in &self.verifying_shares {
+            let id_bytes = hex::decode(id_hex).map_err(|e| e.to_string())?;
+            let identifier = Identifier::deserialize(&id_bytes).map_err(|e| e.to_string())?;
+            let verifying_share =
+                VerifyingShare::deserialize(share_bytes).map_err(|e| e.to_string())?;
+            verifying_shares.insert(identifier, verifying_share);
+        }
+
+        let verifying_key =
+            VerifyingKey::deserialize(&self.verifying_key).map_err(|e| e.to_string())?;
+
+        Ok(PublicKeyPackage::new(verifying_shares, verifying_key))
     }
 }

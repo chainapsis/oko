@@ -1,4 +1,5 @@
-use frost_ed25519_keplr::keys::KeyPackage;
+use frost_ed25519_keplr::keys::{KeyPackage, SigningShare, VerifyingShare};
+use frost_ed25519_keplr::{Identifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 
 use super::PublicKeyPackageRaw;
@@ -61,5 +62,26 @@ impl KeyPackageRaw {
             verifying_key,
             min_signers: *pkg.min_signers(),
         })
+    }
+
+    pub fn to_key_package(&self) -> Result<KeyPackage, String> {
+        let identifier = Identifier::deserialize(&self.identifier).map_err(|e| e.to_string())?;
+
+        let signing_share =
+            SigningShare::deserialize(&self.signing_share).map_err(|e| e.to_string())?;
+
+        let verifying_share =
+            VerifyingShare::deserialize(&self.verifying_share).map_err(|e| e.to_string())?;
+
+        let verifying_key =
+            VerifyingKey::deserialize(&self.verifying_key).map_err(|e| e.to_string())?;
+
+        Ok(KeyPackage::new(
+            identifier,
+            signing_share,
+            verifying_share,
+            verifying_key,
+            self.min_signers,
+        ))
     }
 }
