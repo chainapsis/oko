@@ -16,7 +16,6 @@ services:
     build:
       context: ../../
       dockerfile: key_share_node/docker/key_share_node.Dockerfile
-      network: host
     ports:
       - ${SERVER_PORT}:${SERVER_PORT}
     restart: unless-stopped
