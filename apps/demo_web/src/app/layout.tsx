@@ -41,16 +41,39 @@ export const metadata: Metadata = {
   },
 };
 
+const themeInitScript = `
+(function() {
+  try {
+    const stored = localStorage.getItem('theme');
+    let preference = 'system';
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      preference = parsed.state?.preference || 'system';
+    }
+    let theme = preference;
+    
+    if (preference === 'system') {
+      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    document.documentElement.setAttribute('data-theme', theme);
+  } catch (e) {}
+})();
+`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // To prevent flickering in dark mode or light mode in Next.js, an inline script is required.
+    // The reason is that even when using LayoutEffect in React, it executes after hydration.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
-        suppressHydrationWarning
       >
         {children}
       </body>
