@@ -60,6 +60,8 @@ async function main() {
     encryption_secret: envs.ENCRYPTION_SECRET!,
     typeform_webhook_secret: envs.TYPEFORM_WEBHOOK_SECRET!,
     telegram_bot_token: envs.TELEGRAM_BOT_TOKEN!,
+    slack_webhook_url: envs.SLACK_WEBHOOK_URL ?? null,
+    ks_node_report_password: envs.KS_NODE_REPORT_PASSWORD!,
   });
 
   state.logger.info("Running database migrations...");
@@ -93,6 +95,7 @@ async function main() {
 
   startKSNodeHeartbeatRuntime(state.db, state.logger, {
     intervalSeconds: 60, // 1 minute
+    slackWebhookUrl: state.slack_webhook_url,
   });
 
   startInactiveCustomerUserReminderRuntime(state.db, state.logger, {

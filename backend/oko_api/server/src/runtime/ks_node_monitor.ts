@@ -12,13 +12,13 @@ const HEARTBEAT_THRESHOLD_MINUTES = 10;
 export function startKSNodeHeartbeatRuntime(
   db: Pool,
   logger: Logger,
-  options: { intervalSeconds: number },
+  options: { intervalSeconds: number; slackWebhookUrl: string | null },
 ) {
   logger.info("Starting KS Node heartbeat runtime");
 
   const run = async () => {
     try {
-      await checkKSNodeHeartbeats(db, logger);
+      await checkKSNodeHeartbeats(db, logger, options.slackWebhookUrl);
     } catch (err) {
       logger.error("KS Node heartbeat runtime error: %s", err);
     }
@@ -28,7 +28,11 @@ export function startKSNodeHeartbeatRuntime(
   setInterval(run, options.intervalSeconds * 1000);
 }
 
-async function checkKSNodeHeartbeats(db: Pool, logger: Logger) {
+async function checkKSNodeHeartbeats(
+  db: Pool,
+  logger: Logger,
+  slackWebhookUrl: string | null,
+) {
   const latestTelemetriesRes = await getLatestKSNodeTelemetries(db);
   if (!latestTelemetriesRes.success) {
     logger.error(
@@ -57,6 +61,7 @@ async function checkKSNodeHeartbeats(db: Pool, logger: Logger) {
 
       await sendSlackAlert(
         `[KS Node Alert] Node ${nodeName} has not reported telemetry for over ${HEARTBEAT_THRESHOLD_MINUTES} minutes. Last seen: ${lastUpdate.toISOString()}`,
+        slackWebhookUrl,
       );
     }
   }

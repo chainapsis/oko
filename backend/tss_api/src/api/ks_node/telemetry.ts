@@ -17,23 +17,16 @@ export interface KSNodeTelemetryPayload {
 export async function processKSNodeTelemetry(
   db: Pool,
   input: KSNodeTelemetryPayload,
-  password: string,
+  slackWebhookUrl: string | null,
 ): Promise<Result<void, string>> {
-  // 1. Verify Password
-  if (password !== process.env.KS_NODE_REPORT_PASSWORD) {
-    return {
-      success: false,
-      err: "Invalid password",
-    };
-  }
-
   const { public_key, key_share_count, payload } = input;
 
-  // 2. Check if node exists
+  // 1. Check if node exists
   const nodeRes = await getKSNodeByPublicKey(db, public_key);
   if (!nodeRes.success) {
     await sendSlackAlert(
       `[TSS API Error] Failed to check if node exists ${public_key}: ${nodeRes.err}`,
+      slackWebhookUrl,
     );
     return { success: false, err: nodeRes.err };
   }
@@ -46,11 +39,12 @@ export async function processKSNodeTelemetry(
     return { success: true, data: void 0 };
   }
 
-  // 3. Get previous telemetry for comparison
+  // 2. Get previous telemetry for comparison
   const lastTelemetryRes = await getLastKSNodeTelemetry(db, public_key);
   if (!lastTelemetryRes.success) {
     await sendSlackAlert(
       `[TSS API Error] Failed to get last telemetry for node ${public_key}: ${lastTelemetryRes.err}`,
+      slackWebhookUrl,
     );
     return { success: false, err: lastTelemetryRes.err };
   }
@@ -67,6 +61,7 @@ export async function processKSNodeTelemetry(
   if (!insertRes.success) {
     await sendSlackAlert(
       `[TSS API Error] Failed to insert telemetry for node ${public_key}: ${insertRes.err}`,
+      slackWebhookUrl,
     );
     return { success: false, err: insertRes.err };
   }
@@ -77,6 +72,7 @@ export async function processKSNodeTelemetry(
   if (lastTelemetry && key_share_count < lastTelemetry.key_share_count) {
     await sendSlackAlert(
       `[KS Node Alert] Key share count decreased for node: ${nodeName}. Previous: ${lastTelemetry.key_share_count}, Current: ${key_share_count}`,
+      slackWebhookUrl,
     );
   }
 

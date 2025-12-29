@@ -65,6 +65,16 @@ export function setKSNodeTelemetryRoutes(router: Router) {
         return;
       }
 
+      const expectedPassword = req.app.locals.ks_node_report_password;
+      if (password !== expectedPassword) {
+        res.status(401).json({
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "Invalid password",
+        });
+        return;
+      }
+
       const payload: KSNodeTelemetryRequest = req.body;
       if (
         !payload ||
@@ -82,7 +92,7 @@ export function setKSNodeTelemetryRoutes(router: Router) {
       const result = await processKSNodeTelemetry(
         req.app.locals.db,
         payload,
-        password,
+        req.app.locals.slack_webhook_url,
       );
 
       if (!result.success) {
