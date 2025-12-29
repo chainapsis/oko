@@ -11194,16 +11194,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/teddsa-wasm@workspace:*, @oko-wallet/teddsa-wasm@workspace:crypto/teddsa/teddsa_wasm":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/teddsa-wasm@workspace:crypto/teddsa/teddsa_wasm"
-  dependencies:
-    "@types/node": "npm:^24.10.1"
-    typescript: "npm:^5.8.3"
-    wasm-pack: "npm:^0.13.1"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/tss-api@workspace:*, @oko-wallet/tss-api@workspace:backend/tss_api":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/tss-api@workspace:backend/tss_api"
