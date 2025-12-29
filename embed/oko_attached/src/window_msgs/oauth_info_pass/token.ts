@@ -50,7 +50,8 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "google",
-          user_identifier: googleTokenInfo.email,
+          // in google, use google sub as user identifier with prefix
+          user_identifier: `google_${googleTokenInfo.sub}`,
         },
       };
     }
@@ -76,7 +77,7 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "discord",
-          // in discord, use discord id as email with prefix
+          // in discord, use discord id as user identifier with prefix
           user_identifier: `discord_${discordTokenInfo.data.id}`,
         },
       };
@@ -96,7 +97,7 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "x",
-          // in x, use x id as email with prefix
+          // in x, use x id as user identifier with prefix
           user_identifier: `x_${xTokenInfo.data.id}`,
         },
       };
@@ -127,8 +128,13 @@ async function verifyGoogleIdToken(
   }
 
   const googleTokenInfo = (await response.json()) as GoogleTokenInfo;
+
   if (googleTokenInfo.nonce !== nonce) {
     throw new Error("Google token nonce mismatch");
+  }
+
+  if (!googleTokenInfo.sub) {
+    throw new Error("Google token sub not found");
   }
 
   return googleTokenInfo;

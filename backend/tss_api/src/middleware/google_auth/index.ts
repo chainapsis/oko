@@ -40,16 +40,18 @@ export async function googleAuthMiddleware(
       return;
     }
 
-    if (!result.data.email || !result.data.sub || !result.data.name) {
+    if (!result.data.sub || !result.data.email) {
       res.status(401).json({
-        error: "Unauthorized: Invalid token",
+        error: "Can't get sub or email from Google token",
       });
       return;
     }
 
     res.locals.oauth_user = {
       type: "google" as AuthType,
-      email: result.data.email,
+      // in google, use google sub as email with prefix
+      email: `google_${result.data.sub}`,
+      name: result.data.email,
     };
 
     next();

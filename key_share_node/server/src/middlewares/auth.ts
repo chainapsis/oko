@@ -196,17 +196,28 @@ export async function bearerTokenMiddleware(
         };
         break;
       }
-      case "google":
-      case "auth0": {
-        if (
-          !result.data.data.email ||
-          !result.data.data.sub ||
-          !result.data.data.name
-        ) {
+      case "google": {
+        if (!result.data.data.sub || !result.data.data.email) {
           const errorRes: KSNodeApiErrorResponse = {
             success: false,
             code: "UNAUTHORIZED",
-            msg: "Invalid token: missing required fields (email, sub, or name)",
+            msg: "Invalid token: missing required field (sub or email)",
+          };
+          res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+          return;
+        }
+        res.locals.oauth_user = {
+          type: result.auth_type,
+          user_identifier: `google_${result.data.data.sub}`,
+        };
+        break;
+      }
+      case "auth0": {
+        if (!result.data.data.email || !result.data.data.sub) {
+          const errorRes: KSNodeApiErrorResponse = {
+            success: false,
+            code: "UNAUTHORIZED",
+            msg: "Invalid token: missing required field (email or sub)",
           };
           res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
           return;
