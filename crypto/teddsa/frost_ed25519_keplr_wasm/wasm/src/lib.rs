@@ -1,4 +1,5 @@
 mod keygen;
+mod keys;
 mod sign;
 mod sss;
 
@@ -6,6 +7,7 @@ use std::sync::Once;
 use wasm_bindgen::prelude::*;
 
 pub use keygen::*;
+pub use keys::*;
 pub use sign::*;
 pub use sss::*;
 
