@@ -20,10 +20,12 @@ export async function insertKSNodeTelemetry(
 ): Promise<Result<void, string>> {
   const query = `
 INSERT INTO ks_node_telemetry (
-  log_id, public_key, key_share_count, payload
+  log_id, public_key, key_share_count, 
+  payload
 )
 VALUES (
-  $1, $2, $3, $4
+  $1, $2, $3,
+  $4
 )
 `;
 
