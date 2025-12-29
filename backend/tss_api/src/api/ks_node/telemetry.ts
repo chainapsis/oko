@@ -74,11 +74,7 @@ export async function processKSNodeTelemetry(
   // 4. Check for anomalies
   const nodeName = `${nodeRes.data!.node_name} (${public_key})`;
 
-  if (key_share_count === 0) {
-    await sendSlackAlert(
-      `[KS Node Alert] Key share count is 0 for node: ${nodeName}`,
-    );
-  } else if (lastTelemetry && key_share_count < lastTelemetry.key_share_count) {
+  if (lastTelemetry && key_share_count < lastTelemetry.key_share_count) {
     await sendSlackAlert(
       `[KS Node Alert] Key share count decreased for node: ${nodeName}. Previous: ${lastTelemetry.key_share_count}, Current: ${key_share_count}`,
     );
