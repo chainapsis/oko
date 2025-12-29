@@ -23,8 +23,8 @@ export async function seed(knex: Knex): Promise<void> {
   await knex("ks_node_health_checks").del();
   await knex("key_share_nodes").del();
   await knex("key_share_node_meta").del();
-  await knex("ewallet_wallets").del();
-  await knex("ewallet_users").del();
+  await knex("oko_wallets").del();
+  await knex("oko_users").del();
   await knex("email_verifications").del();
   await knex("customer_dashboard_users").del();
   await knex("api_keys").del();
