@@ -62,7 +62,6 @@
       "crypto/teddsa/teddsa_hooks_mock",
       "crypto/teddsa/teddsa_keplr_addon_mock",
       "crypto/teddsa/teddsa_interface",
-      "crypto/teddsa/teddsa_wasm",
       "crypto/teddsa/teddsa_hooks",
       "crypto/teddsa/teddsa_addon",
       "crypto/teddsa/api_lib",
