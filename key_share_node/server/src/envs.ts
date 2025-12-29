@@ -30,6 +30,8 @@ interface Env {
   ADMIN_PASSWORD: string;
   DUMP_DIR: string;
   TELEGRAM_BOT_TOKEN: string;
+  OKO_API_BASE_URL: string;
+  KS_NODE_REPORT_PASSWORD: string;
 }
 
 const envSchema = z.object({
@@ -44,6 +46,8 @@ const envSchema = z.object({
   ADMIN_PASSWORD: z.string(),
   DUMP_DIR: z.string(),
   TELEGRAM_BOT_TOKEN: z.string(),
+  OKO_API_BASE_URL: z.string(),
+  KS_NODE_REPORT_PASSWORD: z.string(),
 });
 
 export function loadEnv(nodeId: string): Result<void, string> {

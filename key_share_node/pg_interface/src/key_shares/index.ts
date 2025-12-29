@@ -120,3 +120,15 @@ RETURNING *
     return { success: false, err: String(error) };
   }
 }
+
+export async function countKeyShares(
+  db: Pool | PoolClient,
+): Promise<Result<number, string>> {
+  try {
+    const query = `SELECT count(*) FROM "2_key_shares"`;
+    const result = await db.query<{ count: string }>(query);
+    return { success: true, data: parseInt(result.rows[0].count, 10) };
+  } catch (error) {
+    return { success: false, err: String(error) };
+  }
+}

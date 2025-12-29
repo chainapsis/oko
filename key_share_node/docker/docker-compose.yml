@@ -36,6 +36,8 @@ services:
       # Container path is fixed for consistency; you may change the host path in the volume mapping
       DUMP_DIR: /home/node/key_share_node/dump
       TELEGRAM_BOT_TOKEN: ${TELEGRAM_BOT_TOKEN}
+      OKO_API_BASE_URL: ${OKO_API_BASE_URL}
+      KS_NODE_REPORT_PASSWORD: ${KS_NODE_REPORT_PASSWORD}
 
     volumes:
       - ${DUMP_DIR}:/home/node/key_share_node/dump

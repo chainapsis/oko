@@ -89,6 +89,12 @@ SERVER_PORT=4201
 ADMIN_PASSWORD=admin_password
 ## Host file path to encryption secret file (used to create docker secret)
 ENCRYPTION_SECRET_FILE_PATH=/opt/key_share_node/encryption_secret.txt
+## Telegram bot token for Telegram login authentication
+TELEGRAM_BOT_TOKEN=telegram_bot_token
+## Base URL of the Oko API server for telemetry reporting
+OKO_API_BASE_URL="http://localhost:4200"
+## Password for authenticating telemetry reports sent to Oko API
+KS_NODE_REPORT_PASSWORD="ks-node-report-password"
 ```
 
 ### Starting the Services
