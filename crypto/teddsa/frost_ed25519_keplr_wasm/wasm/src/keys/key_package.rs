@@ -2,16 +2,6 @@ use frost_ed25519_keplr::keys::{KeyPackage, SigningShare, VerifyingShare};
 use frost_ed25519_keplr::{Identifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
 
-use super::PublicKeyPackageRaw;
-
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CentralizedKeygenOutputRaw {
-    pub private_key: [u8; 32],
-    pub public_key: [u8; 32],
-    pub keygen_outputs: Vec<KeyPackageRaw>,
-    pub public_key_package: PublicKeyPackageRaw,
-}
-
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct KeyPackageRaw {
     pub identifier: [u8; 32],

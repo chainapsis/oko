@@ -5,6 +5,16 @@ use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
+use crate::{KeyPackageRaw, PublicKeyPackageRaw};
+
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct CentralizedKeygenOutputRaw {
+    pub private_key: [u8; 32],
+    pub public_key: [u8; 32],
+    pub keygen_outputs: Vec<KeyPackageRaw>,
+    pub public_key_package: PublicKeyPackageRaw,
+}
+
 /// Output from centralized key generation
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CentralizedKeygenOutput {
