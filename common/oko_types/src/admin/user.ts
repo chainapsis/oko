@@ -1,4 +1,4 @@
-export interface EWalletAdminUser {
+export interface OkoAdminUser {
   user_id: string;
   email: string;
   password_hash: string;
