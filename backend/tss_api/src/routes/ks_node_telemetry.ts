@@ -96,15 +96,6 @@ export function setKSNodeTelemetryRoutes(router: Router) {
       );
 
       if (!result.success) {
-        if (result.err === "Invalid password") {
-          res.status(401).json({
-            success: false,
-            code: "UNAUTHORIZED",
-            msg: "Invalid password",
-          });
-          return;
-        }
-
         res.status(500).json({
           success: false,
           code: "UNKNOWN_ERROR",
