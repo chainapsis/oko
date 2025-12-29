@@ -7,7 +7,7 @@ import type {
 import {
   getAllWallets,
   getWalletsCount,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 
 export async function getWalletList(
   db: Pool,
