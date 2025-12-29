@@ -42,8 +42,8 @@ import {
 } from "@oko-wallet/oko-pg-interface/tss";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
-import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { createWallet } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
 import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 

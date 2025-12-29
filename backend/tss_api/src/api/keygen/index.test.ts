@@ -13,11 +13,11 @@ import {
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { decryptData } from "@oko-wallet/crypto-js/node";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   createWallet,
   getWalletById,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
