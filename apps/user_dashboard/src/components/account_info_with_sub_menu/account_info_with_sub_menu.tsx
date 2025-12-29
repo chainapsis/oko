@@ -11,6 +11,7 @@ import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
 export const AccountInfoWithSubMenu = () => {
   const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
 
+  const name = useUserInfoState((state) => state.name);
   const email = useUserInfoState((state) => state.email);
   const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);
 
@@ -20,7 +21,7 @@ export const AccountInfoWithSubMenu = () => {
       TriggerComponent={
         <div className={styles.userDetailInfo}>
           <Typography size="sm" color="tertiary" className={styles.userEmail}>
-            {email}
+            {name || email}
           </Typography>
           <span className={styles.iconWrapper}>
             <ThreeDotsVerticalIcon color="var(--fg-quaternary)" size={16} />
@@ -30,7 +31,7 @@ export const AccountInfoWithSubMenu = () => {
       HeaderComponent={
         <div className={cn(styles.menuHeader, styles.userDetailInfo)}>
           <Typography size="sm" color="tertiary" className={styles.userEmail}>
-            {email}
+            {name || email}
           </Typography>
         </div>
       }

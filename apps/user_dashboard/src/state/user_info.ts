@@ -5,6 +5,7 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 interface UserInfoState {
   email: string | null;
   publicKey: string | null;
+  name: string | null;
   isSignedIn: boolean;
   authType: AuthType | null;
 }
@@ -13,6 +14,7 @@ interface UserInfoActions {
   setUserInfo: (info: {
     email: string | null;
     publicKey: string | null;
+    name: string | null;
   }) => void;
   setAuthType: (authType: AuthType | null) => void;
   clearUserInfo: () => void;
@@ -24,6 +26,7 @@ export const useUserInfoState = create(
       {
         email: null,
         publicKey: null,
+        name: null,
         isSignedIn: false,
         authType: null,
       },
@@ -32,6 +35,7 @@ export const useUserInfoState = create(
           set({
             email: info.email,
             publicKey: info.publicKey,
+            name: info.name,
             isSignedIn: !!(info.email && info.publicKey),
           });
         },
