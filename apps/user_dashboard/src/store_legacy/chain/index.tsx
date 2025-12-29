@@ -11,11 +11,7 @@ import { type ModularChainInfo } from "./chain-info";
 type UserKey = `${OAuthProvider}/${string}`;
 
 const CHAIN_INFO_ENDPOINT = "https://keplr-api.keplr.app/v1/chains";
-const DEFAULT_ENABLED_CHAIN_IDENTIFIERS = [
-  "cosmoshub",
-  "osmosis",
-  "eip155:1",
-] as const;
+const DEFAULT_ENABLED_CHAIN_IDENTIFIERS = ["cosmoshub", "eip155:1"];
 const KVSTORE_KEY_ENABLED_CHAINS_BY_USER_KEY =
   "enabledChainIdentifiersByUserKey";
 
@@ -91,11 +87,7 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
   }
 
   private getFallbackEnabledChainIdentifiers(): string[] {
-    if (this.embedChainInfos.length > 0) {
-      return [ChainIdHelper.parse(this.embedChainInfos[0].chainId).identifier];
-    }
-
-    return [DEFAULT_ENABLED_CHAIN_IDENTIFIERS[0]];
+    return DEFAULT_ENABLED_CHAIN_IDENTIFIERS;
   }
 
   @computed
@@ -170,7 +162,7 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
   get enabledChainIdentifiers(): string[] {
     const activeUserKey = this._activeUserKey;
     if (!activeUserKey) {
-      return Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+      return this.getFallbackEnabledChainIdentifiers();
     }
 
     const identifiers = this._enabledChainIdentifiersByUserKey[activeUserKey];
@@ -178,7 +170,7 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
       return identifiers;
     }
 
-    return Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+    return this.getFallbackEnabledChainIdentifiers();
   }
 
   @flow
@@ -295,7 +287,7 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
 
     const currentIdentifiers =
       this._enabledChainIdentifiersByUserKey[activeUserKey] ??
-      Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+      this.getFallbackEnabledChainIdentifiers();
 
     const newIdentifiers = new Set(currentIdentifiers);
 
@@ -326,7 +318,7 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
 
     const currentIdentifiers =
       this._enabledChainIdentifiersByUserKey[activeUserKey] ??
-      Array.from(DEFAULT_ENABLED_CHAIN_IDENTIFIERS);
+      this.getFallbackEnabledChainIdentifiers();
 
     const newIdentifiers = new Set(currentIdentifiers);
 
@@ -335,10 +327,10 @@ export class ChainStore extends BaseChainStore<ChainInfoWithCoreTypes> {
       newIdentifiers.delete(identifier);
     }
 
-    // Ensure at least one chain is enabled
     if (newIdentifiers.size === 0) {
-      const fallbackIdentifier = this.getFallbackEnabledChainIdentifiers()[0];
-      newIdentifiers.add(fallbackIdentifier);
+      for (const identifier of this.getFallbackEnabledChainIdentifiers()) {
+        newIdentifiers.add(identifier);
+      }
     }
 
     const nextEnabledChainIdentifiers = Array.from(newIdentifiers);
