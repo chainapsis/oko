@@ -9,29 +9,13 @@ use crate::{KeyPackageRaw, PublicKeyPackageRaw};
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CentralizedKeygenOutputRaw {
-    pub private_key: [u8; 32],
-    pub public_key: [u8; 32],
+    // pub private_key: [u8; 32],
+    // pub public_key: [u8; 32],
     pub keygen_outputs: Vec<KeyPackageRaw>,
     pub public_key_package: PublicKeyPackageRaw,
 }
 
-/// Output from centralized key generation
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct CentralizedKeygenOutput {
-    pub private_key: Vec<u8>,
-    pub keygen_outputs: Vec<KeygenOutput>,
-    pub public_key: Vec<u8>,
-}
-
-/// A single participant's key share
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct KeygenOutput {
-    pub key_package: Vec<u8>,
-    pub public_key_package: Vec<u8>,
-    pub identifier: Vec<u8>,
-}
-
-fn keygen_centralized_inner() -> Result<CentralizedKeygenOutput, String> {
+fn keygen_centralized_inner() -> Result<CentralizedKeygenOutputRaw, String> {
     let mut rng = OsRng;
     let max_signers = 2;
     let min_signers = 2;
@@ -44,31 +28,31 @@ fn keygen_centralized_inner() -> Result<CentralizedKeygenOutput, String> {
     )
     .map_err(|e| e.to_string())?;
 
-    let pubkey_package_bytes = pubkey_package.serialize().map_err(|e| e.to_string())?;
-    let verifying_key = pubkey_package.verifying_key();
-    let public_key_bytes = verifying_key.serialize().map_err(|e| e.to_string())?;
+    // let verifying_key = pubkey_package.verifying_key();
+    // let public_key_bytes: [u8; 32] = verifying_key
+    //     .serialize()
+    //     .map_err(|e| e.to_string())?
+    //     .try_into()
+    //     .map_err(|_| "Invalid public key length")?;
+
+    let public_key_package = PublicKeyPackageRaw::from_public_key_package(&pubkey_package)?;
 
     let mut keygen_outputs = Vec::with_capacity(shares.len());
-    for (identifier, secret_share) in shares {
+    for (_identifier, secret_share) in shares {
         let key_package = KeyPackage::try_from(secret_share).map_err(|e| e.to_string())?;
-        let key_package_bytes = key_package.serialize().map_err(|e| e.to_string())?;
-        let identifier_bytes = identifier.serialize().to_vec();
-
-        keygen_outputs.push(KeygenOutput {
-            key_package: key_package_bytes,
-            public_key_package: pubkey_package_bytes.clone(),
-            identifier: identifier_bytes,
-        });
+        let key_package_raw = KeyPackageRaw::from_key_package(&key_package)?;
+        keygen_outputs.push(key_package_raw);
     }
 
-    Ok(CentralizedKeygenOutput {
-        private_key: vec![0u8; 32],
+    Ok(CentralizedKeygenOutputRaw {
+        // private_key: [0u8; 32],
+        // public_key: public_key_bytes,
         keygen_outputs,
-        public_key: public_key_bytes,
+        public_key_package,
     })
 }
 
-fn keygen_import_inner(secret: [u8; 32]) -> Result<CentralizedKeygenOutput, String> {
+fn keygen_import_inner(secret: [u8; 32]) -> Result<CentralizedKeygenOutputRaw, String> {
     let mut rng = OsRng;
     let max_signers = 2;
     let min_signers = 2;
@@ -85,27 +69,27 @@ fn keygen_import_inner(secret: [u8; 32]) -> Result<CentralizedKeygenOutput, Stri
     )
     .map_err(|e| e.to_string())?;
 
-    let pubkey_package_bytes = pubkey_package.serialize().map_err(|e| e.to_string())?;
-    let verifying_key = pubkey_package.verifying_key();
-    let public_key_bytes = verifying_key.serialize().map_err(|e| e.to_string())?;
+    // let verifying_key = pubkey_package.verifying_key();
+    // let public_key_bytes: [u8; 32] = verifying_key
+    //     .serialize()
+    //     .map_err(|e| e.to_string())?
+    //     .try_into()
+    //     .map_err(|_| "Invalid public key length")?;
+
+    let public_key_package = PublicKeyPackageRaw::from_public_key_package(&pubkey_package)?;
 
     let mut keygen_outputs = Vec::with_capacity(shares.len());
-    for (identifier, secret_share) in shares {
+    for (_identifier, secret_share) in shares {
         let key_package = KeyPackage::try_from(secret_share).map_err(|e| e.to_string())?;
-        let key_package_bytes = key_package.serialize().map_err(|e| e.to_string())?;
-        let identifier_bytes = identifier.serialize().to_vec();
-
-        keygen_outputs.push(KeygenOutput {
-            key_package: key_package_bytes,
-            public_key_package: pubkey_package_bytes.clone(),
-            identifier: identifier_bytes,
-        });
+        let key_package_raw = KeyPackageRaw::from_key_package(&key_package)?;
+        keygen_outputs.push(key_package_raw);
     }
 
-    Ok(CentralizedKeygenOutput {
-        private_key: secret.to_vec(),
+    Ok(CentralizedKeygenOutputRaw {
+        // private_key: secret,
+        // public_key: public_key_bytes,
         keygen_outputs,
-        public_key: public_key_bytes,
+        public_key_package,
     })
 }
 
