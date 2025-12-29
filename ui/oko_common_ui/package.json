@@ -31,7 +31,7 @@
     "@floating-ui/react": "^0.27.16",
     "@oko-wallet/stdlib-js": "0.0.2-rc.40",
     "classnames": "^2.5.1",
-    "next": "^16.0.7",
+    "next": "^16.1.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "sass": "^1.94.2"
