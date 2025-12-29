@@ -172,7 +172,7 @@ export function makeKeyshareRouter() {
       const registerKeyShareRes = await registerKeyShare(
         state.db,
         {
-          user_auth_id: oauthUser.email,
+          user_auth_id: oauthUser.user_identifier,
           auth_type,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,
@@ -302,7 +302,7 @@ export function makeKeyshareRouter() {
       const getKeyShareRes = await getKeyShare(
         state.db,
         {
-          user_auth_id: oauthUser.email,
+          user_auth_id: oauthUser.user_identifier,
           auth_type,
           public_key: publicKeyBytesRes.data,
         },
@@ -569,7 +569,7 @@ export function makeKeyshareRouter() {
       const reshareKeyShareRes = await reshareKeyShare(
         state.db,
         {
-          user_auth_id: oauthUser.email,
+          user_auth_id: oauthUser.user_identifier,
           auth_type,
           curve_type: body.curve_type,
           public_key: publicKeyBytesRes.data,

@@ -72,7 +72,7 @@ async function validateOAuthPayloadOfX(
     success: true,
     data: {
       idToken: tokenInfo,
-      userIdentifier: `x_${userInfo.email}`,
+      userIdentifier: userInfo.user_identifier,
     },
   };
 }
@@ -136,12 +136,6 @@ async function validateOAuthPayloadOfDiscord(
   }
 
   const userInfo = verifyIdTokenRes.data;
-  if (!userInfo.email) {
-    return {
-      success: false,
-      err: { type: "unknown", error: "Discord email not found" },
-    };
-  }
 
   appState.setCodeVerifier(hostOrigin, null);
 
@@ -149,7 +143,7 @@ async function validateOAuthPayloadOfDiscord(
     success: true,
     data: {
       idToken: tokenRes.data,
-      userIdentifier: userInfo.email,
+      userIdentifier: userInfo.user_identifier,
     },
   };
 }
@@ -186,7 +180,7 @@ async function validateOAuthPayload(
     success: true,
     data: {
       idToken: payload.id_token,
-      userIdentifier: tokenInfo.email,
+      userIdentifier: tokenInfo.user_identifier,
     },
   };
 }

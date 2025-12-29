@@ -32,11 +32,7 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "auth0",
-          email: auth0TokenInfo.email,
-          email_verified: auth0TokenInfo.email_verified,
-          nonce: auth0TokenInfo.nonce,
-          name: auth0TokenInfo.name,
-          sub: auth0TokenInfo.sub,
+          user_identifier: auth0TokenInfo.email,
         },
       };
     }
@@ -54,11 +50,7 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "google",
-          email: googleTokenInfo.email,
-          email_verified: googleTokenInfo.email_verified === "true",
-          nonce: googleTokenInfo.nonce,
-          name: googleTokenInfo.name,
-          sub: googleTokenInfo.sub,
+          user_identifier: googleTokenInfo.email,
         },
       };
     }
@@ -84,8 +76,8 @@ export async function verifyIdToken(
         success: true,
         data: {
           provider: "discord",
-          email: discordTokenInfo.data.email,
-          name: discordTokenInfo.data.username,
+          // in discord, use discord id as email with prefix
+          user_identifier: `discord_${discordTokenInfo.data.id}`,
         },
       };
     }
@@ -100,20 +92,12 @@ export async function verifyIdToken(
         };
       }
 
-      if (!xTokenInfo.data.id) {
-        return {
-          success: false,
-          err: "X email not found",
-        };
-      }
-
       return {
         success: true,
         data: {
           provider: "x",
-          // in x, use x id as email
-          email: xTokenInfo.data.id,
-          name: xTokenInfo.data.name,
+          // in x, use x id as email with prefix
+          user_identifier: `x_${xTokenInfo.data.id}`,
         },
       };
     }

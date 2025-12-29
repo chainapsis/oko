@@ -50,8 +50,11 @@ type VerifyResult =
       data: Result<DiscordTokenInfo, OAuthValidationFail>;
     };
 
-export interface AuthenticatedRequest<T = any>
-  extends Request<any, any, T & OAuthBody> {}
+export interface AuthenticatedRequest<T = any> extends Request<
+  any,
+  any,
+  T & OAuthBody
+> {}
 
 export async function bearerTokenMiddleware(
   req: AuthenticatedRequest,
@@ -146,19 +149,18 @@ export async function bearerTokenMiddleware(
 
     switch (result.auth_type) {
       case "x": {
-        if (!result.data.data.id || !result.data.data.username) {
+        if (!result.data.data.id) {
           const errorRes: KSNodeApiErrorResponse = {
             success: false,
             code: "UNAUTHORIZED",
-            msg: "Invalid token: missing required fields (id or username)",
+            msg: "Invalid token: missing required field (id)",
           };
           res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
           return;
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: `x_${result.data.data.id}`,
-          name: result.data.data.username,
+          user_identifier: `x_${result.data.data.id}`,
         };
         break;
       }
@@ -174,8 +176,7 @@ export async function bearerTokenMiddleware(
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: `telegram_${result.data.data.id}`,
-          name: result.data.data.username,
+          user_identifier: `telegram_${result.data.data.id}`,
         };
         break;
       }
@@ -191,8 +192,7 @@ export async function bearerTokenMiddleware(
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: result.data.data.email,
-          name: result.data.data.username,
+          user_identifier: `discord_${result.data.data.id}`,
         };
         break;
       }
@@ -213,9 +213,7 @@ export async function bearerTokenMiddleware(
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: result.data.data.email,
-          name: result.data.data.name,
-          sub: result.data.data.sub,
+          user_identifier: result.data.data.email,
         };
         break;
       }
