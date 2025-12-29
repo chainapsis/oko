@@ -58,7 +58,7 @@ export async function sendEmailVerificationCode(
     return {
       success: false,
       code: "CUSTOMER_ACCOUNT_NOT_FOUND",
-      msg: "Customer account not found",
+      msg: "Account not found",
     };
   }
 
