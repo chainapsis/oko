@@ -1,9 +1,8 @@
-use std::collections::HashMap;
-
 use frost_ed25519_keplr::keys::PublicKeyPackage;
 use serde::{Deserialize, Serialize};
+use std::collections::HashMap;
 
-pub type IdentifierHex = String;
+use super::IdentifierHex;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PublicKeyPackageRaw {
