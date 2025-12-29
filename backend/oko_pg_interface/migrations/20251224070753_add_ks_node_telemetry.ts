@@ -15,12 +15,7 @@ export async function up(knex: Knex): Promise<void> {
         .notNullable()
         .defaultTo(knex.raw("gen_random_uuid()"))
         .primary({ constraintName: "ks_node_telemetry_pkey" });
-      table
-        .string("public_key", 255)
-        .notNullable()
-        .references("public_key")
-        .inTable("key_share_nodes")
-        .onDelete("CASCADE");
+      table.string("public_key", 255).notNullable();
       table.integer("key_share_count").notNullable();
       table.jsonb("payload").notNullable();
       table
