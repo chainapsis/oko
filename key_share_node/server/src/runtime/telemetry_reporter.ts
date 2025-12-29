@@ -1,15 +1,11 @@
-import {
-  getTelemetryId,
-  setTelemetryId,
-  countKeyShares,
-} from "@oko-wallet/ksn-pg-interface";
-import { v4 as uuidv4 } from "uuid";
+import { countKeyShares } from "@oko-wallet/ksn-pg-interface";
 import type { Pool } from "pg";
 
 import { logger } from "@oko-wallet-ksn-server/logger";
 
 export async function startTelemetryReporterRuntime(
   db: Pool,
+  publicKey: string,
   okoApiBaseUrl: string,
   reportPassword: string,
   intervalSeconds: number,
@@ -21,7 +17,7 @@ export async function startTelemetryReporterRuntime(
 
   const run = async () => {
     try {
-      await reportTelemetry(db, okoApiBaseUrl, reportPassword);
+      await reportTelemetry(db, publicKey, okoApiBaseUrl, reportPassword);
     } catch (err) {
       logger.error("Telemetry reporter runtime error: %s", err);
     }
@@ -33,26 +29,13 @@ export async function startTelemetryReporterRuntime(
   setInterval(run, intervalSeconds * 1000);
 }
 
-async function reportTelemetry(db: Pool, baseUrl: string, password: string) {
-  // 1. Get or Create Telemetry ID
-  let telemetryIdRes = await getTelemetryId(db);
-  if (!telemetryIdRes.success) {
-    logger.error("Failed to get telemetry ID: %s", telemetryIdRes.err);
-    return;
-  }
-
-  let telemetryNodeId = telemetryIdRes.data;
-  if (!telemetryNodeId) {
-    telemetryNodeId = uuidv4();
-    logger.info("Generating new telemetry ID: %s", telemetryNodeId);
-    const setRes = await setTelemetryId(db, telemetryNodeId);
-    if (!setRes.success) {
-      logger.error("Failed to set telemetry ID: %s", setRes.err);
-      return;
-    }
-  }
-
-  // 2. Count Key Shares
+async function reportTelemetry(
+  db: Pool,
+  publicKey: string,
+  baseUrl: string,
+  password: string,
+) {
+  // 1. Count Key Shares
   const countRes = await countKeyShares(db);
   const keyShareCount = countRes.success ? countRes.data : -1;
   const payload = {
@@ -60,7 +43,7 @@ async function reportTelemetry(db: Pool, baseUrl: string, password: string) {
     error_msg: countRes.success ? null : countRes.err,
   };
 
-  // 3. Send Report
+  // 2. Send Report
   const url = `${baseUrl}/tss/v1/ks_node/telemetry`;
   try {
     const response = await fetch(url, {
@@ -70,7 +53,7 @@ async function reportTelemetry(db: Pool, baseUrl: string, password: string) {
         "X-KS-NODE-PASSWORD": password,
       },
       body: JSON.stringify({
-        telemetry_node_id: telemetryNodeId,
+        public_key: publicKey,
         key_share_count: keyShareCount,
         payload: payload,
       }),

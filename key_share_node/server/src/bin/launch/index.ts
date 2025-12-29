@@ -151,6 +151,7 @@ async function main() {
 
   startTelemetryReporterRuntime(
     app.locals.db,
+    serverKeypair.publicKey.toHex(),
     process.env.OKO_API_BASE_URL!,
     process.env.KS_NODE_REPORT_PASSWORD!,
     180,

@@ -75,14 +75,14 @@ export type KSNodeWithHealthCheck = {
 
 export interface KSNodeTelemetry {
   log_id: string;
-  telemetry_node_id: string;
+  public_key: string;
   key_share_count: number;
   payload: any;
   created_at: Date;
 }
 
 export interface KSNodeTelemetryRequest {
-  telemetry_node_id: string;
+  public_key: string;
   key_share_count: number;
   payload: Record<string, any>;
 }

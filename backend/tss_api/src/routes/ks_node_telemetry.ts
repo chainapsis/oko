@@ -68,13 +68,13 @@ export function setKSNodeTelemetryRoutes(router: Router) {
       const payload: KSNodeTelemetryRequest = req.body;
       if (
         !payload ||
-        !payload.telemetry_node_id ||
+        !payload.public_key ||
         payload.key_share_count === undefined
       ) {
         res.status(400).json({
           success: false,
           code: "INVALID_REQUEST",
-          msg: "Missing required fields: telemetry_node_id, key_share_count",
+          msg: "Missing required fields: public_key, key_share_count",
         });
         return;
       }

@@ -3,13 +3,13 @@ import type { Result } from "@oko-wallet/stdlib-js";
 import {
   insertKSNodeTelemetry,
   getLastKSNodeTelemetry,
-  getKSNodeByTelemetryId,
+  getKSNodeByPublicKey,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 
 import { sendSlackAlert } from "@oko-wallet-tss-api/utils/slack";
 
 export interface KSNodeTelemetryPayload {
-  telemetry_node_id: string;
+  public_key: string;
   key_share_count: number;
   payload: any;
 }
@@ -27,13 +27,30 @@ export async function processKSNodeTelemetry(
     };
   }
 
-  const { telemetry_node_id, key_share_count, payload } = input;
+  const { public_key, key_share_count, payload } = input;
 
-  // 2. Get previous telemetry for comparison
-  const lastTelemetryRes = await getLastKSNodeTelemetry(db, telemetry_node_id);
+  // 2. Check if node exists
+  const nodeRes = await getKSNodeByPublicKey(db, public_key);
+  if (!nodeRes.success) {
+    await sendSlackAlert(
+      `[TSS API Error] Failed to check if node exists ${public_key}: ${nodeRes.err}`,
+    );
+    return { success: false, err: nodeRes.err };
+  }
+
+  if (!nodeRes.data) {
+    // Node not registered, ignore telemetry
+    console.warn(
+      `[KS Node Telemetry] Ignored telemetry from unregistered node: ${public_key}`,
+    );
+    return { success: true, data: void 0 };
+  }
+
+  // 3. Get previous telemetry for comparison
+  const lastTelemetryRes = await getLastKSNodeTelemetry(db, public_key);
   if (!lastTelemetryRes.success) {
     await sendSlackAlert(
-      `[TSS API Error] Failed to get last telemetry for node ${telemetry_node_id}: ${lastTelemetryRes.err}`,
+      `[TSS API Error] Failed to get last telemetry for node ${public_key}: ${lastTelemetryRes.err}`,
     );
     return { success: false, err: lastTelemetryRes.err };
   }
@@ -43,23 +60,19 @@ export async function processKSNodeTelemetry(
   // 3. Insert new telemetry
   const insertRes = await insertKSNodeTelemetry(
     db,
-    telemetry_node_id,
+    public_key,
     key_share_count,
     payload,
   );
   if (!insertRes.success) {
     await sendSlackAlert(
-      `[TSS API Error] Failed to insert telemetry for node ${telemetry_node_id}: ${insertRes.err}`,
+      `[TSS API Error] Failed to insert telemetry for node ${public_key}: ${insertRes.err}`,
     );
     return { success: false, err: insertRes.err };
   }
 
   // 4. Check for anomalies
-  const nodeRes = await getKSNodeByTelemetryId(db, telemetry_node_id);
-  const nodeName =
-    nodeRes.success && nodeRes.data
-      ? `${nodeRes.data.node_name} (${telemetry_node_id})`
-      : telemetry_node_id;
+  const nodeName = `${nodeRes.data!.node_name} (${public_key})`;
 
   if (key_share_count === 0) {
     await sendSlackAlert(

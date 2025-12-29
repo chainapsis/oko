@@ -2,7 +2,7 @@ import type { Pool } from "pg";
 import type { Logger } from "winston";
 import {
   getLatestKSNodeTelemetries,
-  getKSNodeByTelemetryId,
+  getKSNodeByPublicKey,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { sendSlackAlert } from "@oko-wallet/tss-api";
 import dayjs from "dayjs";
@@ -46,14 +46,14 @@ async function checkKSNodeHeartbeats(db: Pool, logger: Logger) {
 
     if (lastUpdate.isBefore(threshold)) {
       // Node is unresponsive
-      const telemetryNodeId = telemetry.telemetry_node_id;
+      const publicKey = telemetry.public_key;
 
       // Get node name
-      const nodeRes = await getKSNodeByTelemetryId(db, telemetryNodeId);
+      const nodeRes = await getKSNodeByPublicKey(db, publicKey);
       const nodeName =
         nodeRes.success && nodeRes.data
-          ? `${nodeRes.data.node_name} (${telemetryNodeId})`
-          : telemetryNodeId;
+          ? `${nodeRes.data.node_name} (${publicKey})`
+          : publicKey;
 
       await sendSlackAlert(
         `[KS Node Alert] Node ${nodeName} has not reported telemetry for over ${HEARTBEAT_THRESHOLD_MINUTES} minutes. Last seen: ${lastUpdate.toISOString()}`,

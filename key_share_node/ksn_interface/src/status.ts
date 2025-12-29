@@ -6,5 +6,4 @@ export interface ServerStatus {
   launch_time: string;
   git_hash: string | null;
   version: string;
-  telemetry_node_id: string | null;
 }

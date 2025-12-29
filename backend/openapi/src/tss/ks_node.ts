@@ -5,8 +5,9 @@ import { registry } from "../registry";
 export const KSNodeTelemetryRequestSchema = registry.register(
   "TssKSNodeTelemetryRequest",
   z.object({
-    telemetry_node_id: z.string().openapi({
-      description: "Unique identifier for the key share node telemetry",
+    public_key: z.string().openapi({
+      description:
+        "Unique identifier for the key share node telemetry (public key)",
     }),
     key_share_count: z.number().openapi({
       description: "Current number of key shares stored in the node",
