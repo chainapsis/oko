@@ -13,8 +13,8 @@ CREATE TABLE public."2_key_shares" (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
-	CONSTRAINT 2_key_shares_pkey PRIMARY KEY (share_id),
-	CONSTRAINT 2_key_shares_unique UNIQUE (wallet_id)
+	CONSTRAINT "2_key_shares_pkey" PRIMARY KEY (share_id),
+	CONSTRAINT "2_key_shares_unique" UNIQUE (wallet_id)
 );
 
 
@@ -31,7 +31,7 @@ CREATE TABLE public."2_pg_dumps" (
 	meta jsonb NULL,
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
-	CONSTRAINT 2_pg_dumps_pkey PRIMARY KEY (dump_id)
+	CONSTRAINT "2_pg_dumps_pkey" PRIMARY KEY (dump_id)
 );
 
 
@@ -49,8 +49,8 @@ CREATE TABLE public."2_users" (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
-	CONSTRAINT 2_users_pkey PRIMARY KEY (user_id),
-	CONSTRAINT 2_users_auth_type_user_auth_id_key UNIQUE (auth_type, user_auth_id)
+	CONSTRAINT "2_users_pkey" PRIMARY KEY (user_id),
+	CONSTRAINT "2_users_auth_type_user_auth_id_key" UNIQUE (auth_type, user_auth_id)
 );
 
 
@@ -68,8 +68,8 @@ CREATE TABLE public."2_wallets" (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	aux jsonb NULL,
-	CONSTRAINT 2_wallets_pkey PRIMARY KEY (wallet_id),
-	CONSTRAINT 2_wallets_public_key_key UNIQUE (public_key)
+	CONSTRAINT "2_wallets_pkey" PRIMARY KEY (wallet_id),
+	CONSTRAINT "2_wallets_public_key_key" UNIQUE (public_key)
 );
 
 
@@ -88,7 +88,7 @@ CREATE TABLE public."2_server_keypairs" (
 	created_at timestamptz DEFAULT now() NOT NULL,
 	updated_at timestamptz DEFAULT now() NOT NULL,
 	rotated_at timestamptz NULL,
-	CONSTRAINT 2_server_keypairs_pkey PRIMARY KEY (keypair_id),
-	CONSTRAINT 2_server_keypairs_version_key UNIQUE (version)
+	CONSTRAINT "2_server_keypairs_pkey" PRIMARY KEY (keypair_id),
+	CONSTRAINT "2_server_keypairs_version_key" UNIQUE (version)
 );
 CREATE INDEX idx_2_server_keypairs_is_active ON public."2_server_keypairs" USING btree (is_active) WHERE (is_active = true);

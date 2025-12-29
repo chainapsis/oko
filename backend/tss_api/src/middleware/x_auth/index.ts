@@ -39,9 +39,9 @@ export async function xAuthMiddleware(
       return;
     }
 
-    if (!result.data.id || !result.data.username) {
+    if (!result.data.id) {
       res.status(401).json({
-        error: "Unauthorized: Invalid token",
+        error: "Can't get id from X token",
       });
       return;
     }

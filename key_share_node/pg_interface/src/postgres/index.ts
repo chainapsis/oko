@@ -18,10 +18,9 @@ WHERE table_schema='public'
     console.log("Existing tables: %j", tableNames);
 
     for (let idx = 0; idx < tableNames.length; idx += 1) {
+      const tableName = `"${tableNames[idx]}"`;
       await pool.query<{ table_name: string }>(
-        `
-DROP TABLE IF EXISTS ${tableNames[idx]} CASCADE
-`,
+        `DROP TABLE IF EXISTS ${tableName} CASCADE`,
         [],
       );
     }

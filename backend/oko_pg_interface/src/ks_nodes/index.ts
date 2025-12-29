@@ -8,8 +8,129 @@ import {
   type WalletKSNodeWithNodeNameAndServerUrl,
   type WalletKSNodeStatus,
   type KSNodeHealthCheck,
+  type KSNodeTelemetry,
 } from "@oko-wallet/oko-types/tss";
 import type { WithPagination, WithTime } from "@oko-wallet-types/aux_types";
+
+export async function insertKSNodeTelemetry(
+  db: Pool | PoolClient,
+  public_key: string,
+  key_share_count: number,
+  payload: any,
+): Promise<Result<void, string>> {
+  const query = `
+INSERT INTO ks_node_telemetry (
+  log_id, public_key, key_share_count, 
+  payload
+)
+VALUES (
+  $1, $2, $3,
+  $4
+)
+`;
+
+  try {
+    await db.query(query, [uuidv4(), public_key, key_share_count, payload]);
+
+    return {
+      success: true,
+      data: void 0,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getLastKSNodeTelemetry(
+  db: Pool | PoolClient,
+  public_key: string,
+): Promise<Result<KSNodeTelemetry | null, string>> {
+  const query = `
+SELECT *
+FROM ks_node_telemetry
+WHERE public_key = $1
+ORDER BY created_at DESC
+LIMIT 1
+`;
+
+  try {
+    const result = await db.query(query, [public_key]);
+    const row = result.rows[0];
+
+    if (!row) {
+      return { success: true, data: null };
+    }
+
+    return {
+      success: true,
+      data: {
+        log_id: row.log_id,
+        public_key: row.public_key,
+        key_share_count: row.key_share_count,
+        payload: row.payload,
+        created_at: row.created_at,
+      },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getLatestKSNodeTelemetries(
+  db: Pool | PoolClient,
+): Promise<Result<{ public_key: string; created_at: Date }[], string>> {
+  const query = `
+SELECT DISTINCT ON (public_key) public_key, created_at
+FROM ks_node_telemetry
+ORDER BY public_key, created_at DESC
+`;
+
+  try {
+    const result = await db.query(query);
+    return {
+      success: true,
+      data: result.rows.map((row) => ({
+        public_key: row.public_key,
+        created_at: row.created_at,
+      })),
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getKSNodeByPublicKey(
+  db: Pool | PoolClient,
+  public_key: string,
+): Promise<Result<KeyShareNode | null, string>> {
+  const query = `
+SELECT *
+FROM key_share_nodes
+WHERE public_key = $1 AND deleted_at IS NULL
+`;
+
+  try {
+    const result = await db.query<KeyShareNode>(query, [public_key]);
+    return {
+      success: true,
+      data: result.rows[0] || null,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
 
 export async function getKSNodeById(
   db: Pool | PoolClient,

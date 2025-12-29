@@ -7,6 +7,7 @@ import { connectPG } from "@oko-wallet-ksn-server/database";
 import { makeApp } from "@oko-wallet-ksn-server/app";
 import { loadEnv, verifyEnv } from "@oko-wallet-ksn-server/envs";
 import { startPgDumpRuntime } from "@oko-wallet-ksn-server/pg_dump/runtime";
+import { startTelemetryReporterRuntime } from "@oko-wallet-ksn-server/runtime/telemetry_reporter";
 import { loadEncSecret } from "./load_enc_secret";
 import { checkDBBackup } from "./check_db_backup";
 import { parseCLIArgs } from "./cli_args";
@@ -146,6 +147,14 @@ async function main() {
       retentionDays: 7,
       dumpDir: process.env.DUMP_DIR,
     },
+  );
+
+  startTelemetryReporterRuntime(
+    app.locals.db,
+    serverKeypair.publicKey.toHex(),
+    process.env.OKO_API_BASE_URL!,
+    process.env.KS_NODE_REPORT_PASSWORD!,
+    180,
   );
 
   app.listen(process.env.PORT, () => {
