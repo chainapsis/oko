@@ -8,6 +8,7 @@ import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined"
 import styles from "./left_bar.module.scss";
 import { IntegrationCard } from "./integration_card/integration_card";
 import { useViewState } from "@oko-wallet-demo-web/state/view";
+import { ThemeButton } from "@oko-wallet-demo-web/components/theme/theme_button";
 
 export const LeftBar: FC = () => {
   const isLeftBarOpen = useViewState((state) => state.isLeftBarOpen);
@@ -37,6 +38,7 @@ export const LeftBar: FC = () => {
         {showIntegrationCard && (
           <IntegrationCard onClose={hideIntegrationCard} />
         )}
+        <ThemeButton />
       </ul>
     </>
   );
