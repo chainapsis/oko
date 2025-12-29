@@ -1,5 +1,13 @@
 .themeButtonContainer {
+  width: fit-content;
+
   .themeButton {
+    transition: color 0.15s ease;
+    color: var(--fg-quaternary);
+    &:hover {
+      color: var(--fg-quaternary-hover);
+    }
+
     padding: 10px;
 
     border-radius: 8px;

@@ -1,6 +1,7 @@
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { SunIcon } from "@oko-wallet/oko-common-ui/icons/sun_icon";
 import { MoonIcon } from "@oko-wallet/oko-common-ui/icons/moon_icon";
+import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
 
 import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 import styles from "./theme_button.module.scss";
@@ -14,8 +15,14 @@ export const ThemeButton = () => {
   };
 
   return (
-    // Wrap with a wrapper div to increase CSS Cascading Specificity
-    <div className={styles.themeButtonContainer}>
+    <Tooltip
+      title={theme === "light" ? "Light Mode" : "Dark Mode"}
+      placement="right"
+      className={styles.themeButtonContainer}
+      backgroundColor="brand-solid"
+      titleColor={theme === "light" ? "primary-on-brand" : undefined}
+      titleCustomColor={theme === "dark" ? "gray-800" : undefined}
+    >
       <Button
         size="md"
         variant="secondary"
@@ -23,11 +30,11 @@ export const ThemeButton = () => {
         onClick={handleThemeToggle}
       >
         {theme === "light" ? (
-          <SunIcon color="var(--fg-quaternary)" size={20} />
+          <SunIcon className={styles.themeButtonIcon} size={20} />
         ) : (
-          <MoonIcon color="var(--fg-quaternary)" size={20} />
+          <MoonIcon className={styles.themeButtonIcon} size={20} />
         )}
       </Button>
-    </div>
+    </Tooltip>
   );
 };
