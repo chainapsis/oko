@@ -54,6 +54,12 @@ export async function telegramAuthMiddleware(
     }
 
     const userInfo: TelegramUserInfo = result.data;
+    if (!userInfo.id) {
+      res.status(401).json({
+        error: "Can't get id from Telegram token",
+      });
+      return;
+    }
 
     res.locals.oauth_user = {
       type: "telegram" as AuthType,
