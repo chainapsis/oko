@@ -1,6 +1,6 @@
 import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { ImageWithAlt } from "@oko-wallet/oko-common-ui/imageWithAlt";
+import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
 
 import styles from "./connected_apps.module.scss";
 
