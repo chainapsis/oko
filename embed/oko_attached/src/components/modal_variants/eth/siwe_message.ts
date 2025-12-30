@@ -44,7 +44,6 @@ export function verifySiweMessage(
     );
 
     if (originByPayload !== originByTxUri || hostByPayload !== message.domain) {
-      console.log("originByPayload", originByPayload);
       return false;
     }
 
