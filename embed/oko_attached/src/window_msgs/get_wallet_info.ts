@@ -15,7 +15,7 @@ export async function handleGetWalletInfo(ctx: MsgEventContext) {
       data: {
         authType: wallet.authType,
         publicKey: wallet.publicKey,
-        email: wallet.email,
+        email: wallet.email ?? null,
         name: wallet.name ?? null,
       },
     };
