@@ -40,7 +40,12 @@ export const TokenList = observer(() => {
     },
   ];
 
-  const searchedTokens = useSearch([...tokens], searchQuery, searchFields);
+  const searchedTokens = useSearch(
+    [...tokens],
+    searchQuery,
+    searchFields,
+    (token) => token.token.currency.coinMinimalDenom,
+  );
 
   const hasLowBalanceTokens =
     isHideLowBalance &&

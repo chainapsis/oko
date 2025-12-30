@@ -179,8 +179,14 @@ export function useSearch<T>(
   data: T[],
   query: string,
   fields: SearchField<T>[],
+  dataKeyField?: (data: T) => string,
 ) {
   const [searchResults, setSearchResults] = useState<T[]>(data.slice());
+
+  // Even if data.length remains the same and isFetchingCount doesn't change,
+  // the search results should update to the latest data when any individual object in data changes.
+  // This key is generated for that purpose.
+  const dataKey = dataKeyField ? data.map(dataKeyField).join(",") : "";
 
   const updateSearchResults = useCallback(
     (
@@ -232,7 +238,7 @@ export function useSearch<T>(
       throttledSearch.cancel();
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [throttledSearch, isFetchingCount, data.length]);
+  }, [throttledSearch, isFetchingCount, data.length, dataKey]);
 
   useEffect(() => {
     // query나 fieldKeysJoined가 변경되면 즉시 재검색

@@ -42,9 +42,9 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = observer(
     const onOpen = () => setIsOpen(true);
     const onClose = () => setIsOpen(false);
 
-    const onSave = () => {
-      chainStore.enableChainInfoInUI(...chainIdsToEnable.current);
-      chainStore.disableChainInfoInUI(...chainIdsToDisable.current);
+    const onSave = async () => {
+      await chainStore.enableChainInfoInUI(...chainIdsToEnable.current);
+      await chainStore.disableChainInfoInUI(...chainIdsToDisable.current);
 
       chainIdsToEnable.current.clear();
       chainIdsToDisable.current.clear();
