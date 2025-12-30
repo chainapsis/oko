@@ -15,8 +15,8 @@ import {
   getSiweMessage,
   verifySiweMessage,
 } from "@oko-wallet-attached/components/modal_variants/eth/siwe_message";
-import { EthereumSiweSignatureContent } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/make_siwe-siganature_content";
-import { SiweRiskWarningCheckBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe-risk-warning-box";
+import { EthereumSiweSignatureContent } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/make_siwe_signature_content";
+import { SiweRiskWarningCheckBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe_risk_warning_box";
 
 export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
   getIsAborted,
