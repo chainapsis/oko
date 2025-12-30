@@ -8,6 +8,7 @@ import { LoginWidget } from "../login_widget/login_widget";
 import { Spinner } from "../../spinner/spinner";
 import { paths } from "@oko-wallet-user-dashboard/paths";
 import { useRouter } from "next/navigation";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import styles from "./account_widget.module.scss";
 
@@ -26,13 +27,9 @@ export const AccountWidget: FC<AccountWidgetProps> = () => {
   const setAuthType = useUserInfoState((state) => state.setAuthType);
 
   // TODO: add other login methods, and update the type accordingly
-  const [loginMethod, setLoginMethod] = useState<
-    "email" | "google" | "telegram" | "x" | "apple"
-  >("google");
+  const [loginMethod, setLoginMethod] = useState<AuthType>("google");
 
-  async function handleSignIn(
-    method: "email" | "google" | "telegram" | "x" | "apple",
-  ) {
+  async function handleSignIn(method: AuthType) {
     setLoginMethod(method);
 
     if (!okoWallet) {
@@ -40,16 +37,22 @@ export const AccountWidget: FC<AccountWidgetProps> = () => {
       return;
     }
 
-    if (method !== "google" && method !== "email") {
+    if (
+      method !== "google" &&
+      method !== "auth0" &&
+      method !== "telegram" &&
+      method !== "x" &&
+      method !== "discord"
+    ) {
       console.error("Unsupported login method atm: %s", method);
       return;
     }
 
     try {
       setSigningInState({ status: "signing-in" });
-      await okoWallet.signIn(method);
+      await okoWallet.signIn(method === "auth0" ? "email" : method);
 
-      setAuthType(method === "google" ? "google" : "auth0");
+      setAuthType(method);
       setSigningInState({ status: "ready" });
     } catch (error: any) {
       console.error("sign in fail, err: %s", error);
@@ -81,7 +84,7 @@ export const AccountWidget: FC<AccountWidgetProps> = () => {
   }
 
   // The email login loading progress is shown in the Attached popup, so we don't need to show that here
-  if (signingInState.status === "signing-in" && loginMethod !== "email") {
+  if (signingInState.status === "signing-in" && loginMethod !== "auth0") {
     return <AuthProgressWidget method={loginMethod} status="loading" />;
   }
 

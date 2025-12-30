@@ -24,7 +24,8 @@
     "./toggle": "./src/toggle/toggle.tsx",
     "./tooltip": "./src/tooltip/tooltip.tsx",
     "./typography": "./src/typography/typography.tsx",
-    "./skeleton": "./src/skeleton/skeleton.tsx"
+    "./skeleton": "./src/skeleton/skeleton.tsx",
+    "./image_with_alt": "./src/image_with_alt/image_with_alt.tsx"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",
