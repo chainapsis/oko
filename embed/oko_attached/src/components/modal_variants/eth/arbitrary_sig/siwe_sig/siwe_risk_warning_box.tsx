@@ -2,7 +2,7 @@ import type { FC } from "react";
 import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
-import styles from "./siwe-risk-warning-box.module.scss";
+import styles from "./siwe_risk_warning_box.module.scss";
 
 interface SiweRiskWarningCheckBoxProps {
   checked: boolean;

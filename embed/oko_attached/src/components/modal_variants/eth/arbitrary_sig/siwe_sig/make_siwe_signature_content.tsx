@@ -13,7 +13,7 @@ import { SiweSigTitleBadge } from "@oko-wallet-attached/components/modal_variant
 import { SignerAddressOrEmailForSiwe } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/signer_address_or_email_for_siwe";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
-import { SiweRiskWarningBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe-risk-warning-box";
+import { SiweRiskWarningBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe_risk_warning_box";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 
 interface EthereumSiweSignatureContentProps {
