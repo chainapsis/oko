@@ -39,14 +39,14 @@ export async function signIn(this: OkoWalletInterface, type: SignInType) {
     return;
   }
 
-  if (walletInfo.publicKey && walletInfo.email) {
+  if (walletInfo.authType && walletInfo.publicKey) {
     console.log("[oko] emit CORE__accountsChanged");
 
     this.eventEmitter.emit({
       type: "CORE__accountsChanged",
       authType: walletInfo.authType,
-      email: walletInfo.email,
       publicKey: walletInfo.publicKey,
+      email: walletInfo.email,
       name: walletInfo.name,
     });
   }

@@ -33,10 +33,10 @@ export const useUserInfoState = create(
       setUserInfo: (info) => {
         set({
           authType: info.authType,
-          email: info.email,
+          email: info.email ?? null,
           publicKey: info.publicKey,
           name: info.name ?? null,
-          isSignedIn: !!(info.email && info.publicKey),
+          isSignedIn: !!info.publicKey,
         });
       },
       clearUserInfo: () => {

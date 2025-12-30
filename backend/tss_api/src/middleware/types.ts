@@ -6,8 +6,10 @@ export interface OAuthBody {
 
 export interface OAuthUser {
   type: AuthType;
-  email: string;
-  // `x` is username, `telegram` is username
+  user_identifier: string;
+  // google, auth0, discord
+  email?: string;
+  // x, telegram, discord
   name?: string;
 }
 

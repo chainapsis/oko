@@ -91,6 +91,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2,
     };
@@ -196,6 +197,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -237,6 +239,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -274,6 +277,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -313,6 +317,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,

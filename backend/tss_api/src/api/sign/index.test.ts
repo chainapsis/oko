@@ -138,6 +138,7 @@ async function setUpTssStage(pool: Pool) {
 
   const keygenRequest: KeygenRequest = {
     auth_type: "google",
+    user_identifier: email,
     email: email,
     keygen_2,
   };
