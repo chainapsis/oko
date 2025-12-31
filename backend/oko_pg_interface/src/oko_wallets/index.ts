@@ -16,7 +16,7 @@ export async function createWallet(
 ): Promise<Result<Wallet, string>> {
   try {
     const createWalletQuery = `
-INSERT INTO ewallet_wallets (
+INSERT INTO oko_wallets (
   wallet_id, user_id, curve_type, 
   public_key, enc_tss_share, sss_threshold, status
 )
@@ -66,7 +66,7 @@ export async function getWalletById(
   try {
     const query = `
 SELECT * 
-FROM ewallet_wallets 
+FROM oko_wallets 
 WHERE wallet_id = $1 LIMIT 1
 `;
 
@@ -96,8 +96,8 @@ export async function getWalletByIdWithEmail(
   try {
     const query = `
 SELECT w.*, u.email AS email 
-FROM ewallet_wallets w
-LEFT JOIN ewallet_users u ON w.user_id = u.user_id
+FROM oko_wallets w
+LEFT JOIN oko_users u ON w.user_id = u.user_id
 WHERE w.wallet_id = $1
 LIMIT 1
 `;
@@ -128,7 +128,7 @@ export async function getWalletByPublicKey(
   try {
     const query = `
 SELECT * 
-FROM ewallet_wallets 
+FROM oko_wallets 
 WHERE public_key = $1 
 LIMIT 1
 `;
@@ -160,7 +160,7 @@ export async function getActiveWalletByUserIdAndCurveType(
   try {
     const query = `
 SELECT * 
-FROM ewallet_wallets 
+FROM oko_wallets 
 WHERE user_id = $1 
   AND curve_type = $2 
   AND status = $3
@@ -204,8 +204,8 @@ SELECT
     JSON_AGG(wk.node_id) FILTER (WHERE wk.wallet_ks_node_id IS NOT NULL),
     '[]'::json
   ) as wallet_ks_nodes
-FROM ewallet_wallets w
-LEFT JOIN ewallet_users u ON w.user_id = u.user_id
+FROM oko_wallets w
+LEFT JOIN oko_users u ON w.user_id = u.user_id
 LEFT JOIN wallet_ks_nodes wk ON w.wallet_id = wk.wallet_id
 GROUP BY w.wallet_id, w.user_id, w.curve_type, w.public_key, w.status, w.enc_tss_share, w.metadata, w.created_at, w.updated_at, u.email
 ORDER BY w.created_at DESC
@@ -232,7 +232,7 @@ export async function getWalletsCount(
 ): Promise<Result<number, string>> {
   try {
     const query = `
-SELECT COUNT(*) FROM ewallet_wallets
+SELECT COUNT(*) FROM oko_wallets
 `;
 
     const result = await db.query(query);
@@ -256,7 +256,7 @@ export async function updateWalletStatus(
 ): Promise<Result<void, string>> {
   try {
     const query = `
-UPDATE ewallet_wallets 
+UPDATE oko_wallets 
 SET status = $1, updated_at = now() 
 WHERE wallet_id = $2
 `;

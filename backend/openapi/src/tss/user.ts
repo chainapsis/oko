@@ -19,14 +19,17 @@ export const SignInResponseSchema = registry.register(
     }),
     user: z
       .object({
-        email: z.string().openapi({
-          description: "User email address",
-        }),
         wallet_id: z.string().openapi({
           description: "Unique wallet identifier",
         }),
         public_key: z.string().openapi({
           description: "Public key in hex format",
+        }),
+        user_identifier: z.string().openapi({
+          description: "User identifier",
+        }),
+        email: z.string().nullable().openapi({
+          description: "User email address (nullable)",
         }),
         name: z.string().nullable().openapi({
           description:

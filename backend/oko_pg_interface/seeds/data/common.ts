@@ -6,7 +6,7 @@ import type {
   CustomerAndCTDUserWithPasswordHash,
   PasswordHash,
 } from "@oko-wallet/oko-types/ct_dashboard";
-import type { EWalletAdminUser } from "@oko-wallet/oko-types/admin";
+import type { OkoAdminUser } from "@oko-wallet/oko-types/admin";
 import type { KeyShareNodeMeta } from "@oko-wallet/oko-types/key_share_node_meta";
 import type { TssActivationSetting } from "@oko-wallet-types/tss_activate";
 
@@ -30,7 +30,7 @@ export function createKeyShareNodeMeta(): KeyShareNodeMeta {
   };
 }
 
-export async function createAdmin(): Promise<EWalletAdminUser> {
+export async function createAdmin(): Promise<OkoAdminUser> {
   return {
     user_id: ADMIN_USER_ID,
     email: ADMIN_EMAIL,

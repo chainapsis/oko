@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import {
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import type {
   CheckEmailResponse,
   ReshareReason,
@@ -11,7 +11,7 @@ import type {
 } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   getActiveKSNodes,
   getWalletKSNodesByWalletId,
@@ -32,16 +32,21 @@ import { checkKeyShareFromKSNodes } from "@oko-wallet-tss-api/api/ks_node";
 
 export async function signIn(
   db: Pool,
-  email: string,
+  user_identifier: string,
   auth_type: AuthType,
   jwt_config: {
     secret: string;
     expires_in: string;
   },
+  email?: string,
   name?: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByEmailAndAuthType(
+      db,
+      user_identifier,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
@@ -53,7 +58,7 @@ export async function signIn(
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email} (auth_type: ${auth_type})`,
+        msg: `User not found: ${user_identifier} (auth_type: ${auth_type})`,
       };
     }
 
@@ -96,9 +101,10 @@ export async function signIn(
       data: {
         token: tokenResult.data.token,
         user: {
-          email: getUserRes.data.email,
           wallet_id: walletRes.data.wallet_id,
           public_key: walletRes.data.public_key.toString("hex"),
+          user_identifier: user_identifier,
+          email: email ?? null,
           name: name ?? null,
         },
       },

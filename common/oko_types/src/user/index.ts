@@ -29,9 +29,10 @@ export interface CheckEmailResponse {
 export interface SignInResponse {
   token: string;
   user: {
-    email: string;
     wallet_id: string;
     public_key: string;
+    user_identifier: string;
+    email: string | null;
     name: string | null;
   };
 }

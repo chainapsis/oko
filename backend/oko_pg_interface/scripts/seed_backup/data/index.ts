@@ -3,7 +3,7 @@ import type {
   CustomerDashboardUser,
   PasswordHash,
 } from "@oko-wallet/oko-types/ct_dashboard";
-import type { EWalletAdminUser } from "@oko-wallet/oko-types/admin";
+import type { OkoAdminUser } from "@oko-wallet/oko-types/admin";
 
 import {
   createAdmin,
@@ -19,7 +19,7 @@ import type { KeyShareNodeMeta } from "@oko-wallet-types/key_share_node_meta";
 import type { TssActivationSetting } from "@oko-wallet-types/tss_activate";
 
 export interface SeedData {
-  admin: EWalletAdminUser;
+  admin: OkoAdminUser;
   customer: Customer;
   customerDashboardUser: CustomerDashboardUser & PasswordHash;
   apiKeys: { customer_id: string; hashed_key: string }[];

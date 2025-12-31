@@ -9,7 +9,7 @@ interface WalletState {
   authType: AuthType;
   walletId: string;
   publicKey: string;
-  email: string;
+  email: string | null;
   name: string | null;
 }
 

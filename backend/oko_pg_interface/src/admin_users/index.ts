@@ -1,10 +1,10 @@
 import { Pool, type PoolClient } from "pg";
-import type { EWalletAdminUser } from "@oko-wallet/oko-types/admin";
+import type { OkoAdminUser } from "@oko-wallet/oko-types/admin";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function createAdmin(
   db: Pool | PoolClient,
-  adminUser: EWalletAdminUser,
+  adminUser: OkoAdminUser,
 ): Promise<Result<string, string>> {
   const query = `
 INSERT INTO admin_users (
@@ -27,7 +27,7 @@ RETURNING user_id
   ];
 
   try {
-    const result = await db.query<EWalletAdminUser>(query, values);
+    const result = await db.query<OkoAdminUser>(query, values);
 
     const row = result.rows[0];
     if (!row) {
@@ -49,7 +49,7 @@ RETURNING user_id
 export async function getAdminByEmail(
   db: Pool,
   email: string,
-): Promise<Result<EWalletAdminUser | null, string>> {
+): Promise<Result<OkoAdminUser | null, string>> {
   const query = `
 SELECT * 
 FROM admin_users
@@ -58,7 +58,7 @@ LIMIT 1
 `;
 
   try {
-    const result = await db.query<EWalletAdminUser>(query, [email]);
+    const result = await db.query<OkoAdminUser>(query, [email]);
     return {
       success: true,
       data: result.rows.length > 0 ? result.rows[0] : null,
@@ -74,7 +74,7 @@ LIMIT 1
 export async function getAdminById(
   db: Pool,
   adminId: string,
-): Promise<Result<EWalletAdminUser | null, string>> {
+): Promise<Result<OkoAdminUser | null, string>> {
   const query = `
 SELECT * 
 FROM admin_users
@@ -83,7 +83,7 @@ LIMIT 1
 `;
 
   try {
-    const result = await db.query<EWalletAdminUser>(query, [adminId]);
+    const result = await db.query<OkoAdminUser>(query, [adminId]);
     return {
       success: true,
       data: result.rows.length > 0 ? result.rows[0] : null,

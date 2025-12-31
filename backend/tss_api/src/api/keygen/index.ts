@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import {
   createUser,
   getUserByEmailAndAuthType,
-} from "@oko-wallet/oko-pg-interface/ewallet_users";
+} from "@oko-wallet/oko-pg-interface/oko_users";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
@@ -14,7 +14,7 @@ import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import {
   createWalletKSNodes,
   getActiveKSNodes,
@@ -34,9 +34,13 @@ export async function runKeygen(
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const { auth_type, email, keygen_2, name } = keygenRequest;
+    const { auth_type, user_identifier, keygen_2, email, name } = keygenRequest;
 
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByEmailAndAuthType(
+      db,
+      user_identifier,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
@@ -69,7 +73,7 @@ export async function runKeygen(
         };
       }
     } else {
-      const createUserRes = await createUser(db, email, auth_type);
+      const createUserRes = await createUser(db, user_identifier, auth_type);
       if (createUserRes.success === false) {
         return {
           success: false,
@@ -123,7 +127,7 @@ export async function runKeygen(
     const activeKSNodes = getActiveKSNodesRes.data;
 
     const checkKeyshareFromKSNodesRes = await checkKeyShareFromKSNodes(
-      email,
+      user_identifier,
       publicKeyBytes,
       activeKSNodes,
       auth_type,
@@ -200,7 +204,7 @@ export async function runKeygen(
 
     const tokenResult = generateUserToken({
       wallet_id: wallet.wallet_id,
-      email: email,
+      email: user_identifier,
       jwt_config: jwtConfig,
     });
 
@@ -217,9 +221,10 @@ export async function runKeygen(
       data: {
         token: tokenResult.data.token,
         user: {
-          email: email,
           wallet_id: wallet.wallet_id,
           public_key: keygen_2.public_key,
+          user_identifier: user_identifier,
+          email: email ?? null,
           name: name ?? null,
         },
       },

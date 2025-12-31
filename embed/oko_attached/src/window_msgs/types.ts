@@ -68,4 +68,5 @@ export interface UserSignInResult {
   keyshare_1: string;
   isNewUser: boolean;
   name: string | null;
+  email: string | null;
 }

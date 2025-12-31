@@ -48,8 +48,9 @@ export async function discordAuthMiddleware(
 
     res.locals.oauth_user = {
       type: "discord" as AuthType,
-      // in discord, use discord id as email with prefix
-      email: `discord_${result.data.id}`,
+      // in discord, use discord id as identifier with prefix
+      user_identifier: `discord_${result.data.id}`,
+      email: result.data.email,
       name: result.data.username,
     };
 

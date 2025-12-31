@@ -7,6 +7,7 @@ import { getPublicKey } from "./methods/get_public_key";
 import { getEmail } from "./methods/get_email";
 import { getName } from "./methods/get_name";
 import { getWalletInfo } from "./methods/get_wallet_info";
+import { getAuthType } from "./methods/get_auth_type";
 import { closeModal } from "./methods/close_modal";
 import { on } from "./methods/on";
 import type { OkoWalletInterface } from "./types";
@@ -26,6 +27,7 @@ ptype.signOut = signOut;
 ptype.getPublicKey = getPublicKey;
 ptype.getEmail = getEmail;
 ptype.getName = getName;
+ptype.getAuthType = getAuthType;
 ptype.getWalletInfo = getWalletInfo;
 ptype.on = on;
 

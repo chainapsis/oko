@@ -49,9 +49,9 @@ export async function googleAuthMiddleware(
 
     res.locals.oauth_user = {
       type: "google" as AuthType,
-      // in google, use google sub as email with prefix
-      email: `google_${result.data.sub}`,
-      name: result.data.email,
+      // in google, use google sub as identifier with prefix
+      user_identifier: `google_${result.data.sub}`,
+      email: result.data.email,
     };
 
     next();
