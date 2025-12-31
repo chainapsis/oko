@@ -11,7 +11,7 @@ export async function createUser(
 ): Promise<Result<User, string>> {
   try {
     const query = `
-INSERT INTO ewallet_users (
+INSERT INTO oko_users (
   user_id, email, auth_type
 ) VALUES (
   $1, $2, $3
@@ -50,7 +50,7 @@ export async function getUserByEmailAndAuthType(
   try {
     const query = `
 SELECT * 
-FROM ewallet_users 
+FROM oko_users 
 WHERE email = $1 AND auth_type = $2
 LIMIT 1
 `;

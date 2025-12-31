@@ -1,4 +1,4 @@
-import { getWalletByIdWithEmail } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { getWalletByIdWithEmail } from "@oko-wallet/oko-pg-interface/oko_wallets";
 import { TssSessionState } from "@oko-wallet/oko-types/tss";
 import type { Customer } from "@oko-wallet/oko-types/customers";
 import type {

@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import {
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import type {
   CheckEmailResponse,
   ReshareReason,
@@ -11,7 +11,7 @@ import type {
 } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   getActiveKSNodes,
   getWalletKSNodesByWalletId,

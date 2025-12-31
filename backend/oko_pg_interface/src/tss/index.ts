@@ -294,8 +294,8 @@ SELECT
   u.email AS user_email
 FROM tss_sessions s
 JOIN customers c ON s.customer_id = c.customer_id
-LEFT JOIN ewallet_wallets w ON s.wallet_id = w.wallet_id
-LEFT JOIN ewallet_users u ON w.user_id = u.user_id
+LEFT JOIN oko_wallets w ON s.wallet_id = w.wallet_id
+LEFT JOIN oko_users u ON w.user_id = u.user_id
 `;
 
     const conditions: string[] = [];

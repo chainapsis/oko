@@ -2,8 +2,8 @@ import { jest } from "@jest/globals";
 import request from "supertest";
 import type { Pool } from "pg";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
-import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { createWallet } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
