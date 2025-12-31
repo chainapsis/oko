@@ -1,4 +1,5 @@
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
 
 import { OKO_PUBLIC_S3_BUCKET_URL } from "@oko-wallet-attached/requests/endpoints";
 import styles from "./styles.module.scss";
@@ -22,14 +23,12 @@ export const SiweSigTitleBadge: React.FC<SiweSigTitleBadgeProps> = ({
 
   return (
     <div className={styles.imageContainer}>
-      <picture>
-        <source srcSet={imageUrl.webp} type="image/webp" />
-        <img
-          className={styles.image}
-          src={imageUrl.png}
-          alt="sign siwe title image"
-        />
-      </picture>
+      <ImageWithAlt
+        srcSet={imageUrl.webp}
+        srcAlt={imageUrl.png}
+        alt="sign siwe title image"
+        className={styles.image}
+      />
     </div>
   );
 };
