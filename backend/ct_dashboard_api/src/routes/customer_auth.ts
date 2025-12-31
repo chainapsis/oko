@@ -48,6 +48,7 @@ import {
   customerJwtMiddleware,
   type CustomerAuthenticatedRequest,
 } from "@oko-wallet-ctd-api/middleware/auth";
+import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
 import { generateVerificationCode } from "@oko-wallet-ctd-api/email/verification";
 import { sendPasswordResetEmail } from "@oko-wallet-ctd-api/email/password_reset";
 import {
@@ -119,6 +120,7 @@ export function setCustomerAuthRoutes(router: Router) {
   // Forgot Password: Send Code
   router.post(
     "/customer/auth/forgot-password",
+    rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
     async (req, res: Response<OkoApiResponse<{ message: string }>>) => {
       try {
         const state = req.app.locals as any;
@@ -164,27 +166,6 @@ export function setCustomerAuthRoutes(router: Router) {
             msg: "Account not found",
           });
           return;
-        }
-
-        // Rate limit check
-        const activeVerificationResult = await getLatestPendingVerification(
-          state.db,
-          email,
-        );
-        if (activeVerificationResult.success && activeVerificationResult.data) {
-          const diffTime = Math.abs(
-            new Date().getTime() -
-              activeVerificationResult.data.created_at.getTime(),
-          );
-          const diffSeconds = Math.ceil(diffTime / 1000);
-          if (diffSeconds < 60) {
-            res.status(429).json({
-              success: false,
-              code: "VERIFICATION_CODE_ALREADY_SENT",
-              msg: `Please wait ${60 - diffSeconds} seconds before requesting a new code`,
-            });
-            return;
-          }
         }
 
         const verificationCode = generateVerificationCode();
@@ -295,6 +276,7 @@ export function setCustomerAuthRoutes(router: Router) {
   // Forgot Password: Verify Code
   router.post(
     "/customer/auth/verify-reset-code",
+    rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
     async (req, res: Response<OkoApiResponse<{ isValid: boolean }>>) => {
       try {
         const state = req.app.locals as any;
