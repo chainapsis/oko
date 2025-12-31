@@ -81,6 +81,12 @@ export async function verifyIdTokenOfDiscord(
     }
 
     const result = await response.json();
+    if (!result.id) {
+      return {
+        success: false,
+        err: "Discord id not found",
+      };
+    }
 
     const userInfo: DiscordUserInfo = {
       id: result.id,

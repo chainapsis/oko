@@ -58,11 +58,7 @@ export interface Auth0TokenInfo {
 
 export interface TokenInfo {
   provider: AuthType;
-  email: string;
-  email_verified?: boolean;
-  nonce?: string;
-  name?: string;
-  sub?: string;
+  user_identifier: string;
 }
 
 export interface UserSignInResult {
@@ -72,4 +68,5 @@ export interface UserSignInResult {
   keyshare_1: string;
   isNewUser: boolean;
   name: string | null;
+  email: string | null;
 }

@@ -4,7 +4,7 @@ import {
   createUser,
   createWallet,
   getKeyShareByWalletId,
-  getUserByEmailAndAuthType,
+  getUserByAuthTypeAndUserAuthId,
   getWalletByPublicKey,
 } from "@oko-wallet/ksn-pg-interface";
 import { Bytes, type Bytes33, type Bytes64 } from "@oko-wallet/bytes";
@@ -72,7 +72,7 @@ describe("key_share_test", () => {
       const registerKeyShareRes = await registerKeyShare(
         pool,
         {
-          email: "test@test.com",
+          user_auth_id: "test@test.com",
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -87,10 +87,10 @@ describe("key_share_test", () => {
         throw new Error("Failed to register key share");
       }
 
-      const getUserRes = await getUserByEmailAndAuthType(
+      const getUserRes = await getUserByAuthTypeAndUserAuthId(
         pool,
-        "test@test.com",
         "google",
+        "test@test.com",
       );
       if (getUserRes.success === false) {
         console.error(getUserRes.err);
@@ -158,7 +158,7 @@ describe("key_share_test", () => {
       const registerKeyShareRes = await registerKeyShare(
         pool,
         {
-          email: "test@test.com",
+          user_auth_id: "test@test.com",
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -203,7 +203,7 @@ describe("key_share_test", () => {
       await registerKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -215,7 +215,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -257,7 +257,7 @@ describe("key_share_test", () => {
       await registerKeyShare(
         pool,
         {
-          email: "test2@test.com",
+          user_auth_id: "test2@test.com",
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes,
@@ -269,7 +269,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -314,7 +314,7 @@ describe("key_share_test", () => {
       }
       const publicKeyBytes2: Bytes33 = publicKeyBytes2Res.data;
 
-      const createUserRes = await createUser(pool, email, "google");
+      const createUserRes = await createUser(pool, "google", email);
       if (createUserRes.success === false) {
         console.error(createUserRes.err);
         throw new Error("Failed to create user");
@@ -323,7 +323,7 @@ describe("key_share_test", () => {
       await registerKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           curve_type: "secp256k1",
           public_key: publicKeyBytes2,
@@ -335,7 +335,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -362,7 +362,7 @@ describe("key_share_test", () => {
       }
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
-      await createUser(pool, email, "google");
+      await createUser(pool, "google", email);
 
       await createWallet(pool, {
         user_id: "550e8400-e29b-41d4-a716-446655440000",
@@ -373,7 +373,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -400,7 +400,7 @@ describe("key_share_test", () => {
       }
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
-      const createUserRes = await createUser(pool, email, "google");
+      const createUserRes = await createUser(pool, "google", email);
       if (createUserRes.success === false) {
         console.error(createUserRes.err);
         throw new Error("Failed to create user");
@@ -419,7 +419,7 @@ describe("key_share_test", () => {
       const getKeyShareRes = await getKeyShare(
         pool,
         {
-          email,
+          user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
         },
@@ -449,7 +449,7 @@ describe("key_share_test", () => {
       }
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
-      const createUserRes = await createUser(pool, email, "google");
+      const createUserRes = await createUser(pool, "google", email);
       if (createUserRes.success === false) {
         console.error(createUserRes.err);
         throw new Error("Failed to create user");
@@ -475,7 +475,7 @@ describe("key_share_test", () => {
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -501,7 +501,7 @@ describe("key_share_test", () => {
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -526,14 +526,14 @@ describe("key_share_test", () => {
       }
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
-      const createUserRes = await createUser(pool, email, "google");
+      const createUserRes = await createUser(pool, "google", email);
       if (createUserRes.success === false) {
         console.error(createUserRes.err);
         throw new Error("Failed to create user");
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -558,7 +558,7 @@ describe("key_share_test", () => {
       }
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
-      const createUserRes = await createUser(pool, email, "google");
+      const createUserRes = await createUser(pool, "google", email);
       if (createUserRes.success === false) {
         console.error(createUserRes.err);
         throw new Error("Failed to create user");
@@ -575,7 +575,7 @@ describe("key_share_test", () => {
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });
@@ -600,7 +600,7 @@ describe("key_share_test", () => {
       }
       const publicKeyBytes: Bytes33 = publicKeyBytesRes.data;
 
-      const createUserRes = await createUser(pool, email, "google");
+      const createUserRes = await createUser(pool, "google", email);
       if (createUserRes.success === false) {
         console.error(createUserRes.err);
         throw new Error("Failed to create user");
@@ -617,7 +617,7 @@ describe("key_share_test", () => {
       }
 
       const checkKeyShareRes = await checkKeyShare(pool, {
-        email,
+        user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
       });

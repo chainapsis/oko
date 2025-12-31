@@ -28,7 +28,7 @@ export function addStatusRoutes(app: Express) {
           ).toISOString();
         }
       } else {
-        console.error("Failed to get latest dump:", getLatestDumpRes.err);
+        logger.error("Failed to get latest dump:", getLatestDumpRes.err);
       }
     } catch (err: any) {
       logger.error("Get latest pg dump, err: %s", err);

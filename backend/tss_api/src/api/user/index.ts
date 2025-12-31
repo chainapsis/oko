@@ -32,16 +32,21 @@ import { checkKeyShareFromKSNodes } from "@oko-wallet-tss-api/api/ks_node";
 
 export async function signIn(
   db: Pool,
-  email: string,
+  user_identifier: string,
   auth_type: AuthType,
   jwt_config: {
     secret: string;
     expires_in: string;
   },
+  email?: string,
   name?: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByEmailAndAuthType(
+      db,
+      user_identifier,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
@@ -53,7 +58,7 @@ export async function signIn(
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${email} (auth_type: ${auth_type})`,
+        msg: `User not found: ${user_identifier} (auth_type: ${auth_type})`,
       };
     }
 
@@ -96,9 +101,10 @@ export async function signIn(
       data: {
         token: tokenResult.data.token,
         user: {
-          email: getUserRes.data.email,
           wallet_id: walletRes.data.wallet_id,
           public_key: walletRes.data.public_key.toString("hex"),
+          user_identifier: user_identifier,
+          email: email ?? null,
           name: name ?? null,
         },
       },

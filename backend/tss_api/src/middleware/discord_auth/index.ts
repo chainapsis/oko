@@ -39,15 +39,17 @@ export async function discordAuthMiddleware(
       return;
     }
 
-    if (!result.data.email) {
+    if (!result.data.id) {
       res.status(401).json({
-        error: "Can't get email from Discord token",
+        error: "Can't get id from Discord token",
       });
       return;
     }
 
     res.locals.oauth_user = {
       type: "discord" as AuthType,
+      // in discord, use discord id as identifier with prefix
+      user_identifier: `discord_${result.data.id}`,
       email: result.data.email,
       name: result.data.username,
     };

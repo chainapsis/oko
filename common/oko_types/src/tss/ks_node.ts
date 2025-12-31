@@ -72,3 +72,17 @@ export type KSNodeWithHealthCheck = {
   health_check_status: KSNodeHealthCheckStatus | null;
   health_checked_at: string | null;
 };
+
+export interface KSNodeTelemetry {
+  log_id: string;
+  public_key: string;
+  key_share_count: number;
+  payload: any;
+  created_at: Date;
+}
+
+export interface KSNodeTelemetryRequest {
+  public_key: string;
+  key_share_count: number;
+  payload: Record<string, any>;
+}

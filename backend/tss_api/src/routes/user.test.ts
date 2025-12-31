@@ -43,9 +43,9 @@ const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
   }
   res.locals.oauth_user = {
     type: req.body.auth_type,
+    user_identifier: "test@example.com",
     email: "test@example.com",
     name: "Test User",
-    sub: "test123",
   };
   next();
 });

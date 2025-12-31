@@ -39,17 +39,17 @@ export async function xAuthMiddleware(
       return;
     }
 
-    if (!result.data.id || !result.data.username) {
+    if (!result.data.id) {
       res.status(401).json({
-        error: "Unauthorized: Invalid token",
+        error: "Can't get id from X token",
       });
       return;
     }
 
     res.locals.oauth_user = {
       type: "x" as AuthType,
-      // in x, use x id as email with prefix
-      email: `x_${result.data.id}`,
+      // in x, use x id as email identifier with prefix
+      user_identifier: `x_${result.data.id}`,
       name: result.data.username,
     };
 

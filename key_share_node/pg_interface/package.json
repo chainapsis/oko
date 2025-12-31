@@ -13,6 +13,7 @@
     "migrate_2": "MIGRATE_MODE=one NODE_ID=2 tsx ./src/bin/migrate/index.ts",
     "db_backup": "tsx ./src/bin/db_backup.ts",
     "db_restore": "tsx ./src/bin/db_restore.ts",
+    "schema_make": "tsx ../../node_modules/knex/bin/cli.js migrate:make -x ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

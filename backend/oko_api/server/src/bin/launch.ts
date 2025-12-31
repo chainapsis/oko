@@ -15,6 +15,7 @@ import { makeApp } from "@oko-wallet-api/app";
 import { ENV_FILE_NAME, envSchema } from "@oko-wallet-api/envs";
 import { getCommitHash } from "@oko-wallet-api/git";
 import { startKSNodeHealthCheckRuntime } from "@oko-wallet-api/runtime/health_check_node";
+import { startKSNodeHeartbeatRuntime } from "@oko-wallet-api/runtime/ks_node_monitor";
 
 async function main() {
   console.log("NODE_ENV: %s", process.env.NODE_ENV);
@@ -59,6 +60,8 @@ async function main() {
     encryption_secret: envs.ENCRYPTION_SECRET!,
     typeform_webhook_secret: envs.TYPEFORM_WEBHOOK_SECRET!,
     telegram_bot_token: envs.TELEGRAM_BOT_TOKEN!,
+    slack_webhook_url: envs.SLACK_WEBHOOK_URL ?? null,
+    ks_node_report_password: envs.KS_NODE_REPORT_PASSWORD!,
   });
 
   state.logger.info("Running database migrations...");
@@ -88,6 +91,11 @@ async function main() {
 
   startKSNodeHealthCheckRuntime(state.db, state.logger, {
     intervalSeconds: 10 * 60, // 10 minutes
+  });
+
+  startKSNodeHeartbeatRuntime(state.db, state.logger, {
+    intervalSeconds: 60, // 1 minute
+    slackWebhookUrl: state.slack_webhook_url,
   });
 
   startInactiveCustomerUserReminderRuntime(state.db, state.logger, {

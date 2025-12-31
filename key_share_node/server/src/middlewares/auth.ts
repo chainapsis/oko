@@ -5,7 +5,7 @@ import type {
   DiscordTokenInfo,
   GoogleTokenInfo,
 } from "@oko-wallet/ksn-interface/auth";
-import type { AuthType } from "@oko-wallet/ksn-interface/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type { OAuthValidationFail } from "@oko-wallet-ksn-server/auth/types";
 import {
@@ -50,8 +50,11 @@ type VerifyResult =
       data: Result<DiscordTokenInfo, OAuthValidationFail>;
     };
 
-export interface AuthenticatedRequest<T = any>
-  extends Request<any, any, T & OAuthBody> {}
+export interface AuthenticatedRequest<T = any> extends Request<
+  any,
+  any,
+  T & OAuthBody
+> {}
 
 export async function bearerTokenMiddleware(
   req: AuthenticatedRequest,
@@ -146,19 +149,18 @@ export async function bearerTokenMiddleware(
 
     switch (result.auth_type) {
       case "x": {
-        if (!result.data.data.id || !result.data.data.username) {
+        if (!result.data.data.id) {
           const errorRes: KSNodeApiErrorResponse = {
             success: false,
             code: "UNAUTHORIZED",
-            msg: "Invalid token: missing required fields (id or username)",
+            msg: "Invalid token: missing required field (id)",
           };
           res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
           return;
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: `x_${result.data.data.id}`,
-          name: result.data.data.username,
+          user_identifier: `x_${result.data.data.id}`,
         };
         break;
       }
@@ -174,8 +176,7 @@ export async function bearerTokenMiddleware(
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: `telegram_${result.data.data.id}`,
-          name: result.data.data.username,
+          user_identifier: `telegram_${result.data.data.id}`,
         };
         break;
       }
@@ -191,31 +192,39 @@ export async function bearerTokenMiddleware(
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: result.data.data.email,
-          name: result.data.data.username,
+          user_identifier: `discord_${result.data.data.id}`,
         };
         break;
       }
-      case "google":
-      case "auth0": {
-        if (
-          !result.data.data.email ||
-          !result.data.data.sub ||
-          !result.data.data.name
-        ) {
+      case "google": {
+        if (!result.data.data.sub || !result.data.data.email) {
           const errorRes: KSNodeApiErrorResponse = {
             success: false,
             code: "UNAUTHORIZED",
-            msg: "Invalid token: missing required fields (email, sub, or name)",
+            msg: "Invalid token: missing required field (sub or email)",
           };
           res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
           return;
         }
         res.locals.oauth_user = {
           type: result.auth_type,
-          email: result.data.data.email,
-          name: result.data.data.name,
-          sub: result.data.data.sub,
+          user_identifier: `google_${result.data.data.sub}`,
+        };
+        break;
+      }
+      case "auth0": {
+        if (!result.data.data.email || !result.data.data.sub) {
+          const errorRes: KSNodeApiErrorResponse = {
+            success: false,
+            code: "UNAUTHORIZED",
+            msg: "Invalid token: missing required field (email or sub)",
+          };
+          res.status(ErrorCodeMap[errorRes.code]).json(errorRes);
+          return;
+        }
+        res.locals.oauth_user = {
+          type: result.auth_type,
+          user_identifier: result.data.data.email,
         };
         break;
       }
