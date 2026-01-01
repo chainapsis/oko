@@ -1,0 +1,57 @@
+{
+  "name": "@oko-wallet/oko-connector-kit",
+  "private": true,
+  "version": "0.0.1-rc.0",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist"
+  ],
+  "keywords": [
+    "oko",
+    "solana",
+    "wallet-standard",
+    "connectorkit",
+    "wallet"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chainapsis/oko.git",
+    "directory": "sdk/oko_connector_kit"
+  },
+  "scripts": {
+    "clean": "del-cli dist tsconfig.rollup.tsbuildinfo",
+    "rollup-build": "rollup -c --configPlugin typescript",
+    "build": "yarn clean && yarn rollup-build && tsc-alias",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "@solana/web3.js": "^1.98.0",
+    "@wallet-standard/app": "^1.1.0",
+    "@wallet-standard/base": "^1.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/node": "^24.10.1",
+    "del-cli": "^6.0.0",
+    "rollup": "^4.0.0",
+    "rollup-plugin-dts": "^6.2.1",
+    "rollup-plugin-tsconfig-paths": "^1.5.2",
+    "tsc-alias": "^1.8.16",
+    "typescript": "^5.8.3"
+  }
+}

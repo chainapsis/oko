@@ -13,6 +13,7 @@
       "sdk/oko_sdk_cosmos",
       "sdk/oko_sdk_eth",
       "sdk/oko_sdk_sol",
+      "sdk/oko_connector_kit",
       "examples/cosmos_nextjs",
       "examples/cosmoskit_nextjs",
       "examples/evm_nextjs",
@@ -66,7 +67,8 @@
       "crypto/teddsa/teddsa_addon",
       "crypto/teddsa/api_lib",
       "crypto/teddsa/frost_ed25519_keplr_wasm",
-      "sandbox/sandbox_sol"
+      "sandbox/sandbox_sol",
+      "sandbox/sandbox_connector_kit"
     ]
   },
   "packageManager": "yarn@4.10.3",
