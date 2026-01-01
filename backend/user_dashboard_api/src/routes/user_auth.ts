@@ -42,6 +42,7 @@ import {
   customerJwtMiddleware,
   type CustomerAuthenticatedRequest,
 } from "@oko-wallet-usrd-api/middleware/auth";
+import { rateLimitMiddleware } from "@oko-wallet-usrd-api/middleware/rate_limit";
 
 export function setUserAuthRoutes(router: Router) {
   registry.registerPath({
@@ -98,6 +99,7 @@ export function setUserAuthRoutes(router: Router) {
   });
   router.post(
     "/customer/auth/send-code",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     async (req, res: Response<OkoApiResponse<SendVerificationResponse>>) => {
       try {
         const state = req.app.locals;
@@ -201,6 +203,7 @@ export function setUserAuthRoutes(router: Router) {
   });
   router.post(
     "/customer/auth/verify-login",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     async (req, res: Response<OkoApiResponse<LoginResponse>>) => {
       try {
         const state = req.app.locals as any;
@@ -391,6 +394,7 @@ export function setUserAuthRoutes(router: Router) {
   });
   router.post(
     "/customer/auth/signin",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     async (req, res: Response<OkoApiResponse<LoginResponse>>) => {
       try {
         const state = req.app.locals as any;
@@ -581,6 +585,7 @@ export function setUserAuthRoutes(router: Router) {
   });
   router.post(
     "/customer/auth/change-password",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     customerJwtMiddleware,
     async (
       req: CustomerAuthenticatedRequest<ChangePasswordRequest>,

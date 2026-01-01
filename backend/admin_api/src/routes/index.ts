@@ -34,6 +34,7 @@ import {
 import { customerLogoUploadMiddleware } from "@oko-wallet-admin-api/middleware/multer";
 
 import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware/auth";
+import { rateLimitMiddleware } from "@oko-wallet-admin-api/middleware/rate_limit";
 import { typeformWebhookMiddleware } from "../middleware/typeform_webhook";
 import { create_customer } from "./create_customer";
 import { get_customer_list } from "./get_customer_list";
@@ -394,7 +395,11 @@ export function makeOkoAdminRouter() {
       },
     },
   });
-  router.post("/user/login", user_login);
+  router.post(
+    "/user/login",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
+    user_login,
+  );
 
   registry.registerPath({
     method: "post",

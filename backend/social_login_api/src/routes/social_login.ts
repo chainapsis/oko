@@ -11,6 +11,7 @@ import {
   X_CLIENT_ID,
   X_SOCIAL_LOGIN_TOKEN_URL,
 } from "@oko-wallet-social-login-api/constants/x";
+import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
 
 export function setSocialLoginRoutes(router: Router) {
   // registry.registerPath({
@@ -58,6 +59,7 @@ export function setSocialLoginRoutes(router: Router) {
   // });
   router.post(
     "/x/get-token",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     async (
       req: Request<any, any, SocialLoginXBody>,
       res: Response<OkoApiResponse<SocialLoginXResponse>>,
@@ -107,6 +109,7 @@ export function setSocialLoginRoutes(router: Router) {
 
   router.get(
     "/x/verify-user",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     async (
       req: Request<any, any, null>,
       res: Response<OkoApiResponse<SocialLoginXVerifyUserResponse>>,
