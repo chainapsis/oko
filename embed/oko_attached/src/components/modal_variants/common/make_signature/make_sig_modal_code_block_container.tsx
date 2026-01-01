@@ -1,13 +1,17 @@
 import type { FC, ReactNode } from "react";
+import cn from "classnames";
 
 import styles from "./make_sig_modal_code_block_container.module.scss";
 
 export interface MakeSignatureRawCodeBlockContainerProps {
   children: ReactNode;
+  className?: string;
 }
 
 export const MakeSignatureRawCodeBlockContainer: FC<
   MakeSignatureRawCodeBlockContainerProps
-> = ({ children }) => {
-  return <div className={styles.codeBlockContainer}>{children}</div>;
+> = ({ children, className }) => {
+  return (
+    <div className={cn(styles.codeBlockContainer, className)}>{children}</div>
+  );
 };
