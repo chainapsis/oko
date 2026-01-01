@@ -26,6 +26,18 @@ export type OkoWalletMsgGetPublicKeyAck = {
   payload: Result<string, string>;
 };
 
+export type OkoWalletMsgGetPublicKeyEd25519 = {
+  target: "oko_attached";
+  msg_type: "get_public_key_ed25519";
+  payload: null;
+};
+
+export type OkoWalletMsgGetPublicKeyEd25519Ack = {
+  target: "oko_sdk";
+  msg_type: "get_public_key_ed25519_ack";
+  payload: Result<string, string>;
+};
+
 export type OkoWalletMsgSetOAuthNonce = {
   target: "oko_attached";
   msg_type: "set_oauth_nonce";
@@ -210,6 +222,8 @@ export type OkoWalletMsg =
   | OkoWalletMsgInitAck
   | OkoWalletMsgGetPublicKey
   | OkoWalletMsgGetPublicKeyAck
+  | OkoWalletMsgGetPublicKeyEd25519
+  | OkoWalletMsgGetPublicKeyEd25519Ack
   | OkoWalletMsgSetOAuthNonce
   | OkoWalletMsgSetOAuthNonceAck
   | OkoWalletMsgSetCodeVerifier
