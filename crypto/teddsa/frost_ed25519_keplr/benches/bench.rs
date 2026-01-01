@@ -1,6 +1,6 @@
 use criterion::{criterion_group, criterion_main, Criterion};
 
-use frost_ed25519::*;
+use frost_ed25519_keplr::*;
 
 fn bench_ed25519_batch_verify(c: &mut Criterion) {
     let mut rng = rand::rngs::OsRng;

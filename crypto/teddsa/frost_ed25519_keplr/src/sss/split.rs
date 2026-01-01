@@ -4,42 +4,61 @@ use alloc::vec::Vec;
 use frost_core::SigningKey;
 use rand_core::{CryptoRng, RngCore};
 
-use crate::keys::{split, IdentifierList};
-use crate::point::Point256;
+use crate::keys::{split, IdentifierList, KeyPackage, PublicKeyPackage};
 use crate::{Ed25519Sha512, Identifier};
 
-/// Splits an Ed25519 secret into shares using Shamir's Secret Sharing.
+/// Output of the split operation using VSS (Verifiable Secret Sharing).
+pub struct SplitOutput {
+    /// Key packages for each participant
+    pub key_packages: Vec<KeyPackage>,
+    /// The public key package shared among all participants
+    pub public_key_package: PublicKeyPackage,
+}
+
+/// Splits an Ed25519 secret into shares using FROST's VSS (Verifiable Secret Sharing).
+///
+/// This produces KeyPackage objects that can be used directly for FROST signing,
+/// along with a PublicKeyPackage that contains the group public key.
 pub fn sss_split_ed25519<R: RngCore + CryptoRng>(
     secret: [u8; 32],
-    point_xs: Vec<[u8; 32]>,
-    t: u32,
+    identifiers: Vec<[u8; 32]>,
+    min_signers: u16,
     rng: &mut R,
-) -> Result<Vec<Point256>, String> {
+) -> Result<SplitOutput, String> {
     let signing_key = SigningKey::<Ed25519Sha512>::deserialize(secret.as_slice())
-        .expect("Failed to deserialize signing key");
+        .map_err(|e| alloc::format!("Failed to deserialize signing key: {}", e))?;
 
-    let max_signers = point_xs.len() as u16;
-    let min_signers = t as u16;
+    let max_signers = identifiers.len() as u16;
 
-    let identifiers = point_xs
+    let identifier_list: Vec<Identifier> = identifiers
         .iter()
-        .map(|&x| Identifier::deserialize(x.as_slice()).expect("Failed to deserialize identifier"))
-        .collect::<Vec<_>>();
-    let identifier_list = IdentifierList::Custom(&identifiers);
-
-    let share_map_tup = split(&signing_key, max_signers, min_signers, identifier_list, rng)
-        .expect("Failed to split");
-    let share_vec = share_map_tup.0.into_iter().collect::<Vec<_>>();
-
-    let share_points: Vec<Point256> = share_vec
-        .into_iter()
-        .map(|(identifier, share)| Point256 {
-            x: identifier.to_scalar().to_bytes(),
-            y: share.signing_share().to_scalar().to_bytes(),
+        .map(|x| {
+            Identifier::deserialize(x.as_slice())
+                .map_err(|e| alloc::format!("Failed to deserialize identifier: {}", e))
         })
-        .collect();
+        .collect::<Result<Vec<_>, _>>()?;
 
-    Ok(share_points)
+    let (shares, public_key_package) = split(
+        &signing_key,
+        max_signers,
+        min_signers,
+        IdentifierList::Custom(&identifier_list),
+        rng,
+    )
+    .map_err(|e| alloc::format!("Failed to split: {}", e))?;
+
+    let key_packages: Vec<KeyPackage> = shares
+        .into_iter()
+        .map(|(_, secret_share)| {
+            KeyPackage::try_from(secret_share)
+                .map_err(|e| alloc::format!("Failed to convert to KeyPackage: {}", e))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+
+    Ok(SplitOutput {
+        key_packages,
+        public_key_package,
+    })
 }
 
 #[cfg(test)]
@@ -54,48 +73,36 @@ mod tests {
     #[test]
     fn test_sss_split_ed25519() {
         let mut secret = [0u8; 32];
-        secret[31] = 1;
-        let mut point_xs = vec![[0u8; 32]; 3];
-        point_xs[0][31] = 1;
-        point_xs[1][31] = 2;
-        point_xs[2][31] = 3;
-        let t = 2;
-
-        let max_signers = point_xs.len() as u16;
-        let min_signers = t as u16;
-
-        let signing_key = SigningKey::<Ed25519Sha512>::deserialize(secret.as_slice())
-            .expect("Failed to deserialize signing key");
-
-        let identifiers = point_xs
-            .iter()
-            .map(|&x| {
-                Identifier::deserialize(x.as_slice()).expect("Failed to deserialize identifier")
-            })
-            .collect::<Vec<_>>();
-        let identifier_list = IdentifierList::Custom(&identifiers);
+        secret[0] = 1; // little-endian: 1
+        let mut identifiers = vec![[0u8; 32]; 3];
+        identifiers[0][0] = 1;
+        identifiers[1][0] = 2;
+        identifiers[2][0] = 3;
+        let min_signers = 2;
 
         let mut rng = OsRng;
-        let out = split(
-            &signing_key,
-            max_signers,
-            min_signers,
-            identifier_list,
-            &mut rng,
-        )
-        .expect("Failed to split");
+        let output =
+            sss_split_ed25519(secret, identifiers, min_signers, &mut rng).expect("Failed to split");
 
-        let i_0 = identifiers.get(0).unwrap();
-        let out_0 = out.0.get(identifiers.get(0).unwrap()).unwrap();
-        let out_0_signing_share = out_0.signing_share();
-        eprintln!("out_0_signing_share: {:?}", out_0_signing_share.to_scalar());
-        eprintln!("i_0: {:?}", i_0.to_scalar().to_bytes());
+        assert_eq!(output.key_packages.len(), 3);
 
-        let i_1 = identifiers.get(1).unwrap();
-        let out_1 = out.0.get(identifiers.get(1).unwrap()).unwrap();
-        let out_1_signing_share = out_1.signing_share();
-        eprintln!("out_1_signing_share: {:?}", out_1_signing_share.to_scalar());
-        eprintln!("i_1: {:?}", i_1.to_scalar().to_bytes());
+        for (i, key_package) in output.key_packages.iter().enumerate() {
+            eprintln!(
+                "key_package[{}] identifier: {:?}",
+                i,
+                key_package.identifier()
+            );
+            eprintln!(
+                "key_package[{}] signing_share: {:?}",
+                i,
+                key_package.signing_share()
+            );
+        }
+
+        eprintln!(
+            "public_key_package verifying_key: {:?}",
+            output.public_key_package.verifying_key()
+        );
     }
 
     #[test]

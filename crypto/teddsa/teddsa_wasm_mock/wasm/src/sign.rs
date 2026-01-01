@@ -1,6 +1,6 @@
-use teddsa_keplr_mock::{aggregate, sign_round1, sign_round2, verify};
 use gloo_utils::format::JsValueSerdeExt;
 use serde::{Deserialize, Serialize};
+use teddsa_keplr_mock::{aggregate, sign_round1, sign_round2, verify};
 use wasm_bindgen::prelude::*;
 
 /// Input for sign round 2
@@ -83,8 +83,13 @@ pub fn cli_sign_round2_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
         .map(|c| (c.identifier, c.commitments))
         .collect();
 
-    let out = sign_round2(&input.message, &input.key_package, &input.nonces, &all_commitments)
-        .map_err(|err| JsValue::from_str(&err.to_string()))?;
+    let out = sign_round2(
+        &input.message,
+        &input.key_package,
+        &input.nonces,
+        &all_commitments,
+    )
+    .map_err(|err| JsValue::from_str(&err.to_string()))?;
 
     JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
 }

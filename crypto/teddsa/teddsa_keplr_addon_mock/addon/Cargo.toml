@@ -1,6 +1,6 @@
 [package]
 edition = "2021"
-name = "teddsa_addon"
+name = "teddsa_addon_mock"
 version = "0.0.1"
 
 [lib]

@@ -1,21 +1,22 @@
-use alloc::string::{String, ToString};
-use alloc::vec::Vec;
+use alloc::string::String;
 
-use crate::point::Point256;
-use crate::sss::interpolate_ed25519;
+use crate::keys::{reconstruct, KeyPackage};
 
-/// Combines Ed25519 shares to recover the original secret.
-pub fn sss_combine_ed25519(split_points: Vec<Point256>, t: u32) -> Result<[u8; 32], String> {
-    if split_points.len() < t as usize {
-        return Err("Not enough keyshare points to combine".to_string());
-    }
+/// Combines Ed25519 key packages to recover the original secret using FROST's reconstruct.
+///
+/// This uses Lagrange interpolation internally to recover the original signing key
+/// from threshold-many KeyPackages.
+///
+/// NOTE: The caller must provide at least `min_signers` key packages.
+/// If fewer are provided, a different (incorrect) key will be returned.
+pub fn sss_combine_ed25519(key_packages: &[KeyPackage]) -> Result<[u8; 32], String> {
+    let signing_key =
+        reconstruct(key_packages).map_err(|e| alloc::format!("Failed to reconstruct: {}", e))?;
 
-    let truncated_split_points = split_points.iter().take(t as usize).collect::<Vec<_>>();
+    let serialized = signing_key.serialize();
+    let result: [u8; 32] = serialized
+        .try_into()
+        .map_err(|_| alloc::format!("Invalid signing key length"))?;
 
-    let combined_secret = interpolate_ed25519(truncated_split_points);
-    if combined_secret.is_err() {
-        return Err(combined_secret.err().unwrap());
-    }
-
-    Ok(combined_secret.unwrap())
+    Ok(result)
 }

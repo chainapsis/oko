@@ -69,6 +69,7 @@ export async function userJwtMiddleware(
     res.locals.user = {
       email: payload.email,
       wallet_id: payload.wallet_id,
+      wallet_id_ed25519: payload.wallet_id_ed25519,
     };
 
     next();
