@@ -2,11 +2,11 @@ import React from "react";
 import cn from "classnames";
 
 import styles from "./checkbox.module.scss";
-import { CheckIcon } from "./check_icon";
 import {
   Typography,
   type BaseTypographyProps,
 } from "@oko-wallet-common-ui/typography/typography";
+import { CheckIcon } from "@oko-wallet-common-ui/icons/check_icon";
 
 interface CheckboxProps {
   id: string;
