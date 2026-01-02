@@ -1,7 +1,8 @@
-import { type CSSProperties, type FC } from "react";
+import { type CSSProperties, type FC, type ReactNode } from "react";
 
 interface EmailCodeProps {
   code: string;
+  title?: ReactNode;
 }
 
 const outerTableStyle: CSSProperties = {
@@ -49,7 +50,9 @@ const keyIconStyle: CSSProperties = {
   height: "24px",
 };
 
-export const EmailCode: FC<EmailCodeProps> = ({ code }) => {
+export const EmailCode: FC<EmailCodeProps> = ({ code, title }) => {
+  const displayTitle = title ?? "Your 6-digit code";
+
   return (
     <table
       role="presentation"
@@ -62,7 +65,7 @@ export const EmailCode: FC<EmailCodeProps> = ({ code }) => {
       <tbody>
         <tr>
           <td style={titleCellStyle}>
-            <p style={titleTextStyle}>Your 6-digit code</p>
+            <p style={titleTextStyle}>{displayTitle}</p>
           </td>
         </tr>
         <tr>

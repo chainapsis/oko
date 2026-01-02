@@ -150,3 +150,96 @@ export const ChangePasswordSuccessResponseSchema = registry.register(
     data: ChangePasswordResponseSchema,
   }),
 );
+
+export const ForgotPasswordRequestSchema = registry.register(
+  "CustomerDashboardForgotPasswordRequest",
+  z.object({
+    email: z.email().openapi({
+      description: "Email address to send password reset code",
+    }),
+  }),
+);
+
+const ForgotPasswordResponseSchema = registry.register(
+  "CustomerDashboardForgotPasswordResponse",
+  z.object({
+    message: z.string().openapi({
+      description: "Success message indicating reset code was sent",
+    }),
+  }),
+);
+
+export const ForgotPasswordSuccessResponseSchema = registry.register(
+  "CustomerDashboardForgotPasswordSuccessResponse",
+  z.object({
+    success: z.literal(true).openapi({
+      description: "Indicates the request succeeded",
+    }),
+    data: ForgotPasswordResponseSchema,
+  }),
+);
+
+export const VerifyResetCodeRequestSchema = registry.register(
+  "CustomerDashboardVerifyResetCodeRequest",
+  z.object({
+    email: z.email().openapi({
+      description: "Email address associated with the reset code",
+    }),
+    code: z.string().length(6).openapi({
+      description: "The 6-digit verification code",
+    }),
+  }),
+);
+
+const VerifyResetCodeResponseSchema = registry.register(
+  "CustomerDashboardVerifyResetCodeResponse",
+  z.object({
+    isValid: z.boolean().openapi({
+      description: "Whether the code is valid",
+    }),
+  }),
+);
+
+export const VerifyResetCodeSuccessResponseSchema = registry.register(
+  "CustomerDashboardVerifyResetCodeSuccessResponse",
+  z.object({
+    success: z.literal(true).openapi({
+      description: "Indicates the request succeeded",
+    }),
+    data: VerifyResetCodeResponseSchema,
+  }),
+);
+
+export const ResetPasswordConfirmRequestSchema = registry.register(
+  "CustomerDashboardResetPasswordConfirmRequest",
+  z.object({
+    email: z.email().openapi({
+      description: "Email address to reset password for",
+    }),
+    code: z.string().length(6).openapi({
+      description: "The 6-digit verification code",
+    }),
+    newPassword: z.string().min(8).openapi({
+      description: "The new password",
+    }),
+  }),
+);
+
+const ResetPasswordConfirmResponseSchema = registry.register(
+  "CustomerDashboardResetPasswordConfirmResponse",
+  z.object({
+    message: z.string().openapi({
+      description: "Success message",
+    }),
+  }),
+);
+
+export const ResetPasswordConfirmSuccessResponseSchema = registry.register(
+  "CustomerDashboardResetPasswordConfirmSuccessResponse",
+  z.object({
+    success: z.literal(true).openapi({
+      description: "Indicates the request succeeded",
+    }),
+    data: ResetPasswordConfirmResponseSchema,
+  }),
+);

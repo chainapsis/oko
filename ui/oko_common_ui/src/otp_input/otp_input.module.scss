@@ -6,6 +6,7 @@
 }
 
 .otpInput {
+  box-sizing: border-box;
   width: 64px;
   height: 64px;
   border: 1px solid var(--border-primary);
@@ -22,11 +23,11 @@
   font-weight: 500;
   line-height: var(--font-line-height-display-lg);
   text-align: center;
-  color: var(--text-brand-tertiary);
+  color: var(--text-brand-primary);
   letter-spacing: -0.96px;
 
   outline: none;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
 
   &::placeholder {
     color: var(--text-placeholder-subtle);
@@ -39,26 +40,47 @@
     letter-spacing: -0.96px;
   }
 
-  &:focus {
-    border-color: var(--Color-Blue-400, #377bfb);
+  &:focus,
+  &.focused {
+    border: 2px solid var(--border-brand);
+    box-shadow:
+      var(--shadow-xs),
+      0 0 0 2px var(--bg-primary),
+      0 0 0 4px #9e77ed;
   }
 
   &.filled {
     border: 2px solid var(--border-brand);
-  }
-
-  &.focused {
-    border-color: var(--Color-Blue-400, #377bfb);
+    color: var(--text-brand-primary);
   }
 
   &.error {
     border: 2px solid var(--border-error, #f04438);
     color: var(--text-error-primary);
+    box-shadow: var(--shadow-xs);
   }
 
   &:disabled {
     background: #f5f5f5;
     color: #ccc;
     cursor: not-allowed;
+  }
+}
+
+@media (max-width: 480px) {
+  .otpContainer {
+    gap: 6px;
+  }
+
+  .otpInput {
+    width: 40px;
+    height: 40px;
+    font-size: var(--font-size-display-xs);
+    line-height: var(--font-line-height-display-xs);
+
+    &::placeholder {
+      font-size: var(--font-size-display-xs);
+      line-height: var(--font-line-height-display-xs);
+    }
   }
 }

@@ -1,0 +1,219 @@
+.wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-primary);
+}
+
+.header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 44px;
+  background: var(--bg-primary);
+}
+
+.headerSpacer {
+  width: 312px;
+}
+
+.body {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  padding: 80px 40px 40px;
+}
+
+.bodyDefault {
+  padding-top: 80px;
+}
+
+.bodyPassword {
+  padding-top: 120px;
+}
+
+.formColumn {
+  width: 100%;
+  max-width: 512px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0 40px;
+}
+
+.codeColumn {
+  width: 100%;
+  max-width: 472px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.backButton {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--fg-tertiary);
+  cursor: pointer;
+  margin-bottom: 24px;
+}
+
+.titleBlock {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 40px;
+}
+
+.form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.codeCard {
+  width: 100%;
+  border-radius: 24px;
+  border: 1px solid var(--border-secondary);
+  background: var(--bg-secondary);
+  box-shadow: none;
+}
+
+.codeCardContent {
+  padding: 48px 24px 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.codeTitle {
+  margin-bottom: 32px;
+}
+
+.codeDescription {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.codeOtp {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.codeError {
+  text-align: left;
+}
+
+.resendRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+}
+
+.resendButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  span {
+    text-decoration: underline;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.eyeButton {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-tertiary);
+}
+
+.passwordForm {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.passwordFields {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+}
+
+.passwordError {
+  margin-top: 16px;
+}
+
+.passwordButton {
+  margin-top: 40px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .header {
+    padding: 0 24px;
+  }
+
+  .headerSpacer {
+    width: 0;
+  }
+
+  .body {
+    padding: 64px 24px 32px;
+  }
+
+  .bodyDefault {
+    padding-top: 64px;
+  }
+
+  .bodyPassword {
+    padding-top: 96px;
+  }
+
+  .formColumn,
+  .codeColumn {
+    max-width: 100%;
+  }
+
+  .formColumn {
+    padding: 0;
+  }
+
+  .codeCard {
+    max-width: 100%;
+  }
+
+  .codeCardContent {
+    padding: 32px 16px 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .resendRow {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
