@@ -7,6 +7,8 @@ import type { ServerState } from "@oko-wallet/oko-api-server-state";
 import { setRoutes } from "@oko-wallet-api/routes";
 import { installSwaggerDocs } from "@oko-wallet-api/openapi";
 import { loggingMiddleware } from "@oko-wallet-api/middleware/logging";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { OkoApiRootResponseSchema } from "@oko-wallet/oko-api-openapi/oko";
 
 export function makeApp(state: ServerState) {
   const app = express();
@@ -37,6 +39,23 @@ export function makeApp(state: ServerState) {
 
   app.locals = state;
   app.use(loggingMiddleware());
+  registry.registerPath({
+    method: "get",
+    path: "/",
+    tags: ["Status"],
+    summary: "Health check",
+    description: "Returns service health status",
+    responses: {
+      200: {
+        description: "Service is healthy",
+        content: {
+          "text/plain": {
+            schema: OkoApiRootResponseSchema,
+          },
+        },
+      },
+    },
+  });
   app.get<{}, string>("/", (_, res) => {
     res.send("Ok");
   });

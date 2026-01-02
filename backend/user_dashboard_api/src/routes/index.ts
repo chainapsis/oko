@@ -8,6 +8,12 @@ import {
 } from "@oko-wallet-usrd-api/middleware/auth";
 import type { OkoApiResponse } from "@oko-wallet-types/api_response";
 import type { Customer } from "@oko-wallet-types/customers";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import {
+  ErrorResponseSchema,
+  SuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/common";
+import { CustomerAuthHeaderSchema } from "@oko-wallet/oko-api-openapi/ct_dashboard";
 
 export function makeUserRouter() {
   const router = express.Router() as IRouter;
@@ -15,6 +21,43 @@ export function makeUserRouter() {
   setUserAuthRoutes(router);
   setUserRoutes(router);
 
+  registry.registerPath({
+    method: "post",
+    path: "/user_dashboard/v1/customer/get_connected_apps",
+    tags: ["Customer Dashboard"],
+    summary: "Get connected apps",
+    description: "Retrieves connected applications for the authenticated user",
+    security: [{ customerAuth: [] }],
+    request: {
+      headers: CustomerAuthHeaderSchema,
+    },
+    responses: {
+      200: {
+        description: "Connected apps retrieved successfully",
+        content: {
+          "application/json": {
+            schema: SuccessResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "User not authenticated",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/customer/get_connected_apps",
     customerJwtMiddleware,

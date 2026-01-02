@@ -31,6 +31,25 @@ import {
   AdminLoginSuccessResponseSchema,
   AdminLogoutSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
+import {
+  ActivateKSNodeRequestSchema,
+  ActivateKSNodeSuccessResponseSchema,
+  CreateKSNodeRequestSchema,
+  CreateKSNodeSuccessResponseSchema,
+  DeactivateKSNodeRequestSchema,
+  DeactivateKSNodeSuccessResponseSchema,
+  DeleteKSNodeRequestSchema,
+  DeleteKSNodeSuccessResponseSchema,
+  GetAllKSNodeSuccessResponseSchema,
+  GetKSNodeByIdRequestSchema,
+  GetKSNodeByIdSuccessResponseSchema,
+  GetKSNHealthChecksRequestSchema,
+  GetKSNHealthChecksSuccessResponseSchema,
+  TypeformSignatureHeaderSchema,
+  TypeformWebhookRequestSchema,
+  UpdateKSNodeRequestSchema,
+  UpdateKSNodeSuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 import { customerLogoUploadMiddleware } from "@oko-wallet-admin-api/middleware/multer";
 
 import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware/auth";
@@ -636,42 +655,510 @@ export function makeOkoAdminRouter() {
   });
   router.post("/wallet/get_wallet_list", adminAuthMiddleware, get_wallet_list);
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/get_all_ks_nodes",
+    tags: ["Admin"],
+    summary: "Get all key share nodes",
+    description: "Retrieves all key share nodes with health status",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+    },
+    responses: {
+      200: {
+        description: "Key share nodes retrieved successfully",
+        content: {
+          "application/json": {
+            schema: GetAllKSNodeSuccessResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/ks_node/get_all_ks_nodes",
     adminAuthMiddleware,
     get_all_ks_nodes,
   );
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/get_ks_node_by_id",
+    tags: ["Admin"],
+    summary: "Get key share node by ID",
+    description: "Retrieves a key share node by identifier",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: GetKSNodeByIdRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Key share node retrieved successfully",
+        content: {
+          "application/json": {
+            schema: GetKSNodeByIdSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Key share node not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/ks_node/get_ks_node_by_id",
     adminAuthMiddleware,
     get_ks_node_by_id,
   );
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/create_ks_node",
+    tags: ["Admin"],
+    summary: "Create key share node",
+    description: "Creates a new key share node",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: CreateKSNodeRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Key share node created successfully",
+        content: {
+          "application/json": {
+            schema: CreateKSNodeSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post("/ks_node/create_ks_node", adminAuthMiddleware, create_ks_node);
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/deactivate_ks_node",
+    tags: ["Admin"],
+    summary: "Deactivate key share node",
+    description: "Deactivates a key share node",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: DeactivateKSNodeRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Key share node deactivated successfully",
+        content: {
+          "application/json": {
+            schema: DeactivateKSNodeSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/ks_node/deactivate_ks_node",
     adminAuthMiddleware,
     deactivate_ks_node,
   );
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/delete_ks_node",
+    tags: ["Admin"],
+    summary: "Delete key share node",
+    description: "Deletes a key share node",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: DeleteKSNodeRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Key share node deleted successfully",
+        content: {
+          "application/json": {
+            schema: DeleteKSNodeSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post("/ks_node/delete_ks_node", adminAuthMiddleware, delete_ks_node);
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/update_ks_node",
+    tags: ["Admin"],
+    summary: "Update key share node",
+    description: "Updates a key share node server URL",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: UpdateKSNodeRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Key share node updated successfully",
+        content: {
+          "application/json": {
+            schema: UpdateKSNodeSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post("/ks_node/update_ks_node", adminAuthMiddleware, update_ks_node);
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/activate_ks_node",
+    tags: ["Admin"],
+    summary: "Activate key share node",
+    description: "Activates a key share node",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: ActivateKSNodeRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Key share node activated successfully",
+        content: {
+          "application/json": {
+            schema: ActivateKSNodeSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/ks_node/activate_ks_node",
     adminAuthMiddleware,
     activate_ks_node,
   );
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/ks_node/get_ksn_health_checks",
+    tags: ["Admin"],
+    summary: "Get KS node health checks",
+    description: "Retrieves KS node health checks with pagination",
+    security: [{ adminAuth: [] }],
+    request: {
+      headers: AdminAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: GetKSNHealthChecksRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Health checks retrieved successfully",
+        content: {
+          "application/json": {
+            schema: GetKSNHealthChecksSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/ks_node/get_ksn_health_checks",
     adminAuthMiddleware,
     get_ksn_health_checks,
   );
 
+  registry.registerPath({
+    method: "post",
+    path: "/oko_admin/v1/customer/create_customer_by_typeform",
+    tags: ["Admin"],
+    summary: "Create customer by Typeform",
+    description: "Creates a customer from a Typeform webhook payload",
+    request: {
+      headers: TypeformSignatureHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: TypeformWebhookRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      201: {
+        description: "Customer created successfully",
+        content: {
+          "application/json": {
+            schema: CreateCustomerSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/customer/create_customer_by_typeform",
     typeformWebhookMiddleware,
