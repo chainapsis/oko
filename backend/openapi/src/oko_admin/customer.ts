@@ -360,3 +360,77 @@ export const ResendCustomerUserPasswordSuccessResponseSchema =
       data: ResendCustomerUserPasswordResponseSchema,
     }),
   );
+
+export const TypeformSignatureHeaderSchema = z.object({
+  "typeform-signature": z.string().openapi({
+    description: "Typeform webhook signature",
+    example: "sha256=base64-signature",
+    param: {
+      name: "typeform-signature",
+      in: "header",
+      required: true,
+    },
+  }),
+});
+
+const TypeformAnswerFieldSchema = registry.register(
+  "TypeformAnswerField",
+  z.object({
+    id: z.string().openapi({
+      description: "Field identifier",
+    }),
+    type: z.string().openapi({
+      description: "Field type",
+    }),
+    ref: z.string().openapi({
+      description: "Field reference",
+    }),
+  }),
+);
+
+const TypeformAnswerSchema = registry.register(
+  "TypeformAnswer",
+  z.object({
+    type: z.string().openapi({
+      description: "Answer type",
+    }),
+    email: z.string().optional().openapi({
+      description: "Email answer",
+    }),
+    text: z.string().optional().openapi({
+      description: "Text answer",
+    }),
+    url: z.string().optional().openapi({
+      description: "URL answer",
+    }),
+    field: TypeformAnswerFieldSchema.optional(),
+  }),
+);
+
+export const TypeformWebhookRequestSchema = registry.register(
+  "TypeformWebhookRequest",
+  z.object({
+    event_id: z.string().optional().openapi({
+      description: "Typeform event ID",
+    }),
+    event_type: z.string().optional().openapi({
+      description: "Typeform event type",
+    }),
+    form_response: z
+      .object({
+        form_id: z.string().optional().openapi({
+          description: "Form identifier",
+        }),
+        token: z.string().optional().openapi({
+          description: "Response token",
+        }),
+        answers: z.array(TypeformAnswerSchema).optional().openapi({
+          description: "Form answers",
+        }),
+      })
+      .optional()
+      .openapi({
+        description: "Form response payload",
+      }),
+  }),
+);
