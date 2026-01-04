@@ -1,23 +1,14 @@
 import type { PublicKey } from "@solana/web3.js";
 
-export type OkoSolWalletEvent = "connect" | "disconnect" | "error";
-
-export type OkoSolWalletConnectEvent = {
-  type: "connect";
-  handler: (publicKey: PublicKey) => void;
+export type SolWalletEventMap = {
+  connect: PublicKey;
+  disconnect: void;
+  accountChanged: PublicKey | null;
+  error: Error;
 };
 
-export type OkoSolWalletDisconnectEvent = {
-  type: "disconnect";
-  handler: () => void;
-};
+export type SolWalletEvent = keyof SolWalletEventMap;
 
-export type OkoSolWalletErrorEvent = {
-  type: "error";
-  handler: (error: Error) => void;
-};
-
-export type OkoSolWalletEventHandler =
-  | OkoSolWalletConnectEvent
-  | OkoSolWalletDisconnectEvent
-  | OkoSolWalletErrorEvent;
+export type SolWalletEventHandler<K extends SolWalletEvent> = (
+  payload: SolWalletEventMap[K],
+) => void;

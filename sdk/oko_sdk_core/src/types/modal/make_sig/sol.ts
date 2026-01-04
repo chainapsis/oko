@@ -29,14 +29,8 @@ export interface MakeSolMessageSignData {
 }
 
 export type MakeSolanaSigResult =
-  | {
-      type: "signature";
-      signature: string;
-    }
-  | {
-      type: "signatures";
-      signatures: string[];
-    };
+  | { type: "signature"; signature: string }
+  | { type: "signatures"; signatures: string[] };
 
 export interface SolanaTxSignPayload {
   origin: string;
@@ -53,6 +47,7 @@ export interface SolanaAllTxSignPayload {
   signer: string;
   data: {
     serialized_transactions: string[];
+    messages_to_sign: string[];
     is_versioned: boolean;
   };
 }
