@@ -1,6 +1,5 @@
 import { Pool } from "pg";
 import type { KeygenEd25519Request } from "@oko-wallet/oko-types/tss";
-import type { TeddsaKeygenOutput } from "@oko-wallet/teddsa-interface";
 import { Participant } from "@oko-wallet/teddsa-interface";
 import { runKeygenCentralizedEd25519 } from "@oko-wallet/teddsa-addon/src/server";
 import { createPgConn } from "@oko-wallet/postgres-lib";
@@ -8,7 +7,6 @@ import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
 import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
 import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
-import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
@@ -47,13 +45,17 @@ async function setUpKeyShareNodeMeta(pool: Pool): Promise<void> {
 }
 
 function generateKeygenRequest(
-  serverKeygenOutput: TeddsaKeygenOutput,
+  keygenResult: ReturnType<typeof runKeygenCentralizedEd25519>,
   email: string = TEST_EMAIL,
 ): KeygenEd25519Request {
+  const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
   return {
     auth_type: "google",
     email,
-    keygen_2: serverKeygenOutput,
+    keygen_2: {
+      ...serverKeygenOutput,
+      public_key: [...keygenResult.public_key],
+    },
   };
 }
 
@@ -93,9 +95,8 @@ describe("Ed25519 Keygen", () => {
       await setUpKeyShareNodeMeta(pool);
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
-      const request = generateKeygenRequest(serverKeygenOutput);
+      const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
         pool,
@@ -123,9 +124,8 @@ describe("Ed25519 Keygen", () => {
       expect(createUserRes.success).toBe(true);
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
-      const request = generateKeygenRequest(serverKeygenOutput);
+      const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
         pool,
@@ -146,10 +146,9 @@ describe("Ed25519 Keygen", () => {
       await setUpKeyShareNodeMeta(pool);
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
       // Create first wallet
-      const request1 = generateKeygenRequest(serverKeygenOutput);
+      const request1 = generateKeygenRequest(keygenResult);
       const result1 = await runKeygenEd25519(
         pool,
         TEST_JWT_CONFIG,
@@ -160,9 +159,8 @@ describe("Ed25519 Keygen", () => {
 
       // Try to create second wallet with different keys
       const keygenResult2 = runKeygenCentralizedEd25519();
-      const serverKeygenOutput2 = keygenResult2.keygen_outputs[Participant.P1];
 
-      const request2 = generateKeygenRequest(serverKeygenOutput2);
+      const request2 = generateKeygenRequest(keygenResult2);
       const result2 = await runKeygenEd25519(
         pool,
         TEST_JWT_CONFIG,
@@ -181,10 +179,9 @@ describe("Ed25519 Keygen", () => {
       await setUpKeyShareNodeMeta(pool);
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
       // Create wallet for first user
-      const request1 = generateKeygenRequest(serverKeygenOutput, "user1@test.com");
+      const request1 = generateKeygenRequest(keygenResult, "user1@test.com");
       const result1 = await runKeygenEd25519(
         pool,
         TEST_JWT_CONFIG,
@@ -194,7 +191,7 @@ describe("Ed25519 Keygen", () => {
       expect(result1.success).toBe(true);
 
       // Try to create wallet with same public key for different user
-      const request2 = generateKeygenRequest(serverKeygenOutput, "user2@test.com");
+      const request2 = generateKeygenRequest(keygenResult, "user2@test.com");
       const result2 = await runKeygenEd25519(
         pool,
         TEST_JWT_CONFIG,
@@ -218,7 +215,10 @@ describe("Ed25519 Keygen", () => {
       const request: KeygenEd25519Request = {
         auth_type: "google",
         email: TEST_EMAIL,
-        keygen_2: serverKeygenOutput,
+        keygen_2: {
+          ...serverKeygenOutput,
+          public_key: [...keygenResult.public_key],
+        },
         name: "Test User",
       };
 
@@ -248,7 +248,10 @@ describe("Ed25519 Keygen", () => {
         const request: KeygenEd25519Request = {
           auth_type: authTypes[i],
           email: `authtype-test-${i}@test.com`,
-          keygen_2: serverKeygenOutput,
+          keygen_2: {
+            ...serverKeygenOutput,
+            public_key: [...keygenResult.public_key],
+          },
         };
 
         const result = await runKeygenEd25519(
@@ -270,9 +273,8 @@ describe("Ed25519 Keygen", () => {
       await setUpKeyShareNodeMeta(pool);
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
-      const request = generateKeygenRequest(serverKeygenOutput);
+      const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
         pool,
@@ -294,9 +296,8 @@ describe("Ed25519 Keygen", () => {
       await setUpKeyShareNodeMeta(pool);
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
-      const request = generateKeygenRequest(serverKeygenOutput);
+      const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
         pool,
@@ -314,9 +315,8 @@ describe("Ed25519 Keygen", () => {
 
       // Create ed25519 wallet first
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
-      const request = generateKeygenRequest(serverKeygenOutput);
+      const request = generateKeygenRequest(keygenResult);
       const ed25519Result = await runKeygenEd25519(
         pool,
         TEST_JWT_CONFIG,

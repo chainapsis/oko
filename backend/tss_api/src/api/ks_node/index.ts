@@ -2,7 +2,7 @@ import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { KeyShareNode } from "@oko-wallet/oko-types/tss";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { CurveType } from "@oko-wallet/ksn-interface/curve_type";
+import type { CurveType } from "@oko-wallet/oko-types/crypto";
 
 import { requestCheckKeyShare } from "@oko-wallet-tss-api/requests";
 
