@@ -36,6 +36,13 @@ export default function LoginView({
       >
         Sign in
       </Button>
+
+      <a
+        href="/wallet-adapter"
+        className="text-blue-400 hover:underline text-sm"
+      >
+        Test Wallet Adapter Integration
+      </a>
     </div>
   );
 }

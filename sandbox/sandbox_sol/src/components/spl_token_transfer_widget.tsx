@@ -4,11 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   PublicKey,
-  SystemProgram,
   Transaction,
-  TransactionMessage,
-  VersionedTransaction,
-  LAMPORTS_PER_SOL,
+  TransactionInstruction,
 } from "@solana/web3.js";
 import bs58 from "bs58";
 
@@ -16,19 +13,84 @@ import { useSdkStore } from "@/store/sdk";
 import Button from "./Button";
 import { DEVNET_CONNECTION } from "@/lib/connection";
 
-export function SignTransactionWidget() {
+// Token Program ID
+const TOKEN_PROGRAM_ID = new PublicKey(
+  "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA",
+);
+
+// Well-known devnet tokens for testing
+const DEVNET_TOKENS = [
+  {
+    name: "USDC (Devnet)",
+    mint: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
+    decimals: 6,
+  },
+  {
+    name: "USDT (Devnet)",
+    mint: "EJwZgeZrdC8TXTQbQBoL6bfuAnFUQW6yzLCjVMDnwPr3",
+    decimals: 6,
+  },
+];
+
+/**
+ * Creates a transferChecked instruction manually (without @solana/spl-token dependency)
+ */
+function createTransferCheckedInstruction(
+  source: PublicKey,
+  mint: PublicKey,
+  destination: PublicKey,
+  owner: PublicKey,
+  amount: bigint,
+  decimals: number,
+): TransactionInstruction {
+  // TransferChecked instruction discriminator = 12
+  const data = Buffer.alloc(10);
+  data.writeUInt8(12, 0); // instruction discriminator
+  data.writeBigUInt64LE(amount, 1); // amount
+  data.writeUInt8(decimals, 9); // decimals
+
+  return new TransactionInstruction({
+    keys: [
+      { pubkey: source, isSigner: false, isWritable: true },
+      { pubkey: mint, isSigner: false, isWritable: false },
+      { pubkey: destination, isSigner: false, isWritable: true },
+      { pubkey: owner, isSigner: true, isWritable: false },
+    ],
+    programId: TOKEN_PROGRAM_ID,
+    data,
+  });
+}
+
+/**
+ * Derives Associated Token Account address
+ */
+function getAssociatedTokenAddress(
+  mint: PublicKey,
+  owner: PublicKey,
+): PublicKey {
+  const ASSOCIATED_TOKEN_PROGRAM_ID = new PublicKey(
+    "ATokenGPvbdGVxr1b2hvZbsiqW5xWH25efTNsLJA8knL",
+  );
+
+  const [address] = PublicKey.findProgramAddressSync(
+    [owner.toBuffer(), TOKEN_PROGRAM_ID.toBuffer(), mint.toBuffer()],
+    ASSOCIATED_TOKEN_PROGRAM_ID,
+  );
+
+  return address;
+}
+
+export function SplTokenTransferWidget() {
   const { okoSolWallet, publicKey } = useSdkStore();
+  const [selectedToken, setSelectedToken] = useState(DEVNET_TOKENS[0]);
   const [recipient, setRecipient] = useState("");
-  const [amount, setAmount] = useState("0.001");
-  const [useVersioned, setUseVersioned] = useState(false);
+  const [amount, setAmount] = useState("1");
   const [signature, setSignature] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const handleSignTransaction = async () => {
-    if (!okoSolWallet || !publicKey) {
-      return;
-    }
+    if (!okoSolWallet || !publicKey) return;
 
     setIsLoading(true);
     setError(null);
@@ -42,50 +104,46 @@ export function SignTransactionWidget() {
         throw new Error("Invalid recipient address");
       }
 
-      const lamports = Math.floor(parseFloat(amount) * LAMPORTS_PER_SOL);
-      if (lamports <= 0) {
+      const tokenAmount = BigInt(
+        Math.floor(parseFloat(amount) * Math.pow(10, selectedToken.decimals)),
+      );
+      if (tokenAmount <= BigInt(0)) {
         throw new Error("Amount must be greater than 0");
       }
 
-      const fromPubkey = new PublicKey(publicKey);
+      const ownerPubkey = new PublicKey(publicKey);
+      const mintPubkey = new PublicKey(selectedToken.mint);
+
+      // Derive token accounts
+      const sourceAta = getAssociatedTokenAddress(mintPubkey, ownerPubkey);
+      const destinationAta = getAssociatedTokenAddress(
+        mintPubkey,
+        recipientPubkey,
+      );
+
       const { blockhash } = await DEVNET_CONNECTION.getLatestBlockhash();
 
-      const instruction = SystemProgram.transfer({
-        fromPubkey,
-        toPubkey: recipientPubkey,
-        lamports,
-      });
+      const transaction = new Transaction({
+        recentBlockhash: blockhash,
+        feePayer: ownerPubkey,
+      }).add(
+        createTransferCheckedInstruction(
+          sourceAta,
+          mintPubkey,
+          destinationAta,
+          ownerPubkey,
+          tokenAmount,
+          selectedToken.decimals,
+        ),
+      );
 
-      if (useVersioned) {
-        const messageV0 = new TransactionMessage({
-          payerKey: fromPubkey,
-          recentBlockhash: blockhash,
-          instructions: [instruction],
-        }).compileToV0Message();
+      const signedTx = await okoSolWallet.signTransaction(transaction);
+      const txSignature = signedTx.signature;
 
-        const transaction = new VersionedTransaction(messageV0);
-        const signedTx = await okoSolWallet.signTransaction(transaction);
-        const txSignature = signedTx.signatures[0];
-
-        if (txSignature) {
-          setSignature(bs58.encode(txSignature));
-        } else {
-          setSignature("Transaction signed (no signature extracted)");
-        }
+      if (txSignature) {
+        setSignature(bs58.encode(txSignature));
       } else {
-        const transaction = new Transaction({
-          recentBlockhash: blockhash,
-          feePayer: fromPubkey,
-        }).add(instruction);
-
-        const signedTx = await okoSolWallet.signTransaction(transaction);
-        const txSignature = signedTx.signature;
-
-        if (txSignature) {
-          setSignature(bs58.encode(txSignature));
-        } else {
-          setSignature("Transaction signed (no signature extracted)");
-        }
+        setSignature("Transaction signed (no signature extracted)");
       }
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : String(err);
@@ -96,9 +154,7 @@ export function SignTransactionWidget() {
   };
 
   const handleSendTransaction = async () => {
-    if (!okoSolWallet || !publicKey) {
-      return;
-    }
+    if (!okoSolWallet || !publicKey) return;
 
     setIsLoading(true);
     setError(null);
@@ -112,36 +168,37 @@ export function SignTransactionWidget() {
         throw new Error("Invalid recipient address");
       }
 
-      const lamports = Math.floor(parseFloat(amount) * LAMPORTS_PER_SOL);
-      if (lamports <= 0) {
+      const tokenAmount = BigInt(
+        Math.floor(parseFloat(amount) * Math.pow(10, selectedToken.decimals)),
+      );
+      if (tokenAmount <= BigInt(0)) {
         throw new Error("Amount must be greater than 0");
       }
 
-      const fromPubkey = new PublicKey(publicKey);
+      const ownerPubkey = new PublicKey(publicKey);
+      const mintPubkey = new PublicKey(selectedToken.mint);
+
+      const sourceAta = getAssociatedTokenAddress(mintPubkey, ownerPubkey);
+      const destinationAta = getAssociatedTokenAddress(
+        mintPubkey,
+        recipientPubkey,
+      );
+
       const { blockhash } = await DEVNET_CONNECTION.getLatestBlockhash();
 
-      const instruction = SystemProgram.transfer({
-        fromPubkey,
-        toPubkey: recipientPubkey,
-        lamports,
-      });
-
-      let transaction: Transaction | VersionedTransaction;
-
-      if (useVersioned) {
-        const messageV0 = new TransactionMessage({
-          payerKey: fromPubkey,
-          recentBlockhash: blockhash,
-          instructions: [instruction],
-        }).compileToV0Message();
-
-        transaction = new VersionedTransaction(messageV0);
-      } else {
-        transaction = new Transaction({
-          recentBlockhash: blockhash,
-          feePayer: fromPubkey,
-        }).add(instruction);
-      }
+      const transaction = new Transaction({
+        recentBlockhash: blockhash,
+        feePayer: ownerPubkey,
+      }).add(
+        createTransferCheckedInstruction(
+          sourceAta,
+          mintPubkey,
+          destinationAta,
+          ownerPubkey,
+          tokenAmount,
+          selectedToken.decimals,
+        ),
+      );
 
       const txSignature = await okoSolWallet.sendTransaction(
         transaction,
@@ -160,13 +217,36 @@ export function SignTransactionWidget() {
   return (
     <div className="bg-widget border border-widget-border rounded-3xl p-10 shadow-xl">
       <h3 className="text-2xl font-semibold tracking-tight mb-2">
-        Send Transaction
+        SPL Token Transfer
       </h3>
       <p className="text-gray-400 text-sm mb-6">
-        Create and sign a SOL transfer transaction (Devnet)
+        Test SPL token transferChecked instruction (Devnet)
       </p>
 
       <div className="flex flex-col gap-5">
+        <div className="flex flex-col gap-3">
+          <label className="block text-xs font-semibold tracking-wide uppercase text-gray-300">
+            Token
+          </label>
+          <select
+            className="w-full bg-widget-field border border-widget-border rounded-2xl px-6 py-5 text-sm focus:outline-none focus:border-widget-border-hover focus:ring-2 focus:ring-widget-border-hover transition-all"
+            value={selectedToken.mint}
+            onChange={(e) => {
+              const token = DEVNET_TOKENS.find((t) => t.mint === e.target.value);
+              if (token) setSelectedToken(token);
+            }}
+          >
+            {DEVNET_TOKENS.map((token) => (
+              <option key={token.mint} value={token.mint}>
+                {token.name}
+              </option>
+            ))}
+          </select>
+          <p className="text-xs text-gray-500 font-mono break-all">
+            Mint: {selectedToken.mint}
+          </p>
+        </div>
+
         <div className="flex flex-col gap-3">
           <label className="block text-xs font-semibold tracking-wide uppercase text-gray-300">
             Recipient Address
@@ -182,30 +262,18 @@ export function SignTransactionWidget() {
 
         <div className="flex flex-col gap-3">
           <label className="block text-xs font-semibold tracking-wide uppercase text-gray-300">
-            Amount (SOL)
+            Amount
           </label>
           <input
             type="number"
             className="w-full bg-widget-field border border-widget-border rounded-2xl px-6 py-5 text-sm focus:outline-none focus:border-widget-border-hover focus:ring-2 focus:ring-widget-border-hover transition-all"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            placeholder="0.001"
-            step="0.001"
+            placeholder="1"
+            step="0.000001"
             min="0"
           />
         </div>
-
-        <label className="flex items-center gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={useVersioned}
-            onChange={(e) => setUseVersioned(e.target.checked)}
-            className="w-5 h-5 rounded border-widget-border bg-widget-field text-blue-500 focus:ring-blue-500 focus:ring-offset-0 cursor-pointer"
-          />
-          <span className="text-sm text-gray-300">
-            Use Versioned Transaction (V0)
-          </span>
-        </label>
 
         <div className="flex gap-4 mt-2">
           <Button

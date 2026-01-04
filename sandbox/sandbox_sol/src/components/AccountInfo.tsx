@@ -2,13 +2,9 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { Connection, PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import Button from "./Button";
-
-const DEVNET_CONNECTION = new Connection(
-  "https://api.devnet.solana.com",
-  "confirmed",
-);
+import { DEVNET_CONNECTION } from "@/lib/connection";
 
 interface AccountInfoProps {
   publicKey: string;

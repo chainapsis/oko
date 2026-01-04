@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
+import { OkoSolWallet, registerOkoWallet } from "@oko-wallet/oko-sdk-sol";
 import { useSdkStore } from "@/store/sdk";
 
 export function useOkoSol() {
@@ -50,6 +50,10 @@ export function useOkoSol() {
 
         // Wait for initialization
         await solWallet.waitUntilInitialized;
+
+        // Register with wallet-standard for dApp discovery
+        registerOkoWallet(solWallet);
+        console.log("[sandbox_sol] Oko wallet registered with wallet-standard");
 
         setInitialized(true);
         console.log("[sandbox_sol] SDK initialized");
