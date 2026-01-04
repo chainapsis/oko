@@ -1,6 +1,9 @@
 import { PublicKey } from "@solana/web3.js";
 
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import type {
+  OkoSolWalletInterface,
+  OkoSolWalletInternal,
+} from "@oko-wallet-sdk-sol/types";
 
 export async function connect(this: OkoSolWalletInterface): Promise<void> {
   if (this.connected) {
@@ -33,6 +36,9 @@ export async function connect(this: OkoSolWalletInterface): Promise<void> {
     this.state.publicKeyRaw = publicKeyHex;
     this.publicKey = publicKey;
     this.connected = true;
+
+    // Emit connect event
+    (this as OkoSolWalletInternal)._emitter.emit("connect", publicKey);
   } finally {
     this.connecting = false;
   }

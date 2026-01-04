@@ -68,7 +68,7 @@ function createMakeSignatureData(
       // Serialize just the message bytes for signing
       // This is what ed25519 actually signs
       const messageBytes = isVersioned
-        ? (tx as any).message.serialize()
+        ? tx.message.serialize()
         : tx.serializeMessage();
       const messageBase64 = Buffer.from(messageBytes).toString("base64");
 
@@ -88,13 +88,20 @@ function createMakeSignatureData(
     }
 
     case "sign_all_transactions": {
+      const isVersioned =
+        params.transactions.length > 0 && "version" in params.transactions[0];
+
       const serializedTxs = params.transactions.map((tx) =>
         Buffer.from(tx.serialize({ requireAllSignatures: false })).toString(
           "base64",
         ),
       );
-      const isVersioned =
-        params.transactions.length > 0 && "version" in params.transactions[0];
+
+      const messagesToSign = params.transactions.map((tx) => {
+        const messageBytes =
+          "version" in tx ? tx.message.serialize() : tx.serializeMessage();
+        return Buffer.from(messageBytes).toString("base64");
+      });
 
       return {
         chain_type: "sol",
@@ -104,6 +111,7 @@ function createMakeSignatureData(
           signer,
           data: {
             serialized_transactions: serializedTxs,
+            messages_to_sign: messagesToSign,
             is_versioned: isVersioned,
           },
         },
@@ -122,13 +130,6 @@ function createMakeSignatureData(
           },
         },
       };
-    }
-
-    default: {
-      throw new SolanaRpcError(
-        SolanaRpcErrorCode.Internal,
-        `Unknown sign method: ${(params as any).type}`,
-      );
     }
   }
 }
@@ -297,13 +298,6 @@ function convertSigResultToOutput(
         type: "sign_message",
         signature: signatureBytes,
       };
-    }
-
-    default: {
-      throw new SolanaRpcError(
-        SolanaRpcErrorCode.Internal,
-        `Unknown params type`,
-      );
     }
   }
 }
