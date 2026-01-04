@@ -1,15 +1,19 @@
-import React from "react";
-import type { MakeSolanaSigData } from "@oko-wallet/oko-sdk-core";
+import type { FC } from "react";
+import type { SolanaTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/sol";
 
-import styles from "./sol_signature_content.module.scss";
+import styles from "../common/signature_content.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SignerAddressOrEmail } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
 import { SolanaTxSummary } from "./sol_tx_summary";
 
-interface SolanaSignatureContentProps {
-  data: MakeSolanaSigData;
+interface SolanaTxSignatureContentProps {
+  payload: SolanaTxSignPayload;
+  parsedTx: ParsedTransaction | null;
+  parseError: string | null;
+  isLoading: boolean;
 }
 
 const SOLANA_LOGO_URL =
@@ -27,26 +31,13 @@ function getFaviconUrl(origin: string): string {
   }
 }
 
-export const SolanaSignatureContent: React.FC<SolanaSignatureContentProps> = ({
-  data,
+export const SolanaTxSignatureContent: FC<SolanaTxSignatureContentProps> = ({
+  payload,
+  parsedTx,
+  parseError,
+  isLoading,
 }) => {
-  const signType = data.sign_type;
-  const origin = data.payload.origin;
-  const signer = data.payload.signer;
-
-  const getTitle = () => {
-    switch (signType) {
-      case "tx":
-        return "Sign Solana Transaction";
-      case "message":
-        return "Sign Message";
-      case "all_tx":
-        return "Sign Multiple Transactions";
-      default:
-        return "Sign Request";
-    }
-  };
-
+  const { origin, signer } = payload;
   const faviconUrl = getFaviconUrl(origin);
 
   return (
@@ -59,7 +50,7 @@ export const SolanaSignatureContent: React.FC<SolanaSignatureContentProps> = ({
 
       <Spacing height={16} />
 
-      <div className={styles.signTypeTitle}>{getTitle()}</div>
+      <div className={styles.signTypeTitle}>Sign Solana Transaction</div>
 
       <Spacing height={12} />
 
@@ -103,7 +94,12 @@ export const SolanaSignatureContent: React.FC<SolanaSignatureContentProps> = ({
 
       <Spacing height={16} />
 
-      <SolanaTxSummary data={data} />
+      <SolanaTxSummary
+        payload={payload}
+        parsedTx={parsedTx}
+        parseError={parseError}
+        isLoading={isLoading}
+      />
     </div>
   );
 };

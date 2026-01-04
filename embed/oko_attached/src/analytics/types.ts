@@ -1,13 +1,14 @@
 import type { Msg } from "@keplr-wallet/types";
 import type { Any } from "@keplr-wallet/proto-types/google/protobuf/any";
 import type { AminoMsg } from "@cosmjs/amino";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
 
 import type { EthTxAction } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/types";
 import type { UnpackedMsgForView } from "@oko-wallet-attached/types/cosmos_msg";
 
 export type TxType = string;
 
-export type ChainType = "eth" | "cosmos";
+export type ChainType = "eth" | "cosmos" | "solana";
 
 export type CosmosMsgs =
   | Any[]
@@ -45,4 +46,10 @@ export type TrackTxButtonEventArgs =
       chainType: "eth";
       chainId: string;
       actions: EthTxAction[];
+    }
+  | {
+      eventType: "approve" | "reject";
+      hostOrigin: string;
+      chainType: "solana";
+      instructions: ParsedInstruction[] | null;
     };

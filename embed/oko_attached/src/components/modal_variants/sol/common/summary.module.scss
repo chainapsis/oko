@@ -1,4 +1,4 @@
-.txSummaryContainer {
+.summaryContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -6,14 +6,14 @@
   gap: 8px;
 }
 
-.txSummaryHeader {
+.summaryHeader {
   display: flex;
   align-items: center;
   align-self: stretch;
   justify-content: space-between;
 }
 
-.txSummaryHeaderRight {
+.summaryHeaderRight {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,8 +21,14 @@
   cursor: pointer;
 }
 
-.txSummaryHeaderRightIcon {
+.summaryHeaderRightIcon {
   width: 16px;
   height: 16px;
   aspect-ratio: 1/1;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-primary);
 }
