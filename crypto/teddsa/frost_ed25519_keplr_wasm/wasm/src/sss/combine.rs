@@ -22,8 +22,7 @@ pub fn sss_combine(key_packages: JsValue) -> Result<JsValue, JsValue> {
         .collect::<Result<Vec<_>, _>>()
         .map_err(|err| JsValue::from_str(&err))?;
 
-    let secret = sss_combine_ed25519(&key_packages)
-        .map_err(|err| JsValue::from_str(&err))?;
+    let secret = sss_combine_ed25519(&key_packages).map_err(|err| JsValue::from_str(&err))?;
 
     JsValue::from_serde(&secret).map_err(|err| JsValue::from_str(&err.to_string()))
 }

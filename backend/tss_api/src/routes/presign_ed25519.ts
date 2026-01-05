@@ -60,8 +60,14 @@ export function setPresignEd25519Routes(router: Router) {
                     commitments_0: {
                       type: "object",
                       properties: {
-                        identifier: { type: "array", items: { type: "number" } },
-                        commitments: { type: "array", items: { type: "number" } },
+                        identifier: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
+                        commitments: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
                       },
                     },
                   },
@@ -102,11 +108,15 @@ export function setPresignEd25519Routes(router: Router) {
         return;
       }
 
-      const result = await runPresignEd25519(state.db, state.encryption_secret, {
-        email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id_ed25519,
-        customer_id: apiKey.customer_id,
-      });
+      const result = await runPresignEd25519(
+        state.db,
+        state.encryption_secret,
+        {
+          email: user.email.toLowerCase(),
+          wallet_id: user.wallet_id_ed25519,
+          customer_id: apiKey.customer_id,
+        },
+      );
 
       if (result.success === false) {
         res.status(ErrorCodeMap[result.code] ?? 500).json(result);

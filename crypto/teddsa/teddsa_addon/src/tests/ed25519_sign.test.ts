@@ -165,8 +165,12 @@ async function main() {
   try {
     const result = await signTestEd25519(clientState, serverState);
     console.log("\n=== Test Complete ===");
-    console.log(`Signature (hex): ${Buffer.from(result.signature).toString("hex")}`);
-    console.log(`Public Key (hex): ${Buffer.from(result.publicKey).toString("hex")}`);
+    console.log(
+      `Signature (hex): ${Buffer.from(result.signature).toString("hex")}`,
+    );
+    console.log(
+      `Public Key (hex): ${Buffer.from(result.publicKey).toString("hex")}`,
+    );
   } catch (error) {
     console.error("Test failed:", error);
     process.exit(1);

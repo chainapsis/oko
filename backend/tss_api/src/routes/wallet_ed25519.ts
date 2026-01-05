@@ -77,7 +77,10 @@ export function setWalletEd25519Routes(router: Router) {
     tssActivateMiddleware,
     async (
       req: OAuthAuthenticatedRequest<Record<string, never>>,
-      res: Response<OkoApiResponse<WalletEd25519PublicInfoResponse>, OAuthLocals>,
+      res: Response<
+        OkoApiResponse<WalletEd25519PublicInfoResponse>,
+        OAuthLocals
+      >,
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;

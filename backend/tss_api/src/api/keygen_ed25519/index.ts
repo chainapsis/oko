@@ -195,9 +195,10 @@ export async function runKeygenEd25519(
       user.user_id,
       "secp256k1",
     );
-    const secp256k1WalletId = secp256k1WalletRes.success && secp256k1WalletRes.data
-      ? secp256k1WalletRes.data.wallet_id
-      : wallet.wallet_id; // Fallback to ed25519 wallet_id if no secp256k1
+    const secp256k1WalletId =
+      secp256k1WalletRes.success && secp256k1WalletRes.data
+        ? secp256k1WalletRes.data.wallet_id
+        : wallet.wallet_id; // Fallback to ed25519 wallet_id if no secp256k1
 
     const tokenResult = generateUserToken({
       wallet_id: secp256k1WalletId,

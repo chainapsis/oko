@@ -219,7 +219,8 @@ describe("Ed25519 Signing", () => {
 
   describe("runSignEd25519Round2", () => {
     it("should generate signature share successfully", async () => {
-      const { walletId, customerId, clientKeygenOutput } = await setUpEd25519Wallet(pool);
+      const { walletId, customerId, clientKeygenOutput } =
+        await setUpEd25519Wallet(pool);
       const testMessage = new TextEncoder().encode("Test message for Ed25519");
 
       // Round 1: Get server commitments
@@ -262,12 +263,15 @@ describe("Ed25519 Signing", () => {
       if (round2Result.success) {
         expect(round2Result.data.signature_share_0).toBeDefined();
         expect(round2Result.data.signature_share_0.identifier).toBeDefined();
-        expect(round2Result.data.signature_share_0.signature_share).toBeDefined();
+        expect(
+          round2Result.data.signature_share_0.signature_share,
+        ).toBeDefined();
       }
     });
 
     it("should fail with invalid session_id", async () => {
-      const { walletId, customerId, clientKeygenOutput } = await setUpEd25519Wallet(pool);
+      const { walletId, customerId, clientKeygenOutput } =
+        await setUpEd25519Wallet(pool);
       const testMessage = new TextEncoder().encode("Test message");
 
       const clientRound1 = clientRunSignRound1Ed25519(
@@ -296,7 +300,8 @@ describe("Ed25519 Signing", () => {
     });
 
     it("should fail when Round2 is called twice (duplicate call prevention)", async () => {
-      const { walletId, customerId, clientKeygenOutput } = await setUpEd25519Wallet(pool);
+      const { walletId, customerId, clientKeygenOutput } =
+        await setUpEd25519Wallet(pool);
       const testMessage = new TextEncoder().encode("Test message");
 
       // Round 1: Get server commitments
@@ -349,7 +354,8 @@ describe("Ed25519 Signing", () => {
     });
 
     it("should fail when using COMPLETED session for Round2", async () => {
-      const { walletId, customerId, clientKeygenOutput } = await setUpEd25519Wallet(pool);
+      const { walletId, customerId, clientKeygenOutput } =
+        await setUpEd25519Wallet(pool);
       const testMessage = new TextEncoder().encode("Test message for signing");
 
       // Complete full signing flow first
@@ -394,7 +400,10 @@ describe("Ed25519 Signing", () => {
       );
 
       const allShares = [
-        { identifier: clientR2.identifier, signature_share: clientR2.signature_share },
+        {
+          identifier: clientR2.identifier,
+          signature_share: clientR2.signature_share,
+        },
         {
           identifier: round2Res.data.signature_share_0.identifier,
           signature_share: round2Res.data.signature_share_0.signature_share,
@@ -415,15 +424,19 @@ describe("Ed25519 Signing", () => {
       const newClientR1 = clientRunSignRound1Ed25519(
         new Uint8Array(clientKeygenOutput.key_package),
       );
-      const replayRound2Res = await runSignEd25519Round2(pool, TEMP_ENC_SECRET, {
-        email: TEST_EMAIL,
-        wallet_id: walletId,
-        session_id: round1Res.data.session_id, // Reusing completed session
-        commitments_1: {
-          identifier: newClientR1.identifier,
-          commitments: newClientR1.commitments,
+      const replayRound2Res = await runSignEd25519Round2(
+        pool,
+        TEMP_ENC_SECRET,
+        {
+          email: TEST_EMAIL,
+          wallet_id: walletId,
+          session_id: round1Res.data.session_id, // Reusing completed session
+          commitments_1: {
+            identifier: newClientR1.identifier,
+            commitments: newClientR1.commitments,
+          },
         },
-      });
+      );
 
       expect(replayRound2Res.success).toBe(false);
       if (!replayRound2Res.success) {
@@ -605,7 +618,8 @@ describe("Ed25519 Signing", () => {
 
   describe("Full signing flow", () => {
     it("should complete full signing flow with valid signature verification", async () => {
-      const { walletId, customerId, clientKeygenOutput } = await setUpEd25519Wallet(pool);
+      const { walletId, customerId, clientKeygenOutput } =
+        await setUpEd25519Wallet(pool);
       const messages = [
         "Hello, Solana!",
         "Transaction data",
@@ -630,7 +644,10 @@ describe("Ed25519 Signing", () => {
         );
 
         const allCommitments = [
-          { identifier: clientR1.identifier, commitments: clientR1.commitments },
+          {
+            identifier: clientR1.identifier,
+            commitments: clientR1.commitments,
+          },
           {
             identifier: round1Res.data.commitments_0.identifier,
             commitments: round1Res.data.commitments_0.commitments,
