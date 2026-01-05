@@ -42,11 +42,9 @@ pub fn extend_shares_ed25519(
         return Err("No new identifiers provided".into());
     }
 
-    // Get existing identifiers
     let existing_ids: BTreeSet<Identifier> =
         key_packages.iter().map(|kp| *kp.identifier()).collect();
 
-    // Parse new identifiers
     let new_ids: Vec<Identifier> = new_identifiers
         .iter()
         .map(|id_bytes| {
@@ -55,27 +53,19 @@ pub fn extend_shares_ed25519(
         })
         .collect::<Result<Vec<_>, _>>()?;
 
-    // Check for duplicates with existing identifiers
     for new_id in &new_ids {
         if existing_ids.contains(new_id) {
             return Err("New identifier already exists in key packages".into());
         }
     }
 
-    // Get min_signers from existing key package
     let min_signers = *key_packages[0].min_signers();
-
-    // Get the group verifying key
     let verifying_key = public_key_package.verifying_key();
 
-    // Compute new shares using Lagrange interpolation
-    // For each new identifier x*, compute f(x*) = sum(lambda_i * f(x_i))
-    // where lambda_i is the Lagrange coefficient for x_i evaluated at x*
     let mut new_key_packages = Vec::with_capacity(new_ids.len());
     let mut new_verifying_shares = public_key_package.verifying_shares().clone();
 
     for new_id in new_ids {
-        // Compute f(new_id) by interpolating existing shares
         let mut new_signing_share_scalar =
             <<Ed25519Sha512 as frost_core::Ciphersuite>::Group as Group>::Field::zero();
 
@@ -91,16 +81,10 @@ pub fn extend_shares_ed25519(
             new_signing_share_scalar = new_signing_share_scalar + coeff * share_scalar;
         }
 
-        // Create SigningShare from the computed scalar
         let new_signing_share = SigningShare::new(new_signing_share_scalar);
-
-        // Compute verifying share: g^{f(new_id)}
         let new_verifying_share = VerifyingShare::from(new_signing_share);
-
-        // Add to verifying shares map
         new_verifying_shares.insert(new_id, new_verifying_share);
 
-        // Create KeyPackage for new participant
         let new_key_package = KeyPackage::new(
             new_id,
             new_signing_share,
@@ -112,7 +96,6 @@ pub fn extend_shares_ed25519(
         new_key_packages.push(new_key_package);
     }
 
-    // Create updated public key package with all verifying shares
     let updated_public_key_package = PublicKeyPackage::new(new_verifying_shares, *verifying_key);
 
     Ok(ExtendOutput {

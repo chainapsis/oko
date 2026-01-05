@@ -53,9 +53,8 @@ pub fn sss_extend_shares(
         .to_public_key_package()
         .map_err(|err| JsValue::from_str(&err))?;
 
-    let extend_output =
-        extend_shares_ed25519(&key_packages, new_identifiers, &public_key_package)
-            .map_err(|err| JsValue::from_str(&err))?;
+    let extend_output = extend_shares_ed25519(&key_packages, new_identifiers, &public_key_package)
+        .map_err(|err| JsValue::from_str(&err))?;
 
     let new_key_packages_raw: Vec<KeyPackageRaw> = extend_output
         .new_key_packages
