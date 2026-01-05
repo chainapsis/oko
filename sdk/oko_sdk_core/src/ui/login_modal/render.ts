@@ -4,9 +4,64 @@ import { ICONS, S3_LOGO_URL, S3_LOGO_WITH_NAME_URL } from "./icons";
 
 const cleanupMap = new WeakMap<HTMLElement, () => void>();
 
+export type LoginModalTheme = "light" | "dark" | "system";
+
 export interface LoginModalOptions {
   onSelect: (provider: SignInType) => void;
   onClose: () => void;
+  theme?: LoginModalTheme;
+}
+
+function getSystemTheme(): "light" | "dark" {
+  if (
+    typeof window !== "undefined" &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches
+  ) {
+    return "dark";
+  }
+  return "light";
+}
+
+function getHostTheme(): "light" | "dark" | null {
+  if (typeof document === "undefined") {
+    return null;
+  }
+
+  const root = document.documentElement;
+  const body = document.body;
+
+  // Check data-theme attribute (common pattern)
+  const dataTheme = root.dataset.theme || body?.dataset.theme;
+  if (dataTheme === "dark" || dataTheme === "light") {
+    return dataTheme;
+  }
+
+  // Check class-based theme (Tailwind, etc.)
+  if (root.classList.contains("dark") || body?.classList.contains("dark")) {
+    return "dark";
+  }
+  if (root.classList.contains("light") || body?.classList.contains("light")) {
+    return "light";
+  }
+
+  // Check color-scheme style
+  const colorScheme = getComputedStyle(root).colorScheme;
+  if (colorScheme === "dark") {
+    return "dark";
+  }
+  if (colorScheme === "light") {
+    return "light";
+  }
+
+  return null;
+}
+
+function resolveTheme(theme: LoginModalTheme): "light" | "dark" {
+  if (theme === "light" || theme === "dark") {
+    return theme;
+  }
+  // "system" mode: try host theme first, fallback to system
+  return getHostTheme() ?? getSystemTheme();
 }
 
 export interface LoginModalController {
@@ -18,11 +73,13 @@ export interface LoginModalController {
 export function renderLoginModal(
   options: LoginModalOptions,
 ): LoginModalController {
-  const { onSelect, onClose } = options;
+  const { onSelect, onClose, theme = "system" } = options;
+  const resolvedTheme = resolveTheme(theme);
 
   // Create container element
   const container = document.createElement("div");
   container.id = "oko-login-modal";
+  container.dataset.theme = resolvedTheme;
 
   // Attach shadow DOM for style isolation
   const shadow = container.attachShadow({ mode: "closed" });
@@ -63,7 +120,7 @@ export function renderLoginModal(
     const logoWrapper = document.createElement("div");
     logoWrapper.className = "oko-logo-wrapper";
     const logo = document.createElement("img");
-    logo.src = S3_LOGO_URL;
+    logo.src = S3_LOGO_URL[resolvedTheme];
     logo.alt = "Oko";
     logo.width = 84;
     logo.height = 32;
@@ -100,7 +157,7 @@ export function renderLoginModal(
     const footer = document.createElement("div");
     footer.className = "oko-modal-footer";
     footer.innerHTML = `
-      <img class="oko-footer-logo" src="${S3_LOGO_WITH_NAME_URL}" alt="Oko" width="52" height="20" />
+      <img class="oko-footer-logo" src="${S3_LOGO_WITH_NAME_URL[resolvedTheme]}" alt="Oko" width="52" height="20" />
       <a class="oko-footer-link" href="https://oko-wallet.canny.io/bug-reports" target="_blank" rel="noopener noreferrer">
         Get support
         <span class="oko-external-icon">${ICONS.externalLink}</span>

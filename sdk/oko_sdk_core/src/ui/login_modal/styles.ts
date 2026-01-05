@@ -36,6 +36,34 @@ export const MODAL_STYLES = `
     --oko-radius-lg: 16px;
   }
 
+  /* Dark theme */
+  :host([data-theme="dark"]) {
+    /* Colors - Dark theme (from oko_common_ui color_tokens) */
+    --oko-gray-50: #f7f7f7;
+    --oko-gray-300: #cecfd2;
+    --oko-gray-400: #94979c;
+    --oko-gray-500: #85888e;
+    --oko-gray-600: #61656c;
+    --oko-gray-700: #373a41;
+    --oko-gray-800: #22262f;
+    --oko-gray-900: #13161b;
+    --oko-gray-950: #0c0e12;
+
+    /* Semantic tokens - Dark */
+    --oko-bg-primary: var(--oko-gray-950);
+    --oko-bg-primary-hover: var(--oko-gray-800);
+    --oko-text-primary: var(--oko-gray-50);
+    --oko-text-secondary: var(--oko-gray-300);
+    --oko-fg-tertiary: var(--oko-gray-400);
+    --oko-fg-quaternary: var(--oko-gray-600);
+    --oko-fg-disabled-subtle: var(--oko-gray-600);
+    --oko-border-primary: var(--oko-gray-700);
+
+    /* Shadows - Dark */
+    --oko-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+    --oko-shadow-lg: 0 12px 16px -4px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+  }
+
   * {
     box-sizing: border-box;
     margin: 0;
