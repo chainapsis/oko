@@ -50,6 +50,11 @@ export const paths = (function () {
     "../../../crypto/tecdsa/tecdsa_interface/",
   );
 
+  const teddsa_interface = path.join(
+    __dirname,
+    "../../../crypto/teddsa/teddsa_interface/",
+  );
+
   // internals2
   const cait_sith_addon_addon = path.join(
     __dirname,
@@ -144,6 +149,7 @@ export const paths = (function () {
     ksn_pg_interface,
     sandbox_simple_host,
     tecdsa_interface,
+    teddsa_interface,
     oko_pg_interface,
     oko_attached,
     oko_admin_web,
