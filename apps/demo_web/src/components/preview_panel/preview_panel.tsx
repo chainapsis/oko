@@ -12,8 +12,9 @@ import { CosmosOnchainSignWidget } from "@oko-wallet-demo-web/components/widgets
 import { CosmosOffChainSignWidget } from "@oko-wallet-demo-web/components/widgets/cosmos_offchain_sign_widget/cosmos_offchain_sign_widget";
 import { EthereumOnchainSignWidget } from "@oko-wallet-demo-web/components/widgets/ethereum_onchain_sign_widget/ethereum_onchain_sign_widget";
 import { EthereumOffchainSignWidget } from "@oko-wallet-demo-web/components/widgets/ethereum_offchain_sign_widget/ethereum_offchain_sign_widget";
-import { SolanaOffchainSignWidget } from "@oko-wallet-demo-web/components/widgets/solana_offchain_sign_widget/solana_offchain_sign_widget";
-import { SolanaOnchainSignWidget } from "@oko-wallet-demo-web/components/widgets/solana_onchain_sign_widget/solana_onchain_sign_widget";
+// import { SolanaOffchainSignWidget } from "@oko-wallet-demo-web/components/widgets/solana_offchain_sign_widget/solana_offchain_sign_widget";
+// TODO: refactor this @chemonoworld @Ryz0nd
+// import { SolanaOnchainSignWidget } from "@oko-wallet-demo-web/components/widgets/solana_onchain_sign_widget/solana_onchain_sign_widget";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
@@ -50,8 +51,9 @@ export const PreviewPanel: FC = () => {
               )}
               {isSignedIn && (
                 <div className={styles.col}>
-                  <SolanaOffchainSignWidget />
-                  <SolanaOnchainSignWidget />
+                  {/* TODO: refactor this @chemonoworld @Ryz0nd */}
+                  {/* <SolanaOffchainSignWidget /> */}
+                  {/* <SolanaOnchainSignWidget /> */}
                 </div>
               )}
             </>

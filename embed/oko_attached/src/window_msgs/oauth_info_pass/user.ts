@@ -1,3 +1,5 @@
+// TODO: refactor this file @chemonoworld @Ryz0nd
+
 import type {
   CheckEmailRequest,
   CheckEmailResponse,
@@ -39,84 +41,84 @@ import {
   teddsaKeygenToHex,
   type KeyPackageEd25519Hex,
 } from "@oko-wallet-attached/crypto/keygen_ed25519";
-import { recoverEd25519Keygen } from "@oko-wallet-attached/crypto/sss_ed25519";
+// import { recoverEd25519Keygen } from "@oko-wallet-attached/crypto/sss_ed25519";
 
-async function recoverEd25519KeyPackage(
-  idToken: string,
-  keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
-  authType: AuthType,
-): Promise<KeyPackageEd25519Hex | null> {
-  const publicInfoRes = await fetch(
-    `${TSS_V1_ENDPOINT}/wallet_ed25519/public_info`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${idToken}`,
-      },
-      body: JSON.stringify({}),
-    },
-  );
+// async function recoverEd25519KeyPackage(
+//   idToken: string,
+//   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
+//   authType: AuthType,
+// ): Promise<KeyPackageEd25519Hex | null> {
+//   const publicInfoRes = await fetch(
+//     `${TSS_V1_ENDPOINT}/wallet_ed25519/public_info`,
+//     {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${idToken}`,
+//       },
+//       body: JSON.stringify({}),
+//     },
+//   );
 
-  if (!publicInfoRes.ok) {
-    console.warn(
-      "[attached] Ed25519 public info HTTP error:",
-      publicInfoRes.status,
-    );
-    return null;
-  }
+//   if (!publicInfoRes.ok) {
+//     console.warn(
+//       "[attached] Ed25519 public info HTTP error:",
+//       publicInfoRes.status,
+//     );
+//     return null;
+//   }
 
-  const publicInfoData = await publicInfoRes.json();
-  if (!publicInfoData.success) {
-    console.warn(
-      "[attached] Ed25519 public info request failed:",
-      publicInfoData.msg,
-    );
-    return null;
-  }
+//   const publicInfoData = await publicInfoRes.json();
+//   if (!publicInfoData.success) {
+//     console.warn(
+//       "[attached] Ed25519 public info request failed:",
+//       publicInfoData.msg,
+//     );
+//     return null;
+//   }
 
-  const {
-    public_key: publicKeyHex,
-    public_key_package,
-    identifier,
-  } = publicInfoData.data;
+//   const {
+//     public_key: publicKeyHex,
+//     public_key_package,
+//     identifier,
+//   } = publicInfoData.data;
 
-  const publicKeyBytesRes = Bytes.fromHexString(publicKeyHex, 32);
-  if (!publicKeyBytesRes.success) {
-    console.warn(
-      "[attached] Invalid Ed25519 public key:",
-      publicKeyBytesRes.err,
-    );
-    return null;
-  }
+//   const publicKeyBytesRes = Bytes.fromHexString(publicKeyHex, 32);
+//   if (!publicKeyBytesRes.success) {
+//     console.warn(
+//       "[attached] Invalid Ed25519 public key:",
+//       publicKeyBytesRes.err,
+//     );
+//     return null;
+//   }
 
-  const sharesRes = await requestSplitSharesEd25519(
-    publicKeyBytesRes.data,
-    idToken,
-    keyshareNodeMeta.nodes,
-    keyshareNodeMeta.threshold,
-    authType,
-  );
-  if (!sharesRes.success) {
-    console.warn("[attached] Ed25519 shares request failed:", sharesRes.err);
-    return null;
-  }
+//   const sharesRes = await requestSplitSharesEd25519(
+//     publicKeyBytesRes.data,
+//     idToken,
+//     keyshareNodeMeta.nodes,
+//     keyshareNodeMeta.threshold,
+//     authType,
+//   );
+//   if (!sharesRes.success) {
+//     console.warn("[attached] Ed25519 shares request failed:", sharesRes.err);
+//     return null;
+//   }
 
-  const recoveryRes = await recoverEd25519Keygen(
-    sharesRes.data,
-    keyshareNodeMeta.threshold,
-    Uint8Array.from(public_key_package),
-    Uint8Array.from(identifier),
-    publicKeyBytesRes.data,
-  );
-  if (!recoveryRes.success) {
-    console.warn("[attached] Ed25519 key recovery failed:", recoveryRes.err);
-    return null;
-  }
+//   const recoveryRes = await recoverEd25519Keygen(
+//     sharesRes.data,
+//     keyshareNodeMeta.threshold,
+//     Uint8Array.from(public_key_package),
+//     Uint8Array.from(identifier),
+//     publicKeyBytesRes.data,
+//   );
+//   if (!recoveryRes.success) {
+//     console.warn("[attached] Ed25519 key recovery failed:", recoveryRes.err);
+//     return null;
+//   }
 
-  console.log("[attached] Ed25519 key recovered successfully");
-  return teddsaKeygenToHex(recoveryRes.data);
-}
+//   console.log("[attached] Ed25519 key recovered successfully");
+//   return teddsaKeygenToHex(recoveryRes.data);
+// }
 
 export async function handleExistingUser(
   idToken: string,
@@ -226,7 +228,7 @@ export async function handleExistingUser(
           isNewUser: false,
           email: signInResp.user.email ?? null,
           name: signInResp.user.name ?? null,
-          keyPackageEd25519: null,
+          // keyPackageEd25519: null,
         },
       };
     }
@@ -298,53 +300,53 @@ user pk: ${signInResp.user.public_key}`,
 
           // SSS split Ed25519 key_package and send to KS nodes
           try {
-            const { splitUserKeySharesEd25519 } = await import(
-              "@oko-wallet-attached/crypto/sss_ed25519"
-            );
+            // const { splitUserKeySharesEd25519 } = await import(
+            //   "@oko-wallet-attached/crypto/sss_ed25519"
+            // );
             const { doSendUserKeySharesEd25519 } = await import(
               "@oko-wallet-attached/requests/ks_node"
             );
 
-            const splitEd25519Res = await splitUserKeySharesEd25519(
-              ed25519Keygen1,
-              keyshareNodeMeta,
-            );
+            // const splitEd25519Res = await splitUserKeySharesEd25519(
+            //   ed25519Keygen1,
+            //   keyshareNodeMeta,
+            // );
 
-            if (splitEd25519Res.success) {
-              const ed25519KeyShares = splitEd25519Res.data;
+            // if (splitEd25519Res.success) {
+            //   const ed25519KeyShares = splitEd25519Res.data;
 
-              // Send Ed25519 shares to all KS nodes
-              const sendEd25519Results = await Promise.all(
-                ed25519KeyShares.map((keyShareByNode) =>
-                  doSendUserKeySharesEd25519(
-                    keyShareByNode.node.endpoint,
-                    idToken,
-                    ed25519Keygen1.public_key,
-                    keyShareByNode.share,
-                    authType,
-                  ),
-                ),
-              );
+            //   // Send Ed25519 shares to all KS nodes
+            //   const sendEd25519Results = await Promise.all(
+            //     ed25519KeyShares.map((keyShareByNode) =>
+            //       doSendUserKeySharesEd25519(
+            //         keyShareByNode.node.endpoint,
+            //         idToken,
+            //         ed25519Keygen1.public_key,
+            //         keyShareByNode.share,
+            //         authType,
+            //       ),
+            //     ),
+            //   );
 
-              const ed25519SendErrors = sendEd25519Results.filter(
-                (result) => result.success === false,
-              );
-              if (ed25519SendErrors.length > 0) {
-                console.warn(
-                  "[attached] Some Ed25519 key shares failed to send:",
-                  ed25519SendErrors.map((e) => e.err).join(", "),
-                );
-              } else {
-                console.log(
-                  "[attached] Ed25519 key shares sent to KS nodes successfully",
-                );
-              }
-            } else {
-              console.warn(
-                "[attached] Ed25519 SSS split failed:",
-                splitEd25519Res.err,
-              );
-            }
+            //   const ed25519SendErrors = sendEd25519Results.filter(
+            //     (result) => result.success === false,
+            //   );
+            //   if (ed25519SendErrors.length > 0) {
+            //     console.warn(
+            //       "[attached] Some Ed25519 key shares failed to send:",
+            //       ed25519SendErrors.map((e) => e.err).join(", "),
+            //     );
+            //   } else {
+            //     console.log(
+            //       "[attached] Ed25519 key shares sent to KS nodes successfully",
+            //     );
+            //   }
+            // } else {
+            //   console.warn(
+            //     "[attached] Ed25519 SSS split failed:",
+            //     splitEd25519Res.err,
+            //   );
+            // }
           } catch (sssErr) {
             console.warn("[attached] Ed25519 SSS error:", sssErr);
           }
@@ -389,25 +391,24 @@ user pk: ${signInResp.user.public_key}`,
 
                   if (sharesRes.success) {
                     // 3. Recover Ed25519 keygen output
-                    const recoveryRes = await recoverEd25519Keygen(
-                      sharesRes.data,
-                      keyshareNodeMeta.threshold,
-                      Uint8Array.from(public_key_package),
-                      Uint8Array.from(identifier),
-                      publicKeyBytesRes.data,
-                    );
-
-                    if (recoveryRes.success) {
-                      keyPackageEd25519 = teddsaKeygenToHex(recoveryRes.data);
-                      console.log(
-                        "[attached] Ed25519 key recovered successfully",
-                      );
-                    } else {
-                      console.warn(
-                        "[attached] Ed25519 key recovery failed:",
-                        recoveryRes.err,
-                      );
-                    }
+                    // const recoveryRes = await recoverEd25519Keygen(
+                    //   sharesRes.data,
+                    //   keyshareNodeMeta.threshold,
+                    //   Uint8Array.from(public_key_package),
+                    //   Uint8Array.from(identifier),
+                    //   publicKeyBytesRes.data,
+                    // );
+                    // if (recoveryRes.success) {
+                    //   keyPackageEd25519 = teddsaKeygenToHex(recoveryRes.data);
+                    //   console.log(
+                    //     "[attached] Ed25519 key recovered successfully",
+                    //   );
+                    // } else {
+                    //   console.warn(
+                    //     "[attached] Ed25519 key recovery failed:",
+                    //     recoveryRes.err,
+                    //   );
+                    // }
                   } else {
                     console.warn(
                       "[attached] Ed25519 shares request failed:",
@@ -474,7 +475,10 @@ user pk: ${signInResp.user.public_key}`,
                   } = publicInfoData.data;
 
                   // 2. Request Ed25519 shares from KS nodes
-                  const publicKeyBytesRes = Bytes.fromHexString(publicKeyHex, 32);
+                  const publicKeyBytesRes = Bytes.fromHexString(
+                    publicKeyHex,
+                    32,
+                  );
                   if (publicKeyBytesRes.success) {
                     const sharesRes = await requestSplitSharesEd25519(
                       publicKeyBytesRes.data,
@@ -486,25 +490,24 @@ user pk: ${signInResp.user.public_key}`,
 
                     if (sharesRes.success) {
                       // 3. Recover Ed25519 keygen output
-                      const recoveryRes = await recoverEd25519Keygen(
-                        sharesRes.data,
-                        keyshareNodeMeta.threshold,
-                        Uint8Array.from(public_key_package),
-                        Uint8Array.from(identifier),
-                        publicKeyBytesRes.data,
-                      );
-
-                      if (recoveryRes.success) {
-                        keyPackageEd25519 = teddsaKeygenToHex(recoveryRes.data);
-                        console.log(
-                          "[attached] Ed25519 key recovered successfully",
-                        );
-                      } else {
-                        console.warn(
-                          "[attached] Ed25519 key recovery failed:",
-                          recoveryRes.err,
-                        );
-                      }
+                      // const recoveryRes = await recoverEd25519Keygen(
+                      //   sharesRes.data,
+                      //   keyshareNodeMeta.threshold,
+                      //   Uint8Array.from(public_key_package),
+                      //   Uint8Array.from(identifier),
+                      //   publicKeyBytesRes.data,
+                      // );
+                      // if (recoveryRes.success) {
+                      //   keyPackageEd25519 = teddsaKeygenToHex(recoveryRes.data);
+                      //   console.log(
+                      //     "[attached] Ed25519 key recovered successfully",
+                      //   );
+                      // } else {
+                      //   console.warn(
+                      //     "[attached] Ed25519 key recovery failed:",
+                      //     recoveryRes.err,
+                      //   );
+                      // }
                     } else {
                       console.warn(
                         "[attached] Ed25519 shares request failed:",
@@ -565,7 +568,7 @@ user pk: ${signInResp.user.public_key}`,
       isNewUser: false,
       email: signInResp.user.email ?? null,
       name: signInResp.user.name ?? null,
-      keyPackageEd25519,
+      // keyPackageEd25519,
     },
   };
 }
@@ -696,53 +699,53 @@ export async function handleNewUser(
 
           // SSS split Ed25519 key_package and send to KS nodes
           try {
-            const { splitUserKeySharesEd25519 } = await import(
-              "@oko-wallet-attached/crypto/sss_ed25519"
-            );
+            // const { splitUserKeySharesEd25519 } = await import(
+            //   "@oko-wallet-attached/crypto/sss_ed25519"
+            // );
             const { doSendUserKeySharesEd25519 } = await import(
               "@oko-wallet-attached/requests/ks_node"
             );
 
-            const splitEd25519Res = await splitUserKeySharesEd25519(
-              ed25519Keygen1,
-              keyshareNodeMeta,
-            );
+            // const splitEd25519Res = await splitUserKeySharesEd25519(
+            //   ed25519Keygen1,
+            //   keyshareNodeMeta,
+            // );
 
-            if (splitEd25519Res.success) {
-              const ed25519KeyShares = splitEd25519Res.data;
+            // if (splitEd25519Res.success) {
+            //   const ed25519KeyShares = splitEd25519Res.data;
 
-              // Send Ed25519 shares to all KS nodes
-              const sendEd25519Results = await Promise.all(
-                ed25519KeyShares.map((keyShareByNode) =>
-                  doSendUserKeySharesEd25519(
-                    keyShareByNode.node.endpoint,
-                    idToken,
-                    ed25519Keygen1.public_key,
-                    keyShareByNode.share,
-                    authType,
-                  ),
-                ),
-              );
+            //   // Send Ed25519 shares to all KS nodes
+            //   const sendEd25519Results = await Promise.all(
+            //     ed25519KeyShares.map((keyShareByNode) =>
+            //       doSendUserKeySharesEd25519(
+            //         keyShareByNode.node.endpoint,
+            //         idToken,
+            //         ed25519Keygen1.public_key,
+            //         keyShareByNode.share,
+            //         authType,
+            //       ),
+            //     ),
+            //   );
 
-              const ed25519SendErrors = sendEd25519Results.filter(
-                (result) => result.success === false,
-              );
-              if (ed25519SendErrors.length > 0) {
-                console.warn(
-                  "[attached] Some Ed25519 key shares failed to send:",
-                  ed25519SendErrors.map((e) => e.err).join(", "),
-                );
-              } else {
-                console.log(
-                  "[attached] Ed25519 key shares sent to KS nodes successfully",
-                );
-              }
-            } else {
-              console.warn(
-                "[attached] Ed25519 SSS split failed:",
-                splitEd25519Res.err,
-              );
-            }
+            //   const ed25519SendErrors = sendEd25519Results.filter(
+            //     (result) => result.success === false,
+            //   );
+            //   if (ed25519SendErrors.length > 0) {
+            //     console.warn(
+            //       "[attached] Some Ed25519 key shares failed to send:",
+            //       ed25519SendErrors.map((e) => e.err).join(", "),
+            //     );
+            //   } else {
+            //     console.log(
+            //       "[attached] Ed25519 key shares sent to KS nodes successfully",
+            //     );
+            //   }
+            // } else {
+            //   console.warn(
+            //     "[attached] Ed25519 SSS split failed:",
+            //     splitEd25519Res.err,
+            //   );
+            // }
           } catch (sssErr) {
             console.warn("[attached] Ed25519 SSS error:", sssErr);
           }
@@ -779,7 +782,7 @@ export async function handleNewUser(
       isNewUser: true,
       email: reqKeygenRes.data.user.email ?? null,
       name: reqKeygenRes.data.user.name ?? null,
-      keyPackageEd25519,
+      // keyPackageEd25519,
     },
   };
 }
@@ -877,11 +880,11 @@ export async function handleReshare(
     };
   }
 
-  const keyPackageEd25519 = await recoverEd25519KeyPackage(
-    idToken,
-    keyshareNodeMeta,
-    authType,
-  );
+  // const keyPackageEd25519 = await recoverEd25519KeyPackage(
+  //   idToken,
+  //   keyshareNodeMeta,
+  //   authType,
+  // );
 
   return {
     success: true,
@@ -893,7 +896,7 @@ export async function handleReshare(
       isNewUser: false,
       email: signInResp.user.email ?? null,
       name: signInResp.user.name ?? null,
-      keyPackageEd25519,
+      // keyPackageEd25519,
     },
   };
 }
