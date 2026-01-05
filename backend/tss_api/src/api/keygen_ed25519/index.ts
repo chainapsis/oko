@@ -206,7 +206,7 @@ export async function runKeygenEd25519(
     const tokenResult = generateUserToken({
       wallet_id: secp256k1WalletId,
       wallet_id_ed25519: wallet.wallet_id,
-      email: email,
+      email: user_identifier,
       jwt_config: jwtConfig,
     });
 
