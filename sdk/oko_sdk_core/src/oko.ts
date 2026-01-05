@@ -1,6 +1,7 @@
 import pJson from "../package.json";
 import { sendMsgToIframe } from "./methods/send_msg_to_iframe";
 import { openModal } from "./methods/open_modal";
+import { login } from "./methods/login";
 import { signIn } from "./methods/sign_in";
 import { signOut } from "./methods/sign_out";
 import { getPublicKey } from "./methods/get_public_key";
@@ -21,6 +22,7 @@ OkoWallet.version = pJson.version;
 const ptype: OkoWalletInterface = OkoWallet.prototype;
 
 ptype.openModal = openModal;
+ptype.login = login;
 ptype.closeModal = closeModal;
 ptype.sendMsgToIframe = sendMsgToIframe;
 ptype.signIn = signIn;
