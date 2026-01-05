@@ -2,10 +2,9 @@ import { Pool } from "pg";
 import {
   createUser,
   getUserByEmailAndAuthType,
-} from "@oko-wallet/oko-pg-interface/ewallet_users";
-import type { Result } from "@oko-wallet/stdlib-js";
+} from "@oko-wallet/oko-pg-interface/oko_users";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
+import { Bytes } from "@oko-wallet/bytes";
 import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenEd25519Request } from "@oko-wallet/oko-types/tss";
 import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
@@ -14,7 +13,7 @@ import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import {
   createWalletKSNodes,
   getActiveKSNodes,
