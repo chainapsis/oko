@@ -176,12 +176,12 @@ describe("Customer Auth API Integration Tests", () => {
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("CUSTOMER_ACCOUNT_NOT_FOUND");
-      expect(response.body.msg).toBe("Customer account not found");
+      expect(response.body.msg).toBe("Account not found");
     });
   });
 
   /*
-  
+
   describe('POST /customer_dashboard/v1/customer/auth/verify-login', () => {
   it('should return error for missing email or verification code', async () => {
   const response = await request(app)
@@ -189,13 +189,13 @@ describe("Customer Auth API Integration Tests", () => {
   .send({
     email: TEST_EMAIL,
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('CUSTOMER_ACCOUNT_NOT_FOUND');
   expect(response.body.msg).toBe('email and verification_code are required');
   });
-  
+
   it('should return error for invalid verification code format', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/verify-login')
@@ -203,13 +203,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     verification_code: '12345', // only 5 digits
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('INVALID_VERIFICATION_CODE');
   expect(response.body.msg).toBe('Verification code must be 6 digits');
   });
-  
+
   it('should return error for non-numeric verification code', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/verify-login')
@@ -217,13 +217,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     verification_code: 'abc123',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('INVALID_VERIFICATION_CODE');
   expect(response.body.msg).toBe('Verification code must be 6 digits');
   });
-  
+
   it('should return error for wrong verification code', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/verify-login')
@@ -231,13 +231,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     verification_code: '123456',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   // Error code depends on implementation
   });
   });
-  
+
   describe('POST /customer_dashboard/v1/customer/auth/signin', () => {
   beforeEach(async () => {
   // Set email as verified for signin tests
@@ -251,7 +251,7 @@ describe("Customer Auth API Integration Tests", () => {
   client.release();
   }
   });
-  
+
   it('should sign in successfully with valid credentials', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/signin')
@@ -259,26 +259,26 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     password: '0000', // KNOWN_HASH_FROM_0000 corresponds to password '0000'
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(true);
   expect(response.body.data).toBeDefined();
   expect(response.body.data.token).toBeDefined();
   });
-  
+
   it('should return error for missing email or password', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/signin')
   .send({
     email: TEST_EMAIL,
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('INVALID_EMAIL_OR_PASSWORD');
   expect(response.body.msg).toBe('email and password are required');
   });
-  
+
   it('should return error for invalid email format', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/signin')
@@ -286,13 +286,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: 'invalid-email',
     password: '0000',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('INVALID_EMAIL_OR_PASSWORD');
   expect(response.body.msg).toBe('Invalid email format');
   });
-  
+
   it('should return error for wrong password', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/signin')
@@ -300,12 +300,12 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     password: 'wrong-password',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('INVALID_EMAIL_OR_PASSWORD');
   });
-  
+
   it('should return error for non-existent email', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/signin')
@@ -313,13 +313,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: 'nonexistent@example.com',
     password: '0000',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('CUSTOMER_ACCOUNT_NOT_FOUND');
   });
   });
-  
+
   describe('POST /customer_dashboard/v1/customer/auth/change-password', () => {
   it('should change password successfully', async () => {
   const response = await request(app)
@@ -328,25 +328,25 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     new_password: 'newpassword123',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(true);
   expect(response.body.data).toBeDefined();
   });
-  
+
   it('should return error for missing email or new_password', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/change-password')
   .send({
     email: TEST_EMAIL,
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('CUSTOMER_ACCOUNT_NOT_FOUND');
   expect(response.body.msg).toBe('email and new_password are required');
   });
-  
+
   it('should return error for invalid email format', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/change-password')
@@ -354,13 +354,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: 'invalid-email',
     new_password: 'newpassword123',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('INVALID_EMAIL_OR_PASSWORD');
   expect(response.body.msg).toBe('Invalid email format');
   });
-  
+
   it('should return error for weak password', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/change-password')
@@ -368,13 +368,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     new_password: '123', // less than 8 characters
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('INVALID_EMAIL_OR_PASSWORD');
   expect(response.body.msg).toBe('Password must be at least 8 characters long');
   });
-  
+
   it('should return error for non-existent email', async () => {
   const response = await request(app)
   .post('/customer_dashboard/v1/customer/auth/change-password')
@@ -382,13 +382,13 @@ describe("Customer Auth API Integration Tests", () => {
     email: 'nonexistent@example.com',
     new_password: 'newpassword123',
   });
-  
+
   expect(response.status).toBe(200);
   expect(response.body.success).toBe(false);
   expect(response.body.code).toBe('CUSTOMER_ACCOUNT_NOT_FOUND');
   });
   });
-  
+
   describe('Customer Auth Flow Integration', () => {
   it('should complete full auth flow: send code -> verify -> change password', async () => {
   // Step 1: Send verification code
@@ -397,19 +397,19 @@ describe("Customer Auth API Integration Tests", () => {
   .send({
     email: TEST_EMAIL,
   });
-  
+
   expect(sendCodeResponse.status).toBe(200);
   expect(sendCodeResponse.body.success).toBe(true);
-  
+
   // Note: In real implementation, we would need to:
   // 1. Get the actual verification code from database or mock email service
   // 2. Use that code in verify-login
   // 3. Then use the returned token to change password
-  
+
   // For now, we test the flow structure
   expect(sendCodeResponse.body.data).toBeDefined();
   });
-  
+
   it('should handle signin flow for verified users', async () => {
   // Set user as verified
   const client = await pool.connect();
@@ -421,7 +421,7 @@ describe("Customer Auth API Integration Tests", () => {
   } finally {
   client.release();
   }
-  
+
   // Sign in
   const signinResponse = await request(app)
   .post('/customer_dashboard/v1/customer/auth/signin')
@@ -429,15 +429,15 @@ describe("Customer Auth API Integration Tests", () => {
     email: TEST_EMAIL,
     password: '0000',
   });
-  
+
   expect(signinResponse.status).toBe(200);
   expect(signinResponse.body.success).toBe(true);
   expect(signinResponse.body.data.token).toBeDefined();
-  
+
   // Token should be valid for 1 hour as per requirements
   expect(signinResponse.body.data.token).toMatch(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/);
   });
   });
-  
+
   */
 });

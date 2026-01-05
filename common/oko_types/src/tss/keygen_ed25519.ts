@@ -8,8 +8,9 @@ export interface TeddsaKeygenOutputWithPublicKey extends TeddsaKeygenOutput {
 
 export interface KeygenEd25519Request {
   auth_type: AuthType;
-  email: string;
+  user_identifier: string;
   keygen_2: TeddsaKeygenOutputWithPublicKey;
+  email?: string;
   name?: string;
 }
 

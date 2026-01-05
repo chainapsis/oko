@@ -79,7 +79,7 @@ export function setUserAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -182,7 +182,7 @@ export function setUserAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -244,7 +244,7 @@ export function setUserAuthRoutes(router: Router) {
           res.status(404).json({
             success: false,
             code: "CUSTOMER_ACCOUNT_NOT_FOUND",
-            msg: "Customer account not found",
+            msg: "Account not found",
           });
           return;
         }
@@ -372,7 +372,7 @@ export function setUserAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -435,7 +435,7 @@ export function setUserAuthRoutes(router: Router) {
           res.status(404).json({
             success: false,
             code: "CUSTOMER_ACCOUNT_NOT_FOUND",
-            msg: "Customer account not found",
+            msg: "Account not found",
           });
           return;
         }
@@ -562,7 +562,7 @@ export function setUserAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -630,7 +630,7 @@ export function setUserAuthRoutes(router: Router) {
           res.status(404).json({
             success: false,
             code: "CUSTOMER_ACCOUNT_NOT_FOUND",
-            msg: "Customer account not found",
+            msg: "Account not found",
           });
           return;
         }

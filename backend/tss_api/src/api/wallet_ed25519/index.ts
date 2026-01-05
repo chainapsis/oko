@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { getActiveWalletByUserIdAndCurveType } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
-import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { getActiveWalletByUserIdAndCurveType } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/oko_users";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import {
@@ -10,7 +10,7 @@ import {
 } from "@oko-wallet/teddsa-interface";
 
 export interface WalletEd25519PublicInfoRequest {
-  email: string;
+  user_identifier: string;
   auth_type: AuthType;
 }
 
@@ -31,10 +31,10 @@ export async function getWalletEd25519PublicInfo(
   request: WalletEd25519PublicInfoRequest,
 ): Promise<OkoApiResponse<WalletEd25519PublicInfoResponse>> {
   try {
-    const { email, auth_type } = request;
+    const { user_identifier, auth_type } = request;
 
     // Get user
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByEmailAndAuthType(db, user_identifier, auth_type);
     if (getUserRes.success === false) {
       return {
         success: false,

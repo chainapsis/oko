@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
 
 import type { EthTxAction } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/types";
 import { trackEvent } from "./amplitude";
@@ -48,24 +49,30 @@ export function useTrackTxSummaryView(args: UseTrackTxSummaryViewArgs) {
 }
 
 export function trackTxButtonEvent(args: TrackTxButtonEventArgs) {
-  const { hostOrigin, chainType, chainId, eventType } = args;
+  const { hostOrigin, chainType, eventType } = args;
 
-  let txTypes;
+  let txTypes: string[];
+  let chainId: string | undefined;
+
   switch (chainType) {
     case "eth": {
-      const { actions } = args;
+      const { actions, chainId: ethChainId } = args;
       txTypes = classifyEthTxType(actions);
+      chainId = ethChainId;
       break;
     }
 
     case "cosmos": {
-      const { messages } = args;
+      const { messages, chainId: cosmosChainId } = args;
       txTypes = classifyCosmosTxType(messages);
+      chainId = cosmosChainId;
       break;
     }
 
-    default: {
-      throw new Error("invalid chain type");
+    case "solana": {
+      const { instructions } = args;
+      txTypes = classifySolanaTxType(instructions);
+      break;
     }
   }
 
@@ -95,4 +102,12 @@ function classifyCosmosTxType(messages: CosmosMsgs) {
   }
 
   return messages.map((msg) => ("typeUrl" in msg ? msg.typeUrl : msg.type));
+}
+
+function classifySolanaTxType(instructions: ParsedInstruction[] | null) {
+  if (instructions === null || instructions.length === 0) {
+    return ["unknown"];
+  }
+
+  return instructions.map((ix) => ix.instructionName);
 }

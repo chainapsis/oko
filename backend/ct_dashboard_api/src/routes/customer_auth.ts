@@ -29,6 +29,12 @@ import {
   SendVerificationSuccessResponseSchema,
   SignInRequestSchema,
   VerifyAndLoginRequestSchema,
+  ForgotPasswordRequestSchema,
+  ForgotPasswordSuccessResponseSchema,
+  VerifyResetCodeRequestSchema,
+  VerifyResetCodeSuccessResponseSchema,
+  ResetPasswordConfirmRequestSchema,
+  ResetPasswordConfirmSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/ct_dashboard";
 
 import { generateCustomerToken } from "@oko-wallet-ctd-api/auth";
@@ -42,8 +48,419 @@ import {
   customerJwtMiddleware,
   type CustomerAuthenticatedRequest,
 } from "@oko-wallet-ctd-api/middleware/auth";
+import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
+import { generateVerificationCode } from "@oko-wallet-ctd-api/email/verification";
+import { sendPasswordResetEmail } from "@oko-wallet-ctd-api/email/password_reset";
+import {
+  createEmailVerification,
+  getLatestPendingVerification,
+} from "@oko-wallet/oko-pg-interface/email_verifications";
 
 export function setCustomerAuthRoutes(router: Router) {
+  registry.registerPath({
+    method: "post",
+    path: "/customer_dashboard/v1/customer/auth/forgot-password",
+    tags: ["Customer Dashboard"],
+    summary: "Request password reset",
+    description: "Sends a password reset verification code to the email",
+    security: [],
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: ForgotPasswordRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Reset code sent successfully",
+        content: {
+          "application/json": {
+            schema: ForgotPasswordSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Account not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      429: {
+        description: "Too many requests",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  // Forgot Password: Send Code
+  router.post(
+    "/customer/auth/forgot-password",
+    rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
+    async (req, res: Response<OkoApiResponse<{ message: string }>>) => {
+      try {
+        const state = req.app.locals as any;
+        const { email } = req.body;
+
+        if (!email) {
+          res.status(400).json({
+            success: false,
+            code: "CUSTOMER_ACCOUNT_NOT_FOUND",
+            msg: "email is required",
+          });
+          return;
+        }
+
+        if (!EMAIL_REGEX.test(email)) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Invalid email format",
+          });
+          return;
+        }
+
+        // Check if account exists
+        const customerAccountResult = await getCTDUserWithCustomerByEmail(
+          state.db,
+          email,
+        );
+
+        if (!customerAccountResult.success) {
+          res.status(500).json({
+            success: false,
+            code: "UNKNOWN_ERROR",
+            msg: "Failed to check account",
+          });
+          return;
+        }
+
+        if (customerAccountResult.data === null) {
+          res.status(404).json({
+            success: false,
+            code: "CUSTOMER_ACCOUNT_NOT_FOUND",
+            msg: "Account not found",
+          });
+          return;
+        }
+
+        const verificationCode = generateVerificationCode();
+        const expiresAt = new Date();
+        expiresAt.setMinutes(
+          expiresAt.getMinutes() + state.email_verification_expiration_minutes,
+        );
+
+        const createRes = await createEmailVerification(state.db, {
+          email,
+          verification_code: verificationCode,
+          expires_at: expiresAt,
+        });
+
+        if (!createRes.success) {
+          res.status(500).json({
+            success: false,
+            code: "UNKNOWN_ERROR",
+            msg: "Failed to create verification",
+          });
+          return;
+        }
+
+        const emailRes = await sendPasswordResetEmail(
+          email,
+          verificationCode,
+          customerAccountResult.data.label,
+          state.from_email,
+          state.email_verification_expiration_minutes,
+          {
+            smtp_host: state.smtp_host,
+            smtp_port: state.smtp_port,
+            smtp_user: state.smtp_user,
+            smtp_pass: state.smtp_pass,
+          },
+        );
+
+        if (!emailRes.success) {
+          res.status(500).json({
+            success: false,
+            code: "FAILED_TO_SEND_EMAIL",
+            msg: "Failed to send email",
+          });
+          return;
+        }
+
+        res.status(200).json({
+          success: true,
+          data: {
+            message: "Reset code sent successfully",
+          },
+        });
+      } catch (error) {
+        console.error("Forgot password route error:", error);
+        res.status(500).json({
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: "Internal server error",
+        });
+      }
+    },
+  );
+
+  registry.registerPath({
+    method: "post",
+    path: "/customer_dashboard/v1/customer/auth/verify-reset-code",
+    tags: ["Customer Dashboard"],
+    summary: "Verify reset code",
+    description: "Verifies the password reset code without consuming it",
+    security: [],
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: VerifyResetCodeRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Code verified successfully",
+        content: {
+          "application/json": {
+            schema: VerifyResetCodeSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid code",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  // Forgot Password: Verify Code
+  router.post(
+    "/customer/auth/verify-reset-code",
+    rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
+    async (req, res: Response<OkoApiResponse<{ isValid: boolean }>>) => {
+      try {
+        const state = req.app.locals as any;
+        const { email, code } = req.body;
+
+        if (!email || !code) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_REQUEST",
+            msg: "Email and code are required",
+          });
+          return;
+        }
+
+        const pendingRes = await getLatestPendingVerification(state.db, email);
+        if (!pendingRes.success) {
+          res
+            .status(500)
+            .json({ success: false, code: "UNKNOWN_ERROR", msg: "DB Error" });
+          return;
+        }
+
+        const pending = pendingRes.data;
+        if (!pending || pending.verification_code !== code) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_VERIFICATION_CODE",
+            msg: "Invalid or expired verification code",
+          });
+          return;
+        }
+
+        res.status(200).json({
+          success: true,
+          data: { isValid: true },
+        });
+      } catch (error) {
+        console.error("Verify reset code error:", error);
+        res.status(500).json({
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: "Internal server error",
+        });
+      }
+    },
+  );
+
+  registry.registerPath({
+    method: "post",
+    path: "/customer_dashboard/v1/customer/auth/reset-password-confirm",
+    tags: ["Customer Dashboard"],
+    summary: "Confirm password reset",
+    description: "Resets the password using a valid verification code",
+    security: [],
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: ResetPasswordConfirmRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Password reset successfully",
+        content: {
+          "application/json": {
+            schema: ResetPasswordConfirmSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request or code",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Account not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  // Forgot Password: Confirm Reset
+  router.post(
+    "/customer/auth/reset-password-confirm",
+    async (req, res: Response<OkoApiResponse<{ message: string }>>) => {
+      try {
+        const state = req.app.locals as any;
+        const { email, code, newPassword } = req.body;
+
+        if (!email || !code || !newPassword) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_REQUEST",
+            msg: "Missing fields",
+          });
+          return;
+        }
+
+        if (newPassword.length < CHANGED_PASSWORD_MIN_LENGTH) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password too short",
+          });
+          return;
+        }
+
+        const verificationResult = await verifyEmailCode(state.db, {
+          email,
+          verification_code: code,
+        });
+
+        if (!verificationResult.success) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_VERIFICATION_CODE",
+            msg: "Invalid or expired verification code",
+          });
+          return;
+        }
+
+        const customerAccountResult =
+          await getCTDUserWithCustomerAndPasswordHashByEmail(state.db, email);
+
+        if (!customerAccountResult.success || !customerAccountResult.data) {
+          res.status(404).json({
+            success: false,
+            code: "CUSTOMER_ACCOUNT_NOT_FOUND",
+            msg: "User not found",
+          });
+          return;
+        }
+
+        const hashedNewPassword = await hashPassword(newPassword);
+        const updateResult = await updateCustomerDashboardUserPassword(
+          state.db,
+          {
+            user_id: customerAccountResult.data.user.user_id,
+            password_hash: hashedNewPassword,
+          },
+        );
+
+        if (!updateResult.success) {
+          res.status(500).json({
+            success: false,
+            code: "FAILED_TO_UPDATE_PASSWORD",
+            msg: "Failed to update password",
+          });
+          return;
+        }
+
+        res.status(200).json({
+          success: true,
+          data: { message: "Password reset successfully" },
+        });
+      } catch (error) {
+        console.error("Reset password confirm error:", error);
+        res.status(500).json({
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: "Internal server error",
+        });
+      }
+    },
+  );
+
   registry.registerPath({
     method: "post",
     path: "/customer_dashboard/v1/customer/auth/send-code",
@@ -79,7 +496,7 @@ export function setCustomerAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -182,7 +599,7 @@ export function setCustomerAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -244,7 +661,7 @@ export function setCustomerAuthRoutes(router: Router) {
           res.status(404).json({
             success: false,
             code: "CUSTOMER_ACCOUNT_NOT_FOUND",
-            msg: "Customer account not found",
+            msg: "Account not found",
           });
           return;
         }
@@ -372,7 +789,7 @@ export function setCustomerAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -435,7 +852,7 @@ export function setCustomerAuthRoutes(router: Router) {
           res.status(404).json({
             success: false,
             code: "CUSTOMER_ACCOUNT_NOT_FOUND",
-            msg: "Customer account not found",
+            msg: "Account not found",
           });
           return;
         }
@@ -562,7 +979,7 @@ export function setCustomerAuthRoutes(router: Router) {
         },
       },
       404: {
-        description: "Customer account not found",
+        description: "Account not found",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
@@ -630,7 +1047,7 @@ export function setCustomerAuthRoutes(router: Router) {
           res.status(404).json({
             success: false,
             code: "CUSTOMER_ACCOUNT_NOT_FOUND",
-            msg: "Customer account not found",
+            msg: "Account not found",
           });
           return;
         }
