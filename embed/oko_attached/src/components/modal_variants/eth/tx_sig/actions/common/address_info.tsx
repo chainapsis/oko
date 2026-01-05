@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import { type Address } from "viem";
@@ -15,7 +15,7 @@ export interface AddressInfoProps {
   address: Address;
 }
 
-export const AddressInfo: React.FC<AddressInfoProps> = ({ address }) => {
+export const AddressInfo: FC<AddressInfoProps> = ({ address }) => {
   const { data: ensName, isLoading: ensNameIsLoading } = useGetENSName({
     address,
   });

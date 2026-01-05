@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState, type FC } from "react";
 import { LoadingCircleIcon } from "@oko-wallet/oko-common-ui/icons/loading_circle_icon";
 import { WarningIcon } from "@oko-wallet/oko-common-ui/icons/warning_icon";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -11,7 +11,7 @@ import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/
 import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
 import { useTelegramCallback } from "./use_callback";
 
-export const TelegramCallback: React.FC = () => {
+export const TelegramCallback: FC = () => {
   const [theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const TelegramCallback: React.FC = () => {
   );
 };
 
-const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
+const ErrorMessage: FC<{ error: string }> = ({ error }) => {
   const handleClose = () => {
     window.close();
   };

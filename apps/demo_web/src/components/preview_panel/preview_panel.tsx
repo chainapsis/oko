@@ -1,6 +1,7 @@
 "use client";
 
 import cn from "classnames";
+import type { FC } from "react";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import styles from "./preview_panel.module.scss";
@@ -14,7 +15,7 @@ import { EthereumOffchainSignWidget } from "@oko-wallet-demo-web/components/widg
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
-export const PreviewPanel: React.FC = () => {
+export const PreviewPanel: FC = () => {
   const isLazyInitialized = useSDKState(
     (st) => st.isCosmosLazyInitialized && st.isEthLazyInitialized,
   );

@@ -1,8 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 
 import styles from "./user_data_widget.module.scss";
 
-export const UserDataWidget: React.FC<UserDataWidgetProps> = ({ userData }) => {
+export const UserDataWidget: FC<UserDataWidgetProps> = ({ userData }) => {
   const isLoggedIn = !!userData;
 
   return (

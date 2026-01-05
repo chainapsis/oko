@@ -1,9 +1,9 @@
-import React from "react";
+import { type FC } from "react";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
 
 import styles from "./dashboard_header.module.scss";
 
-export const DashboardHeader: React.FC = () => {
+export const DashboardHeader: FC = () => {
   return (
     <div className={styles.wrapper}>
       {/* NOTE: theme is hardcoded to light for now */}

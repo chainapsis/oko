@@ -1,5 +1,5 @@
-use teddsa_keplr_mock::{keygen_centralized, keygen_import};
 use gloo_utils::format::JsValueSerdeExt;
+use teddsa_keplr_mock::{keygen_centralized, keygen_import};
 use wasm_bindgen::prelude::*;
 
 /// Generate a 2-of-2 threshold Ed25519 key using centralized key generation.

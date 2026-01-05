@@ -57,12 +57,13 @@ pub fn napi_sign_round2_ed25519(
     nonces: Vec<u8>,
     all_commitments: serde_json::Value,
 ) -> Result<serde_json::Value> {
-    let commitments: Vec<CommitmentEntry> = serde_json::from_value(all_commitments).map_err(|e| {
-        napi::Error::new(
-            napi::Status::GenericFailure,
-            format!("deserialization error (all_commitments): {:?}", e),
-        )
-    })?;
+    let commitments: Vec<CommitmentEntry> =
+        serde_json::from_value(all_commitments).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("deserialization error (all_commitments): {:?}", e),
+            )
+        })?;
 
     let commitments_vec: Vec<(Vec<u8>, Vec<u8>)> = commitments
         .into_iter()
@@ -101,15 +102,16 @@ pub fn napi_aggregate_ed25519(
     all_signature_shares: serde_json::Value,
     public_key_package: Vec<u8>,
 ) -> Result<serde_json::Value> {
-    let commitments: Vec<CommitmentEntry> = serde_json::from_value(all_commitments).map_err(|e| {
-        napi::Error::new(
-            napi::Status::GenericFailure,
-            format!("deserialization error (all_commitments): {:?}", e),
-        )
-    })?;
+    let commitments: Vec<CommitmentEntry> =
+        serde_json::from_value(all_commitments).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("deserialization error (all_commitments): {:?}", e),
+            )
+        })?;
 
-    let sig_shares: Vec<SignatureShareEntry> =
-        serde_json::from_value(all_signature_shares).map_err(|e| {
+    let sig_shares: Vec<SignatureShareEntry> = serde_json::from_value(all_signature_shares)
+        .map_err(|e| {
             napi::Error::new(
                 napi::Status::GenericFailure,
                 format!("deserialization error (all_signature_shares): {:?}", e),

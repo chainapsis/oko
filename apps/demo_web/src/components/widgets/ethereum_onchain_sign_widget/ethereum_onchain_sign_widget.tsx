@@ -1,4 +1,3 @@
-import React from "react";
 import { EthereumBlueIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_blue_icon";
 import {
   parseTransaction,

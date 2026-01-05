@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, type FC } from "react";
 import type { CosmosArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -12,7 +12,7 @@ interface CosmosArbitrarySignatureContentProps {
   payload: CosmosArbitrarySignPayload;
 }
 
-export const CosmosArbitrarySignatureContent: React.FC<
+export const CosmosArbitrarySignatureContent: FC<
   CosmosArbitrarySignatureContentProps
 > = ({ payload }) => {
   const [isViewRawData, setIsViewRawData] = useState(false);

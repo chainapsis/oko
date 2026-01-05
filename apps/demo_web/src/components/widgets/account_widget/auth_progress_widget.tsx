@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import cn from "classnames";
 import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -20,7 +20,7 @@ type AuthProgressWidgetProps = {
   onRetry?: () => void;
 };
 
-export const AuthProgressWidget: React.FC<AuthProgressWidgetProps> = ({
+export const AuthProgressWidget: FC<AuthProgressWidgetProps> = ({
   method,
   status = "loading",
   onRetry,

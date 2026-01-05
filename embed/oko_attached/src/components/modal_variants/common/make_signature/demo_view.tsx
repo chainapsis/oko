@@ -1,10 +1,10 @@
-import React from "react";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
 
-export const DemoView: React.FC = () => {
+export const DemoView: FC = () => {
   return (
     <CommonModal padding="12px">
       <Typography

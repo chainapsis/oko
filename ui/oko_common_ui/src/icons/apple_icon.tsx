@@ -1,6 +1,6 @@
-import React from "react";
+import { type FC } from "react";
 
-export const AppleIcon: React.FC<AppleIconProps> = ({ size = 20 }) => {
+export const AppleIcon: FC<AppleIconProps> = ({ size = 20 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

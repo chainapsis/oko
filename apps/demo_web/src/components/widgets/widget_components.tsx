@@ -1,9 +1,9 @@
-import React, { type PropsWithChildren } from "react";
+import { type FC, type PropsWithChildren } from "react";
 import cn from "classnames";
 
 import styles from "./widget_components.module.scss";
 
-export const Widget: React.FC<
+export const Widget: FC<
   PropsWithChildren<{
     gradientBorder?: boolean;
   }>

@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
@@ -21,7 +21,7 @@ export type AccountInfoWidgetProps = {
   onSignOut: () => void;
 };
 
-export const AccountInfoWidget: React.FC<AccountInfoWidgetProps> = ({
+export const AccountInfoWidget: FC<AccountInfoWidgetProps> = ({
   type,
   email,
   publicKey,

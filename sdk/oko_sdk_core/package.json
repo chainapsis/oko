@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-sdk-core",
-  "version": "0.0.6-rc.130",
+  "version": "0.0.6-rc.131",
   "type": "module",
   "scripts": {
     "build": "tsx ./scripts/build.ts",
@@ -32,9 +32,9 @@
   },
   "dependencies": {
     "@keplr-wallet/types": "0.12.297",
-    "@oko-wallet/bytes": "^0.0.3-alpha.64",
-    "@oko-wallet/oko-types": "^0.0.1-alpha.4",
-    "@oko-wallet/stdlib-js": "^0.0.2-rc.44"
+    "@oko-wallet/bytes": "^0.0.3-alpha.65",
+    "@oko-wallet/oko-types": "^0.0.1-alpha.5",
+    "@oko-wallet/stdlib-js": "^0.0.2-rc.45"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { type FC } from "react";
 import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -12,7 +12,7 @@ import styles from "@oko-wallet-attached/components/google_callback/google_callb
 import { useDiscordCallback } from "@oko-wallet-attached/components/discord_callback/use_callback";
 import { useSetThemeInCallback } from "@oko-wallet-attached/hooks/theme";
 
-export const DiscordCallback: React.FC = () => {
+export const DiscordCallback: FC = () => {
   const theme = useSetThemeInCallback("discord");
 
   const { error } = useDiscordCallback();
@@ -43,7 +43,7 @@ export const DiscordCallback: React.FC = () => {
   );
 };
 
-const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
+const ErrorMessage: FC<{ error: string }> = ({ error }) => {
   const errorCode = error || "unknown_error";
   const isParamsNotSufficient = errorCode === "params_not_sufficient";
   const errorMessage = isParamsNotSufficient

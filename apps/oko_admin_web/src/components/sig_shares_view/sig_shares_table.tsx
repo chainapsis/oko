@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect, useRef, useState, type FC } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
@@ -133,7 +133,7 @@ const columns = [
   }),
 ];
 
-export const SigSharesTable: React.FC = () => {
+export const SigSharesTable: FC = () => {
   const {
     pageIndex,
     currentPage,
@@ -159,13 +159,11 @@ export const SigSharesTable: React.FC = () => {
     return "app";
   };
 
-  const [filterType, setFilterType] = React.useState<"app" | "node">(
-    getFilterType(),
-  );
+  const [filterType, setFilterType] = useState<"app" | "node">(getFilterType());
 
-  const isUserChangingFilterType = React.useRef(false);
+  const isUserChangingFilterType = useRef(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isUserChangingFilterType.current) {
       return;
     }

@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const MailboxIcon: React.FC<BasicIconProps> = ({
+export const MailboxIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 20,

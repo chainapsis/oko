@@ -5,6 +5,14 @@ import type {
   SocialLoginXBody,
   SocialLoginXResponse,
 } from "@oko-wallet/oko-types/social_login";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
+import {
+  SocialLoginXRequestSchema,
+  SocialLoginXSuccessResponseSchema,
+  SocialLoginXVerifyUserSuccessResponseSchema,
+  XAuthHeaderSchema,
+} from "@oko-wallet/oko-api-openapi/social_login";
 
 import { getXUserInfo } from "@oko-wallet-social-login-api/api/x";
 import {
@@ -14,49 +22,49 @@ import {
 import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
 
 export function setSocialLoginRoutes(router: Router) {
-  // registry.registerPath({
-  //   method: "post",
-  //   path: "/social-login/v1/social-login",
-  //   tags: ["Social Login"],
-  //   summary: "Social login",
-  //   description: "Endpoint for social login",
-  //   security: [],
-  //   request: {
-  //     body: {
-  //       required: false,
-  //       content: {
-  //         "application/json": {
-  //           schema: {
-  //             type: "object",
-  //           },
-  //         },
-  //       },
-  //     },
-  //   },
-  //   responses: {
-  //     200: {
-  //       description: "Success",
-  //       content: {
-  //         "application/json": {
-  //           schema: {
-  //             type: "object",
-  //             properties: {
-  //               success: { type: "boolean" },
-  //             },
-  //           },
-  //         },
-  //       },
-  //     },
-  //     500: {
-  //       description: "Server error",
-  //       content: {
-  //         "application/json": {
-  //           schema: ErrorResponseSchema,
-  //         },
-  //       },
-  //     },
-  //   },
-  // });
+  registry.registerPath({
+    method: "post",
+    path: "/social-login/v1/x/get-token",
+    tags: ["Social Login"],
+    summary: "Get X access token",
+    description: "Exchange authorization code for an X access token",
+    request: {
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: SocialLoginXRequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Successfully retrieved access token",
+        content: {
+          "application/json": {
+            schema: SocialLoginXSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.post(
     "/x/get-token",
     rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
@@ -107,6 +115,50 @@ export function setSocialLoginRoutes(router: Router) {
     },
   );
 
+  registry.registerPath({
+    method: "get",
+    path: "/social-login/v1/x/verify-user",
+    tags: ["Social Login"],
+    summary: "Verify X user",
+    description: "Fetch X user profile using access token",
+    request: {
+      headers: XAuthHeaderSchema,
+    },
+    responses: {
+      200: {
+        description: "Successfully verified X user",
+        content: {
+          "application/json": {
+            schema: SocialLoginXVerifyUserSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.get(
     "/x/verify-user",
     rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),

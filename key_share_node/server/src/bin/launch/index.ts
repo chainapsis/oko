@@ -21,7 +21,7 @@ const ONE_DAY_MS = 1 * 86400;
 
 async function main() {
   const opts = parseCLIArgs();
-  console.log("Launching ks node server, cli args: %j", opts);
+  logger.info("Launching ks node server, cli args: %j", opts);
   logger.info("Launching, Logger initialized");
 
   loadEnv(opts.nodeId);

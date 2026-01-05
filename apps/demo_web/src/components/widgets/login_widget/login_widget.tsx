@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, type FC } from "react";
 
 import { Widget } from "../widget_components";
 import styles from "./login_widget.module.scss";
@@ -10,7 +10,7 @@ export interface LoginWidgetProps {
   onSignIn: (method: LoginMethod) => void;
 }
 
-export const LoginWidget: React.FC<LoginWidgetProps> = ({ onSignIn }) => {
+export const LoginWidget: FC<LoginWidgetProps> = ({ onSignIn }) => {
   const [showSocials, setShowSocials] = useState(false);
 
   return (
