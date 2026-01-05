@@ -18,57 +18,46 @@ export const SolanaMessageSummary: FC<SolanaMessageSummaryProps> = ({
 }) => {
   const [isRawView, setIsRawView] = useState(false);
 
-  const { rawData, smartViewContent, decodedMessage, messageBytes } =
-    useMemo(() => {
-      const msgData = payload.data;
-      let decoded = "";
-      let bytes = 0;
+  const { rawData, smartViewContent } = useMemo(() => {
+    const msgData = payload.data;
+    let decoded = "";
 
-      try {
-        const hex = msgData.message.startsWith("0x")
-          ? msgData.message.slice(2)
-          : msgData.message;
-        const byteArray = new Uint8Array(hex.length / 2);
-        for (let i = 0; i < byteArray.length; i++) {
-          byteArray[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
-        }
-        bytes = byteArray.length;
-        decoded = new TextDecoder().decode(byteArray);
-      } catch {
-        bytes = msgData.message.length / 2;
-        decoded = msgData.message;
+    try {
+      const hex = msgData.message.startsWith("0x")
+        ? msgData.message.slice(2)
+        : msgData.message;
+      const byteArray = new Uint8Array(hex.length / 2);
+      for (let i = 0; i < byteArray.length; i++) {
+        byteArray[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
       }
+      decoded = new TextDecoder().decode(byteArray);
+    } catch {
+      decoded = msgData.message;
+    }
 
-      const content: ReactNode = (
-        <TxContainer>
-          <TxRow label="Content">
-            <Typography
-              color="primary"
-              size="sm"
-              weight="semibold"
-              style={{
-                wordBreak: "break-word",
-                whiteSpace: "pre-wrap",
-              }}
-            >
-              {decoded.length > 200 ? decoded.slice(0, 200) + "..." : decoded}
-            </Typography>
-          </TxRow>
-          <TxRow label="Size">
-            <Typography color="secondary" size="sm" weight="semibold">
-              {bytes} bytes
-            </Typography>
-          </TxRow>
-        </TxContainer>
-      );
+    const content: ReactNode = (
+      <TxContainer>
+        <TxRow label="Content">
+          <Typography
+            color="primary"
+            size="sm"
+            weight="semibold"
+            style={{
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+            }}
+          >
+            {decoded.length > 200 ? decoded.slice(0, 200) + "..." : decoded}
+          </Typography>
+        </TxRow>
+      </TxContainer>
+    );
 
-      return {
-        rawData: JSON.stringify({ message: msgData.message }, null, 2),
-        smartViewContent: content,
-        decodedMessage: decoded,
-        messageBytes: bytes,
-      };
-    }, [payload.data]);
+    return {
+      rawData: JSON.stringify({ message: msgData.message }, null, 2),
+      smartViewContent: content,
+    };
+  }, [payload.data]);
 
   function handleToggleView() {
     setIsRawView((prev) => !prev);
