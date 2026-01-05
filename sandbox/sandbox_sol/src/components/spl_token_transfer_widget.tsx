@@ -25,11 +25,6 @@ const DEVNET_TOKENS = [
     mint: "4zMMC9srt5Ri5X14GAgXhaHii3GnPAEERYPJgZJDncDU",
     decimals: 6,
   },
-  {
-    name: "USDT (Devnet)",
-    mint: "EJwZgeZrdC8TXTQbQBoL6bfuAnFUQW6yzLCjVMDnwPr3",
-    decimals: 6,
-  },
 ];
 
 /**
