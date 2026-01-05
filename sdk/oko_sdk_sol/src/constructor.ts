@@ -28,28 +28,30 @@ export const OkoSolWallet = function (
     this._emitter,
   ) as OkoSolWalletInterface["off"];
 
+  this._accountsChangedHandler = (payload: { publicKey: string | null }) => {
+    const previousPublicKeyRaw = this.state.publicKeyRaw;
+
+    if (payload.publicKey === null) {
+      this.state.publicKey = null;
+      this.state.publicKeyRaw = null;
+      this.publicKey = null;
+      this.connected = false;
+      this._emitter.emit("accountChanged", null);
+    } else if (payload.publicKey !== previousPublicKeyRaw) {
+      const publicKeyBytes = Buffer.from(payload.publicKey, "hex");
+      const newPublicKey = new PublicKey(publicKeyBytes);
+
+      this.state.publicKey = newPublicKey;
+      this.state.publicKeyRaw = payload.publicKey;
+      this.publicKey = newPublicKey;
+      this.connected = true;
+      this._emitter.emit("accountChanged", newPublicKey);
+    }
+  };
+
   okoWallet.on({
     type: "CORE__accountsChanged",
-    handler: (payload) => {
-      const previousPublicKeyRaw = this.state.publicKeyRaw;
-
-      if (payload.publicKey === null) {
-        this.state.publicKey = null;
-        this.state.publicKeyRaw = null;
-        this.publicKey = null;
-        this.connected = false;
-        this._emitter.emit("accountChanged", null);
-      } else if (payload.publicKey !== previousPublicKeyRaw) {
-        const publicKeyBytes = Buffer.from(payload.publicKey, "hex");
-        const newPublicKey = new PublicKey(publicKeyBytes);
-
-        this.state.publicKey = newPublicKey;
-        this.state.publicKeyRaw = payload.publicKey;
-        this.publicKey = newPublicKey;
-        this.connected = true;
-        this._emitter.emit("accountChanged", newPublicKey);
-      }
-    },
+    handler: this._accountsChangedHandler,
   });
 
   this.waitUntilInitialized = lazyInit(this);

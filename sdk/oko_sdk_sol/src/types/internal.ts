@@ -7,4 +7,5 @@ import type { SolWalletEventEmitter } from "../emitter";
  */
 export interface OkoSolWalletInternal extends OkoSolWalletInterface {
   _emitter: SolWalletEventEmitter;
+  _accountsChangedHandler: (payload: { publicKey: string | null }) => void;
 }
