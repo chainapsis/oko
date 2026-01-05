@@ -129,6 +129,8 @@ export function createMockOkoWallet(
 
     getName: async () => (publicKeyEd25519 ? "Test User" : null),
 
+    getAuthType: async () => (publicKeyEd25519 ? "google" : null),
+
     getWalletInfo: async () =>
       publicKeyEd25519
         ? {

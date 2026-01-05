@@ -28,24 +28,32 @@ export const OkoSolWallet = function (
     this._emitter,
   ) as OkoSolWalletInterface["off"];
 
-  this._accountsChangedHandler = (payload: { publicKey: string | null }) => {
-    const previousPublicKeyRaw = this.state.publicKeyRaw;
-
+  this._accountsChangedHandler = async (payload: {
+    publicKey: string | null;
+  }) => {
     if (payload.publicKey === null) {
       this.state.publicKey = null;
       this.state.publicKeyRaw = null;
       this.publicKey = null;
       this.connected = false;
       this._emitter.emit("accountChanged", null);
-    } else if (payload.publicKey !== previousPublicKeyRaw) {
-      const publicKeyBytes = Buffer.from(payload.publicKey, "hex");
-      const newPublicKey = new PublicKey(publicKeyBytes);
+    } else {
+      // Get Ed25519 key for Solana (not secp256k1)
+      try {
+        const ed25519Key = await this.okoWallet.getPublicKeyEd25519();
+        if (ed25519Key && ed25519Key !== this.state.publicKeyRaw) {
+          const publicKeyBytes = Buffer.from(ed25519Key, "hex");
+          const newPublicKey = new PublicKey(publicKeyBytes);
 
-      this.state.publicKey = newPublicKey;
-      this.state.publicKeyRaw = payload.publicKey;
-      this.publicKey = newPublicKey;
-      this.connected = true;
-      this._emitter.emit("accountChanged", newPublicKey);
+          this.state.publicKey = newPublicKey;
+          this.state.publicKeyRaw = ed25519Key;
+          this.publicKey = newPublicKey;
+          this.connected = true;
+          this._emitter.emit("accountChanged", newPublicKey);
+        }
+      } catch (e) {
+        console.warn("[Sol SDK] Failed to get Ed25519 key on account change:", e);
+      }
     }
   };
 

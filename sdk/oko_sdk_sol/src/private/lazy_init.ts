@@ -24,15 +24,19 @@ export async function lazyInit(
 
   // Set initial state from core wallet if user is already logged in
   // Use Ed25519 key for Solana (not secp256k1)
-  const ed25519Key = await wallet.okoWallet.getPublicKeyEd25519();
-  if (ed25519Key) {
-    const publicKeyBytes = Buffer.from(ed25519Key, "hex");
-    const newPublicKey = new PublicKey(publicKeyBytes);
+  try {
+    const ed25519Key = await wallet.okoWallet.getPublicKeyEd25519();
+    if (ed25519Key) {
+      const publicKeyBytes = Buffer.from(ed25519Key, "hex");
+      const newPublicKey = new PublicKey(publicKeyBytes);
 
-    wallet.state.publicKey = newPublicKey;
-    wallet.state.publicKeyRaw = ed25519Key;
-    wallet.publicKey = newPublicKey;
-    wallet.connected = true;
+      wallet.state.publicKey = newPublicKey;
+      wallet.state.publicKeyRaw = ed25519Key;
+      wallet.publicKey = newPublicKey;
+      wallet.connected = true;
+    }
+  } catch (e) {
+    console.warn("[Sol SDK] Failed to get Ed25519 key during init:", e);
   }
 
   return {

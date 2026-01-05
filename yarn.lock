@@ -10362,6 +10362,7 @@ __metadata:
     "@oko-wallet/oko-sdk-core": "npm:^0.0.6-rc.130"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.0.6-rc.157"
     "@oko-wallet/oko-sdk-eth": "npm:^0.0.6-rc.145"
+    "@oko-wallet/oko-sdk-sol": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"

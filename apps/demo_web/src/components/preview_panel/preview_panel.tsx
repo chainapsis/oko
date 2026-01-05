@@ -11,12 +11,17 @@ import { CosmosOnchainSignWidget } from "@oko-wallet-demo-web/components/widgets
 import { CosmosOffChainSignWidget } from "@oko-wallet-demo-web/components/widgets/cosmos_offchain_sign_widget/cosmos_offchain_sign_widget";
 import { EthereumOnchainSignWidget } from "@oko-wallet-demo-web/components/widgets/ethereum_onchain_sign_widget/ethereum_onchain_sign_widget";
 import { EthereumOffchainSignWidget } from "@oko-wallet-demo-web/components/widgets/ethereum_offchain_sign_widget/ethereum_offchain_sign_widget";
+import { SolanaOffchainSignWidget } from "@oko-wallet-demo-web/components/widgets/solana_offchain_sign_widget/solana_offchain_sign_widget";
+import { SolanaOnchainSignWidget } from "@oko-wallet-demo-web/components/widgets/solana_onchain_sign_widget/solana_onchain_sign_widget";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
 export const PreviewPanel: React.FC = () => {
   const isLazyInitialized = useSDKState(
-    (st) => st.isCosmosLazyInitialized && st.isEthLazyInitialized,
+    (st) =>
+      st.isCosmosLazyInitialized &&
+      st.isEthLazyInitialized &&
+      st.isSolLazyInitialized,
   );
 
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
@@ -40,6 +45,12 @@ export const PreviewPanel: React.FC = () => {
                 <div className={styles.col}>
                   <CosmosOffChainSignWidget />
                   <CosmosOnchainSignWidget />
+                </div>
+              )}
+              {isSignedIn && (
+                <div className={styles.col}>
+                  <SolanaOffchainSignWidget />
+                  <SolanaOnchainSignWidget />
                 </div>
               )}
             </>
