@@ -82,11 +82,12 @@ export function setWalletEd25519Routes(router: Router) {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
 
-      if (!oauthUser?.email) {
+      const user_identifier = oauthUser?.user_identifier;
+      if (!user_identifier) {
         res.status(401).json({
           success: false,
           code: "UNAUTHORIZED",
-          msg: "User email not found",
+          msg: "User identifier not found",
         });
         return;
       }
@@ -95,7 +96,7 @@ export function setWalletEd25519Routes(router: Router) {
         state.db,
         state.encryption_secret,
         {
-          email: oauthUser.email.toLowerCase(),
+          user_identifier,
           auth_type: oauthUser.type,
         },
       );

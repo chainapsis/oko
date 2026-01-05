@@ -3,6 +3,7 @@ import { ErrorBoundary } from "react-error-boundary";
 
 import { MakeSignatureCosmosModal } from "@oko-wallet-attached/components/modal_variants/cosmos/make_signature_cosmos_modal";
 import { MakeSignatureEthModal } from "@oko-wallet-attached/components/modal_variants/eth/make_sig_eth_modal";
+import { MakeSignatureSolModal } from "@oko-wallet-attached/components/modal_variants/sol/make_signature_sol_modal";
 import type { ModalRequest } from "@oko-wallet-attached/store/memory/types";
 import { ErrorModal } from "@oko-wallet-attached/components/modal_variants/error/error_modal";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
@@ -83,6 +84,17 @@ export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
     case "cosmos/make_signature": {
       component = (
         <MakeSignatureCosmosModal
+          getIsAborted={getIsAborted}
+          data={payload.data}
+          modalId={payload.modal_id}
+        />
+      );
+      break;
+    }
+
+    case "sol/make_signature": {
+      component = (
+        <MakeSignatureSolModal
           getIsAborted={getIsAborted}
           data={payload.data}
           modalId={payload.modal_id}

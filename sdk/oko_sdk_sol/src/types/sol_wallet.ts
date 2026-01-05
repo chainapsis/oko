@@ -16,6 +16,7 @@ import type {
   OkoSolWalletInitError,
   LazyInitError,
 } from "@oko-wallet-sdk-sol/errors";
+import type { SolWalletEvent, SolWalletEventHandler } from "./event";
 
 export interface OkoSolWalletState {
   publicKey: PublicKey | null;
@@ -32,17 +33,14 @@ export interface OkoSolWalletStaticInterface {
 }
 
 export interface OkoSolWalletInterface {
-  // oko 패턴 속성
   state: OkoSolWalletState;
   okoWallet: OkoWalletInterface;
   waitUntilInitialized: Promise<Result<OkoSolWalletState, LazyInitError>>;
 
-  // Solana Wallet Adapter 표준 속성
   publicKey: PublicKey | null;
   connecting: boolean;
   connected: boolean;
 
-  // Solana Wallet Adapter 표준 메서드
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   signTransaction: <T extends Transaction | VersionedTransaction>(
@@ -57,4 +55,24 @@ export interface OkoSolWalletInterface {
     connection: Connection,
     options?: SendOptions,
   ) => Promise<TransactionSignature>;
+
+  signAndSendTransaction: (
+    transaction: Transaction | VersionedTransaction,
+    connection: Connection,
+    options?: SendOptions,
+  ) => Promise<{ signature: TransactionSignature }>;
+  signAndSendAllTransactions: (
+    transactions: (Transaction | VersionedTransaction)[],
+    connection: Connection,
+    options?: SendOptions,
+  ) => Promise<{ signatures: TransactionSignature[] }>;
+
+  on: <K extends SolWalletEvent>(
+    event: K,
+    handler: SolWalletEventHandler<K>,
+  ) => void;
+  off: <K extends SolWalletEvent>(
+    event: K,
+    handler: SolWalletEventHandler<K>,
+  ) => void;
 }

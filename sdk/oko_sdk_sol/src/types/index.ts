@@ -17,9 +17,9 @@ export type {
 } from "./sign";
 
 export type {
-  OkoSolWalletEvent,
-  OkoSolWalletEventHandler,
-  OkoSolWalletConnectEvent,
-  OkoSolWalletDisconnectEvent,
-  OkoSolWalletErrorEvent,
+  SolWalletEvent,
+  SolWalletEventMap,
+  SolWalletEventHandler,
 } from "./event";
+
+export type { OkoSolWalletInternal } from "./internal";

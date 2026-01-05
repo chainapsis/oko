@@ -23,6 +23,9 @@ npm install @oko-wallet/oko-sdk-cosmos
 # For Ethereum/EVM chains
 npm install @oko-wallet/oko-sdk-eth
 
+# For Solana
+npm install @oko-wallet/oko-sdk-sol
+
 # Core SDK (for custom integration)
 npm install @oko-wallet/oko-sdk-core
 ```
@@ -56,10 +59,25 @@ const ethWallet = initRes.data;
 const provider = await ethWallet.getEthereumProvider();
 ```
 
+### Solana
+
+```typescript
+import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
+
+const initRes = OkoSolWallet.init(config);
+if (!initRes.success) {
+  throw new Error(`Solana wallet initialization failed: ${initRes.err}`);
+}
+
+const solWallet = initRes.data;
+await solWallet.connect();
+```
+
 ## Next Steps
 
 - **[Cosmos Integration](./cosmos-integration)** - Complete Cosmos setup
 - **[Ethereum Integration](./ethereum-integration)** - Complete Ethereum setup
+- **[Solana Integration](./solana-integration)** - Complete Solana setup
 - **[React Integration](./react-integration)** - React patterns
 - **[RainbowKit Integration](./rainbow-kit-integration)** - RainbowKit
   integration
