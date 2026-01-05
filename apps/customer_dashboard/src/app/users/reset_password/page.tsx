@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";

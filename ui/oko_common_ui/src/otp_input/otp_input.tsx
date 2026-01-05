@@ -4,6 +4,7 @@ import React, {
   type KeyboardEvent,
   type ClipboardEvent,
 } from "react";
+
 import styles from "./otp_input.module.scss";
 
 interface OtpInputProps {
@@ -18,6 +19,7 @@ interface OtpInputProps {
 function isSingleDigit(value: string): boolean {
   return /^\d$/.test(value);
 }
+
 function isComplete(digits: string[], length: number): boolean {
   return (
     digits.length === length &&
