@@ -1,3 +1,4 @@
+import type { FC } from "react";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
 
@@ -7,9 +8,7 @@ import styles from "./styles.module.scss";
 interface SiweSigTitleBadgeProps {
   theme: Theme | null;
 }
-export const SiweSigTitleBadge: React.FC<SiweSigTitleBadgeProps> = ({
-  theme,
-}) => {
+export const SiweSigTitleBadge: FC<SiweSigTitleBadgeProps> = ({ theme }) => {
   const imageUrl = {
     png:
       theme === "dark"

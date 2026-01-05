@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import cn from "classnames";
 
 import styles from "./checkbox.module.scss";
@@ -24,7 +24,7 @@ interface CheckboxProps {
   };
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({
+export const Checkbox: FC<CheckboxProps> = ({
   id,
   size = "md",
   checked,

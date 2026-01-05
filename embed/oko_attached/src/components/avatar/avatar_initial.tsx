@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import {
   Typography,
   type BaseTypographyProps,
@@ -15,7 +15,7 @@ export interface AvatarInitialProps {
   visible?: boolean;
 }
 
-export const AvatarInitial: React.FC<AvatarInitialProps> = ({
+export const AvatarInitial: FC<AvatarInitialProps> = ({
   initial,
   sizePx,
   textSize,

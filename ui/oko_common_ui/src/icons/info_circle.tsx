@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const InfoCircleIcon: React.FC<BasicIconProps> = ({
+export const InfoCircleIcon: FC<BasicIconProps> = ({
   className,
   color = "#535862",
 }) => {

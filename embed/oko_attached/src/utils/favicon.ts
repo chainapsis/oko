@@ -1,5 +1,7 @@
 export function getFaviconUrl(origin: string): string {
-  if (!origin) return "";
+  if (!origin) {
+    return "";
+  }
 
   try {
     const parsed = new URL(origin);

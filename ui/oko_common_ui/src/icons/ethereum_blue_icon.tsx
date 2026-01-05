@@ -1,8 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 
 import { s3BucketURL } from "./paths";
 
-export const EthereumBlueIcon: React.FC<EthereumBlueIconProps> = ({
+export const EthereumBlueIcon: FC<EthereumBlueIconProps> = ({
   width = 16,
   height = 16,
 }) => {

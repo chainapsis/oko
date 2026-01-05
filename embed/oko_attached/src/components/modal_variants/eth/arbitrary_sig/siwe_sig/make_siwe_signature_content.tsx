@@ -1,8 +1,8 @@
-import React from "react";
 import type { EthereumArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import type { FC } from "react";
 
 import styles from "./ethereum_siwe_signature_content.module.scss";
 import {
@@ -21,7 +21,7 @@ interface EthereumSiweSignatureContentProps {
   theme: Theme | null;
 }
 
-export const EthereumSiweSignatureContent: React.FC<
+export const EthereumSiweSignatureContent: FC<
   EthereumSiweSignatureContentProps
 > = ({ payload, theme }) => {
   const message = getSiweMessage(payload.data.message);

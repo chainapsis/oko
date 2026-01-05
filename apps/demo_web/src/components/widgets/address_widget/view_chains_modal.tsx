@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, type FC } from "react";
 import type { ChainInfo } from "@keplr-wallet/types";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
@@ -8,7 +8,7 @@ import cn from "classnames";
 import styles from "./view_chains_modal.module.scss";
 import { ChainsRow } from "./chains_row";
 
-export const ViewChainsModal: React.FC<ViewChainsModalProps> = ({
+export const ViewChainsModal: FC<ViewChainsModalProps> = ({
   onClose,
   chains,
 }) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, type FC } from "react";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
@@ -22,7 +22,7 @@ function authTypeToLoginMethod(authType: AuthType | null): LoginMethod {
   return authType;
 }
 
-export const AccountWidget: React.FC<AccountWidgetProps> = () => {
+export const AccountWidget: FC<AccountWidgetProps> = () => {
   const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
   const [signingInState, setSigningInState] = useState<SigningInState>({
     status: "ready",

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
 
 import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";

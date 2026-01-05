@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./account_info_base.module.scss";
@@ -10,7 +10,7 @@ export interface AccountInfoBaseProps {
   avatarUrl?: string;
 }
 
-export const AccountInfoBase: React.FC<AccountInfoBaseProps> = ({
+export const AccountInfoBase: FC<AccountInfoBaseProps> = ({
   username,
   email,
   avatarUrl,

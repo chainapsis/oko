@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import cn from "classnames";
 
 import styles from "./table.module.scss";
@@ -32,7 +32,7 @@ export interface TableHeaderCellProps
   sortable?: boolean;
 }
 
-export const Table: React.FC<React.PropsWithChildren<TableProps>> = ({
+export const Table: FC<React.PropsWithChildren<TableProps>> = ({
   variant = "default",
   size = "md",
   children,
@@ -64,7 +64,7 @@ export const Table: React.FC<React.PropsWithChildren<TableProps>> = ({
   );
 };
 
-export const TableHead: React.FC<React.PropsWithChildren<TableHeadProps>> = ({
+export const TableHead: FC<React.PropsWithChildren<TableHeadProps>> = ({
   children,
   className,
   ...rest
@@ -76,7 +76,7 @@ export const TableHead: React.FC<React.PropsWithChildren<TableHeadProps>> = ({
   );
 };
 
-export const TableBody: React.FC<React.PropsWithChildren<TableBodyProps>> = ({
+export const TableBody: FC<React.PropsWithChildren<TableBodyProps>> = ({
   children,
   className,
   ...rest
@@ -88,7 +88,7 @@ export const TableBody: React.FC<React.PropsWithChildren<TableBodyProps>> = ({
   );
 };
 
-export const TableRow: React.FC<React.PropsWithChildren<TableRowProps>> = ({
+export const TableRow: FC<React.PropsWithChildren<TableRowProps>> = ({
   selected = false,
   children,
   className,
@@ -109,7 +109,7 @@ export const TableRow: React.FC<React.PropsWithChildren<TableRowProps>> = ({
   );
 };
 
-export const TableCell: React.FC<React.PropsWithChildren<TableCellProps>> = ({
+export const TableCell: FC<React.PropsWithChildren<TableCellProps>> = ({
   align = "left",
   children,
   className,
@@ -124,7 +124,7 @@ export const TableCell: React.FC<React.PropsWithChildren<TableCellProps>> = ({
   );
 };
 
-export const TableHeaderCell: React.FC<
+export const TableHeaderCell: FC<
   React.PropsWithChildren<TableHeaderCellProps>
 > = ({ align = "left", sortable = false, children, className, ...rest }) => {
   const headerClassName = cn(

@@ -10,7 +10,7 @@ import styles from "../messages.module.scss";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
 import { useGetMultipleAssetMeta } from "@oko-wallet-attached/web3/cosmos/use_get_asset_meta";
 
-const TokenInfo: React.FC<{
+const TokenInfo: FC<{
   chainId: string;
   amount: Coin[];
 }> = ({ chainId, amount }) => {

@@ -1,4 +1,4 @@
-import React, { type ReactElement, useState, useRef, useEffect } from "react";
+import { type ReactElement, useState, useRef, useEffect, type FC } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { InfoCircleIcon } from "@oko-wallet/oko-common-ui/icons/info_circle";
 import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
@@ -10,7 +10,7 @@ import styles from "./sign_widget.module.scss";
 
 type SignStep = "initial" | "loading" | "success" | "error";
 
-export const SignWidget: React.FC<SignWidgetProps> = ({
+export const SignWidget: FC<SignWidgetProps> = ({
   chain,
   chainIcon,
   signType,

@@ -1,5 +1,4 @@
-import Image from "next/image";
-import { useState } from "react";
+import { useState, type FC } from "react";
 
 import styles from "./avatar.module.scss";
 
@@ -9,7 +8,7 @@ export interface AvatarProps {
   alt: string;
 }
 
-export const Avatar: React.FC<AvatarProps> = ({ src, fallback, alt }) => {
+export const Avatar: FC<AvatarProps> = ({ src, fallback, alt }) => {
   const [imgSrc, setImgSrc] = useState(src || fallback || "");
   const [showAlt, setShowAlt] = useState(!src && !fallback);
 

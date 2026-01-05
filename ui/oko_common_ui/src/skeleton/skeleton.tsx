@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 
 import "./skeleton.scss";
 
@@ -9,7 +9,7 @@ interface SkeletonProps {
   className?: string;
 }
 
-export const Skeleton: React.FC<SkeletonProps> = ({
+export const Skeleton: FC<SkeletonProps> = ({
   width = "100%",
   height = "1em",
   borderRadius = "12px",

@@ -1,11 +1,11 @@
-import React from "react";
+import type { FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CodeIcon } from "@oko-wallet/oko-common-ui/icons/code";
 
 import { Widget } from "@oko-wallet-demo-web/components/widgets/widget_components";
 import styles from "./user_data_widget.module.scss";
 
-export const UserDataWidget: React.FC<UserDataWidgetProps> = ({ userData }) => {
+export const UserDataWidget: FC<UserDataWidgetProps> = ({ userData }) => {
   const isLoggedIn = !!userData;
 
   return (

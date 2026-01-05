@@ -1,5 +1,5 @@
-import React from "react";
 import type { CosmosArbitrarySigData } from "@oko-wallet/oko-sdk-core";
+import type { FC } from "react";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
@@ -12,7 +12,7 @@ import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_va
 import { CosmosArbitrarySignatureContent } from "./cosmos_arbitrary_signature_content";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
-export const MakeArbitrarySigModal: React.FC<MakeArbitrarySigModalProps> = ({
+export const MakeArbitrarySigModal: FC<MakeArbitrarySigModalProps> = ({
   getIsAborted,
   data,
   modalId,

@@ -1,9 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const WarningIcon: React.FC<BasicIconProps> = ({
-  className,
-  size = 42,
-}) => {
+export const WarningIcon: FC<BasicIconProps> = ({ className, size = 42 }) => {
   return (
     <svg
       width={size}

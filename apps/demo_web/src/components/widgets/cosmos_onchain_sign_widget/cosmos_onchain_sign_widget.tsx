@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { makeSignDoc as makeProtoSignDoc } from "@cosmjs/proto-signing";
 import { makeSignDoc as makeAminoSignDoc } from "@cosmjs/amino";
 import {

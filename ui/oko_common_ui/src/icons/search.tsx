@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const SearchIcon: React.FC<BasicIconProps> = ({
+export const SearchIcon: FC<BasicIconProps> = ({
   className,
   color = "#A4A7AE",
 }) => {

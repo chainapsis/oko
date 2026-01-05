@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import type { ChainInfoForAttachedModal } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -14,9 +14,11 @@ interface MakeSignatureModalMetadataContentProps {
   signer: string;
 }
 
-export const MetadataContent: React.FC<
-  MakeSignatureModalMetadataContentProps
-> = ({ origin, chainInfo, signer }) => {
+export const MetadataContent: FC<MakeSignatureModalMetadataContentProps> = ({
+  origin,
+  chainInfo,
+  signer,
+}) => {
   const faviconUrl = getFaviconUrl(origin);
 
   return (
@@ -54,7 +56,11 @@ export const MetadataContent: React.FC<
           </div>
         </div>
 
-        <SignerAddressOrEmail signer={signer} origin={origin} />
+        <SignerAddressOrEmail
+          signer={signer}
+          origin={origin}
+          initialViewType={null}
+        />
       </div>
     </div>
   );

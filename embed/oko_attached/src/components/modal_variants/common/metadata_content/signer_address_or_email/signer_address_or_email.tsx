@@ -8,7 +8,7 @@ import styles from "./signer_address_or_email.module.scss";
 interface SignerAddressOrEmailProps {
   signer: string;
   origin: string;
-  initialViewType?: "View Address" | "Login Info";
+  initialViewType: "View Address" | "Login Info" | null;
 }
 
 interface ViewProps {
@@ -36,10 +36,14 @@ export const SignerAddressOrEmailView: FC<ViewProps> = ({
   );
 };
 
-export const SignerAddressOrEmailChangeViewTypeButton: FC<{
+interface SignerAddressOrEmailChangeViewTypeButtonProps {
   viewType: "View Address" | "Login Info";
   onClick: () => void;
-}> = ({ viewType, onClick }) => {
+}
+
+export const SignerAddressOrEmailChangeViewTypeButton: FC<
+  SignerAddressOrEmailChangeViewTypeButtonProps
+> = ({ viewType, onClick }) => {
   return (
     <div onClick={onClick} className={styles.changeViewTypeButton}>
       <EyeIcon size={12} color="var(--fg-quaternary)" />
@@ -53,13 +57,14 @@ export const SignerAddressOrEmailChangeViewTypeButton: FC<{
 export const SignerAddressOrEmail: FC<SignerAddressOrEmailProps> = ({
   signer,
   origin,
-  initialViewType = "View Address",
+  initialViewType,
 }) => {
-  const [viewType, setViewType] = useState<"View Address" | "Login Info">(
-    initialViewType,
-  );
+  const [viewType, setViewType] = useState<
+    "View Address" | "Login Info" | null
+  >(initialViewType);
 
   switch (viewType) {
+    case null:
     case "View Address":
       return (
         <div className={styles.wrapper}>
