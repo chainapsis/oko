@@ -110,8 +110,10 @@ export async function runKeygenEd25519(
       };
     }
 
-    // Ed25519 uses 2-of-2 threshold signature with server, not SSS key share nodes
-    // Skip checkKeyShareFromKSNodes validation (which expects secp256k1 33-byte keys)
+    // Ed25519 uses 2-of-2 threshold signature with server, not SSS key share
+    // nodes
+    // Skip checkKeyShareFromKSNodes validation (which expects secp256k1
+    // 33-byte keys)
     const getActiveKSNodesRes = await getActiveKSNodes(db);
     if (getActiveKSNodesRes.success === false) {
       return {
