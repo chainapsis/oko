@@ -5,7 +5,7 @@ import type {
   CreateKSNodeWalletRequest,
 } from "@oko-wallet/ksn-interface/wallet";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { Bytes33 } from "@oko-wallet/bytes";
+import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 
 export async function createWallet(
   db: Pool | PoolClient,
@@ -85,7 +85,7 @@ LIMIT 1
 
 export async function getWalletByPublicKey(
   db: Pool | PoolClient,
-  publicKey: Bytes33,
+  publicKey: Bytes32 | Bytes33,
 ): Promise<Result<KSNodeWallet | null, string>> {
   try {
     const query = `

@@ -217,6 +217,7 @@ describe("key_share_test", () => {
         {
           user_auth_id: email,
           auth_type: "google",
+          curve_type: "secp256k1",
           public_key: publicKeyBytes,
         },
         TEST_ENC_SECRET,
@@ -271,6 +272,7 @@ describe("key_share_test", () => {
         {
           user_auth_id: email,
           auth_type: "google",
+          curve_type: "secp256k1",
           public_key: publicKeyBytes,
         },
         TEST_ENC_SECRET,
@@ -337,6 +339,7 @@ describe("key_share_test", () => {
         {
           user_auth_id: email,
           auth_type: "google",
+          curve_type: "secp256k1",
           public_key: publicKeyBytes,
         },
         TEST_ENC_SECRET,
@@ -375,6 +378,7 @@ describe("key_share_test", () => {
         {
           user_auth_id: email,
           auth_type: "google",
+          curve_type: "secp256k1",
           public_key: publicKeyBytes,
         },
         TEST_ENC_SECRET,
@@ -422,6 +426,7 @@ describe("key_share_test", () => {
           user_auth_id: email,
           auth_type: "google",
           public_key: publicKeyBytes,
+          curve_type: "secp256k1",
         },
         TEST_ENC_SECRET,
       );
@@ -478,6 +483,7 @@ describe("key_share_test", () => {
         user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
+        curve_type: "secp256k1",
       });
       if (checkKeyShareRes.success === false) {
         console.error(checkKeyShareRes.msg);
@@ -504,6 +510,7 @@ describe("key_share_test", () => {
         user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
+        curve_type: "secp256k1",
       });
       if (checkKeyShareRes.success === false) {
         console.error(checkKeyShareRes.msg);
@@ -536,6 +543,7 @@ describe("key_share_test", () => {
         user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
+        curve_type: "secp256k1",
       });
       if (checkKeyShareRes.success === false) {
         console.error(checkKeyShareRes.msg);
@@ -578,6 +586,7 @@ describe("key_share_test", () => {
         user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
+        curve_type: "secp256k1",
       });
       if (checkKeyShareRes.success === true) {
         throw new Error("check key share should fail");
@@ -620,6 +629,7 @@ describe("key_share_test", () => {
         user_auth_id: email,
         auth_type: "google",
         public_key: publicKeyBytes,
+        curve_type: "secp256k1",
       });
       if (checkKeyShareRes.success === false) {
         console.error(checkKeyShareRes.msg);
