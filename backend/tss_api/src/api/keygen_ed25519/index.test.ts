@@ -46,16 +46,17 @@ async function setUpKeyShareNodeMeta(pool: Pool): Promise<void> {
 
 function generateKeygenRequest(
   keygenResult: ReturnType<typeof runKeygenCentralizedEd25519>,
-  email: string = TEST_EMAIL,
+  user_identifier: string = TEST_EMAIL,
 ): KeygenEd25519Request {
   const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
   return {
     auth_type: "google",
-    email,
+    user_identifier,
     keygen_2: {
       ...serverKeygenOutput,
       public_key: [...keygenResult.public_key],
     },
+    email: user_identifier,
   };
 }
 
@@ -214,11 +215,12 @@ describe("Ed25519 Keygen", () => {
 
       const request: KeygenEd25519Request = {
         auth_type: "google",
-        email: TEST_EMAIL,
+        user_identifier: TEST_EMAIL,
         keygen_2: {
           ...serverKeygenOutput,
           public_key: [...keygenResult.public_key],
         },
+        email: TEST_EMAIL,
         name: "Test User",
       };
 
@@ -247,11 +249,12 @@ describe("Ed25519 Keygen", () => {
 
         const request: KeygenEd25519Request = {
           auth_type: authTypes[i],
-          email: `authtype-test-${i}@test.com`,
+          user_identifier: `authtype-test-${i}@test.com`,
           keygen_2: {
             ...serverKeygenOutput,
             public_key: [...keygenResult.public_key],
           },
+          email: `authtype-test-${i}@test.com`,
         };
 
         const result = await runKeygenEd25519(

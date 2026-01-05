@@ -33,9 +33,13 @@ export async function runKeygenEd25519(
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const { auth_type, email, keygen_2, name } = keygenRequest;
+    const { auth_type, user_identifier, keygen_2, email, name } = keygenRequest;
 
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByEmailAndAuthType(
+      db,
+      user_identifier,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
@@ -68,7 +72,7 @@ export async function runKeygenEd25519(
         };
       }
     } else {
-      const createUserRes = await createUser(db, email, auth_type);
+      const createUserRes = await createUser(db, user_identifier, auth_type);
       if (createUserRes.success === false) {
         return {
           success: false,
@@ -219,9 +223,10 @@ export async function runKeygenEd25519(
       data: {
         token: tokenResult.data.token,
         user: {
-          email: email,
           wallet_id: wallet.wallet_id,
           public_key: publicKeyHex,
+          user_identifier,
+          email: email ?? null,
           name: name ?? null,
         },
       },
