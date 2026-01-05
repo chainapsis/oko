@@ -64,6 +64,7 @@
       "crypto/teddsa/teddsa_interface",
       "crypto/teddsa/teddsa_hooks",
       "crypto/teddsa/teddsa_addon",
+      "crypto/teddsa/teddsa_interface",
       "crypto/teddsa/api_lib",
       "crypto/teddsa/frost_ed25519_keplr_wasm",
       "sandbox/sandbox_sol"
