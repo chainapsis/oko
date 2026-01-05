@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const PasswordIcon: React.FC<BasicIconProps> = ({
+export const PasswordIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 20,

@@ -1,4 +1,6 @@
-export const CheckIcon = ({ size = 14 }: { size?: number }) => {
+import type { FC } from "react";
+
+export const CheckIcon: FC<CheckIconProps> = ({ size = 14, color }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -9,7 +11,7 @@ export const CheckIcon = ({ size = 14 }: { size?: number }) => {
     >
       <path
         d="M12.1666 3.5L5.74998 9.91667L2.83331 7"
-        stroke="white"
+        stroke={color || "currentColor"}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -17,3 +19,8 @@ export const CheckIcon = ({ size = 14 }: { size?: number }) => {
     </svg>
   );
 };
+
+interface CheckIconProps {
+  size?: number;
+  color?: string;
+}

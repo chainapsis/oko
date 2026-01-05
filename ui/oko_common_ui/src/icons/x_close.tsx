@@ -1,8 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 
 import type { BasicIconProps } from "./types";
 
-export const XCloseIcon: React.FC<BasicIconProps> = ({
+export const XCloseIcon: FC<BasicIconProps> = ({
   className,
   size = 20,
   color = "#A4A7AE",

@@ -2,7 +2,7 @@ import React from "react";
 
 import styles from "./step.module.css";
 
-export const Step: React.FC<StepProps> = ({
+export const Step: FC<StepProps> = ({
   label,
   handleClick,
   result,

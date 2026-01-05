@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
 import { EthereumBlueIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_blue_icon";
 import { OsmosisIcon } from "@oko-wallet/oko-common-ui/icons/osmosis_icon";
@@ -6,7 +6,7 @@ import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import styles from "./view_chains_button.module.scss";
 
-export const ViewChainsButton: React.FC<ViewChainsButtonProps> = ({
+export const ViewChainsButton: FC<ViewChainsButtonProps> = ({
   buttonVariant,
   onClick,
 }) => {

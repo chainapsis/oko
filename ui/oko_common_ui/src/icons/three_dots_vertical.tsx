@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const ThreeDotsVerticalIcon: React.FC<BasicIconProps> = ({
+export const ThreeDotsVerticalIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
 }) => {

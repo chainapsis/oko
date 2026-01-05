@@ -1,4 +1,4 @@
-import React, { type ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 import cn from "classnames";
 
 import styles from "./input.module.scss";
@@ -17,7 +17,7 @@ export interface InputProps
   resetError?: () => void;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input: FC<InputProps> = ({
   variant = "default",
   inputSize = "md",
   fullWidth = false,

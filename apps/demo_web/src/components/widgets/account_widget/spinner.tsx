@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 
 import styles from "./spinner.module.scss";
 
@@ -8,7 +8,7 @@ interface SpinnerProps {
   status?: "loading" | "failed";
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({
+export const Spinner: FC<SpinnerProps> = ({
   size = 62,
   className,
   status = "loading",

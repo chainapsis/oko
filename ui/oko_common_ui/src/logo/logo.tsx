@@ -1,3 +1,5 @@
+import type { FC } from "react";
+
 import styles from "./logo.module.scss";
 import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
@@ -9,7 +11,7 @@ export interface LogoProps {
   theme?: Theme | null;
 }
 
-export const Logo: React.FC<LogoProps> = ({
+export const Logo: FC<LogoProps> = ({
   width = 58,
   height = 22,
   className,

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import { useRef, type FC } from "react";
 import { useRouter } from "next/navigation";
 import { type SubmitHandler } from "react-hook-form";
 import { Input } from "@oko-wallet/oko-common-ui/input";
@@ -13,7 +13,7 @@ import styles from "./create_customer_form.module.scss";
 import { useCreateCustomerForm } from "./use_create_customer_form";
 import { useToast } from "../toast/use_toast";
 
-export const CreateCustomerForm: React.FC = () => {
+export const CreateCustomerForm: FC = () => {
   const router = useRouter();
   const { showSuccessToast, showErrorToast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);

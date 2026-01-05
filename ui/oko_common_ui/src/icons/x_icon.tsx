@@ -1,6 +1,6 @@
-import React from "react";
+import { type FC } from "react";
 
-export const XIcon: React.FC<TelegramIconProps> = ({ size = 24 }) => {
+export const XIcon: FC<TelegramIconProps> = ({ size = 24 }) => {
   return (
     <svg
       width={size}

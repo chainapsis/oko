@@ -120,7 +120,7 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
                     <OtpInput
                       length={6}
                       value={otpDigits}
-                      onChange={(digits) => {
+                      onChange={(digits: string[]) => {
                         resetError();
                         setOtpDigits(digits);
                       }}

@@ -1,5 +1,6 @@
 "use client";
 
+import type { FC } from "react";
 import {
   Table,
   TableBody,
@@ -14,7 +15,7 @@ import styles from "./user_list_table.module.scss";
 import { Pagination } from "../pagination/pagination";
 import { useUserListTable } from "./use_user_list_table";
 
-export const UserListTable: React.FC = () => {
+export const UserListTable: FC = () => {
   const { table, totalPageCount, currentPage, handlePageChange } =
     useUserListTable();
 

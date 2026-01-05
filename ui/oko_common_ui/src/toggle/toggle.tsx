@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import cn from "classnames";
 
 import styles from "./toggle.module.scss";
@@ -12,7 +12,7 @@ export interface ToggleProps {
   className?: string;
 }
 
-export const Toggle: React.FC<ToggleProps> = ({
+export const Toggle: FC<ToggleProps> = ({
   onChange,
   checked = false,
   disabled = false,

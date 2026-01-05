@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const EditIcon: React.FC<BasicIconProps> = ({
+export const EditIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 20,

@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import type { EthereumArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -13,7 +13,7 @@ interface EthereumArbitrarySignatureContentProps {
   payload: EthereumArbitrarySignPayload;
 }
 
-export const EthereumArbitrarySignatureContent: React.FC<
+export const EthereumArbitrarySignatureContent: FC<
   EthereumArbitrarySignatureContentProps
 > = ({ payload }) => {
   const message = (() => {

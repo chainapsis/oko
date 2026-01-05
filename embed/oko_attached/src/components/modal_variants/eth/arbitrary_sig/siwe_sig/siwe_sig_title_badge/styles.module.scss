@@ -1,0 +1,17 @@
+picture {
+  margin: 0;
+  padding: 0;
+  width: 8.1875rem;
+  height: 3.75rem;
+}
+
+.imageContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .image {
+    width: 8.1875rem;
+    height: 3.75rem;
+  }
+}

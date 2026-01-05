@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import cn from "classnames";
@@ -12,7 +12,7 @@ export interface CollapsibleProps {
   className?: string;
 }
 
-export const Collapsible: React.FC<CollapsibleProps> = ({
+export const Collapsible: FC<CollapsibleProps> = ({
   title,
   children,
   defaultExpanded = false,

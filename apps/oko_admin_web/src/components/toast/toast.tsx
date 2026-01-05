@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import cn from "classnames";
 
 import styles from "./toast.module.scss";
@@ -11,7 +11,7 @@ export interface ToastProps {
   onClose?: () => void;
 }
 
-export const Toast: React.FC<ToastProps> = ({ message, type, onClose }) => (
+export const Toast: FC<ToastProps> = ({ message, type, onClose }) => (
   <div className={cn(styles.wrapper, styles[type])}>
     {message}
     {onClose && (

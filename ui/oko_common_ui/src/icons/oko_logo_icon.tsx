@@ -1,9 +1,9 @@
-import React from "react";
+import { type FC } from "react";
 
 import { s3BucketURL } from "./paths";
 import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
 
-export const OkoLogoIcon: React.FC<OkoLogoIconProps> = ({
+export const OkoLogoIcon: FC<OkoLogoIconProps> = ({
   width = 84,
   height = 32,
   className,

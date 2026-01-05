@@ -1,8 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 
 import { s3BucketURL } from "./paths";
 
-export const GoogleIcon: React.FC<GoogleIconProps> = ({
+export const GoogleIcon: FC<GoogleIconProps> = ({
   width = 16,
   height = 16,
 }) => {

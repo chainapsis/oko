@@ -1,6 +1,6 @@
 import type { BasicIconProps } from "./types";
 
-export const EmptyStateIcon: React.FC<BasicIconProps> = ({
+export const EmptyStateIcon: FC<BasicIconProps> = ({
   className,
   size = 28,
 }) => {

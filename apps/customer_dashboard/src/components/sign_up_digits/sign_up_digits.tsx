@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { type FC } from "react";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
@@ -10,7 +10,7 @@ import { ResendCode } from "../resend_code/resend_code";
 import { ExpiryTimer } from "../expiry_timer/expiry_timer";
 import { EMAIL_VERIFICATION_TIMER_SECONDS } from "@oko-wallet-ct-dashboard/constants";
 
-export const SignUpDigits: React.FC = () => {
+export const SignUpDigits: FC = () => {
   const {
     digits,
     handleDigitsChange,

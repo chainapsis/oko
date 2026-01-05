@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type { FC } from "react";
 import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
@@ -14,7 +14,7 @@ import styles from "./sign_in_form.module.scss";
 import { useSignInForm } from "./use_sign_in_form";
 import { GET_STARTED_URL } from "@oko-wallet-ct-dashboard/constants";
 
-export const SignInForm: React.FC = () => {
+export const SignInForm: FC = () => {
   const {
     onSubmit,
     register,

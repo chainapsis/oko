@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { createPortal } from "react-dom";
 
 import styles from "./mock_dapp_modal.module.scss";
@@ -10,7 +10,7 @@ export interface MockDappModalProps {
   signWidgetProps: SignWidgetProps;
 }
 
-export const MockDappModal: React.FC<MockDappModalProps> = ({
+export const MockDappModal: FC<MockDappModalProps> = ({
   isOpen,
   onClose,
   signWidgetProps,
