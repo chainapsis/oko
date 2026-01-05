@@ -2,7 +2,7 @@ import { Pool } from "pg";
 import {
   createUser,
   getUserByEmailAndAuthType,
-} from "@oko-wallet/oko-pg-interface/ewallet_users";
+} from "@oko-wallet/oko-pg-interface/oko_users";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
@@ -14,7 +14,7 @@ import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import {
   createWalletKSNodes,
   getActiveKSNodes,

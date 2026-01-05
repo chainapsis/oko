@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { getActiveWalletByUserIdAndCurveType } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
-import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { getActiveWalletByUserIdAndCurveType } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/oko_users";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import {

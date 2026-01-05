@@ -4,8 +4,8 @@ import { Participant } from "@oko-wallet/teddsa-interface";
 import { runKeygenCentralizedEd25519 } from "@oko-wallet/teddsa-addon/src/server";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
-import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
-import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
+import { createWallet } from "@oko-wallet/oko-pg-interface/oko_wallets";
 import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 
