@@ -175,7 +175,7 @@ describe("Customer Auth API Integration Tests", () => {
       expect(response.status).toBe(404);
       expect(response.body.success).toBe(false);
       expect(response.body.code).toBe("CUSTOMER_ACCOUNT_NOT_FOUND");
-      expect(response.body.msg).toBe("Customer account not found");
+      expect(response.body.msg).toBe("Account not found");
     });
   });
 });
