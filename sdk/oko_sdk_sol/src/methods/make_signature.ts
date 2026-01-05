@@ -88,8 +88,18 @@ function createMakeSignatureData(
     }
 
     case "sign_all_transactions": {
-      const isVersioned =
-        params.transactions.length > 0 && "version" in params.transactions[0];
+      if (params.transactions.length === 0) {
+        throw new Error("No transactions to sign");
+      }
+
+      const hasVersioned = params.transactions.some((tx) => "version" in tx);
+      const hasLegacy = params.transactions.some((tx) => !("version" in tx));
+
+      if (hasVersioned && hasLegacy) {
+        throw new Error("Cannot mix legacy and versioned transactions");
+      }
+
+      const isVersioned = hasVersioned;
 
       const serializedTxs = params.transactions.map((tx) =>
         Buffer.from(tx.serialize({ requireAllSignatures: false })).toString(
@@ -196,9 +206,7 @@ async function handleSigningFlow(
       }
 
       default: {
-        throw new Error(
-          `unreachable response type: ${(openModalResp as any).type}`,
-        );
+        throw new Error("unreachable response type");
       }
     }
   } catch (error) {
