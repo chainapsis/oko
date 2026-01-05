@@ -11,7 +11,9 @@
     "./oko_admin": "./src/oko_admin/index.ts",
     "./oko": "./src/oko/index.ts",
     "./user_dashboard": "./src/user_dashboard/index.ts",
-    "./social_login": "./src/social_login/index.ts"
+    "./social_login": "./src/social_login/index.ts",
+    "./attached": "./src/attached/index.ts",
+    "./log": "./src/log/index.ts"
   },
   "type": "module",
   "dependencies": {

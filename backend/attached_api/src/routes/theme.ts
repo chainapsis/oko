@@ -2,12 +2,62 @@ import type { Request, Response, Router } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
 import { getCustomerThemeByHostOrigin } from "@oko-wallet/oko-pg-interface/attached";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
+import {
+  GetAttachedThemeQuerySchema,
+  GetAttachedThemeSuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/attached";
 
 interface GetThemeByHostOriginReq {
   host_origin: string;
 }
 
 export function setAttachedThemeRoutes(router: Router): void {
+  registry.registerPath({
+    method: "get",
+    path: "/attached/v1/theme/get",
+    tags: ["Attached"],
+    summary: "Get customer theme by host origin",
+    description: "Returns the customer theme for the provided host origin",
+    request: {
+      query: GetAttachedThemeQuerySchema,
+    },
+    responses: {
+      200: {
+        description: "Theme retrieved successfully",
+        content: {
+          "application/json": {
+            schema: GetAttachedThemeSuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      404: {
+        description: "Customer not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
   router.get(
     "/theme/get",
     async (
