@@ -8,6 +8,7 @@ import styles from "../common/signature_content.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SignerAddressOrEmail } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
 import { SolanaTxSummary } from "./sol_tx_summary";
+import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 
 interface SolanaTxSignatureContentProps {
   payload: SolanaTxSignPayload;
@@ -15,9 +16,6 @@ interface SolanaTxSignatureContentProps {
   parseError: string | null;
   isLoading: boolean;
 }
-
-const SOLANA_LOGO_URL =
-  "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png";
 
 function getFaviconUrl(origin: string): string {
   if (!origin) return "";

@@ -4,9 +4,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import styles from "../instructions.module.scss";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
-
-const SOLANA_LOGO_URL =
-  "https://raw.githubusercontent.com/solana-labs/token-list/main/assets/mainnet/So11111111111111111111111111111111111111112/logo.png";
+import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 
 function shortenAddress(address: string): string {
   if (address.length <= 12) return address;
