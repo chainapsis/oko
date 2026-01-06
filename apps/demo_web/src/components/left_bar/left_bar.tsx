@@ -9,6 +9,7 @@ import styles from "./left_bar.module.scss";
 import { IntegrationCard } from "./integration_card/integration_card";
 import { useViewState } from "@oko-wallet-demo-web/state/view";
 import { ThemeButton } from "@oko-wallet-demo-web/components/theme/theme_button";
+import { Spacing } from "@oko-wallet-common-ui/spacing/spacing";
 
 export const LeftBar: FC = () => {
   const isLeftBarOpen = useViewState((state) => state.isLeftBarOpen);
@@ -35,10 +36,16 @@ export const LeftBar: FC = () => {
           }
           active={true}
         />
-        {showIntegrationCard && (
-          <IntegrationCard onClose={hideIntegrationCard} />
-        )}
-        <ThemeButton />
+        <div>
+          {showIntegrationCard && (
+            <>
+              <IntegrationCard onClose={hideIntegrationCard} />
+              <Spacing height={16} />
+            </>
+          )}
+
+          <ThemeButton />
+        </div>
       </ul>
     </>
   );

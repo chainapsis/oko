@@ -14,6 +14,7 @@ import { OkoLogoWithNameIcon } from "@oko-wallet/oko-common-ui/icons/oko_logo_wi
 
 import styles from "./login_widget.module.scss";
 import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
+import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 
 export interface LoginDefaultViewProps {
   onSignIn: (method: LoginMethod) => void;
@@ -24,10 +25,12 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
   onSignIn,
   onShowSocials,
 }) => {
+  const theme = useThemeState((state) => state.theme);
+
   return (
     <Fragment>
       <div className={styles.logoWrapper}>
-        <Logo theme={"light"} width={84} height={32} />
+        <Logo theme={theme} width={84} height={32} />
       </div>
 
       <div className={styles.loginMethodsWrapper}>
