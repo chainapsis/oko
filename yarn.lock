@@ -10766,6 +10766,7 @@ __metadata:
     bs58: "npm:^6.0.0"
     chalk: "npm:^5.5.0"
     cosmjs-types: "npm:^0.9.0"
+    del: "npm:^8.0.1"
     del-cli: "npm:^6.0.0"
     dotenv: "npm:^16.4.5"
     jsonwebtoken: "npm:^9.0.2"
