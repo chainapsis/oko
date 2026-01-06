@@ -1,0 +1,28 @@
+.siwsRiskWarningContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.siwsRiskWarningBox {
+  display: flex;
+  padding: 6px 8px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex: 1 0 0;
+
+  border-radius: 12px;
+
+  text-align: center;
+
+  background-color: var(--bg-warning-primary);
+}
+
+.siwsRiskWarningCheckBoxContainer {
+  gap: 6px;
+}
+
+.siwsRiskWarningCheckBoxInputContainerClassName {
+  padding-top: 0px;
+}
