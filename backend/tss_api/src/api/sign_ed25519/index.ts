@@ -46,7 +46,11 @@ export async function runSignEd25519Round1(
   try {
     const { email, wallet_id, customer_id, msg } = request;
 
-    const validateWalletEmailRes = await validateWalletEmail(db, wallet_id, email);
+    const validateWalletEmailRes = await validateWalletEmail(
+      db,
+      wallet_id,
+      email,
+    );
     if (validateWalletEmailRes.success === false) {
       return {
         success: false,
@@ -142,7 +146,11 @@ export async function runSignEd25519Round2(
   try {
     const { email, wallet_id, session_id, commitments_1 } = request;
 
-    const validateWalletEmailRes = await validateWalletEmail(db, wallet_id, email);
+    const validateWalletEmailRes = await validateWalletEmail(
+      db,
+      wallet_id,
+      email,
+    );
     if (validateWalletEmailRes.success === false) {
       return {
         success: false,
@@ -193,7 +201,9 @@ export async function runSignEd25519Round2(
       };
     }
 
-    const stageData = stage.stage_data as SignEd25519StageData & { msg: number[] };
+    const stageData = stage.stage_data as SignEd25519StageData & {
+      msg: number[];
+    };
     const { nonces, identifier, msg } = stageData;
 
     if (!nonces || !identifier || !msg) {
@@ -279,7 +289,11 @@ export async function runSignEd25519(
   try {
     const { email, wallet_id, session_id, msg, commitments_1 } = request;
 
-    const validateWalletEmailRes = await validateWalletEmail(db, wallet_id, email);
+    const validateWalletEmailRes = await validateWalletEmail(
+      db,
+      wallet_id,
+      email,
+    );
     if (validateWalletEmailRes.success === false) {
       return {
         success: false,
@@ -413,7 +427,11 @@ export async function runSignEd25519Aggregate(
     const { email, wallet_id, msg, all_commitments, all_signature_shares } =
       request;
 
-    const validateWalletEmailRes = await validateWalletEmail(db, wallet_id, email);
+    const validateWalletEmailRes = await validateWalletEmail(
+      db,
+      wallet_id,
+      email,
+    );
     if (validateWalletEmailRes.success === false) {
       return {
         success: false,

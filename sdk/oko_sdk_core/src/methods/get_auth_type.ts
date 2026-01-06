@@ -19,4 +19,3 @@ export async function getAuthType(
 
   return null;
 }
-

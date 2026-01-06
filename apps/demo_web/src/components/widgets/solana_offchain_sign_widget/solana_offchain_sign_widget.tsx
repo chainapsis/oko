@@ -1,36 +1,38 @@
-import { SolanaIcon } from "@oko-wallet/oko-common-ui/icons/solana_icon";
+// TODO: refactor this widget @chemonoworld @Ryz0nd
 
-import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";
-import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
+// import { SolanaIcon } from "@oko-wallet/oko-common-ui/icons/solana_icon";
 
-export const SolanaOffchainSignWidget = () => {
-  const okoSol = useSDKState((state) => state.oko_sol);
+// import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";
+// import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
-  const handleClickSolOffchainSign = async () => {
-    if (okoSol === null) {
-      throw new Error("okoSol is not initialized");
-    }
+// export const SolanaOffchainSignWidget = () => {
+//   const okoSol = useSDKState((state) => state.oko_sol);
 
-    // Connect if not already connected
-    if (!okoSol.connected) {
-      await okoSol.connect();
-    }
+//   const handleClickSolOffchainSign = async () => {
+//     if (okoSol === null) {
+//       throw new Error("okoSol is not initialized");
+//     }
 
-    const message = "Welcome to Oko! Try generating an Ed25519 MPC signature.";
-    const messageBytes = new TextEncoder().encode(message);
+//     // Connect if not already connected
+//     if (!okoSol.connected) {
+//       await okoSol.connect();
+//     }
 
-    const signature = await okoSol.signMessage(messageBytes);
+//     const message = "Welcome to Oko! Try generating an Ed25519 MPC signature.";
+//     const messageBytes = new TextEncoder().encode(message);
 
-    // Log signature for demo purposes
-    console.log("Solana signature:", Buffer.from(signature).toString("hex"));
-  };
+//     const signature = await okoSol.signMessage(messageBytes);
 
-  return (
-    <SignWidget
-      chain="Solana"
-      chainIcon={<SolanaIcon />}
-      signType="offchain"
-      signButtonOnClick={handleClickSolOffchainSign}
-    />
-  );
-};
+//     // Log signature for demo purposes
+//     console.log("Solana signature:", Buffer.from(signature).toString("hex"));
+//   };
+
+//   return (
+//     <SignWidget
+//       chain="Solana"
+//       chainIcon={<SolanaIcon />}
+//       signType="offchain"
+//       signButtonOnClick={handleClickSolOffchainSign}
+//     />
+//   );
+// };

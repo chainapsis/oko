@@ -89,9 +89,10 @@ export async function signIn(
       "ed25519",
     );
     // Don't fail if ed25519 wallet doesn't exist, it's optional
-    const ed25519WalletId = ed25519WalletRes.success && ed25519WalletRes.data
-      ? ed25519WalletRes.data.wallet_id
-      : undefined;
+    const ed25519WalletId =
+      ed25519WalletRes.success && ed25519WalletRes.data
+        ? ed25519WalletRes.data.wallet_id
+        : undefined;
 
     const tokenResult = generateUserToken({
       wallet_id: walletRes.data.wallet_id,

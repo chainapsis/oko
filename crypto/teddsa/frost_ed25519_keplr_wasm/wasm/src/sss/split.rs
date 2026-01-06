@@ -43,8 +43,9 @@ pub fn sss_split(
         .collect::<Result<Vec<_>, _>>()
         .map_err(|err| JsValue::from_str(&err))?;
 
-    let public_key_package = PublicKeyPackageRaw::from_public_key_package(&output.public_key_package)
-        .map_err(|err| JsValue::from_str(&err))?;
+    let public_key_package =
+        PublicKeyPackageRaw::from_public_key_package(&output.public_key_package)
+            .map_err(|err| JsValue::from_str(&err))?;
 
     let result = SplitOutputRaw {
         key_packages,

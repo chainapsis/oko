@@ -10129,7 +10129,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/bytes@npm:^0.0.3-alpha.62, @oko-wallet/bytes@npm:^0.0.3-alpha.63, @oko-wallet/bytes@npm:^0.0.3-alpha.64, @oko-wallet/bytes@npm:^0.0.3-alpha.65, @oko-wallet/bytes@workspace:crypto/bytes":
+"@oko-wallet/bytes@npm:^0.0.3-alpha.62, @oko-wallet/bytes@npm:^0.0.3-alpha.65, @oko-wallet/bytes@workspace:crypto/bytes":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/bytes@workspace:crypto/bytes"
   dependencies:
@@ -10204,7 +10204,7 @@ __metadata:
   resolution: "@oko-wallet/cait-sith-keplr-hooks@workspace:crypto/tecdsa/cait_sith_keplr_hooks"
   dependencies:
     "@oko-wallet/api-lib": "workspace:*"
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@oko-wallet/oko-types": "npm:^0.0.1-alpha.4"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
@@ -10468,7 +10468,7 @@ __metadata:
   resolution: "@oko-wallet/key-share-node-server@workspace:key_share_node/server"
   dependencies:
     "@asteasolutions/zod-to-openapi": "npm:^8.1.0"
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/crypto-js": "npm:^0.0.2-alpha.8"
     "@oko-wallet/ksn-interface": "npm:^0.0.2-alpha.60"
     "@oko-wallet/ksn-pg-interface": "workspace:*"
@@ -10528,7 +10528,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/ksn-pg-interface@workspace:key_share_node/pg_interface"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/ksn-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
     "@types/jest": "npm:^29.5.14"
@@ -10548,7 +10548,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/log-api@workspace:backend/log_api"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-server-state": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
@@ -10641,7 +10641,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-api-server-state@workspace:backend/oko_api_server_state"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.63"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/crypto-js": "npm:0.0.2-alpha.6"
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
@@ -10734,7 +10734,7 @@ __metadata:
     "@keplr-wallet/types": "npm:0.12.297"
     "@keplr-wallet/unit": "npm:0.12.297"
     "@oko-wallet/api-lib": "workspace:*"
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*"
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*"
     "@oko-wallet/crypto-js": "npm:^0.0.2-alpha.8"
@@ -10766,6 +10766,7 @@ __metadata:
     bs58: "npm:^6.0.0"
     chalk: "npm:^5.5.0"
     cosmjs-types: "npm:^0.9.0"
+    del: "npm:^8.0.1"
     del-cli: "npm:^6.0.0"
     dotenv: "npm:^16.4.5"
     jsonwebtoken: "npm:^9.0.2"
@@ -11192,7 +11193,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/social-login-api@workspace:backend/social_login_api"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.63"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/oko-api-error-codes": "workspace:*"
     "@oko-wallet/oko-api-openapi": "workspace:*"
     "@oko-wallet/oko-pg-interface": "workspace:*"
@@ -11294,7 +11295,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-hooks-mock@workspace:crypto/teddsa/teddsa_hooks_mock"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.62"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@oko-wallet/teddsa-wasm-mock": "workspace:*"
     "@types/node": "npm:^24.10.1"
@@ -11306,7 +11307,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.62"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@oko-wallet/teddsa-interface": "workspace:*"
@@ -11362,7 +11363,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/tss-api@workspace:backend/tss_api"
   dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.64"
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
     "@oko-wallet/crypto-js": "workspace:*"
     "@oko-wallet/ksn-interface": "workspace:*"

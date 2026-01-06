@@ -37,7 +37,8 @@ export function setSignEd25519Routes(router: Router) {
     path: "/tss/v1/sign_ed25519/round1",
     tags: ["TSS"],
     summary: "Generate Ed25519 signing commitments (Round 1)",
-    description: "Server generates nonces and returns commitments for threshold signing",
+    description:
+      "Server generates nonces and returns commitments for threshold signing",
     security: [{ userAuth: [] }],
     request: {
       headers: UserAuthHeaderSchema,
@@ -71,8 +72,14 @@ export function setSignEd25519Routes(router: Router) {
                     commitments_0: {
                       type: "object",
                       properties: {
-                        identifier: { type: "array", items: { type: "number" } },
-                        commitments: { type: "array", items: { type: "number" } },
+                        identifier: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
+                        commitments: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
                       },
                     },
                   },
@@ -105,12 +112,16 @@ export function setSignEd25519Routes(router: Router) {
       const apiKey = res.locals.api_key;
       const body = req.body;
 
-      const result = await runSignEd25519Round1(state.db, state.encryption_secret, {
-        email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
-        customer_id: apiKey.customer_id,
-        msg: body.msg,
-      });
+      const result = await runSignEd25519Round1(
+        state.db,
+        state.encryption_secret,
+        {
+          email: user.email.toLowerCase(),
+          wallet_id: user.wallet_id,
+          customer_id: apiKey.customer_id,
+          msg: body.msg,
+        },
+      );
 
       if (result.success === false) {
         res.status(ErrorCodeMap[result.code] ?? 500).json(result);
@@ -167,8 +178,14 @@ export function setSignEd25519Routes(router: Router) {
                     signature_share_0: {
                       type: "object",
                       properties: {
-                        identifier: { type: "array", items: { type: "number" } },
-                        signature_share: { type: "array", items: { type: "number" } },
+                        identifier: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
+                        signature_share: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
                       },
                     },
                   },
@@ -200,12 +217,16 @@ export function setSignEd25519Routes(router: Router) {
       const user = res.locals.user;
       const body = req.body;
 
-      const result = await runSignEd25519Round2(state.db, state.encryption_secret, {
-        email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
-        session_id: body.session_id,
-        commitments_1: body.commitments_1,
-      });
+      const result = await runSignEd25519Round2(
+        state.db,
+        state.encryption_secret,
+        {
+          email: user.email.toLowerCase(),
+          wallet_id: user.wallet_id,
+          session_id: body.session_id,
+          commitments_1: body.commitments_1,
+        },
+      );
 
       if (result.success === false) {
         res.status(ErrorCodeMap[result.code] ?? 500).json(result);
@@ -266,8 +287,14 @@ export function setSignEd25519Routes(router: Router) {
                     signature_share_0: {
                       type: "object",
                       properties: {
-                        identifier: { type: "array", items: { type: "number" } },
-                        signature_share: { type: "array", items: { type: "number" } },
+                        identifier: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
+                        signature_share: {
+                          type: "array",
+                          items: { type: "number" },
+                        },
                       },
                     },
                   },
@@ -358,7 +385,10 @@ export function setSignEd25519Routes(router: Router) {
                     type: "object",
                     properties: {
                       identifier: { type: "array", items: { type: "number" } },
-                      signature_share: { type: "array", items: { type: "number" } },
+                      signature_share: {
+                        type: "array",
+                        items: { type: "number" },
+                      },
                     },
                   },
                 },
@@ -411,13 +441,17 @@ export function setSignEd25519Routes(router: Router) {
       const user = res.locals.user;
       const body = req.body;
 
-      const result = await runSignEd25519Aggregate(state.db, state.encryption_secret, {
-        email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
-        msg: body.msg,
-        all_commitments: body.all_commitments,
-        all_signature_shares: body.all_signature_shares,
-      });
+      const result = await runSignEd25519Aggregate(
+        state.db,
+        state.encryption_secret,
+        {
+          email: user.email.toLowerCase(),
+          wallet_id: user.wallet_id,
+          msg: body.msg,
+          all_commitments: body.all_commitments,
+          all_signature_shares: body.all_signature_shares,
+        },
+      );
 
       if (result.success === false) {
         res.status(ErrorCodeMap[result.code] ?? 500).json(result);

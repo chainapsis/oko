@@ -33,4 +33,3 @@ export async function down(knex: Knex): Promise<void> {
   await knex.schema.renameTable("oko_users", "ewallet_users");
   await knex.schema.renameTable("oko_wallets", "ewallet_wallets");
 }
-

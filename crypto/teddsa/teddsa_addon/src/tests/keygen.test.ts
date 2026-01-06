@@ -1,9 +1,6 @@
 import { Participant } from "@oko-wallet/teddsa-interface";
 
-import {
-  runKeygenCentralizedEd25519,
-  runKeygenImportEd25519,
-} from "../server";
+import { runKeygenCentralizedEd25519, runKeygenImportEd25519 } from "../server";
 
 export async function keygenCentralizedTest() {
   console.log("Testing centralized keygen...\n");
@@ -12,7 +9,10 @@ export async function keygenCentralizedTest() {
   const keygenOutput = runKeygenCentralizedEd25519();
 
   // Validate output structure
-  if (!keygenOutput.keygen_outputs || keygenOutput.keygen_outputs.length !== 2) {
+  if (
+    !keygenOutput.keygen_outputs ||
+    keygenOutput.keygen_outputs.length !== 2
+  ) {
     throw new Error("Expected 2 keygen outputs for 2-of-2 threshold");
   }
 
@@ -31,7 +31,10 @@ export async function keygenCentralizedTest() {
   if (!clientOutput.key_package || clientOutput.key_package.length === 0) {
     throw new Error("Client key_package is empty");
   }
-  if (!clientOutput.public_key_package || clientOutput.public_key_package.length === 0) {
+  if (
+    !clientOutput.public_key_package ||
+    clientOutput.public_key_package.length === 0
+  ) {
     throw new Error("Client public_key_package is empty");
   }
   if (!clientOutput.identifier || clientOutput.identifier.length === 0) {
@@ -42,7 +45,10 @@ export async function keygenCentralizedTest() {
   if (!serverOutput.key_package || serverOutput.key_package.length === 0) {
     throw new Error("Server key_package is empty");
   }
-  if (!serverOutput.public_key_package || serverOutput.public_key_package.length === 0) {
+  if (
+    !serverOutput.public_key_package ||
+    serverOutput.public_key_package.length === 0
+  ) {
     throw new Error("Server public_key_package is empty");
   }
   if (!serverOutput.identifier || serverOutput.identifier.length === 0) {
@@ -50,8 +56,12 @@ export async function keygenCentralizedTest() {
   }
 
   // Public key packages should be the same for both parties
-  const clientPkgHex = Buffer.from(clientOutput.public_key_package).toString("hex");
-  const serverPkgHex = Buffer.from(serverOutput.public_key_package).toString("hex");
+  const clientPkgHex = Buffer.from(clientOutput.public_key_package).toString(
+    "hex",
+  );
+  const serverPkgHex = Buffer.from(serverOutput.public_key_package).toString(
+    "hex",
+  );
   if (clientPkgHex !== serverPkgHex) {
     throw new Error("Public key packages should match between parties");
   }
@@ -64,11 +74,15 @@ export async function keygenCentralizedTest() {
   }
 
   console.log("Centralized keygen validation passed!");
-  console.log(`  Public key: ${Buffer.from(keygenOutput.public_key).toString("hex")}`);
+  console.log(
+    `  Public key: ${Buffer.from(keygenOutput.public_key).toString("hex")}`,
+  );
   console.log(`  Client identifier: ${clientIdHex}`);
   console.log(`  Server identifier: ${serverIdHex}`);
   console.log(`  Key package size: ${clientOutput.key_package.length} bytes`);
-  console.log(`  Public key package size: ${clientOutput.public_key_package.length} bytes`);
+  console.log(
+    `  Public key package size: ${clientOutput.public_key_package.length} bytes`,
+  );
 
   return keygenOutput;
 }
@@ -86,7 +100,10 @@ export async function keygenImportTest() {
   const keygenOutput = runKeygenImportEd25519(secretKey);
 
   // Validate output structure
-  if (!keygenOutput.keygen_outputs || keygenOutput.keygen_outputs.length !== 2) {
+  if (
+    !keygenOutput.keygen_outputs ||
+    keygenOutput.keygen_outputs.length !== 2
+  ) {
     throw new Error("Expected 2 keygen outputs for 2-of-2 threshold");
   }
 
@@ -95,7 +112,9 @@ export async function keygenImportTest() {
   }
 
   // The returned private key should match the input
-  const returnedPrivateKey = Buffer.from(keygenOutput.private_key).toString("hex");
+  const returnedPrivateKey = Buffer.from(keygenOutput.private_key).toString(
+    "hex",
+  );
   const inputPrivateKey = Buffer.from(secretKey).toString("hex");
   if (returnedPrivateKey !== inputPrivateKey) {
     throw new Error("Returned private key should match input");

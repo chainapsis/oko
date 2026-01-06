@@ -7,10 +7,14 @@ const TeddsaKeygenOutputSchema = registry.register(
   z.object({
     key_package: z
       .array(z.number())
-      .openapi({ description: "FROST KeyPackage bytes (contains secret share)" }),
+      .openapi({
+        description: "FROST KeyPackage bytes (contains secret share)",
+      }),
     public_key_package: z
       .array(z.number())
-      .openapi({ description: "Public key package bytes (shared by all participants)" }),
+      .openapi({
+        description: "Public key package bytes (shared by all participants)",
+      }),
     identifier: z
       .array(z.number())
       .openapi({ description: "Participant identifier bytes" }),

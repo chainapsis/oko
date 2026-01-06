@@ -30,7 +30,7 @@
     "@keplr-wallet/types": "0.12.297",
     "@keplr-wallet/unit": "0.12.297",
     "@oko-wallet/api-lib": "workspace:*",
-    "@oko-wallet/bytes": "^0.0.3-alpha.64",
+    "@oko-wallet/bytes": "^0.0.3-alpha.65",
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "@oko-wallet/crypto-js": "^0.0.2-alpha.8",
@@ -74,13 +74,13 @@
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.0.3",
+    "del": "^8.0.1",
     "del-cli": "^6.0.0",
     "dotenv": "^16.4.5",
     "sass": "^1.94.2",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
     "vite-plugin-node-polyfills": "^0.24.0",
-    "vite-tsconfig-paths": "^5.1.4",
-    "zod": "^4.1.12"
+    "vite-tsconfig-paths": "^5.1.4"
   }
 }

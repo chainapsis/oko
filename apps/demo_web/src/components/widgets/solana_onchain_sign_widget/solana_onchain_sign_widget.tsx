@@ -1,132 +1,130 @@
-import { useCallback, useState } from "react";
-import {
-  Connection,
-  PublicKey,
-  SystemProgram,
-  Transaction,
-  TransactionMessage,
-  VersionedTransaction,
-  LAMPORTS_PER_SOL,
-} from "@solana/web3.js";
-import { SolanaIcon } from "@oko-wallet/oko-common-ui/icons/solana_icon";
-import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
+// TODO: refactor this widget @chemonoworld @Ryz0nd
 
-import styles from "./solana_onchain_sign_widget.module.scss";
-import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";
-import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
+// import { useCallback, useState } from "react";
+// import {
+//   Connection,
+//   PublicKey,
+//   SystemProgram,
+//   Transaction,
+//   TransactionMessage,
+//   VersionedTransaction,
+//   LAMPORTS_PER_SOL,
+// } from "@solana/web3.js";
+// import { SolanaIcon } from "@oko-wallet/oko-common-ui/icons/solana_icon";
+// import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
 
-const SOLANA_RPC_URL = "https://api.devnet.solana.com";
+// import styles from "./solana_onchain_sign_widget.module.scss";
+// import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";
+// import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
-export const SolanaOnchainSignWidget = () => {
-  const okoSol = useSDKState((state) => state.oko_sol);
-  const [isLegacy, setIsLegacy] = useState(false);
+// const SOLANA_RPC_URL = "https://api.devnet.solana.com";
 
-  const handleClickSolOnchainSignV0 = useCallback(async () => {
-    if (okoSol === null) {
-      throw new Error("okoSol is not initialized");
-    }
+// export const SolanaOnchainSignWidget = () => {
+//   const okoSol = useSDKState((state) => state.oko_sol);
+//   const [isLegacy, setIsLegacy] = useState(false);
 
-    if (!okoSol.connected) {
-      await okoSol.connect();
-    }
+//   const handleClickSolOnchainSignV0 = useCallback(async () => {
+//     if (okoSol === null) {
+//       throw new Error("okoSol is not initialized");
+//     }
 
-    if (!okoSol.publicKey) {
-      throw new Error("No public key available");
-    }
+//     if (!okoSol.connected) {
+//       await okoSol.connect();
+//     }
 
-    const connection = new Connection(SOLANA_RPC_URL);
+//     if (!okoSol.publicKey) {
+//       throw new Error("No public key available");
+//     }
 
-    const toAddress = new PublicKey(
-      "11111111111111111111111111111111",
-    );
+//     const connection = new Connection(SOLANA_RPC_URL);
 
-    const { blockhash } = await connection.getLatestBlockhash();
+//     const toAddress = new PublicKey("11111111111111111111111111111111");
 
-    const instructions = [
-      SystemProgram.transfer({
-        fromPubkey: okoSol.publicKey,
-        toPubkey: toAddress,
-        lamports: 0.001 * LAMPORTS_PER_SOL,
-      }),
-    ];
+//     const { blockhash } = await connection.getLatestBlockhash();
 
-    const messageV0 = new TransactionMessage({
-      payerKey: okoSol.publicKey,
-      recentBlockhash: blockhash,
-      instructions,
-    }).compileToV0Message();
+//     const instructions = [
+//       SystemProgram.transfer({
+//         fromPubkey: okoSol.publicKey,
+//         toPubkey: toAddress,
+//         lamports: 0.001 * LAMPORTS_PER_SOL,
+//       }),
+//     ];
 
-    const versionedTransaction = new VersionedTransaction(messageV0);
+//     const messageV0 = new TransactionMessage({
+//       payerKey: okoSol.publicKey,
+//       recentBlockhash: blockhash,
+//       instructions,
+//     }).compileToV0Message();
 
-    const signedTransaction =
-      await okoSol.signTransaction(versionedTransaction);
+//     const versionedTransaction = new VersionedTransaction(messageV0);
 
-    console.log(
-      "Solana v0 signed transaction:",
-      Buffer.from(signedTransaction.signatures[0]).toString("hex"),
-    );
-  }, [okoSol]);
+//     const signedTransaction =
+//       await okoSol.signTransaction(versionedTransaction);
 
-  const handleClickSolOnchainSignLegacy = useCallback(async () => {
-    if (okoSol === null) {
-      throw new Error("okoSol is not initialized");
-    }
+//     console.log(
+//       "Solana v0 signed transaction:",
+//       Buffer.from(signedTransaction.signatures[0]).toString("hex"),
+//     );
+//   }, [okoSol]);
 
-    if (!okoSol.connected) {
-      await okoSol.connect();
-    }
+//   const handleClickSolOnchainSignLegacy = useCallback(async () => {
+//     if (okoSol === null) {
+//       throw new Error("okoSol is not initialized");
+//     }
 
-    if (!okoSol.publicKey) {
-      throw new Error("No public key available");
-    }
+//     if (!okoSol.connected) {
+//       await okoSol.connect();
+//     }
 
-    const connection = new Connection(SOLANA_RPC_URL);
+//     if (!okoSol.publicKey) {
+//       throw new Error("No public key available");
+//     }
 
-    const toAddress = new PublicKey(
-      "11111111111111111111111111111111",
-    );
+//     const connection = new Connection(SOLANA_RPC_URL);
 
-    const transaction = new Transaction().add(
-      SystemProgram.transfer({
-        fromPubkey: okoSol.publicKey,
-        toPubkey: toAddress,
-        lamports: 0.001 * LAMPORTS_PER_SOL,
-      }),
-    );
+//     const toAddress = new PublicKey("11111111111111111111111111111111");
 
-    const { blockhash } = await connection.getLatestBlockhash();
-    transaction.recentBlockhash = blockhash;
-    transaction.feePayer = okoSol.publicKey;
+//     const transaction = new Transaction().add(
+//       SystemProgram.transfer({
+//         fromPubkey: okoSol.publicKey,
+//         toPubkey: toAddress,
+//         lamports: 0.001 * LAMPORTS_PER_SOL,
+//       }),
+//     );
 
-    const signedTransaction = await okoSol.signTransaction(transaction);
+//     const { blockhash } = await connection.getLatestBlockhash();
+//     transaction.recentBlockhash = blockhash;
+//     transaction.feePayer = okoSol.publicKey;
 
-    console.log(
-      "Solana legacy signed transaction:",
-      signedTransaction.signatures.map((sig) =>
-        sig.signature ? Buffer.from(sig.signature).toString("hex") : null,
-      ),
-    );
-  }, [okoSol]);
+//     const signedTransaction = await okoSol.signTransaction(transaction);
 
-  return (
-    <SignWidget
-      chain="Solana"
-      chainIcon={<SolanaIcon />}
-      signType="onchain"
-      signButtonOnClick={
-        isLegacy ? handleClickSolOnchainSignLegacy : handleClickSolOnchainSignV0
-      }
-      renderBottom={() => (
-        <div className={styles.checkboxContainer}>
-          <Checkbox
-            size="sm"
-            id="set-tx-version"
-            checked={isLegacy}
-            onChange={() => setIsLegacy((prevState) => !prevState)}
-            label="Legacy Transaction"
-          />
-        </div>
-      )}
-    />
-  );
-};
+//     console.log(
+//       "Solana legacy signed transaction:",
+//       signedTransaction.signatures.map((sig) =>
+//         sig.signature ? Buffer.from(sig.signature).toString("hex") : null,
+//       ),
+//     );
+//   }, [okoSol]);
+
+//   return (
+//     <SignWidget
+//       chain="Solana"
+//       chainIcon={<SolanaIcon />}
+//       signType="onchain"
+//       signButtonOnClick={
+//         isLegacy ? handleClickSolOnchainSignLegacy : handleClickSolOnchainSignV0
+//       }
+//       renderBottom={() => (
+//         <div className={styles.checkboxContainer}>
+//           <Checkbox
+//             size="sm"
+//             id="set-tx-version"
+//             checked={isLegacy}
+//             onChange={() => setIsLegacy((prevState) => !prevState)}
+//             label="Legacy Transaction"
+//           />
+//         </div>
+//       )}
+//     />
+//   );
+// };

@@ -125,10 +125,11 @@ export async function handleOAuthInfoPass(
       name: signInResult.name,
     });
 
+    // TODO: refactor this @chemonoworld @Ryz0nd
     // Store Ed25519 key package if available (for Solana support)
-    if (signInResult.keyPackageEd25519) {
-      appState.setKeyPackageEd25519(hostOrigin, signInResult.keyPackageEd25519);
-    }
+    // if (signInResult.keyPackageEd25519) {
+    //   appState.setKeyPackageEd25519(hostOrigin, signInResult.keyPackageEd25519);
+    // }
 
     hasSignedIn = true;
     isNewUser = signInResult.isNewUser;
@@ -212,7 +213,12 @@ export async function handleUserSignIn(
     }
     // sign in flow
     else {
-      const signInRes = await handleExistingUser(idToken, meta, authType, apiKey);
+      const signInRes = await handleExistingUser(
+        idToken,
+        meta,
+        authType,
+        apiKey,
+      );
       if (!signInRes.success) {
         throw signInRes.err;
       }
