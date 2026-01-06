@@ -1,12 +1,12 @@
 "use client";
 
-import React, { createContext, type PropsWithChildren } from "react";
+import { createContext, type FC, type PropsWithChildren } from "react";
 
 export type Theme = "light" | "dark" | "system";
 
 export const ThemeContext = createContext<Theme>("system");
 
-export const ThemeProvider: React.FC<PropsWithChildren<ThemeProviderProps>> = ({
+export const ThemeProvider: FC<PropsWithChildren<ThemeProviderProps>> = ({
   children,
   theme,
 }) => {

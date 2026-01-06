@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const ChevronDownIcon: React.FC<BasicIconProps> = ({
+export const ChevronDownIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 16,

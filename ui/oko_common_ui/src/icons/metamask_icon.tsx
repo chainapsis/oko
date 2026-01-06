@@ -2,7 +2,7 @@ import React from "react";
 
 import { s3BucketURL } from "./paths";
 
-export const MetamaskIcon: React.FC<MetamaskIconProps> = ({
+export const MetamaskIcon: FC<MetamaskIconProps> = ({
   width = 20,
   height = 20,
 }) => {

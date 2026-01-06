@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
+import { createContext, useState, type FC } from "react";
 
 import { Toast, type ToastType } from "./toast";
 
@@ -11,7 +11,7 @@ export const ToastContext = createContext<ToastContextType | undefined>(
   undefined,
 );
 
-export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
+export const ToastProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [message, setMessage] = useState<{

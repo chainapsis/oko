@@ -6,6 +6,8 @@ import { makeUserRouter } from "@oko-wallet/user-dashboard-api";
 import { makeLogRouter } from "@oko-wallet/log-api";
 import { makeSocialLoginRouter } from "@oko-wallet/social-login-api";
 import { makeAttachedRouter } from "@oko-wallet/attached-api";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { OkoApiStatusResponseSchema } from "@oko-wallet/oko-api-openapi/oko";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
@@ -25,6 +27,23 @@ export function setRoutes(app: Express) {
 
   app.use("/social-login/v1", makeSocialLoginRouter());
 
+  registry.registerPath({
+    method: "get",
+    path: "/status",
+    tags: ["Status"],
+    summary: "Get API status",
+    description: "Returns server git hash and public key",
+    responses: {
+      200: {
+        description: "Status retrieved successfully",
+        content: {
+          "application/json": {
+            schema: OkoApiStatusResponseSchema,
+          },
+        },
+      },
+    },
+  });
   app.get("/status", (_req, res) => {
     res.json({
       gitHead: app.locals.git_hash,

@@ -65,7 +65,7 @@ export async function resetPgDatabase(pool: Pool) {
     for (let idx = 0; idx < tables.length; idx += 1) {
       const tbl = tables[idx];
 
-      console.log("Truncate table: %s", tbl);
+      logger.debug("Truncate table: %s", tbl);
       const res = await truncateTable(client, tbl);
 
       if (res.success === false) {

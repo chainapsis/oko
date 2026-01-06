@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const CloseButtonIcon: React.FC<BasicIconProps> = ({
+export const CloseButtonIcon: FC<BasicIconProps> = ({
   className,
   color = "#A4A7AE",
   size = 12,

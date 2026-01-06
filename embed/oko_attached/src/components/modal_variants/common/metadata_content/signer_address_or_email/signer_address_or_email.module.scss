@@ -17,6 +17,12 @@
 
   cursor: pointer;
   border-radius: 12px;
-  background: var(--bg-secondary);
+  background-color: var(--bg-secondary);
   width: fit-content;
+
+  transition: background-color 0.15s ease-in-out;
+
+  &:hover {
+    background-color: var(--bg-secondary-hover);
+  }
 }

@@ -1,5 +1,6 @@
 "use client";
 
+import type { FC } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import styles from "./navigation.module.scss";
@@ -16,7 +17,7 @@ export interface NavigationItem {
 
 export interface NavigationProps {}
 
-export const Navigation: React.FC<NavigationProps> = () => {
+export const Navigation: FC<NavigationProps> = () => {
   const router = useRouter();
   const pathname = usePathname();
 

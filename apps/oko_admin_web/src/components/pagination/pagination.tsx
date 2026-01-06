@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import styles from "./pagination.module.scss";
 
 export interface PaginationProps {
@@ -11,7 +11,7 @@ function range(start: number, end: number) {
   return Array.from({ length: end - start + 1 }, (_, i) => start + i);
 }
 
-export const Pagination: React.FC<PaginationProps> = ({
+export const Pagination: FC<PaginationProps> = ({
   currentPage,
   totalPages,
   onPageChange,

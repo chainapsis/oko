@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { type DirectSignResponse } from "@cosmjs/proto-signing";
 import { type AminoSignResponse } from "@cosmjs/amino";
 import { useMutation } from "@tanstack/react-query";

@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import styles from "./nav_item.module.scss";
 import cn from "classnames";
 
@@ -11,7 +11,7 @@ export interface NavItemProps {
   isParent?: boolean;
 }
 
-export const NavItem: React.FC<NavItemProps> = ({
+export const NavItem: FC<NavItemProps> = ({
   onClick,
   kind = "menu",
   active = false,

@@ -1,10 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 
 import styles from "./view_chains_button.module.scss";
 
-export const ViewChainsButton: React.FC<ViewChainsButtonProps> = ({
-  onClick,
-}) => {
+export const ViewChainsButton: FC<ViewChainsButtonProps> = ({ onClick }) => {
   return (
     <div className={styles.button} onClick={onClick}>
       <div className={styles.icons}></div>

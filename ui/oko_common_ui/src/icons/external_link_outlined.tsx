@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const ExternalLinkOutlinedIcon: React.FC<BasicIconProps> = ({
+export const ExternalLinkOutlinedIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
 }) => {

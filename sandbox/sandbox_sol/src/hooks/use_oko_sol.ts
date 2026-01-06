@@ -1,11 +1,8 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
+import { OkoSolWallet, registerOkoWallet } from "@oko-wallet/oko-sdk-sol";
 import { useSdkStore } from "@/store/sdk";
-
-const OKO_SDK_ENDPOINT = "http://localhost:3201";
-const OKO_API_KEY = "test_api_key";
 
 export function useOkoSol() {
   const {
@@ -34,8 +31,8 @@ export function useOkoSol() {
       try {
         // Initialize OkoSolWallet (internally initializes OkoWallet)
         const solWalletResult = OkoSolWallet.init({
-          api_key: OKO_API_KEY,
-          sdk_endpoint: OKO_SDK_ENDPOINT,
+          api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
+          sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
         });
 
         if (!solWalletResult.success) {
@@ -54,11 +51,17 @@ export function useOkoSol() {
         // Wait for initialization
         await solWallet.waitUntilInitialized;
 
+        // Register with wallet-standard for dApp discovery
+        registerOkoWallet(solWallet);
+        console.log("[sandbox_sol] Oko wallet registered with wallet-standard");
+
         setInitialized(true);
         console.log("[sandbox_sol] SDK initialized");
 
-        const existingPubkey = await solWallet.okoWallet.getPublicKey();
-        if (existingPubkey) {
+        // Check for existing Ed25519 key (Solana uses Ed25519, not secp256k1)
+        const existingEd25519Pubkey =
+          await solWallet.okoWallet.getPublicKeyEd25519();
+        if (existingEd25519Pubkey) {
           await solWallet.connect();
           const pk = solWallet.publicKey?.toBase58() ?? null;
           setConnected(true, pk);
@@ -92,11 +95,14 @@ export function useOkoSol() {
     try {
       setError(null);
 
+      // Check if user is signed in
       const existingPubkey = await okoSolWallet.okoWallet.getPublicKey();
       if (!existingPubkey) {
+        // Not signed in - trigger OAuth sign in
         await okoSolWallet.okoWallet.signIn("google");
       }
 
+      // connect() internally handles Ed25519 key creation if needed
       await okoSolWallet.connect();
       const pk = okoSolWallet.publicKey?.toBase58() ?? null;
       setConnected(true, pk);

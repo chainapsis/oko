@@ -4,7 +4,7 @@ import styles from "./workflow.module.css";
 import { Step } from "../../components/step/step";
 import { useTECDSA } from "./use_tecdsa";
 
-export const Workflow: React.FC = () => {
+export const Workflow: FC = () => {
   const {
     handleClickKeygen,
     handleClickTriples,

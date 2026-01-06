@@ -1,4 +1,4 @@
-import React from "react";
+import type { FC } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { ArrowRightOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/arrow_right_outlined";
 import { BookOpenIcon } from "@oko-wallet/oko-common-ui/icons/book_open";
@@ -8,7 +8,7 @@ import { Widget } from "../widget_components";
 import styles from "./docs_widget.module.scss";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 
-export const DocsWidget: React.FC = () => {
+export const DocsWidget: FC = () => {
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
 
   const handleOpenDocs = () => {

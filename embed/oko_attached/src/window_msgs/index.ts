@@ -2,6 +2,7 @@ import type { OkoWalletMsg } from "@oko-wallet/oko-sdk-core";
 
 import type { MsgEventContext } from "./types";
 import { handleGetPublicKey } from "./get_public_key";
+import { handleGetPublicKeyEd25519 } from "./get_public_key_ed25519";
 import { handleSetOAuthNonce } from "./set_oauth_nonce";
 import { handleSetCodeVerifier } from "./set_code_verifier";
 import { handleOpenModal } from "./open_modal";
@@ -55,6 +56,11 @@ export function makeMsgHandler() {
 
       case "get_public_key": {
         await handleGetPublicKey(ctx);
+        break;
+      }
+
+      case "get_public_key_ed25519": {
+        await handleGetPublicKeyEd25519(ctx);
         break;
       }
 
