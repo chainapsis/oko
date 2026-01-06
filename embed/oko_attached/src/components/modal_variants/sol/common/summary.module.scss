@@ -1,0 +1,34 @@
+.summaryContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+}
+
+.summaryHeader {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+}
+
+.summaryHeaderRight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  cursor: pointer;
+}
+
+.summaryHeaderRightIcon {
+  width: 16px;
+  height: 16px;
+  aspect-ratio: 1/1;
+}
+
+.divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border-primary);
+}

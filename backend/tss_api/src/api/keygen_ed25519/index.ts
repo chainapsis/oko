@@ -2,10 +2,9 @@ import { Pool } from "pg";
 import {
   createUser,
   getUserByEmailAndAuthType,
-} from "@oko-wallet/oko-pg-interface/ewallet_users";
-import type { Result } from "@oko-wallet/stdlib-js";
+} from "@oko-wallet/oko-pg-interface/oko_users";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
+import { Bytes } from "@oko-wallet/bytes";
 import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenEd25519Request } from "@oko-wallet/oko-types/tss";
 import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
@@ -14,7 +13,7 @@ import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import {
   createWalletKSNodes,
   getActiveKSNodes,
@@ -33,9 +32,13 @@ export async function runKeygenEd25519(
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const { auth_type, email, keygen_2, name } = keygenRequest;
+    const { auth_type, user_identifier, keygen_2, email, name } = keygenRequest;
 
-    const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
+    const getUserRes = await getUserByEmailAndAuthType(
+      db,
+      user_identifier,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,
@@ -68,7 +71,7 @@ export async function runKeygenEd25519(
         };
       }
     } else {
-      const createUserRes = await createUser(db, email, auth_type);
+      const createUserRes = await createUser(db, user_identifier, auth_type);
       if (createUserRes.success === false) {
         return {
           success: false,
@@ -111,8 +114,10 @@ export async function runKeygenEd25519(
       };
     }
 
-    // Ed25519 uses 2-of-2 threshold signature with server, not SSS key share nodes
-    // Skip checkKeyShareFromKSNodes validation (which expects secp256k1 33-byte keys)
+    // Ed25519 uses 2-of-2 threshold signature with server, not SSS key share
+    // nodes
+    // Skip checkKeyShareFromKSNodes validation (which expects secp256k1
+    // 33-byte keys)
     const getActiveKSNodesRes = await getActiveKSNodes(db);
     if (getActiveKSNodesRes.success === false) {
       return {
@@ -195,14 +200,15 @@ export async function runKeygenEd25519(
       user.user_id,
       "secp256k1",
     );
-    const secp256k1WalletId = secp256k1WalletRes.success && secp256k1WalletRes.data
-      ? secp256k1WalletRes.data.wallet_id
-      : wallet.wallet_id; // Fallback to ed25519 wallet_id if no secp256k1
+    const secp256k1WalletId =
+      secp256k1WalletRes.success && secp256k1WalletRes.data
+        ? secp256k1WalletRes.data.wallet_id
+        : wallet.wallet_id; // Fallback to ed25519 wallet_id if no secp256k1
 
     const tokenResult = generateUserToken({
       wallet_id: secp256k1WalletId,
       wallet_id_ed25519: wallet.wallet_id,
-      email: email,
+      email: user_identifier,
       jwt_config: jwtConfig,
     });
 
@@ -219,9 +225,10 @@ export async function runKeygenEd25519(
       data: {
         token: tokenResult.data.token,
         user: {
-          email: email,
           wallet_id: wallet.wallet_id,
           public_key: publicKeyHex,
+          user_identifier,
+          email: email ?? null,
           name: name ?? null,
         },
       },

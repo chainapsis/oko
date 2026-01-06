@@ -1,4 +1,4 @@
-import { wasmModule } from "@oko-wallet/teddsa-wasm";
+import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   TeddsaSignRound1Output,

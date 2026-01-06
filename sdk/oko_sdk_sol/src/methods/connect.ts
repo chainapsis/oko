@@ -1,6 +1,9 @@
 import { PublicKey } from "@solana/web3.js";
 
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import type {
+  OkoSolWalletInterface,
+  OkoSolWalletInternal,
+} from "@oko-wallet-sdk-sol/types";
 
 export async function connect(this: OkoSolWalletInterface): Promise<void> {
   if (this.connected) {
@@ -12,10 +15,11 @@ export async function connect(this: OkoSolWalletInterface): Promise<void> {
   try {
     await this.waitUntilInitialized;
 
-    const publicKeyHex = await this.okoWallet.getPublicKey();
+    // Solana uses Ed25519, not secp256k1
+    const publicKeyHex = await this.okoWallet.getPublicKeyEd25519();
 
     if (!publicKeyHex) {
-      throw new Error("Not signed in");
+      throw new Error("No Ed25519 key found. Please sign in first.");
     }
 
     const publicKeyBytes = Buffer.from(publicKeyHex, "hex");
@@ -32,6 +36,9 @@ export async function connect(this: OkoSolWalletInterface): Promise<void> {
     this.state.publicKeyRaw = publicKeyHex;
     this.publicKey = publicKey;
     this.connected = true;
+
+    // Emit connect event
+    (this as OkoSolWalletInternal)._emitter.emit("connect", publicKey);
   } finally {
     this.connecting = false;
   }

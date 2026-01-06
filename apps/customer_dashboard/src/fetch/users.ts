@@ -73,3 +73,42 @@ export async function requestChangePassword(
     }),
   );
 }
+
+export async function requestForgotPassword(
+  email: string,
+): Promise<OkoApiResponse<{ message: string }>> {
+  return errorHandle<{ message: string }>(() =>
+    fetch(`${CUSTOMER_V1_ENDPOINT}/customer/auth/forgot-password`, {
+      method: "POST",
+      body: JSON.stringify({ email }),
+      headers: { "Content-Type": "application/json" },
+    }),
+  );
+}
+
+export async function requestVerifyResetCode(
+  email: string,
+  code: string,
+): Promise<OkoApiResponse<{ isValid: boolean }>> {
+  return errorHandle<{ isValid: boolean }>(() =>
+    fetch(`${CUSTOMER_V1_ENDPOINT}/customer/auth/verify-reset-code`, {
+      method: "POST",
+      body: JSON.stringify({ email, code }),
+      headers: { "Content-Type": "application/json" },
+    }),
+  );
+}
+
+export async function requestResetPasswordConfirm(
+  email: string,
+  code: string,
+  newPassword: string,
+): Promise<OkoApiResponse<{ message: string }>> {
+  return errorHandle<{ message: string }>(() =>
+    fetch(`${CUSTOMER_V1_ENDPOINT}/customer/auth/reset-password-confirm`, {
+      method: "POST",
+      body: JSON.stringify({ email, code, newPassword }),
+      headers: { "Content-Type": "application/json" },
+    }),
+  );
+}

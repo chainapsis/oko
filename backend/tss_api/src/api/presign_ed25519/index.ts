@@ -1,4 +1,7 @@
-import { createTssSession, createTssStage } from "@oko-wallet/oko-pg-interface/tss";
+import {
+  createTssSession,
+  createTssStage,
+} from "@oko-wallet/oko-pg-interface/tss";
 import type {
   PresignEd25519Request,
   PresignEd25519Response,
@@ -24,7 +27,11 @@ export async function runPresignEd25519(
   try {
     const { email, wallet_id, customer_id } = request;
 
-    const validateWalletEmailRes = await validateWalletEmail(db, wallet_id, email);
+    const validateWalletEmailRes = await validateWalletEmail(
+      db,
+      wallet_id,
+      email,
+    );
     if (validateWalletEmailRes.success === false) {
       return {
         success: false,
