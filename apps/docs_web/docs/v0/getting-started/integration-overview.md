@@ -8,11 +8,10 @@ sidebar_position: 1
 Oko can be used alongside existing wallet connection methods, including the
 Keplr browser extension and mobile app.
 
-Integration is simple. Just add social login to your onboarding flow and you’re
-ready to go. For now, we only support Google sign in and email login, but in
-upcoming updates, we’ll roll out additional social login providers (e.g., X,
-Discord, and Telegram) and also allow users to connect wallets they already have
-installed, such as Keplr and MetaMask.
+Integration is simple. Just add social login to your onboarding flow and you're
+ready to go. We support Google, email, X, Discord, and Telegram login. We also
+plan to allow users to connect wallets they already have installed, such as
+Keplr and MetaMask.
 
 ## Integration Options
 
