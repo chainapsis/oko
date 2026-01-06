@@ -65,7 +65,7 @@ export class OkoStandardWallet implements Wallet {
 
           if (!existingKey) {
             // Trigger OAuth sign-in
-            await this.#wallet.okoWallet.signIn("google");
+            await this.#wallet.okoWallet.login();
 
             // Re-check after sign-in
             existingKey = await this.#wallet.okoWallet.getPublicKeyEd25519();

@@ -81,6 +81,7 @@ export const MODAL_STYLES = `
     justify-content: center;
     align-items: center;
     z-index: 2147483647;
+    isolation: isolate;
     font-family: var(--oko-font-family);
   }
 
