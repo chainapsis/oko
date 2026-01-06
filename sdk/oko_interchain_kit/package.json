@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-interchain-kit",
-  "version": "0.0.1-rc.1",
+  "version": "0.0.1-rc.2",
   "type": "module",
   "description": "interchain-kit wallet connector for Oko Wallet",
   "author": "oko-wallet",
@@ -38,8 +38,8 @@
   "dependencies": {
     "@interchain-kit/core": "^0.3.55",
     "@keplr-wallet/types": "0.12.297",
-    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.130",
-    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.157"
+    "@oko-wallet/oko-sdk-core": "^0.0.6-rc.131",
+    "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.158"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^25.0.0",

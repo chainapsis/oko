@@ -88,13 +88,14 @@ export function setKeygenRoutes(router: Router) {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
       const auth_type = oauthUser.type as AuthType;
+      const user_identifier = oauthUser.user_identifier;
       const body = req.body;
 
-      if (!oauthUser?.email) {
+      if (!user_identifier) {
         res.status(401).json({
           success: false,
           code: "UNAUTHORIZED",
-          msg: "User email not found",
+          msg: "User identifier not found",
         });
         return;
       }
@@ -109,8 +110,9 @@ export function setKeygenRoutes(router: Router) {
         jwtConfig,
         {
           auth_type,
-          email: oauthUser.email.toLowerCase(),
+          user_identifier,
           keygen_2: body.keygen_2,
+          email: oauthUser.email,
           name: oauthUser.name,
         },
         state.encryption_secret,

@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./tx_row.module.scss";
@@ -8,7 +8,7 @@ export interface TxRowProps {
   children: React.ReactNode;
 }
 
-export const TxRow: React.FC<TxRowProps> = ({ label, children }) => {
+export const TxRow: FC<TxRowProps> = ({ label, children }) => {
   return (
     <div className={styles.txRow}>
       {label ? (

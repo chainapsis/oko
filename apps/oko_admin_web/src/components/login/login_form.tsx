@@ -59,7 +59,7 @@ export const LoginForm = () => {
         id="email"
         type="text"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e: any) => setEmail(e.target.value)}
         required
         placeholder="Email"
         fullWidth
@@ -69,7 +69,7 @@ export const LoginForm = () => {
         id="password"
         type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={(e: any) => setPassword(e.target.value)}
         required
         placeholder="Password"
         fullWidth

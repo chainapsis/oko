@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { type FC, useMemo, useState } from "react";
 
 import styles from "./cosmos_accounts_modal.module.scss";
 import {
@@ -12,7 +12,7 @@ export interface CosmosAccountsModalProps {
   accounts?: CosmosChainAccount[];
 }
 
-export const CosmosAccountsModal: React.FC<CosmosAccountsModalProps> = ({
+export const CosmosAccountsModal: FC<CosmosAccountsModalProps> = ({
   open,
   onClose,
   accounts: accountsProp,

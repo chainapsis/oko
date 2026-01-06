@@ -26,6 +26,18 @@ export type OkoWalletMsgGetPublicKeyAck = {
   payload: Result<string, string>;
 };
 
+export type OkoWalletMsgGetPublicKeyEd25519 = {
+  target: "oko_attached";
+  msg_type: "get_public_key_ed25519";
+  payload: null;
+};
+
+export type OkoWalletMsgGetPublicKeyEd25519Ack = {
+  target: "oko_sdk";
+  msg_type: "get_public_key_ed25519_ack";
+  payload: Result<string, string>;
+};
+
 export type OkoWalletMsgSetOAuthNonce = {
   target: "oko_attached";
   msg_type: "set_oauth_nonce";
@@ -149,7 +161,7 @@ export type OkoWalletMsgGetNameAck = {
 export type WalletInfo = {
   authType: AuthType;
   publicKey: string;
-  email: string;
+  email: string | null;
   name: string | null;
 };
 
@@ -163,6 +175,18 @@ export type OkoWalletMsgGetWalletInfoAck = {
   target: "oko_sdk";
   msg_type: "get_wallet_info_ack";
   payload: Result<WalletInfo, string>;
+};
+
+export type OkoWalletMsgGetAuthType = {
+  target: "oko_attached";
+  msg_type: "get_auth_type";
+  payload: null;
+};
+
+export type OkoWalletMsgGetAuthTypeAck = {
+  target: "oko_sdk";
+  msg_type: "get_auth_type_ack";
+  payload: Result<AuthType, string>;
 };
 
 export type OkoWalletMsgGetCosmosChainInfo = {
@@ -210,6 +234,8 @@ export type OkoWalletMsg =
   | OkoWalletMsgInitAck
   | OkoWalletMsgGetPublicKey
   | OkoWalletMsgGetPublicKeyAck
+  | OkoWalletMsgGetPublicKeyEd25519
+  | OkoWalletMsgGetPublicKeyEd25519Ack
   | OkoWalletMsgSetOAuthNonce
   | OkoWalletMsgSetOAuthNonceAck
   | OkoWalletMsgSetCodeVerifier
@@ -230,6 +256,8 @@ export type OkoWalletMsg =
   | OkoWalletMsgGetNameAck
   | OkoWalletMsgGetWalletInfo
   | OkoWalletMsgGetWalletInfoAck
+  | OkoWalletMsgGetAuthType
+  | OkoWalletMsgGetAuthTypeAck
   | OkoWalletMsgGetCosmosChainInfo
   | OkoWalletMsgGetCosmosChainInfoAck
   | OkoWalletMsgGetEthChainInfo

@@ -100,6 +100,8 @@ export interface ServerState {
   encryption_secret: string;
   typeform_webhook_secret: string;
   telegram_bot_token: string;
+  slack_webhook_url: string | null;
+  ks_node_report_password: string;
   server_keypair: EddsaKeypair;
 }
 
@@ -131,6 +133,8 @@ export interface InitStateArgs {
   encryption_secret: string;
   typeform_webhook_secret: string;
   telegram_bot_token: string;
+  slack_webhook_url: string | null;
+  ks_node_report_password: string;
 }
 
 async function initializeServerKeypair(

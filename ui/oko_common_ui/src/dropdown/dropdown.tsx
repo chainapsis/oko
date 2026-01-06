@@ -1,9 +1,12 @@
-import React, {
+import {
   createContext,
   useContext,
   useState,
   useRef,
   useEffect,
+  type FC,
+  isValidElement,
+  cloneElement,
 } from "react";
 import { createPortal } from "react-dom";
 import cn from "classnames";
@@ -60,7 +63,7 @@ export interface DropdownDividerProps {
   className?: string;
 }
 
-const DropdownRoot: React.FC<DropdownProps> = ({ children, className }) => {
+const DropdownRoot: FC<DropdownProps> = ({ children, className }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const triggerRef = useRef<HTMLElement | null>(null);
   const contentRef = useRef<HTMLDivElement | null>(null);
@@ -140,7 +143,7 @@ const DropdownRoot: React.FC<DropdownProps> = ({ children, className }) => {
  * Open menu
  * </button>
  */
-const DropdownTrigger: React.FC<DropdownTriggerProps> = ({
+const DropdownTrigger: FC<DropdownTriggerProps> = ({
   children,
   className,
   asChild = false,
@@ -159,9 +162,9 @@ const DropdownTrigger: React.FC<DropdownTriggerProps> = ({
     }
   };
 
-  if (asChild && React.isValidElement(children)) {
+  if (asChild && isValidElement(children)) {
     const childProps = (children as React.ReactElement<any>).props;
-    return React.cloneElement(children as React.ReactElement<any>, {
+    return cloneElement(children as React.ReactElement<any>, {
       ref: triggerRef,
       onClick: handleClick,
       onKeyDown: handleKeyDown,
@@ -190,7 +193,7 @@ const DropdownTrigger: React.FC<DropdownTriggerProps> = ({
   );
 };
 
-const DropdownContent: React.FC<DropdownContentProps> = ({
+const DropdownContent: FC<DropdownContentProps> = ({
   children,
   className,
   defaultOffsetFromTrigger = 4,
@@ -261,7 +264,7 @@ const DropdownContent: React.FC<DropdownContentProps> = ({
   return createPortal(content, document.body);
 };
 
-const DropdownItem: React.FC<DropdownItemProps> = ({
+const DropdownItem: FC<DropdownItemProps> = ({
   children,
   onClick,
   disabled = false,
@@ -305,7 +308,7 @@ const DropdownItem: React.FC<DropdownItemProps> = ({
   );
 };
 
-const DropdownDivider: React.FC<DropdownDividerProps> = ({ className }) => {
+const DropdownDivider: FC<DropdownDividerProps> = ({ className }) => {
   return <div className={cn(styles.divider, className)} />;
 };
 

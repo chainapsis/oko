@@ -1,7 +1,8 @@
-import React from "react";
+import { type FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const CheckCircleOutlinedIcon: React.FC<BasicIconProps> = ({
+export const CheckCircleOutlinedIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 16,

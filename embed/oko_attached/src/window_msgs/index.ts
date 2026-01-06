@@ -2,6 +2,7 @@ import type { OkoWalletMsg } from "@oko-wallet/oko-sdk-core";
 
 import type { MsgEventContext } from "./types";
 import { handleGetPublicKey } from "./get_public_key";
+import { handleGetPublicKeyEd25519 } from "./get_public_key_ed25519";
 import { handleSetOAuthNonce } from "./set_oauth_nonce";
 import { handleSetCodeVerifier } from "./set_code_verifier";
 import { handleOpenModal } from "./open_modal";
@@ -9,6 +10,7 @@ import { handleSignOut } from "./sign_out";
 import { handleGetEmail } from "./get_email";
 import { handleGetName } from "./get_name";
 import { handleGetWalletInfo } from "./get_wallet_info";
+import { handleGetAuthType } from "./get_auth_type";
 import { handleGetCosmosChain } from "./get_cosmos_chain_info";
 import { handleOAuthInfoPass } from "./oauth_info_pass";
 import { handleGetEthChain } from "./get_eth_chain_info";
@@ -57,6 +59,11 @@ export function makeMsgHandler() {
         break;
       }
 
+      case "get_public_key_ed25519": {
+        await handleGetPublicKeyEd25519(ctx);
+        break;
+      }
+
       case "get_email": {
         await handleGetEmail(ctx);
         break;
@@ -69,6 +76,11 @@ export function makeMsgHandler() {
 
       case "get_wallet_info": {
         await handleGetWalletInfo(ctx);
+        break;
+      }
+
+      case "get_auth_type": {
+        await handleGetAuthType(ctx);
         break;
       }
 

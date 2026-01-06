@@ -4,6 +4,8 @@ import cors from "cors";
 import morgan from "morgan";
 
 import { installSwaggerDocs } from "@oko-wallet-ksn-server/openapi";
+import { registry } from "@oko-wallet-ksn-server/openapi/registry";
+import { OkResponseSchema } from "@oko-wallet-ksn-server/openapi/schema";
 import { setRoutes } from "@oko-wallet-ksn-server/routes";
 import { rateLimitMiddleware } from "@oko-wallet-ksn-server/middlewares";
 
@@ -30,6 +32,23 @@ export function makeApp() {
     }),
   );
 
+  registry.registerPath({
+    method: "get",
+    path: "/",
+    tags: ["Status"],
+    summary: "Health check",
+    description: "Returns service health status",
+    responses: {
+      200: {
+        description: "Service is healthy",
+        content: {
+          "text/plain": {
+            schema: OkResponseSchema,
+          },
+        },
+      },
+    },
+  });
   app.get<{}, string>("/", async (req, res) => {
     res.send("Ok");
   });

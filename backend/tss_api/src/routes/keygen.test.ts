@@ -35,6 +35,7 @@ const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
   }
   res.locals.oauth_user = {
     type: req.body.auth_type,
+    user_identifier: "test@example.com",
     email: "test@example.com",
     name: "Test User",
     sub: "test123",
@@ -125,6 +126,7 @@ describe("keygen_route_test", () => {
         data: {
           token: "test_token",
           user: {
+            user_identifier: "test@example.com",
             email: "test@example.com",
             wallet_id: "test_wallet_id",
             public_key: "test_public_key",
@@ -153,6 +155,7 @@ describe("keygen_route_test", () => {
         },
         {
           auth_type: "google",
+          user_identifier: "test@example.com",
           email: "test@example.com",
           keygen_2: testKeygenBody.keygen_2,
           name: "Test User",
@@ -190,6 +193,7 @@ describe("keygen_route_test", () => {
         },
         {
           auth_type: "google",
+          user_identifier: "test@example.com",
           email: "test@example.com",
           keygen_2: testKeygenBody.keygen_2,
           name: "Test User",

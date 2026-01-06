@@ -191,8 +191,9 @@ export function setUserRoutes(router: Router) {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
       const auth_type = oauthUser.type as AuthType;
+      const user_identifier = oauthUser.user_identifier;
 
-      if (!oauthUser?.email) {
+      if (!user_identifier) {
         res.status(401).json({
           success: false,
           code: "UNAUTHORIZED",
@@ -201,16 +202,15 @@ export function setUserRoutes(router: Router) {
         return;
       }
 
-      const userEmail = oauthUser.email.toLowerCase();
-
       const signInRes = await signIn(
         state.db,
-        userEmail,
+        user_identifier,
         auth_type,
         {
           secret: state.jwt_secret,
           expires_in: state.jwt_expires_in,
         },
+        oauthUser.email,
         oauthUser.name,
       );
       if (signInRes.success === false) {
@@ -413,13 +413,14 @@ export function setUserRoutes(router: Router) {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
       const auth_type = oauthUser.type as AuthType;
+      const user_identifier = oauthUser.user_identifier;
       const { public_key, reshared_key_shares } = req.body;
 
-      if (!oauthUser?.email) {
+      if (!user_identifier) {
         res.status(401).json({
           success: false,
           code: "UNAUTHORIZED",
-          msg: "User email not found",
+          msg: "User identifier not found",
         });
         return;
       }
@@ -445,7 +446,7 @@ export function setUserRoutes(router: Router) {
 
       const reshareRes = await updateWalletKSNodesForReshare(
         state.db,
-        oauthUser.email.toLowerCase(),
+        user_identifier,
         auth_type,
         publicKeyRes.data,
         reshared_key_shares,

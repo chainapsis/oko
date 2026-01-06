@@ -13,11 +13,11 @@ import {
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { decryptData } from "@oko-wallet/crypto-js/node";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   createWallet,
   getWalletById,
-} from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
@@ -91,6 +91,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2,
     };
@@ -196,6 +197,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -237,6 +239,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -274,6 +277,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,
@@ -313,6 +317,7 @@ describe("keygen_test", () => {
 
     const keygenRequest: KeygenRequest = {
       auth_type: "google",
+      user_identifier: "test@test.com",
       email: "test@test.com",
       keygen_2: {
         public_key: keygen_outputs[Participant.P1].public_key,

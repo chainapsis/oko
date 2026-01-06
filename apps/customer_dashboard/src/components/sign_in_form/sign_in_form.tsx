@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import type { FC } from "react";
 import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
@@ -8,13 +8,12 @@ import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
 import { AccountForm } from "@oko-wallet-ct-dashboard/ui";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { InfoModal } from "../info_modal/info_modal";
-
+import Link from "next/link";
 import styles from "./sign_in_form.module.scss";
 import { useSignInForm } from "./use_sign_in_form";
 import { GET_STARTED_URL } from "@oko-wallet-ct-dashboard/constants";
 
-export const SignInForm: React.FC = () => {
+export const SignInForm: FC = () => {
   const {
     onSubmit,
     register,
@@ -83,21 +82,11 @@ export const SignInForm: React.FC = () => {
 
       <Spacing height={16} />
 
-      <InfoModal
-        title="Forgot password?"
-        content="Please reach out to our parternship channel."
-        renderTrigger={({ onOpen }) => (
-          <button
-            onClick={onOpen}
-            className={styles.forgotButton}
-            type="button"
-          >
-            <Typography size="sm" weight="medium" color="quaternary">
-              Forgot password?
-            </Typography>
-          </button>
-        )}
-      />
+      <Link href="/users/forgot_password" className={styles.forgotButton}>
+        <Typography size="sm" weight="medium" color="quaternary">
+          Forgot password?
+        </Typography>
+      </Link>
 
       <div className={styles.betaSection}>
         <Typography

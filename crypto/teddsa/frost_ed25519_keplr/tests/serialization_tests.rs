@@ -2,7 +2,7 @@
 
 mod helpers;
 
-use frost_ed25519::{
+use frost_ed25519_keplr::{
     keys::{
         dkg::{round1, round2},
         KeyPackage, PublicKeyPackage, SecretShare,

@@ -1,4 +1,4 @@
-import React, { type ReactElement, useState } from "react";
+import { type ReactElement, useState, type FC } from "react";
 
 import { MockDappModal } from "@/components/widgets/sign_widget/mock_dapp_modal/mock_dapp_modal";
 import styles from "@/components/widgets/sign_widget/sign_widget.module.scss";
@@ -9,7 +9,7 @@ export type SignWidgetInnerProps = SignWidgetProps & {
   hideDappModalButton?: boolean;
 };
 
-export const SignWidgetContent: React.FC<SignWidgetInnerProps> = ({
+export const SignWidgetContent: FC<SignWidgetInnerProps> = ({
   chain,
   chainIcon,
   signType,
@@ -51,7 +51,7 @@ export const SignWidgetContent: React.FC<SignWidgetInnerProps> = ({
   );
 };
 
-export const SignWidget: React.FC<SignWidgetProps> = (props) => {
+export const SignWidget: FC<SignWidgetProps> = (props) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const openModal = () => setIsModalOpen(true);

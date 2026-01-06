@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const ErrorIcon: React.FC<BasicIconProps> = ({
+export const ErrorIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 20,

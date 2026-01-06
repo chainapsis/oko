@@ -11,7 +11,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "next": "^16.0.7",
+    "next": "^16.1.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },
@@ -23,6 +23,7 @@
     "@oko-wallet/oko-sdk-core": "^0.0.6-rc.130",
     "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.157",
     "@oko-wallet/oko-sdk-eth": "^0.0.6-rc.145",
+    "@oko-wallet/oko-sdk-sol": "workspace:*",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.44",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.7",

@@ -1,8 +1,8 @@
-import React from "react";
+import { type FC } from "react";
 
 import { s3BucketURL } from "./paths";
 
-export const OsmosisIcon: React.FC<OsmosisIconProps> = ({
+export const OsmosisIcon: FC<OsmosisIconProps> = ({
   width = 16,
   height = 16,
 }) => {

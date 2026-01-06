@@ -1,6 +1,6 @@
 import type { BasicIconProps } from "./types";
 
-export const SettingIcon: React.FC<BasicIconProps> = ({
+export const SettingIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 20,

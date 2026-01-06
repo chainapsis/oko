@@ -5,8 +5,8 @@ import { createPgConn } from "@oko-wallet/postgres-lib";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 import { createTssSession } from "@oko-wallet/oko-pg-interface/tss";
 import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
-import { createWallet } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
-import { createUser } from "@oko-wallet/oko-pg-interface/ewallet_users";
+import { createWallet } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import { TssStageType, TriplesStageStatus } from "@oko-wallet/oko-types/tss";
 import {
   napiRunTriples2ClientStep1,

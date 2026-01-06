@@ -14,17 +14,24 @@ export async function buildCs(..._args: any[]) {
   expectSuccess(addonRet, "addon build failed");
   console.log("%s %s", chalk.bold.green("Done"), "addon");
 
-  const wasmRet = spawnSync("yarn", ["run", "build:wasm"], {
+  const caitSithWasmRet = spawnSync("yarn", ["run", "build:wasm"], {
     cwd: paths.cait_sith_keplr_wasm,
     stdio: "inherit",
   });
+  expectSuccess(caitSithWasmRet, "wasm build failed");
+  console.log("%s %s", chalk.bold.green("Done"), "build wasm cait sith");
+
+  const wasmRet = spawnSync("yarn", ["run", "build:wasm"], {
+    cwd: paths.frost_keplr_wasm,
+    stdio: "inherit",
+  });
   expectSuccess(wasmRet, "wasm build failed");
-  console.log("%s %s", chalk.bold.green("Done"), "wasm");
+  console.log("%s %s", chalk.bold.green("Done"), "build wasm frost keplr");
 
   const copyRet = spawnSync("yarn", ["run", "copy_wasm"], {
     cwd: paths.oko_attached,
     stdio: "inherit",
   });
   expectSuccess(copyRet, "copy failed");
-  console.log("%s %s", chalk.bold.green("Copied"), "wasm");
+  console.log("%s %s", chalk.bold.green("Done"), "copy wasm");
 }

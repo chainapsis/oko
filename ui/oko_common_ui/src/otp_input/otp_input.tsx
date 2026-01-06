@@ -1,9 +1,11 @@
-import React, {
+import {
   useState,
   useRef,
   type KeyboardEvent,
   type ClipboardEvent,
+  type FC,
 } from "react";
+
 import styles from "./otp_input.module.scss";
 
 interface OtpInputProps {
@@ -18,6 +20,7 @@ interface OtpInputProps {
 function isSingleDigit(value: string): boolean {
   return /^\d$/.test(value);
 }
+
 function isComplete(digits: string[], length: number): boolean {
   return (
     digits.length === length &&
@@ -25,7 +28,7 @@ function isComplete(digits: string[], length: number): boolean {
   );
 }
 
-export const OtpInput: React.FC<OtpInputProps> = ({
+export const OtpInput: FC<OtpInputProps> = ({
   length,
   value,
   onChange,

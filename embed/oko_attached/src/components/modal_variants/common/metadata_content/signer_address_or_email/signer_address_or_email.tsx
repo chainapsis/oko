@@ -8,49 +8,42 @@ import styles from "./signer_address_or_email.module.scss";
 interface SignerAddressOrEmailProps {
   signer: string;
   origin: string;
+  initialViewType: "View Address" | "Login Info" | null;
 }
 
-export const SignerAddressOrEmail: FC<SignerAddressOrEmailProps> = ({
-  signer,
-  origin,
-}) => {
-  const [viewType, setViewType] = useState<"View Address" | "Login Info">(
-    "View Address",
-  );
-  const email = useAppState((state) => state.getWallet(origin)?.email);
+interface ViewProps {
+  value: string;
+  origin: string;
+  type: "address" | "email";
+  prefix?: string;
+}
 
-  switch (viewType) {
-    case "View Address":
-      return (
-        <div className={styles.wrapper}>
-          <Typography size="sm" color="brand-tertiary" weight="medium">
-            {signer.slice(0, 9)}...{signer.slice(-9)}
-          </Typography>
-          <ChangeViewTypeButton
-            viewType="Login Info"
-            onClick={() => setViewType("Login Info")}
-          />
-        </div>
-      );
-    case "Login Info":
-      return (
-        <div className={styles.wrapper}>
-          <Typography size="sm" color="brand-tertiary" weight="medium">
-            {email}
-          </Typography>
-          <ChangeViewTypeButton
-            viewType="View Address"
-            onClick={() => setViewType("View Address")}
-          />
-        </div>
-      );
-  }
+export const SignerAddressOrEmailView: FC<ViewProps> = ({
+  value,
+  type,
+  origin,
+  prefix,
+}) => {
+  const email = useAppState((state) => state.getWallet(origin)?.email);
+  const displayValue =
+    type === "address" ? `${value.slice(0, 9)}...${value.slice(-9)}` : email;
+
+  return (
+    <Typography size="sm" color="brand-tertiary" weight="medium">
+      {prefix && `${prefix} `}
+      {displayValue}
+    </Typography>
+  );
 };
 
-const ChangeViewTypeButton: FC<{
+interface SignerAddressOrEmailChangeViewTypeButtonProps {
   viewType: "View Address" | "Login Info";
   onClick: () => void;
-}> = ({ viewType, onClick }) => {
+}
+
+export const SignerAddressOrEmailChangeViewTypeButton: FC<
+  SignerAddressOrEmailChangeViewTypeButtonProps
+> = ({ viewType, onClick }) => {
   return (
     <div onClick={onClick} className={styles.changeViewTypeButton}>
       <EyeIcon size={12} color="var(--fg-quaternary)" />
@@ -59,4 +52,46 @@ const ChangeViewTypeButton: FC<{
       </Typography>
     </div>
   );
+};
+
+export const SignerAddressOrEmail: FC<SignerAddressOrEmailProps> = ({
+  signer,
+  origin,
+  initialViewType,
+}) => {
+  const [viewType, setViewType] = useState<
+    "View Address" | "Login Info" | null
+  >(initialViewType);
+
+  switch (viewType) {
+    case null:
+    case "View Address":
+      return (
+        <div className={styles.wrapper}>
+          <SignerAddressOrEmailView
+            value={signer}
+            type="address"
+            origin={origin}
+          />
+          <SignerAddressOrEmailChangeViewTypeButton
+            viewType="Login Info"
+            onClick={() => setViewType("Login Info")}
+          />
+        </div>
+      );
+    case "Login Info":
+      return (
+        <div className={styles.wrapper}>
+          <SignerAddressOrEmailView
+            value={signer}
+            type="email"
+            origin={origin}
+          />
+          <SignerAddressOrEmailChangeViewTypeButton
+            viewType="View Address"
+            onClick={() => setViewType("View Address")}
+          />
+        </div>
+      );
+  }
 };

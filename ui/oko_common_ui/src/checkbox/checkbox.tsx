@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import cn from "classnames";
 
 import styles from "./checkbox.module.scss";
@@ -13,6 +13,9 @@ interface CheckboxProps {
   size?: "sm" | "md";
   checked: boolean;
   onChange: (checked: boolean) => void;
+  checkBoxInputContainerClassName?: string;
+  checkboxContainerClassName?: string;
+
   label: string;
   labelStyle?: {
     color?: BaseTypographyProps["color"];
@@ -21,13 +24,15 @@ interface CheckboxProps {
   };
 }
 
-export const Checkbox: React.FC<CheckboxProps> = ({
+export const Checkbox: FC<CheckboxProps> = ({
   id,
   size = "md",
   checked,
   onChange,
   label,
   labelStyle,
+  checkBoxInputContainerClassName,
+  checkboxContainerClassName,
 }) => {
   const iconSize = size === "sm" ? 12 : 14;
   const checkBoxInputStyle = cn(
@@ -38,6 +43,7 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   const checkboxContainerStyle = cn(
     styles.checkboxContainer,
     styles[`checkboxContainer-${size}`],
+    checkboxContainerClassName,
   );
 
   return (
@@ -50,7 +56,12 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         onChange={(e) => onChange(e.target.checked)}
       />
       <label htmlFor={id} className={checkboxContainerStyle}>
-        <div className={styles.checkboxInputContainer}>
+        <div
+          className={cn(
+            styles.checkboxInputContainer,
+            checkBoxInputContainerClassName,
+          )}
+        >
           <span className={checkBoxInputStyle}>
             {/* NOTE: For animate processing, it adjust the display by adjusting the opacity of the corresponding icon in the css @retto*/}
             <CheckIcon size={iconSize} />

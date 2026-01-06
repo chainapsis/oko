@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import styles from "./empty_state.module.scss";
@@ -10,7 +10,7 @@ interface EmptyStateProps {
   onButtonClick?: () => void;
 }
 
-export const EmptyState: React.FC<EmptyStateProps> = ({
+export const EmptyState: FC<EmptyStateProps> = ({
   text,
   showButton = false,
   buttonText,

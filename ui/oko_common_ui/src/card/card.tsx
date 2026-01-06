@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import cn from "classnames";
 
 import styles from "./card.module.scss";
@@ -10,7 +10,7 @@ export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   footer?: React.ReactNode;
 }
 
-export const Card: React.FC<React.PropsWithChildren<CardProps>> = ({
+export const Card: FC<React.PropsWithChildren<CardProps>> = ({
   variant = "default",
   padding = "md",
   header,
