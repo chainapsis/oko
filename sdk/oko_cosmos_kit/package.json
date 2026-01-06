@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/oko-cosmos-kit",
-  "version": "0.0.1-rc.22",
+  "version": "0.0.1-rc.21",
   "type": "module",
   "description": "cosmos-kit wallet connector for Oko Wallet",
   "author": "oko-wallet",
