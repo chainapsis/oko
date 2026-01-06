@@ -85,5 +85,6 @@
     "syncpack": "^14.0.0-alpha.32",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
-  }
+  },
+  "version": "0.0.1-rc.22"
 }
