@@ -6,33 +6,44 @@ import {
   type LoginModalController,
 } from "@oko-wallet-sdk-core/ui/login_modal";
 
+interface ModalState {
+  current: LoginModalController | null;
+}
+
+interface LoginState {
+  controller: LoginModalController | null;
+  resolved: boolean;
+}
+
 // Prevent multiple modals from being opened simultaneously
-let activeModalController: LoginModalController | null = null;
+const modalState: ModalState = { current: null };
 
 export async function login(this: OkoWalletInterface): Promise<void> {
   await this.waitUntilInitialized;
 
   // If modal is already open, return early
-  if (activeModalController) {
+  if (modalState.current) {
     return;
   }
 
   return new Promise((resolve, reject) => {
-    let modalController: LoginModalController | null = null;
-    let isResolved = false;
+    const state: LoginState = {
+      controller: null,
+      resolved: false,
+    };
 
     const cleanup = () => {
-      if (modalController) {
-        removeLoginModal(modalController.container);
-        modalController = null;
-        activeModalController = null;
+      if (state.controller) {
+        removeLoginModal(state.controller.container);
+        state.controller = null;
+        modalState.current = null;
       }
     };
 
     const handleClose = () => {
       cleanup();
-      if (!isResolved) {
-        isResolved = true;
+      if (!state.resolved) {
+        state.resolved = true;
         resolve();
       }
     };
@@ -40,27 +51,27 @@ export async function login(this: OkoWalletInterface): Promise<void> {
     const handleSelect = async (provider: SignInType) => {
       // CRITICAL: Call signIn synchronously within the click event context
       // This ensures Safari allows the popup to open
-      modalController?.hideError();
+      state.controller?.hideError();
 
       try {
         await this.signIn(provider);
         cleanup();
-        isResolved = true;
+        state.resolved = true;
         resolve();
       } catch (error) {
         // Show error message instead of closing the modal
         const errorMessage =
           error instanceof Error ? error.message : "Login failed";
-        modalController?.showError(errorMessage);
+        state.controller?.showError(errorMessage);
       }
     };
 
-    modalController = renderLoginModal({
+    state.controller = renderLoginModal({
       onSelect: handleSelect,
       onClose: handleClose,
     });
-    activeModalController = modalController;
+    modalState.current = state.controller;
 
-    document.body.appendChild(modalController.container);
+    document.body.appendChild(state.controller.container);
   });
 }
