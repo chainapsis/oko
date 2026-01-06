@@ -29,7 +29,7 @@ COPY --chown=node:node ../../.. .
 # Remove .npmrc before yarn set version to avoid NPM_TOKEN env var error
 # .npmrc is only needed for publishing, not for building
 RUN rm -f .npmrc || true
- 
+
 RUN yarn set version 4.7.0
 
 # Install dependencies for addon
@@ -63,7 +63,13 @@ RUN yarn workspaces focus @oko-wallet/tecdsa-interface
 WORKDIR /home/node/oko/crypto/tecdsa/tecdsa_interface
 RUN yarn run build
 
-# Build oko-types (depends on stdlib-js, tecdsa-interface)
+# Build teddsa-interface
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/teddsa-interface
+WORKDIR /home/node/oko/crypto/teddsa/teddsa_interface
+RUN yarn run build
+
+# Build oko-types (depends on stdlib-js, tecdsa-interface, teddsa-interface)
 WORKDIR /home/node/oko
 RUN yarn workspaces focus @oko-wallet/oko-types
 WORKDIR /home/node/oko/common/oko_types
@@ -81,7 +87,7 @@ WORKDIR /home/node/oko
 
 # Install dependencies for oko_api_server
 RUN yarn workspaces focus --production \
-      @oko-wallet/oko-api-server
+    @oko-wallet/oko-api-server
 
 # ───────────────
 # Runtime stage
