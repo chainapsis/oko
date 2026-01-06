@@ -32,11 +32,19 @@ RUN rm -f .npmrc || true
 
 RUN yarn set version 4.7.0
 
-# Install dependencies for addon
+# Install dependencies for tecdsa addon
 RUN yarn workspaces focus addon
 
-# Build Rust napi addon
+# Build tecdsa Rust napi addon
 WORKDIR /home/node/oko/crypto/tecdsa/cait_sith_keplr_addon/addon
+RUN yarn run build
+
+# Install dependencies for teddsa addon
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/teddsa-addon-native
+
+# Build teddsa Rust napi addon
+WORKDIR /home/node/oko/crypto/teddsa/teddsa_addon/addon
 RUN yarn run build
 
 # Build stdlib-js
