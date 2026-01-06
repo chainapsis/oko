@@ -4,8 +4,9 @@ import type { AuthType, OAuthRequest } from "../auth";
 
 export interface KeygenRequest {
   auth_type: AuthType;
-  email: string;
+  user_identifier: string;
   keygen_2: KeygenOutput;
+  email?: string;
   name?: string;
 }
 

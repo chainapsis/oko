@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
@@ -17,7 +17,7 @@ export interface TokenInfoProps {
   currency?: AppCurrency;
 }
 
-export const TokenInfo: React.FC<TokenInfoProps> = ({
+export const TokenInfo: FC<TokenInfoProps> = ({
   tokenAddress,
   amount,
   chain,

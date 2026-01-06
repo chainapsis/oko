@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, type FC } from "react";
 
 import styles from "./avatar.module.scss";
 import { AvatarInitial } from "./avatar_initial";
@@ -57,7 +57,7 @@ function getBorderRadius(variant: AvatarProps["variant"]) {
   }
 }
 
-export const Avatar: React.FC<AvatarProps> = ({
+export const Avatar: FC<AvatarProps> = ({
   src,
   fallback,
   alt,

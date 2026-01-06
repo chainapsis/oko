@@ -1,0 +1,33 @@
+import type { FC } from "react";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
+
+import { OKO_PUBLIC_S3_BUCKET_URL } from "@oko-wallet-attached/requests/endpoints";
+import styles from "./styles.module.scss";
+
+interface SiweSigTitleBadgeProps {
+  theme: Theme | null;
+}
+export const SiweSigTitleBadge: FC<SiweSigTitleBadgeProps> = ({ theme }) => {
+  const imageUrl = {
+    png:
+      theme === "dark"
+        ? `${OKO_PUBLIC_S3_BUCKET_URL}/assets/oko_siwe_sign_badge_dark.png`
+        : `${OKO_PUBLIC_S3_BUCKET_URL}/assets/oko_siwe_sign_badge_light.png`,
+    webp:
+      theme === "dark"
+        ? `${OKO_PUBLIC_S3_BUCKET_URL}/assets/oko_siwe_sign_badge_dark.webp`
+        : `${OKO_PUBLIC_S3_BUCKET_URL}/assets/oko_siwe_sign_badge_light.webp`,
+  };
+
+  return (
+    <div className={styles.imageContainer}>
+      <ImageWithAlt
+        srcSet={imageUrl.webp}
+        srcAlt={imageUrl.png}
+        alt="sign siwe title image"
+        className={styles.image}
+      />
+    </div>
+  );
+};

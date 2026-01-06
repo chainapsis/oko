@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const ArrowUpRightIcon: React.FC<BasicIconProps> = ({
+export const ArrowUpRightIcon: FC<BasicIconProps> = ({
   className,
   size = 16,
   color = "currentColor",

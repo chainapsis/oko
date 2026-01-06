@@ -50,6 +50,11 @@ export const paths = (function () {
     "../../../crypto/tecdsa/tecdsa_interface/",
   );
 
+  const teddsa_interface = path.join(
+    __dirname,
+    "../../../crypto/teddsa/teddsa_interface/",
+  );
+
   // internals2
   const cait_sith_addon_addon = path.join(
     __dirname,
@@ -59,6 +64,11 @@ export const paths = (function () {
   const cait_sith_keplr_wasm = path.join(
     __dirname,
     "../../../crypto/tecdsa/cait_sith_keplr_wasm",
+  );
+
+  const frost_keplr_wasm = path.join(
+    __dirname,
+    "../../../crypto/teddsa/frost_ed25519_keplr_wasm",
   );
 
   const oko_pg_interface = path.join(
@@ -144,11 +154,13 @@ export const paths = (function () {
     ksn_pg_interface,
     sandbox_simple_host,
     tecdsa_interface,
+    teddsa_interface,
     oko_pg_interface,
     oko_attached,
     oko_admin_web,
     cait_sith_keplr_wasm,
     cait_sith_addon_addon,
+    frost_keplr_wasm,
     demo_web,
     user_dashboard,
     ct_dashboard_web,

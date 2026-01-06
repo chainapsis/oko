@@ -69,6 +69,13 @@ export async function verifyIdTokenOfX(
     }
 
     const result = await response.json();
+    if (!result.data.id) {
+      return {
+        success: false,
+        err: "X id not found",
+      };
+    }
+
     return { success: true, data: result.data };
   } catch (err: any) {
     return { success: false, err: err.toString() };

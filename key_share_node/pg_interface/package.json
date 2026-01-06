@@ -13,10 +13,11 @@
     "migrate_2": "MIGRATE_MODE=one NODE_ID=2 tsx ./src/bin/migrate/index.ts",
     "db_backup": "tsx ./src/bin/db_backup.ts",
     "db_restore": "tsx ./src/bin/db_restore.ts",
+    "schema_make": "tsx ../../node_modules/knex/bin/cli.js migrate:make -x ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "^0.0.3-alpha.64",
+    "@oko-wallet/bytes": "^0.0.3-alpha.65",
     "@oko-wallet/ksn-interface": "workspace:*",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.44",
     "knex": "^3.1.0",

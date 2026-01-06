@@ -1,32 +1,56 @@
 use frost_ed25519_keplr::sss_split_ed25519;
 use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
+use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
-#[wasm_bindgen]
-pub fn sss_split(secret: JsValue, point_xs: JsValue, t: u32) -> Result<JsValue, JsValue> {
-    let secret: [u8; 32] = secret
-        .into_serde()
-        .map_err(|err| JsValue::from_str(&err.to_string()))?;
-    let point_xs: Vec<[u8; 32]> = point_xs
-        .into_serde()
-        .map_err(|err| JsValue::from_str(&err.to_string()))?;
+use crate::{KeyPackageRaw, PublicKeyPackageRaw};
 
-    let mut rng = OsRng;
-    let out = sss_split_ed25519(secret, point_xs, t, &mut rng)
-        .map_err(|err| JsValue::from_str(&err.to_string()))?;
-
-    // Convert Point256 to serializable format
-    let serializable_out: Vec<PointSerde> = out
-        .into_iter()
-        .map(|p| PointSerde { x: p.x, y: p.y })
-        .collect();
-
-    JsValue::from_serde(&serializable_out).map_err(|err| JsValue::from_str(&err.to_string()))
+/// Output of the split operation for WASM.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct SplitOutputRaw {
+    /// Key packages for each participant
+    pub key_packages: Vec<KeyPackageRaw>,
+    /// The public key package shared among all participants
+    pub public_key_package: PublicKeyPackageRaw,
 }
 
-#[derive(serde::Serialize, serde::Deserialize)]
-struct PointSerde {
-    x: [u8; 32],
-    y: [u8; 32],
+/// Splits an Ed25519 secret into FROST key packages using VSS.
+///
+/// Returns KeyPackages that can be used directly for FROST signing,
+/// along with a PublicKeyPackage.
+#[wasm_bindgen]
+pub fn sss_split(
+    secret: JsValue,
+    identifiers: JsValue,
+    min_signers: u16,
+) -> Result<JsValue, JsValue> {
+    let secret: [u8; 32] = secret
+        .into_serde()
+        .map_err(|err| JsValue::from_str(&format!("Invalid secret format: {}", err)))?;
+    let identifiers: Vec<[u8; 32]> = identifiers
+        .into_serde()
+        .map_err(|err| JsValue::from_str(&format!("Invalid identifiers format: {}", err)))?;
+
+    let mut rng = OsRng;
+    let output = sss_split_ed25519(secret, identifiers, min_signers, &mut rng)
+        .map_err(|err| JsValue::from_str(&err))?;
+
+    let key_packages: Vec<KeyPackageRaw> = output
+        .key_packages
+        .iter()
+        .map(|kp| KeyPackageRaw::from_key_package(kp))
+        .collect::<Result<Vec<_>, _>>()
+        .map_err(|err| JsValue::from_str(&err))?;
+
+    let public_key_package =
+        PublicKeyPackageRaw::from_public_key_package(&output.public_key_package)
+            .map_err(|err| JsValue::from_str(&err))?;
+
+    let result = SplitOutputRaw {
+        key_packages,
+        public_key_package,
+    };
+
+    JsValue::from_serde(&result).map_err(|err| JsValue::from_str(&err.to_string()))
 }

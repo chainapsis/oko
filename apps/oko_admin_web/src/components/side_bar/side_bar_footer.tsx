@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { type FC } from "react";
 import { SidebarAccountInfo } from "@oko-wallet/oko-common-ui/sidebar_account_info";
 import { AnchoredMenu } from "@oko-wallet/oko-common-ui/anchored_menu";
 import { ThreeDotsVerticalIcon } from "@oko-wallet/oko-common-ui/icons/three_dots_vertical";
@@ -10,7 +10,7 @@ import styles from "./side_bar_footer.module.scss";
 import { useLogin } from "../login/use_login";
 import { useAppState } from "@oko-wallet-admin/state";
 
-export const SideBarFooter: React.FC = () => {
+export const SideBarFooter: FC = () => {
   const { logout } = useLogin();
   const { user } = useAppState();
 

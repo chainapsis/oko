@@ -1,7 +1,6 @@
-import React from "react";
+import { type FC } from "react";
 
 import styles from "./view_chains_modal.module.scss";
-import { ChainsRow } from "./chains_row";
 
 const CHAINS = [
   // { name: "Ethereum", icon: <EthereumIcon width={24} height={24} /> },
@@ -14,9 +13,7 @@ const CHAINS = [
   // { name: "Solana", icon: <CosmosIcon width={24} height={24} /> },
 ];
 
-export const ViewChainsModal: React.FC<ViewChainsModalProps> = ({
-  onClose,
-}) => {
+export const ViewChainsModal: FC<ViewChainsModalProps> = ({ onClose }) => {
   return (
     <div className={styles.modalOverlay}>
       <div className={styles.modal}>

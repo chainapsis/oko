@@ -16,6 +16,16 @@
   align-items: center;
 }
 
+[data-theme="light"] {
+  .checkboxInput {
+    color: var(--white);
+  }
+}
+[data-theme="dark"] {
+  .checkboxInput {
+    color: var(--gray-700);
+  }
+}
 .checkboxInput {
   display: flex;
 

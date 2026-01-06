@@ -5,7 +5,7 @@
   "private": true,
   "dependencies": {
     "@oko-wallet/api-lib": "workspace:*",
-    "@oko-wallet/bytes": "^0.0.3-alpha.64",
+    "@oko-wallet/bytes": "^0.0.3-alpha.65",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "@oko-wallet/oko-types": "^0.0.1-alpha.4",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.44",

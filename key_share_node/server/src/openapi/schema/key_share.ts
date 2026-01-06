@@ -7,7 +7,7 @@ const authTypeSchema = z
   .openapi({ example: "google" });
 
 const curveTypeSchema = z
-  .enum(["secp256k1"])
+  .enum(["secp256k1", "ed25519"])
   .describe("The curve type for the key share");
 
 const publicKeySchema = z
@@ -39,6 +39,7 @@ export const GetKeyShareRequestBodySchema = registry.register(
   z
     .object({
       auth_type: authTypeSchema,
+      curve_type: curveTypeSchema,
       public_key: publicKeySchema,
     })
     .openapi("GetKeyShareRequestBody", {
@@ -65,11 +66,12 @@ export const CheckKeyShareRequestBodySchema = registry.register(
   "CheckKeyShareRequestBody",
   z
     .object({
-      email: z
-        .email()
-        .describe("Email address")
+      user_auth_id: z
+        .string()
+        .describe("User authentication ID")
         .openapi({ example: "test@example.com" }),
       auth_type: authTypeSchema.optional().default("google"),
+      curve_type: curveTypeSchema,
       public_key: publicKeySchema,
     })
     .openapi("CheckKeyShareRequestBody", {

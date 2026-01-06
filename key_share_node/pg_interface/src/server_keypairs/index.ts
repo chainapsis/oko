@@ -18,7 +18,7 @@ export async function getActiveServerKeypair(
 ): Promise<Result<ServerKeypair | null, string>> {
   const query = `
 SELECT *
-FROM server_keypairs
+FROM "2_server_keypairs"
 WHERE is_active = true
 ORDER BY version DESC
 LIMIT 1
@@ -50,7 +50,7 @@ export async function getServerKeypairByVersion(
 ): Promise<Result<ServerKeypair | null, string>> {
   const query = `
 SELECT *
-FROM server_keypairs
+FROM "2_server_keypairs"
 WHERE version = $1
 LIMIT 1
 `;
@@ -80,7 +80,7 @@ export async function getAllServerKeypairs(
 ): Promise<Result<ServerKeypair[], string>> {
   const query = `
 SELECT *
-FROM server_keypairs
+FROM "2_server_keypairs"
 ORDER BY version DESC
 `;
 
@@ -107,7 +107,7 @@ export async function insertServerKeypair(
   },
 ): Promise<Result<ServerKeypair, string>> {
   const query = `
-INSERT INTO server_keypairs (
+INSERT INTO "2_server_keypairs" (
   keypair_id, public_key, enc_private_key, is_active
 )
 VALUES (
@@ -158,7 +158,7 @@ export async function rotateServerKeypair(
     }
 
     await client.query(`
-UPDATE server_keypairs
+UPDATE "2_server_keypairs"
 SET is_active = false, rotated_at = now(), updated_at = now()
 WHERE is_active = true
 `);
@@ -197,7 +197,7 @@ export async function deactivateServerKeypair(
   keypairId: string,
 ): Promise<Result<void, string>> {
   const query = `
-UPDATE server_keypairs
+UPDATE "2_server_keypairs"
 SET is_active = false, rotated_at = now(), updated_at = now()
 WHERE keypair_id = $1
 `;

@@ -15,7 +15,7 @@
     "@oko-wallet/cait-sith-keplr-hooks": "workspace:*",
     "@oko-wallet/cait-sith-keplr-wasm": "workspace:*",
     "classnames": "^2.5.1",
-    "next": "^16.0.7",
+    "next": "^16.1.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1"
   },

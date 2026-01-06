@@ -1,9 +1,9 @@
-import React, { type ReactElement } from "react";
+import { type FC, type ReactElement } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./wallet_box.module.scss";
 
-export const WalletBox: React.FC<WalletBoxProps> = ({ icon, label }) => {
+export const WalletBox: FC<WalletBoxProps> = ({ icon, label }) => {
   return (
     <div className={styles.boxContainer}>
       {icon}

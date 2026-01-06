@@ -1,12 +1,12 @@
 import { create } from "zustand";
 import { combine, createJSONStorage, persist } from "zustand/middleware";
-import type { OAuthProvider } from "@oko-wallet/oko-types/auth";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 interface UserInfoState {
   email: string | null;
   publicKey: string | null;
   isSignedIn: boolean;
-  authType: OAuthProvider | null;
+  authType: AuthType | null;
 }
 
 interface UserInfoActions {
@@ -14,7 +14,7 @@ interface UserInfoActions {
     email: string | null;
     publicKey: string | null;
   }) => void;
-  setAuthType: (authType: OAuthProvider | null) => void;
+  setAuthType: (authType: AuthType | null) => void;
   clearUserInfo: () => void;
 }
 

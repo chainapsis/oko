@@ -1,6 +1,6 @@
-import React from "react";
+import { type FC } from "react";
 
-export const TelegramIcon: React.FC<TelegramIconProps> = ({ size = 20 }) => {
+export const TelegramIcon: FC<TelegramIconProps> = ({ size = 20 }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

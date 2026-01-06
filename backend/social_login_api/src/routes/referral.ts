@@ -19,7 +19,7 @@ import {
 } from "@oko-wallet/oko-pg-interface/referrals";
 
 const CIVITIA_ORIGIN = "https://app.civitia.org";
-import { getWalletById } from "@oko-wallet/oko-pg-interface/ewallet_wallets";
+import { getWalletById } from "@oko-wallet/oko-pg-interface/oko_wallets";
 
 import {
   type UserAuthenticatedRequest,

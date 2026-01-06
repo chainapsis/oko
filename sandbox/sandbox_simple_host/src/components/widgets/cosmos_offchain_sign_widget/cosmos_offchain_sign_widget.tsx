@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 
 import { SignWidget } from "../sign_widget/sign_widget";
 import { useOko } from "@/hooks/use_oko";

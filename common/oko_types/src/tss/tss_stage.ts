@@ -17,6 +17,8 @@ export enum TssStageType {
   TRIPLES = "TRIPLES",
   PRESIGN = "PRESIGN",
   SIGN = "SIGN",
+  SIGN_ED25519 = "SIGN_ED25519",
+  PRESIGN_ED25519 = "PRESIGN_ED25519",
 }
 
 interface TssStageBase {
@@ -58,6 +60,19 @@ export enum SignStageStatus {
   FAILED = "FAILED",
 }
 
+export enum SignEd25519StageStatus {
+  ROUND_1 = "ROUND_1_COMPLETED",
+  ROUND_2 = "ROUND_2_COMPLETED",
+  COMPLETED = "COMPLETED",
+  FAILED = "FAILED",
+}
+
+export enum PresignEd25519StageStatus {
+  COMPLETED = "COMPLETED",
+  USED = "USED",
+  FAILED = "FAILED",
+}
+
 export interface TriplesStageData {
   triple_state: TriplesState | null;
   triple_messages: RcvdTriplesMessages | null;
@@ -79,6 +94,20 @@ export interface SignStageData {
   sign_output: SignOutput | null;
 }
 
+export interface SignEd25519StageData {
+  nonces: number[] | null;
+  identifier: number[] | null;
+  commitments: number[] | null;
+  signature_share: number[] | null;
+  signature: number[] | null;
+}
+
+export interface PresignEd25519StageData {
+  nonces: number[];
+  identifier: number[];
+  commitments: number[];
+}
+
 export type TriplesStage = TssStageBase & {
   stage_type: TssStageType.TRIPLES;
   stage_status: TriplesStageStatus;
@@ -97,12 +126,31 @@ export type SignStage = TssStageBase & {
   stage_data: SignStageData;
 };
 
+export type SignEd25519Stage = TssStageBase & {
+  stage_type: TssStageType.SIGN_ED25519;
+  stage_status: SignEd25519StageStatus;
+  stage_data: SignEd25519StageData;
+};
+
+export type PresignEd25519Stage = TssStageBase & {
+  stage_type: TssStageType.PRESIGN_ED25519;
+  stage_status: PresignEd25519StageStatus;
+  stage_data: PresignEd25519StageData;
+};
+
 export type TssStageStatus =
   | TriplesStageStatus
   | PresignStageStatus
-  | SignStageStatus;
+  | SignStageStatus
+  | SignEd25519StageStatus
+  | PresignEd25519StageStatus;
 
-export type TssStage = TriplesStage | PresignStage | SignStage;
+export type TssStage =
+  | TriplesStage
+  | PresignStage
+  | SignStage
+  | SignEd25519Stage
+  | PresignEd25519Stage;
 
 export type CreateTssStageRequest = Pick<
   TssStage,

@@ -1,6 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const LogoutIcon: React.FC<BasicIconProps> = ({
+export const LogoutIcon: FC<BasicIconProps> = ({
   className,
   color = "currentColor",
   size = 20,

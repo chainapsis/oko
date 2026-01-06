@@ -16,7 +16,7 @@
     "@keplr-wallet/types": "0.12.297",
     "@keplr-wallet/unit": "0.12.297",
     "@oko-wallet/oko-sdk-cosmos": "^0.0.6-rc.157",
-    "next": "^16.0.7",
+    "next": "^16.1.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "react-hook-form": "7.65.0",

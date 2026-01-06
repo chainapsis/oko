@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import { type FC } from "react";
 import { useRouter } from "next/navigation";
 import { type SubmitHandler } from "react-hook-form";
 import { Input } from "@oko-wallet/oko-common-ui/input";
@@ -45,7 +45,7 @@ function useGetKSNodeInfo(nodeId?: string) {
   return { ...query, data: query.data };
 }
 
-export const CreateKSNodeForm: React.FC<CreateKSNodeFormProps> = ({
+export const CreateKSNodeForm: FC<CreateKSNodeFormProps> = ({
   mode = "create",
   nodeId,
 }) => {

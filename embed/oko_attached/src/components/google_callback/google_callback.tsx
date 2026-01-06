@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { type FC } from "react";
 import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -12,7 +12,7 @@ import styles from "./google_callback.module.scss";
 import { useGoogleCallback } from "@oko-wallet-attached/components/google_callback/use_callback";
 import { useSetThemeInCallback } from "@oko-wallet-attached/hooks/theme";
 
-export const GoogleCallback: React.FC = () => {
+export const GoogleCallback: FC = () => {
   const theme = useSetThemeInCallback("google");
   const { error } = useGoogleCallback();
 
@@ -42,7 +42,7 @@ export const GoogleCallback: React.FC = () => {
   );
 };
 
-const ErrorMessage: React.FC<{ error: string }> = ({ error }) => {
+const ErrorMessage: FC<{ error: string }> = ({ error }) => {
   const errorCode = error || "unknown_error";
   const isParamsNotSufficient = errorCode === "params_not_sufficient";
   const errorMessage = isParamsNotSufficient

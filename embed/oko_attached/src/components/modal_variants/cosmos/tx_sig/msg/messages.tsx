@@ -1,4 +1,4 @@
-import React from "react";
+import { type FC } from "react";
 import type { Msg } from "@keplr-wallet/types";
 import { Bech32Address } from "@keplr-wallet/cosmos";
 import { MsgSend as ThorMsgSend } from "@keplr-wallet/proto-types/thorchain/v1/types/msg_send";
@@ -77,7 +77,7 @@ function renderMessage(
   }
 }
 
-export const Messages: React.FC<MessagesProps> = ({
+export const Messages: FC<MessagesProps> = ({
   chainId,
   messages,
   isLoading,

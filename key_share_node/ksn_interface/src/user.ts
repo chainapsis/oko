@@ -2,7 +2,7 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export interface KSNodeUser {
   user_id: string;
-  email: string;
+  user_auth_id: string;
   auth_type: AuthType;
   status: string;
   created_at: Date;

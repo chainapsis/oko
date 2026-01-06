@@ -24,14 +24,15 @@
     "./toggle": "./src/toggle/toggle.tsx",
     "./tooltip": "./src/tooltip/tooltip.tsx",
     "./typography": "./src/typography/typography.tsx",
-    "./skeleton": "./src/skeleton/skeleton.tsx"
+    "./skeleton": "./src/skeleton/skeleton.tsx",
+    "./image_with_alt": "./src/image_with_alt/image_with_alt.tsx"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",
     "@floating-ui/react": "^0.27.16",
     "@oko-wallet/stdlib-js": "0.0.2-rc.40",
     "classnames": "^2.5.1",
-    "next": "^16.0.7",
+    "next": "^16.1.1",
     "react": "^19.2.1",
     "react-dom": "^19.2.1",
     "sass": "^1.94.2"

@@ -1,0 +1,26 @@
+{
+  "name": "@oko-wallet/teddsa-addon",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "./src/server/index.ts",
+  "workspaces": {
+    "packages": [
+      "./addon"
+    ]
+  },
+  "scripts": {
+    "build:addon": "cd addon && npm run build",
+    "test:sign": "npx tsx src/tests/ed25519_sign.test.ts",
+    "test:keygen": "npx tsx src/tests/keygen.test.ts",
+    "test": "npm run test:keygen && npm run test:sign"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@oko-wallet/teddsa-interface": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "typescript": "^5.8.3"
+  }
+}

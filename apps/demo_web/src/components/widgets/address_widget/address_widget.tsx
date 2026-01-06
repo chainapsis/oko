@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, type FC } from "react";
 import { CosmosIcon } from "@oko-wallet/oko-common-ui/icons/cosmos_icon";
 import { EthereumBlueIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_blue_icon";
 import { WalletIcon } from "@oko-wallet/oko-common-ui/icons/wallet";
@@ -13,7 +13,7 @@ import { ViewChainsModal } from "./view_chains_modal";
 import { useAddresses } from "@oko-wallet-demo-web/hooks/wallet";
 import { useGetChainInfos } from "@oko-wallet-demo-web/hooks/use_get_chain_infos";
 
-export const AddressWidget: React.FC<AddressWidgetProps> = ({}) => {
+export const AddressWidget: FC<AddressWidgetProps> = ({}) => {
   const [showModal, setShowModal] = useState(false);
   const { cosmosAddress, ethAddress } = useAddresses();
 

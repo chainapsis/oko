@@ -2,7 +2,7 @@ import React from "react";
 
 import { s3BucketURL } from "./paths";
 
-export const LogoTextIcon: React.FC<LogoTextIconProps> = ({
+export const LogoTextIcon: FC<LogoTextIconProps> = ({
   width = 54.231,
   height = "auto",
   style,

@@ -1,14 +1,10 @@
-import React, { type ReactElement } from "react";
+import { type FC, type ReactElement } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
 
 import styles from "./address_row.module.scss";
 
-export const AddressRow: React.FC<AddressRowProps> = ({
-  icon,
-  chain,
-  address,
-}) => {
+export const AddressRow: FC<AddressRowProps> = ({ icon, chain, address }) => {
   const isLoggedIn = !!address;
   const label = chain === "ethereum" ? "Ethereum" : "Cosmos Hub";
   const prefix = chain === "ethereum" ? "0x" : "cosmos1";

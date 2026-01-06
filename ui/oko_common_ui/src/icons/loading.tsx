@@ -1,8 +1,8 @@
+import type { FC } from "react";
+
 import type { BasicIconProps } from "./types";
 
-export const LoadingIcon: React.FC<
-  BasicIconProps & { backgroundColor?: string }
-> = ({
+export const LoadingIcon: FC<BasicIconProps & { backgroundColor?: string }> = ({
   className,
   color = "currentColor",
   backgroundColor = "transparent",

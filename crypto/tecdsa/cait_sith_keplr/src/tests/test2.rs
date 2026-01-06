@@ -13,13 +13,18 @@ use crate::{
 
 #[test]
 fn test_e2e_3() {
-    let participants = vec![Participant::from(0u32), Participant::from(1u32)];
+    let participants = vec![
+        Participant::from(0u32),
+        Participant::from(1u32),
+        Participant::from(2u32),
+    ];
 
     let threshold = 2;
 
     println!("participants: {:#?}", participants);
 
     let keygen_result = keygen_2::<Secp256k1>(&participants, threshold).unwrap();
+    // NOTE: we have 3 participants, but we only use 2
 
     let triples_participants = vec![Participant::from(0u32), Participant::from(1u32)];
     let triples_result = generate_triples_3::<Secp256k1>(&triples_participants, threshold).unwrap();
