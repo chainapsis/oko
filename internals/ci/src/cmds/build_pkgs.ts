@@ -16,6 +16,7 @@ export async function doBuildPkgs() {
     paths.dotenv,
     paths.crypto_bytes,
     paths.crypto_js,
+    paths.teddsa_interface,
     paths.oko_types,
     paths.ksn_interface,
     paths.tecdsa_interface,

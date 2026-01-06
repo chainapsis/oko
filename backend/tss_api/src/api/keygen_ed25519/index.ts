@@ -3,9 +3,8 @@ import {
   createUser,
   getUserByEmailAndAuthType,
 } from "@oko-wallet/oko-pg-interface/oko_users";
-import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
+import { Bytes } from "@oko-wallet/bytes";
 import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenEd25519Request } from "@oko-wallet/oko-types/tss";
 import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
@@ -115,8 +114,10 @@ export async function runKeygenEd25519(
       };
     }
 
-    // Ed25519 uses 2-of-2 threshold signature with server, not SSS key share nodes
-    // Skip checkKeyShareFromKSNodes validation (which expects secp256k1 33-byte keys)
+    // Ed25519 uses 2-of-2 threshold signature with server, not SSS key share
+    // nodes
+    // Skip checkKeyShareFromKSNodes validation (which expects secp256k1
+    // 33-byte keys)
     const getActiveKSNodesRes = await getActiveKSNodes(db);
     if (getActiveKSNodesRes.success === false) {
       return {
@@ -199,9 +200,10 @@ export async function runKeygenEd25519(
       user.user_id,
       "secp256k1",
     );
-    const secp256k1WalletId = secp256k1WalletRes.success && secp256k1WalletRes.data
-      ? secp256k1WalletRes.data.wallet_id
-      : wallet.wallet_id; // Fallback to ed25519 wallet_id if no secp256k1
+    const secp256k1WalletId =
+      secp256k1WalletRes.success && secp256k1WalletRes.data
+        ? secp256k1WalletRes.data.wallet_id
+        : wallet.wallet_id; // Fallback to ed25519 wallet_id if no secp256k1
 
     const tokenResult = generateUserToken({
       wallet_id: secp256k1WalletId,

@@ -1,3 +1,5 @@
+// TODO: refactor this file @chemonoworld @Ryz0nd
+
 import {
   OkoCosmosWallet,
   type OkoCosmosWalletInterface,
@@ -6,10 +8,10 @@ import {
   OkoEthWallet,
   type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
-import {
-  OkoSolWallet,
-  type OkoSolWalletInterface,
-} from "@oko-wallet/oko-sdk-sol";
+// import {
+//   OkoSolWallet,
+//   type OkoSolWalletInterface,
+// } from "@oko-wallet/oko-sdk-sol";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
@@ -18,7 +20,7 @@ import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 interface SDKState {
   oko_eth: OkoEthWalletInterface | null;
   oko_cosmos: OkoCosmosWalletInterface | null;
-  oko_sol: OkoSolWalletInterface | null;
+  // oko_sol: OkoSolWalletInterface | null;
 
   isEthInitializing: boolean;
   isEthLazyInitialized: boolean;
@@ -33,13 +35,13 @@ interface SDKState {
 interface SDKActions {
   initOkoEth: () => Promise<OkoEthWalletInterface | null>;
   initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
-  initOkoSol: () => Promise<OkoSolWalletInterface | null>;
+  // initOkoSol: () => Promise<OkoSolWalletInterface | null>;
 }
 
 const initialState: SDKState = {
   oko_eth: null,
   oko_cosmos: null,
-  oko_sol: null,
+  // oko_sol: null,
 
   isEthInitializing: false,
   isEthLazyInitialized: false,
@@ -143,10 +145,10 @@ export const useSDKState = create(
     initOkoSol: async () => {
       const state = get();
 
-      if (state.oko_sol || state.isSolInitializing) {
-        console.log("Sol SDK already initialized or initializing, skipping...");
-        return state.oko_sol;
-      }
+      // if (state.oko_sol || state.isSolInitializing) {
+      //   console.log("Sol SDK already initialized or initializing, skipping...");
+      //   return state.oko_sol;
+      // }
 
       try {
         console.log("Initializing Sol SDK...");
@@ -154,39 +156,39 @@ export const useSDKState = create(
           isSolInitializing: true,
         });
 
-        const initRes = OkoSolWallet.init({
-          api_key:
-            "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
-          sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
-        });
+        // const initRes = OkoSolWallet.init({
+        //   api_key:
+        //     "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
+        //   sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
+        // });
 
-        if (initRes.success) {
-          console.log("Sol SDK initialized");
+        // if (initRes.success) {
+        //   console.log("Sol SDK initialized");
 
-          const okoSol = initRes.data;
-          set({
-            oko_sol: okoSol,
-            isSolInitializing: false,
-          });
+        //   const okoSol = initRes.data;
+        //   set({
+        //     // oko_sol: okoSol,
+        //     isSolInitializing: false,
+        //   });
 
-          try {
-            await okoSol.waitUntilInitialized;
-            console.log("Sol SDK lazy initialized");
-            set({
-              isSolLazyInitialized: true,
-            });
-          } catch (e) {
-            console.error("Sol SDK lazy init failed:", e);
-            set({ isSolLazyInitialized: true }); // Still mark as done to not block
-          }
+        //   try {
+        //     await okoSol.waitUntilInitialized;
+        //     console.log("Sol SDK lazy initialized");
+        //     set({
+        //       isSolLazyInitialized: true,
+        //     });
+        //   } catch (e) {
+        //     console.error("Sol SDK lazy init failed:", e);
+        //     set({ isSolLazyInitialized: true }); // Still mark as done to not block
+        //   }
 
-          return okoSol;
-        } else {
-          console.error("Sol sdk init fail, err: %s", initRes.err);
-          set({ isSolInitializing: false, isSolLazyInitialized: true });
+        //   return okoSol;
+        // } else {
+        //   console.error("Sol sdk init fail, err: %s", initRes.err);
+        //   set({ isSolInitializing: false, isSolLazyInitialized: true });
 
-          return null;
-        }
+        //   return null;
+        // }
       } catch (e) {
         console.error("Sol SDK init error:", e);
         set({ isSolInitializing: false, isSolLazyInitialized: true });

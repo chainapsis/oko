@@ -50,11 +50,8 @@ type VerifyResult =
       data: Result<DiscordTokenInfo, OAuthValidationFail>;
     };
 
-export interface AuthenticatedRequest<T = any> extends Request<
-  any,
-  any,
-  T & OAuthBody
-> {}
+export interface AuthenticatedRequest<T = any>
+  extends Request<any, any, T & OAuthBody> {}
 
 export async function bearerTokenMiddleware(
   req: AuthenticatedRequest,

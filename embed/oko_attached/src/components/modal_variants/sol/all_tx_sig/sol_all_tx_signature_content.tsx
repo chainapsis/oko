@@ -81,7 +81,8 @@ export const SolanaAllTxSignatureContent: FC<
             </div>
           </div>
 
-          <SignerAddressOrEmail signer={signer} origin={origin} />
+          {/* TODO: refactor this @chemonoworld @Ryz0nd */}
+          {/* <SignerAddressOrEmail signer={signer} origin={origin} /> */}
         </div>
       </div>
 

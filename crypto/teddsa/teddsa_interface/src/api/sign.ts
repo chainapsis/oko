@@ -1,7 +1,4 @@
-import type {
-  TeddsaCommitmentEntry,
-  TeddsaSignatureShareEntry,
-} from "../sign";
+import type { TeddsaCommitmentEntry, TeddsaSignatureShareEntry } from "../sign";
 
 export interface TeddsaSignRound1Request {
   session_id: string;

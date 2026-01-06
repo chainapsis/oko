@@ -145,7 +145,12 @@ export type TssStageStatus =
   | SignEd25519StageStatus
   | PresignEd25519StageStatus;
 
-export type TssStage = TriplesStage | PresignStage | SignStage | SignEd25519Stage | PresignEd25519Stage;
+export type TssStage =
+  | TriplesStage
+  | PresignStage
+  | SignStage
+  | SignEd25519Stage
+  | PresignEd25519Stage;
 
 export type CreateTssStageRequest = Pick<
   TssStage,
