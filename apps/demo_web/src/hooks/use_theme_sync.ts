@@ -2,10 +2,7 @@ import { useEffect, useLayoutEffect } from "react";
 import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 
 export const useThemeSync = () => {
-  const preference = useThemeState((state) => state.preference);
-  const theme = useThemeState((state) => state.theme);
-  const initialize = useThemeState((state) => state.initialize);
-  const setTheme = useThemeState((state) => state.setTheme);
+  const { preference, theme, initialize, setTheme } = useThemeState();
 
   useLayoutEffect(() => {
     initialize();
