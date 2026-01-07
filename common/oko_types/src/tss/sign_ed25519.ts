@@ -1,8 +1,6 @@
 import type {
-  TeddsaSignRound1Output,
-  TeddsaSignRound2Output,
-  TeddsaCommitmentEntry,
-  TeddsaSignatureShareEntry,
+  CommitmentEntry,
+  SignatureShareEntry,
 } from "@oko-wallet/teddsa-interface";
 
 export interface SignEd25519Round1Request {
@@ -14,7 +12,7 @@ export interface SignEd25519Round1Request {
 
 export interface SignEd25519Round1Response {
   session_id: string;
-  commitments_0: TeddsaCommitmentEntry;
+  commitments_0: CommitmentEntry;
 }
 
 export type SignEd25519Round1Body = {
@@ -25,24 +23,24 @@ export interface SignEd25519Round2Request {
   email: string;
   wallet_id: string;
   session_id: string;
-  commitments_1: TeddsaCommitmentEntry;
+  commitments_1: CommitmentEntry;
 }
 
 export interface SignEd25519Round2Response {
-  signature_share_0: TeddsaSignatureShareEntry;
+  signature_share_0: SignatureShareEntry;
 }
 
 export type SignEd25519Round2Body = {
   session_id: string;
-  commitments_1: TeddsaCommitmentEntry;
+  commitments_1: CommitmentEntry;
 };
 
 export interface SignEd25519AggregateRequest {
   email: string;
   wallet_id: string;
   msg: number[];
-  all_commitments: TeddsaCommitmentEntry[];
-  all_signature_shares: TeddsaSignatureShareEntry[];
+  all_commitments: CommitmentEntry[];
+  all_signature_shares: SignatureShareEntry[];
 }
 
 export interface SignEd25519AggregateResponse {
@@ -51,18 +49,14 @@ export interface SignEd25519AggregateResponse {
 
 export type SignEd25519AggregateBody = {
   msg: number[];
-  all_commitments: TeddsaCommitmentEntry[];
-  all_signature_shares: TeddsaSignatureShareEntry[];
+  all_commitments: CommitmentEntry[];
+  all_signature_shares: SignatureShareEntry[];
 };
 
 export interface SignEd25519ServerState {
   nonces: number[];
   identifier: number[];
 }
-
-// ============================================
-// Presign Ed25519 Types (message-independent)
-// ============================================
 
 export interface PresignEd25519Request {
   email: string;
@@ -72,29 +66,25 @@ export interface PresignEd25519Request {
 
 export interface PresignEd25519Response {
   session_id: string;
-  commitments_0: TeddsaCommitmentEntry;
+  commitments_0: CommitmentEntry;
 }
 
 export type PresignEd25519Body = Record<string, never>;
-
-// ============================================
-// Sign Ed25519 Types (using presign session)
-// ============================================
 
 export interface SignEd25519Request {
   email: string;
   wallet_id: string;
   session_id: string;
   msg: number[];
-  commitments_1: TeddsaCommitmentEntry;
+  commitments_1: CommitmentEntry;
 }
 
 export interface SignEd25519Response {
-  signature_share_0: TeddsaSignatureShareEntry;
+  signature_share_0: SignatureShareEntry;
 }
 
 export type SignEd25519Body = {
   session_id: string;
   msg: number[];
-  commitments_1: TeddsaCommitmentEntry;
+  commitments_1: CommitmentEntry;
 };

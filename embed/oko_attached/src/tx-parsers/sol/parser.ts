@@ -1,7 +1,4 @@
-import {
-  Transaction,
-  VersionedTransaction,
-} from "@solana/web3.js";
+import { Transaction, VersionedTransaction } from "@solana/web3.js";
 import { parseInstruction } from "./instruction";
 import type {
   ParsedTransaction,
@@ -76,7 +73,11 @@ async function parseVersionedTransaction(
       isWritable: message.isAccountWritable(idx),
     }));
 
-    const result = await parseInstruction(programId, bs58.encode(ix.data), accounts);
+    const result = await parseInstruction(
+      programId,
+      bs58.encode(ix.data),
+      accounts,
+    );
 
     if (result.success) {
       instructions.push(result.data);

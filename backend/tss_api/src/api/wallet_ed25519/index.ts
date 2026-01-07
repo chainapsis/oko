@@ -34,7 +34,11 @@ export async function getWalletEd25519PublicInfo(
     const { user_identifier, auth_type } = request;
 
     // Get user
-    const getUserRes = await getUserByEmailAndAuthType(db, user_identifier, auth_type);
+    const getUserRes = await getUserByEmailAndAuthType(
+      db,
+      user_identifier,
+      auth_type,
+    );
     if (getUserRes.success === false) {
       return {
         success: false,

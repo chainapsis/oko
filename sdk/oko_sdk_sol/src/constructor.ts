@@ -52,7 +52,10 @@ export const OkoSolWallet = function (
           this._emitter.emit("accountChanged", newPublicKey);
         }
       } catch (e) {
-        console.warn("[Sol SDK] Failed to get Ed25519 key on account change:", e);
+        console.warn(
+          "[Sol SDK] Failed to get Ed25519 key on account change:",
+          e,
+        );
       }
     }
   };
