@@ -1,4 +1,5 @@
 import type { TeddsaKeygenOutputBytes } from "@oko-wallet/teddsa-hooks";
+import type { KeyPackageRaw, PublicKeyPackageRaw } from "@oko-wallet/teddsa-interface";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 
@@ -24,12 +25,41 @@ export function uint8ArrayToHex(bytes: Uint8Array): string {
     .join("");
 }
 
+function keyPackageRawToJson(pkg: KeyPackageRaw): string {
+  return JSON.stringify(pkg);
+}
+
+function publicKeyPackageRawToJson(pkg: PublicKeyPackageRaw): string {
+  return JSON.stringify(pkg);
+}
+
+function jsonToKeyPackageRaw(json: string): KeyPackageRaw {
+  return JSON.parse(json) as KeyPackageRaw;
+}
+
+function jsonToPublicKeyPackageRaw(json: string): PublicKeyPackageRaw {
+  return JSON.parse(json) as PublicKeyPackageRaw;
+}
+
+function stringToHex(str: string): string {
+  return Array.from(new TextEncoder().encode(str))
+    .map((b) => b.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+function hexToString(hex: string): string {
+  const bytes = hexToUint8Array(hex);
+  return new TextDecoder().decode(bytes);
+}
+
 export function teddsaKeygenToHex(
   keygen: TeddsaKeygenOutputBytes,
 ): KeyPackageEd25519Hex {
   return {
-    keyPackage: uint8ArrayToHex(keygen.key_package),
-    publicKeyPackage: uint8ArrayToHex(keygen.public_key_package),
+    keyPackage: stringToHex(keyPackageRawToJson(keygen.key_package)),
+    publicKeyPackage: stringToHex(
+      publicKeyPackageRawToJson(keygen.public_key_package),
+    ),
     identifier: uint8ArrayToHex(keygen.identifier),
     publicKey: keygen.public_key.toHex(),
   };
@@ -47,8 +77,10 @@ export function teddsaKeygenFromHex(
     return {
       success: true,
       data: {
-        key_package: hexToUint8Array(data.keyPackage),
-        public_key_package: hexToUint8Array(data.publicKeyPackage),
+        key_package: jsonToKeyPackageRaw(hexToString(data.keyPackage)),
+        public_key_package: jsonToPublicKeyPackageRaw(
+          hexToString(data.publicKeyPackage),
+        ),
         identifier: hexToUint8Array(data.identifier),
         public_key: publicKeyRes.data,
       },
