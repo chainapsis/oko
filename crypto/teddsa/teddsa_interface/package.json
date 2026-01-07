@@ -12,7 +12,7 @@
     "build": "yarn clean && tsc && tsc-alias"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "workspace:*"
+    "@oko-wallet/bytes": "0.0.3-alpha.62"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",
