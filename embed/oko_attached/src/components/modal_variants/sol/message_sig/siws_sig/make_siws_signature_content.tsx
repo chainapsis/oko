@@ -4,7 +4,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import { useMemo, type FC } from "react";
 
-import styles from "./solana_siws_signature_content.module.scss";
+import styles from "@oko-wallet-attached/components/modal_variants/common/sign_in_content/sign_in_content.module.scss";
 import {
   getSiwsMessage,
   verifySiwsMessage,
