@@ -31,6 +31,30 @@ async function main() {
 
   const envs = process.env;
 
+  // Run migrations before initializing server state
+  console.log("Running database migrations...");
+  try {
+    const migrationConfig = {
+      client: "pg",
+      connection: {
+        host: envs.DB_HOST,
+        port: Number(envs.DB_PORT),
+        user: envs.DB_USER,
+        password: envs.DB_PASSWORD,
+        database: envs.DB_NAME,
+        ssl: envs.DB_SSL === "true" ? { rejectUnauthorized: false } : false,
+      },
+      migrations: knexConfig.migrations,
+    };
+    const knexInstance = knex(migrationConfig);
+    await knexInstance.migrate.latest();
+    await knexInstance.destroy();
+    console.log("Database migrations completed successfully");
+  } catch (err) {
+    console.error("Migration failed, err: %s", err);
+    process.exit(1);
+  }
+
   const state: ServerState = await makeServerState({
     git_hash,
     jwt_secret: envs.JWT_SECRET!,
@@ -63,29 +87,6 @@ async function main() {
     slack_webhook_url: envs.SLACK_WEBHOOK_URL ?? null,
     ks_node_report_password: envs.KS_NODE_REPORT_PASSWORD!,
   });
-
-  state.logger.info("Running database migrations...");
-  try {
-    const migrationConfig = {
-      client: "pg",
-      connection: {
-        host: envs.DB_HOST,
-        port: Number(envs.DB_PORT),
-        user: envs.DB_USER,
-        password: envs.DB_PASSWORD,
-        database: envs.DB_NAME,
-        ssl: envs.DB_SSL === "true" ? { rejectUnauthorized: false } : false,
-      },
-      migrations: knexConfig.migrations,
-    };
-    const knexInstance = knex(migrationConfig);
-    await knexInstance.migrate.latest();
-    await knexInstance.destroy();
-    state.logger.info("Database migrations completed successfully");
-  } catch (err) {
-    state.logger.error("Migration failed, err: %s", err);
-    process.exit(1);
-  }
 
   const app = makeApp(state);
 

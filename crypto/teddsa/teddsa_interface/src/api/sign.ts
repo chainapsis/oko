@@ -1,31 +1,28 @@
-import type { TeddsaCommitmentEntry, TeddsaSignatureShareEntry } from "../sign";
+import type { CommitmentEntry, SignatureShareEntry } from "../sign";
 
-export interface TeddsaSignRound1Request {
+export interface SignInitRequest {
   session_id: string;
   message: number[];
-  client_commitment: TeddsaCommitmentEntry;
 }
 
-export interface TeddsaSignRound1Response {
-  server_commitment: TeddsaCommitmentEntry;
+export interface SignInitResponse {
+  sign_session_id: string;
 }
 
-export interface TeddsaSignRound2Request {
-  session_id: string;
-  client_signature_share: TeddsaSignatureShareEntry;
+export interface SignRound1Request {
+  sign_session_id: string;
+  client_commitment: CommitmentEntry;
 }
 
-export interface TeddsaSignRound2Response {
-  server_signature_share: TeddsaSignatureShareEntry;
+export interface SignRound1Response {
+  server_commitment: CommitmentEntry;
 }
 
-export interface TeddsaAggregateRequest {
-  session_id: string;
-  message: number[];
-  all_commitments: TeddsaCommitmentEntry[];
-  all_signature_shares: TeddsaSignatureShareEntry[];
+export interface SignRound2Request {
+  sign_session_id: string;
+  client_signature_share: SignatureShareEntry;
 }
 
-export interface TeddsaAggregateResponse {
-  signature: number[];
+export interface SignRound2Response {
+  server_signature_share: SignatureShareEntry;
 }

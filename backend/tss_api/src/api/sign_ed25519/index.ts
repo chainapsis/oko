@@ -21,7 +21,7 @@ import {
   PresignEd25519StageStatus,
   TssSessionState,
 } from "@oko-wallet/oko-types/tss";
-import type { TeddsaKeygenOutput } from "@oko-wallet/teddsa-interface";
+import type { KeygenEd25519Output } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
@@ -73,7 +73,7 @@ export async function runSignEd25519Round1(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: TeddsaKeygenOutput = JSON.parse(decryptedShare);
+    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
 
     const round1Result = runSignRound1Ed25519(
       new Uint8Array(keygenOutput.key_package),
@@ -219,7 +219,7 @@ export async function runSignEd25519Round2(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: TeddsaKeygenOutput = JSON.parse(decryptedShare);
+    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
 
     const serverCommitment = {
       identifier,
@@ -360,7 +360,7 @@ export async function runSignEd25519(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: TeddsaKeygenOutput = JSON.parse(decryptedShare);
+    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
 
     const serverCommitment = {
       identifier,
@@ -454,7 +454,7 @@ export async function runSignEd25519Aggregate(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: TeddsaKeygenOutput = JSON.parse(decryptedShare);
+    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
 
     const aggregateResult = runAggregateEd25519(
       new Uint8Array(msg),
