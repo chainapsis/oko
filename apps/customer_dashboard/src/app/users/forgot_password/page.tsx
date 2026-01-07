@@ -277,9 +277,7 @@ export default function ForgotPasswordPage() {
                     tagType="span"
                     size="sm"
                     weight="semibold"
-                    color={
-                      !isExpired || isResending ? "tertiary" : "primary"
-                    }
+                    color={!isExpired || isResending ? "tertiary" : "primary"}
                   >
                     Resend
                   </Typography>
@@ -352,7 +350,9 @@ export default function ForgotPasswordPage() {
                 className={styles.eyeButton}
                 onClick={() => setShowConfirm((prev) => !prev)}
                 aria-label={
-                  showConfirm ? "Hide confirm password" : "Show confirm password"
+                  showConfirm
+                    ? "Hide confirm password"
+                    : "Show confirm password"
                 }
               >
                 {showConfirm ? <EyeIcon /> : <EyeOffIcon />}

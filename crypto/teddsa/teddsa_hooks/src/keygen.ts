@@ -2,7 +2,7 @@ import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
 import { Bytes } from "@oko-wallet/bytes";
 import type { Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { TeddsaCentralizedKeygenOutput } from "@oko-wallet/teddsa-interface";
+import type { CentralizedKeygenOutput } from "@oko-wallet/teddsa-interface";
 
 import type { TeddsaKeygenResult, TeddsaKeygenOutputBytes } from "./types";
 
@@ -10,7 +10,7 @@ export async function importExternalSecretKeyEd25519(
   secretKey: Bytes32,
 ): Promise<Result<TeddsaKeygenResult, string>> {
   try {
-    const keygenOutput: TeddsaCentralizedKeygenOutput =
+    const keygenOutput: CentralizedKeygenOutput =
       wasmModule.cli_keygen_import_ed25519([...secretKey.toUint8Array()]);
 
     return processKeygenOutput(keygenOutput);
@@ -26,7 +26,7 @@ export async function runTeddsaKeygen(): Promise<
   Result<TeddsaKeygenResult, string>
 > {
   try {
-    const keygenOutput: TeddsaCentralizedKeygenOutput =
+    const keygenOutput: CentralizedKeygenOutput =
       wasmModule.cli_keygen_centralized_ed25519();
 
     return processKeygenOutput(keygenOutput);
@@ -39,12 +39,13 @@ export async function runTeddsaKeygen(): Promise<
 }
 
 function processKeygenOutput(
-  keygenOutput: TeddsaCentralizedKeygenOutput,
+  keygenOutput: CentralizedKeygenOutput,
 ): Result<TeddsaKeygenResult, string> {
   const [keygen_1_raw, keygen_2_raw] = keygenOutput.keygen_outputs;
+  const publicKeyPackage = keygenOutput.public_key_package;
 
   const publicKeyBytesRes = Bytes.fromUint8Array(
-    new Uint8Array(keygenOutput.public_key),
+    new Uint8Array(publicKeyPackage.verifying_key),
     32,
   );
   if (publicKeyBytesRes.success === false) {
@@ -55,15 +56,15 @@ function processKeygenOutput(
   }
 
   const keygen_1: TeddsaKeygenOutputBytes = {
-    key_package: new Uint8Array(keygen_1_raw.key_package),
-    public_key_package: new Uint8Array(keygen_1_raw.public_key_package),
+    key_package: keygen_1_raw,
+    public_key_package: publicKeyPackage,
     identifier: new Uint8Array(keygen_1_raw.identifier),
     public_key: publicKeyBytesRes.data,
   };
 
   const keygen_2: TeddsaKeygenOutputBytes = {
-    key_package: new Uint8Array(keygen_2_raw.key_package),
-    public_key_package: new Uint8Array(keygen_2_raw.public_key_package),
+    key_package: keygen_2_raw,
+    public_key_package: publicKeyPackage,
     identifier: new Uint8Array(keygen_2_raw.identifier),
     public_key: publicKeyBytesRes.data,
   };
