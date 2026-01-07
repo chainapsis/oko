@@ -1,21 +1,21 @@
-import type { TeddsaKeygenOutput } from "../keygen";
+import type { KeyPackageRaw, PublicKeyPackageRaw } from "../keygen";
 
-export interface TeddsaKeygenInitRequest {
+export interface KeygenInitRequest {
   user_id: string;
 }
 
-export interface TeddsaKeygenInitResponse {
+export interface KeygenInitResponse {
   session_id: string;
 }
 
-export interface TeddsaKeygenStoreRequest {
+export interface KeygenStoreRequest {
   user_id: string;
   session_id: string;
-  keygen_output: TeddsaKeygenOutput;
-  public_key: number[];
+  key_package: KeyPackageRaw;
+  public_key_package: PublicKeyPackageRaw;
 }
 
-export interface TeddsaKeygenStoreResponse {
+export interface KeygenStoreResponse {
   success: boolean;
-  public_key: number[];
+  verifying_key: number[];
 }
