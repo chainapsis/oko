@@ -1,21 +1,26 @@
-import type { TeddsaKeygenOutput } from "@oko-wallet/teddsa-interface";
-
 import type { AuthType, OAuthRequest } from "../auth";
 
-export interface TeddsaKeygenOutputWithPublicKey extends TeddsaKeygenOutput {
+// NOTE: This matches NAPI addon's KeygenOutput structure (serialized bytes)
+export interface KeygenEd25519Output {
+  key_package: number[];
+  public_key_package: number[];
+  identifier: number[];
+}
+
+export interface KeygenEd25519OutputWithPublicKey extends KeygenEd25519Output {
   public_key: number[];
 }
 
 export interface KeygenEd25519Request {
   auth_type: AuthType;
   user_identifier: string;
-  keygen_2: TeddsaKeygenOutputWithPublicKey;
+  keygen_2: KeygenEd25519OutputWithPublicKey;
   email?: string;
   name?: string;
 }
 
 export type KeygenEd25519Body = {
-  keygen_2: TeddsaKeygenOutputWithPublicKey;
+  keygen_2: KeygenEd25519OutputWithPublicKey;
 };
 
 export type KeygenEd25519RequestBody = OAuthRequest<KeygenEd25519Body>;

@@ -227,7 +227,9 @@ export function SplTokenTransferWidget() {
             className="w-full bg-widget-field border border-widget-border rounded-2xl px-6 py-5 text-sm focus:outline-none focus:border-widget-border-hover focus:ring-2 focus:ring-widget-border-hover transition-all"
             value={selectedToken.mint}
             onChange={(e) => {
-              const token = DEVNET_TOKENS.find((t) => t.mint === e.target.value);
+              const token = DEVNET_TOKENS.find(
+                (t) => t.mint === e.target.value,
+              );
               if (token) setSelectedToken(token);
             }}
           >
