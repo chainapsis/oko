@@ -78,6 +78,8 @@ export async function typeCheck(..._args: any[]) {
     for (let idx = 0; idx < workers.length; idx += 1) {
       workers[idx].terminate();
     }
+
+    process.exit(1);
   }
 }
 
