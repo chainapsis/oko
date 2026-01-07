@@ -282,8 +282,8 @@ user pk: ${signInResp.user.public_key}`,
         },
         body: JSON.stringify({
           keygen_2: {
-            key_package: [...ed25519Keygen2.key_package],
-            public_key_package: [...ed25519Keygen2.public_key_package],
+            key_package: ed25519Keygen2.key_package,
+            public_key_package: ed25519Keygen2.public_key_package,
             identifier: [...ed25519Keygen2.identifier],
             public_key: [...ed25519Keygen2.public_key.toUint8Array()],
           },
@@ -681,8 +681,8 @@ export async function handleNewUser(
         },
         body: JSON.stringify({
           keygen_2: {
-            key_package: [...ed25519Keygen2.key_package],
-            public_key_package: [...ed25519Keygen2.public_key_package],
+            key_package: ed25519Keygen2.key_package,
+            public_key_package: ed25519Keygen2.public_key_package,
             identifier: [...ed25519Keygen2.identifier],
             public_key: [...ed25519Keygen2.public_key.toUint8Array()],
           },

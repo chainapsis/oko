@@ -15,9 +15,15 @@ export async function initKeplrWasm() {
   }
 
   try {
-    await initFrostWasm(frostWasmModule, "/pkg/frost_ed25519_keplr_wasm_bg.wasm");
+    await initFrostWasm(
+      frostWasmModule,
+      "/pkg/frost_ed25519_keplr_wasm_bg.wasm",
+    );
     console.log("[attached] frost-ed25519 WASM initialized");
   } catch (err) {
-    console.error("[attached] Error initializing frost-ed25519 WASM, err: %s", err);
+    console.error(
+      "[attached] Error initializing frost-ed25519 WASM, err: %s",
+      err,
+    );
   }
 }

@@ -35,11 +35,11 @@ async function getParserForProgram(
     const parser = new SolanaFMParser(idl, programId);
     const instructionParser = parser.createParser(ParserType.INSTRUCTION);
 
-    if (
-      instructionParser &&
-      "parseInstructions" in instructionParser
-    ) {
-      parserCache.set(programId, instructionParser as InstructionParserInterface);
+    if (instructionParser && "parseInstructions" in instructionParser) {
+      parserCache.set(
+        programId,
+        instructionParser as InstructionParserInterface,
+      );
       return instructionParser as InstructionParserInterface;
     }
   } catch {

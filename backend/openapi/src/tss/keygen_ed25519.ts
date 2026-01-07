@@ -5,16 +5,12 @@ import { registry } from "../registry";
 const TeddsaKeygenOutputSchema = registry.register(
   "TeddsaKeygenOutput",
   z.object({
-    key_package: z
-      .array(z.number())
-      .openapi({
-        description: "FROST KeyPackage bytes (contains secret share)",
-      }),
-    public_key_package: z
-      .array(z.number())
-      .openapi({
-        description: "Public key package bytes (shared by all participants)",
-      }),
+    key_package: z.array(z.number()).openapi({
+      description: "FROST KeyPackage bytes (contains secret share)",
+    }),
+    public_key_package: z.array(z.number()).openapi({
+      description: "Public key package bytes (shared by all participants)",
+    }),
     identifier: z
       .array(z.number())
       .openapi({ description: "Participant identifier bytes" }),

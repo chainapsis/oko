@@ -63,12 +63,9 @@ export function TestTransactionsWidget() {
     if (!publicKey) throw new Error("No public key");
 
     const fromPubkey = new PublicKey(publicKey);
-    const { blockhash } =
-      await DEVNET_CONNECTION.getLatestBlockhash();
+    const { blockhash } = await DEVNET_CONNECTION.getLatestBlockhash();
 
-    const testRecipient = new PublicKey(
-      "11111111111111111111111111111112",
-    );
+    const testRecipient = new PublicKey("11111111111111111111111111111112");
 
     switch (selectedTx) {
       case "sol_transfer": {
