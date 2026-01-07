@@ -1,9 +1,7 @@
 import { Participant } from "@oko-wallet/teddsa-interface";
 import type {
-  TeddsaCentralizedKeygenOutput,
-  TeddsaSignRound1Output,
-  TeddsaCommitmentEntry,
-  TeddsaSignatureShareEntry,
+  CommitmentEntry,
+  SignatureShareEntry,
 } from "@oko-wallet/teddsa-interface";
 
 import {
@@ -12,16 +10,18 @@ import {
   runSignRound2Ed25519,
   runAggregateEd25519,
   runVerifyEd25519,
+  type NapiCentralizedKeygenOutput,
+  type NapiSigningCommitmentOutput,
 } from "../server";
 
 interface TeddsaClientState {
-  keygenOutput?: TeddsaCentralizedKeygenOutput;
-  round1Output?: TeddsaSignRound1Output;
+  keygenOutput?: NapiCentralizedKeygenOutput;
+  round1Output?: NapiSigningCommitmentOutput;
 }
 
 interface TeddsaServerState {
-  keygenOutput?: TeddsaCentralizedKeygenOutput;
-  round1Output?: TeddsaSignRound1Output;
+  keygenOutput?: NapiCentralizedKeygenOutput;
+  round1Output?: NapiSigningCommitmentOutput;
 }
 
 function makeClientState(): TeddsaClientState {
@@ -63,7 +63,7 @@ export async function signTestEd25519(
   console.log("Round 1 complete - nonces and commitments generated");
 
   // Collect all commitments
-  const allCommitments: TeddsaCommitmentEntry[] = [
+  const allCommitments: CommitmentEntry[] = [
     {
       identifier: clientRound1.identifier,
       commitments: clientRound1.commitments,
@@ -91,7 +91,7 @@ export async function signTestEd25519(
   console.log("Round 2 complete - signature shares generated");
 
   // Collect all signature shares
-  const allSignatureShares: TeddsaSignatureShareEntry[] = [
+  const allSignatureShares: SignatureShareEntry[] = [
     {
       identifier: clientRound2.identifier,
       signature_share: clientRound2.signature_share,
