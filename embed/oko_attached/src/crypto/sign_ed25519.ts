@@ -9,10 +9,7 @@ import type {
 } from "@oko-wallet/teddsa-interface";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
-import {
-  reqPresignEd25519,
-  reqSignEd25519,
-} from "@oko-wallet/teddsa-api-lib";
+import { reqPresignEd25519, reqSignEd25519 } from "@oko-wallet/teddsa-api-lib";
 
 import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
@@ -45,16 +42,25 @@ export async function makeSignOutputEd25519(
     }
 
     // 1. Server presign: Get server commitments (requires apiKey for session creation)
-    const presignRes = await reqPresignEd25519(TSS_V1_ENDPOINT, {}, apiKey, authToken);
+    const presignRes = await reqPresignEd25519(
+      TSS_V1_ENDPOINT,
+      {},
+      apiKey,
+      authToken,
+    );
 
     if (!presignRes.success) {
       return {
         success: false,
-        err: { type: "sign_fail", error: { type: "error", msg: presignRes.msg } },
+        err: {
+          type: "sign_fail",
+          error: { type: "error", msg: presignRes.msg },
+        },
       };
     }
 
-    const { session_id: sessionId, commitments_0: serverCommitment } = presignRes.data;
+    const { session_id: sessionId, commitments_0: serverCommitment } =
+      presignRes.data;
 
     if (getIsAborted()) {
       return { success: false, err: { type: "aborted" } };
@@ -65,7 +71,10 @@ export async function makeSignOutputEd25519(
     if (!round1Result.success) {
       return {
         success: false,
-        err: { type: "sign_fail", error: { type: "error", msg: round1Result.err } },
+        err: {
+          type: "sign_fail",
+          error: { type: "error", msg: round1Result.err },
+        },
       };
     }
 
@@ -97,11 +106,15 @@ export async function makeSignOutputEd25519(
     if (!serverSignRes.success) {
       return {
         success: false,
-        err: { type: "sign_fail", error: { type: "error", msg: serverSignRes.msg } },
+        err: {
+          type: "sign_fail",
+          error: { type: "error", msg: serverSignRes.msg },
+        },
       };
     }
 
-    const serverSignatureShare: TeddsaSignatureShareEntry = serverSignRes.data.signature_share_0;
+    const serverSignatureShare: TeddsaSignatureShareEntry =
+      serverSignRes.data.signature_share_0;
 
     if (getIsAborted()) {
       return { success: false, err: { type: "aborted" } };
@@ -118,7 +131,10 @@ export async function makeSignOutputEd25519(
     if (!round2Result.success) {
       return {
         success: false,
-        err: { type: "sign_fail", error: { type: "error", msg: round2Result.err } },
+        err: {
+          type: "sign_fail",
+          error: { type: "error", msg: round2Result.err },
+        },
       };
     }
 
@@ -143,7 +159,10 @@ export async function makeSignOutputEd25519(
     if (!aggregateResult.success) {
       return {
         success: false,
-        err: { type: "sign_fail", error: { type: "error", msg: aggregateResult.err } },
+        err: {
+          type: "sign_fail",
+          error: { type: "error", msg: aggregateResult.err },
+        },
       };
     }
 
@@ -153,7 +172,10 @@ export async function makeSignOutputEd25519(
       success: false,
       err: {
         type: "sign_fail",
-        error: { type: "error", msg: error instanceof Error ? error.message : String(error) },
+        error: {
+          type: "error",
+          msg: error instanceof Error ? error.message : String(error),
+        },
       },
     };
   }

@@ -37,7 +37,10 @@ export type SigningResult =
 export async function signMessageToHex(
   message: Uint8Array,
   ctx: SigningContext,
-): Promise<{ success: true; signature: string } | { success: false; error: MakeSolSigError }> {
+): Promise<
+  | { success: true; signature: string }
+  | { success: false; error: MakeSolSigError }
+> {
   const signatureRes = await makeSignOutputEd25519(
     message,
     ctx.keyPackage,
