@@ -99,7 +99,7 @@ export function useOkoSol() {
       const existingPubkey = await okoSolWallet.okoWallet.getPublicKey();
       if (!existingPubkey) {
         // Not signed in - open provider select modal
-        await okoSolWallet.okoWallet.login();
+        await okoSolWallet.okoWallet.openConnectModal();
       }
 
       // connect() internally handles Ed25519 key creation if needed

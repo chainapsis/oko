@@ -18,7 +18,7 @@ interface LoginState {
 // Prevent multiple modals from being opened simultaneously
 const modalState: ModalState = { current: null };
 
-export async function login(this: OkoWalletInterface): Promise<void> {
+export async function openConnectModal(this: OkoWalletInterface): Promise<void> {
   await this.waitUntilInitialized;
 
   // If modal is already open, return early
