@@ -10,10 +10,10 @@ import {
   verifySiwsMessage,
 } from "@oko-wallet-attached/components/modal_variants/sol/siws_message";
 import { SiwsSigTitleBadge } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/siws_sig_title_badge";
-import { SignerAddressOrEmailForSiws } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/signer_address_or_email_for_siws";
+import { SignerInfo } from "@oko-wallet-attached/components/modal_variants/common/signer_info";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
-import { SiwsRiskWarningBox } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/siws_risk_warning_box";
+import { RiskWarningBox } from "@oko-wallet-attached/components/modal_variants/common/risk_warning/risk_warning";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
@@ -50,7 +50,7 @@ export const SolanaSiwsSignatureContent: FC<SolanaSiwsSignatureContentProps> = (
       {isValidSiwsMessage ? (
         <SiwsSigTitleBadge theme={theme} />
       ) : (
-        <SiwsRiskWarningBox />
+        <RiskWarningBox />
       )}
 
       <div className={styles.metadataContainer}>
@@ -71,7 +71,7 @@ export const SolanaSiwsSignatureContent: FC<SolanaSiwsSignatureContentProps> = (
         </div>
 
         <Spacing height={8} />
-        <SignerAddressOrEmailForSiws
+        <SignerInfo
           origin={payload.origin}
           signer={payload.signer}
           initialViewType="Login Info"

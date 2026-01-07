@@ -10,10 +10,10 @@ import {
   verifySiweMessage,
 } from "@oko-wallet-attached/components/modal_variants/eth/siwe_message";
 import { SiweSigTitleBadge } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe_sig_title_badge";
-import { SignerAddressOrEmailForSiwe } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/signer_address_or_email_for_siwe";
+import { SignerInfo } from "@oko-wallet-attached/components/modal_variants/common/signer_info";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
-import { SiweRiskWarningBox } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe_risk_warning_box";
+import { RiskWarningBox } from "@oko-wallet-attached/components/modal_variants/common/risk_warning/risk_warning";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 
 interface EthereumSiweSignatureContentProps {
@@ -37,7 +37,7 @@ export const EthereumSiweSignatureContent: FC<
       {isValidSiweMessage ? (
         <SiweSigTitleBadge theme={theme} />
       ) : (
-        <SiweRiskWarningBox />
+        <RiskWarningBox />
       )}
 
       <div className={styles.metadataContainer}>
@@ -58,7 +58,7 @@ export const EthereumSiweSignatureContent: FC<
         </div>
 
         <Spacing height={8} />
-        <SignerAddressOrEmailForSiwe
+        <SignerInfo
           origin={payload.origin}
           signer={payload.signer}
           initialViewType="Login Info"

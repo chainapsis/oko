@@ -15,7 +15,7 @@ import {
   verifySiwsMessage,
 } from "@oko-wallet-attached/components/modal_variants/sol/siws_message";
 import { SolanaSiwsSignatureContent } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/make_siws_signature_content";
-import { SiwsRiskWarningCheckBox } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/siws_risk_warning_box";
+import { RiskWarningCheckBox } from "@oko-wallet-attached/components/modal_variants/common/risk_warning/risk_warning";
 import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
 
 export interface MakeMessageSigModalProps {
@@ -91,7 +91,7 @@ export const MakeMessageSigModal: FC<MakeMessageSigModalProps> = ({
 
         {siwsMessage && !isValidSiwsMessage && (
           <>
-            <SiwsRiskWarningCheckBox
+            <RiskWarningCheckBox
               checked={isSiwsRiskWarningChecked}
               onChange={setIsSiwsRiskWarningChecked}
             />
