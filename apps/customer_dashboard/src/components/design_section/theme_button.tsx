@@ -1,4 +1,4 @@
-import { CustomerTheme } from "@oko-wallet/oko-types/customers";
+import { type CustomerTheme } from "@oko-wallet/oko-types/customers";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CheckIcon } from "@oko-wallet/oko-common-ui/icons/check_icon";
 
