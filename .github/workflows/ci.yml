@@ -24,6 +24,9 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Build internal packages
+        run: yarn ci build_pkgs
+
       - name: Run typecheck
         run: yarn ci typecheck
 
