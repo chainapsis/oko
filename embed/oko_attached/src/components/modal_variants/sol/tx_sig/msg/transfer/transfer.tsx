@@ -36,12 +36,7 @@ export const SolTransferPretty: FC<SolTransferPrettyProps> = ({
     <div className={styles.container}>
       <TxRow label="Send">
         <div className={styles.tokenInfo}>
-          <Avatar
-            src={SOLANA_LOGO_URL}
-            alt="SOL"
-            size="sm"
-            variant="rounded"
-          />
+          <Avatar src={SOLANA_LOGO_URL} alt="SOL" size="sm" variant="rounded" />
           <Typography
             color="secondary"
             size="lg"

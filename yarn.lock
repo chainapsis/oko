@@ -11334,6 +11334,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-interface@workspace:crypto/teddsa/teddsa_interface"
   dependencies:
+    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
     tsc-alias: "npm:^1.8.16"
