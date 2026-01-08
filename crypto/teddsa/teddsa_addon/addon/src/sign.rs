@@ -28,8 +28,9 @@ pub struct NapiSignatureShareOutput {
 }
 
 /// Final aggregated signature
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SignatureOutput {
+#[napi(object)]
+#[derive(Debug, Clone)]
+pub struct NapiSignatureOutput {
     pub signature: Vec<u8>,
 }
 
@@ -103,7 +104,7 @@ fn aggregate_inner(
     all_commitments: &[(Vec<u8>, Vec<u8>)],
     all_signature_shares: &[(Vec<u8>, Vec<u8>)],
     public_key_package_bytes: &[u8],
-) -> std::result::Result<SignatureOutput, String> {
+) -> std::result::Result<NapiSignatureOutput, String> {
     let pubkey_package =
         PublicKeyPackage::deserialize(public_key_package_bytes).map_err(|e| e.to_string())?;
 
@@ -128,7 +129,7 @@ fn aggregate_inner(
 
     let signature_bytes = signature.serialize().map_err(|e| e.to_string())?;
 
-    Ok(SignatureOutput {
+    Ok(NapiSignatureOutput {
         signature: signature_bytes,
     })
 }
@@ -201,7 +202,7 @@ pub fn napi_aggregate_ed25519(
     all_commitments: serde_json::Value,
     all_signature_shares: serde_json::Value,
     public_key_package: Vec<u8>,
-) -> Result<serde_json::Value> {
+) -> Result<NapiSignatureOutput> {
     let commitments: Vec<CommitmentEntry> =
         serde_json::from_value(all_commitments).map_err(|e| {
             napi::Error::new(
@@ -228,7 +229,7 @@ pub fn napi_aggregate_ed25519(
         .map(|s| (s.identifier, s.signature_share))
         .collect();
 
-    let output = aggregate_inner(
+    aggregate_inner(
         &message,
         &commitments_vec,
         &sig_shares_vec,
@@ -238,13 +239,6 @@ pub fn napi_aggregate_ed25519(
         napi::Error::new(
             napi::Status::GenericFailure,
             format!("aggregate error: {:?}", e),
-        )
-    })?;
-
-    serde_json::to_value(output).map_err(|e| {
-        napi::Error::new(
-            napi::Status::GenericFailure,
-            format!("serialization error: {:?}", e),
         )
     })
 }

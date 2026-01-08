@@ -30,11 +30,15 @@ export interface NapiSignatureShareOutput {
   signature_share: Array<number>
   identifier: Array<number>
 }
+/** Final aggregated signature */
+export interface NapiSignatureOutput {
+  signature: Array<number>
+}
 /** Round 1: Generate signing commitments for a participant. */
 export declare function napiSignRound1Ed25519(keyPackage: Array<number>): NapiSigningCommitmentOutput
 /** Round 2: Generate a signature share for a participant. */
 export declare function napiSignRound2Ed25519(message: Array<number>, keyPackage: Array<number>, nonces: Array<number>, allCommitments: any): NapiSignatureShareOutput
 /** Aggregate signature shares into a final threshold signature. */
-export declare function napiAggregateEd25519(message: Array<number>, allCommitments: any, allSignatureShares: any, publicKeyPackage: Array<number>): any
+export declare function napiAggregateEd25519(message: Array<number>, allCommitments: any, allSignatureShares: any, publicKeyPackage: Array<number>): NapiSignatureOutput
 /** Verify a signature against a public key. */
 export declare function napiVerifyEd25519(message: Array<number>, signature: Array<number>, publicKeyPackage: Array<number>): boolean
