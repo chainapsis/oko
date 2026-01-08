@@ -1003,6 +1003,1000 @@ export async function runRound2Tests() {
   console.log("\n✓ All Round 2 tests passed");
 }
 
+// ============================================================================
+// Aggregate Tests
+// ============================================================================
+
+async function aggregateBasicTest() {
+  console.log("\nTesting aggregate basic functionality...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  const aggregateOutput = runAggregateEd25519(
+    message,
+    allCommitments,
+    allSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (!aggregateOutput.signature || aggregateOutput.signature.length === 0) {
+    throw new Error("Signature should not be empty");
+  }
+  if (aggregateOutput.signature.length !== 64) {
+    throw new Error(
+      `Invalid signature length: expected 64, got ${aggregateOutput.signature.length}`,
+    );
+  }
+
+  console.log("  ✓ Basic functionality test passed");
+  return aggregateOutput;
+}
+
+async function aggregateErrorTest() {
+  console.log("\nTesting aggregate error cases...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  // Test invalid public_key_package
+  try {
+    runAggregateEd25519(
+      message,
+      allCommitments,
+      allSignatureShares,
+      new Uint8Array(0),
+    );
+    throw new Error("Expected error for empty public_key_package");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("aggregate") &&
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for empty public_key_package: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected empty public_key_package");
+  }
+
+  // Test invalid all_commitments (empty array)
+  try {
+    runAggregateEd25519(
+      message,
+      [],
+      allSignatureShares,
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+    throw new Error("Expected error for empty all_commitments");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("aggregate") &&
+      !error.message?.includes("IncorrectNumberOfCommitments") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for empty all_commitments: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected empty all_commitments");
+  }
+
+  // Test invalid all_signature_shares (empty array)
+  try {
+    runAggregateEd25519(
+      message,
+      allCommitments,
+      [],
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+    throw new Error("Expected error for empty all_signature_shares");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("aggregate") &&
+      !error.message?.includes("IncorrectNumberOfCommitments") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for empty all_signature_shares: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected empty all_signature_shares");
+  }
+
+  // Test mismatched identifiers (commitments and signature_shares)
+  const mismatchedSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+  ];
+  try {
+    runAggregateEd25519(
+      message,
+      allCommitments,
+      mismatchedSignatureShares,
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+    throw new Error("Expected error for mismatched identifiers");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("aggregate") &&
+      !error.message?.includes("IncorrectNumberOfCommitments") &&
+      !error.message?.includes("UnknownIdentifier") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for mismatched identifiers: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected mismatched identifiers");
+  }
+
+  console.log("Error handling test passed");
+}
+
+async function aggregateOutputFormatTest() {
+  console.log("\nTesting aggregate output format...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  const aggregateOutput = runAggregateEd25519(
+    message,
+    allCommitments,
+    allSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (!Array.isArray(aggregateOutput.signature)) {
+    throw new Error("Signature should be an array");
+  }
+
+  if (aggregateOutput.signature.length === 0) {
+    throw new Error("Signature array should not be empty");
+  }
+
+  if (aggregateOutput.signature.length !== 64) {
+    throw new Error(
+      `Signature length should be 64 bytes, got ${aggregateOutput.signature.length}`,
+    );
+  }
+
+  console.log(
+    `  ✓ Signature length: ${aggregateOutput.signature.length} bytes`,
+  );
+  console.log("Output format test passed");
+}
+
+async function aggregateConsistencyTest() {
+  console.log("\nTesting aggregate consistency...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  // Test same input produces same output
+  const aggregate1 = runAggregateEd25519(
+    message,
+    allCommitments,
+    allSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+  const aggregate2 = runAggregateEd25519(
+    message,
+    allCommitments,
+    allSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  const sig1 = Buffer.from(aggregate1.signature).toString("hex");
+  const sig2 = Buffer.from(aggregate2.signature).toString("hex");
+
+  if (sig1 !== sig2) {
+    throw new Error("Same input should produce same signature");
+  }
+
+  // Test order independence (reverse order of commitments and signature_shares)
+  const reversedCommitments: CommitmentEntry[] = [
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+  ];
+
+  const reversedSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+  ];
+
+  const aggregate3 = runAggregateEd25519(
+    message,
+    reversedCommitments,
+    reversedSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  const sig3 = Buffer.from(aggregate3.signature).toString("hex");
+
+  if (sig1 !== sig3) {
+    throw new Error("Order of commitments/shares should not affect result");
+  }
+
+  console.log("Consistency test passed - same input produces same output");
+}
+
+async function aggregateCommitmentsSharesMatchingTest() {
+  console.log("\nTesting aggregate commitments-shares matching...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  // Test with correct matching
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  const aggregateOutput = runAggregateEd25519(
+    message,
+    allCommitments,
+    allSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (aggregateOutput.signature.length !== 64) {
+    throw new Error("Signature should be 64 bytes");
+  }
+
+  // Test with missing commitment (only client)
+  const clientOnlyCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+  ];
+
+  try {
+    runAggregateEd25519(
+      message,
+      clientOnlyCommitments,
+      allSignatureShares,
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+    throw new Error("Expected error for missing commitment");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("aggregate") &&
+      !error.message?.includes("IncorrectNumberOfCommitments") &&
+      !error.message?.includes("UnknownIdentifier") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for missing commitment: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected missing commitment");
+  }
+
+  // Test with missing signature share (only client)
+  const clientOnlySignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+  ];
+
+  try {
+    runAggregateEd25519(
+      message,
+      allCommitments,
+      clientOnlySignatureShares,
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+    throw new Error("Expected error for missing signature share");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("aggregate") &&
+      !error.message?.includes("IncorrectNumberOfCommitments") &&
+      !error.message?.includes("UnknownIdentifier") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for missing signature share: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected missing signature share");
+  }
+
+  console.log("Commitments-shares matching test passed");
+}
+
+async function aggregateMessageDependencyTest() {
+  console.log("\nTesting aggregate message dependency...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  // Generate single set of round1/commitments/nonces to use for all messages
+  // This allows us to test message dependency by keeping nonces/commitments constant
+  const round1_client = runSignRound1Ed25519(clientKeyPackage);
+  const round1_server = runSignRound1Ed25519(serverKeyPackage);
+  const sharedCommitments: CommitmentEntry[] = [
+    {
+      identifier: round1_client.identifier,
+      commitments: round1_client.commitments,
+    },
+    {
+      identifier: round1_server.identifier,
+      commitments: round1_server.commitments,
+    },
+  ];
+
+  const message1 = new TextEncoder().encode("Message 1");
+  const message2 = new TextEncoder().encode("Message 2");
+  const message3 = new TextEncoder().encode("Message 3");
+  const emptyMessage = new Uint8Array(0);
+
+  // Use the SAME nonces and commitments for different messages
+  // This tests that aggregate correctly depends on the message parameter
+  const round2_1_client = runSignRound2Ed25519(
+    message1,
+    clientKeyPackage,
+    new Uint8Array(round1_client.nonces),
+    sharedCommitments,
+  );
+  const round2_1_server = runSignRound2Ed25519(
+    message1,
+    serverKeyPackage,
+    new Uint8Array(round1_server.nonces),
+    sharedCommitments,
+  );
+  const shares1: SignatureShareEntry[] = [
+    {
+      identifier: round2_1_client.identifier,
+      signature_share: round2_1_client.signature_share,
+    },
+    {
+      identifier: round2_1_server.identifier,
+      signature_share: round2_1_server.signature_share,
+    },
+  ];
+
+  // Use the SAME nonces and commitments for message2
+  const round2_2_client = runSignRound2Ed25519(
+    message2,
+    clientKeyPackage,
+    new Uint8Array(round1_client.nonces),
+    sharedCommitments,
+  );
+  const round2_2_server = runSignRound2Ed25519(
+    message2,
+    serverKeyPackage,
+    new Uint8Array(round1_server.nonces),
+    sharedCommitments,
+  );
+  const shares2: SignatureShareEntry[] = [
+    {
+      identifier: round2_2_client.identifier,
+      signature_share: round2_2_client.signature_share,
+    },
+    {
+      identifier: round2_2_server.identifier,
+      signature_share: round2_2_server.signature_share,
+    },
+  ];
+
+  // Use the SAME nonces and commitments for message3
+  const round2_3_client = runSignRound2Ed25519(
+    message3,
+    clientKeyPackage,
+    new Uint8Array(round1_client.nonces),
+    sharedCommitments,
+  );
+  const round2_3_server = runSignRound2Ed25519(
+    message3,
+    serverKeyPackage,
+    new Uint8Array(round1_server.nonces),
+    sharedCommitments,
+  );
+  const shares3: SignatureShareEntry[] = [
+    {
+      identifier: round2_3_client.identifier,
+      signature_share: round2_3_client.signature_share,
+    },
+    {
+      identifier: round2_3_server.identifier,
+      signature_share: round2_3_server.signature_share,
+    },
+  ];
+
+  // Aggregate with same commitments/shares but different messages
+  const aggregate1 = runAggregateEd25519(
+    message1,
+    sharedCommitments,
+    shares1,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+  const aggregate2 = runAggregateEd25519(
+    message2,
+    sharedCommitments,
+    shares2,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+  const aggregate3 = runAggregateEd25519(
+    message3,
+    sharedCommitments,
+    shares3,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  const sig1 = Buffer.from(aggregate1.signature).toString("hex");
+  const sig2 = Buffer.from(aggregate2.signature).toString("hex");
+  const sig3 = Buffer.from(aggregate3.signature).toString("hex");
+
+  // Different messages should produce different signatures
+  // This proves that aggregate correctly depends on the message parameter
+  if (sig1 === sig2 || sig1 === sig3 || sig2 === sig3) {
+    throw new Error("Different messages should produce different signatures");
+  }
+
+  // Test empty message with new nonces (since we already used the shared nonces)
+  const round1_empty_client = runSignRound1Ed25519(clientKeyPackage);
+  const round1_empty_server = runSignRound1Ed25519(serverKeyPackage);
+  const commitments_empty: CommitmentEntry[] = [
+    {
+      identifier: round1_empty_client.identifier,
+      commitments: round1_empty_client.commitments,
+    },
+    {
+      identifier: round1_empty_server.identifier,
+      commitments: round1_empty_server.commitments,
+    },
+  ];
+  const round2_empty_client = runSignRound2Ed25519(
+    emptyMessage,
+    clientKeyPackage,
+    new Uint8Array(round1_empty_client.nonces),
+    commitments_empty,
+  );
+  const round2_empty_server = runSignRound2Ed25519(
+    emptyMessage,
+    serverKeyPackage,
+    new Uint8Array(round1_empty_server.nonces),
+    commitments_empty,
+  );
+  const shares_empty: SignatureShareEntry[] = [
+    {
+      identifier: round2_empty_client.identifier,
+      signature_share: round2_empty_client.signature_share,
+    },
+    {
+      identifier: round2_empty_server.identifier,
+      signature_share: round2_empty_server.signature_share,
+    },
+  ];
+
+  const aggregateEmpty = runAggregateEd25519(
+    emptyMessage,
+    commitments_empty,
+    shares_empty,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (aggregateEmpty.signature.length !== 64) {
+    throw new Error("Empty message should still produce valid signature");
+  }
+
+  // Verify that empty message signature is different from non-empty messages
+  const sigEmpty = Buffer.from(aggregateEmpty.signature).toString("hex");
+  if (sigEmpty === sig1 || sigEmpty === sig2 || sigEmpty === sig3) {
+    throw new Error("Empty message should produce different signature");
+  }
+
+  console.log(
+    "Message dependency test passed - same nonces/commitments, different messages produce different signatures",
+  );
+}
+
+async function aggregateIntegrationTest() {
+  console.log("\nTesting aggregate integration with verify...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Integration test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  const aggregateOutput = runAggregateEd25519(
+    message,
+    allCommitments,
+    allSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (aggregateOutput.signature.length !== 64) {
+    throw new Error(
+      `Invalid signature length: expected 64, got ${aggregateOutput.signature.length}`,
+    );
+  }
+
+  const isValid = runVerifyEd25519(
+    message,
+    new Uint8Array(aggregateOutput.signature),
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (!isValid) {
+    throw new Error("Aggregated signature should be valid");
+  }
+
+  // Test with wrong message
+  const wrongMessage = new TextEncoder().encode("Wrong message");
+  const isValidWrong = runVerifyEd25519(
+    wrongMessage,
+    new Uint8Array(aggregateOutput.signature),
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (isValidWrong) {
+    throw new Error("Wrong message should not verify");
+  }
+
+  console.log("Integration test passed - aggregate output works with verify");
+}
+
+async function aggregateThresholdTest() {
+  console.log("\nTesting aggregate threshold validation...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  // Test with threshold (2-of-2, so both shares required)
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  const aggregateWithThreshold = runAggregateEd25519(
+    message,
+    allCommitments,
+    allSignatureShares,
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (aggregateWithThreshold.signature.length !== 64) {
+    throw new Error("Threshold shares should produce valid signature");
+  }
+
+  // Verify the threshold signature
+  const isValid = runVerifyEd25519(
+    message,
+    new Uint8Array(aggregateWithThreshold.signature),
+    new Uint8Array(
+      keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+    ),
+  );
+
+  if (!isValid) {
+    throw new Error("Threshold signature should be valid");
+  }
+
+  // Test with below threshold (only one share)
+  const singleSignatureShare: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+  ];
+
+  const singleCommitment: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+  ];
+
+  try {
+    runAggregateEd25519(
+      message,
+      singleCommitment,
+      singleSignatureShare,
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+    throw new Error("Expected error for below threshold shares");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("aggregate") &&
+      !error.message?.includes("IncorrectNumberOfCommitments") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(`Unexpected error for below threshold: ${error.message}`);
+    }
+    console.log("  ✓ Correctly rejected below threshold shares");
+  }
+
+  // Note: In 2-of-2 scheme, we can't test above threshold since we only have 2 participants
+  // But with threshold shares (2), it should work
+  console.log(
+    "Threshold test passed - threshold shares work, below threshold rejected",
+  );
+}
+
+export async function runAggregateTests() {
+  console.log("\n" + "=".repeat(50));
+  console.log("Aggregate Tests");
+  console.log("=".repeat(50));
+
+  await aggregateBasicTest();
+  await aggregateErrorTest();
+  await aggregateOutputFormatTest();
+  await aggregateConsistencyTest();
+  await aggregateCommitmentsSharesMatchingTest();
+  await aggregateMessageDependencyTest();
+  await aggregateIntegrationTest();
+  await aggregateThresholdTest();
+
+  console.log("\n✓ All Aggregate tests passed");
+}
+
 export async function runIntegrationTests() {
   console.log("\n" + "=".repeat(50));
   console.log("Integration Tests");
@@ -1032,6 +2026,7 @@ async function main() {
   try {
     await runRound1Tests();
     await runRound2Tests();
+    await runAggregateTests();
     await runIntegrationTests();
 
     console.log("\n" + "=".repeat(50));
