@@ -136,7 +136,7 @@ interface OkoLoginMethod {
   provider: SignInType;
 }
 
-type SignInType = "google"; // More providers coming soon
+type SignInType = "google" | "email" | "x" | "telegram" | "discord";
 ```
 
 ### Login Providers
@@ -144,6 +144,10 @@ type SignInType = "google"; // More providers coming soon
 Each login provider creates a separate wallet entry in Cosmos Kit's wallet list:
 
 - `oko_wallet_google` - Google OAuth login
+- `oko_wallet_email` - Email/passwordless login
+- `oko_wallet_x` - X (Twitter) OAuth login
+- `oko_wallet_telegram` - Telegram login
+- `oko_wallet_discord` - Discord OAuth login
 
 When `loginMethods` is not specified, all available providers are automatically
 included.

@@ -10809,7 +10809,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-cosmos-kit@npm:^0.0.1-rc.20, @oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit":
+"@oko-wallet/oko-cosmos-kit@npm:^0.0.1-rc.20, @oko-wallet/oko-cosmos-kit@npm:^0.0.1-rc.21, @oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-cosmos-kit@workspace:sdk/oko_cosmos_kit"
   dependencies:
@@ -11117,7 +11117,7 @@ __metadata:
     "@interchain-ui/react": "npm:^1.26.3"
     "@keplr-wallet/types": "npm:0.12.297"
     "@keplr-wallet/unit": "npm:0.12.297"
-    "@oko-wallet/oko-cosmos-kit": "npm:^0.0.1-rc.20"
+    "@oko-wallet/oko-cosmos-kit": "npm:^0.0.1-rc.21"
     "@tailwindcss/postcss": "npm:^4"
     "@tanstack/react-query": "npm:^5.90.12"
     "@types/node": "npm:^24.10.1"
