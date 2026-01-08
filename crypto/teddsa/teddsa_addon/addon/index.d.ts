@@ -19,8 +19,14 @@ export interface NapiCentralizedKeygenOutput {
 export declare function napiKeygenCentralizedEd25519(): NapiCentralizedKeygenOutput
 /** Import an existing Ed25519 secret key and split it into threshold shares. */
 export declare function napiKeygenImportEd25519(secretKey: Array<number>): NapiCentralizedKeygenOutput
+/** Output from a signing round 1 (commitment) */
+export interface NapiSigningCommitmentOutput {
+  nonces: Array<number>
+  commitments: Array<number>
+  identifier: Array<number>
+}
 /** Round 1: Generate signing commitments for a participant. */
-export declare function napiSignRound1Ed25519(keyPackage: Array<number>): any
+export declare function napiSignRound1Ed25519(keyPackage: Array<number>): NapiSigningCommitmentOutput
 /** Round 2: Generate a signature share for a participant. */
 export declare function napiSignRound2Ed25519(message: Array<number>, keyPackage: Array<number>, nonces: Array<number>, allCommitments: any): any
 /** Aggregate signature shares into a final threshold signature. */

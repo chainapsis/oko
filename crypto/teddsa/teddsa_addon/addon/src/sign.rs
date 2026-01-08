@@ -10,8 +10,9 @@ use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
 /// Output from a signing round 1 (commitment)
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SigningCommitmentOutput {
+#[napi(object)]
+#[derive(Debug, Clone)]
+pub struct NapiSigningCommitmentOutput {
     pub nonces: Vec<u8>,
     pub commitments: Vec<u8>,
     pub identifier: Vec<u8>,
@@ -46,7 +47,7 @@ pub struct SignatureShareEntry {
 
 fn sign_round1_inner(
     key_package_bytes: &[u8],
-) -> std::result::Result<SigningCommitmentOutput, String> {
+) -> std::result::Result<NapiSigningCommitmentOutput, String> {
     let mut rng = OsRng;
 
     let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
@@ -57,7 +58,7 @@ fn sign_round1_inner(
     let commitments_bytes = commitments.serialize().map_err(|e| e.to_string())?;
     let identifier_bytes = key_package.identifier().serialize().to_vec();
 
-    Ok(SigningCommitmentOutput {
+    Ok(NapiSigningCommitmentOutput {
         nonces: nonces_bytes,
         commitments: commitments_bytes,
         identifier: identifier_bytes,
@@ -153,18 +154,11 @@ fn verify_inner(
 
 /// Round 1: Generate signing commitments for a participant.
 #[napi]
-pub fn napi_sign_round1_ed25519(key_package: Vec<u8>) -> Result<serde_json::Value> {
-    let output = sign_round1_inner(&key_package).map_err(|e| {
+pub fn napi_sign_round1_ed25519(key_package: Vec<u8>) -> Result<NapiSigningCommitmentOutput> {
+    sign_round1_inner(&key_package).map_err(|e| {
         napi::Error::new(
             napi::Status::GenericFailure,
             format!("sign_round1 error: {:?}", e),
-        )
-    })?;
-
-    serde_json::to_value(output).map_err(|e| {
-        napi::Error::new(
-            napi::Status::GenericFailure,
-            format!("serialization error: {:?}", e),
         )
     })
 }
