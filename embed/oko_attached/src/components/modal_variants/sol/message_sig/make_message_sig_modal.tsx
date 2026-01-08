@@ -87,7 +87,7 @@ export const MakeMessageSigModal: FC<MakeMessageSigModalProps> = ({
           )}
         </div>
 
-        <Spacing height={!!siwsMessage ? 12 : 20} />
+        <Spacing height={20} />
 
         {siwsMessage && !isValidSiwsMessage && (
           <>

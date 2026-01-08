@@ -74,7 +74,7 @@ export const MakeArbitrarySigModal: FC<MakeArbitrarySigModalProps> = ({
           )}
         </div>
 
-        <Spacing height={!!siweMessage ? 12 : 20} />
+        <Spacing height={20} />
         {!hasOnChainSchema && <ArbitrarySignatureDesc />}
 
         <Spacing height={8} />

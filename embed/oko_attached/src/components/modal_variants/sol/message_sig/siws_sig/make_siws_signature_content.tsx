@@ -23,10 +23,9 @@ interface SolanaSiwsSignatureContentProps {
   theme: Theme | null;
 }
 
-export const SolanaSiwsSignatureContent: FC<SolanaSiwsSignatureContentProps> = ({
-  payload,
-  theme,
-}) => {
+export const SolanaSiwsSignatureContent: FC<
+  SolanaSiwsSignatureContentProps
+> = ({ payload, theme }) => {
   // Decode hex message to string
   const decodedMessage = useMemo(() => {
     try {
@@ -47,11 +46,7 @@ export const SolanaSiwsSignatureContent: FC<SolanaSiwsSignatureContentProps> = (
 
   return (
     <div>
-      {isValidSiwsMessage ? (
-        <SiwsSigTitleBadge theme={theme} />
-      ) : (
-        <RiskWarningBox />
-      )}
+      {isValidSiwsMessage ? <SiwsSigTitleBadge /> : <RiskWarningBox />}
 
       <div className={styles.metadataContainer}>
         <Spacing height={isValidSiwsMessage ? 8 : 12} />
