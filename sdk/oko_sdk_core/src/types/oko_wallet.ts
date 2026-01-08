@@ -35,7 +35,7 @@ export interface OkoWalletInterface {
   openModal: (
     msg: OkoWalletMsgOpenModal,
   ) => Promise<Result<OpenModalAckPayload, OpenModalError>>;
-  openConnectModal: () => Promise<void>;
+  openSignInModal: () => Promise<void>;
   closeModal: () => void;
   sendMsgToIframe: (msg: OkoWalletMsg) => Promise<OkoWalletMsg>;
   signIn: (type: SignInType) => Promise<void>;

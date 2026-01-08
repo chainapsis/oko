@@ -132,7 +132,7 @@ function okoConnector(
           console.log(
             "[sandbox-evm] no authenticated account, opening connect modal",
           );
-          await okoEthWallet.okoWallet.openConnectModal();
+          await okoEthWallet.okoWallet.openSignInModal();
         }
 
         const chainId = await wallet.getChainId();

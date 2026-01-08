@@ -54,7 +54,7 @@ export class OkoWallet extends CosmosWallet {
 
     // If not signed in, trigger the sign-in flow
     if (!publicKey) {
-      await this.okoClient.okoWallet.openConnectModal();
+      await this.okoClient.okoWallet.openSignInModal();
     }
 
     const key = await this.okoClient.getKey(chainId);

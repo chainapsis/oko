@@ -41,7 +41,7 @@ export class OkoChainWallet extends ChainWalletBase {
 
     // If not signed in, trigger the sign-in flow before initializing offline signer
     if (!publicKey) {
-      await client.client.okoWallet.openConnectModal();
+      await client.client.okoWallet.openSignInModal();
     }
 
     // Continue with the standard offline signer initialization

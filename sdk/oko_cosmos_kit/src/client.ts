@@ -61,7 +61,7 @@ export class OkoWalletClient implements WalletClient {
 
     // If not signed in, trigger the sign-in flow
     if (!publicKey) {
-      await this.client.okoWallet.openConnectModal();
+      await this.client.okoWallet.openSignInModal();
     }
 
     const key = await this.client.getKey(chainId);
