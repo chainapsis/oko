@@ -6,6 +6,8 @@ import "@oko-wallet/oko-common-ui/styles/colors.scss";
 import "@oko-wallet/oko-common-ui/styles/typography.scss";
 import "@oko-wallet/oko-common-ui/styles/shadow.scss";
 
+import { themeInitScript } from "@oko-wallet-demo-web/state/theme";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -40,25 +42,6 @@ export const metadata: Metadata = {
     ],
   },
 };
-
-const themeInitScript = `
-(function() {
-  try {
-    const stored = localStorage.getItem('theme');
-    let preference = 'system';
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      preference = parsed.state?.preference || 'system';
-    }
-    let theme = preference;
-    
-    if (preference === 'system') {
-      theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    document.documentElement.setAttribute('data-theme', theme);
-  } catch (e) {}
-})();
-`;
 
 export default function RootLayout({
   children,

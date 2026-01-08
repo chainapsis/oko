@@ -2,15 +2,11 @@ import { useEffect, useLayoutEffect } from "react";
 import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 
 export const useThemeSync = () => {
-  const { preference, theme, initialize, setTheme } = useThemeState();
+  const { preference, initialize, setTheme } = useThemeState();
 
   useLayoutEffect(() => {
     initialize();
   }, [initialize]);
-
-  useLayoutEffect(() => {
-    document.documentElement.setAttribute("data-theme", theme);
-  }, [theme]);
 
   useEffect(() => {
     if (preference !== "system") return;
