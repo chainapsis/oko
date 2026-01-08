@@ -1,10 +1,7 @@
+// NOTE: NAPI addon returns serialized bytes, different from WASM Raw types
 import type {
-  TeddsaCentralizedKeygenOutput,
-  TeddsaSignRound1Output,
-  TeddsaSignRound2Output,
-  TeddsaAggregateOutput,
-  TeddsaCommitmentEntry,
-  TeddsaSignatureShareEntry,
+  CommitmentEntry,
+  SignatureShareEntry,
 } from "@oko-wallet/teddsa-interface";
 
 import {
@@ -16,19 +13,47 @@ import {
   napiVerifyEd25519,
 } from "../../addon/index.js";
 
-export function runKeygenCentralizedEd25519(): TeddsaCentralizedKeygenOutput {
+// NOTE: NAPI-specific types (serialized bytes format)
+export interface NapiKeygenOutput {
+  key_package: number[];
+  public_key_package: number[];
+  identifier: number[];
+}
+
+export interface NapiCentralizedKeygenOutput {
+  private_key: number[];
+  keygen_outputs: NapiKeygenOutput[];
+  public_key: number[];
+}
+
+export interface NapiSigningCommitmentOutput {
+  nonces: number[];
+  commitments: number[];
+  identifier: number[];
+}
+
+export interface NapiSignatureShareOutput {
+  signature_share: number[];
+  identifier: number[];
+}
+
+export interface NapiSignatureOutput {
+  signature: number[];
+}
+
+export function runKeygenCentralizedEd25519(): NapiCentralizedKeygenOutput {
   return napiKeygenCentralizedEd25519();
 }
 
 export function runKeygenImportEd25519(
   secretKey: Uint8Array,
-): TeddsaCentralizedKeygenOutput {
+): NapiCentralizedKeygenOutput {
   return napiKeygenImportEd25519(Array.from(secretKey));
 }
 
 export function runSignRound1Ed25519(
   keyPackage: Uint8Array,
-): TeddsaSignRound1Output {
+): NapiSigningCommitmentOutput {
   return napiSignRound1Ed25519(Array.from(keyPackage));
 }
 
@@ -36,8 +61,8 @@ export function runSignRound2Ed25519(
   message: Uint8Array,
   keyPackage: Uint8Array,
   nonces: Uint8Array,
-  allCommitments: TeddsaCommitmentEntry[],
-): TeddsaSignRound2Output {
+  allCommitments: CommitmentEntry[],
+): NapiSignatureShareOutput {
   return napiSignRound2Ed25519(
     Array.from(message),
     Array.from(keyPackage),
@@ -48,10 +73,10 @@ export function runSignRound2Ed25519(
 
 export function runAggregateEd25519(
   message: Uint8Array,
-  allCommitments: TeddsaCommitmentEntry[],
-  allSignatureShares: TeddsaSignatureShareEntry[],
+  allCommitments: CommitmentEntry[],
+  allSignatureShares: SignatureShareEntry[],
   publicKeyPackage: Uint8Array,
-): TeddsaAggregateOutput {
+): NapiSignatureOutput {
   return napiAggregateEd25519(
     Array.from(message),
     allCommitments,

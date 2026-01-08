@@ -57,12 +57,7 @@ export const AddressWidget: FC<AddressWidgetProps> = ({}) => {
           />
           <Spacing height={12} />
 
-          <ViewChainsButton
-            onClick={handleViewChains}
-            buttonVariant={
-              cosmosAddress && ethAddress ? "secondary" : "primary"
-            }
-          />
+          <ViewChainsButton onClick={handleViewChains} />
         </div>
       </Widget>
 

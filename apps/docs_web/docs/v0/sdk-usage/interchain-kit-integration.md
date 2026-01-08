@@ -129,7 +129,7 @@ interface OkoLoginMethod {
   provider: SignInType;
 }
 
-type SignInType = "google"; // More providers coming soon
+type SignInType = "google" | "email" | "x" | "telegram" | "discord";
 ```
 
 ### Login Providers
@@ -139,7 +139,9 @@ list:
 
 - `oko-wallet_google` - Google OAuth login
 - `oko-wallet_email` - Email/passwordless login
-- More providers coming soon (X, Telegram, Discord)
+- `oko-wallet_x` - X (Twitter) OAuth login
+- `oko-wallet_telegram` - Telegram login
+- `oko-wallet_discord` - Discord OAuth login
 
 When `loginMethods` is not specified, all available providers are automatically
 included.

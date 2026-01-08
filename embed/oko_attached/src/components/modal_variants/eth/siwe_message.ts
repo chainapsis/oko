@@ -1,8 +1,7 @@
 import type { SignableMessage } from "viem";
 import { parseSiweMessage, type SiweMessage } from "viem/siwe";
 
-const ALLOW_PROTOCOLS = ["https:"];
-const BYPASS_HOSTS = ["localhost"];
+import { verifySignInOrigin } from "@oko-wallet-attached/components/modal_variants/common/sign_in_message";
 
 export function getSiweMessage(
   message: SignableMessage,
@@ -33,32 +32,5 @@ export function verifySiweMessage(
   message: SiweMessage,
   origin: string,
 ): boolean {
-  try {
-    const {
-      origin: originByPayload,
-      protocol: protocolByPayload,
-      host: hostByPayload,
-    } = new URL(origin);
-    const { origin: originByTxUri, protocol: protocolByTxUri } = new URL(
-      message.uri,
-    );
-
-    if (originByPayload !== originByTxUri || hostByPayload !== message.domain) {
-      return false;
-    }
-
-    // If scheme is not HTTPS, return false (when hostname is not localhost)
-    if (
-      !BYPASS_HOSTS.includes(hostByPayload.split(":")[0]) &&
-      (!ALLOW_PROTOCOLS.includes(protocolByPayload) ||
-        !ALLOW_PROTOCOLS.includes(protocolByTxUri))
-    ) {
-      return false;
-    }
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-
-  return true;
+  return verifySignInOrigin(message.domain, message.uri, origin);
 }

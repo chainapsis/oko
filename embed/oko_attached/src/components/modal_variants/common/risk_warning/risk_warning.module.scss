@@ -1,10 +1,10 @@
-.siweRiskWarningContainer {
+.riskWarningContainer {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.siweRiskWarningBox {
+.riskWarningBox {
   display: flex;
   padding: 6px 8px;
   justify-content: center;
@@ -19,10 +19,10 @@
   background-color: var(--bg-warning-primary);
 }
 
-.siweRiskWarningCheckBoxContainer {
+.riskWarningCheckBoxContainer {
   gap: 6px;
 }
 
-.siweRiskWarningCheckBoxInputContainerClassName {
+.riskWarningCheckBoxInputContainerClassName {
   padding-top: 0px;
 }

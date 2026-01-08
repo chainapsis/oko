@@ -7,7 +7,10 @@ import type {
 } from "./types";
 
 export class SolWalletEventEmitter extends EventEmitter<SolWalletEvent> {
-  on<K extends SolWalletEvent>(event: K, handler: SolWalletEventHandler<K>): this {
+  on<K extends SolWalletEvent>(
+    event: K,
+    handler: SolWalletEventHandler<K>,
+  ): this {
     return super.on(event, handler as (...args: unknown[]) => void);
   }
 

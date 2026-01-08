@@ -11,7 +11,7 @@ import {
   TssStageType,
   PresignEd25519StageStatus,
 } from "@oko-wallet/oko-types/tss";
-import type { TeddsaKeygenOutput } from "@oko-wallet/teddsa-interface";
+import type { KeygenEd25519Output } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
@@ -54,7 +54,7 @@ export async function runPresignEd25519(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: TeddsaKeygenOutput = JSON.parse(decryptedShare);
+    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
 
     // Generate nonces and commitments (Round 1 without message)
     const round1Result = runSignRound1Ed25519(

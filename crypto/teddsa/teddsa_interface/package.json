@@ -9,11 +9,20 @@
   },
   "scripts": {
     "clean": "del-cli dist",
-    "build": "yarn clean && tsc && tsc-alias"
+    "build": "yarn clean && tsc && tsc-alias",
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+  },
+  "dependencies": {
+    "@oko-wallet/bytes": "^0.0.3-alpha.65"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*",
+    "@types/jest": "^29.5.14",
     "@types/node": "^24.10.1",
     "del-cli": "^6.0.0",
+    "jest": "^30.0.0-alpha.6",
+    "ts-jest": "^29.4.0",
     "tsc-alias": "^1.8.16",
     "typescript": "^5.8.3"
   }

@@ -7,6 +7,7 @@ import { version } from "./cmds/version";
 import { publish } from "./cmds/publish";
 import { dbMigrateKSN } from "./cmds/db_migrate_ksn";
 import { buildCs } from "./cmds/build_cs";
+import { buildFrost } from "./cmds/build_frost";
 import { DbSeedAPI } from "./cmds/db_seed_api";
 import { DbMigrateAPI } from "./cmds/db_migrate_api";
 import { deploy } from "./cmds/deploy";
@@ -34,6 +35,8 @@ async function main() {
   command.command("build_sdk").action(buildSDK);
 
   command.command("build_cs").action(buildCs);
+
+  command.command("build_frost").action(buildFrost);
 
   command
     .command("db_migrate_api")

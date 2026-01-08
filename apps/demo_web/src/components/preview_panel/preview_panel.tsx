@@ -20,10 +20,10 @@ import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
 export const PreviewPanel: FC = () => {
   const isLazyInitialized = useSDKState(
-    (st) =>
-      st.isCosmosLazyInitialized &&
-      st.isEthLazyInitialized &&
-      st.isSolLazyInitialized,
+    (st) => st.isCosmosLazyInitialized && st.isEthLazyInitialized,
+    // TODO: refactor this @chemonoworld @Ryz0nd
+    // &&
+    // st.isSolLazyInitialized,
   );
 
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);

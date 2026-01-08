@@ -73,12 +73,15 @@ export class OkoWalletClient implements WalletClient {
   }
 
   async getAccount(chainId: string): Promise<WalletAccount> {
-    // Check if user is already signed in
     const publicKey = await this.client.okoWallet.getPublicKey();
 
-    // If not signed in, trigger the sign-in flow
     if (!publicKey) {
-      await this.client.okoWallet.signIn(this.loginProvider);
+      try {
+        await this.client.okoWallet.signIn(this.loginProvider);
+      } catch {
+        // Must match rejectMessage.source in registry.ts for cosmos-kit to recognize rejection
+        throw new Error("Request rejected");
+      }
     }
 
     const key = await this.client.getKey(chainId);

@@ -12,7 +12,14 @@ export async function buildCs(..._args: any[]) {
     stdio: "inherit",
   });
   expectSuccess(addonRet, "addon build failed");
-  console.log("%s %s", chalk.bold.green("Done"), "addon");
+  console.log("%s %s", chalk.bold.green("Done"), "cait sith addon");
+
+  const teddsaAddonRet = spawnSync("yarn", ["run", "build"], {
+    cwd: paths.teddsa_addon_addon,
+    stdio: "inherit",
+  });
+  expectSuccess(teddsaAddonRet, "teddsa addon build failed");
+  console.log("%s %s", chalk.bold.green("Done"), "teddsa addon");
 
   const caitSithWasmRet = spawnSync("yarn", ["run", "build:wasm"], {
     cwd: paths.cait_sith_keplr_wasm,
