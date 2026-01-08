@@ -222,20 +222,3 @@ export function signShareToEntry(s: SignShare): SignatureShareEntry {
     signature_share: Array.from(s.signature_share.toUint8Array()),
   };
 }
-
-export function serializeKeyPackage(pkg: KeyPackage): number[] {
-  const result: number[] = [];
-  result.push(...pkg.identifier.toUint8Array());
-  result.push(...pkg.signing_share.toUint8Array());
-  result.push(...pkg.verifying_share.toUint8Array());
-  result.push(...pkg.verifying_key.toUint8Array());
-  result.push(pkg.min_signers & 0xff);
-  result.push((pkg.min_signers >> 8) & 0xff);
-  return result;
-}
-
-export function serializePublicKeyPackage(pkg: PublicKeyPackage): number[] {
-  const raw = publicKeyPackageToRaw(pkg);
-  const json = JSON.stringify(raw);
-  return Array.from(new TextEncoder().encode(json));
-}
