@@ -1,9 +1,12 @@
 import { describe, it, expect, beforeAll } from "@jest/globals";
+
 import { initWasmForTest, wasmModule } from "./wasm-helper";
 import type { CentralizedKeygenOutput } from "../keygen";
 
 function toArray(obj: number[] | Record<number, number>): number[] {
-  if (Array.isArray(obj)) return obj;
+  if (Array.isArray(obj)) {
+    return obj;
+  }
   const result: number[] = [];
   for (let i = 0; i < 32; i++) {
     result.push(obj[i] ?? 0);
