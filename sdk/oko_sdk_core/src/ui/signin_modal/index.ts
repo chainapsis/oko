@@ -1,7 +1,6 @@
 export {
-  renderLoginModal,
-  removeLoginModal,
-  type LoginModalOptions,
-  type LoginModalController,
-  type LoginModalTheme,
+  renderSignInModal,
+  type SignInModalOptions,
+  type SignInModal,
+  type SignInModalTheme,
 } from "./render";
