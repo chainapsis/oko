@@ -6,13 +6,13 @@ import {
   SignerAddressOrEmailView,
 } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
 
-interface SignerAddressOrEmailProps {
+interface SignerInfoProps {
   signer: string;
   origin: string;
   initialViewType?: "View Address" | "Login Info";
 }
 
-export const SignerAddressOrEmailForSiwe: FC<SignerAddressOrEmailProps> = ({
+export const SignerInfo: FC<SignerInfoProps> = ({
   signer,
   origin,
   initialViewType = "View Address",
