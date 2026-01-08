@@ -4,7 +4,7 @@ import {
   renderLoginModal,
   removeLoginModal,
   type LoginModalController,
-} from "@oko-wallet-sdk-core/ui/login_modal";
+} from "@oko-wallet-sdk-core/ui/signin_modal";
 
 interface ModalState {
   current: LoginModalController | null;
