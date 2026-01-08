@@ -23,9 +23,13 @@ export interface SignatureShareEntry {
   signature_share: number[];
 }
 
+export interface SignRound1Input {
+  key_package: KeyPackageRaw;
+}
+
 export interface SignRound2Input {
   message: number[];
-  key_package: number[];
+  key_package: KeyPackageRaw;
   nonces: number[];
   all_commitments: CommitmentEntry[];
 }
@@ -34,7 +38,7 @@ export interface AggregateInput {
   message: number[];
   all_commitments: CommitmentEntry[];
   all_signature_shares: SignatureShareEntry[];
-  public_key_package: number[];
+  public_key_package: PublicKeyPackageRaw;
 }
 
 export interface SignatureOutput {
@@ -44,7 +48,7 @@ export interface SignatureOutput {
 export interface VerifyInput {
   message: number[];
   signature: number[];
-  public_key_package: number[];
+  public_key_package: PublicKeyPackageRaw;
 }
 
 export interface ClientSignState {
