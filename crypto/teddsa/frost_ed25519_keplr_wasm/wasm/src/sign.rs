@@ -1,4 +1,3 @@
-use frost::keys::{KeyPackage, PublicKeyPackage};
 use frost::round1::{SigningCommitments, SigningNonces};
 use frost::round2::SignatureShare;
 use frost::{Identifier, SigningPackage};
@@ -8,6 +7,8 @@ use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use wasm_bindgen::prelude::*;
+
+use crate::{KeyPackageRaw, PublicKeyPackageRaw};
 
 /// Output from a signing round 1 (commitment)
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -31,9 +32,14 @@ pub struct SignatureOutput {
 }
 
 #[derive(Serialize, Deserialize)]
+pub struct SignRound1Input {
+    pub key_package: KeyPackageRaw,
+}
+
+#[derive(Serialize, Deserialize)]
 pub struct SignRound2Input {
     pub message: Vec<u8>,
-    pub key_package: Vec<u8>,
+    pub key_package: KeyPackageRaw,
     pub nonces: Vec<u8>,
     pub all_commitments: Vec<CommitmentEntry>,
 }
@@ -49,7 +55,7 @@ pub struct AggregateInput {
     pub message: Vec<u8>,
     pub all_commitments: Vec<CommitmentEntry>,
     pub all_signature_shares: Vec<SignatureShareEntry>,
-    pub public_key_package: Vec<u8>,
+    pub public_key_package: PublicKeyPackageRaw,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -62,13 +68,13 @@ pub struct SignatureShareEntry {
 pub struct VerifyInput {
     pub message: Vec<u8>,
     pub signature: Vec<u8>,
-    pub public_key_package: Vec<u8>,
+    pub public_key_package: PublicKeyPackageRaw,
 }
 
-fn sign_round1_inner(key_package_bytes: &[u8]) -> Result<SigningCommitmentOutput, String> {
+fn sign_round1_inner(key_package_raw: &KeyPackageRaw) -> Result<SigningCommitmentOutput, String> {
     let mut rng = OsRng;
 
-    let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
+    let key_package = key_package_raw.to_key_package()?;
 
     let (nonces, commitments) = frost::round1::commit(key_package.signing_share(), &mut rng);
 
@@ -85,11 +91,11 @@ fn sign_round1_inner(key_package_bytes: &[u8]) -> Result<SigningCommitmentOutput
 
 fn sign_round2_inner(
     message: &[u8],
-    key_package_bytes: &[u8],
+    key_package_raw: &KeyPackageRaw,
     nonces_bytes: &[u8],
     all_commitments: &[(Vec<u8>, Vec<u8>)],
 ) -> Result<SignatureShareOutput, String> {
-    let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
+    let key_package = key_package_raw.to_key_package()?;
 
     let nonces = SigningNonces::deserialize(nonces_bytes).map_err(|e| e.to_string())?;
 
@@ -118,10 +124,9 @@ fn aggregate_inner(
     message: &[u8],
     all_commitments: &[(Vec<u8>, Vec<u8>)],
     all_signature_shares: &[(Vec<u8>, Vec<u8>)],
-    public_key_package_bytes: &[u8],
+    public_key_package_raw: &PublicKeyPackageRaw,
 ) -> Result<SignatureOutput, String> {
-    let pubkey_package =
-        PublicKeyPackage::deserialize(public_key_package_bytes).map_err(|e| e.to_string())?;
+    let pubkey_package = public_key_package_raw.to_public_key_package()?;
 
     let mut commitments_map: BTreeMap<Identifier, SigningCommitments> = BTreeMap::new();
     for (id_bytes, comm_bytes) in all_commitments {
@@ -152,10 +157,9 @@ fn aggregate_inner(
 fn verify_inner(
     message: &[u8],
     signature_bytes: &[u8],
-    public_key_package_bytes: &[u8],
+    public_key_package_raw: &PublicKeyPackageRaw,
 ) -> Result<bool, String> {
-    let pubkey_package =
-        PublicKeyPackage::deserialize(public_key_package_bytes).map_err(|e| e.to_string())?;
+    let pubkey_package = public_key_package_raw.to_public_key_package()?;
 
     let signature_array: [u8; 64] = signature_bytes
         .try_into()
@@ -171,12 +175,12 @@ fn verify_inner(
 }
 
 #[wasm_bindgen]
-pub fn cli_sign_round1_ed25519(key_package: JsValue) -> Result<JsValue, JsValue> {
-    let key_package_bytes: Vec<u8> = key_package
+pub fn cli_sign_round1_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
+    let input: SignRound1Input = input
         .into_serde()
-        .map_err(|err| JsValue::from_str(&format!("Invalid key_package format: {}", err)))?;
+        .map_err(|err| JsValue::from_str(&format!("Invalid input format: {}", err)))?;
 
-    let out = sign_round1_inner(&key_package_bytes).map_err(|err| JsValue::from_str(&err))?;
+    let out = sign_round1_inner(&input.key_package).map_err(|err| JsValue::from_str(&err))?;
     JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
 }
 
