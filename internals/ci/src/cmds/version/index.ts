@@ -191,12 +191,11 @@ ${versionList}`;
 export async function version(..._args: any[]) {
   console.log("Start versioning packages");
 
-  console.log("We will re-build the packages now just to make sure\n");
-
+  console.log("We will first re-build the packages\n");
   await doBuildPkgs();
   await doBuildSDK();
 
-  console.log("Testing type definition in sandbox simple host");
+  console.log("Checking type definition in sandbox simple host");
   const testSandboxRet = spawnSync("yarn", ["tsc"], {
     cwd: paths.sandbox_simple_host,
     stdio: "inherit",
@@ -209,7 +208,7 @@ export async function version(..._args: any[]) {
     cwd: paths.root,
     stdio: "inherit",
   });
-  expectSuccess(fetchRet, "publish failed");
+  expectSuccess(fetchRet, "git fetch failed");
 
   // Save version map before lerna version
   const beforeVersionMap = buildWorkspaceVersionMap();
