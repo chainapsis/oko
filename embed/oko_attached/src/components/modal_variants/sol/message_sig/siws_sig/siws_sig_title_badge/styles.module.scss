@@ -1,0 +1,14 @@
+.badgeContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background-color: var(--bg-secondary);
+}
+
+.solanaLogo {
+  width: 24px;
+  height: 24px;
+}
