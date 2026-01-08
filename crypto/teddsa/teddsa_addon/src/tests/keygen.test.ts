@@ -92,8 +92,8 @@ export async function keygenImportTest() {
 
   // Generate a test secret key (32 bytes)
   const secretKey = new Uint8Array(32);
-  for (let i = 0; i < 32; i++) {
-    secretKey[i] = i;
+  for (let i = 0; i < 16; i++) {
+    secretKey[i] = i + 1;
   }
 
   // Import the key
