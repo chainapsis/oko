@@ -412,6 +412,597 @@ export async function runRound1Tests() {
   console.log("\n✓ All Round 1 tests passed");
 }
 
+// ============================================================================
+// Round 2 Tests
+// ============================================================================
+
+async function signRound2BasicTest() {
+  console.log("\nTesting sign round2 basic functionality...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+
+  if (
+    !clientRound2.signature_share ||
+    clientRound2.signature_share.length === 0
+  ) {
+    throw new Error("Signature share should not be empty");
+  }
+  if (!clientRound2.identifier || clientRound2.identifier.length === 0) {
+    throw new Error("Identifier should not be empty");
+  }
+
+  const keygenIdentifier = Buffer.from(
+    keygenOutput.keygen_outputs[Participant.P0].identifier,
+  ).toString("hex");
+  const round1Identifier = Buffer.from(clientRound1.identifier).toString("hex");
+  const round2Identifier = Buffer.from(clientRound2.identifier).toString("hex");
+
+  if (keygenIdentifier !== round2Identifier) {
+    throw new Error("Round2 identifier should match key_package identifier");
+  }
+  if (round1Identifier !== round2Identifier) {
+    throw new Error("Round2 identifier should match round1 identifier");
+  }
+
+  console.log("  ✓ Basic functionality test passed");
+  return clientRound2;
+}
+
+async function signRound2ErrorTest() {
+  console.log("\nTesting sign round2 error cases...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const validCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  // Test invalid key_package
+  try {
+    runSignRound2Ed25519(
+      message,
+      new Uint8Array(0),
+      new Uint8Array(clientRound1.nonces),
+      validCommitments,
+    );
+    throw new Error("Expected error for empty key_package");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("sign_round2") &&
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for empty key_package: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected empty key_package");
+  }
+
+  // Test invalid nonces
+  try {
+    runSignRound2Ed25519(
+      message,
+      clientKeyPackage,
+      new Uint8Array(0),
+      validCommitments,
+    );
+    throw new Error("Expected error for empty nonces");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("sign_round2") &&
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(`Unexpected error for empty nonces: ${error.message}`);
+    }
+    console.log("  ✓ Correctly rejected empty nonces");
+  }
+
+  // Test invalid all_commitments (empty array)
+  try {
+    runSignRound2Ed25519(
+      message,
+      clientKeyPackage,
+      new Uint8Array(clientRound1.nonces),
+      [],
+    );
+    throw new Error("Expected error for empty all_commitments");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("sign_round2") &&
+      !error.message?.includes("IncorrectNumberOfCommitments") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for empty all_commitments: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected empty all_commitments");
+  }
+
+  // Test invalid all_commitments (missing own commitment)
+  const invalidCommitments: CommitmentEntry[] = [
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+  try {
+    runSignRound2Ed25519(
+      message,
+      clientKeyPackage,
+      new Uint8Array(clientRound1.nonces),
+      invalidCommitments,
+    );
+    throw new Error("Expected error for missing own commitment");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("sign_round2") &&
+      !error.message?.includes("MissingCommitment") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for missing own commitment: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected missing own commitment");
+  }
+
+  console.log("Error handling test passed");
+}
+
+async function signRound2OutputFormatTest() {
+  console.log("\nTesting sign round2 output format...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const round2Output = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+
+  if (!Array.isArray(round2Output.signature_share)) {
+    throw new Error("Signature share should be an array");
+  }
+  if (!Array.isArray(round2Output.identifier)) {
+    throw new Error("Identifier should be an array");
+  }
+
+  if (round2Output.signature_share.length === 0) {
+    throw new Error("Signature share array should not be empty");
+  }
+  if (round2Output.identifier.length === 0) {
+    throw new Error("Identifier array should not be empty");
+  }
+
+  console.log(
+    `  ✓ Signature share length: ${round2Output.signature_share.length} bytes`,
+  );
+  console.log(`  ✓ Identifier length: ${round2Output.identifier.length} bytes`);
+  console.log("Output format test passed");
+}
+
+async function signRound2ConsistencyTest() {
+  console.log("\nTesting sign round2 consistency...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  const clientId = Buffer.from(clientRound2.identifier).toString("hex");
+  const serverId = Buffer.from(serverRound2.identifier).toString("hex");
+  const keygenClientId = Buffer.from(
+    keygenOutput.keygen_outputs[Participant.P0].identifier,
+  ).toString("hex");
+  const keygenServerId = Buffer.from(
+    keygenOutput.keygen_outputs[Participant.P1].identifier,
+  ).toString("hex");
+  const round1ClientId = Buffer.from(clientRound1.identifier).toString("hex");
+  const round1ServerId = Buffer.from(serverRound1.identifier).toString("hex");
+
+  if (clientId !== keygenClientId) {
+    throw new Error("Client identifier should match key_package identifier");
+  }
+  if (serverId !== keygenServerId) {
+    throw new Error("Server identifier should match key_package identifier");
+  }
+  if (clientId !== round1ClientId) {
+    throw new Error("Client identifier should match round1 identifier");
+  }
+  if (serverId !== round1ServerId) {
+    throw new Error("Server identifier should match round1 identifier");
+  }
+  if (clientId === serverId) {
+    throw new Error("Client and server identifiers should be different");
+  }
+
+  console.log(
+    "Consistency test passed - identifiers match key_packages and round1",
+  );
+}
+
+async function signRound2NoncesCommitmentsTest() {
+  console.log("\nTesting sign round2 nonces-commitments matching...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Test message");
+
+  // Test with correct nonces and commitments
+  const round2Output = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+
+  if (round2Output.signature_share.length === 0) {
+    throw new Error("Signature share should not be empty");
+  }
+
+  // Test with wrong nonces (from different round1)
+  const anotherRound1 = runSignRound1Ed25519(clientKeyPackage);
+  try {
+    runSignRound2Ed25519(
+      message,
+      clientKeyPackage,
+      new Uint8Array(anotherRound1.nonces),
+      allCommitments,
+    );
+    throw new Error("Expected error for mismatched nonces and commitments");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("sign_round2") &&
+      !error.message?.includes("IncorrectCommitment") &&
+      !error.message?.includes("error")
+    ) {
+      throw new Error(
+        `Unexpected error for mismatched nonces: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Correctly rejected mismatched nonces and commitments");
+  }
+
+  console.log("Nonces-commitments matching test passed");
+}
+
+async function signRound2MessageDependencyTest() {
+  console.log("\nTesting sign round2 message dependency...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message1 = new TextEncoder().encode("Message 1");
+  const message2 = new TextEncoder().encode("Message 2");
+  const message3 = new TextEncoder().encode("Message 3");
+
+  // Generate new round1 for each message (since nonces can only be used once)
+  const round1_1 = runSignRound1Ed25519(clientKeyPackage);
+  const round1_2 = runSignRound1Ed25519(clientKeyPackage);
+  const round1_3 = runSignRound1Ed25519(clientKeyPackage);
+
+  const commitments1: CommitmentEntry[] = [
+    {
+      identifier: round1_1.identifier,
+      commitments: round1_1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+  const commitments2: CommitmentEntry[] = [
+    {
+      identifier: round1_2.identifier,
+      commitments: round1_2.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+  const commitments3: CommitmentEntry[] = [
+    {
+      identifier: round1_3.identifier,
+      commitments: round1_3.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const round2_1 = runSignRound2Ed25519(
+    message1,
+    clientKeyPackage,
+    new Uint8Array(round1_1.nonces),
+    commitments1,
+  );
+  const round2_2 = runSignRound2Ed25519(
+    message2,
+    clientKeyPackage,
+    new Uint8Array(round1_2.nonces),
+    commitments2,
+  );
+  const round2_3 = runSignRound2Ed25519(
+    message3,
+    clientKeyPackage,
+    new Uint8Array(round1_3.nonces),
+    commitments3,
+  );
+
+  const share1 = Buffer.from(round2_1.signature_share).toString("hex");
+  const share2 = Buffer.from(round2_2.signature_share).toString("hex");
+  const share3 = Buffer.from(round2_3.signature_share).toString("hex");
+
+  if (share1 === share2 || share1 === share3 || share2 === share3) {
+    throw new Error(
+      "Signature shares should be different for different messages",
+    );
+  }
+
+  const id1 = Buffer.from(round2_1.identifier).toString("hex");
+  const id2 = Buffer.from(round2_2.identifier).toString("hex");
+  const id3 = Buffer.from(round2_3.identifier).toString("hex");
+
+  if (id1 !== id2 || id2 !== id3) {
+    throw new Error("Identifier should be identical across different messages");
+  }
+
+  console.log(
+    "Message dependency test passed - different messages produce different shares",
+  );
+}
+
+async function signRound2IntegrationTest() {
+  console.log("\nTesting sign round2 integration with aggregate...\n");
+
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
+  const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
+
+  const allCommitments: CommitmentEntry[] = [
+    {
+      identifier: clientRound1.identifier,
+      commitments: clientRound1.commitments,
+    },
+    {
+      identifier: serverRound1.identifier,
+      commitments: serverRound1.commitments,
+    },
+  ];
+
+  const message = new TextEncoder().encode("Integration test message");
+
+  const clientRound2 = runSignRound2Ed25519(
+    message,
+    clientKeyPackage,
+    new Uint8Array(clientRound1.nonces),
+    allCommitments,
+  );
+  const serverRound2 = runSignRound2Ed25519(
+    message,
+    serverKeyPackage,
+    new Uint8Array(serverRound1.nonces),
+    allCommitments,
+  );
+
+  const allSignatureShares: SignatureShareEntry[] = [
+    {
+      identifier: clientRound2.identifier,
+      signature_share: clientRound2.signature_share,
+    },
+    {
+      identifier: serverRound2.identifier,
+      signature_share: serverRound2.signature_share,
+    },
+  ];
+
+  try {
+    const aggregateOutput = runAggregateEd25519(
+      message,
+      allCommitments,
+      allSignatureShares,
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+
+    if (aggregateOutput.signature.length !== 64) {
+      throw new Error(
+        `Invalid signature length: expected 64, got ${aggregateOutput.signature.length}`,
+      );
+    }
+
+    const isValid = runVerifyEd25519(
+      message,
+      new Uint8Array(aggregateOutput.signature),
+      new Uint8Array(
+        keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+      ),
+    );
+
+    if (!isValid) {
+      throw new Error("Aggregated signature should be valid");
+    }
+
+    console.log(
+      "Integration test passed - round2 output works with aggregate and verify",
+    );
+  } catch (error: any) {
+    throw new Error(
+      `Round2 output should be compatible with aggregate: ${error.message}`,
+    );
+  }
+}
+
+export async function runRound2Tests() {
+  console.log("\n" + "=".repeat(50));
+  console.log("Round 2 Tests");
+  console.log("=".repeat(50));
+
+  await signRound2BasicTest();
+  await signRound2ErrorTest();
+  await signRound2OutputFormatTest();
+  await signRound2ConsistencyTest();
+  await signRound2NoncesCommitmentsTest();
+  await signRound2MessageDependencyTest();
+  await signRound2IntegrationTest();
+
+  console.log("\n✓ All Round 2 tests passed");
+}
+
 export async function runIntegrationTests() {
   console.log("\n" + "=".repeat(50));
   console.log("Integration Tests");
@@ -440,6 +1031,7 @@ async function main() {
 
   try {
     await runRound1Tests();
+    await runRound2Tests();
     await runIntegrationTests();
 
     console.log("\n" + "=".repeat(50));
