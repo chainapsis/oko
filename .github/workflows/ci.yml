@@ -21,14 +21,14 @@ jobs:
       - name: Enable Corepack
         run: corepack enable
 
+      - name: Install dependencies
+        run: yarn install --immutable
+
       - name: Build CS packages
         run: yarn ci build_cs
 
       - name: Build Frost packages
         run: yarn ci build_frost
-
-      - name: Install dependencies
-        run: yarn install --immutable
 
       - name: Build internal packages
         run: yarn ci build_pkgs
