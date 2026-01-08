@@ -1,241 +1,187 @@
-// refactor this file @chemonoworld
+import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
+import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
+import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
+import type { TeddsaKeyShareByNode } from "@oko-wallet/oko-types/user_key_share";
+import type { Result } from "@oko-wallet/stdlib-js";
+import type {
+  KeyPackage,
+  KeyPackageRaw,
+  PublicKeyPackageRaw,
+} from "@oko-wallet/teddsa-interface";
 
-// import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
-// import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
-// import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
-// import type {
-//   PointNumArr,
-//   UserKeySharePointByNode,
-// } from "@oko-wallet/oko-types/user_key_share";
-// import type { TeddsaKeygenOutputBytes } from "@oko-wallet/teddsa-hooks";
-// import type { Result } from "@oko-wallet/stdlib-js";
+import { hashKeyshareNodeNamesEd25519 } from "./hash";
+import { computeVerifyingShare } from "./scalar";
 
-// import { hashKeyshareNodeNamesEd25519 } from "./hash";
+interface SplitOutputRaw {
+  key_packages: KeyPackageRaw[];
+  public_key_package: PublicKeyPackageRaw;
+}
 
-// /**
-//  * Data structure for Ed25519 key share backup on KS nodes.
-//  * Contains the SSS split of signing_share along with public info needed for reconstruction.
-//  */
-// export interface Ed25519KeyShareBackup {
-//   /** SSS split point (x: identifier, y: share) */
-//   share: {
-//     x: Bytes32;
-//     y: Bytes32;
-//   };
-//   /** Serialized PublicKeyPackage (needed for reconstruction) */
-//   publicKeyPackage: string; // hex string
-//   /** Participant identifier (needed for reconstruction) */
-//   identifier: string; // hex string
-//   /** Ed25519 public key (for verification) */
-//   publicKey: string; // hex string
-// }
+/**
+ * Split client signing_share using SSS for KS node distribution.
+ *
+ * Uses FROST's sss_split to split the signing_share.
+ * Extracts identifier and signing_share from each KeyPackage.
+ *
+ * @param signingShare - FROST KeyPackage's signing_share (32 bytes)
+ * @param keyshareNodeMeta - KS Node metadata (nodes, threshold)
+ * @returns TeddsaKeyShareByNode[] - (identifier, signing_share) pairs per node
+ */
+export async function splitTeddsaSigningShare(
+  signingShare: Bytes32,
+  keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
+): Promise<Result<TeddsaKeyShareByNode[], string>> {
+  try {
+    const signingShareArr = [...signingShare.toUint8Array()];
 
-// /**
-//  * Split Ed25519 key package for backup on Key Share Nodes.
-//  *
-//  * Extracts the signing_share from the key_package and splits it using SSS.
-//  * Also includes the public information needed to reconstruct the key_package.
-//  */
-// export async function splitUserKeySharesEd25519(
-//   keygen_1: TeddsaKeygenOutputBytes,
-//   keyshareNodeMeta: KeyShareNodeMetaWithNodeStatusInfo,
-// ): Promise<Result<UserKeySharePointByNode[], string>> {
-//   try {
-//     const keyPackageBytes = [...keygen_1.key_package];
+    const identifiersRes = await hashKeyshareNodeNamesEd25519(
+      keyshareNodeMeta.nodes.map((n) => n.name),
+    );
+    if (!identifiersRes.success) {
+      return { success: false, err: identifiersRes.err };
+    }
 
-//     // Extract signing_share from key_package (32-byte scalar)
-//     const signingShareArr: number[] =
-//       wasmModule.extract_signing_share(keyPackageBytes);
+    const identifiers = identifiersRes.data.map((b) => [...b.toUint8Array()]);
 
-//     // Hash KS node names to get identifiers for SSS (Ed25519-compatible)
-//     const keyshareNodeHashesRes = await hashKeyshareNodeNamesEd25519(
-//       keyshareNodeMeta.nodes.map((meta) => meta.name),
-//     );
-//     if (keyshareNodeHashesRes.success === false) {
-//       return {
-//         success: false,
-//         err: keyshareNodeHashesRes.err,
-//       };
-//     }
-//     const keyshareNodeHashes = keyshareNodeHashesRes.data.map((bytes) => {
-//       return [...bytes.toUint8Array()];
-//     });
+    const splitOutput: SplitOutputRaw = wasmModule.sss_split(
+      signingShareArr,
+      identifiers,
+      keyshareNodeMeta.threshold,
+    );
 
-//     // Split signing_share using SSS
-//     const splitPoints: PointNumArr[] = wasmModule.sss_split(
-//       signingShareArr,
-//       keyshareNodeHashes,
-//       keyshareNodeMeta.threshold,
-//     );
+    const shares: TeddsaKeyShareByNode[] = splitOutput.key_packages.map(
+      (kp, i) => {
+        const idBytes = Bytes.fromUint8Array(
+          new Uint8Array(kp.identifier),
+          32,
+        );
+        const shareBytes = Bytes.fromUint8Array(
+          new Uint8Array(kp.signing_share),
+          32,
+        );
 
-//     // Convert to UserKeySharePointByNode format
-//     const shares: UserKeySharePointByNode[] = splitPoints.map(
-//       (point: PointNumArr, index: number) => {
-//         const xBytesRes = Bytes.fromUint8Array(
-//           Uint8Array.from([...point.x]),
-//           32,
-//         );
-//         if (xBytesRes.success === false) {
-//           throw new Error(xBytesRes.err);
-//         }
-//         const yBytesRes = Bytes.fromUint8Array(
-//           Uint8Array.from([...point.y]),
-//           32,
-//         );
-//         if (yBytesRes.success === false) {
-//           throw new Error(yBytesRes.err);
-//         }
-//         return {
-//           node: {
-//             name: keyshareNodeMeta.nodes[index].name,
-//             endpoint: keyshareNodeMeta.nodes[index].endpoint,
-//           },
-//           share: {
-//             x: xBytesRes.data,
-//             y: yBytesRes.data,
-//           },
-//         };
-//       },
-//     );
+        if (!idBytes.success) throw new Error(idBytes.err);
+        if (!shareBytes.success) throw new Error(shareBytes.err);
 
-//     return {
-//       success: true,
-//       data: shares,
-//     };
-//   } catch (error: any) {
-//     return {
-//       success: false,
-//       err: `splitUserKeySharesEd25519 failed: ${String(error)}`,
-//     };
-//   }
-// }
+        return {
+          node: {
+            name: keyshareNodeMeta.nodes[i].name,
+            endpoint: keyshareNodeMeta.nodes[i].endpoint,
+          },
+          share: {
+            identifier: idBytes.data,
+            signing_share: shareBytes.data,
+          },
+        };
+      },
+    );
 
-// /**
-//  * Combine Ed25519 key shares to recover the signing_share.
-//  */
-// export async function combineUserSharesEd25519(
-//   userKeySharePoints: UserKeySharePointByNode[],
-//   threshold: number,
-// ): Promise<Result<Uint8Array, string>> {
-//   try {
-//     if (threshold < 2) {
-//       return {
-//         success: false,
-//         err: "Threshold must be at least 2",
-//       };
-//     }
+    return { success: true, data: shares };
+  } catch (e) {
+    return {
+      success: false,
+      err: `splitTeddsaSigningShare failed: ${String(e)}`,
+    };
+  }
+}
 
-//     if (userKeySharePoints.length < threshold) {
-//       return {
-//         success: false,
-//         err: "Number of user key shares is less than threshold",
-//       };
-//     }
+/**
+ * Combine shares from KS nodes to recover signing_share.
+ *
+ * Converts TeddsaKeyShares to KeyPackageRaw format for sss_combine.
+ *
+ * @param shares - TeddsaKeyShare array from KS nodes
+ * @param threshold - SSS threshold (minimum shares required)
+ * @param verifyingKey - PublicKeyPackage's verifying_key (needed for KeyPackageRaw)
+ * @returns signing_share (32 bytes)
+ */
+export async function combineTeddsaShares(
+  shares: TeddsaKeyShareByNode[],
+  threshold: number,
+  verifyingKey: Bytes32,
+): Promise<Result<Bytes32, string>> {
+  try {
+    if (shares.length < threshold) {
+      return {
+        success: false,
+        err: `Not enough shares: got ${shares.length}, need ${threshold}`,
+      };
+    }
 
-//     const points: PointNumArr[] = userKeySharePoints.map(
-//       (userKeySharePoint) => ({
-//         x: [...userKeySharePoint.share.x.toUint8Array()],
-//         y: [...userKeySharePoint.share.y.toUint8Array()],
-//       }),
-//     );
+    const keyPackages: KeyPackageRaw[] = shares.map((s) => {
+      const verifyingShare = computeVerifyingShare(s.share.signing_share);
 
-//     // Combine shares to recover signing_share
-//     const combinedSigningShare: number[] = wasmModule.sss_combine(
-//       points,
-//       threshold,
-//     );
+      return {
+        identifier: [...s.share.identifier.toUint8Array()],
+        signing_share: [...s.share.signing_share.toUint8Array()],
+        verifying_share: [...verifyingShare.toUint8Array()],
+        verifying_key: [...verifyingKey.toUint8Array()],
+        min_signers: threshold,
+      };
+    });
 
-//     return {
-//       success: true,
-//       data: Uint8Array.from(combinedSigningShare),
-//     };
-//   } catch (e) {
-//     return {
-//       success: false,
-//       err: `combineUserSharesEd25519 failed: ${String(e)}`,
-//     };
-//   }
-// }
+    const combined: number[] = wasmModule.sss_combine(keyPackages);
 
-// /**
-//  * Reconstruct a full KeyPackage from a recovered signing_share and public info.
-//  */
-// export async function reconstructKeyPackageEd25519(
-//   signingShare: Uint8Array,
-//   publicKeyPackage: Uint8Array,
-//   identifier: Uint8Array,
-// ): Promise<Result<Uint8Array, string>> {
-//   try {
-//     const keyPackageArr: number[] = wasmModule.reconstruct_key_package(
-//       [...signingShare],
-//       [...publicKeyPackage],
-//       [...identifier],
-//     );
+    const result = Bytes.fromUint8Array(Uint8Array.from(combined), 32);
+    if (!result.success) {
+      return { success: false, err: result.err };
+    }
 
-//     return {
-//       success: true,
-//       data: Uint8Array.from(keyPackageArr),
-//     };
-//   } catch (e) {
-//     return {
-//       success: false,
-//       err: `reconstructKeyPackageEd25519 failed: ${String(e)}`,
-//     };
-//   }
-// }
+    return { success: true, data: result.data };
+  } catch (e) {
+    return { success: false, err: `combineTeddsaShares failed: ${String(e)}` };
+  }
+}
 
-// /**
-//  * Full recovery of Ed25519 keygen output from KS node shares.
-//  *
-//  * Given the SSS shares from KS nodes plus the stored public info,
-//  * reconstructs the complete TeddsaKeygenOutputBytes.
-//  */
-// export async function recoverEd25519Keygen(
-//   userKeySharePoints: UserKeySharePointByNode[],
-//   threshold: number,
-//   publicKeyPackage: Uint8Array,
-//   identifier: Uint8Array,
-//   publicKey: Bytes32,
-// ): Promise<Result<TeddsaKeygenOutputBytes, string>> {
-//   try {
-//     // Combine shares to recover signing_share
-//     const combineRes = await combineUserSharesEd25519(
-//       userKeySharePoints,
-//       threshold,
-//     );
-//     if (!combineRes.success) {
-//       return {
-//         success: false,
-//         err: combineRes.err,
-//       };
-//     }
+/**
+ * Reconstruct KeyPackage from recovered signing_share.
+ *
+ * Computes verifying_share from signing_share to create complete KeyPackage.
+ *
+ * @param signingShare - SSS-recovered client signing_share
+ * @param frostIdentifier - FROST P0 identifier (client is always 1)
+ * @param verifyingKey - PublicKeyPackage's verifying_key
+ * @param minSigners - threshold (2 for 2-of-2)
+ * @returns Complete FROST KeyPackage
+ */
+export function reconstructKeyPackage(
+  signingShare: Bytes32,
+  frostIdentifier: Bytes32,
+  verifyingKey: Bytes32,
+  minSigners: number,
+): KeyPackage {
+  const verifyingShare = computeVerifyingShare(signingShare);
 
-//     // Reconstruct key_package from signing_share + public info
-//     const reconstructRes = await reconstructKeyPackageEd25519(
-//       combineRes.data,
-//       publicKeyPackage,
-//       identifier,
-//     );
-//     if (!reconstructRes.success) {
-//       return {
-//         success: false,
-//         err: reconstructRes.err,
-//       };
-//     }
+  return {
+    identifier: frostIdentifier,
+    signing_share: signingShare,
+    verifying_share: verifyingShare,
+    verifying_key: verifyingKey,
+    min_signers: minSigners,
+  };
+}
 
-//     return {
-//       success: true,
-//       data: {
-//         key_package: reconstructRes.data,
-//         public_key_package: publicKeyPackage,
-//         identifier: identifier,
-//         public_key: publicKey,
-//       },
-//     };
-//   } catch (e) {
-//     return {
-//       success: false,
-//       err: `recoverEd25519Keygen failed: ${String(e)}`,
-//     };
-//   }
-// }
+/**
+ * Extract signing_share from KeyPackageRaw.
+ */
+export function extractSigningShare(
+  keyPackage: KeyPackageRaw,
+): Result<Bytes32, string> {
+  const signingShareRes = Bytes.fromUint8Array(
+    new Uint8Array(keyPackage.signing_share),
+    32,
+  );
+  if (!signingShareRes.success) {
+    return { success: false, err: signingShareRes.err };
+  }
+  return { success: true, data: signingShareRes.data };
+}
+
+/**
+ * Extract signing_share from KeyPackage (Bytes type).
+ */
+export function extractSigningShareFromKeyPackage(
+  keyPackage: KeyPackage,
+): Bytes32 {
+  return keyPackage.signing_share;
+}
