@@ -18,13 +18,18 @@ export const MODAL_STYLES = `
     /* Semantic tokens */
     --oko-bg-primary: var(--oko-white);
     --oko-bg-primary-hover: var(--oko-gray-50);
+    --oko-bg-secondary: var(--oko-gray-50);
+    --oko-bg-tertiary: var(--oko-gray-100);
     --oko-bg-overlay: var(--oko-gray-950);
     --oko-text-primary: var(--oko-gray-900);
     --oko-text-secondary: var(--oko-gray-700);
+    --oko-text-brand-secondary: var(--oko-gray-900);
     --oko-fg-tertiary: var(--oko-gray-600);
     --oko-fg-quaternary: var(--oko-gray-400);
     --oko-fg-disabled-subtle: var(--oko-gray-300);
+    --oko-fg-brand-primary: var(--oko-gray-900);
     --oko-border-primary: var(--oko-gray-300);
+    --oko-border-error-subtle: #fda29b;
 
     /* Shadows */
     --oko-shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
@@ -52,12 +57,17 @@ export const MODAL_STYLES = `
     /* Semantic tokens - Dark */
     --oko-bg-primary: var(--oko-gray-950);
     --oko-bg-primary-hover: var(--oko-gray-800);
+    --oko-bg-secondary: var(--oko-gray-900);
+    --oko-bg-tertiary: var(--oko-gray-800);
     --oko-text-primary: var(--oko-gray-50);
     --oko-text-secondary: var(--oko-gray-300);
+    --oko-text-brand-secondary: var(--oko-gray-300);
     --oko-fg-tertiary: var(--oko-gray-400);
     --oko-fg-quaternary: var(--oko-gray-600);
     --oko-fg-disabled-subtle: var(--oko-gray-600);
+    --oko-fg-brand-primary: var(--oko-gray-50);
     --oko-border-primary: var(--oko-gray-700);
+    --oko-border-error-subtle: #f04438;
 
     /* Shadows - Dark */
     --oko-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
@@ -110,10 +120,11 @@ export const MODAL_STYLES = `
 
   .oko-modal-close {
     position: absolute;
-    right: 16px;
-    top: 16px;
-    width: 32px;
-    height: 32px;
+    right: 24px;
+    top: 24px;
+    width: 36px;
+    height: 36px;
+    padding: var(--oko-radius-md);
     border: none;
     background: transparent;
     cursor: pointer;
@@ -127,7 +138,7 @@ export const MODAL_STYLES = `
   }
 
   .oko-modal-close:hover {
-    background: var(--oko-bg-primary-hover);
+    background: var(--oko-bg-secondary);
   }
 
   .oko-modal-close svg {
@@ -135,18 +146,92 @@ export const MODAL_STYLES = `
     height: 20px;
   }
 
-  /* Error Message */
-  .oko-error-message {
-    margin-top: 16px;
-    padding: 12px;
+  /* Progress View (Loading/Failed) */
+  .oko-progress-view {
+    display: flex;
+    padding: 32px 24px 24px 24px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .oko-progress-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 54px;
+    height: 54px;
+    position: relative;
+  }
+
+  .oko-progress-circle .oko-provider-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .oko-progress-circle .oko-provider-icon svg {
     width: 100%;
-    background: #fef3f2;
-    border: 1px solid #fda29b;
-    border-radius: var(--oko-radius-md);
-    color: #b42318;
-    font-size: 14px;
-    line-height: 20px;
+    height: 100%;
+  }
+
+  .oko-spinner-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -31px;
+    margin-left: -31px;
+    z-index: 10;
+    width: 62px;
+    height: 62px;
+  }
+
+  .oko-spinner-overlay svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .oko-spinner-overlay.oko-spinning svg {
+    animation: oko-spin 1s linear infinite;
+  }
+
+  @keyframes oko-spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  .oko-progress-text {
+    margin-top: 9px;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 24px;
+    color: var(--oko-text-primary);
     text-align: center;
+  }
+
+  .oko-retry-btn {
+    display: flex;
+    height: 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 4px;
+    align-self: stretch;
+    cursor: pointer;
+    margin-top: 16px;
+    background: none;
+    border: none;
+    font-family: var(--oko-font-family);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    color: var(--oko-text-brand-secondary);
+  }
+
+  .oko-retry-btn:hover {
+    opacity: 0.8;
   }
 
   /* Default View */

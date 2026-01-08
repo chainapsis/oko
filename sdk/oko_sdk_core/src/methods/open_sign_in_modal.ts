@@ -49,9 +49,7 @@ export async function openSignInModal(this: OkoWalletInterface): Promise<void> {
     };
 
     const handleSelect = async (provider: SignInType) => {
-      // CRITICAL: Call signIn synchronously within the click event context
-      // This ensures Safari allows the popup to open
-      state.controller?.hideError();
+      state.controller?.showLoading(provider);
 
       try {
         await this.signIn(provider);
@@ -59,10 +57,7 @@ export async function openSignInModal(this: OkoWalletInterface): Promise<void> {
         state.resolved = true;
         resolve();
       } catch (error) {
-        // Show error message instead of closing the modal
-        const errorMessage =
-          error instanceof Error ? error.message : "Login failed";
-        state.controller?.showError(errorMessage);
+        state.controller?.showFailed(provider);
       }
     };
 

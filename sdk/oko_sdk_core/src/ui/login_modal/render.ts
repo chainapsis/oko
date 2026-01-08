@@ -66,8 +66,8 @@ function resolveTheme(theme: LoginModalTheme): "light" | "dark" {
 
 export interface LoginModalController {
   container: HTMLElement;
-  showError: (message: string) => void;
-  hideError: () => void;
+  showLoading: (method: SignInType) => void;
+  showFailed: (method: SignInType) => void;
 }
 
 export function renderLoginModal(
@@ -96,22 +96,29 @@ export function renderLoginModal(
   const modalContainer = document.createElement("div");
   modalContainer.className = "oko-modal-container";
 
-  // Close button (always visible)
   const closeBtn = document.createElement("button");
   closeBtn.className = "oko-modal-close";
   closeBtn.innerHTML = ICONS.close;
   closeBtn.setAttribute("aria-label", "Close modal");
 
-  // Error message element
-  const errorMessage = document.createElement("div");
-  errorMessage.className = "oko-error-message";
-  errorMessage.style.display = "none";
-
-  // Content wrapper
   const contentWrapper = document.createElement("div");
   contentWrapper.className = "oko-content-wrapper";
 
-  // Render functions
+  function createProviderButton(
+    provider: SignInType,
+    label: string,
+  ): HTMLButtonElement {
+    const btn = document.createElement("button");
+    btn.className = "oko-provider-btn";
+    btn.dataset.provider = provider;
+    btn.innerHTML = `
+      <span class="oko-provider-icon">${ICONS[provider]}</span>
+      <span class="oko-provider-label">${label}</span>
+    `;
+
+    return btn;
+  }
+
   function renderDefaultView(): HTMLElement {
     const view = document.createElement("div");
     view.className = "oko-default-view";
@@ -130,13 +137,8 @@ export function renderLoginModal(
     const providerList = document.createElement("div");
     providerList.className = "oko-provider-list";
 
-    // Email button
-    const emailBtn = createProviderButton("email", "Email", ICONS.email);
-    providerList.appendChild(emailBtn);
-
-    // Google button
-    const googleBtn = createProviderButton("google", "Google", ICONS.google);
-    providerList.appendChild(googleBtn);
+    providerList.appendChild(createProviderButton("email", "Email"));
+    providerList.appendChild(createProviderButton("google", "Google"));
 
     // Other Socials button
     const socialsBtn = document.createElement("button");
@@ -166,7 +168,6 @@ export function renderLoginModal(
 
     view.appendChild(logoWrapper);
     view.appendChild(providerList);
-    view.appendChild(errorMessage);
     view.appendChild(footer);
 
     return view;
@@ -192,72 +193,89 @@ export function renderLoginModal(
     backRow.appendChild(backBtn);
     backRow.appendChild(backTitle);
 
-    // Provider buttons
     const providerList = document.createElement("div");
     providerList.className = "oko-provider-list oko-socials-list";
 
-    // X button
-    const xBtn = createProviderButton("x", "X", ICONS.x);
-    providerList.appendChild(xBtn);
+    providerList.appendChild(createProviderButton("x", "X"));
+    providerList.appendChild(createProviderButton("telegram", "Telegram"));
+    providerList.appendChild(createProviderButton("discord", "Discord"));
 
-    // Telegram button
-    const telegramBtn = createProviderButton(
-      "telegram",
-      "Telegram",
-      ICONS.telegram,
-    );
-    providerList.appendChild(telegramBtn);
-
-    // Discord button
-    const discordBtn = createProviderButton(
-      "discord",
-      "Discord",
-      ICONS.discord,
-    );
-    providerList.appendChild(discordBtn);
-
-    // Apple button (disabled)
-    const appleBtn = createProviderButton("apple", "Apple", ICONS.apple, true);
+    const appleBtn = document.createElement("button");
+    appleBtn.className = "oko-provider-btn";
+    appleBtn.disabled = true;
+    appleBtn.innerHTML = `
+      <span class="oko-provider-icon">${ICONS.apple}</span>
+      <span class="oko-provider-label">Apple</span>
+    `;
     providerList.appendChild(appleBtn);
 
     view.appendChild(backRow);
     view.appendChild(providerList);
-    view.appendChild(errorMessage);
 
     return view;
   }
 
-  function createProviderButton(
-    id: string,
-    label: string,
-    icon: string,
-    disabled = false,
-  ): HTMLButtonElement {
-    const btn = document.createElement("button");
-    btn.className = "oko-provider-btn";
-    btn.dataset.provider = id;
-    if (disabled) {
-      btn.disabled = true;
+  function renderProgressView(
+    status: "loading" | "failed",
+    method: SignInType,
+  ): HTMLElement {
+    const view = document.createElement("div");
+    view.className = "oko-progress-view";
+
+    const circle = document.createElement("div");
+    circle.className = "oko-progress-circle";
+
+    const icon = document.createElement("span");
+    icon.className = "oko-provider-icon";
+    icon.innerHTML = ICONS[method];
+
+    const spinner = document.createElement("span");
+    spinner.className =
+      status === "loading"
+        ? "oko-spinner-overlay oko-spinning"
+        : "oko-spinner-overlay";
+    spinner.innerHTML =
+      status === "loading" ? ICONS.spinnerLoading : ICONS.spinnerFailed;
+
+    circle.appendChild(icon);
+    circle.appendChild(spinner);
+
+    const text = document.createElement("div");
+    text.className = "oko-progress-text";
+    text.textContent = status === "loading" ? "Signing in" : "Login failed";
+
+    view.appendChild(circle);
+    view.appendChild(text);
+
+    if (status === "failed") {
+      const retryBtn = document.createElement("button");
+      retryBtn.className = "oko-retry-btn";
+      retryBtn.textContent = "Retry";
+      retryBtn.addEventListener("click", () => switchView("default"));
+      view.appendChild(retryBtn);
     }
 
-    btn.innerHTML = `
-      <span class="oko-provider-icon">${icon}</span>
-      <span class="oko-provider-label">${label}</span>
-    `;
+    return view;
+  }
 
-    return btn;
+  function clearContent() {
+    contentWrapper.innerHTML = "";
+    modalContainer.className = "oko-modal-container";
   }
 
   function switchView(view: "default" | "socials") {
-    errorMessage.style.display = "none";
-    contentWrapper.innerHTML = "";
+    clearContent();
     if (view === "default") {
-      modalContainer.className = "oko-modal-container";
       contentWrapper.appendChild(renderDefaultView());
     } else {
       modalContainer.className = "oko-modal-container oko-socials-container";
       contentWrapper.appendChild(renderSocialsView());
     }
+  }
+
+  function switchToProgressView(status: "loading" | "failed", method: SignInType) {
+    clearContent();
+    contentWrapper.appendChild(renderProgressView(status, method));
   }
 
   // Initial render
@@ -309,21 +327,18 @@ export function renderLoginModal(
     document.body.style.overflow = originalOverflow;
   });
 
-  // Controller functions
-  const showError = (message: string) => {
-    errorMessage.textContent = message;
-    errorMessage.style.display = "block";
+  const showLoading = (method: SignInType) => {
+    switchToProgressView("loading", method);
   };
 
-  const hideError = () => {
-    errorMessage.textContent = "";
-    errorMessage.style.display = "none";
+  const showFailed = (method: SignInType) => {
+    switchToProgressView("failed", method);
   };
 
   return {
     container,
-    showError,
-    hideError,
+    showLoading,
+    showFailed,
   };
 }
 
