@@ -10,4 +10,16 @@ export const PROVIDER_CONFIG: Record<string, { logo: string; name: string }> = {
     logo: OKO_ICON,
     name: "Oko Wallet (Email)",
   },
+  x: {
+    logo: OKO_ICON,
+    name: "Oko Wallet (X)",
+  },
+  telegram: {
+    logo: OKO_ICON,
+    name: "Oko Wallet (Telegram)",
+  },
+  discord: {
+    logo: OKO_ICON,
+    name: "Oko Wallet (Discord)",
+  },
 };
