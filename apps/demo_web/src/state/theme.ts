@@ -21,7 +21,7 @@ export const themeInitScript = `
       theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     document.documentElement.setAttribute('${THEME_ATTRIBUTE}', theme);
-  } catch (e) { /* localStorage 접근 실패 시 기본 테마 사용 */ }
+  } catch (e) {}
 })();
 `;
 
