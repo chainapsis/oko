@@ -1,6 +1,10 @@
 import { Participant } from "@oko-wallet/teddsa-interface";
 
-import { runKeygenCentralizedEd25519, runKeygenImportEd25519 } from "../server";
+import {
+  runKeygenCentralizedEd25519,
+  runKeygenImportEd25519,
+  extractKeyPackageSharesEd25519,
+} from "../server";
 
 export async function keygenCentralizedTest() {
   console.log("Testing centralized keygen...\n");
@@ -353,6 +357,129 @@ export async function keygenCentralizedConsistencyTest() {
   console.log("Consistency test passed");
 }
 
+export async function extractKeyPackageSharesTest() {
+  console.log("\nTesting extractKeyPackageSharesEd25519...\n");
+
+  // Generate a key_package first
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  // Extract shares from client key_package
+  const clientShares = extractKeyPackageSharesEd25519(clientKeyPackage);
+
+  // Validate output structure
+  if (!clientShares.signing_share || clientShares.signing_share.length !== 32) {
+    throw new Error(
+      `Expected 32-byte signing_share, got ${clientShares.signing_share?.length ?? 0} bytes`,
+    );
+  }
+
+  if (
+    !clientShares.verifying_share ||
+    clientShares.verifying_share.length !== 32
+  ) {
+    throw new Error(
+      `Expected 32-byte verifying_share, got ${clientShares.verifying_share?.length ?? 0} bytes`,
+    );
+  }
+
+  console.log("  ✓ Client shares extracted successfully");
+  console.log(`  ✓ Signing share: ${clientShares.signing_share.length} bytes`);
+  console.log(
+    `  ✓ Verifying share: ${clientShares.verifying_share.length} bytes`,
+  );
+
+  // Extract shares from server key_package
+  const serverShares = extractKeyPackageSharesEd25519(serverKeyPackage);
+
+  // Validate server shares
+  if (!serverShares.signing_share || serverShares.signing_share.length !== 32) {
+    throw new Error(
+      `Expected 32-byte signing_share, got ${serverShares.signing_share?.length ?? 0} bytes`,
+    );
+  }
+
+  if (
+    !serverShares.verifying_share ||
+    serverShares.verifying_share.length !== 32
+  ) {
+    throw new Error(
+      `Expected 32-byte verifying_share, got ${serverShares.verifying_share?.length ?? 0} bytes`,
+    );
+  }
+
+  console.log("  ✓ Server shares extracted successfully");
+
+  // Verify that client and server shares are different
+  const clientSigningShareHex = Buffer.from(
+    clientShares.signing_share,
+  ).toString("hex");
+  const serverSigningShareHex = Buffer.from(
+    serverShares.signing_share,
+  ).toString("hex");
+  if (clientSigningShareHex === serverSigningShareHex) {
+    throw new Error("Client and server signing shares should be different");
+  }
+
+  const clientVerifyingShareHex = Buffer.from(
+    clientShares.verifying_share,
+  ).toString("hex");
+  const serverVerifyingShareHex = Buffer.from(
+    serverShares.verifying_share,
+  ).toString("hex");
+  if (clientVerifyingShareHex === serverVerifyingShareHex) {
+    throw new Error("Client and server verifying shares should be different");
+  }
+
+  console.log("  ✓ Client and server shares are different");
+
+  // Test with invalid key_package
+  try {
+    const invalidKeyPackage = new Uint8Array(32).fill(0xff);
+    extractKeyPackageSharesEd25519(invalidKeyPackage);
+    throw new Error("Should have thrown an error for invalid key_package");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid key_package: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid key_package correctly rejected");
+  }
+
+  // Test consistency: extract from same key_package multiple times
+  const shares1 = extractKeyPackageSharesEd25519(clientKeyPackage);
+  const shares2 = extractKeyPackageSharesEd25519(clientKeyPackage);
+
+  const signingShare1Hex = Buffer.from(shares1.signing_share).toString("hex");
+  const signingShare2Hex = Buffer.from(shares2.signing_share).toString("hex");
+  if (signingShare1Hex !== signingShare2Hex) {
+    throw new Error("Extraction should be deterministic");
+  }
+
+  const verifyingShare1Hex = Buffer.from(shares1.verifying_share).toString(
+    "hex",
+  );
+  const verifyingShare2Hex = Buffer.from(shares2.verifying_share).toString(
+    "hex",
+  );
+  if (verifyingShare1Hex !== verifyingShare2Hex) {
+    throw new Error("Extraction should be deterministic");
+  }
+
+  console.log("  ✓ Extraction is deterministic");
+
+  console.log("\nExtract key package shares test passed");
+}
+
 // Run the tests
 async function main() {
   console.log("Starting Ed25519 keygen tests...\n");
@@ -366,6 +493,7 @@ async function main() {
     await keygenImportErrorTest();
     await keygenImportEdgeCasesTest();
     await keygenCentralizedConsistencyTest();
+    await extractKeyPackageSharesTest();
 
     console.log("\n" + "=".repeat(50));
     console.log("All keygen tests passed!");

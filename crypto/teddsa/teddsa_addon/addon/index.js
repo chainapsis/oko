@@ -310,10 +310,12 @@ if (!nativeBinding) {
   throw new Error(`Failed to load native binding`)
 }
 
-const { napiKeygenCentralizedEd25519, napiKeygenImportEd25519, napiSignRound1Ed25519, napiSignRound2Ed25519, napiAggregateEd25519, napiVerifyEd25519 } = nativeBinding
+const { napiKeygenCentralizedEd25519, napiKeygenImportEd25519, napiExtractKeyPackageSharesEd25519, napiReconstructKeyPackageEd25519, napiSignRound1Ed25519, napiSignRound2Ed25519, napiAggregateEd25519, napiVerifyEd25519 } = nativeBinding
 
 module.exports.napiKeygenCentralizedEd25519 = napiKeygenCentralizedEd25519
 module.exports.napiKeygenImportEd25519 = napiKeygenImportEd25519
+module.exports.napiExtractKeyPackageSharesEd25519 = napiExtractKeyPackageSharesEd25519
+module.exports.napiReconstructKeyPackageEd25519 = napiReconstructKeyPackageEd25519
 module.exports.napiSignRound1Ed25519 = napiSignRound1Ed25519
 module.exports.napiSignRound2Ed25519 = napiSignRound2Ed25519
 module.exports.napiAggregateEd25519 = napiAggregateEd25519
