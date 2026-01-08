@@ -98,8 +98,8 @@ export function useOkoSol() {
       // Check if user is signed in
       const existingPubkey = await okoSolWallet.okoWallet.getPublicKey();
       if (!existingPubkey) {
-        // Not signed in - trigger OAuth sign in
-        await okoSolWallet.okoWallet.signIn("google");
+        // Not signed in - open provider select modal
+        await okoSolWallet.okoWallet.openSignInModal();
       }
 
       // connect() internally handles Ed25519 key creation if needed

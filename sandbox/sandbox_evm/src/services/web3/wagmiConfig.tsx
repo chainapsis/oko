@@ -130,9 +130,9 @@ function okoConnector(
 
           // popup on safari works fine here as we use cached states
           console.log(
-            "[sandbox-evm] no authenticated account, sign in with google",
+            "[sandbox-evm] no authenticated account, opening connect modal",
           );
-          await okoEthWallet.okoWallet.signIn("google");
+          await okoEthWallet.okoWallet.openSignInModal();
         }
 
         const chainId = await wallet.getChainId();
