@@ -10,7 +10,11 @@ import { FloatingArrow, arrow } from "@floating-ui/react";
 import cn from "classnames";
 
 import styles from "./tooltip.module.scss";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
+import {
+  Typography,
+  type BaseTypographyColor,
+  type BaseTypographyCustomColor,
+} from "@oko-wallet-common-ui/typography/typography";
 
 export type TooltipProps = {
   children: React.ReactNode;
@@ -27,7 +31,10 @@ export type TooltipProps = {
     | "primary-solid"
     | "secondary-solid"
     | "tertiary-solid"
-    | "quaternary-solid";
+    | "quaternary-solid"
+    | "brand-solid";
+  titleColor?: BaseTypographyColor;
+  titleCustomColor?: BaseTypographyCustomColor;
 };
 
 export const Tooltip: FC<TooltipProps> = ({
@@ -37,8 +44,11 @@ export const Tooltip: FC<TooltipProps> = ({
   title,
   content,
   hideFloatingArrow,
-  backgroundColor = "primary-solid",
+  backgroundColor: bgColor,
+  titleColor,
+  titleCustomColor,
 }) => {
+  const backgroundColor = bgColor ?? "primary-solid";
   const [isOpen, setIsOpen] = useState(false);
   const arrowRef = useRef(null);
 
@@ -91,7 +101,12 @@ export const Tooltip: FC<TooltipProps> = ({
           {...getFloatingProps()}
         >
           {title && (
-            <Typography size="xs" weight="semibold" color="white">
+            <Typography
+              size="xs"
+              weight="semibold"
+              color={titleColor ?? "white"}
+              customColor={titleCustomColor}
+            >
               {title}
             </Typography>
           )}

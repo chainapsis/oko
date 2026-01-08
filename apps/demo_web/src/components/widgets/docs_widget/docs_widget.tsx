@@ -39,7 +39,7 @@ export const DocsWidget: FC = () => {
           Explore the SDK, APIs, and integration guides to start building.
         </Typography>
         <Button
-          variant={isSignedIn ? "secondary" : "primary"}
+          variant="secondary"
           size="md"
           fullWidth
           onClick={handleOpenDocs}

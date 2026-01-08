@@ -6,6 +6,8 @@ import "@oko-wallet/oko-common-ui/styles/colors.scss";
 import "@oko-wallet/oko-common-ui/styles/typography.scss";
 import "@oko-wallet/oko-common-ui/styles/shadow.scss";
 
+import { themeInitScript } from "@oko-wallet-demo-web/state/theme";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -47,10 +49,14 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // To prevent flickering in dark mode or light mode in Next.js, an inline script is required.
+    // The reason is that even when using LayoutEffect in React, it executes after hydration.
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable}`}
-        suppressHydrationWarning
       >
         {children}
       </body>
