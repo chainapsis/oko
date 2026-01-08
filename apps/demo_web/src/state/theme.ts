@@ -21,7 +21,9 @@ export const themeInitScript = `
       theme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     document.documentElement.setAttribute('${THEME_ATTRIBUTE}', theme);
-  } catch (e) {}
+  } catch (e) {
+    document.documentElement.setAttribute('${THEME_ATTRIBUTE}', 'light');
+  }
 })();
 `;
 
