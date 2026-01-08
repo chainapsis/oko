@@ -11,11 +11,17 @@ import {
   TssStageType,
   PresignEd25519StageStatus,
 } from "@oko-wallet/oko-types/tss";
-import type { KeygenEd25519Output } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { runSignRound1Ed25519 } from "@oko-wallet/teddsa-addon/src/server";
+import {
+  runSignRound1Ed25519,
+  reconstructKeyPackageEd25519,
+} from "@oko-wallet/teddsa-addon/src/server";
+import {
+  Participant,
+  participantToIdentifier,
+} from "@oko-wallet/teddsa-interface";
 
 import { validateWalletEmail } from "@oko-wallet-tss-api/api/utils";
 
@@ -54,12 +60,35 @@ export async function runPresignEd25519(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+
+    // Reconstruct key_package from stored shares
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+    const minSigners = 2;
+
+    let keyPackageBytes: Uint8Array;
+    try {
+      keyPackageBytes = reconstructKeyPackageEd25519(
+        new Uint8Array(storedShares.signing_share),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+        minSigners,
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
 
     // Generate nonces and commitments (Round 1 without message)
-    const round1Result = runSignRound1Ed25519(
-      new Uint8Array(keygenOutput.key_package),
-    );
+    const round1Result = runSignRound1Ed25519(keyPackageBytes);
 
     // Create TSS session
     const sessionRes = await createTssSession(db, {
