@@ -19,8 +19,10 @@ pub struct NapiSigningCommitmentOutput {
 }
 
 /// Output from a signing round 2 (signature share)
-#[derive(Debug, Clone, Serialize, Deserialize)]
-pub struct SignatureShareOutput {
+#[napi(object)]
+#[derive(Debug, Clone)]
+pub struct NapiSignatureShareOutput {
+    #[napi(js_name = "signature_share")]
     pub signature_share: Vec<u8>,
     pub identifier: Vec<u8>,
 }
@@ -70,7 +72,7 @@ fn sign_round2_inner(
     key_package_bytes: &[u8],
     nonces_bytes: &[u8],
     all_commitments: &[(Vec<u8>, Vec<u8>)],
-) -> std::result::Result<SignatureShareOutput, String> {
+) -> std::result::Result<NapiSignatureShareOutput, String> {
     let key_package = KeyPackage::deserialize(key_package_bytes).map_err(|e| e.to_string())?;
 
     let nonces = SigningNonces::deserialize(nonces_bytes).map_err(|e| e.to_string())?;
@@ -90,7 +92,7 @@ fn sign_round2_inner(
     let signature_share_bytes = signature_share.serialize();
     let identifier_bytes = key_package.identifier().serialize().to_vec();
 
-    Ok(SignatureShareOutput {
+    Ok(NapiSignatureShareOutput {
         signature_share: signature_share_bytes,
         identifier: identifier_bytes,
     })
@@ -170,7 +172,7 @@ pub fn napi_sign_round2_ed25519(
     key_package: Vec<u8>,
     nonces: Vec<u8>,
     all_commitments: serde_json::Value,
-) -> Result<serde_json::Value> {
+) -> Result<NapiSignatureShareOutput> {
     let commitments: Vec<CommitmentEntry> =
         serde_json::from_value(all_commitments).map_err(|e| {
             napi::Error::new(
@@ -184,18 +186,10 @@ pub fn napi_sign_round2_ed25519(
         .map(|c| (c.identifier, c.commitments))
         .collect();
 
-    let output =
-        sign_round2_inner(&message, &key_package, &nonces, &commitments_vec).map_err(|e| {
-            napi::Error::new(
-                napi::Status::GenericFailure,
-                format!("sign_round2 error: {:?}", e),
-            )
-        })?;
-
-    serde_json::to_value(output).map_err(|e| {
+    sign_round2_inner(&message, &key_package, &nonces, &commitments_vec).map_err(|e| {
         napi::Error::new(
             napi::Status::GenericFailure,
-            format!("serialization error: {:?}", e),
+            format!("sign_round2 error: {:?}", e),
         )
     })
 }
