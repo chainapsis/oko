@@ -1,47 +1,55 @@
-import type { EthereumArbitrarySignPayload } from "@oko-wallet/oko-sdk-core";
+import type { SolanaMessageSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
-import type { FC } from "react";
+import { useMemo, type FC } from "react";
 
 import styles from "@oko-wallet-attached/components/modal_variants/common/sign_in_content/sign_in_content.module.scss";
 import {
-  getSiweMessage,
-  verifySiweMessage,
-} from "@oko-wallet-attached/components/modal_variants/eth/siwe_message";
-import { SiweSigTitleBadge } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/siwe_sig/siwe_sig_title_badge";
+  getSiwsMessage,
+  verifySiwsMessage,
+} from "@oko-wallet-attached/components/modal_variants/sol/siws_message";
+import { SiwsSigTitleBadge } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/siws_sig_title_badge";
 import { SignerInfo } from "@oko-wallet-attached/components/modal_variants/common/signer_info";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { RiskWarningBox } from "@oko-wallet-attached/components/modal_variants/common/risk_warning/risk_warning";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
+import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
+import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
 
-interface EthereumSiweSignatureContentProps {
-  payload: EthereumArbitrarySignPayload;
+interface SolanaSiwsSignatureContentProps {
+  payload: SolanaMessageSignPayload;
   theme: Theme | null;
 }
 
-export const EthereumSiweSignatureContent: FC<
-  EthereumSiweSignatureContentProps
+export const SolanaSiwsSignatureContent: FC<
+  SolanaSiwsSignatureContentProps
 > = ({ payload, theme }) => {
-  const message = getSiweMessage(payload.data.message);
+  // Decode hex message to string
+  const decodedMessage = useMemo(() => {
+    try {
+      const bytes = hexToUint8Array(payload.data.message);
+      return new TextDecoder().decode(bytes);
+    } catch {
+      return payload.data.message;
+    }
+  }, [payload.data.message]);
+
+  const message = getSiwsMessage(decodedMessage);
   if (!message) {
     // @unreachable
     throw new Error("unreachable");
   }
 
-  const isValidSiweMessage = verifySiweMessage(message, payload.origin);
+  const isValidSiwsMessage = verifySiwsMessage(message, payload.origin);
 
   return (
     <div>
-      {isValidSiweMessage ? (
-        <SiweSigTitleBadge theme={theme} />
-      ) : (
-        <RiskWarningBox />
-      )}
+      {isValidSiwsMessage ? <SiwsSigTitleBadge /> : <RiskWarningBox />}
 
       <div className={styles.metadataContainer}>
-        <Spacing height={isValidSiweMessage ? 8 : 12} />
+        <Spacing height={isValidSiwsMessage ? 8 : 12} />
         <Typography size="lg" color="primary" weight="semibold">
           Sign in to
         </Typography>
@@ -50,7 +58,7 @@ export const EthereumSiweSignatureContent: FC<
         <div className={styles.originRow}>
           <Typography
             size="lg"
-            color={isValidSiweMessage ? "primary" : "warning-primary"}
+            color={isValidSiwsMessage ? "primary" : "warning-primary"}
             weight="semibold"
           >
             {payload.origin.replace(/^https?:\/\//, "")}
@@ -85,13 +93,13 @@ export const EthereumSiweSignatureContent: FC<
 
           <div className={styles.chainInfoRowContent}>
             <Avatar
-              src={payload.chain_info.chain_symbol_image_url}
-              alt="chain icon"
+              src={SOLANA_LOGO_URL}
+              alt="Solana"
               size="sm"
               variant="rounded"
             />
             <Typography size="sm" color="secondary" weight="medium">
-              {payload.chain_info.chain_name}
+              Solana
             </Typography>
           </div>
         </div>
