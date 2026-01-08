@@ -44,10 +44,11 @@ export const Tooltip: FC<TooltipProps> = ({
   title,
   content,
   hideFloatingArrow,
-  backgroundColor = "primary-solid",
-  titleColor = "white",
+  backgroundColor: bgColor,
+  titleColor,
   titleCustomColor,
 }) => {
+  const backgroundColor = bgColor ?? "primary-solid";
   const [isOpen, setIsOpen] = useState(false);
   const arrowRef = useRef(null);
 
@@ -103,7 +104,7 @@ export const Tooltip: FC<TooltipProps> = ({
             <Typography
               size="xs"
               weight="semibold"
-              color={titleColor}
+              color={titleColor ?? "white"}
               customColor={titleCustomColor}
             >
               {title}
