@@ -12,7 +12,8 @@ import cn from "classnames";
 import styles from "./tooltip.module.scss";
 import {
   Typography,
-  type BaseTypographyProps,
+  type BaseTypographyColor,
+  type BaseTypographyCustomColor,
 } from "@oko-wallet-common-ui/typography/typography";
 
 export type TooltipProps = {
@@ -32,8 +33,8 @@ export type TooltipProps = {
     | "tertiary-solid"
     | "quaternary-solid"
     | "brand-solid";
-  titleColor?: BaseTypographyProps["color"];
-  titleCustomColor?: BaseTypographyProps["customColor"];
+  titleColor?: BaseTypographyColor;
+  titleCustomColor?: BaseTypographyCustomColor;
 };
 
 export const Tooltip: FC<TooltipProps> = ({
