@@ -64,7 +64,9 @@ fn keygen_centralized_inner() -> std::result::Result<NapiCentralizedKeygenOutput
     })
 }
 
-fn keygen_import_inner(secret: [u8; 32]) -> std::result::Result<NapiCentralizedKeygenOutput, String> {
+fn keygen_import_inner(
+    secret: [u8; 32],
+) -> std::result::Result<NapiCentralizedKeygenOutput, String> {
     let mut rng = OsRng;
     let max_signers = 2;
     let min_signers = 2;
@@ -135,4 +137,169 @@ pub fn napi_keygen_import_ed25519(secret_key: Vec<u8>) -> Result<NapiCentralized
             format!("keygen_import error: {:?}", e),
         )
     })
+}
+
+/// Extract signing_share and verifying_share from a serialized key_package.
+#[napi(object)]
+pub struct NapiKeyPackageShares {
+    #[napi(js_name = "signing_share")]
+    pub signing_share: Vec<u8>,
+    #[napi(js_name = "verifying_share")]
+    pub verifying_share: Vec<u8>,
+}
+
+/// Extract signing_share and verifying_share from a serialized Ed25519 key_package.
+#[napi]
+pub fn napi_extract_key_package_shares_ed25519(
+    key_package_bytes: Vec<u8>,
+) -> Result<NapiKeyPackageShares> {
+    let key_package = KeyPackage::deserialize(&key_package_bytes).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize key_package: {:?}", e),
+        )
+    })?;
+
+    let signing_share_bytes = key_package.signing_share().serialize();
+    let verifying_share_bytes = key_package
+        .verifying_share()
+        .serialize()
+        .map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("Failed to serialize verifying_share: {:?}", e),
+            )
+        })?
+        .to_vec();
+
+    Ok(NapiKeyPackageShares {
+        signing_share: signing_share_bytes.to_vec(),
+        verifying_share: verifying_share_bytes,
+    })
+}
+
+/// Reconstruct a key_package from signing_share, verifying_share, identifier, and verifying_key.
+#[napi]
+pub fn napi_reconstruct_key_package_ed25519(
+    signing_share: Vec<u8>,
+    verifying_share: Vec<u8>,
+    identifier: Vec<u8>,
+    verifying_key: Vec<u8>,
+    min_signers: u16,
+) -> Result<Vec<u8>> {
+    use frost::keys::{SigningShare, VerifyingShare};
+    use frost::Identifier;
+    use frost::VerifyingKey;
+
+    let identifier = Identifier::deserialize(&identifier).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize identifier: {:?}", e),
+        )
+    })?;
+
+    let signing_share = SigningShare::deserialize(&signing_share).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize signing_share: {:?}", e),
+        )
+    })?;
+
+    let verifying_share = VerifyingShare::deserialize(&verifying_share).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize verifying_share: {:?}", e),
+        )
+    })?;
+
+    let verifying_key = VerifyingKey::deserialize(&verifying_key).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize verifying_key: {:?}", e),
+        )
+    })?;
+
+    let key_package = KeyPackage::new(
+        identifier,
+        signing_share,
+        verifying_share,
+        verifying_key,
+        min_signers,
+    );
+
+    let key_package_bytes = key_package.serialize().map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to serialize key_package: {:?}", e),
+        )
+    })?;
+
+    Ok(key_package_bytes)
+}
+
+/// Reconstruct a public_key_package from verifying_shares, identifiers, and verifying_key.
+#[napi]
+pub fn napi_reconstruct_public_key_package_ed25519(
+    client_verifying_share: Vec<u8>,
+    client_identifier: Vec<u8>,
+    server_verifying_share: Vec<u8>,
+    server_identifier: Vec<u8>,
+    verifying_key: Vec<u8>,
+) -> Result<Vec<u8>> {
+    use frost::keys::{PublicKeyPackage, VerifyingShare};
+    use frost::Identifier;
+    use frost::VerifyingKey;
+    use std::collections::BTreeMap;
+
+    let client_identifier = Identifier::deserialize(&client_identifier).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize client_identifier: {:?}", e),
+        )
+    })?;
+
+    let server_identifier = Identifier::deserialize(&server_identifier).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize server_identifier: {:?}", e),
+        )
+    })?;
+
+    let client_verifying_share =
+        VerifyingShare::deserialize(&client_verifying_share).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("Failed to deserialize client_verifying_share: {:?}", e),
+            )
+        })?;
+
+    let server_verifying_share =
+        VerifyingShare::deserialize(&server_verifying_share).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("Failed to deserialize server_verifying_share: {:?}", e),
+            )
+        })?;
+
+    let verifying_key = VerifyingKey::deserialize(&verifying_key).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize verifying_key: {:?}", e),
+        )
+    })?;
+
+    let mut verifying_shares: BTreeMap<Identifier, VerifyingShare> = BTreeMap::new();
+    verifying_shares.insert(client_identifier, client_verifying_share);
+    verifying_shares.insert(server_identifier, server_verifying_share);
+
+    let public_key_package = PublicKeyPackage::new(verifying_shares, verifying_key);
+
+    let public_key_package_bytes = public_key_package.serialize().map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to serialize public_key_package: {:?}", e),
+        )
+    })?;
+
+    Ok(public_key_package_bytes)
 }

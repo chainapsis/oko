@@ -38,9 +38,11 @@ export type SignEd25519Round2Body = {
 export interface SignEd25519AggregateRequest {
   email: string;
   wallet_id: string;
+  session_id: string;
   msg: number[];
   all_commitments: CommitmentEntry[];
   all_signature_shares: SignatureShareEntry[];
+  user_verifying_share: number[]; // P0's verifying_share (32 bytes)
 }
 
 export interface SignEd25519AggregateResponse {
@@ -48,43 +50,14 @@ export interface SignEd25519AggregateResponse {
 }
 
 export type SignEd25519AggregateBody = {
+  session_id: string;
   msg: number[];
   all_commitments: CommitmentEntry[];
   all_signature_shares: SignatureShareEntry[];
+  user_verifying_share: number[];
 };
 
 export interface SignEd25519ServerState {
   nonces: number[];
   identifier: number[];
 }
-
-export interface PresignEd25519Request {
-  email: string;
-  wallet_id: string;
-  customer_id: string;
-}
-
-export interface PresignEd25519Response {
-  session_id: string;
-  commitments_0: CommitmentEntry;
-}
-
-export type PresignEd25519Body = Record<string, never>;
-
-export interface SignEd25519Request {
-  email: string;
-  wallet_id: string;
-  session_id: string;
-  msg: number[];
-  commitments_1: CommitmentEntry;
-}
-
-export interface SignEd25519Response {
-  signature_share_0: SignatureShareEntry;
-}
-
-export type SignEd25519Body = {
-  session_id: string;
-  msg: number[];
-  commitments_1: CommitmentEntry;
-};

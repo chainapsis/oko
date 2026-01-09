@@ -9,6 +9,11 @@ import type {
   KeyPackageRaw,
   PublicKeyPackageRaw,
 } from "@oko-wallet/teddsa-interface";
+import {
+  reqSignEd25519Round1,
+  reqSignEd25519Round2,
+  reqSignEd25519Aggregate,
+} from "@oko-wallet/teddsa-api-lib";
 
 import type { TeddsaKeygenOutputBytes } from "./types";
 
@@ -102,6 +107,134 @@ export function teddsaVerify(
   } catch (error: any) {
     return { success: false, err: String(error) };
   }
+}
+
+export async function runTeddsaSign(
+  endpoint: string,
+  message: Uint8Array,
+  keyPackage: KeyPackageRaw,
+  authToken: string,
+  getIsAborted: () => boolean,
+): Promise<Result<Uint8Array, TeddsaSignError>> {
+  if (getIsAborted()) {
+    return { success: false, err: { type: "aborted" } };
+  }
+
+  // Round 1: Generate client commitments locally
+  const round1Result = teddsaSignRound1(keyPackage);
+  if (!round1Result.success) {
+    return { success: false, err: { type: "error", msg: round1Result.err } };
+  }
+
+  const clientCommitment: CommitmentEntry = {
+    identifier: round1Result.data.identifier,
+    commitments: round1Result.data.commitments,
+  };
+
+  // Send message to server to initiate Round 1 and get server commitments
+  if (getIsAborted()) {
+    return { success: false, err: { type: "aborted" } };
+  }
+
+  const round1Resp = await reqSignEd25519Round1(
+    endpoint,
+    { msg: [...message] },
+    authToken,
+  );
+  if (round1Resp.success === false) {
+    return {
+      success: false,
+      err: { type: "error", msg: round1Resp.msg },
+    };
+  }
+
+  const { session_id: sessionId, commitments_0: serverCommitment } =
+    round1Resp.data;
+
+  // Combine and sort commitments by identifier
+  const allCommitments: CommitmentEntry[] = [
+    clientCommitment,
+    serverCommitment,
+  ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
+
+  // Round 2: Send client commitments to server and get server signature share
+  if (getIsAborted()) {
+    return { success: false, err: { type: "aborted" } };
+  }
+
+  const round2Resp = await reqSignEd25519Round2(
+    endpoint,
+    {
+      session_id: sessionId,
+      commitments_1: clientCommitment,
+    },
+    authToken,
+  );
+  if (round2Resp.success === false) {
+    return {
+      success: false,
+      err: { type: "error", msg: round2Resp.msg },
+    };
+  }
+
+  const serverSignatureShare: SignatureShareEntry =
+    round2Resp.data.signature_share_0;
+
+  // Generate client signature share locally
+  if (getIsAborted()) {
+    return { success: false, err: { type: "aborted" } };
+  }
+
+  const round2Result = teddsaSignRound2(
+    message,
+    keyPackage,
+    new Uint8Array(round1Result.data.nonces),
+    allCommitments,
+  );
+  if (!round2Result.success) {
+    return { success: false, err: { type: "error", msg: round2Result.err } };
+  }
+
+  const clientSignatureShare: SignatureShareEntry = {
+    identifier: round2Result.data.identifier,
+    signature_share: round2Result.data.signature_share,
+  };
+
+  // Combine and sort signature shares by identifier
+  const allSignatureShares: SignatureShareEntry[] = [
+    clientSignatureShare,
+    serverSignatureShare,
+  ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
+
+  // Aggregate: Send all data to server to get final signature
+  if (getIsAborted()) {
+    return { success: false, err: { type: "aborted" } };
+  }
+
+  // Extract user_verifying_share from keyPackage
+  const userVerifyingShare = keyPackage.verifying_share;
+
+  const aggregateResp = await reqSignEd25519Aggregate(
+    endpoint,
+    {
+      session_id: sessionId,
+      msg: [...message],
+      all_commitments: allCommitments,
+      all_signature_shares: allSignatureShares,
+      user_verifying_share: userVerifyingShare,
+    },
+    authToken,
+  );
+  if (aggregateResp.success === false) {
+    return {
+      success: false,
+      err: { type: "error", msg: aggregateResp.msg },
+    };
+  }
+
+  const signature = new Uint8Array(aggregateResp.data.signature);
+
+  return { success: true, data: signature };
 }
 
 export async function runTeddsaSignLocal(

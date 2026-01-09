@@ -18,7 +18,6 @@ export enum TssStageType {
   PRESIGN = "PRESIGN",
   SIGN = "SIGN",
   SIGN_ED25519 = "SIGN_ED25519",
-  PRESIGN_ED25519 = "PRESIGN_ED25519",
 }
 
 interface TssStageBase {
@@ -132,12 +131,6 @@ export type SignEd25519Stage = TssStageBase & {
   stage_data: SignEd25519StageData;
 };
 
-export type PresignEd25519Stage = TssStageBase & {
-  stage_type: TssStageType.PRESIGN_ED25519;
-  stage_status: PresignEd25519StageStatus;
-  stage_data: PresignEd25519StageData;
-};
-
 export type TssStageStatus =
   | TriplesStageStatus
   | PresignStageStatus
@@ -149,8 +142,7 @@ export type TssStage =
   | TriplesStage
   | PresignStage
   | SignStage
-  | SignEd25519Stage
-  | PresignEd25519Stage;
+  | SignEd25519Stage;
 
 export type CreateTssStageRequest = Pick<
   TssStage,

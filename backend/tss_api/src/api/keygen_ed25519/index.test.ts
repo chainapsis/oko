@@ -5,9 +5,14 @@ import { runKeygenCentralizedEd25519 } from "@oko-wallet/teddsa-addon/src/server
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
-import { createWallet } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import {
+  createWallet,
+  getWalletById,
+} from "@oko-wallet/oko-pg-interface/oko_wallets";
 import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
+import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
+import { extractKeyPackageSharesEd25519 } from "@oko-wallet/teddsa-addon/src/server";
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
@@ -106,6 +111,12 @@ describe("Ed25519 Keygen", () => {
         TEMP_ENC_SECRET,
       );
 
+      if (!result.success) {
+        console.error("Keygen failed:", {
+          code: result.code,
+          msg: result.msg,
+        });
+      }
       expect(result.success).toBe(true);
       if (result.success) {
         expect(result.data.token).toBeDefined();
@@ -340,6 +351,71 @@ describe("Ed25519 Keygen", () => {
         });
         // This test is just to verify isolation between curve types
         // In production, the user_id would come from the database
+      }
+    });
+
+    it("should store only signing_share and verifying_share in enc_tss_share", async () => {
+      await setUpKSNodes(pool);
+      await setUpKeyShareNodeMeta(pool);
+
+      const keygenResult = runKeygenCentralizedEd25519();
+      const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
+
+      // Extract expected shares from server key_package
+      const expectedShares = extractKeyPackageSharesEd25519(
+        new Uint8Array(serverKeygenOutput.key_package),
+      );
+
+      const request = generateKeygenRequest(keygenResult);
+
+      const result = await runKeygenEd25519(
+        pool,
+        TEST_JWT_CONFIG,
+        request,
+        TEMP_ENC_SECRET,
+      );
+
+      expect(result.success).toBe(true);
+      if (result.success) {
+        // Get wallet from database using wallet_id from result
+        const getWalletRes = await getWalletById(
+          pool,
+          result.data.user.wallet_id,
+        );
+        expect(getWalletRes.success).toBe(true);
+        if (getWalletRes.success && getWalletRes.data) {
+          const wallet = getWalletRes.data;
+
+          // Decrypt enc_tss_share
+          const encryptedShare = wallet.enc_tss_share.toString("utf-8");
+          const decryptedShare = await decryptDataAsync(
+            encryptedShare,
+            TEMP_ENC_SECRET,
+          );
+          const storedShares = JSON.parse(decryptedShare) as {
+            signing_share: number[];
+            verifying_share: number[];
+          };
+
+          // Verify structure: should only have signing_share and verifying_share
+          expect(storedShares).toHaveProperty("signing_share");
+          expect(storedShares).toHaveProperty("verifying_share");
+          expect(storedShares).not.toHaveProperty("key_package");
+          expect(storedShares).not.toHaveProperty("public_key_package");
+          expect(storedShares).not.toHaveProperty("identifier");
+
+          // Verify sizes: each should be 32 bytes
+          expect(storedShares.signing_share).toHaveLength(32);
+          expect(storedShares.verifying_share).toHaveLength(32);
+
+          // Verify values match expected shares
+          expect(storedShares.signing_share).toEqual(
+            expectedShares.signing_share,
+          );
+          expect(storedShares.verifying_share).toEqual(
+            expectedShares.verifying_share,
+          );
+        }
       }
     });
   });

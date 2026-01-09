@@ -11,17 +11,12 @@ import type {
   SignEd25519AggregateRequest,
   SignEd25519AggregateResponse,
   SignEd25519StageData,
-  SignEd25519Request,
-  SignEd25519Response,
-  PresignEd25519StageData,
 } from "@oko-wallet/oko-types/tss";
 import {
   TssStageType,
   SignEd25519StageStatus,
-  PresignEd25519StageStatus,
   TssSessionState,
 } from "@oko-wallet/oko-types/tss";
-import type { KeygenEd25519Output } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
@@ -29,7 +24,13 @@ import {
   runSignRound1Ed25519,
   runSignRound2Ed25519,
   runAggregateEd25519,
+  reconstructKeyPackageEd25519,
+  reconstructPublicKeyPackageEd25519,
 } from "@oko-wallet/teddsa-addon/src/server";
+import {
+  Participant,
+  participantToIdentifier,
+} from "@oko-wallet/teddsa-interface";
 
 import {
   validateWalletEmail,
@@ -73,11 +74,34 @@ export async function runSignEd25519Round1(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
 
-    const round1Result = runSignRound1Ed25519(
-      new Uint8Array(keygenOutput.key_package),
-    );
+    // Reconstruct key_package from stored shares
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+    const minSigners = 2;
+
+    let keyPackageBytes: Uint8Array;
+    try {
+      keyPackageBytes = reconstructKeyPackageEd25519(
+        new Uint8Array(storedShares.signing_share),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+        minSigners,
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+
+    const round1Result = runSignRound1Ed25519(keyPackageBytes);
 
     // Create TSS session
     const sessionRes = await createTssSession(db, {
@@ -219,7 +243,32 @@ export async function runSignEd25519Round2(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+
+    // Reconstruct key_package from stored shares
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+    const minSigners = 2;
+
+    let keyPackageBytes: Uint8Array;
+    try {
+      keyPackageBytes = reconstructKeyPackageEd25519(
+        new Uint8Array(storedShares.signing_share),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+        minSigners,
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
 
     const serverCommitment = {
       identifier,
@@ -235,24 +284,23 @@ export async function runSignEd25519Round2(
 
     const round2Result = runSignRound2Ed25519(
       new Uint8Array(msg),
-      new Uint8Array(keygenOutput.key_package),
+      keyPackageBytes,
       new Uint8Array(nonces),
       allCommitments,
     );
 
-    // Update stage and session atomically
     const updateRes = await updateTssStageWithSessionState(
       db,
       stage.stage_id,
       session_id,
       {
-        stage_status: SignEd25519StageStatus.COMPLETED,
+        stage_status: SignEd25519StageStatus.ROUND_2,
         stage_data: {
           ...stageData,
           signature_share: round2Result.signature_share,
         },
       },
-      TssSessionState.COMPLETED,
+      TssSessionState.IN_PROGRESS,
     );
     if (!updateRes.success) {
       return {
@@ -280,14 +328,21 @@ export async function runSignEd25519Round2(
   }
 }
 
-// New presign-based sign function
-export async function runSignEd25519(
+export async function runSignEd25519Aggregate(
   db: Pool,
   encryptionSecret: string,
-  request: SignEd25519Request,
-): Promise<OkoApiResponse<SignEd25519Response>> {
+  request: SignEd25519AggregateRequest,
+): Promise<OkoApiResponse<SignEd25519AggregateResponse>> {
   try {
-    const { email, wallet_id, session_id, msg, commitments_1 } = request;
+    const {
+      email,
+      wallet_id,
+      session_id,
+      msg,
+      all_commitments,
+      all_signature_shares,
+      user_verifying_share,
+    } = request;
 
     const validateWalletEmailRes = await validateWalletEmail(
       db,
@@ -311,11 +366,44 @@ export async function runSignEd25519(
       };
     }
 
-    // Get presign stage with session data
+    // Decrypt stored shares
+    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
+    const decryptedShare = await decryptDataAsync(
+      encryptedShare,
+      encryptionSecret,
+    );
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+
+    // Reconstruct public_key_package from user and server verifying_shares
+    const userIdentifier = participantToIdentifier(Participant.P0);
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+
+    let publicKeyPackageBytes: Uint8Array;
+    try {
+      publicKeyPackageBytes = reconstructPublicKeyPackageEd25519(
+        new Uint8Array(user_verifying_share),
+        new Uint8Array(userIdentifier),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct public_key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+
+    // Get stage with session data to update status after aggregate
     const getStageRes = await getTssStageWithSessionData(
       db,
       session_id,
-      TssStageType.PRESIGN_ED25519,
+      TssStageType.SIGN_ED25519,
     );
     if (getStageRes.success === false) {
       return {
@@ -335,60 +423,35 @@ export async function runSignEd25519(
       };
     }
 
-    // Validate stage status (must be COMPLETED presign, not USED)
-    if (!validateTssStage(stage, PresignEd25519StageStatus.COMPLETED)) {
+    // Validate stage status (should be ROUND_2)
+    if (!validateTssStage(stage, SignEd25519StageStatus.ROUND_2)) {
       return {
         success: false,
         code: "INVALID_TSS_SESSION",
-        msg: "Presign not found or already used. Please call presign_ed25519 first.",
+        msg: "Round 2 state not found. Please call round2 first.",
       };
     }
 
-    const stageData = stage.stage_data as PresignEd25519StageData;
-    const { nonces, identifier, commitments } = stageData;
-
-    if (!nonces || !identifier || !commitments) {
-      return {
-        success: false,
-        code: "INVALID_TSS_SESSION",
-        msg: "Missing presign data in stage",
-      };
-    }
-
-    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
-    const decryptedShare = await decryptDataAsync(
-      encryptedShare,
-      encryptionSecret,
-    );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
-
-    const serverCommitment = {
-      identifier,
-      commitments,
-    };
-
-    const allCommitments = [serverCommitment, commitments_1];
-    allCommitments.sort((a, b) => {
-      const idA = a.identifier[0] ?? 0;
-      const idB = b.identifier[0] ?? 0;
-      return idA - idB;
-    });
-
-    const round2Result = runSignRound2Ed25519(
+    // Aggregate signature
+    const aggregateResult = runAggregateEd25519(
       new Uint8Array(msg),
-      new Uint8Array(keygenOutput.key_package),
-      new Uint8Array(nonces),
-      allCommitments,
+      all_commitments,
+      all_signature_shares,
+      publicKeyPackageBytes,
     );
 
-    // Mark presign as USED and complete the session
+    // Update stage and session to COMPLETED after successful aggregate
+    const stageData = stage.stage_data as SignEd25519StageData;
     const updateRes = await updateTssStageWithSessionState(
       db,
       stage.stage_id,
       session_id,
       {
-        stage_status: PresignEd25519StageStatus.USED,
-        stage_data: stageData,
+        stage_status: SignEd25519StageStatus.COMPLETED,
+        stage_data: {
+          ...stageData,
+          signature: aggregateResult.signature,
+        },
       },
       TssSessionState.COMPLETED,
     );
@@ -399,69 +462,6 @@ export async function runSignEd25519(
         msg: `Failed to update TSS stage: ${updateRes.err}`,
       };
     }
-
-    return {
-      success: true,
-      data: {
-        signature_share_0: {
-          identifier: round2Result.identifier,
-          signature_share: round2Result.signature_share,
-        },
-      },
-    };
-  } catch (error) {
-    return {
-      success: false,
-      code: "UNKNOWN_ERROR",
-      msg: `runSignEd25519 error: ${error instanceof Error ? error.message : String(error)}`,
-    };
-  }
-}
-
-export async function runSignEd25519Aggregate(
-  db: Pool,
-  encryptionSecret: string,
-  request: SignEd25519AggregateRequest,
-): Promise<OkoApiResponse<SignEd25519AggregateResponse>> {
-  try {
-    const { email, wallet_id, msg, all_commitments, all_signature_shares } =
-      request;
-
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
-      return {
-        success: false,
-        code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
-      };
-    }
-    const wallet = validateWalletEmailRes.data;
-
-    if (wallet.curve_type !== "ed25519") {
-      return {
-        success: false,
-        code: "INVALID_WALLET_TYPE",
-        msg: `Wallet is not ed25519 type: ${wallet.curve_type}`,
-      };
-    }
-
-    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
-    const decryptedShare = await decryptDataAsync(
-      encryptedShare,
-      encryptionSecret,
-    );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
-
-    const aggregateResult = runAggregateEd25519(
-      new Uint8Array(msg),
-      all_commitments,
-      all_signature_shares,
-      new Uint8Array(keygenOutput.public_key_package),
-    );
 
     return {
       success: true,

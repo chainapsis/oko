@@ -19,6 +19,17 @@ export interface NapiCentralizedKeygenOutput {
 export declare function napiKeygenCentralizedEd25519(): NapiCentralizedKeygenOutput
 /** Import an existing Ed25519 secret key and split it into threshold shares. */
 export declare function napiKeygenImportEd25519(secretKey: Array<number>): NapiCentralizedKeygenOutput
+/** Extract signing_share and verifying_share from a serialized key_package. */
+export interface NapiKeyPackageShares {
+  signing_share: Array<number>
+  verifying_share: Array<number>
+}
+/** Extract signing_share and verifying_share from a serialized Ed25519 key_package. */
+export declare function napiExtractKeyPackageSharesEd25519(keyPackageBytes: Array<number>): NapiKeyPackageShares
+/** Reconstruct a key_package from signing_share, verifying_share, identifier, and verifying_key. */
+export declare function napiReconstructKeyPackageEd25519(signingShare: Array<number>, verifyingShare: Array<number>, identifier: Array<number>, verifyingKey: Array<number>, minSigners: number): Array<number>
+/** Reconstruct a public_key_package from verifying_shares, identifiers, and verifying_key. */
+export declare function napiReconstructPublicKeyPackageEd25519(clientVerifyingShare: Array<number>, clientIdentifier: Array<number>, serverVerifyingShare: Array<number>, serverIdentifier: Array<number>, verifyingKey: Array<number>): Array<number>
 /** Output from a signing round 1 (commitment) */
 export interface NapiSigningCommitmentOutput {
   nonces: Array<number>

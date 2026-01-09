@@ -21,6 +21,7 @@ import {
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
+import { extractKeyPackageSharesEd25519 } from "@oko-wallet/teddsa-addon/src/server";
 
 export async function runKeygenEd25519(
   db: Pool,
@@ -114,10 +115,7 @@ export async function runKeygenEd25519(
       };
     }
 
-    // Ed25519 uses 2-of-2 threshold signature with server, not SSS key share
-    // nodes
-    // Skip checkKeyShareFromKSNodes validation (which expects secp256k1
-    // 33-byte keys)
+    // TODO: Add KS node check after SSS & KSN logic is implemented
     const getActiveKSNodesRes = await getActiveKSNodes(db);
     if (getActiveKSNodesRes.success === false) {
       return {
@@ -129,14 +127,19 @@ export async function runKeygenEd25519(
     const activeKSNodes = getActiveKSNodesRes.data;
     const ksNodeIds: string[] = activeKSNodes.map((node) => node.node_id);
 
-    const keyPackageJson = JSON.stringify({
-      key_package: keygen_2.key_package,
-      public_key_package: keygen_2.public_key_package,
-      identifier: keygen_2.identifier,
-    });
+    // Extract signing_share and verifying_share from key_package
+    const keyPackageShares = extractKeyPackageSharesEd25519(
+      new Uint8Array(keygen_2.key_package),
+    );
+
+    // Store only signing_share and verifying_share (64 bytes total)
+    const sharesData = {
+      signing_share: keyPackageShares.signing_share,
+      verifying_share: keyPackageShares.verifying_share,
+    };
 
     const encryptedShare = await encryptDataAsync(
-      keyPackageJson,
+      JSON.stringify(sharesData),
       encryptionSecret,
     );
     const encryptedShareBuffer = Buffer.from(encryptedShare, "utf-8");
