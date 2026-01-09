@@ -72,21 +72,3 @@ export interface PresignEd25519Response {
 }
 
 export type PresignEd25519Body = Record<string, never>;
-
-export interface SignEd25519Request {
-  email: string;
-  wallet_id: string;
-  session_id: string;
-  msg: number[];
-  commitments_1: CommitmentEntry;
-}
-
-export interface SignEd25519Response {
-  signature_share_0: SignatureShareEntry;
-}
-
-export type SignEd25519Body = {
-  session_id: string;
-  msg: number[];
-  commitments_1: CommitmentEntry;
-};

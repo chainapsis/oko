@@ -11,7 +11,7 @@ import type {
 } from "@oko-wallet/teddsa-interface";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
-import { reqPresignEd25519, reqSignEd25519 } from "@oko-wallet/teddsa-api-lib";
+import { reqPresignEd25519 } from "@oko-wallet/teddsa-api-lib";
 
 import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
@@ -82,78 +82,79 @@ export async function makeSignOutputEd25519(
       return { success: false, err: { type: "aborted" } };
     }
 
-    const serverSignRes = await reqSignEd25519(
-      TSS_V1_ENDPOINT,
-      {
-        session_id: sessionId,
-        msg: [...message],
-        commitments_1: clientCommitment,
-      },
-      authToken,
-    );
+    // @TODO
+    // const serverSignRes = await reqSignEd25519(
+    //   TSS_V1_ENDPOINT,
+    //   {
+    //     session_id: sessionId,
+    //     msg: [...message],
+    //     commitments_1: clientCommitment,
+    //   },
+    //   authToken,
+    // );
 
-    if (!serverSignRes.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: serverSignRes.msg },
-        },
-      };
-    }
+    // if (!serverSignRes.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: serverSignRes.msg },
+    //     },
+    //   };
+    // }
 
-    const serverSignatureShare: SignatureShareEntry =
-      serverSignRes.data.signature_share_0;
+    // const serverSignatureShare: SignatureShareEntry =
+    //   serverSignRes.data.signature_share_0;
 
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
 
-    const round2Result = teddsaSignRound2(
-      message,
-      keyPackage.keyPackage,
-      new Uint8Array(round1Result.data.nonces),
-      allCommitments,
-    );
+    // const round2Result = teddsaSignRound2(
+    //   message,
+    //   keyPackage.keyPackage,
+    //   new Uint8Array(round1Result.data.nonces),
+    //   allCommitments,
+    // );
 
-    if (!round2Result.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: round2Result.err },
-        },
-      };
-    }
+    // if (!round2Result.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: round2Result.err },
+    //     },
+    //   };
+    // }
 
-    const clientSignatureShare: SignatureShareEntry = {
-      identifier: round2Result.data.identifier,
-      signature_share: round2Result.data.signature_share,
-    };
+    // const clientSignatureShare: SignatureShareEntry = {
+    //   identifier: round2Result.data.identifier,
+    //   signature_share: round2Result.data.signature_share,
+    // };
 
-    const allSignatureShares: SignatureShareEntry[] = [
-      clientSignatureShare,
-      serverSignatureShare,
-    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
+    // const allSignatureShares: SignatureShareEntry[] = [
+    //   clientSignatureShare,
+    //   serverSignatureShare,
+    // ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
-    const aggregateResult = teddsaAggregate(
-      message,
-      allCommitments,
-      allSignatureShares,
-      keyPackage.publicKeyPackage,
-    );
+    // const aggregateResult = teddsaAggregate(
+    //   message,
+    //   allCommitments,
+    //   allSignatureShares,
+    //   keyPackage.publicKeyPackage,
+    // );
 
-    if (!aggregateResult.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: aggregateResult.err },
-        },
-      };
-    }
+    // if (!aggregateResult.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: aggregateResult.err },
+    //     },
+    //   };
+    // }
 
-    return { success: true, data: aggregateResult.data };
+    return { success: true, data: new Uint8Array(64) };
   } catch (error) {
     return {
       success: false,
