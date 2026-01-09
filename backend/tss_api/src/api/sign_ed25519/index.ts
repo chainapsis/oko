@@ -21,7 +21,6 @@ import {
   PresignEd25519StageStatus,
   TssSessionState,
 } from "@oko-wallet/oko-types/tss";
-import type { KeygenEd25519Output } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
@@ -29,7 +28,12 @@ import {
   runSignRound1Ed25519,
   runSignRound2Ed25519,
   runAggregateEd25519,
+  reconstructKeyPackageEd25519,
 } from "@oko-wallet/teddsa-addon/src/server";
+import {
+  Participant,
+  participantToIdentifier,
+} from "@oko-wallet/teddsa-interface";
 
 import {
   validateWalletEmail,
@@ -73,11 +77,34 @@ export async function runSignEd25519Round1(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
 
-    const round1Result = runSignRound1Ed25519(
-      new Uint8Array(keygenOutput.key_package),
-    );
+    // Reconstruct key_package from stored shares
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+    const minSigners = 2;
+
+    let keyPackageBytes: Uint8Array;
+    try {
+      keyPackageBytes = reconstructKeyPackageEd25519(
+        new Uint8Array(storedShares.signing_share),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+        minSigners,
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+
+    const round1Result = runSignRound1Ed25519(keyPackageBytes);
 
     // Create TSS session
     const sessionRes = await createTssSession(db, {
@@ -219,7 +246,32 @@ export async function runSignEd25519Round2(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+
+    // Reconstruct key_package from stored shares
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+    const minSigners = 2;
+
+    let keyPackageBytes: Uint8Array;
+    try {
+      keyPackageBytes = reconstructKeyPackageEd25519(
+        new Uint8Array(storedShares.signing_share),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+        minSigners,
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
 
     const serverCommitment = {
       identifier,
@@ -235,7 +287,7 @@ export async function runSignEd25519Round2(
 
     const round2Result = runSignRound2Ed25519(
       new Uint8Array(msg),
-      new Uint8Array(keygenOutput.key_package),
+      keyPackageBytes,
       new Uint8Array(nonces),
       allCommitments,
     );
@@ -360,7 +412,32 @@ export async function runSignEd25519(
       encryptedShare,
       encryptionSecret,
     );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+
+    // Reconstruct key_package from stored shares
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+    const minSigners = 2;
+
+    let keyPackageBytes: Uint8Array;
+    try {
+      keyPackageBytes = reconstructKeyPackageEd25519(
+        new Uint8Array(storedShares.signing_share),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+        minSigners,
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
 
     const serverCommitment = {
       identifier,
@@ -376,7 +453,7 @@ export async function runSignEd25519(
 
     const round2Result = runSignRound2Ed25519(
       new Uint8Array(msg),
-      new Uint8Array(keygenOutput.key_package),
+      keyPackageBytes,
       new Uint8Array(nonces),
       allCommitments,
     );
@@ -449,25 +526,11 @@ export async function runSignEd25519Aggregate(
       };
     }
 
-    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
-    const decryptedShare = await decryptDataAsync(
-      encryptedShare,
-      encryptionSecret,
-    );
-    const keygenOutput: KeygenEd25519Output = JSON.parse(decryptedShare);
-
-    const aggregateResult = runAggregateEd25519(
-      new Uint8Array(msg),
-      all_commitments,
-      all_signature_shares,
-      new Uint8Array(keygenOutput.public_key_package),
-    );
-
+    // @TODO: Implement public_key_package reconstruction
     return {
-      success: true,
-      data: {
-        signature: aggregateResult.signature,
-      },
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: "public_key_package reconstruction not yet implemented. Please store public_key_package separately in wallet or require it in the request.",
     };
   } catch (error) {
     return {
