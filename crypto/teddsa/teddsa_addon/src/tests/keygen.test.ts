@@ -5,6 +5,7 @@ import {
   runKeygenImportEd25519,
   extractKeyPackageSharesEd25519,
   reconstructPublicKeyPackageEd25519,
+  reconstructKeyPackageEd25519,
 } from "../server";
 
 export async function keygenCentralizedTest() {
@@ -664,6 +665,256 @@ export async function reconstructPublicKeyPackageTest() {
   console.log("\nReconstruct public key package test passed");
 }
 
+export async function reconstructKeyPackageTest() {
+  console.log("\nTesting reconstructKeyPackageEd25519...\n");
+
+  // Generate a keygen output to get the original key_package
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const originalClientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const originalServerKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  // Extract shares from key_packages
+  const clientShares = extractKeyPackageSharesEd25519(originalClientKeyPackage);
+  const serverShares = extractKeyPackageSharesEd25519(originalServerKeyPackage);
+
+  const clientIdentifier = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].identifier,
+  );
+  const serverIdentifier = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].identifier,
+  );
+  const verifyingKey = new Uint8Array(keygenOutput.public_key);
+  const minSigners = 2;
+
+  // Reconstruct client key_package
+  const reconstructedClientKeyPackage = reconstructKeyPackageEd25519(
+    new Uint8Array(clientShares.signing_share),
+    new Uint8Array(clientShares.verifying_share),
+    clientIdentifier,
+    verifyingKey,
+    minSigners,
+  );
+
+  // Validate output structure
+  if (
+    !reconstructedClientKeyPackage ||
+    reconstructedClientKeyPackage.length === 0
+  ) {
+    throw new Error("Reconstructed client key_package is empty");
+  }
+
+  console.log(
+    `  ✓ Client key package reconstructed: ${reconstructedClientKeyPackage.length} bytes`,
+  );
+
+  // Compare with original client key_package
+  const originalClientHex = Buffer.from(originalClientKeyPackage).toString(
+    "hex",
+  );
+  const reconstructedClientHex = Buffer.from(
+    reconstructedClientKeyPackage,
+  ).toString("hex");
+
+  if (originalClientHex !== reconstructedClientHex) {
+    throw new Error(
+      "Reconstructed client key_package should match original client key_package",
+    );
+  }
+
+  console.log("  ✓ Reconstructed client key_package matches original");
+
+  // Reconstruct server key_package
+  const reconstructedServerKeyPackage = reconstructKeyPackageEd25519(
+    new Uint8Array(serverShares.signing_share),
+    new Uint8Array(serverShares.verifying_share),
+    serverIdentifier,
+    verifyingKey,
+    minSigners,
+  );
+
+  // Validate server key_package
+  if (
+    !reconstructedServerKeyPackage ||
+    reconstructedServerKeyPackage.length === 0
+  ) {
+    throw new Error("Reconstructed server key_package is empty");
+  }
+
+  const originalServerHex = Buffer.from(originalServerKeyPackage).toString(
+    "hex",
+  );
+  const reconstructedServerHex = Buffer.from(
+    reconstructedServerKeyPackage,
+  ).toString("hex");
+
+  if (originalServerHex !== reconstructedServerHex) {
+    throw new Error(
+      "Reconstructed server key_package should match original server key_package",
+    );
+  }
+
+  console.log("  ✓ Reconstructed server key_package matches original");
+
+  // Verify client and server key_packages are different
+  if (reconstructedClientHex === reconstructedServerHex) {
+    throw new Error(
+      "Client and server key_packages should be different (different identifiers and shares)",
+    );
+  }
+
+  console.log("  ✓ Client and server key_packages are different");
+
+  // Test consistency: reconstruct multiple times should produce same result
+  const reconstructed1 = reconstructKeyPackageEd25519(
+    new Uint8Array(clientShares.signing_share),
+    new Uint8Array(clientShares.verifying_share),
+    clientIdentifier,
+    verifyingKey,
+    minSigners,
+  );
+  const reconstructed2 = reconstructKeyPackageEd25519(
+    new Uint8Array(clientShares.signing_share),
+    new Uint8Array(clientShares.verifying_share),
+    clientIdentifier,
+    verifyingKey,
+    minSigners,
+  );
+
+  const reconstructed1Hex = Buffer.from(reconstructed1).toString("hex");
+  const reconstructed2Hex = Buffer.from(reconstructed2).toString("hex");
+
+  if (reconstructed1Hex !== reconstructed2Hex) {
+    throw new Error("Reconstruction should be deterministic");
+  }
+
+  console.log("  ✓ Reconstruction is deterministic");
+
+  // Test with invalid signing_share (wrong length)
+  try {
+    const invalidSigningShare = new Uint8Array(31).fill(0xff);
+    reconstructKeyPackageEd25519(
+      invalidSigningShare,
+      new Uint8Array(clientShares.verifying_share),
+      clientIdentifier,
+      verifyingKey,
+      minSigners,
+    );
+    throw new Error("Should have thrown an error for invalid signing_share");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize") &&
+      !error.message?.includes("Invalid")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid signing_share: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid signing_share correctly rejected");
+  }
+
+  // Test with invalid verifying_share (wrong length)
+  try {
+    const invalidVerifyingShare = new Uint8Array(31).fill(0xff);
+    reconstructKeyPackageEd25519(
+      new Uint8Array(clientShares.signing_share),
+      invalidVerifyingShare,
+      clientIdentifier,
+      verifyingKey,
+      minSigners,
+    );
+    throw new Error("Should have thrown an error for invalid verifying_share");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize") &&
+      !error.message?.includes("Invalid")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid verifying_share: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid verifying_share correctly rejected");
+  }
+
+  // Test with invalid identifier (wrong length)
+  try {
+    const invalidIdentifier = new Uint8Array(31).fill(0xff);
+    reconstructKeyPackageEd25519(
+      new Uint8Array(clientShares.signing_share),
+      new Uint8Array(clientShares.verifying_share),
+      invalidIdentifier,
+      verifyingKey,
+      minSigners,
+    );
+    throw new Error("Should have thrown an error for invalid identifier");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize") &&
+      !error.message?.includes("Invalid")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid identifier: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid identifier correctly rejected");
+  }
+
+  // Test with invalid verifying_key (wrong length)
+  try {
+    const invalidVerifyingKey = new Uint8Array(31).fill(0xff);
+    reconstructKeyPackageEd25519(
+      new Uint8Array(clientShares.signing_share),
+      new Uint8Array(clientShares.verifying_share),
+      clientIdentifier,
+      invalidVerifyingKey,
+      minSigners,
+    );
+    throw new Error("Should have thrown an error for invalid verifying_key");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize") &&
+      !error.message?.includes("Invalid")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid verifying_key: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid verifying_key correctly rejected");
+  }
+
+  const mismatchedKeyPackage = reconstructKeyPackageEd25519(
+    new Uint8Array(clientShares.signing_share),
+    new Uint8Array(clientShares.verifying_share),
+    serverIdentifier, // Using server identifier with client shares
+    verifyingKey,
+    minSigners,
+  );
+
+  if (mismatchedKeyPackage.length === 0) {
+    throw new Error(
+      "Mismatched components should still produce valid key_package",
+    );
+  }
+
+  const mismatchedHex = Buffer.from(mismatchedKeyPackage).toString("hex");
+  if (mismatchedHex === originalClientHex) {
+    throw new Error(
+      "Mismatched identifier should produce different key_package",
+    );
+  }
+
+  console.log("  ✓ Mismatched components produce different key_package");
+
+  console.log("\nReconstruct key package test passed");
+}
+
 // Run the tests
 async function main() {
   console.log("Starting Ed25519 keygen tests...\n");
@@ -678,6 +929,7 @@ async function main() {
     await keygenImportEdgeCasesTest();
     await keygenCentralizedConsistencyTest();
     await extractKeyPackageSharesTest();
+    await reconstructKeyPackageTest();
     await reconstructPublicKeyPackageTest();
 
     console.log("\n" + "=".repeat(50));
