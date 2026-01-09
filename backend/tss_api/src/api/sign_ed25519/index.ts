@@ -29,6 +29,7 @@ import {
   runSignRound2Ed25519,
   runAggregateEd25519,
   reconstructKeyPackageEd25519,
+  reconstructPublicKeyPackageEd25519,
 } from "@oko-wallet/teddsa-addon/src/server";
 import {
   Participant,
@@ -501,8 +502,14 @@ export async function runSignEd25519Aggregate(
   request: SignEd25519AggregateRequest,
 ): Promise<OkoApiResponse<SignEd25519AggregateResponse>> {
   try {
-    const { email, wallet_id, msg, all_commitments, all_signature_shares } =
-      request;
+    const {
+      email,
+      wallet_id,
+      msg,
+      all_commitments,
+      all_signature_shares,
+      user_verifying_share,
+    } = request;
 
     const validateWalletEmailRes = await validateWalletEmail(
       db,
@@ -526,11 +533,52 @@ export async function runSignEd25519Aggregate(
       };
     }
 
-    // @TODO: Implement public_key_package reconstruction
+    // Decrypt stored shares
+    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
+    const decryptedShare = await decryptDataAsync(
+      encryptedShare,
+      encryptionSecret,
+    );
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+
+    // Reconstruct public_key_package from user and server verifying_shares
+    const userIdentifier = participantToIdentifier(Participant.P0);
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+
+    let publicKeyPackageBytes: Uint8Array;
+    try {
+      publicKeyPackageBytes = reconstructPublicKeyPackageEd25519(
+        new Uint8Array(user_verifying_share),
+        new Uint8Array(userIdentifier),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct public_key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+
+    // Aggregate signature
+    const aggregateResult = runAggregateEd25519(
+      new Uint8Array(msg),
+      all_commitments,
+      all_signature_shares,
+      publicKeyPackageBytes,
+    );
+
     return {
-      success: false,
-      code: "UNKNOWN_ERROR",
-      msg: "public_key_package reconstruction not yet implemented. Please store public_key_package separately in wallet or require it in the request.",
+      success: true,
+      data: {
+        signature: aggregateResult.signature,
+      },
     };
   } catch (error) {
     return {

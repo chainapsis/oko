@@ -41,6 +41,7 @@ export interface SignEd25519AggregateRequest {
   msg: number[];
   all_commitments: CommitmentEntry[];
   all_signature_shares: SignatureShareEntry[];
+  user_verifying_share: number[]; // P0's verifying_share (32 bytes)
 }
 
 export interface SignEd25519AggregateResponse {
@@ -51,6 +52,7 @@ export type SignEd25519AggregateBody = {
   msg: number[];
   all_commitments: CommitmentEntry[];
   all_signature_shares: SignatureShareEntry[];
+  user_verifying_share: number[];
 };
 
 export interface SignEd25519ServerState {

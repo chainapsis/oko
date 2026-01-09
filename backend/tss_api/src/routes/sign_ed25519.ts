@@ -392,8 +392,18 @@ export function setSignEd25519Routes(router: Router) {
                     },
                   },
                 },
+                user_verifying_share: {
+                  type: "array",
+                  items: { type: "number" },
+                  description: "P0's verifying_share (32 bytes)",
+                },
               },
-              required: ["msg", "all_commitments", "all_signature_shares"],
+              required: [
+                "msg",
+                "all_commitments",
+                "all_signature_shares",
+                "user_verifying_share",
+              ],
             },
           },
         },
@@ -450,6 +460,7 @@ export function setSignEd25519Routes(router: Router) {
           msg: body.msg,
           all_commitments: body.all_commitments,
           all_signature_shares: body.all_signature_shares,
+          user_verifying_share: body.user_verifying_share,
         },
       );
 
