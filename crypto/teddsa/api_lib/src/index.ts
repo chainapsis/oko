@@ -6,8 +6,6 @@ import type {
   SignEd25519Round2Response,
   SignEd25519AggregateBody,
   SignEd25519AggregateResponse,
-  PresignEd25519Body,
-  PresignEd25519Response,
 } from "@oko-wallet/oko-types/tss";
 import type { SignInResponse } from "@oko-wallet/oko-types/user";
 import type {
@@ -174,21 +172,5 @@ export async function reqSignEd25519Aggregate(
       payload,
       authToken,
     );
-  return resp;
-}
-
-export async function reqPresignEd25519(
-  endpoint: string,
-  payload: PresignEd25519Body,
-  apiKey: string,
-  authToken: string,
-) {
-  const resp: OkoApiResponse<PresignEd25519Response> = await makePostRequest(
-    endpoint,
-    "presign_ed25519",
-    payload,
-    authToken,
-    apiKey,
-  );
   return resp;
 }

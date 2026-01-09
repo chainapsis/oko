@@ -59,16 +59,3 @@ export interface SignEd25519ServerState {
   nonces: number[];
   identifier: number[];
 }
-
-export interface PresignEd25519Request {
-  email: string;
-  wallet_id: string;
-  customer_id: string;
-}
-
-export interface PresignEd25519Response {
-  session_id: string;
-  commitments_0: CommitmentEntry;
-}
-
-export type PresignEd25519Body = Record<string, never>;

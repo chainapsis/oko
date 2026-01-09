@@ -11,7 +11,6 @@ import type {
 } from "@oko-wallet/teddsa-interface";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
-import { reqPresignEd25519 } from "@oko-wallet/teddsa-api-lib";
 
 import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
@@ -29,60 +28,61 @@ export async function makeSignOutputEd25519(
   getIsAborted: () => boolean,
 ): Promise<Result<Uint8Array, MakeSignOutputError>> {
   try {
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
-
-    const presignRes = await reqPresignEd25519(
-      TSS_V1_ENDPOINT,
-      {},
-      apiKey,
-      authToken,
-    );
-
-    if (!presignRes.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: presignRes.msg },
-        },
-      };
-    }
-
-    const { session_id: sessionId, commitments_0: serverCommitment } =
-      presignRes.data;
-
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
-
-    const round1Result = teddsaSignRound1(keyPackage.keyPackage);
-    if (!round1Result.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: round1Result.err },
-        },
-      };
-    }
-
-    const clientCommitment: CommitmentEntry = {
-      identifier: round1Result.data.identifier,
-      commitments: round1Result.data.commitments,
-    };
-
-    const allCommitments: CommitmentEntry[] = [
-      clientCommitment,
-      serverCommitment,
-    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
-
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
-
     // @TODO
+
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
+
+    // const presignRes = await reqPresignEd25519(
+    //   TSS_V1_ENDPOINT,
+    //   {},
+    //   apiKey,
+    //   authToken,
+    // );
+
+    // if (!presignRes.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: presignRes.msg },
+    //     },
+    //   };
+    // }
+
+    // const { session_id: sessionId, commitments_0: serverCommitment } =
+    //   presignRes.data;
+
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
+
+    // const round1Result = teddsaSignRound1(keyPackage.keyPackage);
+    // if (!round1Result.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: round1Result.err },
+    //     },
+    //   };
+    // }
+
+    // const clientCommitment: CommitmentEntry = {
+    //   identifier: round1Result.data.identifier,
+    //   commitments: round1Result.data.commitments,
+    // };
+
+    // const allCommitments: CommitmentEntry[] = [
+    //   clientCommitment,
+    //   serverCommitment,
+    // ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
+
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
+
     // const serverSignRes = await reqSignEd25519(
     //   TSS_V1_ENDPOINT,
     //   {
