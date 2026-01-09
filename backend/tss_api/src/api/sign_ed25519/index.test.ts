@@ -4,6 +4,12 @@ import type {
   SignEd25519Round2Request,
   SignEd25519AggregateRequest,
 } from "@oko-wallet/oko-types/tss";
+import {
+  TssStageType,
+  SignEd25519StageStatus,
+  TssSessionState,
+} from "@oko-wallet/oko-types/tss";
+import { getTssStageWithSessionData } from "@oko-wallet/oko-pg-interface/tss";
 import { Participant } from "@oko-wallet/teddsa-interface";
 import {
   runKeygenCentralizedEd25519,
@@ -186,6 +192,22 @@ describe("Ed25519 Signing", () => {
         expect(result.data.commitments_0.commitments).toBeDefined();
         expect(Array.isArray(result.data.commitments_0.identifier)).toBe(true);
         expect(Array.isArray(result.data.commitments_0.commitments)).toBe(true);
+
+        // Verify stage status is ROUND_1
+        const getStageRes = await getTssStageWithSessionData(
+          pool,
+          result.data.session_id,
+          TssStageType.SIGN_ED25519,
+        );
+        expect(getStageRes.success).toBe(true);
+        if (getStageRes.success && getStageRes.data) {
+          expect(getStageRes.data.stage_status).toBe(
+            SignEd25519StageStatus.ROUND_1,
+          );
+          expect(getStageRes.data.session_state).toBe(
+            TssSessionState.IN_PROGRESS,
+          );
+        }
       }
     });
 
@@ -277,6 +299,22 @@ describe("Ed25519 Signing", () => {
         expect(
           round2Result.data.signature_share_0.signature_share,
         ).toBeDefined();
+
+        // Verify stage status is ROUND_2 (not COMPLETED)
+        const getStageRes = await getTssStageWithSessionData(
+          pool,
+          round1Result.data.session_id,
+          TssStageType.SIGN_ED25519,
+        );
+        expect(getStageRes.success).toBe(true);
+        if (getStageRes.success && getStageRes.data) {
+          expect(getStageRes.data.stage_status).toBe(
+            SignEd25519StageStatus.ROUND_2,
+          );
+          expect(getStageRes.data.session_state).toBe(
+            TssSessionState.IN_PROGRESS,
+          );
+        }
       }
     });
 
@@ -351,7 +389,20 @@ describe("Ed25519 Signing", () => {
       );
       expect(round2Result.success).toBe(true);
 
-      // Second Round 2 call with same session - should fail
+      // Verify stage status is ROUND_2 after first Round2 call
+      const getStageRes = await getTssStageWithSessionData(
+        pool,
+        round1Result.data.session_id,
+        TssStageType.SIGN_ED25519,
+      );
+      expect(getStageRes.success).toBe(true);
+      if (getStageRes.success && getStageRes.data) {
+        expect(getStageRes.data.stage_status).toBe(
+          SignEd25519StageStatus.ROUND_2,
+        );
+      }
+
+      // Second Round 2 call with same session - should fail (already ROUND_2)
       const duplicateRound2Result = await runSignEd25519Round2(
         pool,
         TEMP_ENC_SECRET,
@@ -426,16 +477,46 @@ describe("Ed25519 Signing", () => {
         new Uint8Array(clientKeygenOutput.key_package),
       );
 
+      // Verify stage status is ROUND_2 before aggregate
+      const getStageBeforeAggRes = await getTssStageWithSessionData(
+        pool,
+        round1Res.data.session_id,
+        TssStageType.SIGN_ED25519,
+      );
+      expect(getStageBeforeAggRes.success).toBe(true);
+      if (getStageBeforeAggRes.success && getStageBeforeAggRes.data) {
+        expect(getStageBeforeAggRes.data.stage_status).toBe(
+          SignEd25519StageStatus.ROUND_2,
+        );
+      }
+
       // Complete the signing with Aggregate
       const aggRes = await runSignEd25519Aggregate(pool, TEMP_ENC_SECRET, {
         email: TEST_EMAIL,
         wallet_id: walletId,
+        session_id: round1Res.data.session_id,
         msg: [...testMessage],
         all_commitments: allCommitments,
         all_signature_shares: allShares,
         user_verifying_share: userKeyPackageShares.verifying_share,
       });
       expect(aggRes.success).toBe(true);
+
+      // Verify stage status is COMPLETED after aggregate
+      const getStageAfterAggRes = await getTssStageWithSessionData(
+        pool,
+        round1Res.data.session_id,
+        TssStageType.SIGN_ED25519,
+      );
+      expect(getStageAfterAggRes.success).toBe(true);
+      if (getStageAfterAggRes.success && getStageAfterAggRes.data) {
+        expect(getStageAfterAggRes.data.stage_status).toBe(
+          SignEd25519StageStatus.COMPLETED,
+        );
+        expect(getStageAfterAggRes.data.session_state).toBe(
+          TssSessionState.COMPLETED,
+        );
+      }
 
       // Now try to use the COMPLETED session for Round2 - should fail
       const newClientR1 = clientRunSignRound1Ed25519(
@@ -546,6 +627,7 @@ describe("Ed25519 Signing", () => {
       const aggregateRequest: SignEd25519AggregateRequest = {
         email: TEST_EMAIL,
         wallet_id: walletId,
+        session_id: serverRound1Result.data.session_id,
         msg: [...testMessage],
         all_commitments: allCommitments,
         all_signature_shares: allSignatureShares,
@@ -561,6 +643,22 @@ describe("Ed25519 Signing", () => {
       if (aggregateResult.success) {
         expect(aggregateResult.data.signature).toBeDefined();
         expect(aggregateResult.data.signature.length).toBe(64);
+
+        // Verify stage status is COMPLETED after aggregate
+        const getStageRes = await getTssStageWithSessionData(
+          pool,
+          serverRound1Result.data.session_id,
+          TssStageType.SIGN_ED25519,
+        );
+        expect(getStageRes.success).toBe(true);
+        if (getStageRes.success && getStageRes.data) {
+          expect(getStageRes.data.stage_status).toBe(
+            SignEd25519StageStatus.COMPLETED,
+          );
+          expect(getStageRes.data.session_state).toBe(
+            TssSessionState.COMPLETED,
+          );
+        }
 
         // Verify the signature
         const isValid = runVerifyEd25519(
@@ -598,6 +696,7 @@ describe("Ed25519 Signing", () => {
       const aggregateRequest: SignEd25519AggregateRequest = {
         email: TEST_EMAIL,
         wallet_id: createWalletRes.data.wallet_id,
+        session_id: "00000000-0000-0000-0000-000000000000", // Dummy session_id for error test
         msg: [1, 2, 3],
         all_commitments: [],
         all_signature_shares: [],
@@ -622,6 +721,7 @@ describe("Ed25519 Signing", () => {
       const aggregateRequest: SignEd25519AggregateRequest = {
         email: TEST_EMAIL,
         wallet_id: "00000000-0000-0000-0000-000000000000",
+        session_id: "00000000-0000-0000-0000-000000000000", // Dummy session_id for error test
         msg: [1, 2, 3],
         all_commitments: [],
         all_signature_shares: [],
@@ -715,10 +815,23 @@ describe("Ed25519 Signing", () => {
           new Uint8Array(clientKeygenOutput.key_package),
         );
 
+        // Verify stage status is ROUND_2 before aggregate
+        const getStageBeforeAggRes = await getTssStageWithSessionData(
+          pool,
+          round1Res.data.session_id,
+          TssStageType.SIGN_ED25519,
+        );
+        if (getStageBeforeAggRes.success && getStageBeforeAggRes.data) {
+          expect(getStageBeforeAggRes.data.stage_status).toBe(
+            SignEd25519StageStatus.ROUND_2,
+          );
+        }
+
         // Aggregate
         const aggRes = await runSignEd25519Aggregate(pool, TEMP_ENC_SECRET, {
           email: TEST_EMAIL,
           wallet_id: walletId,
+          session_id: round1Res.data.session_id,
           msg: [...message],
           all_commitments: allCommitments,
           all_signature_shares: allShares,
@@ -726,6 +839,21 @@ describe("Ed25519 Signing", () => {
         });
         expect(aggRes.success).toBe(true);
         if (!aggRes.success) continue;
+
+        // Verify stage status is COMPLETED after aggregate
+        const getStageAfterAggRes = await getTssStageWithSessionData(
+          pool,
+          round1Res.data.session_id,
+          TssStageType.SIGN_ED25519,
+        );
+        if (getStageAfterAggRes.success && getStageAfterAggRes.data) {
+          expect(getStageAfterAggRes.data.stage_status).toBe(
+            SignEd25519StageStatus.COMPLETED,
+          );
+          expect(getStageAfterAggRes.data.session_state).toBe(
+            TssSessionState.COMPLETED,
+          );
+        }
 
         // Verify
         const isValid = runVerifyEd25519(

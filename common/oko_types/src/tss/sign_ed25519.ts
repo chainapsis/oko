@@ -38,6 +38,7 @@ export type SignEd25519Round2Body = {
 export interface SignEd25519AggregateRequest {
   email: string;
   wallet_id: string;
+  session_id: string;
   msg: number[];
   all_commitments: CommitmentEntry[];
   all_signature_shares: SignatureShareEntry[];
@@ -49,6 +50,7 @@ export interface SignEd25519AggregateResponse {
 }
 
 export type SignEd25519AggregateBody = {
+  session_id: string;
   msg: number[];
   all_commitments: CommitmentEntry[];
   all_signature_shares: SignatureShareEntry[];

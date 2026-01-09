@@ -328,6 +328,7 @@ export function setSignEd25519Routes(router: Router) {
             schema: {
               type: "object",
               properties: {
+                session_id: { type: "string", format: "uuid" },
                 msg: { type: "array", items: { type: "number" } },
                 all_commitments: {
                   type: "array",
@@ -359,6 +360,7 @@ export function setSignEd25519Routes(router: Router) {
                 },
               },
               required: [
+                "session_id",
                 "msg",
                 "all_commitments",
                 "all_signature_shares",
@@ -417,6 +419,7 @@ export function setSignEd25519Routes(router: Router) {
         {
           email: user.email.toLowerCase(),
           wallet_id: user.wallet_id,
+          session_id: body.session_id,
           msg: body.msg,
           all_commitments: body.all_commitments,
           all_signature_shares: body.all_signature_shares,

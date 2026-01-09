@@ -289,19 +289,18 @@ export async function runSignEd25519Round2(
       allCommitments,
     );
 
-    // Update stage and session atomically
     const updateRes = await updateTssStageWithSessionState(
       db,
       stage.stage_id,
       session_id,
       {
-        stage_status: SignEd25519StageStatus.COMPLETED,
+        stage_status: SignEd25519StageStatus.ROUND_2,
         stage_data: {
           ...stageData,
           signature_share: round2Result.signature_share,
         },
       },
-      TssSessionState.COMPLETED,
+      TssSessionState.IN_PROGRESS,
     );
     if (!updateRes.success) {
       return {
@@ -338,6 +337,7 @@ export async function runSignEd25519Aggregate(
     const {
       email,
       wallet_id,
+      session_id,
       msg,
       all_commitments,
       all_signature_shares,
@@ -399,6 +399,39 @@ export async function runSignEd25519Aggregate(
       };
     }
 
+    // Get stage with session data to update status after aggregate
+    const getStageRes = await getTssStageWithSessionData(
+      db,
+      session_id,
+      TssStageType.SIGN_ED25519,
+    );
+    if (getStageRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to get TSS stage: ${getStageRes.err}`,
+      };
+    }
+    const stage = getStageRes.data;
+
+    // Validate session
+    if (!validateTssSession(stage, wallet_id)) {
+      return {
+        success: false,
+        code: "INVALID_TSS_SESSION",
+        msg: "Invalid session state or wallet mismatch",
+      };
+    }
+
+    // Validate stage status (should be ROUND_2)
+    if (!validateTssStage(stage, SignEd25519StageStatus.ROUND_2)) {
+      return {
+        success: false,
+        code: "INVALID_TSS_SESSION",
+        msg: "Round 2 state not found. Please call round2 first.",
+      };
+    }
+
     // Aggregate signature
     const aggregateResult = runAggregateEd25519(
       new Uint8Array(msg),
@@ -406,6 +439,29 @@ export async function runSignEd25519Aggregate(
       all_signature_shares,
       publicKeyPackageBytes,
     );
+
+    // Update stage and session to COMPLETED after successful aggregate
+    const stageData = stage.stage_data as SignEd25519StageData;
+    const updateRes = await updateTssStageWithSessionState(
+      db,
+      stage.stage_id,
+      session_id,
+      {
+        stage_status: SignEd25519StageStatus.COMPLETED,
+        stage_data: {
+          ...stageData,
+          signature: aggregateResult.signature,
+        },
+      },
+      TssSessionState.COMPLETED,
+    );
+    if (!updateRes.success) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to update TSS stage: ${updateRes.err}`,
+      };
+    }
 
     return {
       success: true,
