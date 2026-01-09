@@ -13,6 +13,7 @@ import {
   napiVerifyEd25519,
   napiExtractKeyPackageSharesEd25519,
   napiReconstructKeyPackageEd25519,
+  napiReconstructPublicKeyPackageEd25519,
 } from "../../addon/index.js";
 
 // NOTE: NAPI-specific types (serialized bytes format)
@@ -124,6 +125,24 @@ export function reconstructKeyPackageEd25519(
       Array.from(identifier),
       Array.from(verifyingKey),
       minSigners,
+    ),
+  );
+}
+
+export function reconstructPublicKeyPackageEd25519(
+  clientVerifyingShare: Uint8Array,
+  clientIdentifier: Uint8Array,
+  serverVerifyingShare: Uint8Array,
+  serverIdentifier: Uint8Array,
+  verifyingKey: Uint8Array,
+): Uint8Array {
+  return new Uint8Array(
+    napiReconstructPublicKeyPackageEd25519(
+      Array.from(clientVerifyingShare),
+      Array.from(clientIdentifier),
+      Array.from(serverVerifyingShare),
+      Array.from(serverIdentifier),
+      Array.from(verifyingKey),
     ),
   );
 }

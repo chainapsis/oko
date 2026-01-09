@@ -236,3 +236,70 @@ pub fn napi_reconstruct_key_package_ed25519(
 
     Ok(key_package_bytes)
 }
+
+/// Reconstruct a public_key_package from verifying_shares, identifiers, and verifying_key.
+#[napi]
+pub fn napi_reconstruct_public_key_package_ed25519(
+    client_verifying_share: Vec<u8>,
+    client_identifier: Vec<u8>,
+    server_verifying_share: Vec<u8>,
+    server_identifier: Vec<u8>,
+    verifying_key: Vec<u8>,
+) -> Result<Vec<u8>> {
+    use frost::keys::{PublicKeyPackage, VerifyingShare};
+    use frost::Identifier;
+    use frost::VerifyingKey;
+    use std::collections::BTreeMap;
+
+    let client_identifier = Identifier::deserialize(&client_identifier).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize client_identifier: {:?}", e),
+        )
+    })?;
+
+    let server_identifier = Identifier::deserialize(&server_identifier).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize server_identifier: {:?}", e),
+        )
+    })?;
+
+    let client_verifying_share =
+        VerifyingShare::deserialize(&client_verifying_share).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("Failed to deserialize client_verifying_share: {:?}", e),
+            )
+        })?;
+
+    let server_verifying_share =
+        VerifyingShare::deserialize(&server_verifying_share).map_err(|e| {
+            napi::Error::new(
+                napi::Status::GenericFailure,
+                format!("Failed to deserialize server_verifying_share: {:?}", e),
+            )
+        })?;
+
+    let verifying_key = VerifyingKey::deserialize(&verifying_key).map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to deserialize verifying_key: {:?}", e),
+        )
+    })?;
+
+    let mut verifying_shares: BTreeMap<Identifier, VerifyingShare> = BTreeMap::new();
+    verifying_shares.insert(client_identifier, client_verifying_share);
+    verifying_shares.insert(server_identifier, server_verifying_share);
+
+    let public_key_package = PublicKeyPackage::new(verifying_shares, verifying_key);
+
+    let public_key_package_bytes = public_key_package.serialize().map_err(|e| {
+        napi::Error::new(
+            napi::Status::GenericFailure,
+            format!("Failed to serialize public_key_package: {:?}", e),
+        )
+    })?;
+
+    Ok(public_key_package_bytes)
+}

@@ -28,6 +28,8 @@ export interface NapiKeyPackageShares {
 export declare function napiExtractKeyPackageSharesEd25519(keyPackageBytes: Array<number>): NapiKeyPackageShares
 /** Reconstruct a key_package from signing_share, verifying_share, identifier, and verifying_key. */
 export declare function napiReconstructKeyPackageEd25519(signingShare: Array<number>, verifyingShare: Array<number>, identifier: Array<number>, verifyingKey: Array<number>, minSigners: number): Array<number>
+/** Reconstruct a public_key_package from verifying_shares, identifiers, and verifying_key. */
+export declare function napiReconstructPublicKeyPackageEd25519(clientVerifyingShare: Array<number>, clientIdentifier: Array<number>, serverVerifyingShare: Array<number>, serverIdentifier: Array<number>, verifyingKey: Array<number>): Array<number>
 /** Output from a signing round 1 (commitment) */
 export interface NapiSigningCommitmentOutput {
   nonces: Array<number>
