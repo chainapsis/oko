@@ -317,6 +317,7 @@ export default function ForgotPasswordPage() {
             }}
             fullWidth
             requiredSymbol
+            maxLength={16}
             helpText={
               error
                 ? undefined
@@ -344,6 +345,7 @@ export default function ForgotPasswordPage() {
             }}
             fullWidth
             requiredSymbol
+            maxLength={16}
             SideComponent={
               <button
                 type="button"
