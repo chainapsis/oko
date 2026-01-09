@@ -4,6 +4,7 @@ import {
   runKeygenCentralizedEd25519,
   runKeygenImportEd25519,
   extractKeyPackageSharesEd25519,
+  reconstructPublicKeyPackageEd25519,
 } from "../server";
 
 export async function keygenCentralizedTest() {
@@ -480,6 +481,189 @@ export async function extractKeyPackageSharesTest() {
   console.log("\nExtract key package shares test passed");
 }
 
+export async function reconstructPublicKeyPackageTest() {
+  console.log("\nTesting reconstructPublicKeyPackageEd25519...\n");
+
+  // Generate a keygen output to get the original public_key_package
+  const keygenOutput = runKeygenCentralizedEd25519();
+  const originalPublicKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].public_key_package,
+  );
+
+  // Extract verifying_shares and identifiers from key_packages
+  const clientKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].key_package,
+  );
+  const serverKeyPackage = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].key_package,
+  );
+
+  const clientShares = extractKeyPackageSharesEd25519(clientKeyPackage);
+  const serverShares = extractKeyPackageSharesEd25519(serverKeyPackage);
+
+  const clientIdentifier = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P0].identifier,
+  );
+  const serverIdentifier = new Uint8Array(
+    keygenOutput.keygen_outputs[Participant.P1].identifier,
+  );
+  const verifyingKey = new Uint8Array(keygenOutput.public_key);
+
+  // Reconstruct public_key_package
+  const reconstructedPublicKeyPackage = reconstructPublicKeyPackageEd25519(
+    new Uint8Array(clientShares.verifying_share),
+    clientIdentifier,
+    new Uint8Array(serverShares.verifying_share),
+    serverIdentifier,
+    verifyingKey,
+  );
+
+  // Validate output structure
+  if (
+    !reconstructedPublicKeyPackage ||
+    reconstructedPublicKeyPackage.length === 0
+  ) {
+    throw new Error("Reconstructed public_key_package is empty");
+  }
+
+  console.log(
+    `  ✓ Public key package reconstructed: ${reconstructedPublicKeyPackage.length} bytes`,
+  );
+
+  // Compare with original public_key_package
+  const originalHex = Buffer.from(originalPublicKeyPackage).toString("hex");
+  const reconstructedHex = Buffer.from(reconstructedPublicKeyPackage).toString(
+    "hex",
+  );
+
+  if (originalHex !== reconstructedHex) {
+    throw new Error(
+      "Reconstructed public_key_package should match original public_key_package",
+    );
+  }
+
+  console.log("  ✓ Reconstructed public_key_package matches original");
+
+  // Test consistency: reconstruct multiple times should produce same result
+  const reconstructed1 = reconstructPublicKeyPackageEd25519(
+    new Uint8Array(clientShares.verifying_share),
+    clientIdentifier,
+    new Uint8Array(serverShares.verifying_share),
+    serverIdentifier,
+    verifyingKey,
+  );
+  const reconstructed2 = reconstructPublicKeyPackageEd25519(
+    new Uint8Array(clientShares.verifying_share),
+    clientIdentifier,
+    new Uint8Array(serverShares.verifying_share),
+    serverIdentifier,
+    verifyingKey,
+  );
+
+  const reconstructed1Hex = Buffer.from(reconstructed1).toString("hex");
+  const reconstructed2Hex = Buffer.from(reconstructed2).toString("hex");
+
+  if (reconstructed1Hex !== reconstructed2Hex) {
+    throw new Error("Reconstruction should be deterministic");
+  }
+
+  console.log("  ✓ Reconstruction is deterministic");
+
+  // Test with invalid verifying_share (wrong length)
+  try {
+    const invalidVerifyingShare = new Uint8Array(31).fill(0xff);
+    reconstructPublicKeyPackageEd25519(
+      invalidVerifyingShare,
+      clientIdentifier,
+      new Uint8Array(serverShares.verifying_share),
+      serverIdentifier,
+      verifyingKey,
+    );
+    throw new Error("Should have thrown an error for invalid verifying_share");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize") &&
+      !error.message?.includes("Invalid")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid verifying_share: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid verifying_share correctly rejected");
+  }
+
+  // Test with invalid identifier (wrong length)
+  try {
+    const invalidIdentifier = new Uint8Array(31).fill(0xff);
+    reconstructPublicKeyPackageEd25519(
+      new Uint8Array(clientShares.verifying_share),
+      invalidIdentifier,
+      new Uint8Array(serverShares.verifying_share),
+      serverIdentifier,
+      verifyingKey,
+    );
+    throw new Error("Should have thrown an error for invalid identifier");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize") &&
+      !error.message?.includes("Invalid")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid identifier: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid identifier correctly rejected");
+  }
+
+  // Test with invalid verifying_key (wrong length)
+  try {
+    const invalidVerifyingKey = new Uint8Array(31).fill(0xff);
+    reconstructPublicKeyPackageEd25519(
+      new Uint8Array(clientShares.verifying_share),
+      clientIdentifier,
+      new Uint8Array(serverShares.verifying_share),
+      serverIdentifier,
+      invalidVerifyingKey,
+    );
+    throw new Error("Should have thrown an error for invalid verifying_key");
+  } catch (error: any) {
+    if (
+      !error.message?.includes("deserialize") &&
+      !error.message?.includes("Failed to deserialize") &&
+      !error.message?.includes("Invalid")
+    ) {
+      throw new Error(
+        `Unexpected error for invalid verifying_key: ${error.message}`,
+      );
+    }
+    console.log("  ✓ Invalid verifying_key correctly rejected");
+  }
+
+  // Test with swapped identifiers (should produce same result since BTreeMap orders by identifier)
+  const swappedPublicKeyPackage = reconstructPublicKeyPackageEd25519(
+    new Uint8Array(serverShares.verifying_share),
+    serverIdentifier,
+    new Uint8Array(clientShares.verifying_share),
+    clientIdentifier,
+    verifyingKey,
+  );
+
+  const swappedHex = Buffer.from(swappedPublicKeyPackage).toString("hex");
+  if (swappedHex !== originalHex) {
+    throw new Error(
+      "Swapped identifiers should produce same public_key_package (BTreeMap orders by identifier)",
+    );
+  }
+
+  console.log(
+    "  ✓ Swapped identifiers produce same package (BTreeMap ordering)",
+  );
+
+  console.log("\nReconstruct public key package test passed");
+}
+
 // Run the tests
 async function main() {
   console.log("Starting Ed25519 keygen tests...\n");
@@ -494,6 +678,7 @@ async function main() {
     await keygenImportEdgeCasesTest();
     await keygenCentralizedConsistencyTest();
     await extractKeyPackageSharesTest();
+    await reconstructPublicKeyPackageTest();
 
     console.log("\n" + "=".repeat(50));
     console.log("All keygen tests passed!");
