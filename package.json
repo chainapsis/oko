@@ -67,7 +67,8 @@
       "crypto/teddsa/teddsa_interface",
       "crypto/teddsa/api_lib",
       "crypto/teddsa/frost_ed25519_keplr_wasm",
-      "sandbox/sandbox_sol"
+      "sandbox/sandbox_sol",
+      "sandbox/sandbox_x402"
     ]
   },
   "packageManager": "yarn@4.10.3",

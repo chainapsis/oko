@@ -1,0 +1,40 @@
+{
+  "name": "@oko-wallet/sandbox-x402",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev -p 3206",
+    "dev:server": "tsx watch --env-file=.env src/server/index.ts",
+    "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
+    "build": "next build",
+    "start": "next start -p 3206",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@oko-wallet/oko-sdk-eth": "workspace:*",
+    "@x402/core": "^2.2.0",
+    "@x402/evm": "^2.2.0",
+    "@x402/express": "^2.2.0",
+    "@x402/fetch": "^2.2.0",
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "next": "^16.1.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "viem": "^2.41.2",
+    "zustand": "^5.0.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "concurrently": "^9.1.2",
+    "tailwindcss": "^4.1.3",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
