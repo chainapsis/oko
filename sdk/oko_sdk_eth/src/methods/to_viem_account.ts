@@ -1,11 +1,56 @@
-import { serializeTypedData } from "viem";
-
 import type {
   OkoEthWalletInterface,
   EthSignParams,
   OkoViemAccount,
 } from "@oko-wallet-sdk-eth/types";
+import type { TypedData, TypedDataDefinition } from "viem";
+import { serializeTypedData } from "viem";
 import { toRpcTransactionRequest } from "@oko-wallet-sdk-eth/utils";
+
+/**
+ * Check if the typed data is an x402/EIP-3009 payment authorization.
+ */
+function isX402PaymentAuthorization(typedData: TypedDataDefinition): boolean {
+  const { message, primaryType } = typedData;
+
+  // Check for EIP-3009 TransferWithAuthorization (used by x402)
+  if (primaryType === "TransferWithAuthorization") {
+    return true;
+  }
+
+  // Fallback: check for payment-like message structure
+  if (
+    message &&
+    typeof message === "object" &&
+    "from" in message &&
+    "to" in message &&
+    "value" in message
+  ) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Serialize typed data, using the appropriate method based on the typed data type.
+ * - For x402/EIP-3009 payment authorizations: preserves domain (fixes viem's domain stripping)
+ * - For other EIP-712 requests: uses viem's serializeTypedData
+ */
+function serializeTypedDataForSigning<
+  const T extends TypedData | Record<string, unknown>,
+  P extends keyof T | "EIP712Domain",
+>(typedData: TypedDataDefinition<T, P>): string {
+  const data = typedData as unknown as TypedDataDefinition;
+  if (isX402PaymentAuthorization(data)) {
+    // Preserve domain even when types.EIP712Domain is not defined
+    // (viem's serializeTypedData strips it, breaking x402/EIP-3009)
+    return JSON.stringify(data, (_, value) =>
+      typeof value === "bigint" ? value.toString() : value,
+    );
+  }
+  return serializeTypedData(typedData);
+}
 
 export async function toViemAccount(
   this: OkoEthWalletInterface,
@@ -57,7 +102,7 @@ export async function toViemAccount(
         type: "sign_typedData_v4",
         data: {
           address,
-          serializedTypedData: serializeTypedData(typedData),
+          serializedTypedData: serializeTypedDataForSigning(typedData),
         },
       });
 
