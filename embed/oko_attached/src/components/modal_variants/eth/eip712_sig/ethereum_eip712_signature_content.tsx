@@ -3,17 +3,18 @@ import type { EthereumEip712SignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 
 import { MetadataContent } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/metadata_content";
-import { useEIP712Action } from "./hooks/use_eip712_action";
+import type { UseEIP712ActionResult } from "./hooks/use_eip712_action";
 import { EIP712Actions } from "./actions/actions";
 
 interface EthereumEip712SignatureContentProps {
   payload: EthereumEip712SignPayload;
+  actionResult: UseEIP712ActionResult;
 }
 
 export const EthereumEip712SignatureContent: FC<
   EthereumEip712SignatureContentProps
-> = ({ payload }) => {
-  const { action, evmChain } = useEIP712Action(payload);
+> = ({ payload, actionResult }) => {
+  const { action, evmChain } = actionResult;
 
   const isUnknownAction = action?.kind === "unknown";
 
@@ -25,7 +26,9 @@ export const EthereumEip712SignatureContent: FC<
         signer={payload.signer}
       />
       <Spacing height={isUnknownAction ? 28 : 20} />
-      {action ? <EIP712Actions action={action} chain={evmChain} /> : null}
+      {action && evmChain ? (
+        <EIP712Actions action={action} chain={evmChain} />
+      ) : null}
     </div>
   );
 };

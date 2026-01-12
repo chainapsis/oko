@@ -49,6 +49,19 @@ export interface UniswapPermitSingleAction {
 //   typedData: TypedDataDefinition;
 // }
 
+export interface X402TransferWithAuthorizationAction {
+  kind: "x402.transferWithAuthorization";
+  from: Address;
+  to: Address;
+  value: string | bigint;
+  validAfter: string | bigint;
+  validBefore: string | bigint;
+  nonce: string;
+  domain: EIP712Domain;
+  tokenLogoURI?: string;
+  typedData: TypedDataDefinition;
+}
+
 export interface UnknownAction {
   kind: "unknown";
   typedData: TypedDataDefinition;
@@ -58,5 +71,6 @@ export type EIP712Action =
   | ERC2612PermitAction
   | DAIPermitAction
   | UniswapPermitSingleAction
+  | X402TransferWithAuthorizationAction
   // | UniswapPermitBatchAction
   | UnknownAction;

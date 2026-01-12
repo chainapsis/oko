@@ -10,12 +10,14 @@ import type {
   ERC2612PermitAction,
   DAIPermitAction,
   UniswapPermitSingleAction,
+  X402TransferWithAuthorizationAction,
 } from "../actions/types";
 import {
   validateEip712Domain,
   validateErc2612Permit,
   validateDAIPermit,
   validateUniswapPermitSingle,
+  validateTransferWithAuthorization,
   type EIP712Domain,
 } from "@oko-wallet-attached/web3/ethereum/schema";
 import { findCurrencyByErc20Address } from "@oko-wallet-attached/web3/ethereum/utils";
@@ -195,6 +197,51 @@ function parseUniswapPermitSingle(
   };
 }
 
+function parseX402TransferWithAuthorization(
+  data: TypedDataDefinition,
+  chainInfo: ChainInfoForAttachedModal,
+): X402TransferWithAuthorizationAction | null {
+  const transferType = data.types?.TransferWithAuthorization;
+  if (!Array.isArray(transferType)) {
+    return null;
+  }
+
+  const message = data.message;
+  if (!message || typeof message !== "object") {
+    return null;
+  }
+
+  const parsed = validateTransferWithAuthorization(message);
+  if (!parsed.ok) {
+    return null;
+  }
+
+  if (!data.domain || typeof data.domain !== "object") {
+    return null;
+  }
+
+  const domain = parseEIP712Domain(data.domain);
+  if (!domain) {
+    return null;
+  }
+
+  const contractAddress = domain.verifyingContract;
+
+  return {
+    kind: "x402.transferWithAuthorization",
+    from: parsed.data.from,
+    to: parsed.data.to,
+    value: parsed.data.value,
+    validAfter: parsed.data.validAfter,
+    validBefore: parsed.data.validBefore,
+    nonce: parsed.data.nonce,
+    domain: domain,
+    typedData: data,
+    tokenLogoURI: findCurrencyByErc20Address(chainInfo, contractAddress)
+      ?.coinImageUrl,
+  };
+}
+
 function parseAction(payload: EthereumEip712SignPayload): EIP712Action | null {
   const typedData = parseTypedDataDefinition(
     payload.data.serialized_typed_data,
@@ -225,7 +272,17 @@ function parseAction(payload: EthereumEip712SignPayload): EIP712Action | null {
       break;
     }
 
-    // Add more cases here for future implementations
+    case "TransferWithAuthorization": {
+      const x402Action = parseX402TransferWithAuthorization(
+        typedData,
+        payload.chain_info,
+      );
+      if (x402Action) {
+        return x402Action;
+      }
+      break;
+    }
+
     default:
       break;
   }

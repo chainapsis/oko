@@ -9,8 +9,10 @@ import { CommonModal } from "@oko-wallet-attached/components/modal_variants/comm
 import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
 import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
 import { useEIP712SigModal } from "./hooks/use_eip712_sig_modal";
+import { useEIP712Action } from "./hooks/use_eip712_action";
 import { EthereumEip712SignatureContent } from "./ethereum_eip712_signature_content";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
+import { X402PaymentDesc } from "./x402_payment_desc";
 
 export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
   getIsAborted,
@@ -24,6 +26,10 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
       modalId,
     });
 
+  const actionResult = useEIP712Action(data.payload);
+  const isX402Payment =
+    actionResult.action?.kind === "x402.transferWithAuthorization";
+
   return (
     <div className={styles.container}>
       <CommonModal className={styles.modal}>
@@ -32,11 +38,14 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
         </div>
 
         <div className={styles.modalInnerContentContainer}>
-          <EthereumEip712SignatureContent payload={data.payload} />
+          <EthereumEip712SignatureContent
+            payload={data.payload}
+            actionResult={actionResult}
+          />
         </div>
 
         <Spacing height={20} />
-        <ArbitrarySignatureDesc />
+        {isX402Payment ? <X402PaymentDesc /> : <ArbitrarySignatureDesc />}
 
         <Spacing height={20} />
 

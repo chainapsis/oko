@@ -11,25 +11,7 @@ import { toRpcTransactionRequest } from "@oko-wallet-sdk-eth/utils";
  * Check if the typed data is an x402/EIP-3009 payment authorization.
  */
 function isX402PaymentAuthorization(typedData: TypedDataDefinition): boolean {
-  const { message, primaryType } = typedData;
-
-  // Check for EIP-3009 TransferWithAuthorization (used by x402)
-  if (primaryType === "TransferWithAuthorization") {
-    return true;
-  }
-
-  // Fallback: check for payment-like message structure
-  if (
-    message &&
-    typeof message === "object" &&
-    "from" in message &&
-    "to" in message &&
-    "value" in message
-  ) {
-    return true;
-  }
-
-  return false;
+  return typedData.primaryType === "TransferWithAuthorization";
 }
 
 /**
