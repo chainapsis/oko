@@ -85,7 +85,7 @@ export default function AccountInfo({
   const usdcDisplay = isLoadingBalance
     ? "..."
     : usdcBalance !== null
-      ? `${parseFloat(usdcBalance).toFixed(2)} USDC`
+      ? `${parseFloat(usdcBalance).toFixed(6)} USDC`
       : "-";
 
   return (
