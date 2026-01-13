@@ -262,14 +262,13 @@ export function setKeygenRoutes(router: Router) {
     },
   );
 
-  // Ed25519 keygen
   registry.registerPath({
     method: "post",
     path: "/tss/v1/keygen_ed25519",
     tags: ["TSS"],
     summary: "Run keygen to generate Ed25519 TSS key pair",
     description:
-      "Creates user and wallet entities for Ed25519 by mapping the received key share with the user's email",
+      "Creates Ed25519 wallet for existing user with secp256k1 wallet",
     security: [{ oauthAuth: [] }],
     request: {
       headers: OAuthHeaderSchema,
@@ -284,7 +283,7 @@ export function setKeygenRoutes(router: Router) {
     },
     responses: {
       200: {
-        description: "Successfully created user and wallet entities",
+        description: "Successfully created Ed25519 wallet",
         content: {
           "application/json": {
             schema: SignInSuccessResponseSchema,
@@ -299,9 +298,17 @@ export function setKeygenRoutes(router: Router) {
           },
         },
       },
+      404: {
+        description: "Not Found - User not found or secp256k1 wallet not found",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
       409: {
         description:
-          "Conflict - Email already exists or public key already in use",
+          "Conflict - Ed25519 wallet already exists or public key already in use",
         content: {
           "application/json": {
             schema: ErrorResponseSchema,
