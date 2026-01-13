@@ -205,3 +205,51 @@ export const RegisterEd25519V2SuccessResponseSchema = registry.register(
       description: "Success response for ed25519 wallet registration.",
     }),
 );
+
+// ============================================================================
+// POST /v2/keyshare/reshare
+// ============================================================================
+
+const walletReshareInfoSchema = z.object({
+  public_key: publicKeySchema.describe("Public key in hex string format"),
+  share: shareSchema.describe("Key share in hex string format (64 bytes)"),
+});
+
+export const walletsReshareRequestBodySchema = z
+  .object({
+    secp256k1: walletReshareInfoSchema
+      .optional()
+      .describe("secp256k1 wallet reshare info"),
+    ed25519: walletReshareInfoSchema
+      .optional()
+      .describe("ed25519 wallet reshare info"),
+  })
+  .refine((data) => data.secp256k1 || data.ed25519, {
+    message: "At least one of secp256k1 or ed25519 must be provided",
+  });
+
+export const ReshareKeyShareV2RequestBodySchema = registry.register(
+  "ReshareKeyShareV2RequestBody",
+  z
+    .object({
+      wallets: walletsReshareRequestBodySchema.describe(
+        "Object with curve_type as key and wallet reshare info as value",
+      ),
+    })
+    .openapi("ReshareKeyShareV2RequestBody", {
+      description:
+        "Request payload for resharing multiple key shares at once.",
+    }),
+);
+
+export const ReshareKeyShareV2SuccessResponseSchema = registry.register(
+  "ReshareKeyShareV2SuccessResponse",
+  z
+    .object({
+      success: z.literal(true),
+      data: z.null(),
+    })
+    .openapi("ReshareKeyShareV2SuccessResponse", {
+      description: "Success response for key share reshare.",
+    }),
+);

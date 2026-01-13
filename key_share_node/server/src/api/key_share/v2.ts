@@ -11,6 +11,7 @@ import type {
   GetKeyShareV2Response,
   RegisterKeyShareV2Request,
   RegisterEd25519V2Request,
+  ReshareKeyShareV2Request,
 } from "@oko-wallet/ksn-interface/key_share";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
@@ -19,6 +20,7 @@ import {
   checkWalletKeyShare,
   getWalletKeyShare,
   registerWalletKeyShare,
+  reshareWalletKeyShare,
 } from "./helper";
 
 /**
@@ -370,5 +372,81 @@ export async function registerEd25519V2(
     };
   } finally {
     client.release();
+  }
+}
+
+/**
+ * Reshare multiple key shares at once (v2)
+ *
+ * Unlike v1, this endpoint accepts wallets as an object { secp256k1?: {...}, ed25519?: {...} }
+ * Each wallet contains public_key and share for validation.
+ * Validates that provided shares match existing shares, then updates reshared_at.
+ */
+export async function reshareKeyShareV2(
+  db: Pool | PoolClient,
+  request: ReshareKeyShareV2Request,
+  encryptionSecret: string,
+): Promise<KSNodeApiResponse<void>> {
+  try {
+    const { user_auth_id, auth_type, wallets } = request;
+
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
+      db,
+      auth_type,
+      user_auth_id,
+    );
+    if (getUserRes.success === false) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: "Failed to get user",
+      };
+    }
+
+    if (getUserRes.data === null) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: `User not found: ${user_auth_id} (auth_type: ${auth_type})`,
+      };
+    }
+
+    const userId = getUserRes.data.user_id;
+
+    // Process each wallet sequentially (all must succeed)
+    if (wallets.secp256k1) {
+      const res = await reshareWalletKeyShare(
+        db,
+        wallets.secp256k1,
+        userId,
+        "secp256k1",
+        encryptionSecret,
+      );
+      if (res.success === false) {
+        return res;
+      }
+    }
+
+    if (wallets.ed25519) {
+      const res = await reshareWalletKeyShare(
+        db,
+        wallets.ed25519,
+        userId,
+        "ed25519",
+        encryptionSecret,
+      );
+      if (res.success === false) {
+        return res;
+      }
+    }
+
+    return { success: true, data: void 0 };
+  } catch (error) {
+    logger.error("Failed to reshare key shares: %s", error);
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: "Failed to reshare key shares",
+    };
   }
 }
