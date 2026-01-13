@@ -14,11 +14,10 @@ export async function buildFrost(..._args: any[]) {
   expectSuccess(wasmRet, "wasm build failed");
   console.log("%s %s", chalk.bold.green("Done"), "build wasm frost keplr");
 
-  // TODO: copy wasm to oko_attached or other target locations @chemonoworld
-  // const copyRet = spawnSync("yarn", ["run", "copy_wasm"], {
-  //   cwd: paths.oko_attached,
-  //   stdio: "inherit",
-  // });
-  // expectSuccess(copyRet, "copy failed");
-  // console.log("%s %s", chalk.bold.green("Done"), "copy wasm");
+  const copyRet = spawnSync("yarn", ["run", "copy_wasm"], {
+    cwd: paths.oko_attached,
+    stdio: "inherit",
+  });
+  expectSuccess(copyRet, "copy failed");
+  console.log("%s %s", chalk.bold.green("Done"), "copy wasm");
 }
