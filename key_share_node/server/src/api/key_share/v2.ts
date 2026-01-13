@@ -2,6 +2,7 @@ import type { Pool, PoolClient } from "pg";
 import {
   createUser,
   getUserByAuthTypeAndUserAuthId,
+  getWalletsByUserId,
 } from "@oko-wallet/ksn-pg-interface";
 import type {
   CheckKeyShareV2Request,
@@ -9,6 +10,7 @@ import type {
   GetKeyShareV2Request,
   GetKeyShareV2Response,
   RegisterKeyShareV2Request,
+  RegisterEd25519V2Request,
 } from "@oko-wallet/ksn-interface/key_share";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
@@ -253,6 +255,102 @@ export async function registerKeyShareV2(
       success: false,
       code: "UNKNOWN_ERROR",
       msg: "Failed to register key shares",
+    };
+  } finally {
+    client.release();
+  }
+}
+
+/**
+ * Register ed25519 wallet for existing users (v2)
+ *
+ * This endpoint is for users who already have secp256k1 wallet.
+ * It only registers ed25519 wallet, not secp256k1.
+ */
+export async function registerEd25519V2(
+  db: Pool,
+  request: RegisterEd25519V2Request,
+  encryptionSecret: string,
+): Promise<KSNodeApiResponse<void>> {
+  const { user_auth_id, auth_type, public_key, share } = request;
+
+  const client = await db.connect();
+  try {
+    await client.query("BEGIN");
+
+    // Get existing user (must exist)
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
+      client,
+      auth_type,
+      user_auth_id,
+    );
+    if (getUserRes.success === false) {
+      throw new Error(`Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`);
+    }
+
+    if (getUserRes.data === null) {
+      await client.query("ROLLBACK");
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: "User not found",
+      };
+    }
+
+    const userId = getUserRes.data.user_id;
+
+    // Check existing wallets
+    const getWalletsRes = await getWalletsByUserId(client, userId);
+    if (getWalletsRes.success === false) {
+      throw new Error(`Failed to getWalletsByUserId: ${getWalletsRes.err}`);
+    }
+
+    const wallets = getWalletsRes.data;
+    const hasSecp256k1 = wallets.some((w) => w.curve_type === "secp256k1");
+    const hasEd25519 = wallets.some((w) => w.curve_type === "ed25519");
+
+    // Must have secp256k1 wallet (existing user)
+    if (!hasSecp256k1) {
+      await client.query("ROLLBACK");
+      return {
+        success: false,
+        code: "WALLET_NOT_FOUND",
+        msg: "secp256k1 wallet not found (not an existing user)",
+      };
+    }
+
+    // Must not have ed25519 wallet already
+    if (hasEd25519) {
+      await client.query("ROLLBACK");
+      return {
+        success: false,
+        code: "DUPLICATE_PUBLIC_KEY",
+        msg: "ed25519 wallet already exists",
+      };
+    }
+
+    // Register ed25519 wallet
+    const registerRes = await registerWalletKeyShare(
+      client,
+      { public_key, share },
+      userId,
+      "ed25519",
+      encryptionSecret,
+    );
+    if (registerRes.success === false) {
+      await client.query("ROLLBACK");
+      return registerRes;
+    }
+
+    await client.query("COMMIT");
+    return { success: true, data: void 0 };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    logger.error("Failed to register ed25519 wallet: %s", error);
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: "Failed to register ed25519 wallet",
     };
   } finally {
     client.release();

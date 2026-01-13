@@ -173,3 +173,35 @@ export const RegisterKeyShareV2SuccessResponseSchema = registry.register(
       description: "Success response for key share registration.",
     }),
 );
+
+// ============================================================================
+// POST /v2/keyshare/register/ed25519
+// ============================================================================
+
+export const RegisterEd25519V2RequestBodySchema = registry.register(
+  "RegisterEd25519V2RequestBody",
+  z
+    .object({
+      public_key: z
+        .string()
+        .length(64)
+        .describe("ed25519 public key (32 bytes hex)"),
+      share: shareSchema.describe("Key share in hex string format (64 bytes)"),
+    })
+    .openapi("RegisterEd25519V2RequestBody", {
+      description:
+        "Request payload for registering ed25519 wallet for existing users.",
+    }),
+);
+
+export const RegisterEd25519V2SuccessResponseSchema = registry.register(
+  "RegisterEd25519V2SuccessResponse",
+  z
+    .object({
+      success: z.literal(true),
+      data: z.null(),
+    })
+    .openapi("RegisterEd25519V2SuccessResponse", {
+      description: "Success response for ed25519 wallet registration.",
+    }),
+);

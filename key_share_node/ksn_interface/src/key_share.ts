@@ -223,6 +223,24 @@ export interface RegisterKeyShareV2RequestBody {
   wallets: WalletsRegisterRequestBody;
 }
 
+// --- POST /v2/keyshare/register/ed25519 ---
+
+/**
+ * Request for registering ed25519 wallet for existing users
+ * User must already have secp256k1 wallet
+ */
+export interface RegisterEd25519V2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  public_key: Bytes32;
+  share: Bytes64;
+}
+
+export interface RegisterEd25519V2RequestBody {
+  public_key: string; // hex string, 32 bytes
+  share: string; // hex string, 64 bytes
+}
+
 // --- Internal Helper Types ---
 
 export type CheckWalletResult = { exists: boolean } | { error: string };
