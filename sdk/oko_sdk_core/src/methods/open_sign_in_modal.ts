@@ -6,18 +6,22 @@ const state = { isModalOpen: false };
 export async function openSignInModal(this: OkoWalletInterface): Promise<void> {
   await this.waitUntilInitialized;
 
-  if (state.isModalOpen) return;
+  if (state.isModalOpen) {
+    return;
+  }
   state.isModalOpen = true;
 
-  return new Promise((resolve) => {
-    const modal = renderSignInModal({
-      onSelect: (provider) => this.signIn(provider),
-      onClose: () => {
+  return new Promise((resolve, reject) => {
+    renderSignInModal({
+      onSelect: async (provider) => {
+        await this.signIn(provider);
         state.isModalOpen = false;
         resolve();
       },
+      onClose: () => {
+        state.isModalOpen = false;
+        reject(new Error("Sign in cancelled"));
+      },
     });
-
-    document.body.appendChild(modal.container);
   });
 }

@@ -1,6 +1,2 @@
-export {
-  renderSignInModal,
-  type SignInModalOptions,
-  type SignInModal,
-  type SignInModalTheme,
-} from "./render";
+export { renderSignInModal } from "./render";
+export type { SignInModalOptions, SignInModalTheme } from "./types";

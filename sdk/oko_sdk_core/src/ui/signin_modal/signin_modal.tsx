@@ -1,0 +1,108 @@
+import { type FunctionComponent as FC, type JSX } from "preact";
+import { useState, useEffect } from "preact/hooks";
+import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";
+import type { SignInModalTheme, ProgressState } from "./types";
+import { useTheme } from "./hooks/use_theme";
+import { DefaultView } from "./components/default_view";
+import { SocialsView } from "./components/socials_view";
+import { ProgressView } from "./components/progress_view";
+import { CloseIcon } from "./components/icons";
+
+export interface SignInModalProps {
+  onSelect: (provider: SignInType) => Promise<void>;
+  onClose: () => void;
+  theme?: SignInModalTheme;
+}
+
+type ViewType = "default" | "socials";
+
+export const SignInModal: FC<SignInModalProps> = ({
+  onSelect,
+  onClose,
+  theme = "system",
+}) => {
+  const [view, setView] = useState<ViewType>("default");
+  const [progress, setProgress] = useState<ProgressState | null>(null);
+  const resolvedTheme = useTheme(theme);
+
+  const handleSelect = async (provider: SignInType) => {
+    setProgress({ status: "loading", provider });
+    try {
+      await onSelect(provider);
+    } catch {
+      setProgress({ status: "failed", provider });
+    }
+  };
+
+  const handleRetry = () => {
+    setProgress(null);
+    setView("default");
+  };
+
+  const handleOverlayClick = (e: JSX.TargetedMouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose]);
+
+  const renderContent = () => {
+    if (progress) {
+      return (
+        <ProgressView
+          status={progress.status}
+          provider={progress.provider}
+          onRetry={handleRetry}
+        />
+      );
+    }
+
+    if (view === "socials") {
+      return (
+        <SocialsView
+          onSelect={handleSelect}
+          onBack={() => setView("default")}
+        />
+      );
+    }
+
+    return (
+      <DefaultView
+        theme={resolvedTheme}
+        onSelect={handleSelect}
+        onShowSocials={() => setView("socials")}
+      />
+    );
+  };
+
+  return (
+    <div
+      className="oko-modal-overlay"
+      onClick={handleOverlayClick}
+    >
+      <div className="oko-modal-container">
+        <button
+          className="oko-modal-close"
+          onClick={onClose}
+          aria-label="Close modal"
+          type="button"
+        >
+          <CloseIcon />
+        </button>
+        <div className="oko-content-wrapper">{renderContent()}</div>
+      </div>
+    </div>
+  );
+};

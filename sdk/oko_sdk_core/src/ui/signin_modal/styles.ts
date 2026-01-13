@@ -1,7 +1,10 @@
-export const MODAL_STYLES = `
+const css = String.raw;
+
+export const modalStyles = css`
   :host {
     /* Font */
-    --oko-font-family: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --oko-font-family:
+      Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
     /* Colors - Light theme (from oko_common_ui color_tokens) */
     --oko-white: #ffffff;
@@ -33,7 +36,9 @@ export const MODAL_STYLES = `
 
     /* Shadows */
     --oko-shadow-xs: 0 1px 2px 0 rgba(16, 24, 40, 0.05);
-    --oko-shadow-lg: 0 12px 16px -4px rgba(16, 24, 40, 0.08), 0 4px 6px -2px rgba(16, 24, 40, 0.03);
+    --oko-shadow-lg:
+      0 12px 16px -4px rgba(16, 24, 40, 0.08),
+      0 4px 6px -2px rgba(16, 24, 40, 0.03);
 
     /* Spacing */
     --oko-spacing-xs: 4px;
@@ -71,7 +76,8 @@ export const MODAL_STYLES = `
 
     /* Shadows - Dark */
     --oko-shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.2);
-    --oko-shadow-lg: 0 12px 16px -4px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+    --oko-shadow-lg:
+      0 12px 16px -4px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
   }
 
   * {
@@ -153,6 +159,7 @@ export const MODAL_STYLES = `
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    min-height: 240px;
   }
 
   .oko-progress-circle {
@@ -183,6 +190,7 @@ export const MODAL_STYLES = `
     z-index: 10;
     width: 62px;
     height: 62px;
+    color: var(--oko-fg-brand-primary);
   }
 
   .oko-spinner-overlay svg {
@@ -192,6 +200,10 @@ export const MODAL_STYLES = `
 
   .oko-spinner-overlay.oko-spinning svg {
     animation: oko-spin 1s linear infinite;
+  }
+
+  .oko-spinner-overlay:not(.oko-spinning) {
+    color: var(--oko-border-error-subtle);
   }
 
   @keyframes oko-spin {
@@ -338,7 +350,9 @@ export const MODAL_STYLES = `
   }
 
   .oko-provider-btn:focus {
-    box-shadow: 0 0 0 4px rgba(152, 162, 179, 0.14), 0 1px 2px 0 rgba(16, 24, 40, 0.05);
+    box-shadow:
+      0 0 0 4px rgba(152, 162, 179, 0.14),
+      0 1px 2px 0 rgba(16, 24, 40, 0.05);
   }
 
   .oko-provider-btn:disabled {
