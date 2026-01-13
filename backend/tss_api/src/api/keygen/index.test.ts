@@ -17,8 +17,13 @@ import {
 import {
   insertKSNode,
   getWalletKSNodesByWalletId,
+  createWalletKSNodes,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
-import { decryptData, decryptDataAsync } from "@oko-wallet/crypto-js/node";
+import {
+  decryptData,
+  decryptDataAsync,
+  encryptDataAsync,
+} from "@oko-wallet/crypto-js/node";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
@@ -883,11 +888,47 @@ describe("keygen_test", () => {
       expires_in: "1h",
     };
 
+    async function setUpUserWithSecp256k1Wallet(
+      pool: Pool,
+      userIdentifier: string = TEST_EMAIL_ED25519,
+      authType: "google" | "auth0" = "google",
+    ): Promise<string> {
+      const createUserRes = await createUser(pool, userIdentifier, authType);
+      if (createUserRes.success === false) {
+        throw new Error("Failed to create user");
+      }
+
+      const secp256k1KeygenResult = napiRunKeygenClientCentralized();
+      const secp256k1KeygenOutput =
+        secp256k1KeygenResult.keygen_outputs[Participant.P1];
+
+      const encryptedShare = await encryptDataAsync(
+        secp256k1KeygenOutput.private_share,
+        TEMP_ENC_SECRET,
+      );
+      const encryptedShareBuffer = Buffer.from(encryptedShare, "utf-8");
+
+      const createWalletRes = await createWallet(pool, {
+        user_id: createUserRes.data.user_id,
+        curve_type: "secp256k1",
+        public_key: Buffer.from(secp256k1KeygenOutput.public_key, "hex"),
+        enc_tss_share: encryptedShareBuffer,
+        status: "ACTIVE" as WalletStatus,
+        sss_threshold: sssThreshold,
+      });
+      if (createWalletRes.success === false) {
+        throw new Error("Failed to create secp256k1 wallet");
+      }
+
+      return createUserRes.data.user_id;
+    }
+
     function generateKeygenRequest(
       keygenResult: ReturnType<typeof runKeygenCentralizedEd25519>,
       user_identifier: string = TEST_EMAIL_ED25519,
     ): KeygenEd25519Request {
-      const serverKeygenOutput = keygenResult.keygen_outputs[Ed25519Participant.P1];
+      const serverKeygenOutput =
+        keygenResult.keygen_outputs[Ed25519Participant.P1];
       return {
         auth_type: "google",
         user_identifier,
@@ -899,11 +940,38 @@ describe("keygen_test", () => {
       };
     }
 
-    it("should create new user and wallet for new email", async () => {
+    it("should fail when user does not exist", async () => {
+      const keygenResult = runKeygenCentralizedEd25519();
+      const request = generateKeygenRequest(
+        keygenResult,
+        "nonexistent@test.com",
+      );
+
+      const result = await runKeygenEd25519(
+        pool,
+        TEST_JWT_CONFIG_ED25519,
+        request,
+        TEMP_ENC_SECRET,
+      );
+
+      expect(result.success).toBe(false);
+      if (result.success === false) {
+        expect(result.code).toBe("USER_NOT_FOUND");
+      }
+    });
+
+    it("should fail when secp256k1 wallet does not exist", async () => {
       await setUpKSNodes(pool);
 
-      const keygenResult = runKeygenCentralizedEd25519();
+      // Create user but no secp256k1 wallet
+      const createUserRes = await createUser(
+        pool,
+        TEST_EMAIL_ED25519,
+        "google",
+      );
+      expect(createUserRes.success).toBe(true);
 
+      const keygenResult = runKeygenCentralizedEd25519();
       const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
@@ -913,31 +981,24 @@ describe("keygen_test", () => {
         TEMP_ENC_SECRET,
       );
 
-      if (!result.success) {
-        console.error("Keygen failed:", {
-          code: result.code,
-          msg: result.msg,
-        });
-      }
-      expect(result.success).toBe(true);
-      if (result.success) {
-        expect(result.data.token).toBeDefined();
-        expect(result.data.user.email).toBe(TEST_EMAIL_ED25519);
-        expect(result.data.user.wallet_id).toBeDefined();
-        expect(result.data.user.public_key).toBeDefined();
-        expect(result.data.user.public_key.length).toBe(64); // 32 bytes hex = 64 chars
+      expect(result.success).toBe(false);
+      if (result.success === false) {
+        expect(result.code).toBe("WALLET_NOT_FOUND");
       }
     });
 
-    it("should create ed25519 wallet for existing user", async () => {
-      await setUpKSNodes(pool);
+    it("should create ed25519 wallet for existing user with secp256k1 wallet", async () => {
+      await setUpUserWithSecp256k1Wallet(pool);
 
-      // Create existing user first
-      const createUserRes = await createUser(pool, TEST_EMAIL_ED25519, "google");
-      expect(createUserRes.success).toBe(true);
+      const ksNodeIds = await setUpKSNodes(pool);
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: ksNodeIds },
+        },
+      });
 
       const keygenResult = runKeygenCentralizedEd25519();
-
       const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
@@ -955,11 +1016,19 @@ describe("keygen_test", () => {
     });
 
     it("should fail if ed25519 wallet already exists for user", async () => {
-      await setUpKSNodes(pool);
+      await setUpUserWithSecp256k1Wallet(pool);
+
+      const ksNodeIds = await setUpKSNodes(pool);
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: ksNodeIds },
+        },
+      });
 
       const keygenResult = runKeygenCentralizedEd25519();
 
-      // Create first wallet
+      // Create first ed25519 wallet
       const request1 = generateKeygenRequest(keygenResult);
       const result1 = await runKeygenEd25519(
         pool,
@@ -969,9 +1038,8 @@ describe("keygen_test", () => {
       );
       expect(result1.success).toBe(true);
 
-      // Try to create second wallet with different keys
+      // Try to create second ed25519 wallet with different keys
       const keygenResult2 = runKeygenCentralizedEd25519();
-
       const request2 = generateKeygenRequest(keygenResult2);
       const result2 = await runKeygenEd25519(
         pool,
@@ -987,11 +1055,20 @@ describe("keygen_test", () => {
     });
 
     it("should fail if public key is duplicated", async () => {
-      await setUpKSNodes(pool);
+      await setUpUserWithSecp256k1Wallet(pool, "user1@test.com");
+      await setUpUserWithSecp256k1Wallet(pool, "user2@test.com");
+
+      const ksNodeIds = await setUpKSNodes(pool);
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: ksNodeIds },
+        },
+      });
 
       const keygenResult = runKeygenCentralizedEd25519();
 
-      // Create wallet for first user
+      // Create ed25519 wallet for first user
       const request1 = generateKeygenRequest(keygenResult, "user1@test.com");
       const result1 = await runKeygenEd25519(
         pool,
@@ -1017,10 +1094,19 @@ describe("keygen_test", () => {
     });
 
     it("should include optional name in response when provided", async () => {
-      await setUpKSNodes(pool);
+      await setUpUserWithSecp256k1Wallet(pool);
+
+      const ksNodeIds = await setUpKSNodes(pool);
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: ksNodeIds },
+        },
+      });
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Ed25519Participant.P1];
+      const serverKeygenOutput =
+        keygenResult.keygen_outputs[Ed25519Participant.P1];
 
       const request: KeygenEd25519Request = {
         auth_type: "google",
@@ -1047,13 +1133,27 @@ describe("keygen_test", () => {
     });
 
     it("should handle different auth types", async () => {
-      await setUpKSNodes(pool);
-
       const authTypes = ["google", "auth0"] as const;
 
+      // Set up KS nodes once before the loop
+      const ksNodeIds = await setUpKSNodes(pool);
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: ksNodeIds },
+        },
+      });
+
       for (let i = 0; i < authTypes.length; i++) {
+        await setUpUserWithSecp256k1Wallet(
+          pool,
+          `authtype-test-${i}@test.com`,
+          authTypes[i],
+        );
+
         const keygenResult = runKeygenCentralizedEd25519();
-        const serverKeygenOutput = keygenResult.keygen_outputs[Ed25519Participant.P1];
+        const serverKeygenOutput =
+          keygenResult.keygen_outputs[Ed25519Participant.P1];
 
         const request: KeygenEd25519Request = {
           auth_type: authTypes[i],
@@ -1072,6 +1172,12 @@ describe("keygen_test", () => {
           TEMP_ENC_SECRET,
         );
 
+        if (result.success === false) {
+          console.error(`Keygen failed for ${authTypes[i]}:`, {
+            code: result.code,
+            msg: result.msg,
+          });
+        }
         expect(result.success).toBe(true);
         if (result.success) {
           expect(result.data.user.email).toBe(`authtype-test-${i}@test.com`);
@@ -1080,10 +1186,17 @@ describe("keygen_test", () => {
     });
 
     it("should generate valid JWT token", async () => {
-      await setUpKSNodes(pool);
+      await setUpUserWithSecp256k1Wallet(pool);
+
+      const ksNodeIds = await setUpKSNodes(pool);
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: ksNodeIds },
+        },
+      });
 
       const keygenResult = runKeygenCentralizedEd25519();
-
       const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
@@ -1101,11 +1214,18 @@ describe("keygen_test", () => {
       }
     });
 
-    it("should work without KS nodes", async () => {
-      // Don't set up KS nodes, but still need key share meta (already done in beforeEach)
+    it("should fail when no KS nodes available", async () => {
+      await setUpUserWithSecp256k1Wallet(pool);
+
+      // Don't set up KS nodes
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: [] },
+        },
+      });
 
       const keygenResult = runKeygenCentralizedEd25519();
-
       const request = generateKeygenRequest(keygenResult);
 
       const result = await runKeygenEd25519(
@@ -1115,14 +1235,26 @@ describe("keygen_test", () => {
         TEMP_ENC_SECRET,
       );
 
-      expect(result.success).toBe(true);
+      expect(result.success).toBe(false);
+      if (result.success === false) {
+        expect(result.code).toBe("KEYSHARE_NODE_INSUFFICIENT");
+      }
     });
 
     it("should store only signing_share and verifying_share in enc_tss_share", async () => {
-      await setUpKSNodes(pool);
+      await setUpUserWithSecp256k1Wallet(pool);
+
+      const ksNodeIds = await setUpKSNodes(pool);
+      (mockCheckKeyShareFromKSNodesV2 as any).mockResolvedValue({
+        success: true,
+        data: {
+          ed25519: { nodeIds: ksNodeIds },
+        },
+      });
 
       const keygenResult = runKeygenCentralizedEd25519();
-      const serverKeygenOutput = keygenResult.keygen_outputs[Ed25519Participant.P1];
+      const serverKeygenOutput =
+        keygenResult.keygen_outputs[Ed25519Participant.P1];
 
       // Extract expected shares from server key_package
       const expectedShares = extractKeyPackageSharesEd25519(
