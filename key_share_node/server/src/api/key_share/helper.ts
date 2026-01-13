@@ -4,12 +4,14 @@ import {
   createWallet,
   getKeyShareByWalletId,
   getWalletByPublicKey,
+  updateReshare,
 } from "@oko-wallet/ksn-pg-interface";
 import type {
   CheckWalletResult,
   GetKeyShareV2ResponseWallet,
   PublicKeyBytes,
   WalletRegisterInfo,
+  WalletReshareInfo,
 } from "@oko-wallet/ksn-interface/key_share";
 import type { CurveType } from "@oko-wallet/ksn-interface/curve_type";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
@@ -183,6 +185,91 @@ export async function registerWalletKeyShare(
       success: false,
       code: "UNKNOWN_ERROR",
       msg: "Failed to create key share",
+    };
+  }
+
+  return { success: true, data: void 0 };
+}
+
+/**
+ * Reshare a single wallet's key share
+ * Validates that the provided share matches the existing share, then updates reshared_at
+ */
+export async function reshareWalletKeyShare(
+  db: Pool | PoolClient,
+  walletInfo: WalletReshareInfo<PublicKeyBytes>,
+  userId: string,
+  curveType: CurveType,
+  encryptionSecret: string,
+): Promise<KSNodeApiResponse<void>> {
+  const { public_key, share } = walletInfo;
+
+  const getWalletRes = await getWalletByPublicKey(db, public_key);
+  if (getWalletRes.success === false) {
+    logger.error("Failed to get wallet by public key: %s", getWalletRes.err);
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: "Failed to get wallet",
+    };
+  }
+
+  if (getWalletRes.data === null) {
+    return {
+      success: false,
+      code: "WALLET_NOT_FOUND",
+      msg: `Wallet not found for curve_type: ${curveType}`,
+    };
+  }
+
+  if (getWalletRes.data.user_id !== userId) {
+    return {
+      success: false,
+      code: "UNAUTHORIZED",
+      msg: "Unauthorized: wallet belongs to different user",
+    };
+  }
+
+  const walletId = getWalletRes.data.wallet_id;
+
+  const getKeyShareRes = await getKeyShareByWalletId(db, walletId);
+  if (getKeyShareRes.success === false) {
+    logger.error("Failed to get key share: %s", getKeyShareRes.err);
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: "Failed to get key share",
+    };
+  }
+
+  if (getKeyShareRes.data === null) {
+    return {
+      success: false,
+      code: "KEY_SHARE_NOT_FOUND",
+      msg: `Key share not found for curve_type: ${curveType}`,
+    };
+  }
+
+  const existingDecryptedShare = await decryptDataAsync(
+    getKeyShareRes.data.enc_share.toString("utf-8"),
+    encryptionSecret,
+  );
+
+  if (existingDecryptedShare.toLowerCase() !== share.toHex().toLowerCase()) {
+    return {
+      success: false,
+      code: "RESHARE_FAILED",
+      msg: `Share mismatch for curve_type: ${curveType}`,
+    };
+  }
+
+  const updateRes = await updateReshare(db, walletId);
+  if (updateRes.success === false) {
+    logger.error("Failed to update reshare: %s", updateRes.err);
+    return {
+      success: false,
+      code: "RESHARE_FAILED",
+      msg: "Failed to update reshare timestamp",
     };
   }
 

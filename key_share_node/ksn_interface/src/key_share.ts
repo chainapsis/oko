@@ -241,6 +241,45 @@ export interface RegisterEd25519V2RequestBody {
   share: string; // hex string, 64 bytes
 }
 
+// --- POST /v2/keyshare/reshare ---
+
+/**
+ * v2 wallet reshare info (internal, with Bytes)
+ * Same structure as WalletRegisterInfo but used for reshare validation
+ */
+export type WalletReshareInfo<PK extends Bytes32 | Bytes33> = {
+  public_key: PK;
+  share: Bytes64;
+};
+
+export type WalletsReshareRequest = {
+  secp256k1?: WalletReshareInfo<Bytes33>;
+  ed25519?: WalletReshareInfo<Bytes32>;
+};
+
+/**
+ * v2 wallet reshare info (body, with hex string)
+ */
+export type WalletReshareInfoBody = {
+  public_key: string; // hex string
+  share: string; // hex string (64 bytes)
+};
+
+export type WalletsReshareRequestBody = {
+  secp256k1?: WalletReshareInfoBody;
+  ed25519?: WalletReshareInfoBody;
+};
+
+export interface ReshareKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsReshareRequest;
+}
+
+export interface ReshareKeyShareV2RequestBody {
+  wallets: WalletsReshareRequestBody;
+}
+
 // --- Internal Helper Types ---
 
 export type CheckWalletResult = { exists: boolean } | { error: string };
