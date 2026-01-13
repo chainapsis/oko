@@ -12,7 +12,7 @@ export default function ConnectWalletButton() {
         chain,
         openAccountModal,
         openChainModal,
-        openConnectModal,
+        openSignInModal,
         authenticationStatus,
         mounted,
       }) => {
@@ -33,7 +33,7 @@ export default function ConnectWalletButton() {
             {(() => {
               if (!connected) {
                 return (
-                  <Button onClick={openConnectModal} size="lg" fullWidth>
+                  <Button onClick={openSignInModal} size="lg" fullWidth>
                     Connect Wallet
                   </Button>
                 );

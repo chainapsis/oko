@@ -1,5 +1,4 @@
 import { CosmosWallet } from "@interchain-kit/core";
-import type { SignInType } from "@oko-wallet/oko-sdk-core";
 import type {
   BroadcastMode,
   SignOptions,
@@ -14,7 +13,6 @@ import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
  */
 export class OkoWallet extends CosmosWallet {
   private okoClient: OkoCosmosWalletInterface;
-  private loginProvider: SignInType;
   defaultSignOptions: {
     preferNoSetFee: boolean;
     preferNoSetMemo: boolean;
@@ -25,14 +23,9 @@ export class OkoWallet extends CosmosWallet {
     disableBalanceCheck: false,
   };
 
-  constructor(
-    walletInfo: Wallet,
-    okoClient: OkoCosmosWalletInterface,
-    loginProvider: SignInType,
-  ) {
+  constructor(walletInfo: Wallet, okoClient: OkoCosmosWalletInterface) {
     super(walletInfo);
     this.okoClient = okoClient;
-    this.loginProvider = loginProvider;
 
     // Expose client for interchain-kit
     (this as any).client = okoClient;
@@ -61,7 +54,7 @@ export class OkoWallet extends CosmosWallet {
 
     // If not signed in, trigger the sign-in flow
     if (!publicKey) {
-      await this.okoClient.okoWallet.signIn(this.loginProvider);
+      await this.okoClient.okoWallet.openSignInModal();
     }
 
     const key = await this.okoClient.getKey(chainId);
