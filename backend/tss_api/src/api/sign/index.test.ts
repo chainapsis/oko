@@ -88,10 +88,12 @@ import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/sign";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 import { TEST_CUSTOMER } from "@oko-wallet-tss-api/api/tests";
 
-const mockCheckKeyShareFromActiveKSNodes = jest.fn() as jest.Mock;
+const mockCheckKeyShareFromKSNodes = jest.fn() as jest.Mock;
+const mockCheckKeyShareFromKSNodesV2 = jest.fn() as jest.Mock;
 
 await jest.unstable_mockModule("@oko-wallet-tss-api/api/ks_node", () => ({
-  checkKeyShareFromActiveKSNodes: mockCheckKeyShareFromActiveKSNodes,
+  checkKeyShareFromKSNodes: mockCheckKeyShareFromKSNodes,
+  checkKeyShareFromKSNodesV2: mockCheckKeyShareFromKSNodesV2,
 }));
 
 const { runKeygen } = await import("@oko-wallet-tss-api/api/keygen");
@@ -125,7 +127,7 @@ async function setUpTssStage(pool: Pool) {
   const keygen_2 = keygen_outputs[Participant.P1];
 
   const ksNodeIds = await setUpKSNodes(pool);
-  (mockCheckKeyShareFromActiveKSNodes as any).mockResolvedValue({
+      (mockCheckKeyShareFromKSNodes as any).mockResolvedValue({
     success: true,
     data: {
       nodeIds: ksNodeIds,

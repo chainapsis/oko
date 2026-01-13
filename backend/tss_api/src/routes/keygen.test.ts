@@ -8,9 +8,13 @@ import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
 const mockRunKeygen = jest.fn() as jest.Mock;
+const mockRunKeygenV2 = jest.fn() as jest.Mock;
+const mockRunKeygenEd25519 = jest.fn() as jest.Mock;
 
 await jest.unstable_mockModule("@oko-wallet-tss-api/api/keygen", () => ({
   runKeygen: mockRunKeygen,
+  runKeygenV2: mockRunKeygenV2,
+  runKeygenEd25519: mockRunKeygenEd25519,
 }));
 
 const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
