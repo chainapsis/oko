@@ -47,35 +47,34 @@ export async function getKeyShareV2(
     }
 
     const userId = getUserRes.data.user_id;
+
+    const [secp256k1Res, ed25519Res] = await Promise.all([
+      wallets.secp256k1
+        ? getWalletKeyShare(
+            db,
+            wallets.secp256k1,
+            userId,
+            "secp256k1",
+            encryptionSecret,
+          )
+        : null,
+      wallets.ed25519
+        ? getWalletKeyShare(
+            db,
+            wallets.ed25519,
+            userId,
+            "ed25519",
+            encryptionSecret,
+          )
+        : null,
+    ]);
+
+    if (secp256k1Res?.success === false) return secp256k1Res;
+    if (ed25519Res?.success === false) return ed25519Res;
+
     const result: GetKeyShareV2Response = {};
-
-    if (wallets.secp256k1) {
-      const res = await getWalletKeyShare(
-        db,
-        wallets.secp256k1,
-        userId,
-        "secp256k1",
-        encryptionSecret,
-      );
-      if (res.success === false) {
-        return res;
-      }
-      result.secp256k1 = res.data;
-    }
-
-    if (wallets.ed25519) {
-      const res = await getWalletKeyShare(
-        db,
-        wallets.ed25519,
-        userId,
-        "ed25519",
-        encryptionSecret,
-      );
-      if (res.success === false) {
-        return res;
-      }
-      result.ed25519 = res.data;
-    }
+    if (secp256k1Res) result.secp256k1 = secp256k1Res.data;
+    if (ed25519Res) result.ed25519 = ed25519Res.data;
 
     return {
       success: true,
@@ -126,31 +125,32 @@ export async function checkKeyShareV2(
     }
 
     const userId = getUserRes.data.user_id;
+
+    const [secp256k1Res, ed25519Res] = await Promise.all([
+      wallets.secp256k1
+        ? checkWalletKeyShare(db, wallets.secp256k1, userId)
+        : null,
+      wallets.ed25519 ? checkWalletKeyShare(db, wallets.ed25519, userId) : null,
+    ]);
+
+    if (secp256k1Res && "error" in secp256k1Res) {
+      return {
+        success: false,
+        code: "PUBLIC_KEY_INVALID",
+        msg: secp256k1Res.error,
+      };
+    }
+    if (ed25519Res && "error" in ed25519Res) {
+      return {
+        success: false,
+        code: "PUBLIC_KEY_INVALID",
+        msg: ed25519Res.error,
+      };
+    }
+
     const result: CheckKeyShareV2Response = {};
-
-    if (wallets.secp256k1) {
-      const res = await checkWalletKeyShare(db, wallets.secp256k1, userId);
-      if ("error" in res) {
-        return {
-          success: false,
-          code: "PUBLIC_KEY_INVALID",
-          msg: res.error,
-        };
-      }
-      result.secp256k1 = res;
-    }
-
-    if (wallets.ed25519) {
-      const res = await checkWalletKeyShare(db, wallets.ed25519, userId);
-      if ("error" in res) {
-        return {
-          success: false,
-          code: "PUBLIC_KEY_INVALID",
-          msg: res.error,
-        };
-      }
-      result.ed25519 = res;
-    }
+    if (secp256k1Res) result.secp256k1 = secp256k1Res;
+    if (ed25519Res) result.ed25519 = ed25519Res;
 
     return {
       success: true,
