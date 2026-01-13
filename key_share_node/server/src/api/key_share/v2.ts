@@ -12,6 +12,7 @@ import type {
 } from "@oko-wallet/ksn-interface/key_share";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
+import { logger } from "@oko-wallet-ksn-server/logger";
 import {
   checkWalletKeyShare,
   getWalletKeyShare,
@@ -89,10 +90,11 @@ export async function getKeyShareV2(
       data: result,
     };
   } catch (error) {
+    logger.error("Failed to get key shares: %s", error);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: String(error),
+      msg: "Failed to get key shares",
     };
   }
 }
@@ -165,10 +167,11 @@ export async function checkKeyShareV2(
       data: result,
     };
   } catch (error) {
+    logger.error("Failed to check key shares: %s", error);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: String(error),
+      msg: "Failed to check key shares",
     };
   }
 }
@@ -245,10 +248,11 @@ export async function registerKeyShareV2(
     return { success: true, data: void 0 };
   } catch (error) {
     await client.query("ROLLBACK");
+    logger.error("Failed to register key shares: %s", error);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: String(error),
+      msg: "Failed to register key shares",
     };
   } finally {
     client.release();

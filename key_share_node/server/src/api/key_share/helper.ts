@@ -18,6 +18,7 @@ import {
   decryptDataAsync,
   encryptDataAsync,
 } from "@oko-wallet-ksn-server/encrypt";
+import { logger } from "@oko-wallet-ksn-server/logger";
 
 export async function getWalletKeyShare(
   db: Pool | PoolClient,
@@ -28,10 +29,11 @@ export async function getWalletKeyShare(
 ): Promise<KSNodeApiResponse<GetKeyShareV2ResponseWallet>> {
   const getWalletRes = await getWalletByPublicKey(db, publicKey);
   if (getWalletRes.success === false) {
+    logger.error("Failed to get wallet: %s", getWalletRes.err);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to getWalletByPublicKey: ${getWalletRes.err}`,
+      msg: "Failed to get wallet",
     };
   }
 
@@ -56,10 +58,11 @@ export async function getWalletKeyShare(
     getWalletRes.data.wallet_id,
   );
   if (getKeyShareRes.success === false) {
+    logger.error("Failed to get key share: %s", getKeyShareRes.err);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}`,
+      msg: "Failed to get key share",
     };
   }
 
@@ -92,7 +95,8 @@ export async function checkWalletKeyShare(
 ): Promise<CheckWalletResult> {
   const getWalletRes = await getWalletByPublicKey(db, publicKey);
   if (getWalletRes.success === false) {
-    return { error: `Failed to getWalletByPublicKey: ${getWalletRes.err}` };
+    logger.error("Failed to get wallet: %s", getWalletRes.err);
+    return { error: "Failed to get wallet" };
   }
 
   if (getWalletRes.data === null) {
@@ -108,7 +112,8 @@ export async function checkWalletKeyShare(
     getWalletRes.data.wallet_id,
   );
   if (getKeyShareRes.success === false) {
-    return { error: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}` };
+    logger.error("Failed to get key share: %s", getKeyShareRes.err);
+    return { error: "Failed to get key share" };
   }
 
   return { exists: getKeyShareRes.data !== null };
@@ -130,10 +135,11 @@ export async function registerWalletKeyShare(
   // Check for duplicate public key
   const getWalletRes = await getWalletByPublicKey(client, public_key);
   if (getWalletRes.success === false) {
+    logger.error("Failed to get wallet by public key: %s", getWalletRes.err);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to getWalletByPublicKey: ${getWalletRes.err}`,
+      msg: "Failed to check wallet existence",
     };
   }
 
@@ -152,10 +158,11 @@ export async function registerWalletKeyShare(
     public_key: public_key.toUint8Array(),
   });
   if (createWalletRes.success === false) {
+    logger.error("Failed to create wallet: %s", createWalletRes.err);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to createWallet: ${createWalletRes.err}`,
+      msg: "Failed to create wallet",
     };
   }
 
@@ -171,10 +178,11 @@ export async function registerWalletKeyShare(
     enc_share: encryptedShareBuffer,
   });
   if (createKeyShareRes.success === false) {
+    logger.error("Failed to create key share: %s", createKeyShareRes.err);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
-      msg: `Failed to createKeyShare: ${createKeyShareRes.err}`,
+      msg: "Failed to create key share",
     };
   }
 
