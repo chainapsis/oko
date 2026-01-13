@@ -256,7 +256,7 @@ export async function reshareWalletKeyShare(
     encryptionSecret,
   );
 
-  // Use constant-time comparison to prevent timing attacks
+  // NOTE: Use constant-time comparison to prevent timing attacks
   const existingShareBuffer = Buffer.from(
     existingDecryptedShare.toLowerCase(),
     "utf-8",
