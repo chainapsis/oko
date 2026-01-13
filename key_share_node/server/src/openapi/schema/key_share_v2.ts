@@ -253,3 +253,33 @@ export const ReshareKeyShareV2SuccessResponseSchema = registry.register(
       description: "Success response for key share reshare.",
     }),
 );
+
+// ============================================================================
+// POST /v2/keyshare/reshare/register
+// ============================================================================
+
+export const ReshareRegisterV2RequestBodySchema = registry.register(
+  "ReshareRegisterV2RequestBody",
+  z
+    .object({
+      wallets: walletsRegisterRequestBodySchema.describe(
+        "Object with curve_type as key and wallet info as value",
+      ),
+    })
+    .openapi("ReshareRegisterV2RequestBody", {
+      description:
+        "Request payload for registering key shares during reshare (new node joining). User must already exist.",
+    }),
+);
+
+export const ReshareRegisterV2SuccessResponseSchema = registry.register(
+  "ReshareRegisterV2SuccessResponse",
+  z
+    .object({
+      success: z.literal(true),
+      data: z.null(),
+    })
+    .openapi("ReshareRegisterV2SuccessResponse", {
+      description: "Success response for key share registration during reshare.",
+    }),
+);

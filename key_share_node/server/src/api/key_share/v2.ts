@@ -12,6 +12,7 @@ import type {
   RegisterKeyShareV2Request,
   RegisterEd25519V2Request,
   ReshareKeyShareV2Request,
+  ReshareRegisterV2Request,
 } from "@oko-wallet/ksn-interface/key_share";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
@@ -207,7 +208,9 @@ export async function registerKeyShareV2(
       user_auth_id,
     );
     if (getUserRes.success === false) {
-      throw new Error(`Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`);
+      throw new Error(
+        `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
+      );
     }
 
     let userId: string;
@@ -305,7 +308,9 @@ export async function registerEd25519V2(
       user_auth_id,
     );
     if (getUserRes.success === false) {
-      throw new Error(`Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`);
+      throw new Error(
+        `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
+      );
     }
 
     if (getUserRes.data === null) {
@@ -451,5 +456,98 @@ export async function reshareKeyShareV2(
       code: "UNKNOWN_ERROR",
       msg: "Failed to reshare key shares",
     };
+  }
+}
+
+/**
+ * Register key shares during reshare (v2) - for new node joining
+ *
+ * Unlike /v2/register, this endpoint requires the user to already exist.
+ * This is for the reshare scenario where a new node joins the network
+ * and needs to register key shares for an existing user.
+ *
+ * Key differences from /v2/register:
+ * - User MUST already exist (will not create new user)
+ * - Wallets must NOT already exist on this node
+ */
+export async function reshareRegisterV2(
+  db: Pool,
+  request: ReshareRegisterV2Request,
+  encryptionSecret: string,
+): Promise<KSNodeApiResponse<void>> {
+  const { user_auth_id, auth_type, wallets } = request;
+
+  const client = await db.connect();
+  try {
+    await client.query("BEGIN");
+
+    // Get existing user (must exist - reshare scenario)
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
+      client,
+      auth_type,
+      user_auth_id,
+    );
+    if (getUserRes.success === false) {
+      logger.error("Failed to get user: %s", getUserRes.err);
+      await client.query("ROLLBACK");
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: "Failed to get user",
+      };
+    }
+
+    if (getUserRes.data === null) {
+      await client.query("ROLLBACK");
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: "User not found (reshare requires existing user)",
+      };
+    }
+
+    const userId = getUserRes.data.user_id;
+
+    // Register each wallet sequentially within the transaction
+    if (wallets.secp256k1) {
+      const res = await registerWalletKeyShare(
+        client,
+        wallets.secp256k1,
+        userId,
+        "secp256k1",
+        encryptionSecret,
+      );
+      if (res.success === false) {
+        await client.query("ROLLBACK");
+        return res;
+      }
+    }
+
+    if (wallets.ed25519) {
+      const res = await registerWalletKeyShare(
+        client,
+        wallets.ed25519,
+        userId,
+        "ed25519",
+        encryptionSecret,
+      );
+      if (res.success === false) {
+        await client.query("ROLLBACK");
+        return res;
+      }
+    }
+
+    await client.query("COMMIT");
+    return { success: true, data: void 0 };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    logger.error("Failed to register key shares during reshare: %s", error);
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: "Failed to register key shares during reshare",
+    };
+  } finally {
+    client.release();
   }
 }

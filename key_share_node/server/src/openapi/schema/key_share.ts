@@ -28,4 +28,6 @@ export {
   RegisterEd25519V2SuccessResponseSchema,
   ReshareKeyShareV2RequestBodySchema,
   ReshareKeyShareV2SuccessResponseSchema,
+  ReshareRegisterV2RequestBodySchema,
+  ReshareRegisterV2SuccessResponseSchema,
 } from "./key_share_v2";

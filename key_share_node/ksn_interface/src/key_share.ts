@@ -280,6 +280,29 @@ export interface ReshareKeyShareV2RequestBody {
   wallets: WalletsReshareRequestBody;
 }
 
+// --- POST /v2/keyshare/reshare/register ---
+
+/**
+ * Request for registering key shares during reshare (new node joining)
+ * User must already exist (reshare scenario)
+ * Wallets must NOT already exist on this node
+ *
+ * Reuses WalletsRegisterRequest since structure is identical
+ */
+export interface ReshareRegisterV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRegisterRequest;
+}
+
+/**
+ * Request body for reshare register endpoint
+ * Reuses WalletsRegisterRequestBody since structure is identical
+ */
+export interface ReshareRegisterV2RequestBody {
+  wallets: WalletsRegisterRequestBody;
+}
+
 // --- Internal Helper Types ---
 
 export type CheckWalletResult = { exists: boolean } | { error: string };
