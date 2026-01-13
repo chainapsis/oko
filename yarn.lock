@@ -11282,7 +11282,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/teddsa-api-lib@workspace:crypto/teddsa/api_lib":
+"@oko-wallet/teddsa-api-lib@workspace:*, @oko-wallet/teddsa-api-lib@workspace:crypto/teddsa/api_lib":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-api-lib@workspace:crypto/teddsa/api_lib"
   dependencies:
@@ -11311,6 +11311,7 @@ __metadata:
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
+    "@oko-wallet/teddsa-api-lib": "workspace:*"
     "@oko-wallet/teddsa-interface": "workspace:*"
     "@oko-wallet/teddsa-wasm-mock": "workspace:*"
     "@types/node": "npm:^24.10.1"

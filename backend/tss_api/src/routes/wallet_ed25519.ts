@@ -30,6 +30,24 @@ export function setWalletEd25519Routes(router: Router) {
     security: [{ oauthAuth: [] }],
     request: {
       headers: OAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: {
+              type: "object",
+              properties: {
+                user_verifying_share: {
+                  type: "array",
+                  items: { type: "number" },
+                  description: "P0's verifying_share (32 bytes)",
+                },
+              },
+              required: ["user_verifying_share"],
+            },
+          },
+        },
+      },
     },
     responses: {
       200: {
@@ -76,7 +94,7 @@ export function setWalletEd25519Routes(router: Router) {
     oauthMiddleware,
     tssActivateMiddleware,
     async (
-      req: OAuthAuthenticatedRequest<Record<string, never>>,
+      req: OAuthAuthenticatedRequest<{ user_verifying_share: number[] }>,
       res: Response<
         OkoApiResponse<WalletEd25519PublicInfoResponse>,
         OAuthLocals
@@ -84,6 +102,7 @@ export function setWalletEd25519Routes(router: Router) {
     ) => {
       const state = req.app.locals;
       const oauthUser = res.locals.oauth_user;
+      const body = req.body;
 
       const user_identifier = oauthUser?.user_identifier;
       if (!user_identifier) {
@@ -101,6 +120,7 @@ export function setWalletEd25519Routes(router: Router) {
         {
           user_identifier,
           auth_type: oauthUser.type,
+          user_verifying_share: body.user_verifying_share,
         },
       );
 
