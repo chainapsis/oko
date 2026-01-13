@@ -125,3 +125,51 @@ export const CheckKeyShareV2SuccessResponseSchema = registry.register(
       description: "Success response indicating key share existence status.",
     }),
 );
+
+// ============================================================================
+// POST /v2/keyshare/register
+// ============================================================================
+
+const walletRegisterInfoSchema = z.object({
+  public_key: publicKeySchema.describe("Public key in hex string format"),
+  share: shareSchema.describe("Key share in hex string format (64 bytes)"),
+});
+
+export const walletsRegisterRequestBodySchema = z
+  .object({
+    secp256k1: walletRegisterInfoSchema
+      .optional()
+      .describe("secp256k1 wallet registration info"),
+    ed25519: walletRegisterInfoSchema
+      .optional()
+      .describe("ed25519 wallet registration info"),
+  })
+  .refine((data) => data.secp256k1 || data.ed25519, {
+    message: "At least one of secp256k1 or ed25519 must be provided",
+  });
+
+export const RegisterKeyShareV2RequestBodySchema = registry.register(
+  "RegisterKeyShareV2RequestBody",
+  z
+    .object({
+      wallets: walletsRegisterRequestBodySchema.describe(
+        "Object with curve_type as key and wallet info as value",
+      ),
+    })
+    .openapi("RegisterKeyShareV2RequestBody", {
+      description:
+        "Request payload for registering multiple key shares at once.",
+    }),
+);
+
+export const RegisterKeyShareV2SuccessResponseSchema = registry.register(
+  "RegisterKeyShareV2SuccessResponse",
+  z
+    .object({
+      success: z.literal(true),
+      data: z.null(),
+    })
+    .openapi("RegisterKeyShareV2SuccessResponse", {
+      description: "Success response for key share registration.",
+    }),
+);

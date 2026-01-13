@@ -22,4 +22,6 @@ export {
   CheckKeyShareV2RequestBodySchema,
   CheckKeyShareV2ResponseSchema,
   CheckKeyShareV2SuccessResponseSchema,
+  RegisterKeyShareV2RequestBodySchema,
+  RegisterKeyShareV2SuccessResponseSchema,
 } from "./key_share_v2";

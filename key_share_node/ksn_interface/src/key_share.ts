@@ -184,6 +184,45 @@ export type CheckKeyShareV2Response = {
   ed25519?: CheckKeyShareV2ResponseWallet;
 };
 
+// --- POST /v2/keyshare/register ---
+
+/**
+ * v2 wallet registration info (internal, with Bytes)
+ * Generic type parameter PK specifies the public key type per curve
+ */
+export type WalletRegisterInfo<PK extends Bytes32 | Bytes33> = {
+  public_key: PK;
+  share: Bytes64;
+};
+
+export type WalletsRegisterRequest = {
+  secp256k1?: WalletRegisterInfo<Bytes33>;
+  ed25519?: WalletRegisterInfo<Bytes32>;
+};
+
+/**
+ * v2 wallet registration info (body, with hex string)
+ */
+export type WalletRegisterInfoBody = {
+  public_key: string; // hex string
+  share: string; // hex string (64 bytes)
+};
+
+export type WalletsRegisterRequestBody = {
+  secp256k1?: WalletRegisterInfoBody;
+  ed25519?: WalletRegisterInfoBody;
+};
+
+export interface RegisterKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRegisterRequest;
+}
+
+export interface RegisterKeyShareV2RequestBody {
+  wallets: WalletsRegisterRequestBody;
+}
+
 // --- Internal Helper Types ---
 
 export type CheckWalletResult = { exists: boolean } | { error: string };

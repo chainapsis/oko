@@ -5,4 +5,4 @@ export {
   checkKeyShare,
 } from "./v1";
 
-export { getKeyShareV2, checkKeyShareV2 } from "./v2";
+export { getKeyShareV2, checkKeyShareV2, registerKeyShareV2 } from "./v2";

@@ -1,14 +1,22 @@
 import type { Pool, PoolClient } from "pg";
-import { getUserByAuthTypeAndUserAuthId } from "@oko-wallet/ksn-pg-interface";
+import {
+  createUser,
+  getUserByAuthTypeAndUserAuthId,
+} from "@oko-wallet/ksn-pg-interface";
 import type {
   CheckKeyShareV2Request,
   CheckKeyShareV2Response,
   GetKeyShareV2Request,
   GetKeyShareV2Response,
+  RegisterKeyShareV2Request,
 } from "@oko-wallet/ksn-interface/key_share";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
-import { checkWalletKeyShare, getWalletKeyShare } from "./helper";
+import {
+  checkWalletKeyShare,
+  getWalletKeyShare,
+  registerWalletKeyShare,
+} from "./helper";
 
 /**
  * Get multiple key shares at once (v2)
@@ -162,5 +170,87 @@ export async function checkKeyShareV2(
       code: "UNKNOWN_ERROR",
       msg: String(error),
     };
+  }
+}
+
+/**
+ * Register multiple key shares at once (v2)
+ *
+ * Unlike v1, this endpoint accepts wallets as an object { secp256k1?: {...}, ed25519?: {...} }
+ * Each wallet contains public_key and share.
+ * All wallets are registered atomically within a single transaction.
+ */
+export async function registerKeyShareV2(
+  db: Pool,
+  request: RegisterKeyShareV2Request,
+  encryptionSecret: string,
+): Promise<KSNodeApiResponse<void>> {
+  const { user_auth_id, auth_type, wallets } = request;
+
+  const client = await db.connect();
+  try {
+    await client.query("BEGIN");
+
+    // Get or create user
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
+      client,
+      auth_type,
+      user_auth_id,
+    );
+    if (getUserRes.success === false) {
+      throw new Error(`Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`);
+    }
+
+    let userId: string;
+    if (getUserRes.data === null) {
+      const createUserRes = await createUser(client, auth_type, user_auth_id);
+      if (createUserRes.success === false) {
+        throw new Error(`Failed to createUser: ${createUserRes.err}`);
+      }
+      userId = createUserRes.data.user_id;
+    } else {
+      userId = getUserRes.data.user_id;
+    }
+
+    // Register each wallet sequentially within the transaction
+    if (wallets.secp256k1) {
+      const res = await registerWalletKeyShare(
+        client,
+        wallets.secp256k1,
+        userId,
+        "secp256k1",
+        encryptionSecret,
+      );
+      if (res.success === false) {
+        await client.query("ROLLBACK");
+        return res;
+      }
+    }
+
+    if (wallets.ed25519) {
+      const res = await registerWalletKeyShare(
+        client,
+        wallets.ed25519,
+        userId,
+        "ed25519",
+        encryptionSecret,
+      );
+      if (res.success === false) {
+        await client.query("ROLLBACK");
+        return res;
+      }
+    }
+
+    await client.query("COMMIT");
+    return { success: true, data: void 0 };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: String(error),
+    };
+  } finally {
+    client.release();
   }
 }
