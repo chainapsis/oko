@@ -17,7 +17,10 @@ import {
   getCTDUserWithCustomerByEmail,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import { hashPassword, comparePassword } from "@oko-wallet/crypto-js";
-import { verifyEmailCode } from "@oko-wallet/oko-pg-interface/email_verifications";
+import {
+  verifyEmailCode,
+  markCodeVerified,
+} from "@oko-wallet/oko-pg-interface/email_verifications";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {
@@ -51,10 +54,7 @@ import {
 import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
 import { generateVerificationCode } from "@oko-wallet-ctd-api/email/verification";
 import { sendPasswordResetEmail } from "@oko-wallet-ctd-api/email/password_reset";
-import {
-  createEmailVerification,
-  getLatestPendingVerification,
-} from "@oko-wallet/oko-pg-interface/email_verifications";
+import { createEmailVerification } from "@oko-wallet/oko-pg-interface/email_verifications";
 
 export function setCustomerAuthRoutes(router: Router) {
   registry.registerPath({
@@ -291,16 +291,8 @@ export function setCustomerAuthRoutes(router: Router) {
           return;
         }
 
-        const pendingRes = await getLatestPendingVerification(state.db, email);
-        if (!pendingRes.success) {
-          res
-            .status(500)
-            .json({ success: false, code: "UNKNOWN_ERROR", msg: "DB Error" });
-          return;
-        }
-
-        const pending = pendingRes.data;
-        if (!pending || pending.verification_code !== code) {
+        const result = await markCodeVerified(state.db, email, code, 5);
+        if (!result.success) {
           res.status(400).json({
             success: false,
             code: "INVALID_VERIFICATION_CODE",
