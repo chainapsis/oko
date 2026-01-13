@@ -237,8 +237,7 @@ export const ReshareKeyShareV2RequestBodySchema = registry.register(
       ),
     })
     .openapi("ReshareKeyShareV2RequestBody", {
-      description:
-        "Request payload for resharing multiple key shares at once.",
+      description: "Request payload for resharing multiple key shares at once.",
     }),
 );
 
@@ -280,6 +279,7 @@ export const ReshareRegisterV2SuccessResponseSchema = registry.register(
       data: z.null(),
     })
     .openapi("ReshareRegisterV2SuccessResponse", {
-      description: "Success response for key share registration during reshare.",
+      description:
+        "Success response for key share registration during reshare.",
     }),
 );
