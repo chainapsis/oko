@@ -33,8 +33,8 @@ export async function getKeyShareV2(
     if (getUserRes.success === false) {
       return {
         success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
+        code: "USER_NOT_FOUND",
+        msg: `Failed to get key share by user`,
       };
     }
 
@@ -111,8 +111,8 @@ export async function checkKeyShareV2(
     if (getUserRes.success === false) {
       return {
         success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
+        code: "USER_NOT_FOUND",
+        msg: `Failed to check key share existence`,
       };
     }
 
