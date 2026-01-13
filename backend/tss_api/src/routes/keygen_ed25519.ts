@@ -14,7 +14,7 @@ import {
 } from "@oko-wallet/oko-api-openapi/tss";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { runKeygenEd25519 } from "@oko-wallet-tss-api/api/keygen_ed25519";
+import { runKeygenEd25519 } from "@oko-wallet-tss-api/api/keygen";
 import {
   type OAuthAuthenticatedRequest,
   oauthMiddleware,

@@ -16,7 +16,7 @@ import { extractKeyPackageSharesEd25519 } from "@oko-wallet/teddsa-addon/src/ser
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
-import { runKeygenEd25519 } from "@oko-wallet-tss-api/api/keygen_ed25519";
+import { runKeygenEd25519 } from "@oko-wallet-tss-api/api/keygen";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
 const SSS_THRESHOLD = 2;
