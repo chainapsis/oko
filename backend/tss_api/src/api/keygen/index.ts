@@ -633,39 +633,58 @@ export async function runKeygenEd25519(
       };
     }
 
-    let user: User;
-    if (getUserRes.data !== null) {
-      user = getUserRes.data;
+    // in keygen_ed25519, user must exist
+    if (getUserRes.data === null) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: `User not found`,
+      };
+    }
 
-      const getActiveWalletRes = await getActiveWalletByUserIdAndCurveType(
-        db,
-        user.user_id,
-        "ed25519",
-      );
-      if (getActiveWalletRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `getActiveWalletByUserIdAndCurveType error: ${getActiveWalletRes.err}`,
-        };
-      }
-      if (getActiveWalletRes.data !== null) {
-        return {
-          success: false,
-          code: "WALLET_ALREADY_EXISTS",
-          msg: `Ed25519 wallet already exists: ${getActiveWalletRes.data.public_key.toString("hex")}`,
-        };
-      }
-    } else {
-      const createUserRes = await createUser(db, user_identifier, auth_type);
-      if (createUserRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `createUser error: ${createUserRes.err}`,
-        };
-      }
-      user = createUserRes.data;
+    const user = getUserRes.data;
+
+    // in keygen_ed25519, secp256k1 wallet must exist
+    const getSecp256k1WalletRes = await getActiveWalletByUserIdAndCurveType(
+      db,
+      user.user_id,
+      "secp256k1",
+    );
+    if (getSecp256k1WalletRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `getActiveWalletByUserIdAndCurveType (secp256k1) error: ${getSecp256k1WalletRes.err}`,
+      };
+    }
+    if (getSecp256k1WalletRes.data === null) {
+      return {
+        success: false,
+        code: "WALLET_NOT_FOUND",
+        msg: `Secp256k1 wallet not found`,
+      };
+    }
+    const secp256k1Wallet = getSecp256k1WalletRes.data;
+
+    // Check if ed25519 wallet already exists
+    const getEd25519WalletRes = await getActiveWalletByUserIdAndCurveType(
+      db,
+      user.user_id,
+      "ed25519",
+    );
+    if (getEd25519WalletRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `getActiveWalletByUserIdAndCurveType (ed25519) error: ${getEd25519WalletRes.err}`,
+      };
+    }
+    if (getEd25519WalletRes.data !== null) {
+      return {
+        success: false,
+        code: "WALLET_ALREADY_EXISTS",
+        msg: `Ed25519 wallet already exists: ${getEd25519WalletRes.data.public_key.toString("hex")}`,
+      };
     }
 
     const publicKeyUint8 = new Uint8Array(keygen_2.public_key);
@@ -700,7 +719,7 @@ export async function runKeygenEd25519(
       };
     }
 
-    // TODO: Add KS node check after SSS & KSN logic is implemented
+    // Check keyshare from KS nodes for ed25519
     const getActiveKSNodesRes = await getActiveKSNodes(db);
     if (getActiveKSNodesRes.success === false) {
       return {
@@ -710,7 +729,29 @@ export async function runKeygenEd25519(
       };
     }
     const activeKSNodes = getActiveKSNodesRes.data;
-    const ksNodeIds: string[] = activeKSNodes.map((node) => node.node_id);
+
+    const checkKeyshareV2Res = await checkKeyShareFromKSNodesV2(
+      user_identifier,
+      {
+        ed25519: publicKeyBytes,
+      },
+      activeKSNodes,
+      auth_type,
+    );
+    if (checkKeyshareV2Res.success === false) {
+      return checkKeyshareV2Res;
+    }
+
+    const ed25519KsNodeIds: string[] =
+      checkKeyshareV2Res.data.ed25519?.nodeIds ?? [];
+    if (ed25519KsNodeIds.length === 0) {
+      return {
+        success: false,
+        code: "KEYSHARE_NODE_INSUFFICIENT",
+        msg: `no active ks nodes for ed25519`,
+      };
+    }
+    const ksNodeIds = ed25519KsNodeIds;
 
     // Extract signing_share and verifying_share from key_package
     const keyPackageShares = extractKeyPackageSharesEd25519(
@@ -782,16 +823,7 @@ export async function runKeygenEd25519(
       client.release();
     }
 
-    // Look up secp256k1 wallet if exists (for existing users)
-    const secp256k1WalletRes = await getActiveWalletByUserIdAndCurveType(
-      db,
-      user.user_id,
-      "secp256k1",
-    );
-    const secp256k1WalletId =
-      secp256k1WalletRes.success && secp256k1WalletRes.data
-        ? secp256k1WalletRes.data.wallet_id
-        : wallet.wallet_id; // Fallback to ed25519 wallet_id if no secp256k1
+    const secp256k1WalletId = secp256k1Wallet.wallet_id;
 
     const tokenResult = generateUserToken({
       wallet_id: secp256k1WalletId,
