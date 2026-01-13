@@ -1,5 +1,5 @@
 import { type FunctionComponent as FC, type JSX } from "preact";
-import { useState, useEffect } from "preact/hooks";
+import { useState, useEffect, useMemo } from "preact/hooks";
 
 import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";
 import type { SignInModalTheme, ProgressState } from "./types";
@@ -20,11 +20,11 @@ type ViewType = "default" | "socials";
 export const SignInModal: FC<SignInModalProps> = ({
   onSelect,
   onClose,
-  theme = "system",
+  theme,
 }) => {
   const [view, setView] = useState<ViewType>("default");
   const [progress, setProgress] = useState<ProgressState | null>(null);
-  const resolvedTheme = useTheme(theme);
+  const resolvedTheme = useTheme(theme || "system");
 
   const handleSelect = async (provider: SignInType) => {
     setProgress({ status: "loading", provider });
@@ -59,7 +59,7 @@ export const SignInModal: FC<SignInModalProps> = ({
     };
   }, [onClose]);
 
-  const renderContent = () => {
+  const content = useMemo(() => {
     if (progress) {
       return (
         <ProgressView
@@ -86,7 +86,7 @@ export const SignInModal: FC<SignInModalProps> = ({
         onShowSocials={() => setView("socials")}
       />
     );
-  };
+  }, [progress, resolvedTheme, handleSelect]);
 
   return (
     <div className="oko-modal-overlay" onClick={handleOverlayClick}>
@@ -99,7 +99,7 @@ export const SignInModal: FC<SignInModalProps> = ({
         >
           <CloseIcon />
         </button>
-        <div className="oko-content-wrapper">{renderContent()}</div>
+        <div className="oko-content-wrapper">{content}</div>
       </div>
     </div>
   );
