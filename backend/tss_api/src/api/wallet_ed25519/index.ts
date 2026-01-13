@@ -8,10 +8,12 @@ import {
   Participant,
   participantToIdentifier,
 } from "@oko-wallet/teddsa-interface";
+import { reconstructPublicKeyPackageEd25519 } from "@oko-wallet/teddsa-addon/src/server";
 
 export interface WalletEd25519PublicInfoRequest {
   user_identifier: string;
   auth_type: AuthType;
+  user_verifying_share: number[]; // P0's verifying_share (32 bytes)
 }
 
 export interface WalletEd25519PublicInfoResponse {
@@ -31,7 +33,7 @@ export async function getWalletEd25519PublicInfo(
   request: WalletEd25519PublicInfoRequest,
 ): Promise<OkoApiResponse<WalletEd25519PublicInfoResponse>> {
   try {
-    const { user_identifier, auth_type } = request;
+    const { user_identifier, auth_type, user_verifying_share } = request;
 
     // Get user
     const getUserRes = await getUserByEmailAndAuthType(
@@ -77,25 +79,44 @@ export async function getWalletEd25519PublicInfo(
     }
     const wallet = getWalletRes.data;
 
-    // Decrypt the stored key package data
+    // Decrypt stored shares
     const encryptedShare = wallet.enc_tss_share.toString("utf-8");
     const decryptedShare = await decryptDataAsync(
       encryptedShare,
       encryptionSecret,
     );
-    const keyPackageData = JSON.parse(decryptedShare) as {
-      key_package: number[];
-      public_key_package: number[];
-      identifier: number[];
+    const storedShares = JSON.parse(decryptedShare) as {
+      signing_share: number[];
+      verifying_share: number[];
     };
 
-    // Return public info for client key recovery
-    // Server stores keygen_2 (P1), but client needs identifier for P0
+    // Reconstruct public_key_package from user and server verifying_shares
+    const userIdentifier = participantToIdentifier(Participant.P0);
+    const serverIdentifier = participantToIdentifier(Participant.P1);
+    const verifyingKey = Array.from(wallet.public_key);
+
+    let publicKeyPackageBytes: Uint8Array;
+    try {
+      publicKeyPackageBytes = reconstructPublicKeyPackageEd25519(
+        new Uint8Array(user_verifying_share),
+        new Uint8Array(userIdentifier),
+        new Uint8Array(storedShares.verifying_share),
+        new Uint8Array(serverIdentifier),
+        new Uint8Array(verifyingKey),
+      );
+    } catch (error) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to reconstruct public_key_package: ${error instanceof Error ? error.message : String(error)}`,
+      };
+    }
+
     return {
       success: true,
       data: {
         public_key: wallet.public_key.toString("hex"),
-        public_key_package: keyPackageData.public_key_package,
+        public_key_package: Array.from(publicKeyPackageBytes),
         identifier: participantToIdentifier(Participant.P0),
       },
     };
