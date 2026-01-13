@@ -44,10 +44,11 @@ export async function getKeyShareV2(
       user_auth_id,
     );
     if (getUserRes.success === false) {
+      logger.error("Failed to get user: %s", getUserRes.err);
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `Failed to get key share by user`,
+        msg: "Failed to get user",
       };
     }
 
@@ -123,10 +124,11 @@ export async function checkKeyShareV2(
       user_auth_id,
     );
     if (getUserRes.success === false) {
+      logger.error("Failed to get user: %s", getUserRes.err);
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `Failed to check key share existence`,
+        msg: "Failed to get user",
       };
     }
 
@@ -396,6 +398,7 @@ export async function reshareKeyShareV2(
       user_auth_id,
     );
     if (getUserRes.success === false) {
+      logger.error("Failed to get user: %s", getUserRes.err);
       return {
         success: false,
         code: "USER_NOT_FOUND",
@@ -407,7 +410,7 @@ export async function reshareKeyShareV2(
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${user_auth_id} (auth_type: ${auth_type})`,
+        msg: "User not found",
       };
     }
 
