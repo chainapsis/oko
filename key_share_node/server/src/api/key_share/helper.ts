@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "crypto";
 import type { Pool, PoolClient } from "pg";
 import {
   createKeyShare,
@@ -255,11 +256,21 @@ export async function reshareWalletKeyShare(
     encryptionSecret,
   );
 
-  if (existingDecryptedShare.toLowerCase() !== share.toHex().toLowerCase()) {
+  // Use constant-time comparison to prevent timing attacks
+  const existingShareBuffer = Buffer.from(
+    existingDecryptedShare.toLowerCase(),
+    "utf-8",
+  );
+  const providedShareBuffer = Buffer.from(share.toHex().toLowerCase(), "utf-8");
+
+  if (
+    existingShareBuffer.length !== providedShareBuffer.length ||
+    !timingSafeEqual(existingShareBuffer, providedShareBuffer)
+  ) {
     return {
       success: false,
       code: "RESHARE_FAILED",
-      msg: `Share mismatch for curve_type: ${curveType}`,
+      msg: "Share mismatch",
     };
   }
 
