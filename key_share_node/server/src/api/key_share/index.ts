@@ -440,6 +440,110 @@ export async function checkKeyShare(
 // v2 API Handlers
 // ============================================================================
 
+type PublicKeyBytes = Parameters<typeof getWalletByPublicKey>[1];
+
+type GetWalletResult = {
+  share_id: string;
+  share: string;
+};
+
+async function getWalletKeyShare(
+  db: Pool | PoolClient,
+  publicKey: PublicKeyBytes,
+  userId: string,
+  curveType: CurveType,
+  encryptionSecret: string,
+): Promise<KSNodeApiResponse<GetWalletResult>> {
+  const getWalletRes = await getWalletByPublicKey(db, publicKey);
+  if (getWalletRes.success === false) {
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: `Failed to getWalletByPublicKey: ${getWalletRes.err}`,
+    };
+  }
+
+  if (getWalletRes.data === null) {
+    return {
+      success: false,
+      code: "WALLET_NOT_FOUND",
+      msg: `Wallet not found for curve_type: ${curveType}`,
+    };
+  }
+
+  if (getWalletRes.data.user_id !== userId) {
+    return {
+      success: false,
+      code: "UNAUTHORIZED",
+      msg: "Unauthorized: wallet belongs to different user",
+    };
+  }
+
+  const getKeyShareRes = await getKeyShareByWalletId(
+    db,
+    getWalletRes.data.wallet_id,
+  );
+  if (getKeyShareRes.success === false) {
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}`,
+    };
+  }
+
+  if (getKeyShareRes.data === null) {
+    return {
+      success: false,
+      code: "KEY_SHARE_NOT_FOUND",
+      msg: `Key share not found for curve_type: ${curveType}`,
+    };
+  }
+
+  const decryptedShare = await decryptDataAsync(
+    getKeyShareRes.data.enc_share.toString("utf-8"),
+    encryptionSecret,
+  );
+
+  return {
+    success: true,
+    data: {
+      share_id: getKeyShareRes.data.share_id,
+      share: decryptedShare,
+    },
+  };
+}
+
+type CheckWalletResult = { exists: boolean } | { error: string };
+
+async function checkWalletKeyShare(
+  db: Pool | PoolClient,
+  publicKey: PublicKeyBytes,
+  userId: string,
+): Promise<CheckWalletResult> {
+  const getWalletRes = await getWalletByPublicKey(db, publicKey);
+  if (getWalletRes.success === false) {
+    return { error: `Failed to getWalletByPublicKey: ${getWalletRes.err}` };
+  }
+
+  if (getWalletRes.data === null) {
+    return { exists: false };
+  }
+
+  if (getWalletRes.data.user_id !== userId) {
+    return { error: "Public key is not valid" };
+  }
+
+  const getKeyShareRes = await getKeyShareByWalletId(
+    db,
+    getWalletRes.data.wallet_id,
+  );
+  if (getKeyShareRes.success === false) {
+    return { error: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}` };
+  }
+
+  return { exists: getKeyShareRes.data !== null };
+}
+
 /**
  * Get multiple key shares at once (v2)
  *
@@ -455,7 +559,6 @@ export async function getKeyShareV2(
   try {
     const { user_auth_id, auth_type, wallets } = request;
 
-    // 1. Get user
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
       auth_type,
@@ -480,82 +583,28 @@ export async function getKeyShareV2(
     const userId = getUserRes.data.user_id;
     const result: GetKeyShareV2Response = {};
 
-    // Helper function to process a single wallet
-    async function processWallet(
-      publicKey: Parameters<typeof getWalletByPublicKey>[1],
-      curveType: CurveType,
-    ): Promise<KSNodeApiResponse<GetKeyShareV2Response[typeof curveType]>> {
-      const getWalletRes = await getWalletByPublicKey(db, publicKey);
-      if (getWalletRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `Failed to getWalletByPublicKey: ${getWalletRes.err}`,
-        };
-      }
-
-      if (getWalletRes.data === null) {
-        return {
-          success: false,
-          code: "WALLET_NOT_FOUND",
-          msg: `Wallet not found for curve_type: ${curveType}`,
-        };
-      }
-
-      if (getWalletRes.data.user_id !== userId) {
-        return {
-          success: false,
-          code: "UNAUTHORIZED",
-          msg: "Unauthorized: wallet belongs to different user",
-        };
-      }
-
-      const getKeyShareRes = await getKeyShareByWalletId(
+    if (wallets.secp256k1) {
+      const res = await getWalletKeyShare(
         db,
-        getWalletRes.data.wallet_id,
-      );
-      if (getKeyShareRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}`,
-        };
-      }
-
-      if (getKeyShareRes.data === null) {
-        return {
-          success: false,
-          code: "KEY_SHARE_NOT_FOUND",
-          msg: `Key share not found for curve_type: ${curveType}`,
-        };
-      }
-
-      const decryptedShare = await decryptDataAsync(
-        getKeyShareRes.data.enc_share.toString("utf-8"),
+        wallets.secp256k1,
+        userId,
+        "secp256k1",
         encryptionSecret,
       );
-
-      return {
-        success: true,
-        data: {
-          share_id: getKeyShareRes.data.share_id,
-          share: decryptedShare,
-        },
-      };
-    }
-
-    // 2. Process secp256k1
-    if (wallets.secp256k1) {
-      const res = await processWallet(wallets.secp256k1, "secp256k1");
       if (res.success === false) {
         return res;
       }
       result.secp256k1 = res.data;
     }
 
-    // 3. Process ed25519
     if (wallets.ed25519) {
-      const res = await processWallet(wallets.ed25519, "ed25519");
+      const res = await getWalletKeyShare(
+        db,
+        wallets.ed25519,
+        userId,
+        "ed25519",
+        encryptionSecret,
+      );
       if (res.success === false) {
         return res;
       }
@@ -589,7 +638,6 @@ export async function checkKeyShareV2(
   try {
     const { user_auth_id, auth_type, wallets } = request;
 
-    // 1. Get user
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
       auth_type,
@@ -614,37 +662,8 @@ export async function checkKeyShareV2(
     const userId = getUserRes.data.user_id;
     const result: CheckKeyShareV2Response = {};
 
-    // Helper function to check a single wallet
-    async function checkWallet(
-      publicKey: Parameters<typeof getWalletByPublicKey>[1],
-    ): Promise<{ exists: boolean } | { error: string }> {
-      const getWalletRes = await getWalletByPublicKey(db, publicKey);
-      if (getWalletRes.success === false) {
-        return { error: `Failed to getWalletByPublicKey: ${getWalletRes.err}` };
-      }
-
-      if (getWalletRes.data === null) {
-        return { exists: false };
-      }
-
-      if (getWalletRes.data.user_id !== userId) {
-        return { error: "Public key is not valid" };
-      }
-
-      const getKeyShareRes = await getKeyShareByWalletId(
-        db,
-        getWalletRes.data.wallet_id,
-      );
-      if (getKeyShareRes.success === false) {
-        return { error: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}` };
-      }
-
-      return { exists: getKeyShareRes.data !== null };
-    }
-
-    // 2. Check secp256k1
     if (wallets.secp256k1) {
-      const res = await checkWallet(wallets.secp256k1);
+      const res = await checkWalletKeyShare(db, wallets.secp256k1, userId);
       if ("error" in res) {
         return {
           success: false,
@@ -655,9 +674,8 @@ export async function checkKeyShareV2(
       result.secp256k1 = res;
     }
 
-    // 3. Check ed25519
     if (wallets.ed25519) {
-      const res = await checkWallet(wallets.ed25519);
+      const res = await checkWalletKeyShare(db, wallets.ed25519, userId);
       if ("error" in res) {
         return {
           success: false,
