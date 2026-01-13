@@ -110,3 +110,47 @@ export type ReshareKeyShareBody = {
   public_key: string; // hex string
   share: string; // hex string
 };
+
+// ============================================================================
+// v2 API Types
+// ============================================================================
+
+/**
+ * v2 wallets object type (internal, with Bytes)
+ * Key: curve_type, Value: public_key (Bytes)
+ */
+export type WalletsRequest = {
+  secp256k1?: Bytes33;
+  ed25519?: Bytes32;
+};
+
+/**
+ * v2 wallets object type (body, with hex string)
+ * Key: curve_type, Value: public_key (hex string)
+ */
+export type WalletsRequestBody = {
+  secp256k1?: string; // hex string, 33 bytes
+  ed25519?: string; // hex string, 32 bytes
+};
+
+// --- GET /v2/keyshare ---
+
+export interface GetKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRequest;
+}
+
+export interface GetKeyShareV2RequestBody {
+  wallets: WalletsRequestBody;
+}
+
+export interface GetKeyShareV2ResponseWallet {
+  share_id: string;
+  share: string; // hex string (decrypted)
+}
+
+export type GetKeyShareV2Response = {
+  secp256k1?: GetKeyShareV2ResponseWallet;
+  ed25519?: GetKeyShareV2ResponseWallet;
+};

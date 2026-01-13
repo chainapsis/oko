@@ -13,9 +13,12 @@ import type {
   CheckKeyShareResponse,
   GetKeyShareRequest,
   GetKeyShareResponse,
+  GetKeyShareV2Request,
+  GetKeyShareV2Response,
   RegisterKeyShareRequest,
   ReshareKeyShareRequest,
 } from "@oko-wallet/ksn-interface/key_share";
+import type { CurveType } from "@oko-wallet/ksn-interface/curve_type";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
 import {
@@ -421,6 +424,145 @@ export async function checkKeyShare(
       data: {
         exists: true,
       },
+    };
+  } catch (error) {
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: String(error),
+    };
+  }
+}
+
+// ============================================================================
+// v2 API Handlers
+// ============================================================================
+
+/**
+ * Get multiple key shares at once (v2)
+ *
+ * Unlike v1, this endpoint accepts wallets as an object { secp256k1?: pk, ed25519?: pk }
+ * and returns key shares in the same structure.
+ * All requested wallets must exist and belong to the authenticated user.
+ */
+export async function getKeyShareV2(
+  db: Pool | PoolClient,
+  request: GetKeyShareV2Request,
+  encryptionSecret: string,
+): Promise<KSNodeApiResponse<GetKeyShareV2Response>> {
+  try {
+    const { user_auth_id, auth_type, wallets } = request;
+
+    // 1. Get user
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
+      db,
+      auth_type,
+      user_auth_id,
+    );
+    if (getUserRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
+      };
+    }
+
+    if (getUserRes.data === null) {
+      return {
+        success: false,
+        code: "USER_NOT_FOUND",
+        msg: `User not found: ${user_auth_id} (auth_type: ${auth_type})`,
+      };
+    }
+
+    const userId = getUserRes.data.user_id;
+    const result: GetKeyShareV2Response = {};
+
+    // Helper function to process a single wallet
+    async function processWallet(
+      publicKey: Parameters<typeof getWalletByPublicKey>[1],
+      curveType: CurveType,
+    ): Promise<KSNodeApiResponse<GetKeyShareV2Response[typeof curveType]>> {
+      const getWalletRes = await getWalletByPublicKey(db, publicKey);
+      if (getWalletRes.success === false) {
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `Failed to getWalletByPublicKey: ${getWalletRes.err}`,
+        };
+      }
+
+      if (getWalletRes.data === null) {
+        return {
+          success: false,
+          code: "WALLET_NOT_FOUND",
+          msg: `Wallet not found for curve_type: ${curveType}`,
+        };
+      }
+
+      if (getWalletRes.data.user_id !== userId) {
+        return {
+          success: false,
+          code: "UNAUTHORIZED",
+          msg: "Unauthorized: wallet belongs to different user",
+        };
+      }
+
+      const getKeyShareRes = await getKeyShareByWalletId(
+        db,
+        getWalletRes.data.wallet_id,
+      );
+      if (getKeyShareRes.success === false) {
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}`,
+        };
+      }
+
+      if (getKeyShareRes.data === null) {
+        return {
+          success: false,
+          code: "KEY_SHARE_NOT_FOUND",
+          msg: `Key share not found for curve_type: ${curveType}`,
+        };
+      }
+
+      const decryptedShare = await decryptDataAsync(
+        getKeyShareRes.data.enc_share.toString("utf-8"),
+        encryptionSecret,
+      );
+
+      return {
+        success: true,
+        data: {
+          share_id: getKeyShareRes.data.share_id,
+          share: decryptedShare,
+        },
+      };
+    }
+
+    // 2. Process secp256k1
+    if (wallets.secp256k1) {
+      const res = await processWallet(wallets.secp256k1, "secp256k1");
+      if (res.success === false) {
+        return res;
+      }
+      result.secp256k1 = res.data;
+    }
+
+    // 3. Process ed25519
+    if (wallets.ed25519) {
+      const res = await processWallet(wallets.ed25519, "ed25519");
+      if (res.success === false) {
+        return res;
+      }
+      result.ed25519 = res.data;
+    }
+
+    return {
+      success: true,
+      data: result,
     };
   } catch (error) {
     return {

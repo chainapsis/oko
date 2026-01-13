@@ -144,3 +144,65 @@ export const CheckKeyShareSuccessResponseSchema = registry.register(
       description: "Success response indicating whether the key share exists.",
     }),
 );
+
+// ============================================================================
+// v2 Schemas
+// ============================================================================
+
+// --- GET /v2/keyshare ---
+
+const walletsRequestBodySchema = z
+  .object({
+    secp256k1: publicKeySchema.optional().describe("secp256k1 public key (33 bytes hex)"),
+    ed25519: publicKeySchema.optional().describe("ed25519 public key (32 bytes hex)"),
+  })
+  .refine((data) => data.secp256k1 || data.ed25519, {
+    message: "At least one of secp256k1 or ed25519 must be provided",
+  });
+
+export const GetKeyShareV2RequestBodySchema = registry.register(
+  "GetKeyShareV2RequestBody",
+  z
+    .object({
+      wallets: walletsRequestBodySchema.describe(
+        "Object with curve_type as key and public_key as value",
+      ),
+    })
+    .openapi("GetKeyShareV2RequestBody", {
+      description:
+        "Request payload for retrieving multiple key shares at once.",
+    }),
+);
+
+const walletResponseSchema = z.object({
+  share_id: z
+    .string()
+    .uuid()
+    .describe("Unique identifier for the key share")
+    .openapi({ example: "3c98f82a-4ec6-4de4-9d8f-1e2b4a8d5c3f" }),
+  share: shareSchema,
+});
+
+export const GetKeyShareV2ResponseSchema = registry.register(
+  "GetKeyShareV2Response",
+  z
+    .object({
+      secp256k1: walletResponseSchema.optional(),
+      ed25519: walletResponseSchema.optional(),
+    })
+    .openapi("GetKeyShareV2Response", {
+      description: "Response payload containing decrypted key shares by curve type.",
+    }),
+);
+
+export const GetKeyShareV2SuccessResponseSchema = registry.register(
+  "GetKeyShareV2SuccessResponse",
+  z
+    .object({
+      success: z.literal(true),
+      data: GetKeyShareV2ResponseSchema,
+    })
+    .openapi("GetKeyShareV2SuccessResponse", {
+      description: "Success response containing multiple decrypted key shares.",
+    }),
+);
