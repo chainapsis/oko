@@ -206,3 +206,56 @@ export const GetKeyShareV2SuccessResponseSchema = registry.register(
       description: "Success response containing multiple decrypted key shares.",
     }),
 );
+
+// --- POST /v2/keyshare/check ---
+
+export const CheckKeyShareV2RequestBodySchema = registry.register(
+  "CheckKeyShareV2RequestBody",
+  z
+    .object({
+      user_auth_id: z
+        .string()
+        .describe("User authentication ID")
+        .openapi({ example: "test@example.com" }),
+      auth_type: authTypeSchema,
+      wallets: walletsRequestBodySchema.describe(
+        "Object with curve_type as key and public_key as value",
+      ),
+    })
+    .openapi("CheckKeyShareV2RequestBody", {
+      description:
+        "Request payload for checking existence of multiple key shares.",
+    }),
+);
+
+const checkWalletResponseSchema = z.object({
+  exists: z
+    .boolean()
+    .describe("Whether the key share exists")
+    .openapi({ example: true }),
+});
+
+export const CheckKeyShareV2ResponseSchema = registry.register(
+  "CheckKeyShareV2Response",
+  z
+    .object({
+      secp256k1: checkWalletResponseSchema.optional(),
+      ed25519: checkWalletResponseSchema.optional(),
+    })
+    .openapi("CheckKeyShareV2Response", {
+      description:
+        "Response payload indicating key share existence by curve type.",
+    }),
+);
+
+export const CheckKeyShareV2SuccessResponseSchema = registry.register(
+  "CheckKeyShareV2SuccessResponse",
+  z
+    .object({
+      success: z.literal(true),
+      data: CheckKeyShareV2ResponseSchema,
+    })
+    .openapi("CheckKeyShareV2SuccessResponse", {
+      description: "Success response indicating key share existence status.",
+    }),
+);

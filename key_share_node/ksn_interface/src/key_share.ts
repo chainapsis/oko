@@ -154,3 +154,26 @@ export type GetKeyShareV2Response = {
   secp256k1?: GetKeyShareV2ResponseWallet;
   ed25519?: GetKeyShareV2ResponseWallet;
 };
+
+// --- POST /v2/keyshare/check ---
+
+export interface CheckKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRequest;
+}
+
+export interface CheckKeyShareV2RequestBody {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRequestBody;
+}
+
+export interface CheckKeyShareV2ResponseWallet {
+  exists: boolean;
+}
+
+export type CheckKeyShareV2Response = {
+  secp256k1?: CheckKeyShareV2ResponseWallet;
+  ed25519?: CheckKeyShareV2ResponseWallet;
+};

@@ -11,6 +11,8 @@ import {
 import type {
   CheckKeyShareRequest,
   CheckKeyShareResponse,
+  CheckKeyShareV2Request,
+  CheckKeyShareV2Response,
   GetKeyShareRequest,
   GetKeyShareResponse,
   GetKeyShareV2Request,
@@ -558,6 +560,112 @@ export async function getKeyShareV2(
         return res;
       }
       result.ed25519 = res.data;
+    }
+
+    return {
+      success: true,
+      data: result,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: String(error),
+    };
+  }
+}
+
+/**
+ * Check existence of multiple key shares at once (v2)
+ *
+ * Unlike v1, this endpoint accepts wallets as an object { secp256k1?: pk, ed25519?: pk }
+ * and returns existence status in the same structure.
+ * No authentication required (same as v1).
+ */
+export async function checkKeyShareV2(
+  db: Pool | PoolClient,
+  request: CheckKeyShareV2Request,
+): Promise<KSNodeApiResponse<CheckKeyShareV2Response>> {
+  try {
+    const { user_auth_id, auth_type, wallets } = request;
+
+    // 1. Get user
+    const getUserRes = await getUserByAuthTypeAndUserAuthId(
+      db,
+      auth_type,
+      user_auth_id,
+    );
+    if (getUserRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to getUserByAuthTypeAndUserAuthId: ${getUserRes.err}`,
+      };
+    }
+
+    // User not found = all wallets don't exist
+    if (getUserRes.data === null) {
+      const result: CheckKeyShareV2Response = {};
+      if (wallets.secp256k1) result.secp256k1 = { exists: false };
+      if (wallets.ed25519) result.ed25519 = { exists: false };
+      return { success: true, data: result };
+    }
+
+    const userId = getUserRes.data.user_id;
+    const result: CheckKeyShareV2Response = {};
+
+    // Helper function to check a single wallet
+    async function checkWallet(
+      publicKey: Parameters<typeof getWalletByPublicKey>[1],
+    ): Promise<{ exists: boolean } | { error: string }> {
+      const getWalletRes = await getWalletByPublicKey(db, publicKey);
+      if (getWalletRes.success === false) {
+        return { error: `Failed to getWalletByPublicKey: ${getWalletRes.err}` };
+      }
+
+      if (getWalletRes.data === null) {
+        return { exists: false };
+      }
+
+      if (getWalletRes.data.user_id !== userId) {
+        return { error: "Public key is not valid" };
+      }
+
+      const getKeyShareRes = await getKeyShareByWalletId(
+        db,
+        getWalletRes.data.wallet_id,
+      );
+      if (getKeyShareRes.success === false) {
+        return { error: `Failed to getKeyShareByWalletId: ${getKeyShareRes.err}` };
+      }
+
+      return { exists: getKeyShareRes.data !== null };
+    }
+
+    // 2. Check secp256k1
+    if (wallets.secp256k1) {
+      const res = await checkWallet(wallets.secp256k1);
+      if ("error" in res) {
+        return {
+          success: false,
+          code: "PUBLIC_KEY_INVALID",
+          msg: res.error,
+        };
+      }
+      result.secp256k1 = res;
+    }
+
+    // 3. Check ed25519
+    if (wallets.ed25519) {
+      const res = await checkWallet(wallets.ed25519);
+      if ("error" in res) {
+        return {
+          success: false,
+          code: "PUBLIC_KEY_INVALID",
+          msg: res.error,
+        };
+      }
+      result.ed25519 = res;
     }
 
     return {
