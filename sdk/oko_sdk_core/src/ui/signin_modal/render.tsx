@@ -4,6 +4,8 @@ import { modalStyles } from "./styles";
 import { resolveTheme } from "./hooks/use_theme";
 import type { SignInModalOptions } from "./types";
 
+const SIGNIN_MODAL_CONTAINER_ID = "oko-signin-modal-root";
+
 export function renderSignInModal(options: SignInModalOptions) {
   if (typeof document === "undefined") {
     throw new Error("renderSignInModal cannot be called in SSR environment");
@@ -12,7 +14,7 @@ export function renderSignInModal(options: SignInModalOptions) {
   const { onSelect, onClose, theme = "system" } = options;
 
   const container = document.createElement("div");
-  container.id = "oko-signin-modal-root";
+  container.id = SIGNIN_MODAL_CONTAINER_ID;
   container.dataset.theme = resolveTheme(theme);
 
   const shadow = container.attachShadow({ mode: "closed" });
