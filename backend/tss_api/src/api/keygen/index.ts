@@ -26,7 +26,10 @@ import {
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
 import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
-import { checkKeyShareFromKSNodes } from "@oko-wallet-tss-api/api/ks_node";
+import {
+  checkKeyShareFromKSNodes,
+  checkKeyShareFromKSNodesV2,
+} from "@oko-wallet-tss-api/api/ks_node";
 import { extractKeyPackageSharesEd25519 } from "@oko-wallet/teddsa-addon/src/server";
 
 export async function runKeygen(
@@ -415,19 +418,25 @@ export async function runKeygenV2(
     }
     const activeKSNodes = getActiveKSNodesRes.data;
 
-    // 5. Check keyshare from KS nodes for secp256k1 (@TODO: check ed25519)
-    const checkKeyshareSecp256k1Res = await checkKeyShareFromKSNodes(
+    // 5. Check keyshare from KS nodes for both curve types
+    const checkKeyshareV2Res = await checkKeyShareFromKSNodesV2(
       user_identifier,
-      secp256k1PublicKeyBytes,
+      {
+        secp256k1: secp256k1PublicKeyBytes,
+        ed25519: ed25519PublicKeyBytes,
+      },
       activeKSNodes,
       auth_type,
-      "secp256k1",
     );
-    if (checkKeyshareSecp256k1Res.success === false) {
-      return checkKeyshareSecp256k1Res;
+    if (checkKeyshareV2Res.success === false) {
+      return checkKeyshareV2Res;
     }
 
-    const secp256k1KsNodeIds: string[] = checkKeyshareSecp256k1Res.data.nodeIds;
+    const secp256k1KsNodeIds: string[] =
+      checkKeyshareV2Res.data.secp256k1?.nodeIds ?? [];
+    const ed25519KsNodeIds: string[] =
+      checkKeyshareV2Res.data.ed25519?.nodeIds ?? [];
+
     if (secp256k1KsNodeIds.length === 0) {
       return {
         success: false,
@@ -436,10 +445,13 @@ export async function runKeygenV2(
       };
     }
 
-    // For ed25519, use active node IDs directly (same as keygen_ed25519)
-    const ed25519KsNodeIds: string[] = activeKSNodes.map(
-      (node) => node.node_id,
-    );
+    if (ed25519KsNodeIds.length === 0) {
+      return {
+        success: false,
+        code: "KEYSHARE_NODE_INSUFFICIENT",
+        msg: `no active ks nodes for ed25519`,
+      };
+    }
 
     // 6. Encrypt secp256k1 share
     const secp256k1EncryptedShare = await encryptDataAsync(
@@ -529,17 +541,15 @@ export async function runKeygenV2(
       }
       ed25519Wallet = createEd25519WalletRes.data;
 
-      if (ed25519KsNodeIds.length > 0) {
-        const createEd25519KSNodesRes = await createWalletKSNodes(
-          client,
-          ed25519Wallet.wallet_id,
-          ed25519KsNodeIds,
+      const createEd25519KSNodesRes = await createWalletKSNodes(
+        client,
+        ed25519Wallet.wallet_id,
+        ed25519KsNodeIds,
+      );
+      if (createEd25519KSNodesRes.success === false) {
+        throw new Error(
+          `createWalletKSNodes (ed25519) error: ${createEd25519KSNodesRes.err}`,
         );
-        if (createEd25519KSNodesRes.success === false) {
-          throw new Error(
-            `createWalletKSNodes (ed25519) error: ${createEd25519KSNodesRes.err}`,
-          );
-        }
       }
 
       await client.query("COMMIT");
