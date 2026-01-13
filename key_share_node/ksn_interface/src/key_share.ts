@@ -3,6 +3,12 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type { CurveType } from "./curve_type";
 
+// ============================================================================
+// Common Types
+// ============================================================================
+
+export type PublicKeyBytes = Bytes32 | Bytes33;
+
 export type KeyShareStatus = "active" | "inactive";
 
 export interface KeyShare {
@@ -177,3 +183,7 @@ export type CheckKeyShareV2Response = {
   secp256k1?: CheckKeyShareV2ResponseWallet;
   ed25519?: CheckKeyShareV2ResponseWallet;
 };
+
+// --- Internal Helper Types ---
+
+export type CheckWalletResult = { exists: boolean } | { error: string };
