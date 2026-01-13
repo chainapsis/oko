@@ -53,7 +53,7 @@ export async function getKeyShareV2(
       return {
         success: false,
         code: "USER_NOT_FOUND",
-        msg: `User not found: ${user_auth_id} (auth_type: ${auth_type})`,
+        msg: "User not found",
       };
     }
 
@@ -208,13 +208,29 @@ export async function registerKeyShareV2(
 
     let userId: string;
     if (getUserRes.data === null) {
+      // New user - create
       const createUserRes = await createUser(client, auth_type, user_auth_id);
       if (createUserRes.success === false) {
         throw new Error(`Failed to createUser: ${createUserRes.err}`);
       }
       userId = createUserRes.data.user_id;
     } else {
+      // Existing user - check if they already have any wallets
       userId = getUserRes.data.user_id;
+
+      const getWalletsRes = await getWalletsByUserId(client, userId);
+      if (getWalletsRes.success === false) {
+        throw new Error(`Failed to getWalletsByUserId: ${getWalletsRes.err}`);
+      }
+
+      if (getWalletsRes.data.length > 0) {
+        await client.query("ROLLBACK");
+        return {
+          success: false,
+          code: "USER_ALREADY_REGISTERED",
+          msg: "User already has registered wallets. Use /register/ed25519 for adding ed25519 wallet to existing users.",
+        };
+      }
     }
 
     // Register each wallet sequentially within the transaction
@@ -306,11 +322,11 @@ export async function registerEd25519V2(
     }
 
     const wallets = getWalletsRes.data;
-    const hasSecp256k1 = wallets.some((w) => w.curve_type === "secp256k1");
+    const secp256k1Wallet = wallets.find((w) => w.curve_type === "secp256k1");
     const hasEd25519 = wallets.some((w) => w.curve_type === "ed25519");
 
     // Must have secp256k1 wallet (existing user)
-    if (!hasSecp256k1) {
+    if (!secp256k1Wallet) {
       await client.query("ROLLBACK");
       return {
         success: false,
