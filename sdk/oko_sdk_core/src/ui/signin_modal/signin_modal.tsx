@@ -1,5 +1,6 @@
 import { type FunctionComponent as FC, type JSX } from "preact";
 import { useState, useEffect } from "preact/hooks";
+
 import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";
 import type { SignInModalTheme, ProgressState } from "./types";
 import { useTheme } from "./hooks/use_theme";
@@ -88,10 +89,7 @@ export const SignInModal: FC<SignInModalProps> = ({
   };
 
   return (
-    <div
-      className="oko-modal-overlay"
-      onClick={handleOverlayClick}
-    >
+    <div className="oko-modal-overlay" onClick={handleOverlayClick}>
       <div className="oko-modal-container">
         <button
           className="oko-modal-close"

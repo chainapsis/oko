@@ -1,4 +1,5 @@
 import { type FunctionComponent as FC } from "preact";
+
 import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";
 import {
   GoogleIcon,
@@ -38,7 +39,9 @@ export const ProgressView: FC<ProgressViewProps> = ({
         <span className="oko-provider-icon">
           <ProviderIcon />
         </span>
-        <span className={`oko-spinner-overlay${isLoading ? " oko-spinning" : ""}`}>
+        <span
+          className={`oko-spinner-overlay${isLoading ? " oko-spinning" : ""}`}
+        >
           {isLoading ? <SpinnerLoadingIcon /> : <SpinnerFailedIcon />}
         </span>
       </div>
@@ -46,11 +49,7 @@ export const ProgressView: FC<ProgressViewProps> = ({
         {isLoading ? "Signing in" : "Login failed"}
       </div>
       {status === "failed" && (
-        <button
-          className="oko-retry-btn"
-          onClick={onRetry}
-          type="button"
-        >
+        <button className="oko-retry-btn" onClick={onRetry} type="button">
           Retry
         </button>
       )}

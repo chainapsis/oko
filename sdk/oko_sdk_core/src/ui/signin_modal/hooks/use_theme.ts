@@ -1,4 +1,5 @@
 import { useState, useEffect } from "preact/hooks";
+
 import type { SignInModalTheme, ResolvedTheme } from "../types";
 
 function getSystemTheme(): ResolvedTheme {
@@ -48,7 +49,7 @@ export function resolveTheme(theme: SignInModalTheme): ResolvedTheme {
 
 export function useTheme(theme: SignInModalTheme): ResolvedTheme {
   const [resolvedTheme, setResolvedTheme] = useState<ResolvedTheme>(() =>
-    resolveTheme(theme)
+    resolveTheme(theme),
   );
 
   useEffect(() => {

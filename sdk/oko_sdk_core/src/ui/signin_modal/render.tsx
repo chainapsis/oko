@@ -1,4 +1,5 @@
 import { render } from "preact";
+
 import { SignInModal } from "./signin_modal";
 import { modalStyles } from "./styles";
 import { resolveTheme } from "./hooks/use_theme";
