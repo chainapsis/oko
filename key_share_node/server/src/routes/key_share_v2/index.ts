@@ -1,56 +1,6 @@
-import { Router, type Response } from "express";
-import type {
-  CheckKeyShareV2Request,
-  CheckKeyShareV2RequestBody,
-  CheckKeyShareV2Response,
-  GetKeyShareV2Request,
-  GetKeyShareV2RequestBody,
-  GetKeyShareV2Response,
-  RegisterKeyShareV2Request,
-  RegisterKeyShareV2RequestBody,
-  RegisterEd25519V2Request,
-  RegisterEd25519V2RequestBody,
-  ReshareKeyShareV2Request,
-  ReshareKeyShareV2RequestBody,
-  ReshareRegisterV2Request,
-  ReshareRegisterV2RequestBody,
-} from "@oko-wallet/ksn-interface/key_share";
-import { Bytes } from "@oko-wallet/bytes";
-import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
+import { Router } from "express";
 
-import {
-  checkKeyShareV2,
-  getKeyShareV2,
-  registerKeyShareV2,
-  registerEd25519V2,
-  reshareKeyShareV2,
-  reshareRegisterV2,
-} from "@oko-wallet-ksn-server/api/key_share";
-import {
-  bearerTokenMiddleware,
-  type AuthenticatedRequest,
-} from "@oko-wallet-ksn-server/middlewares";
-import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import type {
-  ResponseLocal,
-  KSNodeRequest,
-} from "@oko-wallet-ksn-server/routes/io";
-import { registry } from "@oko-wallet-ksn-server/openapi/doc";
-import {
-  CheckKeyShareV2RequestBodySchema,
-  CheckKeyShareV2SuccessResponseSchema,
-  GetKeyShareV2RequestBodySchema,
-  GetKeyShareV2SuccessResponseSchema,
-  RegisterKeyShareV2RequestBodySchema,
-  RegisterKeyShareV2SuccessResponseSchema,
-  RegisterEd25519V2RequestBodySchema,
-  RegisterEd25519V2SuccessResponseSchema,
-  ReshareKeyShareV2RequestBodySchema,
-  ReshareKeyShareV2SuccessResponseSchema,
-  ReshareRegisterV2RequestBodySchema,
-  ReshareRegisterV2SuccessResponseSchema,
-  ErrorResponseSchema,
-} from "@oko-wallet-ksn-server/openapi/schema";
+import { bearerTokenMiddleware } from "@oko-wallet-ksn-server/middlewares";
 import { getKeysharesV2 } from "./get_key_shares";
 import { keyshareV2Check } from "./check";
 import { keyshareV2Register } from "./register";
