@@ -20,6 +20,7 @@ import { triplesStep9 } from "./triples_step_9";
 import { triplesStep10 } from "./triples_step_10";
 import { triplesStep11 } from "./triples_step_11";
 import { keygenEd25519 } from "./keygen_ed25519";
+import { userSignin } from "./user_signin";
 
 export function makeV2Router() {
   const router = Router();
@@ -115,6 +116,13 @@ export function makeV2Router() {
     "/triples/step11",
     [userJwtMiddlewareV2, tssActivateMiddleware],
     triplesStep11,
+  );
+
+  router.post(
+    "/user/signin",
+    oauthMiddleware,
+    tssActivateMiddleware,
+    userSignin,
   );
 
   return router;
