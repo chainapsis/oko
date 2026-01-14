@@ -22,16 +22,16 @@ import {
 } from "@oko-wallet-tss-api/api/sign_ed25519";
 import {
   type UserAuthenticatedRequest,
-  userJwtMiddleware,
+  userJwtMiddlewareV2,
   sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 
-export function setSignEd25519Routes(router: Router) {
+export function setSignV2Ed25519Routes(router: Router) {
   registry.registerPath({
     method: "post",
-    path: "/tss/v1/sign_ed25519/round1",
+    path: "/tss/v2/sign_ed25519/round1",
     tags: ["TSS"],
     summary: "Generate Ed25519 signing commitments (Round 1)",
     description:
@@ -96,10 +96,9 @@ export function setSignEd25519Routes(router: Router) {
       },
     },
   });
-
   router.post(
     "/sign_ed25519/round1",
-    [apiKeyMiddleware, userJwtMiddleware, tssActivateMiddleware],
+    [apiKeyMiddleware, userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<SignEd25519Round1Body>,
       res: Response<OkoApiResponse<SignEd25519Round1Response>>,
@@ -114,7 +113,7 @@ export function setSignEd25519Routes(router: Router) {
         state.encryption_secret,
         {
           email: user.email.toLowerCase(),
-          wallet_id: user.wallet_id,
+          wallet_id: user.wallet_id_ed25519,
           customer_id: apiKey.customer_id,
           msg: body.msg,
         },
@@ -131,7 +130,7 @@ export function setSignEd25519Routes(router: Router) {
 
   registry.registerPath({
     method: "post",
-    path: "/tss/v1/sign_ed25519/round2",
+    path: "/tss/v2/sign_ed25519/round2",
     tags: ["TSS"],
     summary: "Generate Ed25519 signature share (Round 2)",
     description: "Server generates signature share using collected commitments",
@@ -202,10 +201,9 @@ export function setSignEd25519Routes(router: Router) {
       },
     },
   });
-
   router.post(
     "/sign_ed25519/round2",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<SignEd25519Round2Body>,
       res: Response<OkoApiResponse<SignEd25519Round2Response>>,
@@ -219,7 +217,7 @@ export function setSignEd25519Routes(router: Router) {
         state.encryption_secret,
         {
           email: user.email.toLowerCase(),
-          wallet_id: user.wallet_id,
+          wallet_id: user.wallet_id_ed25519,
           session_id: body.session_id,
           commitments_1: body.commitments_1,
         },
@@ -234,87 +232,9 @@ export function setSignEd25519Routes(router: Router) {
     },
   );
 
-  // New presign-based sign endpoint
   registry.registerPath({
     method: "post",
-    path: "/tss/v1/sign_ed25519",
-    tags: ["TSS"],
-    summary: "Sign with Ed25519 using presign session",
-    description:
-      "Generate signature share using a pre-generated presign session. " +
-      "Requires calling presign_ed25519 first to get session_id and server commitments.",
-    security: [{ userAuth: [] }],
-    request: {
-      headers: UserAuthHeaderSchema,
-      body: {
-        required: true,
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                session_id: { type: "string" },
-                msg: { type: "array", items: { type: "number" } },
-                commitments_1: {
-                  type: "object",
-                  properties: {
-                    identifier: { type: "array", items: { type: "number" } },
-                    commitments: { type: "array", items: { type: "number" } },
-                  },
-                },
-              },
-              required: ["session_id", "msg", "commitments_1"],
-            },
-          },
-        },
-      },
-    },
-    responses: {
-      200: {
-        description: "Successfully generated signature share",
-        content: {
-          "application/json": {
-            schema: {
-              type: "object",
-              properties: {
-                success: { type: "boolean" },
-                data: {
-                  type: "object",
-                  properties: {
-                    signature_share_0: {
-                      type: "object",
-                      properties: {
-                        identifier: {
-                          type: "array",
-                          items: { type: "number" },
-                        },
-                        signature_share: {
-                          type: "array",
-                          items: { type: "number" },
-                        },
-                      },
-                    },
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-      401: {
-        description: "Unauthorized",
-        content: { "application/json": { schema: ErrorResponseSchema } },
-      },
-      500: {
-        description: "Internal server error",
-        content: { "application/json": { schema: ErrorResponseSchema } },
-      },
-    },
-  });
-
-  registry.registerPath({
-    method: "post",
-    path: "/tss/v1/sign_ed25519/aggregate",
+    path: "/tss/v2/sign_ed25519/aggregate",
     tags: ["TSS"],
     summary: "Aggregate Ed25519 signature shares",
     description: "Combine all signature shares into a final Ed25519 signature",
@@ -404,7 +324,7 @@ export function setSignEd25519Routes(router: Router) {
 
   router.post(
     "/sign_ed25519/aggregate",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<SignEd25519AggregateBody>,
       res: Response<OkoApiResponse<SignEd25519AggregateResponse>>,
@@ -418,7 +338,7 @@ export function setSignEd25519Routes(router: Router) {
         state.encryption_secret,
         {
           email: user.email.toLowerCase(),
-          wallet_id: user.wallet_id,
+          wallet_id: user.wallet_id_ed25519,
           session_id: body.session_id,
           msg: body.msg,
           all_commitments: body.all_commitments,
