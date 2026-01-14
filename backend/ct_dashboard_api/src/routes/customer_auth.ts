@@ -44,6 +44,8 @@ import { generateCustomerToken } from "@oko-wallet-ctd-api/auth";
 import { sendEmailVerificationCode } from "@oko-wallet-ctd-api/email/send";
 import {
   CHANGED_PASSWORD_MIN_LENGTH,
+  CHANGED_PASSWORD_MAX_LENGTH,
+  PASSWORD_CONTAINS_NUMBER_REGEX,
   EMAIL_REGEX,
   SIX_DIGITS_REGEX,
 } from "@oko-wallet-ctd-api/constants";
@@ -390,6 +392,24 @@ export function setCustomerAuthRoutes(router: Router) {
             success: false,
             code: "INVALID_EMAIL_OR_PASSWORD",
             msg: "Password too short",
+          });
+          return;
+        }
+
+        if (newPassword.length > CHANGED_PASSWORD_MAX_LENGTH) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password too long",
+          });
+          return;
+        }
+
+        if (!PASSWORD_CONTAINS_NUMBER_REGEX.test(newPassword)) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password must include at least one number",
           });
           return;
         }
@@ -1015,6 +1035,24 @@ export function setCustomerAuthRoutes(router: Router) {
             success: false,
             code: "INVALID_EMAIL_OR_PASSWORD",
             msg: "Password must be at least 8 characters long",
+          });
+          return;
+        }
+
+        if (request.new_password.length > CHANGED_PASSWORD_MAX_LENGTH) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password must be at most 16 characters long",
+          });
+          return;
+        }
+
+        if (!PASSWORD_CONTAINS_NUMBER_REGEX.test(request.new_password)) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password must include at least one number",
           });
           return;
         }

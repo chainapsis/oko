@@ -20,6 +20,8 @@ import {
   EMAIL_REGEX,
   EMAIL_VERIFICATION_TIMER_SECONDS,
   PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_CONTAINS_NUMBER_REGEX,
   SIX_DIGITS_REGEX,
 } from "@oko-wallet-ct-dashboard/constants";
 import { ExpiryTimer } from "@oko-wallet-ct-dashboard/components/expiry_timer/expiry_timer";
@@ -115,6 +117,14 @@ export default function ForgotPasswordPage() {
     }
     if (password.length < PASSWORD_MIN_LENGTH) {
       setError(`Password must be at least ${PASSWORD_MIN_LENGTH} characters`);
+      return;
+    }
+    if (password.length > PASSWORD_MAX_LENGTH) {
+      setError(`Password must be at most ${PASSWORD_MAX_LENGTH} characters`);
+      return;
+    }
+    if (!PASSWORD_CONTAINS_NUMBER_REGEX.test(password)) {
+      setError("Password must include at least one number");
       return;
     }
     if (password !== confirmPassword) {
