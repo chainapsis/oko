@@ -1,6 +1,6 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import chalk from "chalk";
 
 import { paths } from "@oko-wallet-ci/paths";
@@ -188,8 +188,8 @@ ${versionList}`;
   console.log("%s Pushed to origin", chalk.green.bold("Done"));
 }
 
-export async function version(..._args: any[]) {
-  console.log("Start versioning packages");
+export async function version(args: any[]) {
+  console.log("Start versioning packages, args: %s", args);
 
   console.log("We will first re-build the packages\n");
   // await doBuildPkgs();
@@ -213,18 +213,18 @@ export async function version(..._args: any[]) {
   // // Save version map before lerna version
   // const beforeVersionMap = buildWorkspaceVersionMap();
 
-  let a = spawnSync(
+  const ret = spawnSync(
     "yarn",
-    ["lerna", "version", "--no-private", "--no-git-tag-version"],
+    ["lerna", "version", "--no-private", "--no-git-tag-version", "--json"],
     {
       cwd: paths.root,
-      stdio: ["inherit", "pipe", "pipe"],
+      stdio: ["inherit"],
     },
   );
 
-  const ret = a.output;
-  const aa = ret[1]?.toString();
-  console.log(123, aa);
+  // const ret = a.output;
+  // const aa = ret[1]?.toString();
+  // // console.log(123, aa);
 
   // Get version map after lerna version and find changed packages
   // const afterVersionMap = buildWorkspaceVersionMap();
