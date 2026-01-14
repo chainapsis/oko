@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: "22"
 
       - name: Enable Corepack
         run: corepack enable
@@ -24,14 +24,17 @@ jobs:
       - name: Install dependencies
         run: yarn install --immutable
 
+      - name: Build CS packages
+        run: yarn ci build_cs
+
+      - name: Build Frost packages
+        run: yarn ci build_frost
+
       - name: Build internal packages
         run: yarn ci build_pkgs
 
       - name: Build SDK packages
         run: yarn ci build_sdk
-
-      - name: Build CS packages
-        run: yarn ci build_cs
 
       - name: Run typecheck
         run: yarn ci typecheck

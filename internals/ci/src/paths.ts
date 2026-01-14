@@ -71,6 +71,11 @@ export const paths = (function () {
     "../../../crypto/teddsa/frost_ed25519_keplr_wasm",
   );
 
+  const teddsa_addon_addon = path.join(
+    __dirname,
+    "../../../crypto/teddsa/teddsa_addon/addon",
+  );
+
   const oko_pg_interface = path.join(
     __dirname,
     "../../../backend/oko_pg_interface",
@@ -161,6 +166,7 @@ export const paths = (function () {
     cait_sith_keplr_wasm,
     cait_sith_addon_addon,
     frost_keplr_wasm,
+    teddsa_addon_addon,
     demo_web,
     user_dashboard,
     ct_dashboard_web,
