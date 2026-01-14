@@ -4,7 +4,12 @@ import {
   createUser,
   createWallet,
 } from "@oko-wallet/ksn-pg-interface";
-import { Bytes, type Bytes32, type Bytes33, type Bytes64 } from "@oko-wallet/bytes";
+import {
+  Bytes,
+  type Bytes32,
+  type Bytes33,
+  type Bytes64,
+} from "@oko-wallet/bytes";
 
 import { connectPG, resetPgDatabase } from "@oko-wallet-ksn-server/database";
 import { testPgConfig } from "@oko-wallet-ksn-server/database/test_config";
@@ -16,7 +21,6 @@ import {
   reshareKeyShareV2,
   reshareRegisterV2,
 } from "@oko-wallet-ksn-server/api/key_share";
-import { encryptDataAsync } from "@oko-wallet-ksn-server/encrypt";
 
 const TEST_ENC_SECRET = "test_enc_secret";
 
