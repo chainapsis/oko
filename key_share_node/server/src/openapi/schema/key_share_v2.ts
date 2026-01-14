@@ -1,6 +1,7 @@
-import { registry } from "../registry";
 import { z } from "zod";
+
 import { authTypeSchema, publicKeySchema, shareSchema } from "./key_share_v1";
+import { registry } from "../doc";
 
 // ============================================================================
 // Shared Schemas

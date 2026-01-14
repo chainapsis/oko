@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { registry } from "../registry";
+import { registry } from "../doc";
 
 const dumpIdSchema = z
   .string()

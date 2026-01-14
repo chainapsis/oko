@@ -1,5 +1,6 @@
-import { registry } from "../registry";
 import { z } from "zod";
+
+import { registry } from "../doc";
 
 export const authTypeSchema = z
   .enum(["google", "auth0", "x", "telegram", "discord"])
