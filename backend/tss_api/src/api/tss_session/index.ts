@@ -10,7 +10,7 @@ import {
 import { Pool } from "pg";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
-import { validateWalletEmailAndCurveType } from "@oko-wallet-tss-api/api/utils";
+import { validateWalletEmail } from "@oko-wallet-tss-api/api/utils";
 
 export async function abortTssSession(
   db: Pool,
@@ -19,13 +19,16 @@ export async function abortTssSession(
   try {
     const { email, wallet_id, session_id } = abortTssSessionRequest;
 
-    const validateWalletEmailAndCurveTypeRes =
-      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
-    if (validateWalletEmailAndCurveTypeRes.success === false) {
+    const validateWalletEmailRes = await validateWalletEmail(
+      db,
+      wallet_id,
+      email,
+    );
+    if (validateWalletEmailRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailAndCurveTypeRes.err,
+        msg: validateWalletEmailRes.err,
       };
     }
 
