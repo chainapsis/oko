@@ -9,7 +9,11 @@ import type {
   UserTokenPayloadV2,
 } from "@oko-wallet/oko-types/tss";
 
-import type { UserTokenJWTPayload, VerifyUserTokenResult } from "./types";
+import type {
+  UserTokenJWTPayload,
+  UserTokenJWTPayloadV2,
+  VerifyUserTokenResult,
+} from "./types";
 
 export const USER_ISSUER = "https://api.oko.app";
 export const USER_AUDIENCE = "https://api.oko.app";
@@ -101,6 +105,64 @@ export function verifyUserToken(
       audience: USER_AUDIENCE,
       ignoreExpiration: true, // We will check expiration manually
     }) as UserTokenJWTPayload;
+
+    if (!payload.iat) {
+      return {
+        success: false,
+        err: {
+          type: "invalid_token",
+          msg: "Token missing issued at time",
+        },
+      };
+    }
+
+    const now = dayjs();
+    const issuedAt = dayjs(new Date(payload.iat * 1000));
+    const isOrWillSoonBeExpired = now.diff(issuedAt) > EXPIRATION_WINDOW * 0.75;
+
+    if (isOrWillSoonBeExpired) {
+      return {
+        success: false,
+        err: { type: "expired", payload },
+      };
+    }
+
+    return {
+      success: true,
+      data: payload,
+    };
+  } catch (err: any) {
+    console.error("verifyUserToken error:", err);
+
+    if (err instanceof jwt.JsonWebTokenError) {
+      return {
+        success: false,
+        err: {
+          type: "invalid_token",
+          msg: `Invalid token, err: ${err instanceof Error ? err.message : String(err)}`,
+        },
+      };
+    } else {
+      return {
+        success: false,
+        err: {
+          type: "unknown_error",
+          msg: `JWT Verification fail, err: ${err instanceof Error ? err.message : String(err)}`,
+        },
+      };
+    }
+  }
+}
+
+export function verifyUserTokenV2(
+  args: VerifyUserTokenArgs,
+): Result<UserTokenPayloadV2, VerifyUserTokenResult> {
+  try {
+    const payload = jwt.verify(args.token, args.jwt_config.secret, {
+      issuer: USER_ISSUER,
+      audience: USER_AUDIENCE,
+      ignoreExpiration: true, // We will check expiration manually
+    }) as UserTokenJWTPayloadV2;
 
     if (!payload.iat) {
       return {

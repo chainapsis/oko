@@ -1,6 +1,6 @@
 import express from "express";
 
-import { setKeygenRoutes } from "./v1/keygen";
+import { setKeygenV1Routes } from "./v1/keygen";
 import { setTriplesRoutes } from "./v1/triples";
 import { setPresignRoutes } from "./v1/presign";
 import { setSignRoutes } from "./v1/sign";
@@ -13,7 +13,7 @@ import { setKSNodeTelemetryRoutes } from "./ks_node_telemetry";
 export function makeTssRouter() {
   const router = express.Router();
 
-  setKeygenRoutes(router);
+  setKeygenV1Routes(router);
   setTriplesRoutes(router);
   setPresignRoutes(router);
   setSignRoutes(router);

@@ -20,7 +20,7 @@ import {
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
-export function setKeygenRoutes(router: Router) {
+export function setKeygenV1Routes(router: Router) {
   registry.registerPath({
     method: "post",
     path: "/tss/v1/keygen",
