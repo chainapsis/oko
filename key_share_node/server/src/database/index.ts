@@ -111,7 +111,7 @@ export async function truncateTable(
   try {
     await pool.query(
       `
-truncate ${table}
+truncate "${table}"
 `,
       [],
     );

@@ -89,8 +89,8 @@ export async function getWalletByPublicKey(
 ): Promise<Result<KSNodeWallet | null, string>> {
   try {
     const query = `
-SELECT * FROM "2_wallets" 
-WHERE public_key = $1 
+SELECT * FROM "2_wallets"
+WHERE public_key = $1
 LIMIT 1
 `;
 
@@ -104,6 +104,30 @@ LIMIT 1
     return {
       success: true,
       data: wallet,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getWalletsByUserId(
+  db: Pool | PoolClient,
+  userId: string,
+): Promise<Result<KSNodeWallet[], string>> {
+  try {
+    const query = `
+SELECT * FROM "2_wallets"
+WHERE user_id = $1
+`;
+
+    const result = await db.query(query, [userId]);
+
+    return {
+      success: true,
+      data: result.rows as KSNodeWallet[],
     };
   } catch (error) {
     return {

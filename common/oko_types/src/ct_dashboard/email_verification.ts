@@ -2,6 +2,7 @@ import type { SMTPConfig } from "../admin";
 
 export enum EmailVerificationStatus {
   PENDING = "PENDING",
+  CODE_VERIFIED = "CODE_VERIFIED",
   VERIFIED = "VERIFIED",
   EXPIRED = "EXPIRED",
 }

@@ -3,7 +3,11 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 
 import { paths } from "@oko-wallet-ct-dashboard/paths";
-import { PASSWORD_MIN_LENGTH } from "@oko-wallet-ct-dashboard/constants";
+import {
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_CONTAINS_NUMBER_REGEX,
+} from "@oko-wallet-ct-dashboard/constants";
 import { requestChangePassword } from "@oko-wallet-ct-dashboard/fetch/users";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 
@@ -90,6 +94,16 @@ function resetPasswordResolver(values: ResetPasswordInputs) {
     errors.newPassword = {
       type: "minLength",
       message: `Password must be at least ${PASSWORD_MIN_LENGTH} characters`,
+    };
+  } else if (values.newPassword.length > PASSWORD_MAX_LENGTH) {
+    errors.newPassword = {
+      type: "maxLength",
+      message: `Password must be at most ${PASSWORD_MAX_LENGTH} characters`,
+    };
+  } else if (!PASSWORD_CONTAINS_NUMBER_REGEX.test(values.newPassword)) {
+    errors.newPassword = {
+      type: "pattern",
+      message: "Password must include at least one number",
     };
   }
 

@@ -51,10 +51,7 @@ export async function splitTeddsaSigningShare(
 
     const shares: TeddsaKeyShareByNode[] = splitOutput.key_packages.map(
       (kp, i) => {
-        const idBytes = Bytes.fromUint8Array(
-          new Uint8Array(kp.identifier),
-          32,
-        );
+        const idBytes = Bytes.fromUint8Array(new Uint8Array(kp.identifier), 32);
         const shareBytes = Bytes.fromUint8Array(
           new Uint8Array(kp.signing_share),
           32,

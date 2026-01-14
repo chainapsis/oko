@@ -25,5 +25,4 @@ export class OkoChainWallet extends ChainWalletBase {
 
     await super.update();
   }
-
 }

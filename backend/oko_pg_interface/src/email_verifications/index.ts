@@ -15,11 +15,11 @@ export async function createEmailVerification(
 ): Promise<Result<EmailVerification, string>> {
   const query = `
 INSERT INTO email_verifications (
-  email_verification_id, email, verification_code, 
+  email_verification_id, email, verification_code,
   status, expires_at
 )
 VALUES (
-  $1, $2, $3, 
+  $1, $2, $3,
   $4, $5
 )
 RETURNING *
@@ -61,14 +61,14 @@ export async function verifyEmailCode(
 ): Promise<Result<VerifyEmailResponse, string>> {
   try {
     const updateQuery = `
-UPDATE email_verifications 
+UPDATE email_verifications
 SET status = '${EmailVerificationStatus.VERIFIED}', updated_at = NOW()
 WHERE email_verification_id = (
   SELECT email_verification_id
   FROM email_verifications
   WHERE email = $1
     AND verification_code = $2
-    AND status = '${EmailVerificationStatus.PENDING}'
+    AND status = '${EmailVerificationStatus.CODE_VERIFIED}'
     AND expires_at > NOW()
   ORDER BY created_at DESC
   LIMIT 1
@@ -110,14 +110,65 @@ RETURNING status
   }
 }
 
+export async function markCodeVerified(
+  db: Pool,
+  email: string,
+  code: string,
+  extendMinutes: number = 5,
+): Promise<Result<EmailVerification, string>> {
+  const query = `
+UPDATE email_verifications
+SET status = '${EmailVerificationStatus.CODE_VERIFIED}',
+    expires_at = NOW() + INTERVAL '1 minute' * $3,
+    updated_at = NOW()
+WHERE email_verification_id = (
+  SELECT email_verification_id
+  FROM email_verifications
+  WHERE email = $1
+    AND verification_code = $2
+    AND status = '${EmailVerificationStatus.PENDING}'
+    AND expires_at > NOW()
+  ORDER BY created_at DESC
+  LIMIT 1
+)
+RETURNING *
+`;
+
+  try {
+    const result = await db.query<EmailVerification>(query, [
+      email,
+      code,
+      extendMinutes,
+    ]);
+
+    const row = result.rows[0];
+    if (!row) {
+      return {
+        success: false,
+        err: "Invalid or expired verification code",
+      };
+    }
+
+    return {
+      success: true,
+      data: row,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
 export async function getLatestPendingVerification(
   db: Pool,
   email: string,
 ): Promise<Result<EmailVerification | null, string>> {
   const query = `
-SELECT * 
+SELECT *
 FROM email_verifications
-WHERE email = $1 
+WHERE email = $1
   AND status = '${EmailVerificationStatus.PENDING}'
   AND expires_at > NOW()
 ORDER BY created_at DESC
