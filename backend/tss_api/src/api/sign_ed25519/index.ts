@@ -33,7 +33,7 @@ import {
 } from "@oko-wallet/teddsa-interface";
 
 import {
-  validateWalletEmail,
+  validateWalletEmailAndCurveType,
   validateTssSession,
   validateTssStage,
   updateTssStageWithSessionState,
@@ -47,27 +47,16 @@ export async function runSignEd25519Round1(
   try {
     const { email, wallet_id, customer_id, msg } = request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "ed25519");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
-
-    if (wallet.curve_type !== "ed25519") {
-      return {
-        success: false,
-        code: "INVALID_WALLET_TYPE",
-        msg: `Wallet is not ed25519 type: ${wallet.curve_type}`,
-      };
-    }
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const encryptedShare = wallet.enc_tss_share.toString("utf-8");
     const decryptedShare = await decryptDataAsync(
@@ -170,27 +159,16 @@ export async function runSignEd25519Round2(
   try {
     const { email, wallet_id, session_id, commitments_1 } = request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "ed25519");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
-
-    if (wallet.curve_type !== "ed25519") {
-      return {
-        success: false,
-        code: "INVALID_WALLET_TYPE",
-        msg: `Wallet is not ed25519 type: ${wallet.curve_type}`,
-      };
-    }
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     // Get stage with session data
     const getStageRes = await getTssStageWithSessionData(
@@ -344,27 +322,16 @@ export async function runSignEd25519Aggregate(
       user_verifying_share,
     } = request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "ed25519");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
-
-    if (wallet.curve_type !== "ed25519") {
-      return {
-        success: false,
-        code: "INVALID_WALLET_TYPE",
-        msg: `Wallet is not ed25519 type: ${wallet.curve_type}`,
-      };
-    }
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     // Decrypt stored shares
     const encryptedShare = wallet.enc_tss_share.toString("utf-8");
