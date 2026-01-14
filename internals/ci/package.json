@@ -6,7 +6,6 @@
     "start": "tsx src/main.ts"
   },
   "dependencies": {
-    "@lerna/version": "^6.6.2",
     "chalk": "^5.5.0",
     "commander": "^12.1.0"
   },
