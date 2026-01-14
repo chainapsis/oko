@@ -1,42 +1,20 @@
-import type { Request, Response, Router } from "express";
-import type {
-  CheckEmailRequest,
-  CheckEmailResponse,
-  ReshareRequest,
-  SignInResponseV2,
-  SignInSilentlyResponse,
-} from "@oko-wallet/oko-types/user";
+import type { Response } from "express";
+import type { SignInResponseV2 } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
-  SuccessResponseSchema,
-  UserAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import {
-  CheckEmailRequestSchema,
-  CheckEmailSuccessResponseSchema,
-  ReshareRequestSchema,
   SignInRequestSchema,
-  SignInSilentlySuccessResponseSchema,
   SignInSuccessResponseV2Schema,
 } from "@oko-wallet/oko-api-openapi/tss";
-import { Bytes } from "@oko-wallet/bytes";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import {
-  signInV2,
-  checkEmail,
-  updateWalletKSNodesForReshare,
-} from "@oko-wallet-tss-api/api/v2/user";
-import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
-import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
-import {
-  type OAuthAuthenticatedRequest,
-  oauthMiddleware,
-} from "@oko-wallet-tss-api/middleware/oauth";
+import { signInV2 } from "@oko-wallet-tss-api/api/v2/user";
+import { type OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 registry.registerPath({
@@ -94,7 +72,7 @@ registry.registerPath({
   },
 });
 
-export async function userSignin(
+export async function userSignInV2(
   req: OAuthAuthenticatedRequest,
   res: Response<OkoApiResponse<SignInResponseV2>, OAuthLocals>,
 ) {

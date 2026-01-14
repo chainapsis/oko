@@ -1,11 +1,7 @@
-import type { Response, Router } from "express";
+import type { Response } from "express";
 import type {
   PresignStep1Body,
   PresignStep1Response,
-  PresignStep2Body,
-  PresignStep2Response,
-  PresignStep3Body,
-  PresignStep3Response,
 } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
@@ -17,23 +13,13 @@ import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   PresignStep1RequestSchema,
   PresignStep1SuccessResponseSchema,
-  PresignStep2RequestSchema,
-  PresignStep2SuccessResponseSchema,
-  PresignStep3RequestSchema,
-  PresignStep3SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
 
-import {
-  runPresignStep1,
-  runPresignStep2,
-  runPresignStep3,
-} from "@oko-wallet-tss-api/api/v1/presign";
+import { runPresignStep1 } from "@oko-wallet-tss-api/api/v1/presign";
 import {
   type UserAuthenticatedRequest,
-  userJwtMiddlewareV2,
   sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
-import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 
 registry.registerPath({
   method: "post",
