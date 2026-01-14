@@ -21,7 +21,6 @@ export function generateUserToken(
     const payload: UserTokenPayload = {
       email: args.email,
       wallet_id: args.wallet_id,
-      wallet_id_ed25519: args.wallet_id_ed25519,
       type: "user",
     };
 

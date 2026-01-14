@@ -568,10 +568,10 @@ export async function runKeygenV2(
       client.release();
     }
 
-    // 10. Generate token
+    // 10. Generate token (@TODO: update to use new token generation function)
     const tokenResult = generateUserToken({
       wallet_id: secp256k1Wallet.wallet_id,
-      wallet_id_ed25519: ed25519Wallet.wallet_id,
+      // wallet_id_ed25519: ed25519Wallet.wallet_id,
       email: user_identifier,
       jwt_config: jwtConfig,
     });
@@ -825,9 +825,10 @@ export async function runKeygenEd25519(
 
     const secp256k1WalletId = secp256k1Wallet.wallet_id;
 
+    // @TODO: update to use new token generation function
     const tokenResult = generateUserToken({
       wallet_id: secp256k1WalletId,
-      wallet_id_ed25519: wallet.wallet_id,
+      // wallet_id_ed25519: wallet.wallet_id,
       email: user_identifier,
       jwt_config: jwtConfig,
     });

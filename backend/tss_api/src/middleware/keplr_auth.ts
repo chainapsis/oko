@@ -46,30 +46,9 @@ export async function userJwtMiddleware(
       return;
     }
 
-    // if (shouldRefresh) {
-    //   const newTokenResult = generateUserToken({
-    //     email: payload.email,
-    //     wallet_id: payload.wallet_id,
-    //     jwt_config: {
-    //       secret: state.jwt_secret,
-    //       expires_in: state.jwt_expires_in,
-    //     },
-    //   });
-    //
-    //   if (newTokenResult.success) {
-    //     res.locals.newToken = newTokenResult.data.token;
-    //   } else {
-    //     res.status(500).json({
-    //       error: newTokenResult.err || "Failed to generate new token",
-    //     });
-    //     return;
-    //   }
-    // }
-
     res.locals.user = {
       email: payload.email,
       wallet_id: payload.wallet_id,
-      wallet_id_ed25519: payload.wallet_id_ed25519,
     };
 
     next();

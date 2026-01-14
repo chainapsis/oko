@@ -82,21 +82,8 @@ export async function signIn(
       };
     }
 
-    // Also look up ed25519 wallet if exists
-    const ed25519WalletRes = await getActiveWalletByUserIdAndCurveType(
-      db,
-      getUserRes.data.user_id,
-      "ed25519",
-    );
-    // Don't fail if ed25519 wallet doesn't exist, it's optional
-    const ed25519WalletId =
-      ed25519WalletRes.success && ed25519WalletRes.data
-        ? ed25519WalletRes.data.wallet_id
-        : undefined;
-
     const tokenResult = generateUserToken({
       wallet_id: walletRes.data.wallet_id,
-      wallet_id_ed25519: ed25519WalletId,
       email: getUserRes.data.email,
       jwt_config,
     });
