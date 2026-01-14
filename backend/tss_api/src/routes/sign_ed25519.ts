@@ -6,8 +6,6 @@ import type {
   SignEd25519Round2Response,
   SignEd25519AggregateBody,
   SignEd25519AggregateResponse,
-  SignEd25519Body,
-  SignEd25519Response,
 } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
@@ -21,7 +19,6 @@ import {
   runSignEd25519Round1,
   runSignEd25519Round2,
   runSignEd25519Aggregate,
-  runSignEd25519,
 } from "@oko-wallet-tss-api/api/sign_ed25519";
 import {
   type UserAuthenticatedRequest,
@@ -315,43 +312,6 @@ export function setSignEd25519Routes(router: Router) {
     },
   });
 
-  router.post(
-    "/sign_ed25519",
-    [userJwtMiddleware, tssActivateMiddleware],
-    async (
-      req: UserAuthenticatedRequest<SignEd25519Body>,
-      res: Response<OkoApiResponse<SignEd25519Response>>,
-    ) => {
-      const state = req.app.locals as any;
-      const user = res.locals.user;
-      const body = req.body;
-
-      if (!user.wallet_id_ed25519) {
-        res.status(400).json({
-          success: false,
-          code: "WALLET_NOT_FOUND",
-          msg: "Ed25519 wallet not found. Please create one first.",
-        });
-        return;
-      }
-
-      const result = await runSignEd25519(state.db, state.encryption_secret, {
-        email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id_ed25519,
-        session_id: body.session_id,
-        msg: body.msg,
-        commitments_1: body.commitments_1,
-      });
-
-      if (result.success === false) {
-        res.status(ErrorCodeMap[result.code] ?? 500).json(result);
-        return;
-      }
-
-      sendResponseWithNewToken(res, result.data);
-    },
-  );
-
   registry.registerPath({
     method: "post",
     path: "/tss/v1/sign_ed25519/aggregate",
@@ -368,6 +328,7 @@ export function setSignEd25519Routes(router: Router) {
             schema: {
               type: "object",
               properties: {
+                session_id: { type: "string", format: "uuid" },
                 msg: { type: "array", items: { type: "number" } },
                 all_commitments: {
                   type: "array",
@@ -392,8 +353,19 @@ export function setSignEd25519Routes(router: Router) {
                     },
                   },
                 },
+                user_verifying_share: {
+                  type: "array",
+                  items: { type: "number" },
+                  description: "P0's verifying_share (32 bytes)",
+                },
               },
-              required: ["msg", "all_commitments", "all_signature_shares"],
+              required: [
+                "session_id",
+                "msg",
+                "all_commitments",
+                "all_signature_shares",
+                "user_verifying_share",
+              ],
             },
           },
         },
@@ -447,9 +419,11 @@ export function setSignEd25519Routes(router: Router) {
         {
           email: user.email.toLowerCase(),
           wallet_id: user.wallet_id,
+          session_id: body.session_id,
           msg: body.msg,
           all_commitments: body.all_commitments,
           all_signature_shares: body.all_signature_shares,
+          user_verifying_share: body.user_verifying_share,
         },
       );
 

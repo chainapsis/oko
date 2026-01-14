@@ -19,12 +19,10 @@ import type {
   WalletClient,
 } from "@cosmos-kit/core";
 import { BroadcastMode } from "@keplr-wallet/types";
-import type { SignInType } from "@oko-wallet/oko-sdk-core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
 
 export class OkoWalletClient implements WalletClient {
   readonly client: OkoCosmosWalletInterface;
-  readonly loginProvider: SignInType;
   private _defaultSignOptions: SignOptions = {
     preferNoSetFee: false,
     preferNoSetMemo: false,
@@ -39,24 +37,9 @@ export class OkoWalletClient implements WalletClient {
     this._defaultSignOptions = options;
   }
 
-  constructor(client: OkoCosmosWalletInterface, loginProvider: SignInType) {
+  constructor(client: OkoCosmosWalletInterface) {
     this.client = client;
-    this.loginProvider = loginProvider;
   }
-
-  // async startEmailSignIn(email: string) {
-  //   if (this.loginProvider !== 'email') {
-  //     throw new Error('Email login is not enabled for this wallet instance');
-  //   }
-  //   return await this.client.okoWallet.startEmailSignIn(email);
-  // }
-
-  // async completeEmailSignIn(email: string, code: string) {
-  //   if (this.loginProvider !== 'email') {
-  //     throw new Error('Email login is not enabled for this wallet instance');
-  //   }
-  //   return await this.client.okoWallet.completeEmailSignIn(email, code);
-  // }
 
   async enable(_chainIds: string | string[]) {}
 
@@ -77,9 +60,8 @@ export class OkoWalletClient implements WalletClient {
 
     if (!publicKey) {
       try {
-        await this.client.okoWallet.signIn(this.loginProvider);
+        await this.client.okoWallet.openSignInModal();
       } catch {
-        // Must match rejectMessage.source in registry.ts for cosmos-kit to recognize rejection
         throw new Error("Request rejected");
       }
     }

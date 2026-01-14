@@ -46,9 +46,7 @@ export class OkoMainWallet extends MainWalletBase {
         throw new Error("Failed to initialize OkoCosmosWallet");
       }
 
-      this.initClientDone(
-        new OkoWalletClient(cosmosWallet.data, options.loginProvider),
-      );
+      this.initClientDone(new OkoWalletClient(cosmosWallet.data));
     } catch (error) {
       this.initClientError(error as Error);
     }
