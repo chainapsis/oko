@@ -223,7 +223,8 @@ export async function version(..._args: any[]) {
   );
 
   const ret = a.output;
-  console.log(11, ret);
+  const aa = ret[1]?.toString();
+  console.log(123, aa);
 
   // Get version map after lerna version and find changed packages
   // const afterVersionMap = buildWorkspaceVersionMap();
