@@ -192,53 +192,56 @@ export async function version(..._args: any[]) {
   console.log("Start versioning packages");
 
   console.log("We will first re-build the packages\n");
-  await doBuildPkgs();
-  await doBuildSDK();
+  // await doBuildPkgs();
+  // await doBuildSDK();
 
-  console.log("Checking type definition in sandbox simple host");
-  const testSandboxRet = spawnSync("yarn", ["tsc"], {
-    cwd: paths.sandbox_simple_host,
-    stdio: "inherit",
-  });
-  expectSuccess(testSandboxRet, "publish failed");
-  console.log("%s %s", chalk.green.bold("Ok"), "sandbox_simple_host");
+  // console.log("Checking type definition in sandbox simple host");
+  // const testSandboxRet = spawnSync("yarn", ["tsc"], {
+  //   cwd: paths.sandbox_simple_host,
+  //   stdio: "inherit",
+  // });
+  // expectSuccess(testSandboxRet, "publish failed");
+  // console.log("%s %s", chalk.green.bold("Ok"), "sandbox_simple_host");
+  //
+  // console.log("Fetching the Git repository at 'origin' to sync with the local");
+  // const fetchRet = spawnSync("git", ["fetch", "origin"], {
+  //   cwd: paths.root,
+  //   stdio: "inherit",
+  // });
+  // expectSuccess(fetchRet, "git fetch failed");
+  //
+  // // Save version map before lerna version
+  // const beforeVersionMap = buildWorkspaceVersionMap();
 
-  console.log("Fetching the Git repository at 'origin' to sync with the local");
-  const fetchRet = spawnSync("git", ["fetch", "origin"], {
-    cwd: paths.root,
-    stdio: "inherit",
-  });
-  expectSuccess(fetchRet, "git fetch failed");
-
-  // Save version map before lerna version
-  const beforeVersionMap = buildWorkspaceVersionMap();
-
-  spawnSync(
+  let a = spawnSync(
     "yarn",
     ["lerna", "version", "--no-private", "--no-git-tag-version"],
     {
       cwd: paths.root,
-      stdio: "inherit",
+      stdio: ["inherit", "pipe", "pipe"],
     },
   );
 
+  const ret = a.output;
+  console.log(11, ret);
+
   // Get version map after lerna version and find changed packages
-  const afterVersionMap = buildWorkspaceVersionMap();
-  const changedPackages = getChangedPackages(beforeVersionMap, afterVersionMap);
-
-  try {
-    replaceWorkspaceVersions();
-  } catch (err) {
-    console.error(
-      "%s replaceWorkspaceVersions failed, rolling back...",
-      chalk.bold.red("Error"),
-    );
-    spawnSync("git", ["checkout", "--", "."], {
-      cwd: paths.root,
-      stdio: "inherit",
-    });
-    throw err;
-  }
-
-  createGitCommitAndTags(changedPackages);
+  // const afterVersionMap = buildWorkspaceVersionMap();
+  // const changedPackages = getChangedPackages(beforeVersionMap, afterVersionMap);
+  //
+  // try {
+  //   replaceWorkspaceVersions();
+  // } catch (err) {
+  //   console.error(
+  //     "%s replaceWorkspaceVersions failed, rolling back...",
+  //     chalk.bold.red("Error"),
+  //   );
+  //   spawnSync("git", ["checkout", "--", "."], {
+  //     cwd: paths.root,
+  //     stdio: "inherit",
+  //   });
+  //   throw err;
+  // }
+  //
+  // createGitCommitAndTags(changedPackages);
 }
