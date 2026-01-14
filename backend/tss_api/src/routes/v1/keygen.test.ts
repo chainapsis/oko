@@ -55,7 +55,7 @@ await jest.unstable_mockModule("@oko-wallet-tss-api/middleware/oauth", () => ({
 // Dynamically import after jest.unstable_mockModule to apply ESM mocks correctly
 const { makeApp } = await import("@oko-wallet-tss-api/testing/app");
 
-describe("keygen_route_test", () => {
+describe("keygen_v1_route_test", () => {
   let app: any;
   let pool: Pool;
 
