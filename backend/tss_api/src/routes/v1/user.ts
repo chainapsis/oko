@@ -39,7 +39,7 @@ import {
 } from "@oko-wallet-tss-api/middleware/oauth";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
-export function setUserRoutes(router: Router) {
+export function setUserV1Routes(router: Router) {
   registry.registerPath({
     method: "post",
     path: "/tss/v1/user/check",

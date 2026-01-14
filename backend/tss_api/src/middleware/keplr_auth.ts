@@ -1,6 +1,9 @@
 import type { Request, Response, NextFunction } from "express";
 
-import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
+import {
+  verifyUserToken,
+  verifyUserTokenV2,
+} from "@oko-wallet-tss-api/api/keplr_auth";
 
 export interface UserAuthenticatedRequest<T = any> extends Request {
   body: T;
@@ -80,7 +83,7 @@ export async function userJwtMiddlewareV2(
   try {
     const state = req.app.locals;
 
-    const verifyTokenRes = verifyUserToken({
+    const verifyTokenRes = verifyUserTokenV2({
       token,
       jwt_config: {
         secret: state.jwt_secret,
@@ -94,7 +97,11 @@ export async function userJwtMiddlewareV2(
 
     const payload = verifyTokenRes.data;
 
-    if (!payload.email || !payload.wallet_id) {
+    if (
+      !payload.email ||
+      !payload.wallet_id_secp256k1 ||
+      !payload.wallet_id_ed25519
+    ) {
       res.status(401).json({
         error: "Unauthorized: Invalid token",
       });
@@ -103,7 +110,8 @@ export async function userJwtMiddlewareV2(
 
     res.locals.user = {
       email: payload.email,
-      wallet_id: payload.wallet_id,
+      wallet_id_secp256k1: payload.wallet_id_secp256k1,
+      wallet_id_ed25519: payload.wallet_id_ed25519,
     };
 
     next();

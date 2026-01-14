@@ -1,12 +1,15 @@
 import express from "express";
 
 import { setKeygenV1Routes } from "./v1/keygen";
-import { setTriplesRoutes } from "./v1/triples";
-import { setPresignRoutes } from "./v1/presign";
-import { setSignRoutes } from "./v1/sign";
+import { setTriplesV1Routes } from "./v1/triples";
+import { setPresignV1Routes } from "./v1/presign";
+import { setSignV1Routes } from "./v1/sign";
+import { setUserV1Routes } from "./v1/user";
+import { setKeygenV2Routes } from "./v2/keygen";
+import { setTriplesV2Routes } from "./v2/triples";
+import { setPresignV2Routes } from "./v2/presign";
 import { setSignEd25519Routes } from "./sign_ed25519";
 import { setWalletEd25519Routes } from "./wallet_ed25519";
-import { setUserRoutes } from "./v1/user";
 import { setTssSessionRoutes } from "./tss_session";
 import { setKSNodeTelemetryRoutes } from "./ks_node_telemetry";
 
@@ -14,12 +17,17 @@ export function makeTssRouter() {
   const router = express.Router();
 
   setKeygenV1Routes(router);
-  setTriplesRoutes(router);
-  setPresignRoutes(router);
-  setSignRoutes(router);
+  setTriplesV1Routes(router);
+  setPresignV1Routes(router);
+  setSignV1Routes(router);
+  setUserV1Routes(router);
+
+  setKeygenV2Routes(router);
+  setTriplesV2Routes(router);
+  setPresignV2Routes(router);
+
   setSignEd25519Routes(router);
   setWalletEd25519Routes(router);
-  setUserRoutes(router);
   setTssSessionRoutes(router);
   setKSNodeTelemetryRoutes(router);
 

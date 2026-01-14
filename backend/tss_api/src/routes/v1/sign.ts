@@ -27,7 +27,7 @@ import {
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 
-export function setSignRoutes(router: Router) {
+export function setSignV1Routes(router: Router) {
   registry.registerPath({
     method: "post",
     path: "/tss/v1/sign/step1",

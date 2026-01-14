@@ -30,15 +30,15 @@ import {
 } from "@oko-wallet-tss-api/api/v1/presign";
 import {
   type UserAuthenticatedRequest,
-  userJwtMiddleware,
+  userJwtMiddlewareV2,
   sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 
-export function setPresignV1Routes(router: Router) {
+export function setPresignV2Routes(router: Router) {
   registry.registerPath({
     method: "post",
-    path: "/tss/v1/presign/step1",
+    path: "/tss/v2/presign/step1",
     tags: ["TSS"],
     summary: "Initiate presign process using completed triples",
     description: "Creates presign stage and generates initial presign messages",
@@ -91,7 +91,7 @@ export function setPresignV1Routes(router: Router) {
   });
   router.post(
     "/presign/step1",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep1Body>,
       res: Response<OkoApiResponse<PresignStep1Response>>,
@@ -104,7 +104,7 @@ export function setPresignV1Routes(router: Router) {
         state.db,
         {
           email: user.email.toLowerCase(),
-          wallet_id: user.wallet_id,
+          wallet_id: user.wallet_id_secp256k1,
           session_id: body.session_id,
           msgs_1: body.msgs_1,
         },
@@ -124,7 +124,7 @@ export function setPresignV1Routes(router: Router) {
 
   registry.registerPath({
     method: "post",
-    path: "/tss/v1/presign/step2",
+    path: "/tss/v2/presign/step2",
     tags: ["TSS"],
     summary: "Execute step 2 of presign process",
     description: "Processes wait messages and updates presign stage",
@@ -177,7 +177,7 @@ export function setPresignV1Routes(router: Router) {
   });
   router.post(
     "/presign/step2",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep2Body>,
       res: Response<OkoApiResponse<PresignStep2Response>>,
@@ -188,7 +188,7 @@ export function setPresignV1Routes(router: Router) {
 
       const runPresignStep2Res = await runPresignStep2(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         wait_1_0_1: body.wait_1_0_1,
       });
@@ -206,7 +206,7 @@ export function setPresignV1Routes(router: Router) {
 
   registry.registerPath({
     method: "post",
-    path: "/tss/v1/presign/step3",
+    path: "/tss/v2/presign/step3",
     tags: ["TSS"],
     summary: "Execute step 3 of presign process",
     description: "Finalizes presign stage",
@@ -259,7 +259,7 @@ export function setPresignV1Routes(router: Router) {
   });
   router.post(
     "/presign/step3",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<PresignStep3Body>,
       res: Response<OkoApiResponse<PresignStep3Response>>,
@@ -270,7 +270,7 @@ export function setPresignV1Routes(router: Router) {
 
       const runPresignStep3Res = await runPresignStep3(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         presign_big_r: body.presign_big_r,
       });

@@ -70,14 +70,14 @@ import {
 } from "@oko-wallet-tss-api/api/v1/triples";
 import {
   type UserAuthenticatedRequest,
-  userJwtMiddleware,
+  userJwtMiddlewareV2,
   sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-export function setTriplesV1Routes(router: Router) {
+export function setTriplesV2Routes(router: Router) {
   registry.registerPath({
     method: "post",
     path: "/tss/v1/triples/step1",
@@ -126,7 +126,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step1",
-    [apiKeyMiddleware, userJwtMiddleware, tssActivateMiddleware],
+    [apiKeyMiddleware, userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep1Body>,
       res: Response<OkoApiResponse<TriplesStep1Response>>,
@@ -136,7 +136,7 @@ export function setTriplesV1Routes(router: Router) {
       const apiKey = res.locals.api_key;
       const body = req.body;
 
-      if (!user?.email || !user?.wallet_id) {
+      if (!user?.email || !user?.wallet_id_secp256k1) {
         res.status(401).json({
           success: false,
           code: "UNAUTHORIZED",
@@ -147,7 +147,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep1Res = await runTriplesStep1(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         customer_id: apiKey.customer_id,
         msgs_1: body.msgs_1,
       });
@@ -217,7 +217,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step2",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep2Body>,
       res: Response<OkoApiResponse<TriplesStep2Response>>,
@@ -226,7 +226,7 @@ export function setTriplesV1Routes(router: Router) {
       const user = res.locals.user;
       const body = req.body;
 
-      if (!user?.email || !user?.wallet_id) {
+      if (!user?.email || !user?.wallet_id_secp256k1) {
         res.status(401).json({
           success: false,
           code: "UNAUTHORIZED",
@@ -237,7 +237,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep2Res = await runTriplesStep2(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         wait_1: body.wait_1,
       });
@@ -307,7 +307,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step3",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep3Body>,
       res: Response<OkoApiResponse<TriplesStep3Response>>,
@@ -316,7 +316,7 @@ export function setTriplesV1Routes(router: Router) {
       const user = res.locals.user;
       const body = req.body;
 
-      if (!user?.email || !user?.wallet_id) {
+      if (!user?.email || !user?.wallet_id_secp256k1) {
         res.status(401).json({
           success: false,
           code: "UNAUTHORIZED",
@@ -327,7 +327,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep3Res = await runTriplesStep3(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         wait_2: body.wait_2,
       });
@@ -397,7 +397,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step4",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep4Body>,
       res: Response<OkoApiResponse<TriplesStep4Response>>,
@@ -408,7 +408,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep4Res = await runTriplesStep4(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         wait_3: body.wait_3,
       });
@@ -478,7 +478,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step5",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep5Body>,
       res: Response<OkoApiResponse<TriplesStep5Response>>,
@@ -489,7 +489,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep5Res = await runTriplesStep5(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         wait_4: body.wait_4,
       });
@@ -559,7 +559,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step6",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep6Body>,
       res: Response<OkoApiResponse<TriplesStep6Response>>,
@@ -570,7 +570,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep6Res = await runTriplesStep6(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         batch_random_ot_wait_0: body.batch_random_ot_wait_0,
       });
@@ -640,7 +640,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step7",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep7Body>,
       res: Response<OkoApiResponse<TriplesStep7Response>>,
@@ -651,7 +651,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep7Res = await runTriplesStep7(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         correlated_ot_wait_0: body.correlated_ot_wait_0,
       });
@@ -721,7 +721,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step8",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep8Body>,
       res: Response<OkoApiResponse<TriplesStep8Response>>,
@@ -732,7 +732,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep8Res = await runTriplesStep8(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         random_ot_extension_wait_1: body.random_ot_extension_wait_1,
       });
@@ -802,7 +802,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step9",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep9Body>,
       res: Response<OkoApiResponse<TriplesStep9Response>>,
@@ -813,7 +813,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep9Res = await runTriplesStep9(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         mta_wait_1: body.mta_wait_1,
       });
@@ -883,7 +883,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step10",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep10Body>,
       res: Response<OkoApiResponse<TriplesStep10Response>>,
@@ -894,7 +894,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep10Res = await runTriplesStep10(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         wait_5: body.wait_5,
         wait_6: body.wait_6,
@@ -966,7 +966,7 @@ export function setTriplesV1Routes(router: Router) {
   });
   router.post(
     "/triples/step11",
-    [userJwtMiddleware, tssActivateMiddleware],
+    [userJwtMiddlewareV2, tssActivateMiddleware],
     async (
       req: UserAuthenticatedRequest<TriplesStep11Body>,
       res: Response<OkoApiResponse<TriplesStep11Response>>,
@@ -977,7 +977,7 @@ export function setTriplesV1Routes(router: Router) {
 
       const runTriplesStep11Res = await runTriplesStep11(state.db, {
         email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id,
+        wallet_id: user.wallet_id_secp256k1,
         session_id: body.session_id,
         pub_v: body.pub_v,
       });
