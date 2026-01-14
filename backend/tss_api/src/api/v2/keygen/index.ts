@@ -24,7 +24,7 @@ import {
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
-import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
+import { generateUserTokenV2 } from "@oko-wallet-tss-api/api/keplr_auth";
 import { checkKeyShareFromKSNodesV2 } from "@oko-wallet-tss-api/api/ks_node";
 import { extractKeyPackageSharesEd25519 } from "@oko-wallet/teddsa-addon/src/server";
 
@@ -345,10 +345,10 @@ export async function runKeygenV2(
       client.release();
     }
 
-    // 10. Generate token (@TODO: update to use new token generation function)
-    const tokenResult = generateUserToken({
-      wallet_id: secp256k1Wallet.wallet_id,
-      // wallet_id_ed25519: ed25519Wallet.wallet_id,
+    // 10. Generate token
+    const tokenResult = generateUserTokenV2({
+      wallet_id_secp256k1: secp256k1Wallet.wallet_id,
+      wallet_id_ed25519: ed25519Wallet.wallet_id,
       email: user_identifier,
       jwt_config: jwtConfig,
     });
@@ -604,10 +604,9 @@ export async function runKeygenEd25519(
 
     const secp256k1WalletId = secp256k1Wallet.wallet_id;
 
-    // @TODO: update to use new token generation function
-    const tokenResult = generateUserToken({
-      wallet_id: secp256k1WalletId,
-      // wallet_id_ed25519: ed25519Wallet.wallet_id,
+    const tokenResult = generateUserTokenV2({
+      wallet_id_secp256k1: secp256k1WalletId,
+      wallet_id_ed25519: ed25519Wallet.wallet_id,
       email: user_identifier,
       jwt_config: jwtConfig,
     });

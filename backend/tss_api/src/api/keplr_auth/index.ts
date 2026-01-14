@@ -5,6 +5,8 @@ import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   GenerateUserTokenArgs,
   UserTokenPayload,
+  GenerateUserTokenArgsV2,
+  UserTokenPayloadV2,
 } from "@oko-wallet/oko-types/tss";
 
 import type { UserTokenJWTPayload, VerifyUserTokenResult } from "./types";
@@ -21,6 +23,41 @@ export function generateUserToken(
     const payload: UserTokenPayload = {
       email: args.email,
       wallet_id: args.wallet_id,
+      type: "user",
+    };
+
+    // We check expiration on our end to more sophisticatedly handle token expiry
+    const token: string = jwt.sign(payload, args.jwt_config.secret, {
+      algorithm: "HS256",
+      expiresIn: args.jwt_config.expires_in as jwt.SignOptions["expiresIn"],
+      issuer: USER_ISSUER,
+      audience: USER_AUDIENCE,
+    });
+
+    return {
+      success: true,
+      data: {
+        token,
+      },
+    };
+  } catch (error: any) {
+    console.error("generateUserToken error:", error);
+
+    return {
+      success: false,
+      err: `Failed to generate token: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
+}
+
+export function generateUserTokenV2(
+  args: GenerateUserTokenArgsV2,
+): Result<TokenResult, string> {
+  try {
+    const payload: UserTokenPayloadV2 = {
+      email: args.email,
+      wallet_id_secp256k1: args.wallet_id_secp256k1,
+      wallet_id_ed25519: args.wallet_id_ed25519,
       type: "user",
     };
 
