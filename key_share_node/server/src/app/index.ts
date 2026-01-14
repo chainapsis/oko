@@ -4,7 +4,7 @@ import cors from "cors";
 import morgan from "morgan";
 
 import { installSwaggerDocs } from "@oko-wallet-ksn-server/openapi";
-import { registry } from "@oko-wallet-ksn-server/openapi/registry";
+import { registry } from "@oko-wallet-ksn-server/openapi/doc";
 import { OkResponseSchema } from "@oko-wallet-ksn-server/openapi/schema";
 import { setRoutes } from "@oko-wallet-ksn-server/routes";
 import { rateLimitMiddleware } from "@oko-wallet-ksn-server/middlewares";

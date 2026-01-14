@@ -174,7 +174,9 @@ export function parseSiwsMessage(message: string): Partial<SiwsMessage> {
  * Check if a message is a valid SIWS message
  * Returns the parsed message if valid, undefined otherwise
  */
-export function getSiwsMessage(message: Uint8Array | string): SiwsMessage | undefined {
+export function getSiwsMessage(
+  message: Uint8Array | string,
+): SiwsMessage | undefined {
   let messageStr: string;
 
   if (message instanceof Uint8Array) {
@@ -192,8 +194,7 @@ export function getSiwsMessage(message: Uint8Array | string): SiwsMessage | unde
   // Validate required fields for SIWS
   // Address should be a valid Solana base58 address (32-44 characters)
   const isValidSolanaAddress =
-    siwsMsg.address &&
-    /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(siwsMsg.address);
+    siwsMsg.address && /^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(siwsMsg.address);
 
   if (siwsMsg.domain && isValidSolanaAddress) {
     return siwsMsg as SiwsMessage;
