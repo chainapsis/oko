@@ -86,6 +86,20 @@ yarn ci typecheck
 3. **API changes** - Update `backend/oko_api/`, regenerate OpenAPI types
 4. **UI changes** - Components in `ui/oko_common_ui/`, apps in `apps/`
 
+### OpenAPI Specification
+
+This project uses `@asteasolutions/zod-to-openapi` to define API schemas with Zod and generate OpenAPI specs.
+
+When modifying or adding routes, you **must** update OpenAPI in two places:
+
+1. **Schema definitions** - Define request/response types using Zod with `.openapi()` annotations and `registry.register()`:
+   - Backend APIs → `backend/openapi/src/` (tss/, ct_dashboard/, oko_admin/, etc.)
+   - Key Share Node → `key_share_node/server/src/openapi/schema/`
+
+2. **Route registration** - Call `registry.registerPath()` directly in the route file alongside the Express route handler. This documents the endpoint's method, path, request/response schemas, and security requirements.
+
+See `backend/tss_api/src/routes/keygen.ts` for a complete example of this pattern.
+
 ## Testing Guidelines
 
 ```bash
