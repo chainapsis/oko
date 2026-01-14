@@ -4,10 +4,11 @@ import {
   getWalletByPublicKey,
 } from "@oko-wallet/oko-pg-interface/oko_wallets";
 import type {
-  CheckEmailResponse,
+  CheckEmailResponseV2,
   ReshareReason,
   SignInResponseV2,
   User,
+  WalletCheckInfo,
 } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
@@ -21,6 +22,7 @@ import {
 import type {
   WalletKSNodeWithNodeNameAndServerUrl,
   WalletKSNodeStatus,
+  KeyShareNode,
 } from "@oko-wallet/oko-types/tss";
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { Wallet } from "@oko-wallet/oko-types/wallets";
@@ -138,13 +140,13 @@ export async function signInV2(
   }
 }
 
-export async function checkEmail(
+export async function checkEmailV2(
   db: Pool,
   email: string,
   auth_type: AuthType,
-): Promise<OkoApiResponse<CheckEmailResponse>> {
+): Promise<OkoApiResponse<CheckEmailResponseV2>> {
   try {
-    // Check if user exists and has an active wallet
+    // Check if user exists
     const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
     if (getUserRes.success === false) {
       return {
@@ -154,23 +156,6 @@ export async function checkEmail(
       };
     }
     const user = getUserRes.data;
-
-    let wallet: Wallet | null = null;
-    if (user !== null) {
-      const walletRes = await getActiveWalletByUserIdAndCurveType(
-        db,
-        user.user_id,
-        "secp256k1",
-      );
-      if (walletRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `getActiveWalletByUserIdAndCurveType error: ${walletRes.err}`,
-        };
-      }
-      wallet = walletRes.data;
-    }
 
     const getActiveKSNodesRes = await getActiveKSNodes(db);
     if (getActiveKSNodesRes.success === false) {
@@ -182,8 +167,8 @@ export async function checkEmail(
     }
     const activeKSNodes = getActiveKSNodesRes.data;
 
-    // Signup flow: user doesn't exist or no active wallet
-    if (user === null || wallet === null) {
+    // Case 1: User doesn't exist
+    if (user === null) {
       const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
       if (getKeyshareNodeMetaRes.success === false) {
         return {
@@ -206,82 +191,126 @@ export async function checkEmail(
               wallet_status: "NOT_REGISTERED",
             })),
           },
-          needs_reshare: false,
-          active_nodes_below_threshold: activeKSNodes.length < threshold,
         },
       };
     }
 
-    // User has active wallet -> fetch wallet KS nodes
-    const getAllWalletKSNodesRes = await getWalletKSNodesByWalletId(
+    // User exists -> check wallets
+    const secp256k1WalletRes = await getActiveWalletByUserIdAndCurveType(
       db,
-      wallet.wallet_id,
+      user.user_id,
+      "secp256k1",
     );
-    if (getAllWalletKSNodesRes.success === false) {
+    if (secp256k1WalletRes.success === false) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getWalletKSNodesByWalletId error: ${getAllWalletKSNodesRes.err}`,
+        msg: `getActiveWalletByUserIdAndCurveType (secp256k1) error: ${secp256k1WalletRes.err}`,
       };
     }
 
-    const activeKSNodeIds = new Set(activeKSNodes.map((n) => n.node_id));
-    const walletNodeIds = new Set<string>();
-    const walletKSNodeStatusMap = new Map<string, WalletKSNodeStatus>();
-    const activeWalletKSNodes: WalletKSNodeWithNodeNameAndServerUrl[] = [];
-    let unrecoverableExists = false;
-    const newNodeIds: string[] = [];
+    const ed25519WalletRes = await getActiveWalletByUserIdAndCurveType(
+      db,
+      user.user_id,
+      "ed25519",
+    );
+    if (ed25519WalletRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `getActiveWalletByUserIdAndCurveType (ed25519) error: ${ed25519WalletRes.err}`,
+      };
+    }
 
-    for (const node of getAllWalletKSNodesRes.data) {
-      walletNodeIds.add(node.node_id);
-      walletKSNodeStatusMap.set(node.node_id, node.status);
+    const secp256k1Wallet = secp256k1WalletRes.data;
+    const ed25519Wallet = ed25519WalletRes.data;
 
-      if (node.status === "ACTIVE" && activeKSNodeIds.has(node.node_id)) {
-        activeWalletKSNodes.push(node);
+    // Case 2: User exists but only secp256k1 wallet exists (ed25519 doesn't exist)
+    if (secp256k1Wallet !== null && ed25519Wallet === null) {
+      const secp256k1CheckInfo = await calculateWalletCheckInfo(
+        db,
+        secp256k1Wallet,
+        activeKSNodes,
+      );
+      if (secp256k1CheckInfo === null) {
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `calculateWalletCheckInfo (secp256k1) error`,
+        };
       }
 
-      if (node.status === "UNRECOVERABLE_DATA_LOSS") {
-        unrecoverableExists = true;
+      return {
+        success: true,
+        data: {
+          exists: true,
+          needs_keygen_ed25519: true,
+          secp256k1: secp256k1CheckInfo,
+        },
+      };
+    }
+
+    // Case 3: User exists and both wallets exist
+    if (secp256k1Wallet !== null && ed25519Wallet !== null) {
+      const secp256k1CheckInfo = await calculateWalletCheckInfo(
+        db,
+        secp256k1Wallet,
+        activeKSNodes,
+      );
+      if (secp256k1CheckInfo === null) {
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `calculateWalletCheckInfo (secp256k1) error`,
+        };
       }
-    }
 
-    // Find new nodes (active nodes not in wallet)
-    for (const node of activeKSNodes) {
-      if (!walletNodeIds.has(node.node_id)) {
-        newNodeIds.push(node.node_id);
+      const ed25519CheckInfo = await calculateWalletCheckInfo(
+        db,
+        ed25519Wallet,
+        activeKSNodes,
+      );
+      if (ed25519CheckInfo === null) {
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `calculateWalletCheckInfo (ed25519) error`,
+        };
       }
+
+      return {
+        success: true,
+        data: {
+          exists: true,
+          secp256k1: secp256k1CheckInfo,
+          ed25519: ed25519CheckInfo,
+        },
+      };
     }
 
-    // Calculate reshare requirements
-    const reshare_reasons: ReshareReason[] = [];
-    if (unrecoverableExists) {
-      reshare_reasons.push("UNRECOVERABLE_NODE_DATA_LOSS");
+    // Case 4: User exists but no wallets exist (shouldn't happen, but handle it)
+    const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
+    if (getKeyshareNodeMetaRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `getKeyShareNodeMeta error: ${getKeyshareNodeMetaRes.err}`,
+      };
     }
-    if (newNodeIds.length > 0) {
-      reshare_reasons.push("NEW_NODE_ADDED");
-    }
-
-    const needsReshare = reshare_reasons.length > 0;
-    const activeNodesBelowThreshold =
-      activeWalletKSNodes.length < wallet.sss_threshold;
+    const threshold = getKeyshareNodeMetaRes.data.sss_threshold;
 
     return {
       success: true,
       data: {
-        exists: true,
+        exists: false,
         keyshare_node_meta: {
-          threshold: wallet.sss_threshold,
+          threshold,
           nodes: activeKSNodes.map((ksNode) => ({
             name: ksNode.node_name,
             endpoint: ksNode.server_url,
-            wallet_status: needsReshare
-              ? (walletKSNodeStatusMap.get(ksNode.node_id) ?? "NOT_REGISTERED")
-              : "ACTIVE",
+            wallet_status: "NOT_REGISTERED",
           })),
         },
-        needs_reshare: needsReshare,
-        reshare_reasons: needsReshare ? reshare_reasons : undefined,
-        active_nodes_below_threshold: activeNodesBelowThreshold,
       },
     };
   } catch (error) {
@@ -498,4 +527,74 @@ export async function updateWalletKSNodesForReshareV2(
       msg: `updateWalletKSNodesForReshare error: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
+}
+
+async function calculateWalletCheckInfo(
+  db: Pool,
+  wallet: Wallet,
+  activeKSNodes: KeyShareNode[],
+): Promise<WalletCheckInfo | null> {
+  const getAllWalletKSNodesRes = await getWalletKSNodesByWalletId(
+    db,
+    wallet.wallet_id,
+  );
+  if (getAllWalletKSNodesRes.success === false) {
+    return null;
+  }
+
+  const activeKSNodeIds = new Set(activeKSNodes.map((n) => n.node_id));
+  const walletNodeIds = new Set<string>();
+  const walletKSNodeStatusMap = new Map<string, WalletKSNodeStatus>();
+  const activeWalletKSNodes: WalletKSNodeWithNodeNameAndServerUrl[] = [];
+  let unrecoverableExists = false;
+  const newNodeIds: string[] = [];
+
+  for (const node of getAllWalletKSNodesRes.data) {
+    walletNodeIds.add(node.node_id);
+    walletKSNodeStatusMap.set(node.node_id, node.status);
+
+    if (node.status === "ACTIVE" && activeKSNodeIds.has(node.node_id)) {
+      activeWalletKSNodes.push(node);
+    }
+
+    if (node.status === "UNRECOVERABLE_DATA_LOSS") {
+      unrecoverableExists = true;
+    }
+  }
+
+  // Find new nodes (active nodes not in wallet)
+  for (const node of activeKSNodes) {
+    if (!walletNodeIds.has(node.node_id)) {
+      newNodeIds.push(node.node_id);
+    }
+  }
+
+  // Calculate reshare requirements
+  const reshare_reasons: ReshareReason[] = [];
+  if (unrecoverableExists) {
+    reshare_reasons.push("UNRECOVERABLE_NODE_DATA_LOSS");
+  }
+  if (newNodeIds.length > 0) {
+    reshare_reasons.push("NEW_NODE_ADDED");
+  }
+
+  const needsReshare = reshare_reasons.length > 0;
+  const activeNodesBelowThreshold =
+    activeWalletKSNodes.length < wallet.sss_threshold;
+
+  return {
+    keyshare_node_meta: {
+      threshold: wallet.sss_threshold,
+      nodes: activeKSNodes.map((ksNode) => ({
+        name: ksNode.node_name,
+        endpoint: ksNode.server_url,
+        wallet_status: needsReshare
+          ? (walletKSNodeStatusMap.get(ksNode.node_id) ?? "NOT_REGISTERED")
+          : "ACTIVE",
+      })),
+    },
+    needs_reshare: needsReshare,
+    reshare_reasons: needsReshare ? reshare_reasons : undefined,
+    active_nodes_below_threshold: activeNodesBelowThreshold,
+  };
 }

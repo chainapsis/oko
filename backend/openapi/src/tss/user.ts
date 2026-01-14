@@ -174,6 +174,115 @@ export const CheckEmailSuccessResponseSchema = registry.register(
   }),
 );
 
+// V2: KeyshareNodeMeta without status field (only wallet_status)
+const KeyshareNodeV2Schema = registry.register(
+  "TssUserKeyshareNodeMetaV2",
+  z.object({
+    name: z.string().openapi({ description: "Node name" }),
+    endpoint: z.string().openapi({ description: "Node endpoint URL" }),
+    wallet_status: WalletStatusEnum.openapi({
+      description: "Wallet registration status on this node",
+    }),
+  }),
+);
+
+const KeyshareNodeMetaV2Schema = z
+  .object({
+    threshold: z.number().int().openapi({
+      description: "Keyshare threshold",
+    }),
+    nodes: z.array(KeyshareNodeV2Schema).openapi({
+      description: "Keyshare nodes metadata",
+    }),
+  })
+  .openapi({ description: "Keyshare node metadata" });
+
+// V2: WalletCheckInfo schema for per-wallet reshare info
+const WalletCheckInfoSchema = registry.register(
+  "TssUserWalletCheckInfo",
+  z.object({
+    keyshare_node_meta: KeyshareNodeMetaV2Schema.openapi({
+      description: "Keyshare node metadata for this wallet",
+    }),
+    needs_reshare: z.boolean().openapi({
+      description: "True when wallet needs resharing",
+    }),
+    reshare_reasons: z
+      .array(ReshareReasonEnum)
+      .optional()
+      .openapi({ description: "Reasons why reshare is required" }),
+    active_nodes_below_threshold: z.boolean().openapi({
+      description:
+        "True when count of active KS nodes is below global SSS threshold",
+    }),
+  }),
+);
+
+// V2: CheckEmailResponseV2 - User does not exist or has no wallets
+const CheckEmailDataV2NotExistsSchema = registry.register(
+  "TssUserCheckEmailDataV2NotExists",
+  z.object({
+    exists: z.literal(false).openapi({
+      description: "User does not exist",
+    }),
+    keyshare_node_meta: KeyshareNodeMetaV2Schema.openapi({
+      description: "Global keyshare node metadata for signup flow",
+    }),
+  }),
+);
+
+// V2: CheckEmailResponseV2 - User exists with only secp256k1 wallet (legacy user)
+const CheckEmailDataV2NeedsEd25519KeygenSchema = registry.register(
+  "TssUserCheckEmailDataV2NeedsEd25519Keygen",
+  z.object({
+    exists: z.literal(true).openapi({
+      description: "User exists",
+    }),
+    needs_keygen_ed25519: z.literal(true).openapi({
+      description: "Indicates ed25519 keygen is required",
+    }),
+    secp256k1: WalletCheckInfoSchema.openapi({
+      description: "Reshare info for secp256k1 wallet",
+    }),
+  }),
+);
+
+// V2: CheckEmailResponseV2 - User exists with both wallets
+const CheckEmailDataV2BothWalletsSchema = registry.register(
+  "TssUserCheckEmailDataV2BothWallets",
+  z.object({
+    exists: z.literal(true).openapi({
+      description: "User exists",
+    }),
+    secp256k1: WalletCheckInfoSchema.openapi({
+      description: "Reshare info for secp256k1 wallet",
+    }),
+    ed25519: WalletCheckInfoSchema.openapi({
+      description: "Reshare info for ed25519 wallet",
+    }),
+  }),
+);
+
+// V2: CheckEmailResponseV2 union schema
+const CheckEmailDataV2Schema = registry.register(
+  "TssUserCheckEmailDataV2",
+  z.union([
+    CheckEmailDataV2NotExistsSchema,
+    CheckEmailDataV2NeedsEd25519KeygenSchema,
+    CheckEmailDataV2BothWalletsSchema,
+  ]),
+);
+
+export const CheckEmailSuccessResponseV2Schema = registry.register(
+  "TssUserCheckEmailSuccessResponseV2",
+  z.object({
+    success: z.literal(true).openapi({
+      description: "Indicates the request succeeded",
+    }),
+    data: CheckEmailDataV2Schema,
+  }),
+);
+
 const SignInSilentlyDataSchema = registry.register(
   "TssUserSignInSilentlyResponse",
   z.object({

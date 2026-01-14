@@ -27,6 +27,7 @@ import { triplesStep11 } from "./triples_step_11";
 import { keygenEd25519 } from "./keygen_ed25519";
 import { userSignInV2 } from "./user_signin";
 import { userReshareV2 } from "./user_reshare";
+import { userCheckEmailV2 } from "./user_check_email";
 
 export function makeV2Router() {
   const router = Router();
@@ -167,6 +168,8 @@ export function makeV2Router() {
     tssActivateMiddleware,
     userReshareV2,
   );
+
+  router.post("/user/check", userCheckEmailV2);
 
   return router;
 }
