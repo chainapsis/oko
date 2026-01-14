@@ -19,7 +19,7 @@ import {
 } from "@oko-wallet/oko-api-openapi/tss";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/sign";
+import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/v1/sign";
 import {
   type UserAuthenticatedRequest,
   userJwtMiddleware,

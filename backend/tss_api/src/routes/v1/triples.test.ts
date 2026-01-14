@@ -26,7 +26,7 @@ const mockFns = {
   runTriplesStep11: jest.fn(),
 } as const;
 
-await jest.unstable_mockModule("@oko-wallet-tss-api/api/triples", () => ({
+await jest.unstable_mockModule("@oko-wallet-tss-api/api/v1/triples", () => ({
   ...mockFns,
 }));
 
@@ -44,7 +44,7 @@ const {
   runTriplesStep9,
   runTriplesStep10,
   runTriplesStep11,
-} = await import("@oko-wallet-tss-api/api/triples");
+} = await import("@oko-wallet-tss-api/api/v1/triples");
 
 describe("triples_route_test", () => {
   let app: any;

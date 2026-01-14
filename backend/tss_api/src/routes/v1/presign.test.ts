@@ -12,7 +12,7 @@ const mockRunPresignStep1 = jest.fn() as jest.Mock;
 const mockRunPresignStep2 = jest.fn() as jest.Mock;
 const mockRunPresignStep3 = jest.fn() as jest.Mock;
 
-await jest.unstable_mockModule("@oko-wallet-tss-api/api/presign", () => ({
+await jest.unstable_mockModule("@oko-wallet-tss-api/api/v1/presign", () => ({
   runPresignStep1: mockRunPresignStep1,
   runPresignStep2: mockRunPresignStep2,
   runPresignStep3: mockRunPresignStep3,
@@ -20,9 +20,8 @@ await jest.unstable_mockModule("@oko-wallet-tss-api/api/presign", () => ({
 
 // Dynamically import after jest.unstable_mockModule to apply ESM mocks correctly
 const { makeApp } = await import("@oko-wallet-tss-api/testing/app");
-const { runPresignStep1, runPresignStep2, runPresignStep3 } = await import(
-  "@oko-wallet-tss-api/api/presign"
-);
+const { runPresignStep1, runPresignStep2, runPresignStep3 } =
+  await import("@oko-wallet-tss-api/api/v1/presign");
 
 describe("presign_route_test", () => {
   let app: any;

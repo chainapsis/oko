@@ -67,7 +67,7 @@ import {
   runTriplesStep9,
   runTriplesStep10,
   runTriplesStep11,
-} from "@oko-wallet-tss-api/api/triples";
+} from "@oko-wallet-tss-api/api/v1/triples";
 import {
   type UserAuthenticatedRequest,
   userJwtMiddleware,

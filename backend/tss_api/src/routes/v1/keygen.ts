@@ -30,7 +30,7 @@ import {
   runKeygen,
   runKeygenV2,
   runKeygenEd25519,
-} from "@oko-wallet-tss-api/api/keygen";
+} from "@oko-wallet-tss-api/api/v1/keygen";
 import {
   type OAuthAuthenticatedRequest,
   oauthMiddleware,

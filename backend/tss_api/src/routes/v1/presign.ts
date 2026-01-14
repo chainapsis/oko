@@ -27,7 +27,7 @@ import {
   runPresignStep1,
   runPresignStep2,
   runPresignStep3,
-} from "@oko-wallet-tss-api/api/presign";
+} from "@oko-wallet-tss-api/api/v1/presign";
 import {
   type UserAuthenticatedRequest,
   userJwtMiddleware,

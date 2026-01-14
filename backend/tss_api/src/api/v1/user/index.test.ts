@@ -15,7 +15,7 @@ import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_n
 
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
-import { checkEmail, signIn } from "@oko-wallet-tss-api/api/user";
+import { checkEmail, signIn } from "@oko-wallet-tss-api/api/v1/user";
 
 const SSS_THRESHOLD = 2;
 

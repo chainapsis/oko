@@ -11,7 +11,7 @@ const mockRunKeygen = jest.fn() as jest.Mock;
 const mockRunKeygenV2 = jest.fn() as jest.Mock;
 const mockRunKeygenEd25519 = jest.fn() as jest.Mock;
 
-await jest.unstable_mockModule("@oko-wallet-tss-api/api/keygen", () => ({
+await jest.unstable_mockModule("@oko-wallet-tss-api/api/v1/keygen", () => ({
   runKeygen: mockRunKeygen,
   runKeygenV2: mockRunKeygenV2,
   runKeygenEd25519: mockRunKeygenEd25519,

@@ -78,13 +78,13 @@ import {
   runTriplesStep7,
   runTriplesStep8,
   runTriplesStep9,
-} from "@oko-wallet-tss-api/api/triples";
+} from "@oko-wallet-tss-api/api/v1/triples";
 import {
   runPresignStep1,
   runPresignStep2,
   runPresignStep3,
-} from "@oko-wallet-tss-api/api/presign";
-import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/sign";
+} from "@oko-wallet-tss-api/api/v1/presign";
+import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/v1/sign";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 import { TEST_CUSTOMER } from "@oko-wallet-tss-api/api/tests";
 
@@ -96,7 +96,7 @@ await jest.unstable_mockModule("@oko-wallet-tss-api/api/ks_node", () => ({
   checkKeyShareFromKSNodesV2: mockCheckKeyShareFromKSNodesV2,
 }));
 
-const { runKeygen } = await import("@oko-wallet-tss-api/api/keygen");
+const { runKeygen } = await import("@oko-wallet-tss-api/api/v1/keygen");
 
 const SSS_THRESHOLD = 2;
 
@@ -127,7 +127,7 @@ async function setUpTssStage(pool: Pool) {
   const keygen_2 = keygen_outputs[Participant.P1];
 
   const ksNodeIds = await setUpKSNodes(pool);
-      (mockCheckKeyShareFromKSNodes as any).mockResolvedValue({
+  (mockCheckKeyShareFromKSNodes as any).mockResolvedValue({
     success: true,
     data: {
       nodeIds: ksNodeIds,

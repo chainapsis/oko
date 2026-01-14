@@ -30,7 +30,7 @@ import {
   signIn,
   checkEmail,
   updateWalletKSNodesForReshare,
-} from "@oko-wallet-tss-api/api/user";
+} from "@oko-wallet-tss-api/api/v1/user";
 import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 import {

@@ -44,7 +44,7 @@ await jest.unstable_mockModule("@oko-wallet-tss-api/api/ks_node", () => ({
 }));
 
 const { runKeygen, runKeygenV2, runKeygenEd25519 } =
-  await import("@oko-wallet-tss-api/api/keygen");
+  await import("@oko-wallet-tss-api/api/v1/keygen");
 
 async function setUpKSNodes(pool: Pool): Promise<string[]> {
   const ksNodeNames = ["ksNode1", "ksNode2"];

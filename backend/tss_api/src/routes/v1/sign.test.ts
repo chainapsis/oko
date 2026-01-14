@@ -11,16 +11,15 @@ import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 const mockRunSignStep1 = jest.fn() as jest.Mock;
 const mockRunSignStep2 = jest.fn() as jest.Mock;
 
-await jest.unstable_mockModule("@oko-wallet-tss-api/api/sign", () => ({
+await jest.unstable_mockModule("@oko-wallet-tss-api/api/v1/sign", () => ({
   runSignStep1: mockRunSignStep1,
   runSignStep2: mockRunSignStep2,
 }));
 
 // Dynamically import after jest.unstable_mockModule to apply ESM mocks correctly
 const { makeApp } = await import("@oko-wallet-tss-api/testing/app");
-const { runSignStep1, runSignStep2 } = await import(
-  "@oko-wallet-tss-api/api/sign"
-);
+const { runSignStep1, runSignStep2 } =
+  await import("@oko-wallet-tss-api/api/v1/sign");
 
 describe("sign_route_test", () => {
   let app: any;
