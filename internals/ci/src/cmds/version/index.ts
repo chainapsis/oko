@@ -191,7 +191,7 @@ ${versionList}`;
 export async function version(args: any[]) {
   console.log("Start versioning packages, args: %s", args);
 
-  console.log("We will first re-build the packages\n");
+  // console.log("We will first re-build the packages\n");
   // await doBuildPkgs();
   // await doBuildSDK();
 
@@ -218,9 +218,13 @@ export async function version(args: any[]) {
     ["lerna", "version", "--no-private", "--no-git-tag-version", "--json"],
     {
       cwd: paths.root,
-      stdio: ["inherit"],
+      stdio: "inherit",
     },
   );
+
+  console.log(123123, ret.output);
+
+  // expectSuccess(publishRet, "publish failed");
 
   // const ret = a.output;
   // const aa = ret[1]?.toString();
