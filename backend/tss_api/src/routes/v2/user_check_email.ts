@@ -80,11 +80,7 @@ export async function userCheckEmailV2(
     return;
   }
 
-  const checkEmailRes = await checkEmailV2(
-    state.db,
-    email.toLowerCase(),
-    auth_type,
-  );
+  const checkEmailRes = await checkEmailV2(state.db, email, auth_type);
   if (checkEmailRes.success === false) {
     res
       .status(ErrorCodeMap[checkEmailRes.code] ?? 500) //

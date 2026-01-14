@@ -94,16 +94,12 @@ export async function signEd25519Round1(
   const apiKey = res.locals.api_key;
   const body = req.body;
 
-  const result = await runSignEd25519Round1(
-    state.db,
-    state.encryption_secret,
-    {
-      email: user.email.toLowerCase(),
-      wallet_id: user.wallet_id_ed25519,
-      customer_id: apiKey.customer_id,
-      msg: body.msg,
-    },
-  );
+  const result = await runSignEd25519Round1(state.db, state.encryption_secret, {
+    email: user.email,
+    wallet_id: user.wallet_id_ed25519,
+    customer_id: apiKey.customer_id,
+    msg: body.msg,
+  });
 
   if (result.success === false) {
     res.status(ErrorCodeMap[result.code] ?? 500).json(result);

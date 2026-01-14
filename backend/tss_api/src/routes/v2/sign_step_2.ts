@@ -85,7 +85,7 @@ export async function signStep2(
   const body = req.body;
 
   const runSignStep2Res = await runSignStep2(state.db, {
-    email: user.email.toLowerCase(),
+    email: user.email,
     wallet_id: user.wallet_id_secp256k1,
     session_id: body.session_id,
     sign_output: body.sign_output,

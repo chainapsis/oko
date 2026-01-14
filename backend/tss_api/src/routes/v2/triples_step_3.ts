@@ -93,7 +93,7 @@ export async function triplesStep3(
   }
 
   const runTriplesStep3Res = await runTriplesStep3(state.db, {
-    email: user.email.toLowerCase(),
+    email: user.email,
     wallet_id: user.wallet_id_secp256k1,
     session_id: body.session_id,
     wait_2: body.wait_2,

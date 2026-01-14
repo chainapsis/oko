@@ -84,7 +84,7 @@ export async function triplesStep9(
   const body = req.body;
 
   const runTriplesStep9Res = await runTriplesStep9(state.db, {
-    email: user.email.toLowerCase(),
+    email: user.email,
     wallet_id: user.wallet_id_secp256k1,
     session_id: body.session_id,
     mta_wait_1: body.mta_wait_1,

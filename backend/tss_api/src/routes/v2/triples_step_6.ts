@@ -84,7 +84,7 @@ export async function triplesStep6(
   const body = req.body;
 
   const runTriplesStep6Res = await runTriplesStep6(state.db, {
-    email: user.email.toLowerCase(),
+    email: user.email,
     wallet_id: user.wallet_id_secp256k1,
     session_id: body.session_id,
     batch_random_ot_wait_0: body.batch_random_ot_wait_0,

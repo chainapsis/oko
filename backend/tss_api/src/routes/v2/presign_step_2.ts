@@ -84,7 +84,7 @@ export async function presignStep2(
   const body = req.body;
 
   const runPresignStep2Res = await runPresignStep2(state.db, {
-    email: user.email.toLowerCase(),
+    email: user.email,
     wallet_id: user.wallet_id_secp256k1,
     session_id: body.session_id,
     wait_1_0_1: body.wait_1_0_1,

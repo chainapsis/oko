@@ -128,7 +128,7 @@ describe("presign_route_test", () => {
       expect(runPresignStep1).toHaveBeenCalledWith(
         pool,
         {
-          email: testEmail.toLowerCase(),
+          email: testEmail,
           wallet_id: testWalletId,
           session_id: body.session_id,
           msgs_1: body.msgs_1,
@@ -234,7 +234,7 @@ describe("presign_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runPresignStep2).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         wait_1_0_1: body.wait_1_0_1,
@@ -338,7 +338,7 @@ describe("presign_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runPresignStep3).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         presign_big_r: body.presign_big_r,

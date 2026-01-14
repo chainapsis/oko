@@ -216,7 +216,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep1).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         customer_id: "afb0afd1-d66d-4531-981c-cbf3fb1507b9",
         msgs_1: body.msgs_1,
@@ -327,7 +327,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep2).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         wait_1: body.wait_1,
@@ -431,7 +431,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep3).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         wait_2: body.wait_2,
@@ -535,7 +535,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep4).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         wait_3: body.wait_3,
@@ -639,7 +639,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep5).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         wait_4: body.wait_4,
@@ -743,7 +743,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep6).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         batch_random_ot_wait_0: body.batch_random_ot_wait_0,
@@ -847,7 +847,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep7).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         correlated_ot_wait_0: body.correlated_ot_wait_0,
@@ -951,7 +951,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep8).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         random_ot_extension_wait_1: body.random_ot_extension_wait_1,
@@ -1056,7 +1056,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep9).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         mta_wait_1: body.mta_wait_1,
@@ -1161,7 +1161,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep10).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         wait_5: body.wait_5,
@@ -1266,7 +1266,7 @@ describe("triples_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runTriplesStep11).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         pub_v: body.pub_v,

@@ -84,7 +84,7 @@ export async function presignStep3(
   const body = req.body;
 
   const runPresignStep3Res = await runPresignStep3(state.db, {
-    email: user.email.toLowerCase(),
+    email: user.email,
     wallet_id: user.wallet_id_secp256k1,
     session_id: body.session_id,
     presign_big_r: body.presign_big_r,

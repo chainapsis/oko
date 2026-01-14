@@ -119,7 +119,7 @@ export async function signEd25519Aggregate(
     state.db,
     state.encryption_secret,
     {
-      email: user.email.toLowerCase(),
+      email: user.email,
       wallet_id: user.wallet_id_ed25519,
       session_id: body.session_id,
       msg: body.msg,
