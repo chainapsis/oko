@@ -27,7 +27,7 @@ import { Participant } from "@oko-wallet/tecdsa-interface";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import {
-  validateWalletEmail,
+  validateWalletEmailAndCurveType,
   validateTssSession,
   validateTssStage,
 } from "@oko-wallet-tss-api/api/utils";
@@ -40,19 +40,16 @@ export async function runPresignStep1(
   try {
     const { email, wallet_id, session_id, msgs_1 } = presignStep1Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTriplesStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -165,19 +162,16 @@ export async function runPresignStep2(
   try {
     const { email, wallet_id, session_id, wait_1_0_1 } = presignStep2Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -252,19 +246,16 @@ export async function runPresignStep3(
   try {
     const { email, wallet_id, session_id, presign_big_r } = presignStep3Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,

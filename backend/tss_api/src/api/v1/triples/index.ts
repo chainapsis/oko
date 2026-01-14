@@ -50,7 +50,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   validateTssSession,
   validateTssStage,
-  validateWalletEmail,
+  validateWalletEmailAndCurveType,
   validateCustomer,
 } from "@oko-wallet-tss-api/api/utils";
 
@@ -61,19 +61,16 @@ export async function runTriplesStep1(
   try {
     const { email, wallet_id, customer_id, msgs_1 } = triplesStep1Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const validateCustomerRes = await validateCustomer(db, customer_id);
     if (validateCustomerRes.success === false) {
@@ -144,19 +141,16 @@ export async function runTriplesStep2(
   try {
     const { email, wallet_id, session_id, wait_1 } = triplesStep2Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -232,19 +226,16 @@ export async function runTriplesStep3(
   try {
     const { email, wallet_id, session_id, wait_2 } = triplesStep3Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -320,19 +311,16 @@ export async function runTriplesStep4(
   try {
     const { email, wallet_id, session_id, wait_3 } = triplesStep4Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -408,19 +396,16 @@ export async function runTriplesStep5(
   try {
     const { email, wallet_id, session_id, wait_4 } = triplesStep5Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -497,19 +482,16 @@ export async function runTriplesStep6(
     const { email, wallet_id, session_id, batch_random_ot_wait_0 } =
       triplesStep6Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -588,19 +570,16 @@ export async function runTriplesStep7(
     const { email, wallet_id, session_id, correlated_ot_wait_0 } =
       triplesStep7Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -679,19 +658,16 @@ export async function runTriplesStep8(
     const { email, wallet_id, session_id, random_ot_extension_wait_1 } =
       triplesStep8Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -768,19 +744,16 @@ export async function runTriplesStep9(
   try {
     const { email, wallet_id, session_id, mta_wait_1 } = triplesStep9Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -857,19 +830,16 @@ export async function runTriplesStep10(
     const { email, wallet_id, session_id, wait_5, wait_6 } =
       triplesStep10Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -947,19 +917,16 @@ export async function runTriplesStep11(
   try {
     const { email, wallet_id, session_id, pub_v } = triplesStep11Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,

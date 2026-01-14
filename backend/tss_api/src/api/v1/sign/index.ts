@@ -27,7 +27,7 @@ import {
   updateTssStageWithSessionState,
   validateTssSession,
   validateTssStage,
-  validateWalletEmail,
+  validateWalletEmailAndCurveType,
 } from "@oko-wallet-tss-api/api/utils";
 
 export async function runSignStep1(
@@ -37,19 +37,16 @@ export async function runSignStep1(
   try {
     const { email, wallet_id, session_id, msg, msgs_1 } = signStep1Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getPresignStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
@@ -151,19 +148,16 @@ export async function runSignStep2(
   try {
     const { email, wallet_id, session_id, sign_output } = signStep2Request;
 
-    const validateWalletEmailRes = await validateWalletEmail(
-      db,
-      wallet_id,
-      email,
-    );
-    if (validateWalletEmailRes.success === false) {
+    const validateWalletEmailAndCurveTypeRes =
+      await validateWalletEmailAndCurveType(db, wallet_id, email, "secp256k1");
+    if (validateWalletEmailAndCurveTypeRes.success === false) {
       return {
         success: false,
         code: "UNAUTHORIZED",
-        msg: validateWalletEmailRes.err,
+        msg: validateWalletEmailAndCurveTypeRes.err,
       };
     }
-    const wallet = validateWalletEmailRes.data;
+    const wallet = validateWalletEmailAndCurveTypeRes.data;
 
     const getTssStageWithSessionDataRes = await getTssStageWithSessionData(
       db,
