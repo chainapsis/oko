@@ -2,7 +2,7 @@ import type { Express, Response } from "express";
 import type { ServerStatus } from "@oko-wallet/ksn-interface/status";
 import { getLatestCompletedPgDump } from "@oko-wallet/ksn-pg-interface";
 import dayjs from "dayjs";
-import { registry } from "@oko-wallet-ksn-server/openapi/registry";
+import { registry } from "@oko-wallet-ksn-server/openapi/doc";
 import {
   ErrorResponseSchema,
   ServerStatusSchema,

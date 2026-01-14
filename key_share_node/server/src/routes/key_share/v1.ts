@@ -26,7 +26,7 @@ import type {
   ResponseLocal,
   KSNodeRequest,
 } from "@oko-wallet-ksn-server/routes/io";
-import { registry } from "@oko-wallet-ksn-server/openapi/registry";
+import { registry } from "@oko-wallet-ksn-server/openapi/doc";
 import {
   CheckKeyShareRequestBodySchema,
   GetKeyShareRequestBodySchema,
