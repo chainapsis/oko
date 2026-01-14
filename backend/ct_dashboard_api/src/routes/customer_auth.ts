@@ -17,7 +17,10 @@ import {
   getCTDUserWithCustomerByEmail,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import { hashPassword, comparePassword } from "@oko-wallet/crypto-js";
-import { verifyEmailCode } from "@oko-wallet/oko-pg-interface/email_verifications";
+import {
+  verifyEmailCode,
+  markCodeVerified,
+} from "@oko-wallet/oko-pg-interface/email_verifications";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {
@@ -41,6 +44,8 @@ import { generateCustomerToken } from "@oko-wallet-ctd-api/auth";
 import { sendEmailVerificationCode } from "@oko-wallet-ctd-api/email/send";
 import {
   CHANGED_PASSWORD_MIN_LENGTH,
+  CHANGED_PASSWORD_MAX_LENGTH,
+  PASSWORD_CONTAINS_NUMBER_REGEX,
   EMAIL_REGEX,
   SIX_DIGITS_REGEX,
 } from "@oko-wallet-ctd-api/constants";
@@ -51,10 +56,7 @@ import {
 import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
 import { generateVerificationCode } from "@oko-wallet-ctd-api/email/verification";
 import { sendPasswordResetEmail } from "@oko-wallet-ctd-api/email/password_reset";
-import {
-  createEmailVerification,
-  getLatestPendingVerification,
-} from "@oko-wallet/oko-pg-interface/email_verifications";
+import { createEmailVerification } from "@oko-wallet/oko-pg-interface/email_verifications";
 
 export function setCustomerAuthRoutes(router: Router) {
   registry.registerPath({
@@ -291,16 +293,8 @@ export function setCustomerAuthRoutes(router: Router) {
           return;
         }
 
-        const pendingRes = await getLatestPendingVerification(state.db, email);
-        if (!pendingRes.success) {
-          res
-            .status(500)
-            .json({ success: false, code: "UNKNOWN_ERROR", msg: "DB Error" });
-          return;
-        }
-
-        const pending = pendingRes.data;
-        if (!pending || pending.verification_code !== code) {
+        const result = await markCodeVerified(state.db, email, code, 5);
+        if (!result.success) {
           res.status(400).json({
             success: false,
             code: "INVALID_VERIFICATION_CODE",
@@ -398,6 +392,24 @@ export function setCustomerAuthRoutes(router: Router) {
             success: false,
             code: "INVALID_EMAIL_OR_PASSWORD",
             msg: "Password too short",
+          });
+          return;
+        }
+
+        if (newPassword.length > CHANGED_PASSWORD_MAX_LENGTH) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password too long",
+          });
+          return;
+        }
+
+        if (!PASSWORD_CONTAINS_NUMBER_REGEX.test(newPassword)) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password must include at least one number",
           });
           return;
         }
@@ -1027,6 +1039,24 @@ export function setCustomerAuthRoutes(router: Router) {
             success: false,
             code: "INVALID_EMAIL_OR_PASSWORD",
             msg: "Password must be at least 8 characters long",
+          });
+          return;
+        }
+
+        if (request.new_password.length > CHANGED_PASSWORD_MAX_LENGTH) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password must be at most 16 characters long",
+          });
+          return;
+        }
+
+        if (!PASSWORD_CONTAINS_NUMBER_REGEX.test(request.new_password)) {
+          res.status(400).json({
+            success: false,
+            code: "INVALID_EMAIL_OR_PASSWORD",
+            msg: "Password must include at least one number",
           });
           return;
         }
