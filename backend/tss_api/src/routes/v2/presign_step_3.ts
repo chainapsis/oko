@@ -1,0 +1,120 @@
+import type { Response, Router } from "express";
+import type {
+  PresignStep1Body,
+  PresignStep1Response,
+  PresignStep2Body,
+  PresignStep2Response,
+  PresignStep3Body,
+  PresignStep3Response,
+} from "@oko-wallet/oko-types/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import {
+  ErrorResponseSchema,
+  UserAuthHeaderSchema,
+} from "@oko-wallet/oko-api-openapi/common";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import {
+  PresignStep1RequestSchema,
+  PresignStep1SuccessResponseSchema,
+  PresignStep2RequestSchema,
+  PresignStep2SuccessResponseSchema,
+  PresignStep3RequestSchema,
+  PresignStep3SuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/tss";
+
+import {
+  runPresignStep1,
+  runPresignStep2,
+  runPresignStep3,
+} from "@oko-wallet-tss-api/api/v1/presign";
+import {
+  type UserAuthenticatedRequest,
+  userJwtMiddlewareV2,
+  sendResponseWithNewToken,
+} from "@oko-wallet-tss-api/middleware/keplr_auth";
+import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
+
+export function setPresignV2Routes(router: Router) {
+  registry.registerPath({
+    method: "post",
+    path: "/tss/v2/presign/step3",
+    tags: ["TSS"],
+    summary: "Execute step 3 of presign process",
+    description: "Finalizes presign stage",
+    security: [{ userAuth: [] }],
+    request: {
+      headers: UserAuthHeaderSchema,
+      body: {
+        required: true,
+        content: {
+          "application/json": {
+            schema: PresignStep3RequestSchema,
+          },
+        },
+      },
+    },
+    responses: {
+      200: {
+        description: "Presign process completed successfully",
+        content: {
+          "application/json": {
+            schema: PresignStep3SuccessResponseSchema,
+          },
+        },
+      },
+      400: {
+        description: "Invalid request - Session, stage, or result invalid",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      401: {
+        description: "Unauthorized - Invalid or missing JWT token",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+      500: {
+        description: "Internal server error",
+        content: {
+          "application/json": {
+            schema: ErrorResponseSchema,
+          },
+        },
+      },
+    },
+  });
+  router.post(
+    "/presign/step3",
+    [userJwtMiddlewareV2, tssActivateMiddleware],
+    async (
+      req: UserAuthenticatedRequest<PresignStep3Body>,
+      res: Response<OkoApiResponse<PresignStep3Response>>,
+    ) => {
+      const state = req.app.locals as any;
+      const user = res.locals.user;
+      const body = req.body;
+
+      const runPresignStep3Res = await runPresignStep3(state.db, {
+        email: user.email.toLowerCase(),
+        wallet_id: user.wallet_id_secp256k1,
+        session_id: body.session_id,
+        presign_big_r: body.presign_big_r,
+      });
+      if (runPresignStep3Res.success === false) {
+        res
+          .status(ErrorCodeMap[runPresignStep3Res.code] ?? 500)
+          .json(runPresignStep3Res);
+
+        return;
+      }
+
+      sendResponseWithNewToken(res, runPresignStep3Res.data);
+    },
+  );
+}

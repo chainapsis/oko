@@ -31,12 +31,10 @@ import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 registry.registerPath({
   method: "post",
-  path: "/tss/v2/keygen",
+  path: "/tss/v2/keygen_ed25519",
   tags: ["TSS"],
-  summary: "Run keygen to generate TSS key pairs for both curve types",
-  description:
-    "Creates user and wallet entities for both secp256k1 and ed25519 curve types \
-    by mapping the received key shares with the user's identifier",
+  summary: "Run keygen to generate Ed25519 TSS key pair",
+  description: "Creates Ed25519 wallet for existing user with secp256k1 wallet",
   security: [{ oauthAuth: [] }],
   request: {
     headers: OAuthHeaderSchema,
@@ -44,15 +42,14 @@ registry.registerPath({
       required: true,
       content: {
         "application/json": {
-          schema: KeygenRequestV2Schema,
+          schema: KeygenEd25519RequestSchema,
         },
       },
     },
   },
   responses: {
     200: {
-      description:
-        "Successfully created user and wallet entities for both curve types",
+      description: "Successfully created Ed25519 wallet",
       content: {
         "application/json": {
           schema: SignInSuccessResponseV2Schema,
@@ -67,9 +64,17 @@ registry.registerPath({
         },
       },
     },
+    404: {
+      description: "Not Found - User not found or secp256k1 wallet not found",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
     409: {
       description:
-        "Conflict - Email already exists or public key already in use",
+        "Conflict - Ed25519 wallet already exists or public key already in use",
       content: {
         "application/json": {
           schema: ErrorResponseSchema,
@@ -87,15 +92,16 @@ registry.registerPath({
   },
 });
 
-export async function keygenV2(
-  req: OAuthAuthenticatedRequest<KeygenBodyV2>,
+export async function keygenEd25519(
+  req: OAuthAuthenticatedRequest<KeygenEd25519Body>,
   res: Response<OkoApiResponse<SignInResponseV2>, OAuthLocals>,
 ) {
   const state = req.app.locals;
   const oauthUser = res.locals.oauth_user;
   const auth_type = oauthUser.type as AuthType;
-  const user_identifier = oauthUser.user_identifier;
   const body = req.body;
+
+  const user_identifier = oauthUser.user_identifier;
 
   if (!user_identifier) {
     res.status(401).json({
@@ -111,14 +117,13 @@ export async function keygenV2(
     expires_in: state.jwt_expires_in,
   };
 
-  const runKeygenRes = await runKeygenV2(
+  const runKeygenRes = await runKeygenEd25519(
     state.db,
     jwtConfig,
     {
       auth_type,
       user_identifier,
-      keygen_2_secp256k1: body.keygen_2_secp256k1,
-      keygen_2_ed25519: body.keygen_2_ed25519,
+      keygen_2: body.keygen_2,
       email: oauthUser.email,
       name: oauthUser.name,
     },

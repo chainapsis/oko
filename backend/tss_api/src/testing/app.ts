@@ -3,7 +3,8 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 
-import { makeTssRouter } from "@oko-wallet-tss-api/routes";
+import { makeV1Router } from "@oko-wallet-tss-api/routes/v1";
+import { makeV2Router } from "@oko-wallet-tss-api/routes/v2";
 
 export function makeApp(env: {
   JWT_SECRET: string;
@@ -21,7 +22,9 @@ export function makeApp(env: {
     res.send("Ok");
   });
 
-  app.use("/tss/v1", makeTssRouter());
+  app.use("/tss/v1", makeV1Router);
+  app.use("/tss/v2", makeV2Router);
+
   app.locals.jwt_secret = env.JWT_SECRET;
   app.locals.jwt_expires_in = env.JWT_EXPIRES_IN;
   app.locals.encryption_secret = env.ENCRYPTION_SECRET;
