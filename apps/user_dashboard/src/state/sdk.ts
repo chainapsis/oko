@@ -12,6 +12,7 @@ import {
   OKO_SDK_API_KEY,
   OKO_SDK_ENDPOINT,
 } from "@oko-wallet-user-dashboard/fetch";
+import { useUserInfoState } from "./user_info";
 
 // SDK type identifiers
 export type SDKType = "eth" | "cosmos";
@@ -44,7 +45,7 @@ interface SDKState {
 
 interface SDKActions {
   initOkoEth: () => Promise<OkoEthWalletInterface | null>;
-  initOkoCosmos: (onAccountsChanged?: (event: AccountsChangedEvent) => void) => Promise<OkoCosmosWalletInterface | null>;
+  initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
 }
 
 const createInitialSDKStatus = <T>(): SDKStatus<T> => ({
@@ -128,7 +129,7 @@ export const useSDKState = create(
       }
     },
 
-    initOkoCosmos: async (onAccountsChanged) => {
+    initOkoCosmos: async () => {
       const { sdks } = get();
       const cosmosStatus = sdks.cosmos;
 
@@ -166,18 +167,16 @@ export const useSDKState = create(
 
         const okoCosmos = initRes.data;
 
-        // Setup listener with callback instead of direct store access
-        if (onAccountsChanged) {
-          okoCosmos.on({
-            type: "accountsChanged",
-            handler: ({ email, publicKey }) => {
-              onAccountsChanged({
-                email: email || null,
-                publicKey: publicKey ? Buffer.from(publicKey).toString("hex") : null,
-              });
-            },
-          });
-        }
+        // Setup auth state listener - updates user_info store directly
+        okoCosmos.on({
+          type: "accountsChanged",
+          handler: ({ email, publicKey }) => {
+            useUserInfoState.getState().setUserInfo({
+              email: email || null,
+              publicKey: publicKey ? Buffer.from(publicKey).toString("hex") : null,
+            });
+          },
+        });
 
         set({
           sdks: {
