@@ -37,6 +37,19 @@ export interface SignInResponse {
   };
 }
 
+export interface SignInResponseV2 {
+  token: string;
+  user: {
+    wallet_id_secp256k1: string;
+    wallet_id_ed25519: string;
+    public_key_secp256k1: string;
+    public_key_ed25519: string;
+    user_identifier: string;
+    email: string | null;
+    name: string | null;
+  };
+}
+
 export interface SignInSilentlyResponse {
   token: string | null;
   // user: {

@@ -54,6 +54,52 @@ export const SignInSuccessResponseSchema = registry.register(
   }),
 );
 
+// V2: Response for combined keygen (secp256k1 + ed25519)
+export const SignInResponseV2Schema = registry.register(
+  "TssUserSignInResponseV2",
+  z.object({
+    token: z.string().openapi({
+      description: "JWT token for authentication",
+    }),
+    user: z
+      .object({
+        wallet_id_secp256k1: z.string().openapi({
+          description: "Unique secp256k1 wallet identifier",
+        }),
+        wallet_id_ed25519: z.string().openapi({
+          description: "Unique ed25519 wallet identifier",
+        }),
+        public_key_secp256k1: z.string().openapi({
+          description: "secp256k1 public key in hex format",
+        }),
+        public_key_ed25519: z.string().openapi({
+          description: "ed25519 public key in hex format",
+        }),
+        user_identifier: z.string().openapi({
+          description: "User identifier",
+        }),
+        email: z.string().nullable().openapi({
+          description: "User email address (nullable)",
+        }),
+        name: z.string().nullable().openapi({
+          description:
+            "User name (nullable) Only for OAuth providers that support it",
+        }),
+      })
+      .openapi({ description: "Authenticated user information with both wallets" }),
+  }),
+);
+
+export const SignInSuccessResponseV2Schema = registry.register(
+  "TssUserSignInSuccessResponseV2",
+  z.object({
+    success: z.literal(true).openapi({
+      description: "Indicates the request succeeded",
+    }),
+    data: SignInResponseV2Schema,
+  }),
+);
+
 const AuthTypeEnum = z.enum(["google", "auth0", "x", "telegram", "discord"]);
 
 export const CheckEmailRequestSchema = registry.register(

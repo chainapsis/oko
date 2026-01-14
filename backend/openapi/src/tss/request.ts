@@ -54,3 +54,40 @@ export const ReshareRequestSchema = registry.register(
       .openapi({ description: "Reshared key shares grouped by node" }),
   }),
 );
+
+// V2: Combined keygen for both secp256k1 and ed25519
+const TeddsaKeygenOutputSchema = z.object({
+  key_package: z.array(z.number()).openapi({
+    description: "FROST KeyPackage bytes (contains secret share)",
+  }),
+  public_key_package: z.array(z.number()).openapi({
+    description: "Public key package bytes (shared by all participants)",
+  }),
+  identifier: z
+    .array(z.number())
+    .openapi({ description: "Participant identifier bytes" }),
+  public_key: z
+    .array(z.number())
+    .openapi({ description: "Ed25519 public key bytes (32 bytes)" }),
+});
+
+export const KeygenRequestV2Schema = registry.register(
+  "TssKeygenRequestV2",
+  z.object({
+    keygen_2_secp256k1: z
+      .object({
+        private_share: z.string().openapi({
+          description: "Private key share for secp256k1 TSS",
+        }),
+        public_key: z.string().openapi({
+          description: "secp256k1 public key in hex format",
+        }),
+      })
+      .openapi({
+        description: "Keygen stage 2 payload for secp256k1",
+      }),
+    keygen_2_ed25519: TeddsaKeygenOutputSchema.openapi({
+      description: "Server's keygen output for ed25519",
+    }),
+  }),
+);
