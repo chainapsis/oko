@@ -8,121 +8,201 @@ import {
 } from "@oko-wallet/oko-sdk-eth";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
+import {
+  OKO_SDK_API_KEY,
+  OKO_SDK_ENDPOINT,
+} from "@oko-wallet-user-dashboard/fetch";
 
-import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
+// SDK type identifiers
+export type SDKType = "eth" | "cosmos";
+
+// Generic SDK status for each chain type
+export interface SDKStatus<T = unknown> {
+  instance: T | null;
+  isInitializing: boolean;
+  isLazyInitialized: boolean;
+}
+
+// Type-safe SDK instances
+export type SDKInstances = {
+  eth: OkoEthWalletInterface | null;
+  cosmos: OkoCosmosWalletInterface | null;
+};
+
+// Event types
+export interface AccountsChangedEvent {
+  email: string | null;
+  publicKey: string | null;
+}
 
 interface SDKState {
-  oko_eth: OkoEthWalletInterface | null;
-  oko_cosmos: OkoCosmosWalletInterface | null;
-
-  isEthInitializing: boolean;
-  isEthLazyInitialized: boolean;
-
-  isCosmosInitializing: boolean;
-  isCosmosLazyInitialized: boolean;
+  sdks: {
+    eth: SDKStatus<OkoEthWalletInterface>;
+    cosmos: SDKStatus<OkoCosmosWalletInterface>;
+  };
 }
 
 interface SDKActions {
   initOkoEth: () => Promise<OkoEthWalletInterface | null>;
-  initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
+  initOkoCosmos: (onAccountsChanged?: (event: AccountsChangedEvent) => void) => Promise<OkoCosmosWalletInterface | null>;
 }
 
+const createInitialSDKStatus = <T>(): SDKStatus<T> => ({
+  instance: null,
+  isInitializing: false,
+  isLazyInitialized: false,
+});
+
 const initialState: SDKState = {
-  oko_eth: null,
-  oko_cosmos: null,
-
-  isEthInitializing: false,
-  isEthLazyInitialized: false,
-
-  isCosmosInitializing: false,
-  isCosmosLazyInitialized: false,
+  sdks: {
+    eth: createInitialSDKStatus<OkoEthWalletInterface>(),
+    cosmos: createInitialSDKStatus<OkoCosmosWalletInterface>(),
+  },
 };
 
 export const useSDKState = create(
   combine<SDKState, SDKActions>(initialState, (set, get) => ({
     initOkoEth: async () => {
-      const state = get();
+      const { sdks } = get();
+      const ethStatus = sdks.eth;
 
-      if (state.oko_eth || state.isEthInitializing) {
+      if (ethStatus.instance || ethStatus.isInitializing) {
         console.log("ETH SDK already initialized or initializing, skipping...");
-        return state.oko_eth;
+        return ethStatus.instance;
       }
 
       console.log("Initializing ETH SDK...");
       set({
-        isEthInitializing: true,
+        sdks: {
+          ...sdks,
+          eth: { ...ethStatus, isInitializing: true },
+        },
       });
 
+      if (!OKO_SDK_API_KEY) {
+        console.error("ETH SDK init fail: NEXT_PUBLIC_OKO_SDK_API_KEY is not set");
+        set({
+          sdks: {
+            ...get().sdks,
+            eth: { ...ethStatus, isInitializing: false },
+          },
+        });
+        return null;
+      }
+
       const initRes = OkoEthWallet.init({
-        api_key:
-          "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
-        sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
+        api_key: OKO_SDK_API_KEY,
+        sdk_endpoint: OKO_SDK_ENDPOINT,
       });
 
       if (initRes.success) {
-        console.log("Eth sdk initialized");
+        console.log("ETH SDK initialized");
 
         const okoEth = initRes.data;
         set({
-          oko_eth: initRes.data,
-          isEthInitializing: false,
+          sdks: {
+            ...get().sdks,
+            eth: { instance: okoEth, isInitializing: false, isLazyInitialized: false },
+          },
         });
 
         await okoEth.waitUntilInitialized;
         set({
-          isEthLazyInitialized: true,
+          sdks: {
+            ...get().sdks,
+            eth: { ...get().sdks.eth, isLazyInitialized: true },
+          },
         });
 
         return okoEth;
       } else {
-        console.error("sdk init fail, err: %s", initRes.err);
-        set({ isEthInitializing: false });
+        console.error("ETH SDK init fail, err: %s", initRes.err);
+        set({
+          sdks: {
+            ...get().sdks,
+            eth: { ...ethStatus, isInitializing: false },
+          },
+        });
 
         return null;
       }
     },
-    initOkoCosmos: async () => {
-      const state = get();
 
-      if (state.oko_cosmos) {
-        console.log(
-          "Cosmos SDK already initialized or initializing, skipping...",
-        );
-        return state.oko_cosmos;
+    initOkoCosmos: async (onAccountsChanged) => {
+      const { sdks } = get();
+      const cosmosStatus = sdks.cosmos;
+
+      if (cosmosStatus.instance || cosmosStatus.isInitializing) {
+        console.log("Cosmos SDK already initialized or initializing, skipping...");
+        return cosmosStatus.instance;
       }
 
       console.log("Initializing Cosmos SDK...");
       set({
-        isCosmosInitializing: true,
+        sdks: {
+          ...sdks,
+          cosmos: { ...cosmosStatus, isInitializing: true },
+        },
       });
 
+      if (!OKO_SDK_API_KEY) {
+        console.error("Cosmos SDK init fail: NEXT_PUBLIC_OKO_SDK_API_KEY is not set");
+        set({
+          sdks: {
+            ...get().sdks,
+            cosmos: { ...cosmosStatus, isInitializing: false },
+          },
+        });
+        return null;
+      }
+
       const initRes = OkoCosmosWallet.init({
-        api_key:
-          "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
-        sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
+        api_key: OKO_SDK_API_KEY,
+        sdk_endpoint: OKO_SDK_ENDPOINT,
       });
 
       if (initRes.success) {
         console.log("Cosmos SDK initialized");
 
         const okoCosmos = initRes.data;
-        setupCosmosListener(okoCosmos);
+
+        // Setup listener with callback instead of direct store access
+        if (onAccountsChanged) {
+          okoCosmos.on({
+            type: "accountsChanged",
+            handler: ({ email, publicKey }) => {
+              onAccountsChanged({
+                email: email || null,
+                publicKey: publicKey ? Buffer.from(publicKey).toString("hex") : null,
+              });
+            },
+          });
+        }
 
         set({
-          oko_cosmos: okoCosmos,
-          isCosmosInitializing: false,
+          sdks: {
+            ...get().sdks,
+            cosmos: { instance: okoCosmos, isInitializing: false, isLazyInitialized: false },
+          },
         });
 
         await okoCosmos.waitUntilInitialized;
         set({
-          isCosmosLazyInitialized: true,
+          sdks: {
+            ...get().sdks,
+            cosmos: { ...get().sdks.cosmos, isLazyInitialized: true },
+          },
         });
 
         return okoCosmos;
       } else {
-        console.error("Cosmos sdk init fail, err: %s", initRes.err);
-
-        set({ isCosmosInitializing: false });
+        console.error("Cosmos SDK init fail, err: %s", initRes.err);
+        set({
+          sdks: {
+            ...get().sdks,
+            cosmos: { ...cosmosStatus, isInitializing: false },
+          },
+        });
 
         return null;
       }
@@ -130,18 +210,8 @@ export const useSDKState = create(
   })),
 );
 
-function setupCosmosListener(cosmosSDK: OkoCosmosWalletInterface) {
-  const setUserInfo = useUserInfoState.getState().setUserInfo;
-
-  if (cosmosSDK) {
-    cosmosSDK.on({
-      type: "accountsChanged",
-      handler: ({ email, publicKey }) => {
-        setUserInfo({
-          email: email || null,
-          publicKey: publicKey ? Buffer.from(publicKey).toString("hex") : null,
-        });
-      },
-    });
-  }
-}
+// Convenience selectors for backward compatibility
+export const selectEthSDK = (state: SDKState & SDKActions) => state.sdks.eth.instance;
+export const selectCosmosSDK = (state: SDKState & SDKActions) => state.sdks.cosmos.instance;
+export const selectEthInitialized = (state: SDKState & SDKActions) => state.sdks.eth.isLazyInitialized;
+export const selectCosmosInitialized = (state: SDKState & SDKActions) => state.sdks.cosmos.isLazyInitialized;

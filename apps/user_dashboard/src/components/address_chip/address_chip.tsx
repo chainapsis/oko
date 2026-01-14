@@ -1,9 +1,9 @@
-import { type FC, type MouseEvent, useMemo, useState } from "react";
+import { type FC, type MouseEvent, useMemo } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 
-import { displayToast } from "@oko-wallet-user-dashboard/components/toast";
+import { useCopyToClipboard } from "@oko-wallet-user-dashboard/hooks/use_copy_to_clipboard";
 import styles from "./address_chip.module.scss";
 
 interface AddressChipProps {
@@ -17,7 +17,7 @@ export const AddressChip: FC<AddressChipProps> = ({
   isEthereumAddress,
   className,
 }) => {
-  const [isCopied, setIsCopied] = useState(false);
+  const { isCopied, copy } = useCopyToClipboard();
 
   const displayAddress = useMemo(() => {
     if (!address) {
@@ -47,20 +47,9 @@ export const AddressChip: FC<AddressChipProps> = ({
     };
   }, [address]);
 
-  const handleCopy = async (e: MouseEvent) => {
+  const handleCopy = (e: MouseEvent) => {
     e.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(address);
-      setIsCopied(true);
-
-      displayToast({
-        variant: "success",
-        title: "Copied",
-      });
-      setTimeout(() => setIsCopied(false), 1500);
-    } catch (error) {
-      console.error("Failed to copy address:", error);
-    }
+    copy(address);
   };
 
   return (

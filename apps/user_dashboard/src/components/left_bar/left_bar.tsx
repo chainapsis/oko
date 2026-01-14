@@ -5,6 +5,10 @@ import { usePathname } from "next/navigation";
 import cn from "classnames";
 import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
 
+import {
+  OKO_FEATURE_REQUEST_ENDPOINT,
+  OKO_GET_SUPPORT_ENDPOINT,
+} from "@oko-wallet-user-dashboard/fetch";
 import styles from "./left_bar.module.scss";
 import { navigationItems } from "./constant";
 import { AccountInfoWithSubMenu } from "../account_info_with_sub_menu/account_info_with_sub_menu";
@@ -40,15 +44,11 @@ export const LeftBar: FC = () => {
           <AccountInfoWithSubMenu />
 
           <div>
-            <ExternalLinkItem
-              href={process.env.NEXT_PUBLIC_OKO_FEATURE_REQUEST_ENDPOINT}
-            >
+            <ExternalLinkItem href={OKO_FEATURE_REQUEST_ENDPOINT}>
               Feature Request
             </ExternalLinkItem>
 
-            <ExternalLinkItem
-              href={process.env.NEXT_PUBLIC_OKO_GET_SUPPORT_ENDPOINT}
-            >
+            <ExternalLinkItem href={OKO_GET_SUPPORT_ENDPOINT}>
               Get Support
             </ExternalLinkItem>
           </div>

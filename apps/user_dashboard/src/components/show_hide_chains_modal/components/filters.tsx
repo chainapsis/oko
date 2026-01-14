@@ -1,4 +1,4 @@
-import { type FC, Fragment, type ReactNode, useState } from "react";
+import { type FC, type ReactNode, useState } from "react";
 import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -28,7 +28,7 @@ export const ShowHideChainsFilters: FC<ShowHideChainsFiltersProps> = ({
   );
 
   return (
-    <Fragment>
+    <>
       <div className={styles.filterWrapper}>
         <FilterDropdown
           options={visibilityOptions}
@@ -46,7 +46,7 @@ export const ShowHideChainsFilters: FC<ShowHideChainsFiltersProps> = ({
         visibility,
         ecosystem,
       })}
-    </Fragment>
+    </>
   );
 };
 

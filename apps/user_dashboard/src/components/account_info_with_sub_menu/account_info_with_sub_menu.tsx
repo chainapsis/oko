@@ -6,10 +6,10 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./account_info_with_sub_menu.module.scss";
 import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
-import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
+import { useSDKState, selectCosmosSDK } from "@oko-wallet-user-dashboard/state/sdk";
 
 export const AccountInfoWithSubMenu = () => {
-  const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
+  const okoWallet = useSDKState(selectCosmosSDK)?.okoWallet;
 
   const email = useUserInfoState((state) => state.email);
   const clearUserInfo = useUserInfoState((state) => state.clearUserInfo);

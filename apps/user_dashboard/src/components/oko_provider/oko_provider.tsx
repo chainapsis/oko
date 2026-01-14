@@ -3,27 +3,31 @@
 import { type FC, type PropsWithChildren, useEffect } from "react";
 
 import { useInitOko } from "./use_oko";
-import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
+import { useChainStore } from "@oko-wallet-user-dashboard/state/chains";
 import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
-import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
+import { useSDKState, selectCosmosInitialized } from "@oko-wallet-user-dashboard/state/sdk";
+import { useChains } from "@oko-wallet-user-dashboard/hooks/queries";
 
 export const OkoProvider: FC<PropsWithChildren> = ({ children }) => {
   useInitOko();
-  const { chainStore } = useRootStore();
+
+  // Initialize chain data fetching
+  useChains();
+
+  const setActiveUser = useChainStore((state) => state.setActiveUser);
+  const clearActiveUser = useChainStore((state) => state.clearActiveUser);
   const { email, authType, isSignedIn, setAuthType } = useUserInfoState();
 
-  const isCosmosLazyInitialized = useSDKState(
-    (state) => state.isCosmosLazyInitialized,
-  );
+  const isCosmosLazyInitialized = useSDKState(selectCosmosInitialized);
 
   useEffect(() => {
     if (email && authType) {
-      chainStore.setActiveUser({ authType, email });
+      setActiveUser(authType, email);
       return;
     }
 
-    chainStore.setActiveUserKey(null);
-  }, [chainStore, email, authType]);
+    clearActiveUser();
+  }, [email, authType, setActiveUser, clearActiveUser]);
 
   useEffect(() => {
     if (!isCosmosLazyInitialized) {

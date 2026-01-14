@@ -1,4 +1,4 @@
-import { type FC, type MouseEvent, useState } from "react";
+import type { FC, MouseEvent } from "react";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { EmptyStateIcon } from "@oko-wallet/oko-common-ui/icons/empty_state_icon";
@@ -7,7 +7,8 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./address_item.module.scss";
 import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
-import type { ModularChainInfo } from "@oko-wallet-user-dashboard/store_legacy/chain/chain-info";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
+import { useCopyToClipboard } from "@oko-wallet-user-dashboard/hooks/use_copy_to_clipboard";
 
 interface AddressItemProps {
   chainInfo: ModularChainInfo;
@@ -22,7 +23,7 @@ export const AddressItem: FC<AddressItemProps> = ({
   onQrModalOpen,
   onQrModalClose,
 }) => {
-  const [isCopied, setIsCopied] = useState(false);
+  const { isCopied, copy } = useCopyToClipboard();
 
   const imageUrl = chainInfo.chainSymbolImageUrl;
 
@@ -36,17 +37,9 @@ export const AddressItem: FC<AddressItemProps> = ({
     return `${addr.slice(0, LENGTH_OF_FIRST_PART)}...${addr.slice(-LENGTH_OF_LAST_PART)}`;
   };
 
-  const handleCopyAddress = async (e: MouseEvent) => {
+  const handleCopyAddress = (e: MouseEvent) => {
     e.stopPropagation();
-    if (!address) return;
-
-    try {
-      await navigator.clipboard.writeText(address);
-      setIsCopied(true);
-      setTimeout(() => setIsCopied(false), 1500);
-    } catch (error) {
-      console.error("Failed to copy address:", error);
-    }
+    if (address) copy(address);
   };
 
   return (

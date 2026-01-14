@@ -1,4 +1,3 @@
-import { observer } from "mobx-react-lite";
 import {
   type FunctionComponent,
   type MouseEvent,
@@ -7,52 +6,47 @@ import {
   useMemo,
   useState,
 } from "react";
-import { Dec } from "@keplr-wallet/unit";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Toggle } from "@oko-wallet/oko-common-ui/toggle";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Badge } from "@oko-wallet/oko-common-ui/badge";
 
 import styles from "./chain_item.module.scss";
-import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
-import type { ModularChainInfo } from "@oko-wallet-user-dashboard/store_legacy/chain/chain-info";
-import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
+import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
+import { useChainStore } from "@oko-wallet-user-dashboard/state/chains";
 
 interface ChainItemProps {
   chainInfo: ModularChainInfo;
-  getViewTokens: (chainId: string) => ViewToken[];
+  getTokenBalances: (chainId: string) => TokenBalance[];
   onEnable: (chainId: string, checked: boolean) => void;
 }
 
 export const ChainItem: FunctionComponent<ChainItemProps> = memo(
-  observer(({ chainInfo, getViewTokens, onEnable }) => {
-    const { chainStore } = useRootStore();
+  ({ chainInfo, getTokenBalances, onEnable }) => {
+    const isChainEnabled = useChainStore((state) => state.isChainEnabled);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isEnabled, setIsEnabled] = useState(() =>
-      chainStore.isEnabledChain(chainInfo.chainId),
+      isChainEnabled(chainInfo.chainId)
     );
 
-    const viewTokens = useMemo(
+    const tokenBalances = useMemo(
       () =>
-        getViewTokens(chainInfo.chainId).filter((v) =>
-          v.token.toDec().gt(new Dec(0)),
+        getTokenBalances(chainInfo.chainId).filter(
+          (bal) => BigInt(bal.token.amount) > BigInt(0)
         ),
-      [getViewTokens, chainInfo.chainId],
+      [getTokenBalances, chainInfo.chainId]
     );
 
-    const imageUrl =
-      "chainSymbolImageUrl" in chainInfo
-        ? chainInfo.chainSymbolImageUrl
-        : undefined;
-
-    const hasTokens = viewTokens.length > 0;
+    const imageUrl = chainInfo.chainSymbolImageUrl;
+    const hasTokens = tokenBalances.length > 0;
 
     const handleToggle = useCallback(
       (checked: boolean) => {
         setIsEnabled(checked);
         onEnable(chainInfo.chainId, checked);
       },
-      [chainInfo.chainId, onEnable],
+      [chainInfo.chainId, onEnable]
     );
 
     const handleTokensClick = (e: MouseEvent) => {
@@ -85,8 +79,8 @@ export const ChainItem: FunctionComponent<ChainItemProps> = memo(
                   onClick={handleTokensClick}
                 >
                   <Typography size="xs" weight="medium" color="tertiary">
-                    {viewTokens.length}{" "}
-                    {viewTokens.length > 1 ? "tokens" : "token"}
+                    {tokenBalances.length}{" "}
+                    {tokenBalances.length > 1 ? "tokens" : "token"}
                   </Typography>
                   <ChevronDownIcon
                     size={12}
@@ -105,34 +99,30 @@ export const ChainItem: FunctionComponent<ChainItemProps> = memo(
           className={`${styles.tokenListWrapper} ${isExpanded ? styles.expanded : ""}`}
         >
           <div className={styles.tokenList}>
-            {viewTokens.map((viewToken) => (
+            {tokenBalances.map((tokenBalance) => (
               <FoldableTokenItem
-                key={viewToken.token.currency.coinMinimalDenom}
-                viewToken={viewToken}
+                key={tokenBalance.token.currency.coinMinimalDenom}
+                tokenBalance={tokenBalance}
               />
             ))}
           </div>
         </div>
       </div>
     );
-  }),
+  }
 );
 
 interface FoldableTokenItemProps {
-  viewToken: ViewToken;
+  tokenBalance: TokenBalance;
 }
 
 const FoldableTokenItem: FunctionComponent<FoldableTokenItemProps> = ({
-  viewToken,
+  tokenBalance,
 }) => {
-  const currency = viewToken.token.currency;
+  const currency = tokenBalance.token.currency;
 
   const imageUrl = currency.coinImageUrl;
-
-  const coinDenom =
-    "originCurrency" in currency && currency.originCurrency
-      ? currency.originCurrency.coinDenom
-      : currency.coinDenom;
+  const coinDenom = currency.coinDenom;
 
   const isIBC = currency.coinMinimalDenom.startsWith("ibc/");
 

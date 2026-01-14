@@ -1,4 +1,4 @@
-import { type FC, Fragment } from "react";
+import type { FC } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
@@ -20,7 +20,7 @@ export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
   onSignIn,
 }) => {
   return (
-    <Fragment>
+    <>
       <div className={styles.backRow}>
         <div className={styles.backIcon} onClick={onBack}>
           <ChevronLeftIcon size={24} color={"var(--fg-primary)"} />
@@ -102,6 +102,6 @@ export const LoginSocialsView: FC<LoginSocialsViewProps> = ({
           </Typography>
         </Button> */}
       </div>
-    </Fragment>
+    </>
   );
 };
