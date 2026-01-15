@@ -40,6 +40,11 @@ import { reqKeygenV2 } from "@oko-wallet/api-lib";
 
 import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
 import { teddsaKeygenToHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
+import {
+  splitTeddsaSigningShare,
+  extractSigningShare,
+} from "@oko-wallet-attached/crypto/sss_ed25519";
+import { teddsaKeyShareToHex } from "@oko-wallet/oko-types/user_key_share";
 import { saveReferral } from "./user";
 
 /**
@@ -86,24 +91,38 @@ export async function handleNewUserV2(
   }
   const secp256k1UserKeyShares = splitUserKeySharesRes.data;
 
-  // 4. ed25519 key share split @TODO
-  // const ed25519UserKeyShares = await splitUserKeySharesEd25519(
-  //   ed25519Keygen1,
-  //   keyshareNodeMeta,
-  // );
+  // 4. ed25519 key share split
+  const ed25519SigningShareRes = extractSigningShare(ed25519Keygen1.key_package);
+  if (ed25519SigningShareRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519SigningShareRes.err },
+    };
+  }
+  const ed25519SplitRes = await splitTeddsaSigningShare(
+    ed25519SigningShareRes.data,
+    keyshareNodeMeta,
+  );
+  if (ed25519SplitRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519SplitRes.err },
+    };
+  }
+  const ed25519UserKeyShares = ed25519SplitRes.data;
 
   // 5. Send key shares by both curves to ks nodes using V2 API
   const registerKeySharesResults: Result<void, string>[] = await Promise.all(
-    secp256k1UserKeyShares.map((keyShareByNode) =>
+    secp256k1UserKeyShares.map((keyShareByNode, index) =>
       registerKeySharesV2(keyShareByNode.node.endpoint, idToken, authType, {
         secp256k1: {
           public_key: secp256k1Keygen1.public_key.toHex(),
           share: encodePoint256ToKeyShareString(keyShareByNode.share),
         },
-        // ed25519: {
-        //   public_key: ed25519Keygen1.public_key.toHex(),
-        //   share: ed25519UserKeyShares[index].share, // TODO: encode ed25519 share
-        // },
+        ed25519: {
+          public_key: ed25519Keygen1.public_key.toHex(),
+          share: teddsaKeyShareToHex(ed25519UserKeyShares[index].share),
+        },
       }),
     ),
   );
@@ -358,22 +377,35 @@ export async function handleExistingUserNeedsEd25519Keygen(
   const { keygen_1: ed25519Keygen1, keygen_2: ed25519Keygen2 } =
     ed25519KeygenRes.data;
 
-  // 2. ed25519 key share split @TODO
-  // const ed25519UserKeyShares = await splitUserKeySharesEd25519(
-  //   ed25519Keygen1,
-  //   keyshareNodeMetaEd25519,
-  // );
+  // 2. ed25519 key share split
+  const ed25519SigningShareRes = extractSigningShare(ed25519Keygen1.key_package);
+  if (ed25519SigningShareRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519SigningShareRes.err },
+    };
+  }
+  const ed25519SplitRes = await splitTeddsaSigningShare(
+    ed25519SigningShareRes.data,
+    keyshareNodeMetaEd25519,
+  );
+  if (ed25519SplitRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519SplitRes.err },
+    };
+  }
+  const ed25519UserKeyShares = ed25519SplitRes.data;
 
   // 3. Send ed25519 key shares to ks nodes using V2 API
-  // Note: Using keyshareNodeMetaEd25519.nodes for ed25519 registration
   const registerEd25519Results: Result<void, string>[] = await Promise.all(
-    keyshareNodeMetaEd25519.nodes.map((node) =>
+    keyshareNodeMetaEd25519.nodes.map((node, index) =>
       registerKeyShareEd25519V2(
         node.endpoint,
         idToken,
         authType,
         ed25519Keygen1.public_key.toHex(),
-        "", // TODO: replace with ed25519UserKeyShares[index].share
+        teddsaKeyShareToHex(ed25519UserKeyShares[index].share),
       ),
     ),
   );
