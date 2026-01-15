@@ -43,7 +43,7 @@ const ToastIcon: FC<ToastIconProps> = ({ variant }) => {
   }
 };
 
-export const Toast: FC<ToastItemProps> = ({ title, description, variant }) => {
+export const Toast: FC<ToastItemProps> = ({ title, variant }) => {
   return (
     <div
       className={styles.toastInner}
