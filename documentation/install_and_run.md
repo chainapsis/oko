@@ -10,13 +10,13 @@ Shell scripts for local development environment setup and E2E testing.
 
 ## Scripts
 
-### ci-setup.sh
+### setup
 
 Sets up the local development environment by running the same build steps as
 GitHub CI.
 
 ```bash
-./internals/ci/ci-setup.sh [OPTIONS]
+yarn ci setup [OPTIONS]
 ```
 
 **Build Steps:**
@@ -43,10 +43,10 @@ GitHub CI.
 
 ```bash
 # Full setup
-./internals/ci/ci-setup.sh
+yarn ci setup
 
 # Quick setup (skip checks)
-./internals/ci/ci-setup.sh --skip-rust --skip-typecheck
+yarn ci setup --skip-rust --skip-typecheck
 ```
 
 ---
