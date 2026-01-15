@@ -31,7 +31,8 @@
       "recommended": true,
       "style": {
         "noNonNullAssertion": "off",
-        "useTemplate": "off"
+        "useTemplate": "off",
+        "useBlockStatements": "error"
       },
       "suspicious": {
         "noExplicitAny": "off"
