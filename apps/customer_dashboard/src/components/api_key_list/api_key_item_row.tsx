@@ -95,7 +95,9 @@ export const APIKeyItemRow: FC<APIKeyItemRowProps> = ({
 };
 
 function formatDate(dateString: string): string {
-  if (!dateString) return "";
+  if (!dateString) {
+    return "";
+  }
 
   const date = new Date(dateString);
   // This ensures consistent date formatting between server and client
