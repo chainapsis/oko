@@ -1,16 +1,19 @@
 import { type FC } from "react";
+
 import type { MakeEIP712SigData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-
 import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
 import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
 import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
-import { useEIP712SigModal } from "./hooks/use_eip712_sig_modal";
-import { EthereumEip712SignatureContent } from "./ethereum_eip712_signature_content";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
+
+import { useEIP712SigModal } from "./hooks/use_eip712_sig_modal";
+import { useEIP712Action } from "./hooks/use_eip712_action";
+import { EthereumEip712SignatureContent } from "./ethereum_eip712_signature_content";
+import { X402PaymentDesc } from "./x402_payment_desc";
 
 export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
   getIsAborted,
@@ -24,6 +27,10 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
       modalId,
     });
 
+  const actionResult = useEIP712Action(data.payload);
+  const isEIP3009Payment =
+    actionResult.action?.kind === "eip3009.transferWithAuthorization";
+
   return (
     <div className={styles.container}>
       <CommonModal className={styles.modal}>
@@ -36,7 +43,7 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
         </div>
 
         <Spacing height={20} />
-        <ArbitrarySignatureDesc />
+        {isEIP3009Payment ? <X402PaymentDesc /> : <ArbitrarySignatureDesc />}
 
         <Spacing height={20} />
 

@@ -25,7 +25,9 @@ export const EthereumEip712SignatureContent: FC<
         signer={payload.signer}
       />
       <Spacing height={isUnknownAction ? 28 : 20} />
-      {action ? <EIP712Actions action={action} chain={evmChain} /> : null}
+      {action && evmChain ? (
+        <EIP712Actions action={action} chain={evmChain} />
+      ) : null}
     </div>
   );
 };

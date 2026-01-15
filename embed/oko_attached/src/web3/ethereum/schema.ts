@@ -163,3 +163,37 @@ export function validateUniswapPermitSingle(
     return { ok: false, error: e as ZodError };
   }
 }
+
+// EIP-3009 TransferWithAuthorization (used by x402):
+// from(address), to(address), value(uint256), validAfter(uint256), validBefore(uint256), nonce(bytes32)
+export function getTransferWithAuthorizationSchema(opts?: BuildOptions) {
+  return z
+    .object({
+      from: addressSchema(),
+      to: addressSchema(),
+      value: uintSchema(opts?.uintOutput),
+      validAfter: uintSchema(opts?.uintOutput),
+      validBefore: uintSchema(opts?.uintOutput),
+      nonce: z.string(),
+    })
+    .strict();
+}
+
+export type TransferWithAuthorization = z.infer<
+  ReturnType<typeof getTransferWithAuthorizationSchema>
+>;
+
+export function validateTransferWithAuthorization(
+  payload: unknown,
+  opts?: BuildOptions,
+):
+  | { ok: true; data: TransferWithAuthorization }
+  | { ok: false; error: ZodError } {
+  const schema = getTransferWithAuthorizationSchema(opts);
+  try {
+    const parsed = schema.parse(payload);
+    return { ok: true, data: parsed };
+  } catch (e) {
+    return { ok: false, error: e as ZodError };
+  }
+}

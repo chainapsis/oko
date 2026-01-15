@@ -1,25 +1,28 @@
+import type { Chain, TypedDataDefinition } from "viem";
+
 import type {
   ChainInfoForAttachedModal,
   EthereumEip712SignPayload,
 } from "@oko-wallet/oko-sdk-core";
 import { parseTypedDataDefinition } from "@oko-wallet/oko-sdk-eth";
-import type { Chain, TypedDataDefinition } from "viem";
+import {
+  validateEip712Domain,
+  validateErc2612Permit,
+  validateDAIPermit,
+  validateUniswapPermitSingle,
+  validateTransferWithAuthorization,
+  type EIP712Domain,
+} from "@oko-wallet-attached/web3/ethereum/schema";
+import { findCurrencyByErc20Address } from "@oko-wallet-attached/web3/ethereum/utils";
+import { useSupportedEthChain } from "@oko-wallet-attached/web3/ethereum/hooks/use_supported_eth_chain";
 
 import type {
   EIP712Action,
   ERC2612PermitAction,
   DAIPermitAction,
   UniswapPermitSingleAction,
+  EIP3009TransferWithAuthorizationAction,
 } from "../actions/types";
-import {
-  validateEip712Domain,
-  validateErc2612Permit,
-  validateDAIPermit,
-  validateUniswapPermitSingle,
-  type EIP712Domain,
-} from "@oko-wallet-attached/web3/ethereum/schema";
-import { findCurrencyByErc20Address } from "@oko-wallet-attached/web3/ethereum/utils";
-import { useSupportedEthChain } from "@oko-wallet-attached/web3/ethereum/hooks/use_supported_eth_chain";
 
 export type UseEIP712ActionResult =
   | {
@@ -195,6 +198,51 @@ function parseUniswapPermitSingle(
   };
 }
 
+function parseEIP3009TransferWithAuthorization(
+  data: TypedDataDefinition,
+  chainInfo: ChainInfoForAttachedModal,
+): EIP3009TransferWithAuthorizationAction | null {
+  const transferType = data.types?.TransferWithAuthorization;
+  if (!Array.isArray(transferType)) {
+    return null;
+  }
+
+  const message = data.message;
+  if (!message || typeof message !== "object") {
+    return null;
+  }
+
+  const parsed = validateTransferWithAuthorization(message);
+  if (!parsed.ok) {
+    return null;
+  }
+
+  if (!data.domain || typeof data.domain !== "object") {
+    return null;
+  }
+
+  const domain = parseEIP712Domain(data.domain);
+  if (!domain) {
+    return null;
+  }
+
+  const contractAddress = domain.verifyingContract;
+
+  return {
+    kind: "eip3009.transferWithAuthorization",
+    from: parsed.data.from,
+    to: parsed.data.to,
+    value: parsed.data.value,
+    validAfter: parsed.data.validAfter,
+    validBefore: parsed.data.validBefore,
+    nonce: parsed.data.nonce,
+    domain: domain,
+    typedData: data,
+    tokenLogoURI: findCurrencyByErc20Address(chainInfo, contractAddress)
+      ?.coinImageUrl,
+  };
+}
+
 function parseAction(payload: EthereumEip712SignPayload): EIP712Action | null {
   const typedData = parseTypedDataDefinition(
     payload.data.serialized_typed_data,
@@ -225,7 +273,17 @@ function parseAction(payload: EthereumEip712SignPayload): EIP712Action | null {
       break;
     }
 
-    // Add more cases here for future implementations
+    case "TransferWithAuthorization": {
+      const eip3009Action = parseEIP3009TransferWithAuthorization(
+        typedData,
+        payload.chain_info,
+      );
+      if (eip3009Action) {
+        return eip3009Action;
+      }
+      break;
+    }
+
     default:
       break;
   }
