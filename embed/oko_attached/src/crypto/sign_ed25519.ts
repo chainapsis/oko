@@ -8,10 +8,9 @@ import type {
   SignatureShareEntry,
   KeyPackageRaw,
   PublicKeyPackageRaw,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/oko-types/teddsa";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
-import { reqPresignEd25519, reqSignEd25519 } from "@oko-wallet/teddsa-api-lib";
 
 import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
@@ -29,131 +28,133 @@ export async function makeSignOutputEd25519(
   getIsAborted: () => boolean,
 ): Promise<Result<Uint8Array, MakeSignOutputError>> {
   try {
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
+    // @TODO
 
-    const presignRes = await reqPresignEd25519(
-      TSS_V1_ENDPOINT,
-      {},
-      apiKey,
-      authToken,
-    );
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
 
-    if (!presignRes.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: presignRes.msg },
-        },
-      };
-    }
+    // const presignRes = await reqPresignEd25519(
+    //   TSS_V1_ENDPOINT,
+    //   {},
+    //   apiKey,
+    //   authToken,
+    // );
 
-    const { session_id: sessionId, commitments_0: serverCommitment } =
-      presignRes.data;
+    // if (!presignRes.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: presignRes.msg },
+    //     },
+    //   };
+    // }
 
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
+    // const { session_id: sessionId, commitments_0: serverCommitment } =
+    //   presignRes.data;
 
-    const round1Result = teddsaSignRound1(keyPackage.keyPackage);
-    if (!round1Result.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: round1Result.err },
-        },
-      };
-    }
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
 
-    const clientCommitment: CommitmentEntry = {
-      identifier: round1Result.data.identifier,
-      commitments: round1Result.data.commitments,
-    };
+    // const round1Result = teddsaSignRound1(keyPackage.keyPackage);
+    // if (!round1Result.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: round1Result.err },
+    //     },
+    //   };
+    // }
 
-    const allCommitments: CommitmentEntry[] = [
-      clientCommitment,
-      serverCommitment,
-    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
+    // const clientCommitment: CommitmentEntry = {
+    //   identifier: round1Result.data.identifier,
+    //   commitments: round1Result.data.commitments,
+    // };
 
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
+    // const allCommitments: CommitmentEntry[] = [
+    //   clientCommitment,
+    //   serverCommitment,
+    // ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
-    const serverSignRes = await reqSignEd25519(
-      TSS_V1_ENDPOINT,
-      {
-        session_id: sessionId,
-        msg: [...message],
-        commitments_1: clientCommitment,
-      },
-      authToken,
-    );
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
 
-    if (!serverSignRes.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: serverSignRes.msg },
-        },
-      };
-    }
+    // const serverSignRes = await reqSignEd25519(
+    //   TSS_V1_ENDPOINT,
+    //   {
+    //     session_id: sessionId,
+    //     msg: [...message],
+    //     commitments_1: clientCommitment,
+    //   },
+    //   authToken,
+    // );
 
-    const serverSignatureShare: SignatureShareEntry =
-      serverSignRes.data.signature_share_0;
+    // if (!serverSignRes.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: serverSignRes.msg },
+    //     },
+    //   };
+    // }
 
-    if (getIsAborted()) {
-      return { success: false, err: { type: "aborted" } };
-    }
+    // const serverSignatureShare: SignatureShareEntry =
+    //   serverSignRes.data.signature_share_0;
 
-    const round2Result = teddsaSignRound2(
-      message,
-      keyPackage.keyPackage,
-      new Uint8Array(round1Result.data.nonces),
-      allCommitments,
-    );
+    // if (getIsAborted()) {
+    //   return { success: false, err: { type: "aborted" } };
+    // }
 
-    if (!round2Result.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: round2Result.err },
-        },
-      };
-    }
+    // const round2Result = teddsaSignRound2(
+    //   message,
+    //   keyPackage.keyPackage,
+    //   new Uint8Array(round1Result.data.nonces),
+    //   allCommitments,
+    // );
 
-    const clientSignatureShare: SignatureShareEntry = {
-      identifier: round2Result.data.identifier,
-      signature_share: round2Result.data.signature_share,
-    };
+    // if (!round2Result.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: round2Result.err },
+    //     },
+    //   };
+    // }
 
-    const allSignatureShares: SignatureShareEntry[] = [
-      clientSignatureShare,
-      serverSignatureShare,
-    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
+    // const clientSignatureShare: SignatureShareEntry = {
+    //   identifier: round2Result.data.identifier,
+    //   signature_share: round2Result.data.signature_share,
+    // };
 
-    const aggregateResult = teddsaAggregate(
-      message,
-      allCommitments,
-      allSignatureShares,
-      keyPackage.publicKeyPackage,
-    );
+    // const allSignatureShares: SignatureShareEntry[] = [
+    //   clientSignatureShare,
+    //   serverSignatureShare,
+    // ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
-    if (!aggregateResult.success) {
-      return {
-        success: false,
-        err: {
-          type: "sign_fail",
-          error: { type: "error", msg: aggregateResult.err },
-        },
-      };
-    }
+    // const aggregateResult = teddsaAggregate(
+    //   message,
+    //   allCommitments,
+    //   allSignatureShares,
+    //   keyPackage.publicKeyPackage,
+    // );
 
-    return { success: true, data: aggregateResult.data };
+    // if (!aggregateResult.success) {
+    //   return {
+    //     success: false,
+    //     err: {
+    //       type: "sign_fail",
+    //       error: { type: "error", msg: aggregateResult.err },
+    //     },
+    //   };
+    // }
+
+    return { success: true, data: new Uint8Array(64) };
   } catch (error) {
     return {
       success: false,

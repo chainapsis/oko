@@ -26,7 +26,7 @@ export default function LoginView() {
         onClick={connect}
         fullWidth
         size="lg"
-        disabled={status !== WalletStatus.Disconnected}
+        disabled={status === WalletStatus.Connecting}
         loading={status === WalletStatus.Connecting}
       >
         Sign in

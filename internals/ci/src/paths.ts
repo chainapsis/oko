@@ -32,6 +32,8 @@ export const paths = (function () {
 
   const sdk_core = path.join(__dirname, "../../../sdk/oko_sdk_core/");
 
+  const sdk_sol = path.join(__dirname, "../../../sdk/oko_sdk_sol/");
+
   const sdk_eth = path.join(__dirname, "../../../sdk/oko_sdk_eth/");
 
   const sdk_cosmos = path.join(__dirname, "../../../sdk/oko_sdk_cosmos/");
@@ -69,6 +71,11 @@ export const paths = (function () {
   const frost_keplr_wasm = path.join(
     __dirname,
     "../../../crypto/teddsa/frost_ed25519_keplr_wasm",
+  );
+
+  const teddsa_addon_addon = path.join(
+    __dirname,
+    "../../../crypto/teddsa/teddsa_addon/addon",
   );
 
   const oko_pg_interface = path.join(
@@ -146,6 +153,7 @@ export const paths = (function () {
     sdk_eth,
     sdk_cosmos_kit,
     sdk_cosmos,
+    sdk_sol,
     sdk_common,
     crypto_bytes,
     crypto_js,
@@ -161,6 +169,7 @@ export const paths = (function () {
     cait_sith_keplr_wasm,
     cait_sith_addon_addon,
     frost_keplr_wasm,
+    teddsa_addon_addon,
     demo_web,
     user_dashboard,
     ct_dashboard_web,

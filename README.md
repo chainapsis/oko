@@ -98,9 +98,12 @@ source ~/.zshrc
 ### Continuous integration (CI)
 
 Please refer to `internals/ci`. It is where the commands that can be executed to
-automate some processes are.
+automate some commonly used processes are.
 
 Notable CI commands include the following.
 
 - `yarn ci deps_check`, to check the NodeJS dependencies across the repository
 - `yarn ci lang_format`, to format NodeJS code across the repository
+
+You may also want to look into `docs/install_and_run.sh` for how to install the
+application for development.

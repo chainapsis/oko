@@ -1,19 +1,24 @@
 // NOTE: Bytes types use @oko-wallet/bytes for type-safe fixed-length byte handling
 // NOTE: Use *FromRaw() to convert WASM output to Bytes types, *ToRaw() for the reverse
 
-import { Bytes, type Bytes32, type Bytes64 } from "@oko-wallet/bytes";
-import type {
+import {
+  Bytes,
+  type Bytes32,
+  type Bytes64,
+  type Bytes69,
+  type Bytes138,
+} from "@oko-wallet/bytes";
+
+import {
+  CentralizedKeygenOutput,
+  CommitmentEntry,
   KeyPackageRaw,
   PublicKeyPackageRaw,
-  CentralizedKeygenOutput,
-} from "./keygen";
-import type {
-  SigningCommitmentOutput,
-  SignatureShareOutput,
-  CommitmentEntry,
-  SignatureShareEntry,
   SignatureOutput,
-} from "./sign";
+  SignatureShareEntry,
+  SignatureShareOutput,
+  SigningCommitmentOutput,
+} from "@oko-wallet/oko-types/teddsa";
 
 export interface KeyPackage {
   identifier: Bytes32;
@@ -34,8 +39,8 @@ export interface CentralizedKeygen {
 }
 
 export interface SigningCommitment {
-  nonces: Uint8Array;
-  commitments: Uint8Array;
+  nonces: Bytes138;
+  commitments: Bytes69;
   identifier: Bytes32;
 }
 
@@ -46,7 +51,7 @@ export interface SignatureShare {
 
 export interface Commitment {
   identifier: Bytes32;
-  commitments: Uint8Array;
+  commitments: Bytes69;
 }
 
 export interface SignShare {
@@ -59,20 +64,36 @@ export interface Signature {
 }
 
 export function keyPackageFromRaw(raw: KeyPackageRaw): KeyPackage {
+  const identifier = Bytes.fromUint8Array(new Uint8Array(raw.identifier), 32);
+  if (!identifier.success) {
+    throw new Error(`Invalid identifier: ${identifier.err}`);
+  }
+  const signing_share = Bytes.fromUint8Array(
+    new Uint8Array(raw.signing_share),
+    32,
+  );
+  if (!signing_share.success) {
+    throw new Error(`Invalid signing_share: ${signing_share.err}`);
+  }
+  const verifying_share = Bytes.fromUint8Array(
+    new Uint8Array(raw.verifying_share),
+    32,
+  );
+  if (!verifying_share.success) {
+    throw new Error(`Invalid verifying_share: ${verifying_share.err}`);
+  }
+  const verifying_key = Bytes.fromUint8Array(
+    new Uint8Array(raw.verifying_key),
+    32,
+  );
+  if (!verifying_key.success) {
+    throw new Error(`Invalid verifying_key: ${verifying_key.err}`);
+  }
   return {
-    identifier: Bytes.fromUint8ArrayUnsafe(new Uint8Array(raw.identifier), 32),
-    signing_share: Bytes.fromUint8ArrayUnsafe(
-      new Uint8Array(raw.signing_share),
-      32,
-    ),
-    verifying_share: Bytes.fromUint8ArrayUnsafe(
-      new Uint8Array(raw.verifying_share),
-      32,
-    ),
-    verifying_key: Bytes.fromUint8ArrayUnsafe(
-      new Uint8Array(raw.verifying_key),
-      32,
-    ),
+    identifier: identifier.data,
+    signing_share: signing_share.data,
+    verifying_share: verifying_share.data,
+    verifying_key: verifying_key.data,
     min_signers: raw.min_signers,
   };
 }
@@ -82,17 +103,24 @@ export function publicKeyPackageFromRaw(
 ): PublicKeyPackage {
   const verifying_shares = new Map<string, Bytes32>();
   for (const [idHex, share] of Object.entries(raw.verifying_shares)) {
-    verifying_shares.set(
-      idHex,
-      Bytes.fromUint8ArrayUnsafe(new Uint8Array(share), 32),
-    );
+    const shareBytes = Bytes.fromUint8Array(new Uint8Array(share), 32);
+    if (!shareBytes.success) {
+      throw new Error(
+        `Invalid verifying_share for ${idHex}: ${shareBytes.err}`,
+      );
+    }
+    verifying_shares.set(idHex, shareBytes.data);
+  }
+  const verifying_key = Bytes.fromUint8Array(
+    new Uint8Array(raw.verifying_key),
+    32,
+  );
+  if (!verifying_key.success) {
+    throw new Error(`Invalid verifying_key: ${verifying_key.err}`);
   }
   return {
     verifying_shares,
-    verifying_key: Bytes.fromUint8ArrayUnsafe(
-      new Uint8Array(raw.verifying_key),
-      32,
-    ),
+    verifying_key: verifying_key.data,
   };
 }
 
@@ -108,28 +136,52 @@ export function centralizedKeygenFromRaw(
 export function signingCommitmentFromRaw(
   raw: SigningCommitmentOutput,
 ): SigningCommitment {
+  const nonces = Bytes.fromUint8Array(new Uint8Array(raw.nonces), 138);
+  if (!nonces.success) {
+    throw new Error(`Invalid nonces: ${nonces.err}`);
+  }
+  const commitments = Bytes.fromUint8Array(new Uint8Array(raw.commitments), 69);
+  if (!commitments.success) {
+    throw new Error(`Invalid commitments: ${commitments.err}`);
+  }
+  const identifier = Bytes.fromUint8Array(new Uint8Array(raw.identifier), 32);
+  if (!identifier.success) {
+    throw new Error(`Invalid identifier: ${identifier.err}`);
+  }
   return {
-    nonces: new Uint8Array(raw.nonces),
-    commitments: new Uint8Array(raw.commitments),
-    identifier: Bytes.fromUint8ArrayUnsafe(new Uint8Array(raw.identifier), 32),
+    nonces: nonces.data,
+    commitments: commitments.data,
+    identifier: identifier.data,
   };
 }
 
 export function signatureShareFromRaw(
   raw: SignatureShareOutput,
 ): SignatureShare {
+  const signature_share = Bytes.fromUint8Array(
+    new Uint8Array(raw.signature_share),
+    32,
+  );
+  if (!signature_share.success) {
+    throw new Error(`Invalid signature_share: ${signature_share.err}`);
+  }
+  const identifier = Bytes.fromUint8Array(new Uint8Array(raw.identifier), 32);
+  if (!identifier.success) {
+    throw new Error(`Invalid identifier: ${identifier.err}`);
+  }
   return {
-    signature_share: Bytes.fromUint8ArrayUnsafe(
-      new Uint8Array(raw.signature_share),
-      32,
-    ),
-    identifier: Bytes.fromUint8ArrayUnsafe(new Uint8Array(raw.identifier), 32),
+    signature_share: signature_share.data,
+    identifier: identifier.data,
   };
 }
 
 export function signatureFromRaw(raw: SignatureOutput): Signature {
+  const signature = Bytes.fromUint8Array(new Uint8Array(raw.signature), 64);
+  if (!signature.success) {
+    throw new Error(`Invalid signature: ${signature.err}`);
+  }
   return {
-    signature: Bytes.fromUint8ArrayUnsafe(new Uint8Array(raw.signature), 64),
+    signature: signature.data,
   };
 }
 
@@ -159,7 +211,7 @@ export function publicKeyPackageToRaw(
 export function commitmentToEntry(c: Commitment): CommitmentEntry {
   return {
     identifier: Array.from(c.identifier.toUint8Array()),
-    commitments: Array.from(c.commitments),
+    commitments: Array.from(c.commitments.toUint8Array()),
   };
 }
 
@@ -168,21 +220,4 @@ export function signShareToEntry(s: SignShare): SignatureShareEntry {
     identifier: Array.from(s.identifier.toUint8Array()),
     signature_share: Array.from(s.signature_share.toUint8Array()),
   };
-}
-
-export function serializeKeyPackage(pkg: KeyPackage): number[] {
-  const result: number[] = [];
-  result.push(...pkg.identifier.toUint8Array());
-  result.push(...pkg.signing_share.toUint8Array());
-  result.push(...pkg.verifying_share.toUint8Array());
-  result.push(...pkg.verifying_key.toUint8Array());
-  result.push(pkg.min_signers & 0xff);
-  result.push((pkg.min_signers >> 8) & 0xff);
-  return result;
-}
-
-export function serializePublicKeyPackage(pkg: PublicKeyPackage): number[] {
-  const raw = publicKeyPackageToRaw(pkg);
-  const json = JSON.stringify(raw);
-  return Array.from(new TextEncoder().encode(json));
 }

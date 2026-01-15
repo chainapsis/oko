@@ -21,7 +21,7 @@ import { abortTssSession } from "@oko-wallet-tss-api/api/tss_session";
 import {
   runTriplesStep1,
   runTriplesStep2,
-} from "@oko-wallet-tss-api/api/triples";
+} from "@oko-wallet-tss-api/api/v1/triples";
 import { TEST_CUSTOMER } from "@oko-wallet-tss-api/api/tests";
 
 const SSS_THRESHOLD = 2;

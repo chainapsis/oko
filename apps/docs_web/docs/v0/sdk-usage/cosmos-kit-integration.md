@@ -36,21 +36,16 @@ npm install @cosmjs/amino @cosmjs/proto-signing
 
 ## Basic Setup
 
-### 1. Create Oko Wallets
+### 1. Create Oko Wallet
 
-Use `makeOkoWallets` to generate wallet instances for your desired login
-providers:
+Use `makeOkoWallet` to create a wallet instance:
 
 ```typescript
-import { makeOkoWallets } from "@oko-wallet/oko-cosmos-kit";
+import { makeOkoWallet } from "@oko-wallet/oko-cosmos-kit";
 
-const okoWallets = makeOkoWallets({
+const okoWallet = makeOkoWallet({
   apiKey: "your-oko-api-key",
   sdkEndpoint: "https://your-custom-oko-sdk.example.com", // optional, Only specify if you have your own SDK endpoint
-  loginMethods: [
-    { provider: "google" },
-    // optional, Specify which login providers to enable. If not specified, all available providers will be included
-  ],
 });
 ```
 
@@ -61,10 +56,10 @@ wallets:
 
 ```typescript
 import { ChainProvider } from "@cosmos-kit/react";
-import { makeOkoWallets } from "@oko-wallet/oko-cosmos-kit";
+import { makeOkoWallet } from "@oko-wallet/oko-cosmos-kit";
 import { chains, assets } from "chain-registry";
 
-const okoWallets = makeOkoWallets({
+const okoWallet = makeOkoWallet({
   apiKey: "your-oko-api-key",
 });
 
@@ -73,7 +68,7 @@ export default function App({ Component, pageProps }) {
     <ChainProvider
       chains={chains}
       assetLists={assets}
-      wallets={[...okoWallets]}
+      wallets={[okoWallet]}
     >
       <Component {...pageProps} />
     </ChainProvider>
@@ -116,7 +111,7 @@ function WalletConnect() {
 
 ### OkoWalletOptions
 
-The `makeOkoWallets` function accepts the following options:
+The `makeOkoWallet` function accepts the following options:
 
 ```typescript
 interface OkoWalletOptions {
@@ -126,27 +121,18 @@ interface OkoWalletOptions {
   // Custom SDK endpoint (optional)
   // Defaults to Oko's production endpoint
   sdkEndpoint?: string;
-
-  // Login methods to enable (optional)
-  // If not specified, all available providers will be enabled
-  loginMethods?: OkoLoginMethod[];
 }
-
-interface OkoLoginMethod {
-  provider: SignInType;
-}
-
-type SignInType = "google"; // More providers coming soon
 ```
 
 ### Login Providers
 
-Each login provider creates a separate wallet entry in Cosmos Kit's wallet list:
+When connecting, users can select their preferred login provider from a modal:
 
-- `oko_wallet_google` - Google OAuth login
-
-When `loginMethods` is not specified, all available providers are automatically
-included.
+- Google OAuth
+- Email/passwordless
+- X (Twitter) OAuth
+- Telegram OAuth
+- Discord OAuth
 
 ## Next Steps
 

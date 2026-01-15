@@ -1,5 +1,8 @@
 import type { Bytes32 } from "@oko-wallet/bytes";
-import type { KeyPackageRaw, PublicKeyPackageRaw } from "@oko-wallet/teddsa-interface";
+import type {
+  KeyPackageRaw,
+  PublicKeyPackageRaw,
+} from "@oko-wallet/oko-types/teddsa";
 
 export interface TeddsaKeygenOutputBytes {
   key_package: KeyPackageRaw;

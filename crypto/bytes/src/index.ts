@@ -241,4 +241,6 @@ export type Bytes32 = Bytes<32>;
 export type Bytes33 = Bytes<33>; // e.g. compressed public key
 export type Bytes60 = Bytes<60>;
 export type Bytes64 = Bytes<64>;
+export type Bytes69 = Bytes<69>; // FROST SigningCommitments (postcard serialized)
+export type Bytes138 = Bytes<138>; // FROST SigningNonces (postcard serialized)
 export type BytesN = Bytes<number>;

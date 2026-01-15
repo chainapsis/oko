@@ -33,22 +33,16 @@ npm install @oko-wallet/oko-interchain-kit @interchain-kit/react @interchain-kit
 
 ## Basic Setup
 
-### 1. Create Oko Wallets
+### 1. Create Oko Wallet
 
-Use `makeOkoWallets` to generate wallet instances for your desired login
-providers:
+Use `makeOkoWallet` to create a wallet instance:
 
 ```typescript
-import { makeOkoWallets } from "@oko-wallet/oko-interchain-kit";
+import { makeOkoWallet } from "@oko-wallet/oko-interchain-kit";
 
-const okoWallets = makeOkoWallets({
+const okoWallet = makeOkoWallet({
   apiKey: "your-oko-api-key",
   sdkEndpoint: "https://your-custom-oko-sdk.example.com", // optional, Only specify if you have your own SDK endpoint
-  loginMethods: [
-    { provider: "google" },
-    { provider: "email" },
-    // optional, Specify which login providers to enable. If not specified, all available providers will be included
-  ],
 });
 ```
 
@@ -59,10 +53,10 @@ wallets:
 
 ```typescript
 import { ChainProvider } from "@interchain-kit/react";
-import { makeOkoWallets } from "@oko-wallet/oko-interchain-kit";
+import { makeOkoWallet } from "@oko-wallet/oko-interchain-kit";
 import { chains, assetLists } from "@chain-registry/v2";
 
-const okoWallets = makeOkoWallets({
+const okoWallet = makeOkoWallet({
   apiKey: "your-oko-api-key",
 });
 
@@ -71,7 +65,7 @@ export default function App({ Component, pageProps }) {
     <ChainProvider
       chains={chains}
       assetLists={assetLists}
-      wallets={[...okoWallets]}
+      wallets={[okoWallet]}
     >
       <Component {...pageProps} />
     </ChainProvider>
@@ -109,7 +103,7 @@ function WalletConnect() {
 
 ### OkoWalletOptions
 
-The `makeOkoWallets` function accepts the following options:
+The `makeOkoWallet` function accepts the following options:
 
 ```typescript
 interface OkoWalletOptions {
@@ -119,30 +113,18 @@ interface OkoWalletOptions {
   // Custom SDK endpoint (optional)
   // Defaults to Oko's production endpoint
   sdkEndpoint?: string;
-
-  // Login methods to enable (optional)
-  // If not specified, all available providers will be enabled
-  loginMethods?: OkoLoginMethod[];
 }
-
-interface OkoLoginMethod {
-  provider: SignInType;
-}
-
-type SignInType = "google"; // More providers coming soon
 ```
 
 ### Login Providers
 
-Each login provider creates a separate wallet entry in Interchain Kit's wallet
-list:
+When connecting, users can select their preferred login provider from a modal:
 
-- `oko-wallet_google` - Google OAuth login
-- `oko-wallet_email` - Email/passwordless login
-- More providers coming soon (X, Telegram, Discord)
-
-When `loginMethods` is not specified, all available providers are automatically
-included.
+- Google OAuth
+- Email/passwordless
+- X (Twitter) OAuth
+- Telegram OAuth
+- Discord OAuth
 
 ## Signing Transactions
 

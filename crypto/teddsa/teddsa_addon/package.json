@@ -17,6 +17,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@oko-wallet/oko-types": "^0.1.2-alpha.1",
     "@oko-wallet/teddsa-interface": "workspace:*"
   },
   "devDependencies": {

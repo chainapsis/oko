@@ -3,6 +3,12 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import type { CurveType } from "./curve_type";
 
+// ============================================================================
+// Common Types
+// ============================================================================
+
+export type PublicKeyBytes = Bytes32 | Bytes33;
+
 export type KeyShareStatus = "active" | "inactive";
 
 export interface KeyShare {
@@ -27,6 +33,21 @@ export type UpdateKeyShareRequest = {
   status: KeyShareStatus;
 };
 
+/**
+ * Key share registration request for KS node.
+ *
+ * Share format by curve_type (both are 64 bytes):
+ *
+ * secp256k1:
+ *   Point256 { x: 32 bytes, y: 32 bytes }
+ *   - Elliptic curve point coordinates
+ *
+ * ed25519 (TEDDSA):
+ *   TeddsaKeyShare { identifier: 32 bytes, signing_share: 32 bytes }
+ *   - identifier: SSS x-coordinate (node_name SHA256 hash, byte[31] &= 0x0F)
+ *   - signing_share: SSS y-coordinate (split signing share)
+ *   - Note: verifying_share is recovered from signing_share via scalar_base_mult
+ */
 export interface RegisterKeyShareRequest {
   user_auth_id: string;
   auth_type: AuthType;
@@ -76,6 +97,12 @@ export interface CheckKeyShareRequestBody {
   public_key: string; // hex string
 }
 
+/**
+ * Key share reshare request for KS node.
+ *
+ * Share format is same as RegisterKeyShareRequest (64 bytes).
+ * See RegisterKeyShareRequest for detailed format by curve_type.
+ */
 export interface ReshareKeyShareRequest {
   user_auth_id: string;
   auth_type: AuthType;
@@ -89,3 +116,193 @@ export type ReshareKeyShareBody = {
   public_key: string; // hex string
   share: string; // hex string
 };
+
+// ============================================================================
+// v2 API Types
+// ============================================================================
+
+/**
+ * v2 wallets object type (internal, with Bytes)
+ * Key: curve_type, Value: public_key (Bytes)
+ */
+export type WalletsRequest = {
+  secp256k1?: Bytes33;
+  ed25519?: Bytes32;
+};
+
+/**
+ * v2 wallets object type (body, with hex string)
+ * Key: curve_type, Value: public_key (hex string)
+ */
+export type WalletsRequestBody = {
+  secp256k1?: string; // hex string, 33 bytes
+  ed25519?: string; // hex string, 32 bytes
+};
+
+// --- GET /v2/keyshare ---
+
+export interface GetKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRequest;
+}
+
+export interface GetKeyShareV2RequestBody {
+  wallets: WalletsRequestBody;
+}
+
+export interface GetKeyShareV2ResponseWallet {
+  share_id: string;
+  share: string; // hex string (decrypted)
+}
+
+export type GetKeyShareV2Response = {
+  secp256k1?: GetKeyShareV2ResponseWallet;
+  ed25519?: GetKeyShareV2ResponseWallet;
+};
+
+// --- POST /v2/keyshare/check ---
+
+export interface CheckKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRequest;
+}
+
+export interface CheckKeyShareV2RequestBody {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRequestBody;
+}
+
+export interface CheckKeyShareV2ResponseWallet {
+  exists: boolean;
+}
+
+export type CheckKeyShareV2Response = {
+  secp256k1?: CheckKeyShareV2ResponseWallet;
+  ed25519?: CheckKeyShareV2ResponseWallet;
+};
+
+// --- POST /v2/keyshare/register ---
+
+/**
+ * v2 wallet registration info (internal, with Bytes)
+ * Generic type parameter PK specifies the public key type per curve
+ */
+export type WalletRegisterInfo<PK extends Bytes32 | Bytes33> = {
+  public_key: PK;
+  share: Bytes64;
+};
+
+export type WalletsRegisterRequest = {
+  secp256k1?: WalletRegisterInfo<Bytes33>;
+  ed25519?: WalletRegisterInfo<Bytes32>;
+};
+
+/**
+ * v2 wallet registration info (body, with hex string)
+ */
+export type WalletRegisterInfoBody = {
+  public_key: string; // hex string
+  share: string; // hex string (64 bytes)
+};
+
+export type WalletsRegisterRequestBody = {
+  secp256k1?: WalletRegisterInfoBody;
+  ed25519?: WalletRegisterInfoBody;
+};
+
+export interface RegisterKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRegisterRequest;
+}
+
+export interface RegisterKeyShareV2RequestBody {
+  wallets: WalletsRegisterRequestBody;
+}
+
+// --- POST /v2/keyshare/register/ed25519 ---
+
+/**
+ * Request for registering ed25519 wallet for existing users
+ * User must already have secp256k1 wallet
+ */
+export interface RegisterEd25519V2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  public_key: Bytes32;
+  share: Bytes64;
+}
+
+export interface RegisterEd25519V2RequestBody {
+  public_key: string; // hex string, 32 bytes
+  share: string; // hex string, 64 bytes
+}
+
+// --- POST /v2/keyshare/reshare ---
+
+/**
+ * v2 wallet reshare info (internal, with Bytes)
+ * Same structure as WalletRegisterInfo but used for reshare validation
+ */
+export type WalletReshareInfo<PK extends Bytes32 | Bytes33> = {
+  public_key: PK;
+  share: Bytes64;
+};
+
+export type WalletsReshareRequest = {
+  secp256k1?: WalletReshareInfo<Bytes33>;
+  ed25519?: WalletReshareInfo<Bytes32>;
+};
+
+/**
+ * v2 wallet reshare info (body, with hex string)
+ */
+export type WalletReshareInfoBody = {
+  public_key: string; // hex string
+  share: string; // hex string (64 bytes)
+};
+
+export type WalletsReshareRequestBody = {
+  secp256k1?: WalletReshareInfoBody;
+  ed25519?: WalletReshareInfoBody;
+};
+
+export interface ReshareKeyShareV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsReshareRequest;
+}
+
+export interface ReshareKeyShareV2RequestBody {
+  wallets: WalletsReshareRequestBody;
+}
+
+// --- POST /v2/keyshare/reshare/register ---
+
+/**
+ * Request for registering key shares during reshare (new node joining)
+ * User must already exist (reshare scenario)
+ * Wallets must NOT already exist on this node
+ *
+ * Reuses WalletsRegisterRequest since structure is identical
+ */
+export interface ReshareRegisterV2Request {
+  user_auth_id: string;
+  auth_type: AuthType;
+  wallets: WalletsRegisterRequest;
+}
+
+/**
+ * Request body for reshare register endpoint
+ * Reuses WalletsRegisterRequestBody since structure is identical
+ */
+export interface ReshareRegisterV2RequestBody {
+  wallets: WalletsRegisterRequestBody;
+}
+
+// --- Internal Helper Types ---
+
+export type CheckWalletResult = { exists: boolean } | { error: string };

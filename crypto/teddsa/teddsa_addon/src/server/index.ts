@@ -2,7 +2,7 @@
 import type {
   CommitmentEntry,
   SignatureShareEntry,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/oko-types/teddsa";
 
 import {
   napiKeygenCentralizedEd25519,
@@ -11,6 +11,9 @@ import {
   napiSignRound2Ed25519,
   napiAggregateEd25519,
   napiVerifyEd25519,
+  napiExtractKeyPackageSharesEd25519,
+  napiReconstructKeyPackageEd25519,
+  napiReconstructPublicKeyPackageEd25519,
 } from "../../addon/index.js";
 
 // NOTE: NAPI-specific types (serialized bytes format)
@@ -39,6 +42,11 @@ export interface NapiSignatureShareOutput {
 
 export interface NapiSignatureOutput {
   signature: number[];
+}
+
+export interface NapiKeyPackageShares {
+  signing_share: number[];
+  verifying_share: number[];
 }
 
 export function runKeygenCentralizedEd25519(): NapiCentralizedKeygenOutput {
@@ -94,5 +102,47 @@ export function runVerifyEd25519(
     Array.from(message),
     Array.from(signature),
     Array.from(publicKeyPackage),
+  );
+}
+
+export function extractKeyPackageSharesEd25519(
+  keyPackage: Uint8Array,
+): NapiKeyPackageShares {
+  return napiExtractKeyPackageSharesEd25519(Array.from(keyPackage));
+}
+
+export function reconstructKeyPackageEd25519(
+  signingShare: Uint8Array,
+  verifyingShare: Uint8Array,
+  identifier: Uint8Array,
+  verifyingKey: Uint8Array,
+  minSigners: number,
+): Uint8Array {
+  return new Uint8Array(
+    napiReconstructKeyPackageEd25519(
+      Array.from(signingShare),
+      Array.from(verifyingShare),
+      Array.from(identifier),
+      Array.from(verifyingKey),
+      minSigners,
+    ),
+  );
+}
+
+export function reconstructPublicKeyPackageEd25519(
+  clientVerifyingShare: Uint8Array,
+  clientIdentifier: Uint8Array,
+  serverVerifyingShare: Uint8Array,
+  serverIdentifier: Uint8Array,
+  verifyingKey: Uint8Array,
+): Uint8Array {
+  return new Uint8Array(
+    napiReconstructPublicKeyPackageEd25519(
+      Array.from(clientVerifyingShare),
+      Array.from(clientIdentifier),
+      Array.from(serverVerifyingShare),
+      Array.from(serverIdentifier),
+      Array.from(verifyingKey),
+    ),
   );
 }
