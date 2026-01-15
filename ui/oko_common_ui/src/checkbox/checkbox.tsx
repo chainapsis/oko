@@ -1,12 +1,14 @@
-import type { FC } from "react";
 import cn from "classnames";
+import type { FC } from "react";
+
+import {
+  type BaseTypographyProps,
+  Typography,
+} from "@oko-wallet-common-ui/typography/typography";
+
+import { CheckIcon } from "./check_icon";
 
 import styles from "./checkbox.module.scss";
-import { CheckIcon } from "./check_icon";
-import {
-  Typography,
-  type BaseTypographyProps,
-} from "@oko-wallet-common-ui/typography/typography";
 
 interface CheckboxProps {
   id: string;

@@ -1,19 +1,11 @@
 import type { Response, Router } from "express";
-import type {
-  PresignStep1Body,
-  PresignStep1Response,
-  PresignStep2Body,
-  PresignStep2Response,
-  PresignStep3Body,
-  PresignStep3Response,
-} from "@oko-wallet/oko-types/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
-import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   PresignStep1RequestSchema,
   PresignStep1SuccessResponseSchema,
@@ -22,16 +14,24 @@ import {
   PresignStep3RequestSchema,
   PresignStep3SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
-
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
+  PresignStep1Body,
+  PresignStep1Response,
+  PresignStep2Body,
+  PresignStep2Response,
+  PresignStep3Body,
+  PresignStep3Response,
+} from "@oko-wallet/oko-types/tss";
 import {
   runPresignStep1,
   runPresignStep2,
   runPresignStep3,
 } from "@oko-wallet-tss-api/api/v1/presign";
 import {
+  sendResponseWithNewToken,
   type UserAuthenticatedRequest,
   userJwtMiddleware,
-  sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 

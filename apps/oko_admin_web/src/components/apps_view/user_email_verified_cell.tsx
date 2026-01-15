@@ -1,4 +1,5 @@
 import type { FC } from "react";
+
 import { Badge } from "@oko-wallet/oko-common-ui/badge";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 

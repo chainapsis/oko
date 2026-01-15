@@ -1,28 +1,29 @@
 import type { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+
+import {
+  deleteKSNodeById,
+  getAllKSNodesWithHealthCheck,
+  getKSNodeById as getKSNodeByIdFromPG,
+  insertKSNode,
+  updateKSNodeInfo,
+  updateKSNodeStatus,
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 import type {
+  ActivateKSNodeRequest,
+  ActivateKSNodeResponse,
   CreateKSNodeRequest,
-  GetAllKSNodeResponse,
   CreateKSNodeResponse,
   DeactivateKSNodeRequest,
   DeactivateKSNodeResponse,
+  DeleteKSNodeRequest,
+  DeleteKSNodeResponse,
+  GetAllKSNodeResponse,
   GetKSNodeByIdRequest,
   GetKSNodeByIdResponse,
   UpdateKSNodeRequest,
   UpdateKSNodeResponse,
-  ActivateKSNodeRequest,
-  ActivateKSNodeResponse,
-  DeleteKSNodeRequest,
-  DeleteKSNodeResponse,
 } from "@oko-wallet/oko-types/admin";
-import {
-  getAllKSNodesWithHealthCheck,
-  getKSNodeById as getKSNodeByIdFromPG,
-  insertKSNode,
-  updateKSNodeStatus,
-  updateKSNodeInfo,
-  deleteKSNodeById,
-} from "@oko-wallet/oko-pg-interface/ks_nodes";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { KSNodeStatus } from "@oko-wallet-types/tss";
 
 import { healthCheckKSNode } from "./health";

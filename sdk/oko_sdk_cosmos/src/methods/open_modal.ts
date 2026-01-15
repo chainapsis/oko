@@ -1,10 +1,10 @@
-import type {
-  OkoWalletMsgOpenModal,
-  MakeCosmosSigData,
-  OpenModalAckPayload,
-} from "@oko-wallet/oko-sdk-core";
 import { v4 as uuidv4 } from "uuid";
 
+import type {
+  MakeCosmosSigData,
+  OkoWalletMsgOpenModal,
+  OpenModalAckPayload,
+} from "@oko-wallet/oko-sdk-core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function openModal(

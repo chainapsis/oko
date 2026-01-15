@@ -1,8 +1,9 @@
 import type { MakeSolMessageSignData } from "@oko-wallet/oko-sdk-core";
 import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
+
 import {
-  useSolSignatureBase,
   signMessageToHex,
+  useSolSignatureBase,
 } from "../use_sol_signature_base";
 
 export interface UseMessageSigModalArgs {

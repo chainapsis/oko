@@ -2,7 +2,6 @@ import type {
   OkoWalletMsgOpenModal,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
-
 import type { AppError } from "@oko-wallet-attached/errors";
 
 export interface ModalRequest {

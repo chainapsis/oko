@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import type { Result } from "@oko-wallet/stdlib-js";
+
 import {
+  type OAuthState,
   RedirectUriSearchParamsKey,
   type TelegramLoginModalApproveAckPayload,
   type TelegramLoginModalErrorAckPayload,
-  type OAuthState,
 } from "@oko-wallet/oko-sdk-core";
+import type { Result } from "@oko-wallet/stdlib-js";
+import { sendOAuthPayloadToEmbeddedWindow } from "@oko-wallet-attached/components/oauth_callback/send_oauth_payload";
+import { errorToLog } from "@oko-wallet-attached/logging/error";
+import { postLog } from "@oko-wallet-attached/requests/logging";
 
 import type { HandleTelegramCallbackError } from "./types";
-import { postLog } from "@oko-wallet-attached/requests/logging";
-import { errorToLog } from "@oko-wallet-attached/logging/error";
-import { sendOAuthPayloadToEmbeddedWindow } from "@oko-wallet-attached/components/oauth_callback/send_oauth_payload";
 
 export function useTelegramCallback() {
   const [error, setError] = useState<string | null>(null);

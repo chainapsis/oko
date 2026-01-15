@@ -1,13 +1,13 @@
 import type { Response } from "express";
+
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   DeleteCustomerAndCustomerDashboardUsersRequest,
   DeleteCustomerAndCustomerDashboardUsersResponse,
 } from "@oko-wallet/oko-types/customers";
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-
-import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { deleteCustomerAndUsers } from "@oko-wallet-admin-api/api/customer";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 
 export async function delete_customer(
   req: AuthenticatedAdminRequest<DeleteCustomerAndCustomerDashboardUsersRequest>,

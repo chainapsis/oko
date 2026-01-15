@@ -1,9 +1,8 @@
 import type {
+  OAuthSignInError,
   OkoWalletMsgOAuthInfoPass,
   OkoWalletMsgOAuthSignInUpdate,
-  OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
-
 import { postLog } from "@oko-wallet-attached/requests/logging";
 import { sendMsgToWindow } from "@oko-wallet-attached/window_msgs/send";
 import { OKO_SDK_TARGET } from "@oko-wallet-attached/window_msgs/target";

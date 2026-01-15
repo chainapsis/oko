@@ -4,16 +4,16 @@ import {
   arbitrum,
   avalanche,
   base,
+  baseSepolia,
   berachain,
   blast,
   forma,
   mainnet,
   optimism,
   polygon,
-  unichain,
-  story,
   sepolia,
-  baseSepolia,
+  story,
+  unichain,
 } from "viem/chains";
 
 const bnbSmartChain = defineChain({

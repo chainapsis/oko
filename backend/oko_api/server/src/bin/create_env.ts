@@ -1,8 +1,8 @@
 import fs from "node:fs";
-import chalk from "chalk";
 import path from "node:path";
-import { createConfigDir, getEnvPath } from "@oko-wallet/dotenv";
+import chalk from "chalk";
 
+import { createConfigDir, getEnvPath } from "@oko-wallet/dotenv";
 import { ENV_FILE_NAME, EXAMPLE_ENV_FILE } from "@oko-wallet-api/envs";
 
 function main() {

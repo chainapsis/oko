@@ -1,20 +1,20 @@
-import type { GetKeyShareResponse } from "@oko-wallet/ksn-interface/key_share";
+import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 import type { CurveType } from "@oko-wallet/ksn-interface/curve_type";
-import type { NodeStatusInfo } from "@oko-wallet/oko-types/tss";
+import type { GetKeyShareResponse } from "@oko-wallet/ksn-interface/key_share";
+import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { NodeStatusInfo } from "@oko-wallet/oko-types/tss";
 import type {
   Point256,
   UserKeySharePointByNode,
 } from "@oko-wallet/oko-types/user_key_share";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
-
-import type { RequestSplitSharesError } from "../types/ks_node_request";
-import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 import {
   decodeKeyShareStringToPoint256,
   encodePoint256ToKeyShareString,
 } from "@oko-wallet-attached/crypto/key_share_utils";
+
+import type { RequestSplitSharesError } from "../types/ks_node_request";
 
 export async function requestSplitShares(
   publicKey: Bytes33,

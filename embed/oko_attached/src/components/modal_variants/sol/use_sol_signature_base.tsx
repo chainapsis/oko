@@ -1,17 +1,17 @@
 import { useState } from "react";
+
 import type {
   MakeSolSigError,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
-
+import { teddsaKeygenFromHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
+import {
+  type KeyPackageEd25519,
+  makeSignOutputEd25519,
+} from "@oko-wallet-attached/crypto/sign_ed25519";
+import { DEMO_WEB_ORIGIN } from "@oko-wallet-attached/requests/endpoints";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
-import { DEMO_WEB_ORIGIN } from "@oko-wallet-attached/requests/endpoints";
-import {
-  makeSignOutputEd25519,
-  type KeyPackageEd25519,
-} from "@oko-wallet-attached/crypto/sign_ed25519";
-import { teddsaKeygenFromHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
 
 export interface UseSolSignatureBaseArgs {
   modalId: string;

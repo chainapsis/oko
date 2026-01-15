@@ -2,9 +2,11 @@
 
 import type { FC } from "react";
 
-import styles from "./sig_shares_view.module.scss";
-import { SigSharesTable } from "./sig_shares_table";
 import { TitleHeader } from "@oko-wallet-admin/components/title_header/title_header";
+
+import { SigSharesTable } from "./sig_shares_table";
+
+import styles from "./sig_shares_view.module.scss";
 
 export const SigSharesView: FC = () => {
   return (

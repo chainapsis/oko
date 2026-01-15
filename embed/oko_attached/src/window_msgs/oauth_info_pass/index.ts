@@ -1,33 +1,35 @@
-import type { Result } from "@oko-wallet/stdlib-js";
 import type {
+  OAuthSignInError,
   OkoWalletMsgOAuthInfoPass,
   OkoWalletMsgOAuthInfoPassAck,
   OkoWalletMsgOAuthSignInUpdate,
-  OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
-import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
-
-import { sendMsgToWindow } from "../send";
-import {
-  OKO_ATTACHED_POPUP,
-  OKO_SDK_TARGET,
-} from "@oko-wallet-attached/window_msgs/target";
-import type { MsgEventContext } from "@oko-wallet-attached/window_msgs/types";
-import { useAppState } from "@oko-wallet-attached/store/app";
-import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import type { CheckEmailResponse } from "@oko-wallet/oko-types/user";
+import type { Result } from "@oko-wallet/stdlib-js";
 import {
   setUserId,
   setUserProperties,
 } from "@oko-wallet-attached/analytics/amplitude";
-import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
+import { useAppState } from "@oko-wallet-attached/store/app";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import {
+  OKO_ATTACHED_POPUP,
+  OKO_SDK_TARGET,
+} from "@oko-wallet-attached/window_msgs/target";
+import type {
+  MsgEventContext,
+  UserSignInResult,
+} from "@oko-wallet-attached/window_msgs/types";
+
+import { sendMsgToWindow } from "../send";
+import { bail } from "./errors";
 import {
   checkUserExists,
   handleExistingUser,
   handleNewUser,
   handleReshare,
 } from "./user";
-import { bail } from "./errors";
 import { getCredentialsFromPayload } from "./validate_social_login";
 
 export async function handleOAuthInfoPass(

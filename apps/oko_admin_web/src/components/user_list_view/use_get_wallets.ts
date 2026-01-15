@@ -1,6 +1,6 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import type { GetWalletListResponse } from "@oko-wallet/oko-types/admin";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
+import type { GetWalletListResponse } from "@oko-wallet/oko-types/admin";
 import { getWalletList } from "@oko-wallet-admin/fetch/wallet";
 import { useAppState } from "@oko-wallet-admin/state";
 

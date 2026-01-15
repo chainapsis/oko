@@ -1,15 +1,15 @@
 import type { Pool } from "pg";
 import type { Logger } from "winston";
-import type { SMTPConfig } from "@oko-wallet/oko-types/admin";
+
+import { generatePassword } from "@oko-wallet/admin-api/utils/password";
+import { hashPassword } from "@oko-wallet/crypto-js";
+import { sendUnverifiedUserReminderEmail } from "@oko-wallet/ct-dashboard-api/src/email/unverified_reminder";
 import {
   getUnverifiedCustomerDashboardUsers,
   updateCustomerDashboardUserPassword,
 } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import { insertEmailSentLog } from "@oko-wallet/oko-pg-interface/email_sent_logs";
-import { hashPassword } from "@oko-wallet/crypto-js";
-import { generatePassword } from "@oko-wallet/admin-api/utils/password";
-import { sendUnverifiedUserReminderEmail } from "@oko-wallet/ct-dashboard-api/src/email/unverified_reminder";
-
+import type { SMTPConfig } from "@oko-wallet/oko-types/admin";
 import { sleep } from "@oko-wallet-api/utils";
 
 export interface UnverifiedCustomerUserReminderRuntimeConfig {

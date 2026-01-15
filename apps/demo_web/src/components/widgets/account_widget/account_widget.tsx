@@ -1,11 +1,13 @@
-import { useState, type FC } from "react";
+import { type FC, useState } from "react";
+
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
-import { AuthProgressWidget } from "./auth_progress_widget";
-import { AccountInfoWidget } from "./account_info_widget";
-import { LoginWidget } from "../login_widget/login_widget";
 import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
+
+import { LoginWidget } from "../login_widget/login_widget";
+import { AccountInfoWidget } from "./account_info_widget";
+import { AuthProgressWidget } from "./auth_progress_widget";
 
 type SigningInState =
   | { status: "ready" }
@@ -128,4 +130,4 @@ export const AccountWidget: FC<AccountWidgetProps> = () => {
   return <LoginWidget onSignIn={handleSignIn} />;
 };
 
-export interface AccountWidgetProps {}
+export type AccountWidgetProps = {};

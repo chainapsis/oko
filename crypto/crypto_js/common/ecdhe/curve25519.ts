@@ -7,6 +7,7 @@
  */
 
 import { ed25519 } from "@noble/curves/ed25519.js";
+
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
 

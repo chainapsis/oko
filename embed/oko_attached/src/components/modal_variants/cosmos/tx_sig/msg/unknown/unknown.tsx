@@ -1,11 +1,12 @@
-import { useEffect, useRef, useState, type FC } from "react";
 import type { Msg } from "@keplr-wallet/types";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import { ChevronDownIcon } from "@oko-wallet-common-ui/icons/chevron_down";
-import { ChevronUpIcon } from "@oko-wallet-common-ui/icons/chevron_up";
 import cn from "classnames";
+import { type FC, useEffect, useRef, useState } from "react";
 
 import type { UnpackedMsgForView } from "@oko-wallet-attached/types/cosmos_msg";
+import { ChevronDownIcon } from "@oko-wallet-common-ui/icons/chevron_down";
+import { ChevronUpIcon } from "@oko-wallet-common-ui/icons/chevron_up";
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
+
 import styles from "./unknown.module.scss";
 
 export const UnknownMessage: FC<UnknownMessageProps> = ({ msg }) => {

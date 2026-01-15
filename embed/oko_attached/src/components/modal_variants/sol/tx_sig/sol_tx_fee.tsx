@@ -1,8 +1,9 @@
 import type { FC } from "react";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { useCalculateFee } from "@oko-wallet-attached/web3/solana/use_calculate_fee";
 
 import styles from "./sol_tx_fee.module.scss";
-import { useCalculateFee } from "@oko-wallet-attached/web3/solana/use_calculate_fee";
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
 

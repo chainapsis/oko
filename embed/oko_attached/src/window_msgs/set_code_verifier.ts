@@ -2,9 +2,9 @@ import type {
   OkoWalletMsgSetCodeVerifier,
   OkoWalletMsgSetCodeVerifierAck,
 } from "@oko-wallet/oko-sdk-core";
+import { useAppState } from "@oko-wallet-attached/store/app";
 
 import { OKO_SDK_TARGET } from "./target";
-import { useAppState } from "@oko-wallet-attached/store/app";
 import type { MsgEventContext } from "./types";
 
 export function handleSetCodeVerifier(

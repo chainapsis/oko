@@ -1,11 +1,12 @@
-import { useState, type FC } from "react";
+import { type FC, useState } from "react";
 
-import { Widget } from "../widget_components";
-import styles from "./login_widget.module.scss";
+import { CosmosAccountsModal } from "@/components/cosmos_accounts_modal/cosmos_accounts_modal";
+import { useAddresses } from "@/hooks/use_addresses";
 import { useOko } from "@/hooks/use_oko";
 import { useUserInfoState } from "@/state/user_info";
-import { useAddresses } from "@/hooks/use_addresses";
-import { CosmosAccountsModal } from "@/components/cosmos_accounts_modal/cosmos_accounts_modal";
+import { Widget } from "../widget_components";
+
+import styles from "./login_widget.module.scss";
 
 type SignInStrategy = "google" | "email" | "telegram" | "x";
 
@@ -183,4 +184,4 @@ export const LoginWidget: FC<LoginWidgetProps> = () => {
   );
 };
 
-export interface LoginWidgetProps {}
+export type LoginWidgetProps = {};

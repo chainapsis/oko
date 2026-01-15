@@ -1,4 +1,10 @@
 import type { Router } from "express";
+
+import {
+  runPresignServerStep1,
+  runPresignServerStep2,
+  runPresignServerStep3,
+} from "@oko-wallet/cait-sith-keplr-addon/src/server";
 import type {
   PresignStep1Response,
   PresignStep1V2Request,
@@ -8,11 +14,6 @@ import type {
   PresignStep3V2Request,
 } from "@oko-wallet/tecdsa-interface";
 import { Participant } from "@oko-wallet/tecdsa-interface";
-import {
-  runPresignServerStep1,
-  runPresignServerStep2,
-  runPresignServerStep3,
-} from "@oko-wallet/cait-sith-keplr-addon/src/server";
 
 import { appServerState } from "../state";
 

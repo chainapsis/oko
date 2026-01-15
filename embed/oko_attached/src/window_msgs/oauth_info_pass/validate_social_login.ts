@@ -1,17 +1,17 @@
 import type {
-  OAuthSignInError,
   OAuthPayload,
+  OAuthSignInError,
   OAuthTokenRequestPayload,
+  OAuthTokenRequestPayloadOfDiscord,
   OAuthTokenRequestPayloadOfTelegram,
   OAuthTokenRequestPayloadOfX,
-  OAuthTokenRequestPayloadOfDiscord,
 } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
+import { useAppState } from "@oko-wallet-attached/store/app";
 
+import { getAccessTokenOfDiscordWithPKCE } from "./discord";
 import { verifyIdToken } from "./token";
 import { getAccessTokenOfX } from "./x";
-import { getAccessTokenOfDiscordWithPKCE } from "./discord";
-import { useAppState } from "@oko-wallet-attached/store/app";
 
 type OAuthCredentialResult = Result<
   { idToken: string; userIdentifier: string },

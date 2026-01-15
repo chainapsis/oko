@@ -1,10 +1,12 @@
-import { useState, type FC } from "react";
+import { type FC, useState } from "react";
 import { hashMessage, hashTypedData, recoverPublicKey } from "viem";
+
 import { publicKeyToEthereumAddress } from "@oko-wallet/oko-sdk-eth";
 
-import styles from "./ethereum_offchain_sign_widget.module.scss";
 import { SignWidget } from "@/components/widgets/sign_widget/sign_widget";
 import { useOko } from "@/hooks/use_oko";
+
+import styles from "./ethereum_offchain_sign_widget.module.scss";
 
 export const EthereumOffchainSignWidget: FC = () => {
   const { okoEth } = useOko();

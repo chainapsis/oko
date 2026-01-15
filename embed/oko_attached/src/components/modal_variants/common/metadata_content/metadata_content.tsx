@@ -1,12 +1,14 @@
 import type { FC } from "react";
-import type { ChainInfoForAttachedModal } from "@oko-wallet/oko-sdk-core";
+
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-
-import styles from "./metadata_content.module.scss";
-import { SignerAddressOrEmail } from "./signer_address_or_email/signer_address_or_email";
+import type { ChainInfoForAttachedModal } from "@oko-wallet/oko-sdk-core";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { getFaviconUrl } from "@oko-wallet-attached/utils/favicon";
+
+import { SignerAddressOrEmail } from "./signer_address_or_email/signer_address_or_email";
+
+import styles from "./metadata_content.module.scss";
 
 interface MakeSignatureModalMetadataContentProps {
   origin: string;

@@ -1,14 +1,16 @@
 import type { Express } from "express";
-import { makeCustomerRouter } from "@oko-wallet/ct-dashboard-api";
+
 import { makeOkoAdminRouter } from "@oko-wallet/admin-api";
+import { makeAttachedRouter } from "@oko-wallet/attached-api";
+import { makeCustomerRouter } from "@oko-wallet/ct-dashboard-api";
+import { makeLogRouter } from "@oko-wallet/log-api";
+import { makeSocialLoginRouter } from "@oko-wallet/social-login-api";
 import {
   makeV1Router as makeTSSRouterV1,
   makeV2Router as makeTSSRouterV2,
 } from "@oko-wallet/tss-api";
 import { makeUserRouter } from "@oko-wallet/user-dashboard-api";
-import { makeLogRouter } from "@oko-wallet/log-api";
-import { makeSocialLoginRouter } from "@oko-wallet/social-login-api";
-import { makeAttachedRouter } from "@oko-wallet/attached-api";
+
 import { getStatus } from "./get_status";
 
 export function setRoutes(app: Express) {

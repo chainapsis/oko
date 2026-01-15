@@ -1,13 +1,14 @@
 "use client";
 
 import type { FC } from "react";
-import { Logo } from "@oko-wallet/oko-common-ui/logo";
+
 import { MenuIcon } from "@oko-wallet/oko-common-ui/icons/menu";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import { useThemeState } from "@oko-wallet-demo-web/state/theme";
+import { useViewState } from "@oko-wallet-demo-web/state/view";
 
 import styles from "./global_header.module.scss";
-import { useViewState } from "@oko-wallet-demo-web/state/view";
-import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 
 export const GlobalHeader: FC = () => {
   const isLeftBarOpen = useViewState((state) => state.isLeftBarOpen);

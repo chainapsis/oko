@@ -1,10 +1,12 @@
-import { useState, type FC } from "react";
+import { type FC, useState } from "react";
+
+import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
 
 import { Widget } from "../widget_components";
-import styles from "./login_widget.module.scss";
 import { LoginDefaultView } from "./login_default_view";
 import { LoginSocialsView } from "./login_socials_view";
-import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
+
+import styles from "./login_widget.module.scss";
 
 export interface LoginWidgetProps {
   onSignIn: (method: LoginMethod) => void;

@@ -1,20 +1,22 @@
-import type { FC } from "react";
-import type { OpenModalAckPayload } from "@oko-wallet/oko-sdk-core";
 import {
-  useFloating,
-  useDismiss,
-  useRole,
-  useClick,
-  useInteractions,
-  useId,
   FloatingFocusManager,
   FloatingOverlay,
   FloatingPortal,
+  useClick,
+  useDismiss,
+  useFloating,
+  useId,
+  useInteractions,
+  useRole,
 } from "@floating-ui/react";
+import type { FC } from "react";
+
+import type { OpenModalAckPayload } from "@oko-wallet/oko-sdk-core";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
+
+import { ModalDialog } from "./modal_dialog";
 
 import styles from "./modal.module.scss";
-import { useMemoryState } from "@oko-wallet-attached/store/memory";
-import { ModalDialog } from "./modal_dialog";
 
 export const Modal: FC = () => {
   const modalRequest = useMemoryState((st) => st.modalRequest);

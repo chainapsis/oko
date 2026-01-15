@@ -1,4 +1,4 @@
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
+import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
 
 const JUPITER_TOKEN_API_V2 = "https://api.jup.ag/tokens/v2";
 

@@ -1,4 +1,5 @@
 import type { Pool, PoolClient } from "pg";
+
 import type { KSNodeUser } from "@oko-wallet/ksn-interface/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";

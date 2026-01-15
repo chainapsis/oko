@@ -1,9 +1,10 @@
-import { useState, type FC } from "react";
+import { type FC, useState } from "react";
 
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
-import styles from "./command_block.module.scss";
 import { CopyOutlinedIcon } from "@oko-wallet-common-ui/icons/copy_outlined";
 import { Tooltip } from "@oko-wallet-common-ui/tooltip/tooltip";
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
+
+import styles from "./command_block.module.scss";
 
 export type CommandBlockProps = {
   command: string;

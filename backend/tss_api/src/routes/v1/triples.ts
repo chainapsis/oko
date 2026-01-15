@@ -1,15 +1,13 @@
 import type { Response, Router } from "express";
+
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import {
   ApiKeyAndUserAuthHeaderSchema,
-  TriplesStep10RequestSchema,
-  TriplesStep10SuccessResponseSchema,
-  TriplesStep11RequestSchema,
-  TriplesStep11SuccessResponseSchema,
   TriplesStep1RequestSchema,
   TriplesStep1SuccessResponseSchema,
   TriplesStep2RequestSchema,
@@ -28,12 +26,13 @@ import {
   TriplesStep8SuccessResponseSchema,
   TriplesStep9RequestSchema,
   TriplesStep9SuccessResponseSchema,
+  TriplesStep10RequestSchema,
+  TriplesStep10SuccessResponseSchema,
+  TriplesStep11RequestSchema,
+  TriplesStep11SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
-  TriplesStep10Body,
-  TriplesStep10Response,
-  TriplesStep11Body,
-  TriplesStep11Response,
   TriplesStep1Body,
   TriplesStep1Response,
   TriplesStep2Body,
@@ -52,9 +51,11 @@ import type {
   TriplesStep8Response,
   TriplesStep9Body,
   TriplesStep9Response,
+  TriplesStep10Body,
+  TriplesStep10Response,
+  TriplesStep11Body,
+  TriplesStep11Response,
 } from "@oko-wallet/oko-types/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-
 import {
   runTriplesStep1,
   runTriplesStep2,
@@ -68,14 +69,13 @@ import {
   runTriplesStep10,
   runTriplesStep11,
 } from "@oko-wallet-tss-api/api/v1/triples";
+import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
 import {
+  sendResponseWithNewToken,
   type UserAuthenticatedRequest,
   userJwtMiddleware,
-  sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
-import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
-import { registry } from "@oko-wallet/oko-api-openapi";
 
 export function setTriplesV1Routes(router: Router) {
   registry.registerPath({

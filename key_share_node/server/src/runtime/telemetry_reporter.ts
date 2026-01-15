@@ -1,6 +1,6 @@
-import { countKeyShares } from "@oko-wallet/ksn-pg-interface";
 import type { Pool } from "pg";
 
+import { countKeyShares } from "@oko-wallet/ksn-pg-interface";
 import { logger } from "@oko-wallet-ksn-server/logger";
 
 export async function startTelemetryReporterRuntime(

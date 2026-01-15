@@ -1,5 +1,4 @@
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 
 function checkIsTokenInvalid(errorCode: string, status: number) {

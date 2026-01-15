@@ -1,11 +1,11 @@
 import { jest } from "@jest/globals";
-import request from "supertest";
 import type { Pool } from "pg";
-import { createPgConn } from "@oko-wallet/postgres-lib";
+import request from "supertest";
 
+import { createPgConn } from "@oko-wallet/postgres-lib";
+import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
-import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
 const mockRunKeygen = jest.fn() as jest.Mock;
 const mockRunKeygenV2 = jest.fn() as jest.Mock;

@@ -1,8 +1,9 @@
-import type { FC, ReactNode } from "react";
 import cn from "classnames";
+import type { FC, ReactNode } from "react";
+
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 import styles from "./input.module.scss";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {

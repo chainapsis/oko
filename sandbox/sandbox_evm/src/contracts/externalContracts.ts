@@ -1,4 +1,5 @@
 import type { GenericContractsDeclaration } from "@oko-wallet-sandbox-evm/utils/scaffold-eth/contract";
+
 import { USDCAbi } from "./abis/USDC";
 
 /**

@@ -1,14 +1,15 @@
 import { Command } from "commander";
+
 import { generateEddsaKeypair } from "@oko-wallet/crypto-js/node/ecdhe";
 import {
-  rotateServerKeypair,
   getAllServerKeypairs,
+  rotateServerKeypair,
 } from "@oko-wallet/ksn-pg-interface";
-
-import { loadEncSecret } from "./launch/load_enc_secret";
-import { loadEnv, verifyEnv } from "@oko-wallet-ksn-server/envs";
 import { connectPG } from "@oko-wallet-ksn-server/database";
 import { encryptDataAsync } from "@oko-wallet-ksn-server/encrypt";
+import { loadEnv, verifyEnv } from "@oko-wallet-ksn-server/envs";
+
+import { loadEncSecret } from "./launch/load_enc_secret";
 
 const DEFAULT_NODE_ID = "1";
 

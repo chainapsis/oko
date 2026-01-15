@@ -1,14 +1,14 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useRef } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { Bars3Icon, BugAntIcon, PlayIcon } from "@heroicons/react/24/outline";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import type { ReactNode } from "react";
+import { useRef } from "react";
 
-import { useOutsideClick } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 import { keplrIcon } from "@oko-wallet-sandbox-evm/assets/icon";
+import { useOutsideClick } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 
 type HeaderMenuLink = {
   label: string;

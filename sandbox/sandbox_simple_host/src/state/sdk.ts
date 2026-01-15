@@ -1,3 +1,6 @@
+import { create } from "zustand";
+import { combine } from "zustand/middleware";
+
 import {
   OkoCosmosWallet,
   type OkoCosmosWalletInterface,
@@ -6,8 +9,6 @@ import {
   OkoEthWallet,
   type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
-import { create } from "zustand";
-import { combine } from "zustand/middleware";
 
 interface SDKState {
   oko_eth: OkoEthWalletInterface | null;

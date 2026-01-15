@@ -1,79 +1,72 @@
 import express from "express";
-import {
-  GetWalletListRequestSchema,
-  GetWalletListSuccessResponseSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
+
 import { registry } from "@oko-wallet/oko-api-openapi";
 import {
-  ErrorResponseSchema,
   AdminAuthHeaderSchema,
+  ErrorResponseSchema,
 } from "@oko-wallet/oko-api-openapi/common";
-import {
-  GetTssSessionListSuccessResponseSchema,
-  GetTssAllActivationSettingSuccessResponseSchema,
-  SetTssAllActivationSettingRequestSchema,
-  SetTssAllActivationSettingSuccessResponseSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
-import {
-  CreateCustomerWithDashboardUserRequestSchema,
-  CreateCustomerSuccessResponseSchema,
-  GetCustomerListQuerySchema,
-  GetCustomerListSuccessResponseSchema,
-  CustomerIdParamSchema,
-  GetCustomerSuccessResponseSchema,
-  DeleteCustomerSuccessResponseSchema,
-  ResendCustomerUserPasswordRequestSchema,
-  ResendCustomerUserPasswordSuccessResponseSchema,
-  GetTssSessionListRequestSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
-import {
-  LoginRequestSchema,
-  AdminLoginSuccessResponseSchema,
-  AdminLogoutSuccessResponseSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
 import {
   ActivateKSNodeRequestSchema,
   ActivateKSNodeSuccessResponseSchema,
+  AdminLoginSuccessResponseSchema,
+  AdminLogoutSuccessResponseSchema,
+  CreateCustomerSuccessResponseSchema,
+  CreateCustomerWithDashboardUserRequestSchema,
   CreateKSNodeRequestSchema,
   CreateKSNodeSuccessResponseSchema,
+  CustomerIdParamSchema,
   DeactivateKSNodeRequestSchema,
   DeactivateKSNodeSuccessResponseSchema,
+  DeleteCustomerSuccessResponseSchema,
   DeleteKSNodeRequestSchema,
   DeleteKSNodeSuccessResponseSchema,
   GetAllKSNodeSuccessResponseSchema,
-  GetKSNodeByIdRequestSchema,
-  GetKSNodeByIdSuccessResponseSchema,
+  GetCustomerListQuerySchema,
+  GetCustomerListSuccessResponseSchema,
+  GetCustomerSuccessResponseSchema,
   GetKSNHealthChecksRequestSchema,
   GetKSNHealthChecksSuccessResponseSchema,
+  GetKSNodeByIdRequestSchema,
+  GetKSNodeByIdSuccessResponseSchema,
+  GetTssAllActivationSettingSuccessResponseSchema,
+  GetTssSessionListRequestSchema,
+  GetTssSessionListSuccessResponseSchema,
+  GetWalletListRequestSchema,
+  GetWalletListSuccessResponseSchema,
+  LoginRequestSchema,
+  ResendCustomerUserPasswordRequestSchema,
+  ResendCustomerUserPasswordSuccessResponseSchema,
+  SetTssAllActivationSettingRequestSchema,
+  SetTssAllActivationSettingSuccessResponseSchema,
   TypeformSignatureHeaderSchema,
   TypeformWebhookRequestSchema,
   UpdateKSNodeRequestSchema,
   UpdateKSNodeSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
+import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware/auth";
 import { customerLogoUploadMiddleware } from "@oko-wallet-admin-api/middleware/multer";
 
-import { adminAuthMiddleware } from "@oko-wallet-admin-api/middleware/auth";
 import { typeformWebhookMiddleware } from "../middleware/typeform_webhook";
+import { activate_ks_node } from "./activate_ks_node";
 import { create_customer } from "./create_customer";
-import { get_customer_list } from "./get_customer_list";
-import { get_customer } from "./get_customer";
-import { delete_customer } from "./delete_customer";
-import { resend_customer_user_password } from "./resend_customer_user_password";
-import { user_login } from "./user_login";
-import { user_logout } from "./user_logout";
-import { get_tss_session_list } from "./get_tss_session_list";
-import { get_tss_all_activation_setting } from "./get_tss_all_activation_setting";
-import { set_tss_all_activation_setting } from "./set_tss_all_activation_setting";
-import { get_wallet_list } from "./get_wallet_list";
-import { get_all_ks_nodes } from "./get_all_ks_nodes";
-import { get_ks_node_by_id } from "./get_ks_node_by_id";
+import { create_customer_by_typeform } from "./create_customer_by_typeform";
 import { create_ks_node } from "./create_ks_node";
 import { deactivate_ks_node } from "./deactivate_ks_node";
+import { delete_customer } from "./delete_customer";
 import { delete_ks_node } from "./delete_ks_node";
-import { update_ks_node } from "./update_ks_node";
-import { activate_ks_node } from "./activate_ks_node";
-import { create_customer_by_typeform } from "./create_customer_by_typeform";
+import { get_all_ks_nodes } from "./get_all_ks_nodes";
+import { get_customer } from "./get_customer";
+import { get_customer_list } from "./get_customer_list";
+import { get_ks_node_by_id } from "./get_ks_node_by_id";
 import { get_ksn_health_checks } from "./get_ksn_health_checks";
+import { get_tss_all_activation_setting } from "./get_tss_all_activation_setting";
+import { get_tss_session_list } from "./get_tss_session_list";
+import { get_wallet_list } from "./get_wallet_list";
+import { resend_customer_user_password } from "./resend_customer_user_password";
+import { set_tss_all_activation_setting } from "./set_tss_all_activation_setting";
+import { update_ks_node } from "./update_ks_node";
+import { user_login } from "./user_login";
+import { user_logout } from "./user_logout";
 
 export function makeOkoAdminRouter() {
   const router = express.Router();

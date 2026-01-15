@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 
-import { EmailLayout } from "@oko-wallet-email-template-2/components/EmailLayout";
 import { EmailHeader } from "@oko-wallet-email-template-2/components/EmailHeader";
+import { EmailLayout } from "@oko-wallet-email-template-2/components/EmailLayout";
 import { EmailText } from "@oko-wallet-email-template-2/components/EmailText";
 
 const containerStyle: CSSProperties = { padding: "2px" };

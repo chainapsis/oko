@@ -1,8 +1,9 @@
-import type { FC } from "react";
 import cn from "classnames";
+import type { FC } from "react";
+
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 import styles from "./toggle.module.scss";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 export interface ToggleProps {
   onChange: (checked: boolean) => void;

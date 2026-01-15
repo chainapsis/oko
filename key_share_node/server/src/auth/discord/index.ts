@@ -1,6 +1,5 @@
-import type { Result } from "@oko-wallet/stdlib-js";
 import type { DiscordTokenInfo } from "@oko-wallet/ksn-interface/auth";
-
+import type { Result } from "@oko-wallet/stdlib-js";
 import { logger } from "@oko-wallet-ksn-server/logger";
 
 import type { OAuthValidationFail } from "../types";

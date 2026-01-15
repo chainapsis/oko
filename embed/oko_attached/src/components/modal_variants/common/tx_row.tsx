@@ -1,4 +1,5 @@
 import type { FC } from "react";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./tx_row.module.scss";

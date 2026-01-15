@@ -1,8 +1,8 @@
-import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
-import type { Request, Response, NextFunction } from "express";
 import { pbkdf2, timingSafeEqual } from "crypto";
 import { promisify } from "util";
+import type { NextFunction, Request, Response } from "express";
 
+import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 
 const pbkdf2Async = promisify(pbkdf2);

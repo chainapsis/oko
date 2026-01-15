@@ -1,15 +1,15 @@
+import type { Pool } from "pg";
+
 import {
   getTssSessionById,
   updateTssSessionState,
 } from "@oko-wallet/oko-pg-interface/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   type AbortTssSessionRequest,
   type AbortTssSessionResponse,
   TssSessionState,
 } from "@oko-wallet/oko-types/tss";
-import type { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-
 import { validateWalletEmail } from "@oko-wallet-tss-api/api/utils";
 
 export async function abortTssSession(

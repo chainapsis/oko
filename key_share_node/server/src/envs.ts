@@ -1,8 +1,9 @@
-import * as dotenv from "dotenv";
+import os from "node:os";
 import fs from "fs";
 import path from "path";
+import * as dotenv from "dotenv";
 import { z } from "zod";
-import os from "node:os";
+
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import { logger } from "./logger";

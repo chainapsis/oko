@@ -1,17 +1,18 @@
 import type { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  GetTssSessionListRequest,
-  GetTssSessionListResponse,
-  GetTssAllActivationSettingResponse,
-  SetTssAllActivationSettingRequest,
-  SetTssAllActivationSettingResponse,
-} from "@oko-wallet/oko-types/admin";
+
 import { getTssSessions } from "@oko-wallet/oko-pg-interface/tss";
 import {
   getTssActivationSetting as getTssAllActivationSettingPG,
   setTssActivationSetting as setTssAllActivationSettingPG,
 } from "@oko-wallet/oko-pg-interface/tss_activate";
+import type {
+  GetTssAllActivationSettingResponse,
+  GetTssSessionListRequest,
+  GetTssSessionListResponse,
+  SetTssAllActivationSettingRequest,
+  SetTssAllActivationSettingResponse,
+} from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 export async function getTssSessionList(
   db: Pool,

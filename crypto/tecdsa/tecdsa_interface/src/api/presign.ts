@@ -1,7 +1,7 @@
 import type { PresignOutput, RcvdPresignMessages } from "../presign";
 import type { TriplePub, TriplesShare } from "../triples";
 
-export interface TriplesStep1Request {}
+export type TriplesStep1Request = {};
 
 export interface TriplesStep1V2Request extends TriplesStep1Request {
   user_id: string;

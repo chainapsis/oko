@@ -1,7 +1,8 @@
-import { useState, useEffect, useRef, type FC } from "react";
+import { type FC, useEffect, useRef, useState } from "react";
+
+import { AvatarInitial } from "./avatar_initial";
 
 import styles from "./avatar.module.scss";
-import { AvatarInitial } from "./avatar_initial";
 
 export interface AvatarProps {
   src?: string;

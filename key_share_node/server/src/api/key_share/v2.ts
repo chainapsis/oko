@@ -1,22 +1,23 @@
 import type { Pool, PoolClient } from "pg";
-import {
-  createUser,
-  getUserByAuthTypeAndUserAuthId,
-  getWalletsByUserId,
-} from "@oko-wallet/ksn-pg-interface";
+
 import type {
   CheckKeyShareV2Request,
   CheckKeyShareV2Response,
   GetKeyShareV2Request,
   GetKeyShareV2Response,
-  RegisterKeyShareV2Request,
   RegisterEd25519V2Request,
+  RegisterKeyShareV2Request,
   ReshareKeyShareV2Request,
   ReshareRegisterV2Request,
 } from "@oko-wallet/ksn-interface/key_share";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
-
+import {
+  createUser,
+  getUserByAuthTypeAndUserAuthId,
+  getWalletsByUserId,
+} from "@oko-wallet/ksn-pg-interface";
 import { logger } from "@oko-wallet-ksn-server/logger";
+
 import {
   checkWalletKeyShare,
   getWalletKeyShare,

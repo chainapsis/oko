@@ -1,15 +1,14 @@
 export {
-  registerKeyShare,
-  getKeyShare,
-  reshareKeyShare,
   checkKeyShare,
+  getKeyShare,
+  registerKeyShare,
+  reshareKeyShare,
 } from "./v1";
-
 export {
-  getKeyShareV2,
   checkKeyShareV2,
-  registerKeyShareV2,
+  getKeyShareV2,
   registerEd25519V2,
+  registerKeyShareV2,
   reshareKeyShareV2,
   reshareRegisterV2,
 } from "./v2";

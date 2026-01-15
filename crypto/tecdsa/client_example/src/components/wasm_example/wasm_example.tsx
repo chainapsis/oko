@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import cn from "classnames";
+import { useEffect, useState } from "react";
+
 import { initWasm, isWasmInitialized } from "@oko-wallet/cait-sith-keplr-wasm";
 import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
 
-import styles from "./wasm_example.module.css";
 import { Workflow } from "../workflow/workflow";
+import styles from "./wasm_example.module.css";
 
 export const WasmExample = () => {
   const [isInitialized, setIsInitialized] = useState(false);

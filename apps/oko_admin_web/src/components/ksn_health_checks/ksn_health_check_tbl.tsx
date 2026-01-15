@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, type FC } from "react";
 import {
   createColumnHelper,
   flexRender,
   type PaginationState,
 } from "@tanstack/react-table";
-import type { KSNodeHealthCheck } from "@oko-wallet/oko-types/tss";
-import type { WithTime } from "@oko-wallet/oko-types/aux_types";
+import { type FC, useState } from "react";
+
 import {
   Table,
   TableBody,
@@ -16,10 +15,12 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@oko-wallet/oko-common-ui/table";
-
-import styles from "./ksn_health_check_tbl.module.scss";
+import type { WithTime } from "@oko-wallet/oko-types/aux_types";
+import type { KSNodeHealthCheck } from "@oko-wallet/oko-types/tss";
 import { useTable } from "@oko-wallet-admin/components/table/use_table";
 import { useKSNHealthChecks } from "@oko-wallet-admin/fetch/ks_node/use_ksn_health_checks";
+
+import styles from "./ksn_health_check_tbl.module.scss";
 
 const columnHelper = createColumnHelper<WithTime<KSNodeHealthCheck>>();
 

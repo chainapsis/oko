@@ -3,18 +3,19 @@ import { jest } from "@jest/globals";
 import { OkoSolWallet } from "@oko-wallet-sdk-sol/sol_wallet";
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import {
-  OkoStandardWallet,
-  OkoSolanaWalletAccount,
-  OKO_WALLET_NAME,
-  OKO_ACCOUNT_FEATURES,
-  SOLANA_CHAINS,
-  SOLANA_MAINNET_CHAIN,
-  SOLANA_DEVNET_CHAIN,
-  SOLANA_TESTNET_CHAIN,
-  isSolanaChain,
-  OKO_ICON,
   buildSignInMessage,
+  isSolanaChain,
+  OKO_ACCOUNT_FEATURES,
+  OKO_ICON,
+  OKO_WALLET_NAME,
+  OkoSolanaWalletAccount,
+  OkoStandardWallet,
+  SOLANA_CHAINS,
+  SOLANA_DEVNET_CHAIN,
+  SOLANA_MAINNET_CHAIN,
+  SOLANA_TESTNET_CHAIN,
 } from "@oko-wallet-sdk-sol/wallet-standard";
+
 import { createMockOkoWallet } from "./mock";
 
 describe("Wallet Standard", () => {

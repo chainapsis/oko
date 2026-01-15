@@ -1,10 +1,10 @@
-import type {
-  OkoWalletMsgOpenModal,
-  MakeSolanaSigData,
-} from "@oko-wallet/oko-sdk-core";
 import type { PublicKey } from "@solana/web3.js";
 import { v4 as uuidv4 } from "uuid";
 
+import type {
+  MakeSolanaSigData,
+  OkoWalletMsgOpenModal,
+} from "@oko-wallet/oko-sdk-core";
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import type {
   SolSignParams,

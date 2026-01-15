@@ -1,10 +1,5 @@
-import type { Response, Router, Request } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  SocialLoginXVerifyUserResponse,
-  SocialLoginXBody,
-  SocialLoginXResponse,
-} from "@oko-wallet/oko-types/social_login";
+import type { Request, Response, Router } from "express";
+
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {
@@ -13,7 +8,12 @@ import {
   SocialLoginXVerifyUserSuccessResponseSchema,
   XAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/social_login";
-
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
+  SocialLoginXBody,
+  SocialLoginXResponse,
+  SocialLoginXVerifyUserResponse,
+} from "@oko-wallet/oko-types/social_login";
 import { getXUserInfo } from "@oko-wallet-social-login-api/api/x";
 import {
   X_CLIENT_ID,

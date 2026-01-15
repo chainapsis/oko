@@ -1,8 +1,8 @@
-import type { Request, Response, NextFunction } from "express";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { NextFunction, Request, Response } from "express";
 
-import { validateOAuthToken } from "@oko-wallet-tss-api/middleware/google_auth/validate";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { GOOGLE_CLIENT_ID } from "@oko-wallet-tss-api/middleware/google_auth/client_id";
+import { validateOAuthToken } from "@oko-wallet-tss-api/middleware/google_auth/validate";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export interface GoogleAuthenticatedRequest<T = any> extends Request {

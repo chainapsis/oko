@@ -1,20 +1,20 @@
 import type { Response } from "express";
-import type {
-  SignEd25519Round2Body,
-  SignEd25519Round2Response,
-} from "@oko-wallet/oko-types/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
-import { registry } from "@oko-wallet/oko-api-openapi";
-
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
+  SignEd25519Round2Body,
+  SignEd25519Round2Response,
+} from "@oko-wallet/oko-types/tss";
 import { runSignEd25519Round2 } from "@oko-wallet-tss-api/api/sign_ed25519";
 import {
-  type UserAuthenticatedRequest,
   sendResponseWithNewToken,
+  type UserAuthenticatedRequest,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 
 registry.registerPath({

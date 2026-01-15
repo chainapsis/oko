@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { registry } from "@oko-wallet/oko-api-openapi";
 
 export const SuccessResponseSchema = registry.register(

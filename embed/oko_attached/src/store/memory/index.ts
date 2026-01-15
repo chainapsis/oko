@@ -1,13 +1,14 @@
+import { create } from "zustand";
+import { combine } from "zustand/middleware";
+
 import type {
   OkoWalletMsgOpenModalAck,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
-import { create } from "zustand";
-import { combine } from "zustand/middleware";
-
-import { OKO_SDK_TARGET } from "@oko-wallet-attached/window_msgs/target";
-import type { MemoryActions, MemoryState, ReferralInfo } from "./types";
 import type { AppError } from "@oko-wallet-attached/errors";
+import { OKO_SDK_TARGET } from "@oko-wallet-attached/window_msgs/target";
+
+import type { MemoryActions, MemoryState, ReferralInfo } from "./types";
 
 const initialState: MemoryState = {
   hostOrigin: null,

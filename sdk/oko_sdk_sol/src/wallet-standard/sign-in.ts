@@ -6,6 +6,7 @@ import type {
 } from "@solana/wallet-standard-features";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+
 import { OkoSolanaWalletAccount } from "./account";
 
 /**

@@ -1,40 +1,40 @@
 import type { Pool } from "pg";
+
+import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
+import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
+import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
+import { createWallet } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import { getTssStageWithSessionData } from "@oko-wallet/oko-pg-interface/tss";
 import type {
+  SignEd25519AggregateRequest,
   SignEd25519Round1Request,
   SignEd25519Round2Request,
-  SignEd25519AggregateRequest,
 } from "@oko-wallet/oko-types/tss";
 import {
-  TssStageType,
   SignEd25519StageStatus,
   TssSessionState,
+  TssStageType,
 } from "@oko-wallet/oko-types/tss";
-import { getTssStageWithSessionData } from "@oko-wallet/oko-pg-interface/tss";
-import { Participant } from "@oko-wallet/teddsa-interface";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
+import { createPgConn } from "@oko-wallet/postgres-lib";
 import {
-  runKeygenCentralizedEd25519,
   runSignRound1Ed25519 as clientRunSignRound1Ed25519,
   runSignRound2Ed25519 as clientRunSignRound2Ed25519,
-  runVerifyEd25519,
   extractKeyPackageSharesEd25519,
+  runKeygenCentralizedEd25519,
+  runVerifyEd25519,
 } from "@oko-wallet/teddsa-addon/src/server";
-import { createPgConn } from "@oko-wallet/postgres-lib";
-import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
-import { createWallet } from "@oko-wallet/oko-pg-interface/oko_wallets";
-import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
-import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
-import { insertCustomer } from "@oko-wallet/oko-pg-interface/customers";
-import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
-
-import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
-import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
+import { Participant } from "@oko-wallet/teddsa-interface";
 import {
+  runSignEd25519Aggregate,
   runSignEd25519Round1,
   runSignEd25519Round2,
-  runSignEd25519Aggregate,
 } from "@oko-wallet-tss-api/api/sign_ed25519";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
+import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
+import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 
 const SSS_THRESHOLD = 2;
 const TEST_EMAIL = "test-ed25519@test.com";

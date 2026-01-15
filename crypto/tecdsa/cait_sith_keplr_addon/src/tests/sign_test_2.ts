@@ -1,14 +1,15 @@
-import type {
-  TECDSAClientState,
-  TECDSAServerState,
-} from "@oko-wallet/tecdsa-interface";
-import { arrayify, computePublicKey, keccak256 } from "ethers/lib/utils";
 import {
   computeAddress,
   recoverAddress,
   serialize,
   type UnsignedTransaction,
 } from "@ethersproject/transactions";
+import { arrayify, computePublicKey, keccak256 } from "ethers/lib/utils";
+
+import type {
+  TECDSAClientState,
+  TECDSAServerState,
+} from "@oko-wallet/tecdsa-interface";
 
 import { runSignClientStep1V2, runSignClientStep2 } from "../client";
 import { runSignServerStep1V2, runSignServerStep2 } from "../server";

@@ -1,17 +1,19 @@
 import type { Response, Router } from "express";
-import type { KeygenBody } from "@oko-wallet/oko-types/tss";
+
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { SignInResponse } from "@oko-wallet/oko-types/user";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
-import { SignInSuccessResponseSchema } from "@oko-wallet/oko-api-openapi/tss";
-import { registry } from "@oko-wallet/oko-api-openapi";
-import { KeygenRequestSchema } from "@oko-wallet/oko-api-openapi/tss";
-
+import {
+  KeygenRequestSchema,
+  SignInSuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { KeygenBody } from "@oko-wallet/oko-types/tss";
+import type { SignInResponse } from "@oko-wallet/oko-types/user";
 import { runKeygen } from "@oko-wallet-tss-api/api/v1/keygen";
 import {
   type OAuthAuthenticatedRequest,

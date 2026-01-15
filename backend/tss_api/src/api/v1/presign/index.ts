@@ -1,11 +1,20 @@
+import type { Pool } from "pg";
+
+import {
+  runPresignServerStep1,
+  runPresignServerStep2,
+  runPresignServerStep3,
+} from "@oko-wallet/cait-sith-keplr-addon/src/server";
+import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
 import {
   createTssStage,
   getTssStageWithSessionData,
   updateTssStage,
 } from "@oko-wallet/oko-pg-interface/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
+  type PresignStageData,
   PresignStageStatus,
-  TriplesStageStatus,
   type PresignStep1Request,
   type PresignStep1Response,
   type PresignStep2Request,
@@ -13,23 +22,14 @@ import {
   type PresignStep3Request,
   type PresignStep3Response,
   type TriplesStageData,
-  type PresignStageData,
+  TriplesStageStatus,
   TssStageType,
 } from "@oko-wallet/oko-types/tss";
-import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
-import type { Pool } from "pg";
-import {
-  runPresignServerStep1,
-  runPresignServerStep2,
-  runPresignServerStep3,
-} from "@oko-wallet/cait-sith-keplr-addon/src/server";
 import { Participant } from "@oko-wallet/tecdsa-interface";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-
 import {
-  validateWalletEmailAndCurveType,
   validateTssSession,
   validateTssStage,
+  validateWalletEmailAndCurveType,
 } from "@oko-wallet-tss-api/api/utils";
 
 export async function runPresignStep1(

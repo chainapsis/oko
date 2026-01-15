@@ -1,8 +1,8 @@
 loadEnv(ENV_FILE_NAME);
 
-import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 import { createServer } from "vite";
 
+import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 import { ENV_FILE_NAME, envSchema } from "@oko-wallet-attached/envs";
 
 async function main() {

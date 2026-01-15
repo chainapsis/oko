@@ -1,16 +1,17 @@
-import type { CosmosArbitrarySigData } from "@oko-wallet/oko-sdk-core";
 import type { FC } from "react";
+
+import { Button } from "@oko-wallet/oko-common-ui/button";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { Button } from "@oko-wallet/oko-common-ui/button";
-
-import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
+import type { CosmosArbitrarySigData } from "@oko-wallet/oko-sdk-core";
+import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
 import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
-import { useArbitrarySigModal } from "./use_arbitrary_sig_modal";
-import { ArbitrarySignatureDesc } from "@oko-wallet-attached/components/modal_variants/common/arbitrary_sig_desc/arbitrary_signature_desc";
-import { CosmosArbitrarySignatureContent } from "./cosmos_arbitrary_signature_content";
+import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
+
+import { CosmosArbitrarySignatureContent } from "./cosmos_arbitrary_signature_content";
+import { useArbitrarySigModal } from "./use_arbitrary_sig_modal";
 
 export const MakeArbitrarySigModal: FC<MakeArbitrarySigModalProps> = ({
   getIsAborted,

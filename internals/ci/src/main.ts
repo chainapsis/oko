@@ -1,22 +1,22 @@
 import { program } from "commander";
 
-import { typeCheck } from "./cmds/typecheck";
-import { buildPkgs } from "./cmds/build_pkgs";
-import { buildSDK } from "./cmds/build_sdk";
-import { version } from "./cmds/version";
-import { publish } from "./cmds/publish";
-import { dbMigrateKSN } from "./cmds/db_migrate_ksn";
 import { buildCs } from "./cmds/build_cs";
 import { buildFrost } from "./cmds/build_frost";
-import { DbSeedAPI } from "./cmds/db_seed_api";
+import { buildPkgs } from "./cmds/build_pkgs";
+import { buildSDK } from "./cmds/build_sdk";
 import { DbMigrateAPI } from "./cmds/db_migrate_api";
+import { dbMigrateKSN } from "./cmds/db_migrate_ksn";
+import { DbSeedAPI } from "./cmds/db_seed_api";
 import { deploy } from "./cmds/deploy";
-import { langFormat } from "./cmds/lang_format";
-import { langCheck } from "./cmds/lang_check";
 import { depsCheck } from "./cmds/deps_check";
+import { langCheck } from "./cmds/lang_check";
+import { langFormat } from "./cmds/lang_format";
+import { publish } from "./cmds/publish";
 import { setup } from "./cmds/setup";
 import { tmuxStart } from "./cmds/tmux_start";
 import { tmuxStop } from "./cmds/tmux_stop";
+import { typeCheck } from "./cmds/typecheck";
+import { version } from "./cmds/version";
 
 async function main() {
   const command = program.version("0.0.1").description("Oko Public CI");

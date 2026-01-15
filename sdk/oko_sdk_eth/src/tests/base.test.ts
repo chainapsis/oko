@@ -1,27 +1,28 @@
 import type { AddEthereumChainParameter } from "viem";
 import { toHex } from "viem";
-import { sepolia, mainnet } from "viem/chains";
+import { mainnet, sepolia } from "viem/chains";
 
-import {
-  createChainParam,
-  createProviderOptions,
-  EXPECTED_NAME,
-  EXPECTED_VERSION,
-} from "./utils";
-import {
-  createMockSigner,
-  type MockRpcServer,
-  createMockRpcServer,
-  mockMainnetRpc,
-  MOCK_ADDRESS,
-  MOCK_SIGNATURE,
-} from "./mock";
 import {
   OkoEIP1193Provider,
   ProviderRpcErrorCode,
   RpcErrorCode,
 } from "@oko-wallet-sdk-eth/provider";
 import { ProviderEventEmitter } from "@oko-wallet-sdk-eth/provider/emitter";
+
+import {
+  createMockRpcServer,
+  createMockSigner,
+  MOCK_ADDRESS,
+  MOCK_SIGNATURE,
+  type MockRpcServer,
+  mockMainnetRpc,
+} from "./mock";
+import {
+  createChainParam,
+  createProviderOptions,
+  EXPECTED_NAME,
+  EXPECTED_VERSION,
+} from "./utils";
 
 describe("Oko Provider - Base", () => {
   describe("Basic Properties", () => {

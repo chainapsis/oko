@@ -1,8 +1,4 @@
 import type {
-  OkoWalletInitArgs,
-  OkoWalletInterface,
-} from "@oko-wallet/oko-sdk-core";
-import type {
   Connection,
   PublicKey,
   SendOptions,
@@ -10,12 +6,17 @@ import type {
   TransactionSignature,
   VersionedTransaction,
 } from "@solana/web3.js";
-import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {
-  OkoSolWalletInitError,
+  OkoWalletInitArgs,
+  OkoWalletInterface,
+} from "@oko-wallet/oko-sdk-core";
+import type { Result } from "@oko-wallet/stdlib-js";
+import type {
   LazyInitError,
+  OkoSolWalletInitError,
 } from "@oko-wallet-sdk-sol/errors";
+
 import type { SolWalletEvent, SolWalletEventHandler } from "./event";
 
 export interface OkoSolWalletState {

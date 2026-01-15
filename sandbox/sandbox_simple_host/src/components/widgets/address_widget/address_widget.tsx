@@ -1,9 +1,10 @@
-import { useState, type FC } from "react";
+import { type FC, useState } from "react";
 
-import styles from "./address_widget.module.scss";
 import { Widget } from "../widget_components";
 import { ViewChainsButton } from "./view_chains_button";
 import { ViewChainsModal } from "./view_chains_modal";
+
+import styles from "./address_widget.module.scss";
 
 export const AddressWidget: FC<AddressWidgetProps> = ({}) => {
   const [showModal, setShowModal] = useState(false);
@@ -30,4 +31,4 @@ export const AddressWidget: FC<AddressWidgetProps> = ({}) => {
   );
 };
 
-export interface AddressWidgetProps {}
+export type AddressWidgetProps = {};

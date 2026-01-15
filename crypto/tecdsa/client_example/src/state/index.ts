@@ -1,16 +1,16 @@
 import type {
-  TECDSAClientState,
   KeyshareState,
   PresignOutput,
   PresignState,
   RcvdKeyshareMessages,
   RcvdPresignMessages,
   RcvdSignMessages,
+  RcvdTriplesMessages,
   SignState,
+  TECDSAClientState,
   TriplePub,
   TriplesShare,
   TriplesState,
-  RcvdTriplesMessages,
 } from "@keplr/tecdsa_interface";
 
 export function makeClientState() {

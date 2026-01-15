@@ -7,8 +7,9 @@ import type {
 } from "@solana/web3.js";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { signTransaction } from "./sign_transaction";
+
 import { SolanaRpcError, SolanaRpcErrorCode } from "./make_signature";
+import { signTransaction } from "./sign_transaction";
 
 export async function sendTransaction(
   this: OkoSolWalletInterface,

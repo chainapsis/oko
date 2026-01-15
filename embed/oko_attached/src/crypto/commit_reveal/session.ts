@@ -9,15 +9,15 @@ import type {
   CommitRevealSession,
   CommitRevealSessionState,
   CreateSessionOptions,
-  NodeStatus,
   EncryptedToken,
+  NodeStatus,
 } from "./types";
 import type { ClientEcdheKeypair } from "./utils";
 import {
-  generateSessionId,
-  generateClientKeypair,
-  calculateTokenHash,
   calculateExpiresAt,
+  calculateTokenHash,
+  generateClientKeypair,
+  generateSessionId,
   isSessionExpired,
 } from "./utils";
 

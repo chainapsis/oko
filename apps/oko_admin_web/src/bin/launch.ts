@@ -4,8 +4,8 @@ loadEnv(ENV_FILE_NAME);
 import { createServer } from "http";
 import { parse } from "url";
 import next from "next";
-import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 
+import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 import { ENV_FILE_NAME, envSchema } from "@oko-wallet-admin/envs";
 
 async function main() {

@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 
-import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
+import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Authorized } from "@oko-wallet-ct-dashboard/components/authorized/authorized";
+import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
 import { EditInfoForm } from "@oko-wallet-ct-dashboard/components/edit_info_form/edit_info_form";
+
 import styles from "./page.module.scss";
 
 export default function EditInfoPage() {

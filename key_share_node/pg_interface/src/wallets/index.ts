@@ -1,11 +1,12 @@
 import type { Pool, PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
+
+import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 import type {
-  KSNodeWallet,
   CreateKSNodeWalletRequest,
+  KSNodeWallet,
 } from "@oko-wallet/ksn-interface/wallet";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 
 export async function createWallet(
   db: Pool | PoolClient,

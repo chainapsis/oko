@@ -1,9 +1,10 @@
 import type { FC } from "react";
+
 import type { MakeSolanaSigData } from "@oko-wallet/oko-sdk-core";
 
-import { MakeTxSigModal } from "./tx_sig/make_tx_sig_modal";
 import { MakeAllTxSigModal } from "./all_tx_sig/make_all_tx_sig_modal";
 import { MakeMessageSigModal } from "./message_sig/make_message_sig_modal";
+import { MakeTxSigModal } from "./tx_sig/make_tx_sig_modal";
 
 export interface MakeSignatureSolModalProps {
   getIsAborted: () => boolean;

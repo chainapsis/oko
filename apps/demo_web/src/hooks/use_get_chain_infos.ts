@@ -1,5 +1,5 @@
-import { useQuery } from "@tanstack/react-query";
 import type { ChainInfo } from "@keplr-wallet/types";
+import { useQuery } from "@tanstack/react-query";
 
 const CHAIN_INFO_ENDPOINT = "https://keplr-api.keplr.app/v1/chains";
 

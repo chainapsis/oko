@@ -1,9 +1,10 @@
 import type { FC } from "react";
-import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
 
 import styles from "../instructions.module.scss";
-import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
 
 export interface UnknownInstructionProps {
   instruction: ParsedInstruction;

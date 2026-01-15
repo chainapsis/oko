@@ -1,22 +1,22 @@
-import { useState } from "react";
-import type { DirectSignResponse } from "@cosmjs/proto-signing";
 import type { AminoSignResponse } from "@cosmjs/amino";
-import { useMutation } from "@tanstack/react-query";
-
+import type { DirectSignResponse } from "@cosmjs/proto-signing";
 import { TxRaw } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
+import { useMutation } from "@tanstack/react-query";
+import { useState } from "react";
 
 import { SignWidget } from "@/components/widgets/sign_widget/sign_widget";
-import styles from "./cosmos_onchain_sign_widget.module.scss";
+import {
+  TEST_COSMOS_CHAIN_ENDPOINT,
+  TEST_COSMOS_CHAIN_ID,
+  TEST_COSMOS_CHAIN_REST,
+} from "@/constants";
+import { useOko } from "@/hooks/use_oko";
 import {
   makeMockSendTokenAminoSignDoc,
   makeMockSendTokenProtoSignDoc,
 } from "@/utils/cosmos";
-import { useOko } from "@/hooks/use_oko";
-import {
-  TEST_COSMOS_CHAIN_ID,
-  TEST_COSMOS_CHAIN_REST,
-  TEST_COSMOS_CHAIN_ENDPOINT,
-} from "@/constants";
+
+import styles from "./cosmos_onchain_sign_widget.module.scss";
 
 export const CosmosOnchainSignWidget = () => {
   const { okoCosmos } = useOko();

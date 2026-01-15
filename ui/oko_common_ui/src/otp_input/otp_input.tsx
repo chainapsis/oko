@@ -1,9 +1,9 @@
 import {
-  useState,
-  useRef,
-  type KeyboardEvent,
   type ClipboardEvent,
   type FC,
+  type KeyboardEvent,
+  useRef,
+  useState,
 } from "react";
 
 import styles from "./otp_input.module.scss";

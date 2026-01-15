@@ -2,13 +2,13 @@ import {
   EventEmitter3,
   type OkoWalletInterface,
 } from "@oko-wallet/oko-sdk-core";
-
 import type {
-  OkoCosmosWalletInterface,
-  OkoCosmosWalletStaticInterface,
   OkoCosmosWalletEvent2,
   OkoCosmosWalletEventHandler2,
+  OkoCosmosWalletInterface,
+  OkoCosmosWalletStaticInterface,
 } from "@oko-wallet-sdk-cosmos/types";
+
 import { lazyInit } from "./private/lazy_init";
 
 export const OkoCosmosWallet = function (

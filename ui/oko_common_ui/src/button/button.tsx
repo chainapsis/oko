@@ -1,11 +1,11 @@
-import type { ButtonHTMLAttributes, FC, PropsWithChildren } from "react";
 import cn from "classnames";
+import type { ButtonHTMLAttributes, FC, PropsWithChildren } from "react";
 
-import styles from "./button.module.scss";
 import { LoadingIcon } from "@oko-wallet-common-ui/icons/loading";
 
-export interface ButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
+import styles from "./button.module.scss";
+
+export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: "primary" | "secondary" | "ghost";
   size?: "md" | "lg";
   fullWidth?: boolean;

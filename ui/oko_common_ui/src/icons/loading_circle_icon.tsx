@@ -1,8 +1,9 @@
 import cn from "classnames";
 import type { FC } from "react";
 
-import styles from "./loading_circle_icon.module.scss";
 import type { BasicIconProps } from "./types";
+
+import styles from "./loading_circle_icon.module.scss";
 
 export const LoadingCircleIcon: FC<BasicIconProps> = ({
   className,

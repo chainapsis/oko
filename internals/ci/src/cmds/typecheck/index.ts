@@ -1,7 +1,7 @@
-import chalk from "chalk";
 import { Worker } from "node:worker_threads";
 import { dirname, join } from "path";
 import { fileURLToPath, pathToFileURL } from "url";
+import chalk from "chalk";
 
 import { paths } from "@oko-wallet-ci/paths";
 

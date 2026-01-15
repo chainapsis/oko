@@ -1,31 +1,32 @@
 import {
   createPublicClient,
+  createWalletClient,
   custom,
+  encodeFunctionData,
   hashMessage,
   isAddressEqual,
+  parseEther,
   recoverAddress,
   recoverTransactionAddress,
-  parseEther,
-  createWalletClient,
-  encodeFunctionData,
 } from "viem";
-import { sepolia, mainnet } from "viem/chains";
+import { mainnet, sepolia } from "viem/chains";
 
-import { hardhatAlt, hardhatAccounts, hardhatNodeAlt } from "./hardhat";
+import { OkoEIP1193Provider, RpcErrorCode } from "@oko-wallet-sdk-eth/provider";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
+
+import { hardhatAccounts, hardhatAlt, hardhatNodeAlt } from "./hardhat";
 import {
   COUNTER_ABI,
   COUNTER_DEPLOYMENT_BYTECODE,
   createChainParam,
-  createProviderOptions,
-  createTypedData,
-  createTransactionHelper,
   createContractHelper,
-  generateRandomAddress,
-  generateInvalidBytecode,
   createEthSigner,
+  createProviderOptions,
+  createTransactionHelper,
+  createTypedData,
+  generateInvalidBytecode,
+  generateRandomAddress,
 } from "./utils";
-import { OkoEIP1193Provider, RpcErrorCode } from "@oko-wallet-sdk-eth/provider";
-import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 
 describe("Oko Provider - Viem Integration", () => {
   describe("Public Client - Live RPC", () => {

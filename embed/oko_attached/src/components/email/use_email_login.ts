@@ -1,15 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
+
 import type {
   EmailLoginModalPayload,
   OAuthState,
 } from "@oko-wallet/oko-sdk-core";
-
-import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { getAuth0WebAuth } from "@oko-wallet-attached/config/auth0";
 import {
   sendEmailOTPCode,
   verifyEmailOTPCode,
 } from "@oko-wallet-attached/lib/auth0";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
 
 const CODE_LENGTH = 6;
 const RESEND_COOLDOWN_SECONDS = 180; // 3 minutes

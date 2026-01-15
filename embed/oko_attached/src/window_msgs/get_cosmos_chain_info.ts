@@ -1,14 +1,15 @@
+import { ChainIdHelper } from "@keplr-wallet/cosmos";
+import type { ChainInfo } from "@keplr-wallet/types";
+
 import type {
   OkoWalletMsgGetCosmosChainInfo,
   OkoWalletMsgGetCosmosChainInfoAck,
 } from "@oko-wallet/oko-sdk-core";
-import type { ChainInfo } from "@keplr-wallet/types";
-import { ChainIdHelper } from "@keplr-wallet/cosmos";
-
 import {
-  getAllChainsCached,
   filterCosmosChains,
+  getAllChainsCached,
 } from "@oko-wallet-attached/requests/chain_infos";
+
 import { OKO_SDK_TARGET } from "./target";
 import type { MsgEventContext } from "./types";
 

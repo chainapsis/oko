@@ -1,6 +1,6 @@
-import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 import rateLimit from "express-rate-limit";
 
+import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 
 export interface RateLimitMiddlewareOption {

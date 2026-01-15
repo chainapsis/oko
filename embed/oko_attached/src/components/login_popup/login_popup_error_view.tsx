@@ -1,11 +1,12 @@
 import type { FC } from "react";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
+
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { WarningIcon } from "@oko-wallet/oko-common-ui/icons/warning_icon";
-
-import styles from "./login_popup_error_view.module.scss";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { AppError } from "@oko-wallet-attached/errors";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
+
+import styles from "./login_popup_error_view.module.scss";
 
 export const LoginPopupErrorView: FC<LoginPopupErrorViewProps> = ({
   error,

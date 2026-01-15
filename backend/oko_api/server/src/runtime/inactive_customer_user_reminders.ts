@@ -1,10 +1,10 @@
 import type { Pool } from "pg";
 import type { Logger } from "winston";
-import type { SMTPConfig } from "@oko-wallet/oko-types/admin";
+
+import { sendInactiveAppReminderEmail } from "@oko-wallet/ct-dashboard-api/src/email/inactive_reminder";
 import { getInactiveCustomerDashboardUsers } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import { insertEmailSentLog } from "@oko-wallet/oko-pg-interface/email_sent_logs";
-import { sendInactiveAppReminderEmail } from "@oko-wallet/ct-dashboard-api/src/email/inactive_reminder";
-
+import type { SMTPConfig } from "@oko-wallet/oko-types/admin";
 import { sleep } from "@oko-wallet-api/utils";
 
 export interface InactiveCustomerUserReminderRuntimeConfig {

@@ -1,5 +1,4 @@
 import type { Result } from "@oko-wallet/stdlib-js";
-
 import type { DiscordUserInfo } from "@oko-wallet-attached/window_msgs/types";
 
 const DISCORD_CLIENT_ID = "1445280712121913384";

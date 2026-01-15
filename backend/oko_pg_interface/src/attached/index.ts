@@ -1,6 +1,7 @@
 import type { Pool, PoolClient } from "pg";
-import type { Result } from "@oko-wallet/stdlib-js";
+
 import type { Customer, CustomerTheme } from "@oko-wallet/oko-types/customers";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 function normalizeCustomerTheme(
   value?: CustomerTheme,

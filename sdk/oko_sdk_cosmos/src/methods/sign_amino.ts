@@ -1,7 +1,7 @@
 import type { AminoSignResponse, StdSignDoc } from "@cosmjs/amino";
 import type { KeplrSignOptions } from "@keplr-wallet/types";
-import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 
+import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 
 export async function signAmino(

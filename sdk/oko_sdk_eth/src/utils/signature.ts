@@ -1,7 +1,8 @@
-import type { Signature, Hex } from "viem";
-import { pad, toHex } from "viem";
-import type { SignOutput } from "@oko-wallet/oko-sdk-core";
 import { secp256k1 } from "@noble/curves/secp256k1";
+import type { Hex, Signature } from "viem";
+import { pad, toHex } from "viem";
+
+import type { SignOutput } from "@oko-wallet/oko-sdk-core";
 
 // ref: fullSignatureToEvmSig in cait_sith_keplr_addon/src/tests/eth_tx_sign.test.ts
 export function encodeEthereumSignature(

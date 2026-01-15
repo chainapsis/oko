@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useAccount, useWalletClient } from "wagmi";
 
-import { useSignMessage } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 import { TextAreaInput } from "@oko-wallet-sandbox-evm/components/scaffold-eth/Input";
+import { useSignMessage } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 
 export function PersonalSignWidget() {
   const { address } = useAccount();

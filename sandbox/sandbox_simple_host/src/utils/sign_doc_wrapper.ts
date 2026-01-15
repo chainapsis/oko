@@ -1,10 +1,11 @@
 import type { StdSignDoc } from "@cosmjs/amino";
-import type { SignDoc } from "@oko-wallet/oko-sdk-cosmos";
 import {
-  TxBody,
   AuthInfo,
+  TxBody,
 } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
 import type { Any } from "@keplr-wallet/proto-types/google/protobuf/any";
+
+import type { SignDoc } from "@oko-wallet/oko-sdk-cosmos";
 
 export type AnyWithUnpacked = Any | (Any & { unpacked: unknown });
 

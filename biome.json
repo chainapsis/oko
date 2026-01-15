@@ -37,7 +37,8 @@
         "useConsistentTypeDefinitions": "off"
       },
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noPrototypeBuiltins": "off"
       },
       "performance": {
         "noImgElement": "off"

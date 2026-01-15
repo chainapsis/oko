@@ -1,8 +1,9 @@
 import type { FC } from "react";
 
-import styles from "./create_ks_node.module.scss";
 import { CreateKSNodeForm } from "./create_customer_form";
 import { CreateKSNodeHeader } from "./create_ks_node_header";
+
+import styles from "./create_ks_node.module.scss";
 
 export const CreateKSNode: FC<CreateOrEditKSNodeProps> = (props) => {
   const { mode = "create", nodeId } = props;

@@ -1,10 +1,11 @@
+import { useCallback, useRef, useState } from "react";
+
 import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks/src/keygen";
 import { runPresign } from "@oko-wallet/cait-sith-keplr-hooks/src/presign";
 import { runSign } from "@oko-wallet/cait-sith-keplr-hooks/src/sign";
 import { runTriples } from "@oko-wallet/cait-sith-keplr-hooks/src/triples";
 
 import { makeClientState } from "../../state";
-import { useCallback, useRef, useState } from "react";
 
 export function useTECDSA() {
   const clientState = useRef(makeClientState());

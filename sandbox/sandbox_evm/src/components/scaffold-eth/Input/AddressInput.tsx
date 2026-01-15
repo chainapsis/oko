@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import { blo } from "blo";
+import { useEffect, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
 import { type Address, isAddress } from "viem";
 import { normalize } from "viem/ens";

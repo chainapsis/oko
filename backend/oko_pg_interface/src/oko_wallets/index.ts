@@ -1,14 +1,15 @@
 import type { Pool, PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
-import type { Result } from "@oko-wallet/stdlib-js";
+
+import type { CurveType } from "@oko-wallet/oko-types/crypto";
 import type {
-  WalletStatus,
   CreateWalletRequest,
   Wallet,
+  WalletStatus,
   WalletWithEmail,
   WalletWithEmailAndKSNodes,
 } from "@oko-wallet/oko-types/wallets";
-import type { CurveType } from "@oko-wallet/oko-types/crypto";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function createWallet(
   db: Pool | PoolClient,

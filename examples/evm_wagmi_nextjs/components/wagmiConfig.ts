@@ -1,16 +1,17 @@
-import { createClient, getAddress, http, toHex, type Address } from "viem";
-import { createConfig, type CreateConnectorFn, createConnector } from "wagmi";
 import {
   connectorsForWallets,
-  type WalletDetailsParams,
   type Wallet,
+  type WalletDetailsParams,
 } from "@rainbow-me/rainbowkit";
+import { type Address, createClient, getAddress, http, toHex } from "viem";
+import { sepolia } from "viem/chains";
+import { type CreateConnectorFn, createConfig, createConnector } from "wagmi";
+
 import type {
+  OkoEIP1193Provider,
   OkoEthWalletInitArgs,
   OkoEthWalletInterface,
-  OkoEIP1193Provider,
 } from "@oko-wallet/oko-sdk-eth";
-import { sepolia } from "viem/chains";
 
 import okoIcon from "@/public/icon.png";
 

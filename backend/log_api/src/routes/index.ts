@@ -1,7 +1,8 @@
 import express from "express";
 
-import { setLogRoutes } from "./log";
 import { initClientLogger } from "@oko-wallet-log-api/logger";
+
+import { setLogRoutes } from "./log";
 
 interface LogRouterOptions {
   esUrl: string | null;

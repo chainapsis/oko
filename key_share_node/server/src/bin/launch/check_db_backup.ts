@@ -1,7 +1,7 @@
-import type { Result } from "@oko-wallet/stdlib-js";
-import { dump, restore } from "@oko-wallet/ksn-pg-interface";
 import type { Pool } from "pg";
 
+import { dump, restore } from "@oko-wallet/ksn-pg-interface";
+import type { Result } from "@oko-wallet/stdlib-js";
 import {
   connectPG,
   type PgDatabaseConfig,

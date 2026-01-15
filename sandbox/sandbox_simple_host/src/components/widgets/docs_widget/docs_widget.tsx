@@ -1,6 +1,7 @@
 import type { FC } from "react";
 
 import { Widget } from "../widget_components";
+
 import styles from "./docs_widget.module.scss";
 
 export const DocsWidget: FC = () => {

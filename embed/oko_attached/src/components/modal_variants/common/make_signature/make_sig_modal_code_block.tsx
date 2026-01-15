@@ -1,6 +1,6 @@
-import { useMemo } from "react";
 import cn from "classnames";
 import type { FC } from "react";
+import { useMemo } from "react";
 
 import { CodeBlock } from "@oko-wallet-attached/components/code_block/code_block";
 

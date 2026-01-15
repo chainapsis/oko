@@ -1,8 +1,8 @@
 import { useLayoutEffect, useState } from "react";
-import type { Theme } from "@oko-wallet/oko-common-ui/theme";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
 
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { RedirectUriSearchParamsKey } from "@oko-wallet/oko-sdk-core";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import {
   determineTheme,
   setColorScheme,

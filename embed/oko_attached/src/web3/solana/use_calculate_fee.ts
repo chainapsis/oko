@@ -1,9 +1,9 @@
-import { useMemo } from "react";
 import {
-  VersionedTransaction,
-  Transaction,
   ComputeBudgetProgram,
+  Transaction,
+  VersionedTransaction,
 } from "@solana/web3.js";
+import { useMemo } from "react";
 
 import { base64ToUint8Array } from "@oko-wallet-attached/utils/base64";
 

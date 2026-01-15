@@ -1,6 +1,7 @@
 import { registerWallet } from "@wallet-standard/wallet";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+
 import { OkoStandardWallet } from "./wallet";
 
 let registered = false;

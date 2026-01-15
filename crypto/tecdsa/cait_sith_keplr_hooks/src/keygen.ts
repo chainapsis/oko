@@ -1,15 +1,3 @@
-import type {
-  ClientKeygenStepOutput,
-  KeygenStep1V2Request,
-  KeygenStep2V2Request,
-  KeygenStep3V2Request,
-  KeygenStep4V2Request,
-  KeygenStep5V2Request,
-  CentralizedKeygenOutput,
-  KeygenOutput,
-  TECDSAClientKeygenState,
-} from "@oko-wallet/tecdsa-interface";
-import { Participant } from "@oko-wallet/tecdsa-interface";
 import {
   reqKeygenStep1,
   reqKeygenStep2,
@@ -17,9 +5,21 @@ import {
   reqKeygenStep4,
   reqKeygenStep5,
 } from "@oko-wallet/api-lib";
+import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import { wasmModule } from "@oko-wallet/cait-sith-keplr-wasm";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
+import type {
+  CentralizedKeygenOutput,
+  ClientKeygenStepOutput,
+  KeygenOutput,
+  KeygenStep1V2Request,
+  KeygenStep2V2Request,
+  KeygenStep3V2Request,
+  KeygenStep4V2Request,
+  KeygenStep5V2Request,
+  TECDSAClientKeygenState,
+} from "@oko-wallet/tecdsa-interface";
+import { Participant } from "@oko-wallet/tecdsa-interface";
 
 import type { KeygenOutputBytes, KeygenResult } from "./types";
 

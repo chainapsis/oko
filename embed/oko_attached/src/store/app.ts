@@ -1,7 +1,8 @@
-import type { Theme } from "@oko-wallet/oko-common-ui/theme";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { create } from "zustand";
 import { combine, persist } from "zustand/middleware";
+
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 const STORAGE_KEY = "oko-wallet-app-2";
 

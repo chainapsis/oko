@@ -1,11 +1,12 @@
 "use client";
 
-import type { FC, ReactNode } from "react";
 import cn from "classnames";
 import Link from "next/link";
+import type { FC, ReactNode } from "react";
+
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 import styles from "./menu_item.module.scss";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 export type MenuItemProps = {
   Icon: ReactNode;

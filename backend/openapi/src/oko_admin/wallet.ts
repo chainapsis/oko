@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { registry } from "../registry";
 import { PaginationSchema } from "../common/";
+import { registry } from "../registry";
 
 const WalletWithEmailAndKSNodesResponseSchema = registry.register(
   "WalletWithEmailAndKSNodesResponse",

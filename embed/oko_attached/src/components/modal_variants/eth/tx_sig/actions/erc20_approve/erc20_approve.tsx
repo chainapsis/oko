@@ -1,10 +1,11 @@
 import type { FC } from "react";
 
-import { TxContainer } from "../common/tx_container";
-import { TokenInfo } from "../common/token_info";
-import { AddressInfo } from "../common/address_info";
-import type { RenderContext, ERC20ApproveAction } from "../types";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
+
+import { AddressInfo } from "../common/address_info";
+import { TokenInfo } from "../common/token_info";
+import { TxContainer } from "../common/tx_container";
+import type { ERC20ApproveAction, RenderContext } from "../types";
 
 export const ERC20Approve: FC<ERC20ApproveProps> = ({ action, ctx }) => {
   return (

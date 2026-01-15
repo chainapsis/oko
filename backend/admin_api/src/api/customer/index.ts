@@ -1,8 +1,33 @@
-import type { Pool } from "pg";
-import { v4 as uuidv4 } from "uuid";
 import { randomBytes, randomUUID } from "crypto";
+import type { Pool } from "pg";
 import sharp from "sharp";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { v4 as uuidv4 } from "uuid";
+
+import { uploadToS3 } from "@oko-wallet/aws";
+import { hashPassword } from "@oko-wallet/crypto-js";
+import {
+  getAPIKeysByCustomerIdsMap,
+  insertAPIKey,
+  updateAPIKeyStatusByCustomerId,
+} from "@oko-wallet/oko-pg-interface/api_keys";
+import {
+  deleteCustomerDashboardUserByCustomerId,
+  getCTDUsersByCustomerIdsMap,
+  getCTDUserWithCustomerByEmail,
+  insertCustomerDashboardUser,
+  updateCustomerDashboardUserPassword,
+} from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
+import {
+  deleteCustomer,
+  getCustomer,
+  getCustomers,
+  getCustomersCount,
+  getTxActiveCustomersCount,
+  getVerifiedCustomersCount,
+  insertCustomer,
+} from "@oko-wallet/oko-pg-interface/customers";
+import { getEmailSentLogsByUserIdsMap } from "@oko-wallet/oko-pg-interface/email_sent_logs";
+import { getTssSessionsExistenceByCustomerIds } from "@oko-wallet/oko-pg-interface/tss";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
@@ -10,43 +35,19 @@ import type {
   ResendCustomerUserPasswordResponse,
   SMTPConfig,
 } from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
+  APIKey,
+  InsertCustomerDashboardUserRequest,
+} from "@oko-wallet/oko-types/ct_dashboard";
 import type {
   Customer,
   CustomerTheme,
   CustomerWithAPIKeys,
 } from "@oko-wallet/oko-types/customers";
-import { uploadToS3 } from "@oko-wallet/aws";
-import { hashPassword } from "@oko-wallet/crypto-js";
-import {
-  insertCustomer,
-  getCustomers,
-  getCustomersCount,
-  getVerifiedCustomersCount,
-  getTxActiveCustomersCount,
-  deleteCustomer,
-  getCustomer,
-} from "@oko-wallet/oko-pg-interface/customers";
-import {
-  insertAPIKey,
-  getAPIKeysByCustomerIdsMap,
-  updateAPIKeyStatusByCustomerId,
-} from "@oko-wallet/oko-pg-interface/api_keys";
-import {
-  deleteCustomerDashboardUserByCustomerId,
-  getCTDUserWithCustomerByEmail,
-  getCTDUsersByCustomerIdsMap,
-  insertCustomerDashboardUser,
-  updateCustomerDashboardUserPassword,
-} from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
-import { getEmailSentLogsByUserIdsMap } from "@oko-wallet/oko-pg-interface/email_sent_logs";
-import { getTssSessionsExistenceByCustomerIds } from "@oko-wallet/oko-pg-interface/tss";
-import type {
-  APIKey,
-  InsertCustomerDashboardUserRequest,
-} from "@oko-wallet/oko-types/ct_dashboard";
-
-import { generatePassword } from "@oko-wallet-admin-api/utils/password";
 import { sendCustomerUserPasswordEmail } from "@oko-wallet-admin-api/email";
+import { generatePassword } from "@oko-wallet-admin-api/utils/password";
+
 import type { ExtractedTypeformData } from "./typeform";
 
 export async function createCustomer(

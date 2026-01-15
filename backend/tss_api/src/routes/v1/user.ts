@@ -1,14 +1,8 @@
 import type { Request, Response, Router } from "express";
-import type {
-  CheckEmailRequest,
-  CheckEmailResponse,
-  ReshareRequest,
-  SignInResponse,
-  SignInSilentlyResponse,
-} from "@oko-wallet/oko-types/user";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+
+import { Bytes } from "@oko-wallet/bytes";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
@@ -23,20 +17,26 @@ import {
   SignInSilentlySuccessResponseSchema,
   SignInSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
-import { Bytes } from "@oko-wallet/bytes";
-import { registry } from "@oko-wallet/oko-api-openapi";
-
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type {
+  CheckEmailRequest,
+  CheckEmailResponse,
+  ReshareRequest,
+  SignInResponse,
+  SignInSilentlyResponse,
+} from "@oko-wallet/oko-types/user";
+import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
 import {
-  signIn,
   checkEmail,
+  signIn,
   updateWalletKSNodesForReshare,
 } from "@oko-wallet-tss-api/api/v1/user";
-import { verifyUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
-import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 import {
   type OAuthAuthenticatedRequest,
   oauthMiddleware,
 } from "@oko-wallet-tss-api/middleware/oauth";
+import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 export function setUserV1Routes(router: Router) {

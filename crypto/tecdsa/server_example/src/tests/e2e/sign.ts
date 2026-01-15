@@ -1,14 +1,14 @@
-import type {
-  TECDSAClientState,
-  SignStep1Request,
-  SignStep2Request,
-} from "@oko-wallet/tecdsa-interface";
 import { reqSignStep1, reqSignStep2 } from "@oko-wallet/api-lib";
 import {
   runSignClientStep1,
   runSignClientStep2,
 } from "@oko-wallet/cait-sith-keplr-addon/src/client";
 import { runVerify } from "@oko-wallet/cait-sith-keplr-addon/src/server";
+import type {
+  SignStep1Request,
+  SignStep2Request,
+  TECDSAClientState,
+} from "@oko-wallet/tecdsa-interface";
 
 export async function e2eSignTest(clientState: TECDSAClientState) {
   const msg = "TestMsg";

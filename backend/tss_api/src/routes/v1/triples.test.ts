@@ -1,16 +1,16 @@
 import { jest } from "@jest/globals";
-import request from "supertest";
 import type { Pool } from "pg";
-import { createPgConn } from "@oko-wallet/postgres-lib";
+import request from "supertest";
+
 import {
   insertAPIKey,
   updateAPIKeyStatusByHashedKey,
 } from "@oko-wallet/oko-pg-interface/api_keys";
-
-import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
-import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
+import { createPgConn } from "@oko-wallet/postgres-lib";
 import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
+import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
+import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 
 const mockFns = {
   runTriplesStep1: jest.fn(),

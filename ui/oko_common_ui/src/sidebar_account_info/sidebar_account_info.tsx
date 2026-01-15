@@ -1,10 +1,11 @@
 "use client";
 
-import type { FC, ReactNode } from "react";
 import cn from "classnames";
+import type { FC, ReactNode } from "react";
+
+import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 import styles from "./sidebar_account_info.module.scss";
-import { Typography } from "@oko-wallet-common-ui/typography/typography";
 
 export type SidebarAccountInfoProps = {
   className?: string;

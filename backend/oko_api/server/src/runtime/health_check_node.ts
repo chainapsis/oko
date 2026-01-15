@@ -1,7 +1,7 @@
 import type { Pool } from "pg";
 import type { Logger } from "winston";
-import { healthCheckKSNode } from "@oko-wallet/admin-api/api";
 
+import { healthCheckKSNode } from "@oko-wallet/admin-api/api";
 import { getSecondsFromNow, sleep } from "@oko-wallet-api/utils";
 
 export interface KSNodeHealthCheckRuntimeOptions {

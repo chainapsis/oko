@@ -1,10 +1,11 @@
+import { EventEmitter } from "eventemitter3";
+
 import type {
   OkoWalletInterface,
   OpenModalAckPayload,
+  OpenModalError,
 } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { OpenModalError } from "@oko-wallet/oko-sdk-core";
-import { EventEmitter } from "eventemitter3";
 
 // Mock Ed25519 public key (32 bytes in hex)
 export const MOCK_ED25519_PUBLIC_KEY =

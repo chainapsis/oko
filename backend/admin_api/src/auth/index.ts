@@ -1,11 +1,12 @@
 import jwt from "jsonwebtoken";
-import type { Result } from "@oko-wallet/stdlib-js";
+
 import type {
   AdminTokenPayload,
   GenerateAdminTokenArgs,
   VerifyAdminTokenArgs,
 } from "@oko-wallet/oko-types/admin";
 import type { TokenResult } from "@oko-wallet/oko-types/auth";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 export const ADMIN_ISSUER = "https://api.oko.app";
 export const ADMIN_AUDIENCE = "https://api.oko.app";

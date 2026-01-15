@@ -1,4 +1,5 @@
 import type { FC } from "react";
+
 import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import styles from "./empty_state.module.scss";

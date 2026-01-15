@@ -1,8 +1,9 @@
+import type { JwtPayload } from "jsonwebtoken";
+
 import type {
   UserTokenPayload,
   UserTokenPayloadV2,
 } from "@oko-wallet/oko-types/tss";
-import type { JwtPayload } from "jsonwebtoken";
 
 export type UserTokenJWTPayload = UserTokenPayload & JwtPayload;
 export type UserTokenJWTPayloadV2 = UserTokenPayloadV2 & JwtPayload;

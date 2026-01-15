@@ -1,6 +1,6 @@
-import { EthereumBlueIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_blue_icon";
 import { isAddressEqual, recoverMessageAddress } from "viem";
 
+import { EthereumBlueIcon } from "@oko-wallet/oko-common-ui/icons/ethereum_blue_icon";
 import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/sign_widget";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 

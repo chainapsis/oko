@@ -1,10 +1,10 @@
 import type { Response } from "express";
+
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { Customer } from "@oko-wallet/oko-types/customers";
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-
-import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getCustomerById } from "@oko-wallet-admin-api/api/customer";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 
 export async function get_customer(
   req: AuthenticatedAdminRequest,

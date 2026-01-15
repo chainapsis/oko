@@ -1,4 +1,5 @@
 import type { FC, ReactNode } from "react";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "./title_header.module.scss";

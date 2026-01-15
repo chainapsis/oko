@@ -3,7 +3,6 @@ import type {
   AdminLogoutResponse,
 } from "@oko-wallet/oko-types/admin";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
 

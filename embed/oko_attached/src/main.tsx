@@ -1,5 +1,5 @@
+import { createRouter, RouterProvider } from "@tanstack/react-router";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createRouter } from "@tanstack/react-router";
 
 import "@fontsource-variable/inter";
 import "@fontsource-variable/geist";
@@ -7,8 +7,9 @@ import "@fontsource-variable/geist-mono";
 
 import "@oko-wallet-attached/styles/global.scss";
 
-import { routeTree } from "./routeTree.gen";
 import { initAmplitude } from "@oko-wallet-attached/analytics/amplitude";
+
+import { routeTree } from "./routeTree.gen";
 
 // Initialize Amplitude
 initAmplitude();

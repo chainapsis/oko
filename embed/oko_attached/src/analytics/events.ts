@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
-import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
 
 import type { EthTxAction } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/types";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
+
 import { trackEvent } from "./amplitude";
 import type {
   CosmosMsgs,

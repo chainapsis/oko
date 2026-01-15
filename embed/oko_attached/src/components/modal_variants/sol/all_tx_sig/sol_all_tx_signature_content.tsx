@@ -1,11 +1,12 @@
 import type { FC } from "react";
-import type { SolanaAllTxSignPayload } from "@oko-wallet/oko-sdk-core";
+
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-
-import styles from "../common/signature_content.module.scss";
+import type { SolanaAllTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
+
+import styles from "../common/signature_content.module.scss";
 
 interface SolanaAllTxSignatureContentProps {
   payload: SolanaAllTxSignPayload;

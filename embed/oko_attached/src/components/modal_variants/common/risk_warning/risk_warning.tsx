@@ -1,4 +1,5 @@
 import type { FC } from "react";
+
 import { Checkbox } from "@oko-wallet/oko-common-ui/checkbox";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 

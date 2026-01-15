@@ -1,8 +1,8 @@
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { Result } from "@oko-wallet/stdlib-js";
 
-import type { FetchError } from "./types";
 import { OKO_API_ENDPOINT } from "./endpoints";
+import type { FetchError } from "./types";
 
 export const TSS_V1_ENDPOINT = `${OKO_API_ENDPOINT}/tss/v1`;
 export const SOCIAL_LOGIN_V1_ENDPOINT = `${OKO_API_ENDPOINT}/social-login/v1`;

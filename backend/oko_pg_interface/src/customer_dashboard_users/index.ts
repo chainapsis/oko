@@ -1,5 +1,5 @@
 import type { Pool, PoolClient } from "pg";
-import type { Result } from "@oko-wallet/stdlib-js";
+
 import type {
   CustomerAndCTDUser,
   CustomerAndCTDUserWithPasswordHash,
@@ -13,6 +13,7 @@ import type {
   VerifyCustomerAccountEmailRequest,
   VerifyCustomerAccountEmailResponse,
 } from "@oko-wallet/oko-types/ct_dashboard";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 export async function insertCustomerDashboardUser(
   db: Pool | PoolClient,

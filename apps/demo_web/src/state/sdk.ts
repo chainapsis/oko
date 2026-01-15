@@ -1,5 +1,12 @@
 // TODO: refactor this file @chemonoworld @Ryz0nd
 
+// import {
+//   OkoSolWallet,
+//   type OkoSolWalletInterface,
+// } from "@oko-wallet/oko-sdk-sol";
+import { create } from "zustand";
+import { combine } from "zustand/middleware";
+
 import {
   OkoCosmosWallet,
   type OkoCosmosWalletInterface,
@@ -8,13 +15,6 @@ import {
   OkoEthWallet,
   type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
-// import {
-//   OkoSolWallet,
-//   type OkoSolWalletInterface,
-// } from "@oko-wallet/oko-sdk-sol";
-import { create } from "zustand";
-import { combine } from "zustand/middleware";
-
 import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 
 interface SDKState {

@@ -1,7 +1,8 @@
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
+import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
 import type { Chain, PublicClient } from "viem";
 
 import { classifyViemErrorDetailed } from "@oko-wallet-attached/web3/ethereum/error";
+
 import {
   DEFAULT_MULTIPLIER,
   DEFAULT_RETRY_COUNT,

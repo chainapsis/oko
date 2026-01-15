@@ -1,14 +1,15 @@
 "use client";
 
-import { normalize } from "viem/ens";
 import { type Address as AddressType, getAddress, isAddress } from "viem";
+import { normalize } from "viem/ens";
 import { useEnsAvatar, useEnsName } from "wagmi";
 
-import { AddressCopyIcon } from "./AddressCopyIcon";
-import { AddressLinkWrapper } from "./AddressLinkWrapper";
 import { BlockieAvatar } from "@oko-wallet-sandbox-evm/components/scaffold-eth";
 import { useTargetNetwork } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth/useTargetNetwork";
 import { getBlockExplorerAddressLink } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
+
+import { AddressCopyIcon } from "./AddressCopyIcon";
+import { AddressLinkWrapper } from "./AddressLinkWrapper";
 
 const textSizeMap = {
   "3xs": "text-[10px]",

@@ -1,6 +1,6 @@
 import type { StdSignature } from "@cosmjs/amino";
-import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 
+import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 import { makeADR36AminoSignDoc } from "@oko-wallet-sdk-cosmos/utils/arbitrary";
 

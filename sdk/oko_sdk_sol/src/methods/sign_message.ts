@@ -1,4 +1,5 @@
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+
 import {
   makeSignature,
   SolanaRpcError,

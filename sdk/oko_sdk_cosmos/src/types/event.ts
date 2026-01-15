@@ -1,4 +1,5 @@
 import type { Key } from "@keplr-wallet/types";
+
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 export interface AccountChangePayload {

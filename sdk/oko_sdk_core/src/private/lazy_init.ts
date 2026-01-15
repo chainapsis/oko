@@ -1,11 +1,10 @@
 import type { Result } from "@oko-wallet/stdlib-js";
-
 import { OKO_IFRAME_ID } from "@oko-wallet-sdk-core/iframe";
-import { registerMsgListener } from "@oko-wallet-sdk-core/window_msg/listener";
 import type {
   OkoWalletInterface,
   OkoWalletState,
 } from "@oko-wallet-sdk-core/types";
+import { registerMsgListener } from "@oko-wallet-sdk-core/window_msg/listener";
 
 export async function lazyInit(
   okoWallet: OkoWalletInterface,

@@ -1,16 +1,18 @@
-import type { FC } from "react";
-import type { Msg } from "@keplr-wallet/types";
 import { Bech32Address } from "@keplr-wallet/cosmos";
 import type { MsgSend as ThorMsgSend } from "@keplr-wallet/proto-types/thorchain/v1/types/msg_send";
-import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import type { Msg } from "@keplr-wallet/types";
+import type { FC } from "react";
 
-import styles from "./messages.module.scss";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import type {
   SendMsg,
   UnpackedMsgForView,
 } from "@oko-wallet-attached/types/cosmos_msg";
+
 import { SendMessagePretty } from "./send/send";
 import { UnknownMessage } from "./unknown/unknown";
+
+import styles from "./messages.module.scss";
 
 function renderAminoMessage(chainId: string, msg: Msg, index: number) {
   switch (msg.type) {

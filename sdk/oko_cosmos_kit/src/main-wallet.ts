@@ -4,6 +4,7 @@ import {
   MainWalletBase,
   State,
 } from "@cosmos-kit/core";
+
 import { OkoCosmosWallet } from "@oko-wallet/oko-sdk-cosmos";
 
 import { OkoChainWallet } from "./chain-wallet";

@@ -1,6 +1,7 @@
 import cn from "classnames";
 
 import { Typography } from "@oko-wallet-common-ui/typography/typography";
+
 import styles from "./badge.module.scss";
 
 type Color = "gray" | "success" | "warning" | "error" | "brand";

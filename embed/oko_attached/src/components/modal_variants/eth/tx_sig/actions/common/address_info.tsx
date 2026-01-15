@@ -1,15 +1,16 @@
 import type { FC } from "react";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import type { Address } from "viem";
 
-import styles from "./address_info.module.scss";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
-import {
-  useGetENSName,
-  useGetENSAvatar,
-} from "@oko-wallet-attached/web3/ethereum/queries";
 import { convertIpfsUrl } from "@oko-wallet-attached/utils/url";
+import {
+  useGetENSAvatar,
+  useGetENSName,
+} from "@oko-wallet-attached/web3/ethereum/queries";
+
+import styles from "./address_info.module.scss";
 
 export interface AddressInfoProps {
   address: Address;

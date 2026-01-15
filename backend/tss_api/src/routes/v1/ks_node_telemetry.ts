@@ -1,13 +1,13 @@
-import type { Router, Response } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { KSNodeTelemetryRequest } from "@oko-wallet/oko-types/tss";
+import type { Response, Router } from "express";
+import { z } from "zod";
+
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   KSNodeTelemetryRequestSchema,
   KSNodeTelemetryResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
-import { registry } from "@oko-wallet/oko-api-openapi";
-import { z } from "zod";
-
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { KSNodeTelemetryRequest } from "@oko-wallet/oko-types/tss";
 import { processKSNodeTelemetry } from "@oko-wallet-tss-api/api/ks_node/telemetry";
 
 export function setKSNodeTelemetryRoutes(router: Router) {

@@ -2,12 +2,12 @@ import type { Currency } from "@keplr-wallet/types";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
+import { postAssetMeta } from "@oko-wallet-attached/requests/asset_meta";
 import type {
   AssetMeta,
-  AssetMetaParams,
   AssetMetaInput,
+  AssetMetaParams,
 } from "@oko-wallet-attached/types/asset_meta";
-import { postAssetMeta } from "@oko-wallet-attached/requests/asset_meta";
 import { normalizeIBCDenom } from "@oko-wallet-attached/web3/cosmos/normalize_denom";
 
 type AssetMetaMap = Record<string, AssetMeta>;

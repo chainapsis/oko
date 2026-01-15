@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState, type FC } from "react";
+import { type FC, useEffect, useState } from "react";
+
 import { LoadingCircleIcon } from "@oko-wallet/oko-common-ui/icons/loading_circle_icon";
 import { WarningIcon } from "@oko-wallet/oko-common-ui/icons/warning_icon";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
-
-import telegramStyles from "@oko-wallet-attached/components/telegram/telegram_login_popup.module.scss";
-import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { setColorScheme } from "@oko-wallet-attached/components/attached_initialized/color_scheme";
+import { getSystemTheme } from "@oko-wallet-attached/components/google_callback/theme";
+import telegramStyles from "@oko-wallet-attached/components/telegram/telegram_login_popup.module.scss";
+
 import { useTelegramCallback } from "./use_callback";
 
 export const TelegramCallback: FC = () => {

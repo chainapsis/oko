@@ -1,10 +1,11 @@
-import { useState, type FC } from "react";
+import { type FC, useState } from "react";
 
-import styles from "./styles.module.scss";
 import {
   SignerAddressOrEmailChangeViewTypeButton,
   SignerAddressOrEmailView,
 } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
+
+import styles from "./styles.module.scss";
 
 interface SignerInfoProps {
   signer: string;

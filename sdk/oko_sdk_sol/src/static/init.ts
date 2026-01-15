@@ -1,12 +1,11 @@
 import { OkoWallet } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
-
-import type {
-  OkoSolWalletInterface,
-  OkoSolWalletInitArgs,
-} from "@oko-wallet-sdk-sol/types";
-import type { OkoSolWalletInitError } from "@oko-wallet-sdk-sol/errors";
 import { OkoSolWallet } from "@oko-wallet-sdk-sol/constructor";
+import type { OkoSolWalletInitError } from "@oko-wallet-sdk-sol/errors";
+import type {
+  OkoSolWalletInitArgs,
+  OkoSolWalletInterface,
+} from "@oko-wallet-sdk-sol/types";
 
 export function init(
   args: OkoSolWalletInitArgs,

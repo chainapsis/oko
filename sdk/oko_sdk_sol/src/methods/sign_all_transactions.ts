@@ -1,6 +1,7 @@
 import type { Transaction, VersionedTransaction } from "@solana/web3.js";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+
 import {
   makeSignature,
   SolanaRpcError,

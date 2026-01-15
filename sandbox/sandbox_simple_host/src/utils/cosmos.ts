@@ -1,16 +1,17 @@
+import { makeSignDoc as makeAminoSignDoc } from "@cosmjs/amino";
 import { makeSignDoc as makeProtoSignDoc } from "@cosmjs/proto-signing";
+import { SigningStargateClient } from "@cosmjs/stargate";
+import { MsgSend } from "@keplr-wallet/proto-types/cosmos/bank/v1beta1/tx";
+import type { Coin } from "@keplr-wallet/proto-types/cosmos/base/v1beta1/coin";
+import { PubKey } from "@keplr-wallet/proto-types/cosmos/crypto/secp256k1/keys";
+import { SignMode } from "@keplr-wallet/proto-types/cosmos/tx/signing/v1beta1/signing";
 import {
   AuthInfo,
   Fee,
   TxBody,
 } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
-import { MsgSend } from "@keplr-wallet/proto-types/cosmos/bank/v1beta1/tx";
-import { PubKey } from "@keplr-wallet/proto-types/cosmos/crypto/secp256k1/keys";
-import { SignMode } from "@keplr-wallet/proto-types/cosmos/tx/signing/v1beta1/signing";
-import { SigningStargateClient } from "@cosmjs/stargate";
-import type { Coin } from "@keplr-wallet/proto-types/cosmos/base/v1beta1/coin";
+
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
-import { makeSignDoc as makeAminoSignDoc } from "@cosmjs/amino";
 
 import { TEST_COSMOS_CHAIN_ID, TEST_COSMOS_CHAIN_RPC } from "@/constants";
 import { SignDocWrapper } from "./sign_doc_wrapper";

@@ -1,7 +1,8 @@
-import { describe, test, expect } from "@jest/globals";
+import { describe, expect, test } from "@jest/globals";
+
 import {
-  Bytes,
   type Byte,
+  Bytes,
   type Bytes16,
   type Bytes32,
   type Bytes33,

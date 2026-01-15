@@ -1,6 +1,7 @@
-import styles from "./page.module.scss";
-import { SignInForm } from "@oko-wallet-ct-dashboard/components/sign_in_form/sign_in_form";
 import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
+import { SignInForm } from "@oko-wallet-ct-dashboard/components/sign_in_form/sign_in_form";
+
+import styles from "./page.module.scss";
 
 export default function Page() {
   return (

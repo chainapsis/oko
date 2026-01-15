@@ -1,33 +1,34 @@
+import type { AminoMsg } from "@cosmjs/amino";
+import { AuthInfo } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
+import type { ChainInfo, StdSignDoc } from "@keplr-wallet/types";
+import type { Any } from "cosmjs-types/google/protobuf/any";
 import { useState } from "react";
+
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import type {
   CosmosTxSigData,
   MakeCosmosSigError,
   MakeSigModalErrorAckPayload,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
-import type { ChainInfo, StdSignDoc } from "@keplr-wallet/types";
-import type { Result } from "@oko-wallet/stdlib-js";
 import {
+  extractAuthInfoFromSignDoc,
   isEthereumCompatible,
   type SignDoc,
-  extractAuthInfoFromSignDoc,
 } from "@oko-wallet/oko-sdk-cosmos";
-import { AuthInfo } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
-import type { Theme } from "@oko-wallet/oko-common-ui/theme";
-import type { AminoMsg } from "@cosmjs/amino";
-import type { Any } from "cosmjs-types/google/protobuf/any";
-
-import { useCosmosSignFee } from "./use_sign_fee";
-import { normalizeIBCDenom } from "@oko-wallet-attached/web3/cosmos/normalize_denom";
+import type { Result } from "@oko-wallet/stdlib-js";
 import { makeCosmosSignature } from "@oko-wallet-attached/components/modal_variants/cosmos/cosmos_sig";
+import { DEMO_WEB_ORIGIN } from "@oko-wallet-attached/requests/endpoints";
 import { useAppState } from "@oko-wallet-attached/store/app";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import { normalizeIBCDenom } from "@oko-wallet-attached/web3/cosmos/normalize_denom";
 import {
   extractMsgsFromSignDoc,
   signDocToJson,
 } from "@oko-wallet-attached/web3/cosmos/sign_doc";
-import { useMemoryState } from "@oko-wallet-attached/store/memory";
-import { DEMO_WEB_ORIGIN } from "@oko-wallet-attached/requests/endpoints";
+
 import type { FeeCalculated, InsufficientBalanceFee } from "./types";
+import { useCosmosSignFee } from "./use_sign_fee";
 
 export function useTxSigModal(
   args: UseCosmosTxSigModalArgs,

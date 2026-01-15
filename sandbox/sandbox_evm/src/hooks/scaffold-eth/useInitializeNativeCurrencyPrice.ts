@@ -1,10 +1,11 @@
 import { useCallback, useEffect } from "react";
 import { useInterval } from "usehooks-ts";
 
-import { useTargetNetwork } from "./useTargetNetwork";
 import scaffoldConfig from "@oko-wallet-sandbox-evm/../scaffold.config";
 import { useGlobalState } from "@oko-wallet-sandbox-evm/services/store/store";
 import { fetchPriceFromUniswap } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
+
+import { useTargetNetwork } from "./useTargetNetwork";
 
 const enablePolling = false;
 

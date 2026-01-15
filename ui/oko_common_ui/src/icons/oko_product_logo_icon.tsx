@@ -1,5 +1,6 @@
-import { s3BucketURL } from "./paths";
 import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
+
+import { s3BucketURL } from "./paths";
 
 /**
  * @deprecated Use OkoLogoIcon instead

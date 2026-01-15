@@ -1,42 +1,43 @@
+import { v4 as uuidv4 } from "uuid";
 import type { Address, RpcError, TypedDataDefinition } from "viem";
 import {
   hexToString,
+  isAddress,
   isAddressEqual,
   serializeTypedData,
-  isAddress,
 } from "viem";
-import { v4 as uuidv4 } from "uuid";
 
-import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import type {
-  RpcMethod,
-  RpcResponse,
-  RpcRequestArgs,
-  RpcResponseData,
   PublicRpcMethod,
+  RpcMethod,
+  RpcRequestArgs,
+  RpcResponse,
+  RpcResponseData,
   WalletRpcMethod,
 } from "@oko-wallet-sdk-eth/rpc";
 import { PUBLIC_RPC_METHODS } from "@oko-wallet-sdk-eth/rpc";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import {
   parseTypedData,
-  validateHexChainId,
   validateChain,
+  validateHexChainId,
 } from "@oko-wallet-sdk-eth/utils";
+import { VERSION } from "@oko-wallet-sdk-eth/version";
+
 import { ProviderEventEmitter } from "./emitter";
+import {
+  EthereumRpcError,
+  isConnectionError,
+  ProviderRpcErrorCode,
+  RpcErrorCode,
+} from "./error";
 import type {
   EIP1193Provider,
   OkoEIP1193ProviderOptions,
-  ProviderConnectInfo,
   OkoEthRpcChain,
   OkoEthRpcChainWithStatus,
+  ProviderConnectInfo,
 } from "./types";
-import {
-  EthereumRpcError,
-  ProviderRpcErrorCode,
-  RpcErrorCode,
-  isConnectionError,
-} from "./error";
-import { VERSION } from "@oko-wallet-sdk-eth/version";
 
 export class OkoEIP1193Provider
   extends ProviderEventEmitter

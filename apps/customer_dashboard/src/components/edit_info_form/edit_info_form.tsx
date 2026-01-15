@@ -1,24 +1,25 @@
 "use client";
 
+import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import {
   type ChangeEvent,
-  useRef,
-  useState,
   type DragEvent,
   type FC,
+  useRef,
+  useState,
 } from "react";
-import { useRouter } from "next/navigation";
-import { useQueryClient } from "@tanstack/react-query";
-import { Input } from "@oko-wallet/oko-common-ui/input";
+
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { PlusIcon } from "@oko-wallet/oko-common-ui/icons/plus";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
-import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
+import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-
+import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
+import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
 import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
-import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
+
 import styles from "./edit_info_form.module.scss";
 
 const THEME_OPTIONS: CustomerTheme[] = ["light", "dark", "system"];

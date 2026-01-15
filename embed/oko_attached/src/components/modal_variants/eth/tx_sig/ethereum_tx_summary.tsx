@@ -1,16 +1,18 @@
 import { type FC, type ReactNode, useState } from "react";
-import type { EthereumTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
 import type { RpcTransactionRequest } from "viem";
 
-import styles from "./ethereum_tx_summary.module.scss";
-import type { RenderContext } from "./actions/types";
-import { useEthereumTxActions } from "./hooks/use_ethereum_tx_actions";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { EthereumTxSignPayload } from "@oko-wallet/oko-sdk-core";
+import { useTrackTxSummaryView } from "@oko-wallet-attached/analytics/events";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
+
 import { Actions } from "./actions/actions";
-import { useTrackTxSummaryView } from "@oko-wallet-attached/analytics/events";
+import type { RenderContext } from "./actions/types";
+import { useEthereumTxActions } from "./hooks/use_ethereum_tx_actions";
+
+import styles from "./ethereum_tx_summary.module.scss";
 
 export interface EthereumTxSummaryProps {
   payload: EthereumTxSignPayload;

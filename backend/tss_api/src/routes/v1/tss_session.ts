@@ -1,5 +1,7 @@
 import type { Response, Router } from "express";
+
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
@@ -8,19 +10,17 @@ import {
   AbortTssSessionRequestSchema,
   AbortTssSessionSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   AbortTssSessionBody,
   AbortTssSessionResponse,
 } from "@oko-wallet/oko-types/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { registry } from "@oko-wallet/oko-api-openapi";
-
+import { abortTssSession } from "@oko-wallet-tss-api/api/tss_session";
 import {
   sendResponseWithNewToken,
   type UserAuthenticatedRequest,
   userJwtMiddleware,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
-import { abortTssSession } from "@oko-wallet-tss-api/api/tss_session";
 
 export function setTssSessionRoutes(router: Router) {
   registry.registerPath({

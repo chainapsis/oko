@@ -1,6 +1,6 @@
-import styles from "./workflow.module.css";
 import { Step } from "../../components/step/step";
 import { useTECDSA } from "./use_tecdsa";
+import styles from "./workflow.module.css";
 
 export const Workflow: FC = () => {
   const {

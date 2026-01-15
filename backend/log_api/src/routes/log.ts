@@ -1,7 +1,6 @@
-import type { Response, Router, Request } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Request, Response, Router } from "express";
 import type { Logger } from "winston";
-import type { PostLogBody, PostLogResponse } from "@oko-wallet/oko-types/log";
+
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
@@ -9,7 +8,8 @@ import {
   PostLogRequestSchema,
   PostLogSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/log";
-
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { PostLogBody, PostLogResponse } from "@oko-wallet/oko-types/log";
 import { ingestLog } from "@oko-wallet-log-api/api/log";
 import { rateLimitMiddleware } from "@oko-wallet-log-api/middleware/rate_limit";
 

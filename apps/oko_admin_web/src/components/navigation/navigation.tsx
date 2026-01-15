@@ -1,12 +1,13 @@
 "use client";
 
-import type { FC } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import type { FC } from "react";
+
+import { NavItem } from "./nav_item";
+import { navigationItems } from "./nav_items";
+import { NavMenu } from "./nav_menu";
 
 import styles from "./navigation.module.scss";
-import { NavItem } from "./nav_item";
-import { NavMenu } from "./nav_menu";
-import { navigationItems } from "./nav_items";
 
 export interface NavigationItem {
   label: string;
@@ -15,7 +16,7 @@ export interface NavigationItem {
   subItems?: Array<{ label: string; route: string }>;
 }
 
-export interface NavigationProps {}
+export type NavigationProps = {};
 
 export const Navigation: FC<NavigationProps> = () => {
   const router = useRouter();

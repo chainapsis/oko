@@ -2,12 +2,13 @@ import { useQuery } from "@tanstack/react-query";
 import type { PaginationState } from "@tanstack/react-table";
 
 import { useAppState } from "@oko-wallet-admin/state";
-import { doFetch } from "../fetcher";
-import { OKO_ADMIN_API_ENDPOINT_V1 } from "..";
 import type {
   GetKSNHealthChecksRequest,
   GetKSNHealthChecksResponse,
 } from "@oko-wallet-types/admin";
+
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "..";
+import { doFetch } from "../fetcher";
 
 export function useKSNHealthChecks(pagination: PaginationState) {
   const { token } = useAppState();

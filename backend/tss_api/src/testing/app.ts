@@ -1,7 +1,7 @@
-import express from "express";
-import morgan from "morgan";
-import helmet from "helmet";
 import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
 
 import { makeV1Router } from "@oko-wallet-tss-api/routes/v1";
 import { makeV2Router } from "@oko-wallet-tss-api/routes/v2";

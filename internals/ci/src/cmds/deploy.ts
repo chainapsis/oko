@@ -1,10 +1,10 @@
 import { spawnSync } from "node:child_process";
-import path from "node:path";
 import fs from "node:fs";
+import path from "node:path";
 import chalk from "chalk";
 
-import { paths } from "@oko-wallet-ci/paths";
 import { expectSuccess } from "@oko-wallet-ci/expect";
+import { paths } from "@oko-wallet-ci/paths";
 
 const VERCEL_SCOPE = "keplrwallet";
 

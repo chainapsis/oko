@@ -1,13 +1,14 @@
-import { Participant } from "@oko-wallet/tecdsa-interface";
+import { ethers } from "ethers";
+import { computePublicKey } from "ethers/lib/utils";
+
 import type {
   TECDSAClientState,
   TECDSAServerState,
 } from "@oko-wallet/tecdsa-interface";
-import { ethers } from "ethers";
+import { Participant } from "@oko-wallet/tecdsa-interface";
 
-import { makeClientState, makeServerState } from "../state";
 import { runKeygenClientCentralized, runKeygenCombineShares } from "../client";
-import { computePublicKey } from "ethers/lib/utils";
+import { makeClientState, makeServerState } from "../state";
 
 async function keygen2Test(
   clientState: TECDSAClientState,

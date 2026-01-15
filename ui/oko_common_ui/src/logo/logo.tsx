@@ -1,8 +1,9 @@
 import type { FC } from "react";
 
-import styles from "./logo.module.scss";
 import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
 import type { Theme } from "@oko-wallet-common-ui/theme/theme_provider";
+
+import styles from "./logo.module.scss";
 
 export interface LogoProps {
   width?: number;

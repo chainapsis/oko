@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { registry } from "../registry";
 import { ApiKeyHeaderSchema, UserAuthHeaderSchema } from "../common";
+import { registry } from "../registry";
 
 const stringArraySchema = z.array(z.string());
 const stringPairSchema = z.tuple([z.string(), z.string()]);

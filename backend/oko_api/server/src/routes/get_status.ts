@@ -1,4 +1,5 @@
 import type { Request, Response } from "express";
+
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { OkoApiStatusResponseSchema } from "@oko-wallet/oko-api-openapi/oko";
 

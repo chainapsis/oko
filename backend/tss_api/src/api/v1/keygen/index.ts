@@ -1,26 +1,26 @@
 import type { Pool } from "pg";
+
+import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
+import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
+import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
+import {
+  createWalletKSNodes,
+  getActiveKSNodes,
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 import {
   createUser,
   getUserByEmailAndAuthType,
 } from "@oko-wallet/oko-pg-interface/oko_users";
-import type { Result } from "@oko-wallet/stdlib-js";
-import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
-import type { WalletStatus, Wallet } from "@oko-wallet/oko-types/wallets";
-import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
-import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   createWallet,
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
 } from "@oko-wallet/oko-pg-interface/oko_wallets";
-import {
-  createWalletKSNodes,
-  getActiveKSNodes,
-} from "@oko-wallet/oko-pg-interface/ks_nodes";
-import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
-
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
+import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
+import type { Wallet, WalletStatus } from "@oko-wallet/oko-types/wallets";
+import type { Result } from "@oko-wallet/stdlib-js";
 import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
 import { checkKeyShareFromKSNodes } from "@oko-wallet-tss-api/api/ks_node";
 

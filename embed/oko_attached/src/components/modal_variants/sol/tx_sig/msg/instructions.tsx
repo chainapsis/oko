@@ -1,11 +1,13 @@
 import type { FC, ReactNode } from "react";
-import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
+
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
+
+import { TokenTransferPretty } from "./transfer/token_transfer";
+import { SolTransferPretty } from "./transfer/transfer";
+import { UnknownInstruction } from "./unknown/unknown";
 
 import styles from "./instructions.module.scss";
-import { SolTransferPretty } from "./transfer/transfer";
-import { TokenTransferPretty } from "./transfer/token_transfer";
-import { UnknownInstruction } from "./unknown/unknown";
 
 function renderInstruction(
   instruction: ParsedInstruction,

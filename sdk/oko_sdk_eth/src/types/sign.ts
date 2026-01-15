@@ -1,7 +1,8 @@
-import type { Address, SignableMessage, RpcTransactionRequest } from "viem";
+import type { Address, RpcTransactionRequest, SignableMessage } from "viem";
+
 import type {
-  MakeEthereumSigResult,
   ChainInfoForAttachedModal,
+  MakeEthereumSigResult,
 } from "@oko-wallet/oko-sdk-core";
 
 export interface MakeSignatureBasePayload {

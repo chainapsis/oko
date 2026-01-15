@@ -1,8 +1,9 @@
-import nodemailer from "nodemailer";
 import he from "he";
+import nodemailer from "nodemailer";
+
 import type {
-  SendEmailOptions,
   EmailResult,
+  SendEmailOptions,
   SMTPConfig,
 } from "@oko-wallet/oko-types/admin";
 

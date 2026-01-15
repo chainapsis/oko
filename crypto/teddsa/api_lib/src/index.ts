@@ -1,18 +1,18 @@
 import type {
-  KeygenEd25519Body,
-  SignEd25519Round1Body,
-  SignEd25519Round1Response,
-  SignEd25519Round2Body,
-  SignEd25519Round2Response,
-  SignEd25519AggregateBody,
-  SignEd25519AggregateResponse,
-} from "@oko-wallet/oko-types/tss";
-import type { SignInResponse } from "@oko-wallet/oko-types/user";
-import type {
   ErrorCode,
   OkoApiErrorResponse,
   OkoApiResponse,
 } from "@oko-wallet/oko-types/api_response";
+import type {
+  KeygenEd25519Body,
+  SignEd25519AggregateBody,
+  SignEd25519AggregateResponse,
+  SignEd25519Round1Body,
+  SignEd25519Round1Response,
+  SignEd25519Round2Body,
+  SignEd25519Round2Response,
+} from "@oko-wallet/oko-types/tss";
+import type { SignInResponse } from "@oko-wallet/oko-types/user";
 
 interface MiddlewareErrorResponse {
   error: string;

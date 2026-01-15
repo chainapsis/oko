@@ -1,11 +1,12 @@
 import { describe, expect, it } from "@jest/globals";
+
 import { Bytes } from "@oko-wallet/bytes";
 
 import {
   generateEddsaKeypair,
+  isValidPublicKey,
   signMessage,
   verifySignature,
-  isValidPublicKey,
 } from "./curve25519";
 import { deriveSessionKey } from "./key_derivation";
 

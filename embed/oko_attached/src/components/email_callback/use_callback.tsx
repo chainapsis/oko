@@ -1,18 +1,18 @@
 "use client";
 
+import type { Auth0DecodedHash } from "auth0-js";
 import { useEffect, useState } from "react";
-import type { Result } from "@oko-wallet/stdlib-js";
+
 import type {
   EmailLoginModalApproveAckPayload,
   EmailLoginModalErrorAckPayload,
   OAuthPayload,
   OAuthState,
 } from "@oko-wallet/oko-sdk-core";
-import type { Auth0DecodedHash } from "auth0-js";
-
-import { getAuth0WebAuth } from "@oko-wallet-attached/config/auth0";
+import type { Result } from "@oko-wallet/stdlib-js";
 import type { HandleCallbackError } from "@oko-wallet-attached/components/google_callback/types";
 import { sendOAuthPayloadToEmbeddedWindow } from "@oko-wallet-attached/components/oauth_callback/send_oauth_payload";
+import { getAuth0WebAuth } from "@oko-wallet-attached/config/auth0";
 
 const EMAIL_STORAGE_KEY = "oko_email_login_pending_email";
 

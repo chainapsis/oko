@@ -1,17 +1,18 @@
+import type { Address, Hex } from "viem";
+
 import type {
   OkoWalletInitArgs,
   OkoWalletInterface,
 } from "@oko-wallet/oko-sdk-core";
-import type { Address, Hex } from "viem";
 import type { Result } from "@oko-wallet/stdlib-js";
-
+import type {
+  LazyInitError,
+  OkoEthWalletInitError,
+} from "@oko-wallet-sdk-eth/errors";
 import type { OkoEIP1193Provider } from "@oko-wallet-sdk-eth/provider";
+
 import type { OkoViemAccount } from "./account";
 import type { EthSignParams, EthSignResult } from "./sign";
-import type {
-  OkoEthWalletInitError,
-  LazyInitError,
-} from "@oko-wallet-sdk-eth/errors";
 
 export interface OkoEthWalletState {
   publicKey: Hex | null;

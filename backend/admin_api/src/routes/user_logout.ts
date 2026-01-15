@@ -1,10 +1,10 @@
 import type { Response } from "express";
+
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import type { AdminLogoutResponse } from "@oko-wallet/oko-types/admin";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-
-import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { logout } from "@oko-wallet-admin-api/api/user";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 
 export async function user_logout(
   req: AuthenticatedAdminRequest,
