@@ -46,5 +46,6 @@
     "sandbox/sandbox_interchain_kit",
     "ui/oko_common_ui"
   ],
-  "npmClient": "yarn"
+  "npmClient": "yarn",
+  "version": "0.1.1"
 }
