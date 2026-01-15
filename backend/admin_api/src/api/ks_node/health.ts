@@ -8,7 +8,6 @@ import {
 import { v4 as uuidv4 } from "uuid";
 import type {
   KSNodeHealthCheck,
-  KSNodeHealthCheckStatus,
 } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet-types/api_response";
 import type { WithPagination, WithTime } from "@oko-wallet-types/aux_types";

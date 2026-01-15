@@ -1,6 +1,6 @@
 "use client";
 
-import React, { type FC } from "react";
+import { type FC } from "react";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
 import { MenuIcon } from "@oko-wallet/oko-common-ui/icons/menu";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";

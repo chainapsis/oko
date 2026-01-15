@@ -8,7 +8,6 @@ import type { ModalRequest } from "@oko-wallet-attached/store/memory/types";
 import { ErrorModal } from "@oko-wallet-attached/components/modal_variants/error/error_modal";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import { UnsupportedChainModal } from "../modal_variants/unsupported_chain/unsupported_chain_modal";
-import { TelegramLoginModal } from "@oko-wallet-attached/components/modal_variants/auth/telegram_login/telegram_login_modal";
 
 export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
   const msg = modalRequest.msg;

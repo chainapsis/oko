@@ -1,4 +1,4 @@
-import React, { useMemo, type FC } from "react";
+import { useMemo, type FC } from "react";
 import type { Coin } from "@keplr-wallet/types";
 import { CoinPretty } from "@keplr-wallet/unit";
 import { Bech32Address, ChainIdHelper } from "@keplr-wallet/cosmos";

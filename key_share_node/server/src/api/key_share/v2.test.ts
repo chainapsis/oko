@@ -1,6 +1,5 @@
 import { Pool } from "pg";
 import {
-  createKeyShare,
   createUser,
   createWallet,
 } from "@oko-wallet/ksn-pg-interface";

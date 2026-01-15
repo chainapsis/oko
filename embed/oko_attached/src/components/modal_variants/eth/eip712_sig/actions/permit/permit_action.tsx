@@ -10,7 +10,6 @@ import type { TypedDataDefinition, Address, Chain } from "viem";
 import styles from "./permit_action.module.scss";
 import { Collapsible } from "@oko-wallet-attached/components/collapsible/collapsible";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
-import { CodeBlock } from "@oko-wallet-attached/components/code_block/code_block";
 import { useGetTokenMetadata } from "@oko-wallet-attached/web3/ethereum/queries";
 import { formatTokenAmount } from "@oko-wallet-attached/web3/ethereum/utils";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";

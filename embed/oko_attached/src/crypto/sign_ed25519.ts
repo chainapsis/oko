@@ -1,18 +1,11 @@
-import {
-  teddsaSignRound1,
-  teddsaSignRound2,
-  teddsaAggregate,
-} from "@oko-wallet/teddsa-hooks";
+
 import type {
-  CommitmentEntry,
-  SignatureShareEntry,
   KeyPackageRaw,
   PublicKeyPackageRaw,
 } from "@oko-wallet/oko-types/teddsa";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
 
-import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
 export interface KeyPackageEd25519 {
   keyPackage: KeyPackageRaw;

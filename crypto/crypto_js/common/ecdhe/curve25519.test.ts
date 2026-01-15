@@ -8,7 +8,6 @@ import {
   isValidPublicKey,
 } from "./curve25519";
 import { deriveSessionKey } from "./key_derivation";
-import { ed25519, x25519 } from "@noble/curves/ed25519.js";
 
 describe("x25519_keypair_test_1", () => {
   it("generate_eddsa_keypair", () => {

@@ -1,8 +1,6 @@
 "use client";
 
-import React from "react";
 import cn from "classnames";
-import { useState } from "react";
 
 import styles from "./preview_panel.module.scss";
 import { LoginWidget } from "@/components/widgets/login_widget/login_widget";

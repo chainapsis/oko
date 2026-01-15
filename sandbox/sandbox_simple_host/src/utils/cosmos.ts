@@ -10,7 +10,6 @@ import { SignMode } from "@keplr-wallet/proto-types/cosmos/tx/signing/v1beta1/si
 import { SigningStargateClient } from "@cosmjs/stargate";
 import type { Coin } from "@keplr-wallet/proto-types/cosmos/base/v1beta1/coin";
 import type {
-  OkoCosmosWallet,
   OkoCosmosWalletInterface,
 } from "@oko-wallet/oko-sdk-cosmos";
 import { makeSignDoc as makeAminoSignDoc } from "@cosmjs/amino";

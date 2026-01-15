@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, type ReactNode, type FC } from "react";
+import { useState, useCallback, type ReactNode, type FC } from "react";
 import {
   useFloating,
   useDismiss,

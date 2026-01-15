@@ -5,7 +5,6 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "../common/signature_content.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
-import { SignerAddressOrEmail } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
 import { SolanaMessageSummary } from "./sol_message_summary";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 

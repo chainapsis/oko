@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { useRouter } from "next/navigation";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";

@@ -1,22 +1,13 @@
 import {
   TECDSAClientState,
-  PresignStep2Request,
-  PresignStep3Request,
   SignStep1Request,
   SignStep2Request,
 } from "@oko-wallet/tecdsa-interface";
 import {
-  reqPresignStep1,
-  reqPresignStep2,
-  reqPresignStep3,
   reqSignStep1,
   reqSignStep2,
-  reqTriplesStep1,
 } from "@oko-wallet/api-lib";
 import {
-  runPresignClientStep1,
-  runPresignClientStep2,
-  runPresignClientStep3,
   runSignClientStep1,
   runSignClientStep2,
 } from "@oko-wallet/cait-sith-keplr-addon/src/client";

@@ -5,7 +5,6 @@ import type {
   DeactivateKSNodeResponse,
   DeleteKSNodeRequest,
   DeleteKSNodeResponse,
-  GetAllKSNodeResponse,
   GetKSNodeByIdResponse,
   UpdateKSNodeRequest,
   UpdateKSNodeResponse,
