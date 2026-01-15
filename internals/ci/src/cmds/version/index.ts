@@ -48,7 +48,26 @@ export async function version(args: any[]) {
   const changedRet = spawnSync("yarn", ["lerna", "changed", "--json"], {
     cwd: paths.root,
   });
-  console.log(123123, changedRet.stdout.toString());
+  const changedRaw = changedRet.stdout.toString().trim();
+
+  if (changedRaw.length > 0) {
+    let changed;
+    try {
+      changed = JSON.parse(changedRaw) as { name: string; version: string }[];
+
+      console.log("Following pkgs are changed (current version)");
+      for (const dep of changed) {
+        console.log("%s: %s", dep.name, dep.version);
+      }
+    } catch (err) {
+      console.log(
+        "%s parsing the changed pkgs, err: %s",
+        chalk.red.bold("Error"),
+        err,
+      );
+      process.exit(1);
+    }
+  }
 
   // const ret = spawnSync(
   //   "yarn",
