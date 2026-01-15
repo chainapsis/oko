@@ -1,12 +1,76 @@
 import fs from "node:fs";
 import path from "node:path";
-import { spawn, spawnSync } from "node:child_process";
+import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
 import { paths } from "@oko-wallet-ci/paths";
 import { doBuildPkgs } from "@oko-wallet-ci/cmds/build_pkgs";
 import { expectSuccess } from "@oko-wallet-ci/expect";
 import { doBuildSDK } from "@oko-wallet-ci/cmds/build_sdk";
+
+const WILDCARD_VERSION = "workspace:*";
+
+export async function version(args: any[]) {
+  console.log("Start versioning packages, args: %s", args);
+
+  console.log("Fetching the Git repository at 'origin' to sync with the local");
+  const fetchRet = spawnSync("git", ["fetch", "origin"], {
+    cwd: paths.root,
+    stdio: "inherit",
+  });
+  expectSuccess(fetchRet, "git fetch failed");
+
+  console.log("We will first re-build the packages\n");
+  await doBuildPkgs();
+  await doBuildSDK();
+
+  console.log("Checking type definition in sandbox simple host");
+  const testSandboxRet = spawnSync("yarn", ["tsc"], {
+    cwd: paths.sandbox_simple_host,
+    stdio: "inherit",
+  });
+  expectSuccess(testSandboxRet, "publish failed");
+  console.log("%s %s", chalk.green.bold("Ok"), "sandbox_simple_host");
+
+  const wsDeps = findWorkspaceDependencies();
+  if (wsDeps.length > 0) {
+    console.error(
+      "%s workspace versioning is prohibited for public packages",
+      chalk.red.bold("Error"),
+    );
+
+    for (const dep of wsDeps) {
+      console.log("dep: %s", dep);
+    }
+    process.exit(1);
+  }
+
+  const changedRet = spawnSync("yarn", ["lerna", "changed"], {
+    cwd: paths.root,
+  });
+  console.log(123123, changedRet.stdout.toString());
+
+  const ret = spawnSync(
+    "yarn",
+    [
+      "lerna",
+      "version",
+      "prerelease",
+      "--no-private",
+      // "--no-git-tag-version",
+      "--no-push",
+      "--json",
+    ],
+    {
+      cwd: paths.root,
+      // stdio: "inherit",
+    },
+  );
+
+  console.log(123123, ret.stdout.toString());
+  //
+  // createGitCommitAndTags(changedPackages);
+}
 
 function getPackageJsonPaths(): string[] {
   const lernaJsonPath = path.join(paths.root, "lerna.json");
@@ -16,29 +80,13 @@ function getPackageJsonPaths(): string[] {
   return packages.map((pkg) => path.join(paths.root, pkg, "package.json"));
 }
 
-function buildWorkspaceVersionMap(): Map<string, string> {
-  const versionMap = new Map<string, string>();
-  const packageJsonPaths = getPackageJsonPaths();
-
-  for (const pkgPath of packageJsonPaths) {
-    try {
-      const content = fs.readFileSync(pkgPath, "utf-8");
-      const pkg = JSON.parse(content);
-      if (pkg.name && pkg.version) {
-        versionMap.set(pkg.name, pkg.version);
-      }
-    } catch (err) {
-      console.warn("  Failed to read %s: %s", pkgPath, err);
-    }
-  }
-
-  return versionMap;
+interface DependencyInfo {
+  pkg: string;
+  depName: string;
+  version: string;
 }
 
-function replaceWorkspaceVersions() {
-  console.log("Replacing workspace:* with actual versions...");
-
-  const versionMap = buildWorkspaceVersionMap();
+function findWorkspaceDependencies(): DependencyInfo[] {
   const packageJsonPaths = getPackageJsonPaths();
   const depFields = [
     "dependencies",
@@ -47,22 +95,19 @@ function replaceWorkspaceVersions() {
     "optionalDependencies",
   ];
 
-  let replacedCount = 0;
+  let wsDeps = [];
 
   for (const pkgPath of packageJsonPaths) {
     try {
       const content = fs.readFileSync(pkgPath, "utf-8");
-      const pkg = JSON.parse(content);
+      const pJson = JSON.parse(content);
 
-      // Skip private packages
-      if (pkg.private === true) {
+      if (pJson.private === true) {
         continue;
       }
 
-      let modified = false;
-
       for (const field of depFields) {
-        const deps = pkg[field];
+        const deps = pJson[field];
         if (!deps || typeof deps !== "object") {
           continue;
         }
@@ -70,57 +115,22 @@ function replaceWorkspaceVersions() {
         for (const [depName, depVersion] of Object.entries(deps)) {
           if (
             typeof depVersion === "string" &&
-            depVersion.startsWith("workspace:")
+            depVersion.startsWith(WILDCARD_VERSION)
           ) {
-            const actualVersion = versionMap.get(depName);
-            if (actualVersion) {
-              // workspace:* → ^X.Y.Z, workspace:^ → ^X.Y.Z, workspace:~ → ~X.Y.Z
-              let prefix = "^";
-              if (depVersion === "workspace:~") {
-                prefix = "~";
-              } else if (depVersion === "workspace:*") {
-                prefix = "^";
-              } else if (depVersion.startsWith("workspace:^")) {
-                prefix = "^";
-              }
-              deps[depName] = `${prefix}${actualVersion}`;
-              modified = true;
-              replacedCount += 1;
-            }
+            wsDeps.push({
+              pkg: pJson.name,
+              depName,
+              version: depVersion,
+            });
           }
         }
       }
-
-      if (modified) {
-        fs.writeFileSync(pkgPath, JSON.stringify(pkg, null, 2) + "\n");
-        console.log("  Updated: %s", pkgPath);
-      }
     } catch (err) {
-      console.warn("  Failed to process %s: %s", pkgPath, err);
+      console.warn("Failed to check deps. pkg %s, err: %s", pkgPath, err);
     }
   }
 
-  console.log(
-    "%s Replaced %d workspace:* references",
-    chalk.green.bold("Done"),
-    replacedCount,
-  );
-}
-
-function getChangedPackages(
-  beforeMap: Map<string, string>,
-  afterMap: Map<string, string>,
-): Array<{ name: string; version: string }> {
-  const changed: Array<{ name: string; version: string }> = [];
-
-  for (const [name, version] of afterMap) {
-    const beforeVersion = beforeMap.get(name);
-    if (beforeVersion !== version) {
-      changed.push({ name, version });
-    }
-  }
-
-  return changed;
+  return wsDeps;
 }
 
 function createGitCommitAndTags(
@@ -186,67 +196,4 @@ ${versionList}`;
   );
   expectSuccess(pushRet, "git push failed");
   console.log("%s Pushed to origin", chalk.green.bold("Done"));
-}
-
-export async function version(args: any[]) {
-  console.log("Start versioning packages, args: %s", args);
-
-  // console.log("We will first re-build the packages\n");
-  // await doBuildPkgs();
-  // await doBuildSDK();
-
-  // console.log("Checking type definition in sandbox simple host");
-  // const testSandboxRet = spawnSync("yarn", ["tsc"], {
-  //   cwd: paths.sandbox_simple_host,
-  //   stdio: "inherit",
-  // });
-  // expectSuccess(testSandboxRet, "publish failed");
-  // console.log("%s %s", chalk.green.bold("Ok"), "sandbox_simple_host");
-  //
-  // console.log("Fetching the Git repository at 'origin' to sync with the local");
-  // const fetchRet = spawnSync("git", ["fetch", "origin"], {
-  //   cwd: paths.root,
-  //   stdio: "inherit",
-  // });
-  // expectSuccess(fetchRet, "git fetch failed");
-  //
-  // // Save version map before lerna version
-  // const beforeVersionMap = buildWorkspaceVersionMap();
-
-  const ret = spawnSync(
-    "yarn",
-    ["lerna", "version", "--no-private", "--no-git-tag-version", "--json"],
-    {
-      cwd: paths.root,
-      stdio: "inherit",
-    },
-  );
-
-  console.log(123123, ret.output);
-
-  // expectSuccess(publishRet, "publish failed");
-
-  // const ret = a.output;
-  // const aa = ret[1]?.toString();
-  // // console.log(123, aa);
-
-  // Get version map after lerna version and find changed packages
-  // const afterVersionMap = buildWorkspaceVersionMap();
-  // const changedPackages = getChangedPackages(beforeVersionMap, afterVersionMap);
-  //
-  // try {
-  //   replaceWorkspaceVersions();
-  // } catch (err) {
-  //   console.error(
-  //     "%s replaceWorkspaceVersions failed, rolling back...",
-  //     chalk.bold.red("Error"),
-  //   );
-  //   spawnSync("git", ["checkout", "--", "."], {
-  //     cwd: paths.root,
-  //     stdio: "inherit",
-  //   });
-  //   throw err;
-  // }
-  //
-  // createGitCommitAndTags(changedPackages);
 }
