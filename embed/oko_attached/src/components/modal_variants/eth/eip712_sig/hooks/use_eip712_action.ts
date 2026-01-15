@@ -1,17 +1,10 @@
+import type { Chain, TypedDataDefinition } from "viem";
+
 import type {
   ChainInfoForAttachedModal,
   EthereumEip712SignPayload,
 } from "@oko-wallet/oko-sdk-core";
 import { parseTypedDataDefinition } from "@oko-wallet/oko-sdk-eth";
-import type { Chain, TypedDataDefinition } from "viem";
-
-import type {
-  EIP712Action,
-  ERC2612PermitAction,
-  DAIPermitAction,
-  UniswapPermitSingleAction,
-  EIP3009TransferWithAuthorizationAction,
-} from "../actions/types";
 import {
   validateEip712Domain,
   validateErc2612Permit,
@@ -22,6 +15,14 @@ import {
 } from "@oko-wallet-attached/web3/ethereum/schema";
 import { findCurrencyByErc20Address } from "@oko-wallet-attached/web3/ethereum/utils";
 import { useSupportedEthChain } from "@oko-wallet-attached/web3/ethereum/hooks/use_supported_eth_chain";
+
+import type {
+  EIP712Action,
+  ERC2612PermitAction,
+  DAIPermitAction,
+  UniswapPermitSingleAction,
+  EIP3009TransferWithAuthorizationAction,
+} from "../actions/types";
 
 export type UseEIP712ActionResult =
   | {
