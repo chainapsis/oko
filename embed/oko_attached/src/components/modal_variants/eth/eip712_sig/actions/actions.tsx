@@ -3,7 +3,6 @@ import { maxUint256, type Chain } from "viem";
 
 import type { EIP712Action } from "./types";
 import { PermitAction } from "./permit/permit_action";
-import { X402PaymentAction } from "./x402_payment/x402_payment_action";
 import { UnknownAction } from "./unknown/unknown";
 
 export type EIP712ActionsProps = {
@@ -47,18 +46,8 @@ export const EIP712Actions: FC<EIP712ActionsProps> = ({ action, chain }) => {
         />
       );
     case "x402.transferWithAuthorization":
-      return (
-        <X402PaymentAction
-          from={action.from}
-          to={action.to}
-          value={action.value}
-          validBefore={action.validBefore}
-          tokenAddress={action.domain.verifyingContract}
-          typedData={action.typedData}
-          chain={chain}
-          tokenLogoURI={action.tokenLogoURI}
-        />
-      );
+      // TODO: Implement x402 payment UI
+      return <UnknownAction typedData={action.typedData} />;
     case "unknown":
       return <UnknownAction typedData={action.typedData} />;
     default:
