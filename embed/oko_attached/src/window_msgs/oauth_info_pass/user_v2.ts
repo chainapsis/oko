@@ -35,7 +35,6 @@ import { reshareUserKeyShares } from "@oko-wallet-attached/crypto/reshare";
 import {
   doSendUserKeyShares,
   requestSplitShares,
-  requestSplitSharesEd25519,
 } from "@oko-wallet-attached/requests/ks_node";
 import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
 import {

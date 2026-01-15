@@ -76,5 +76,3 @@ export async function splitUserKeyShares(
     };
   }
 }
-
-export async function splitUserKeySharesEd25519() {}
