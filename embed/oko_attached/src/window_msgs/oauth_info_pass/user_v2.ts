@@ -1,5 +1,3 @@
-// TODO: refactor this file @chemonoworld @Ryz0nd
-
 import type {
   CheckEmailRequest,
   CheckEmailResponse,
