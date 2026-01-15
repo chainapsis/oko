@@ -1,7 +1,7 @@
 import swaggerUi from "swagger-ui-express";
 import { type Express } from "express";
 
-import { getOpenApiDocument } from "./registry";
+import { getOpenApiDocument } from "./doc";
 import { logger } from "@oko-wallet-ksn-server/logger";
 
 export function installSwaggerDocs(app: Express) {

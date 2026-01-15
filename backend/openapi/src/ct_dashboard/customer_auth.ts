@@ -118,9 +118,15 @@ export const ChangePasswordRequestSchema = registry.register(
     email: z.email().openapi({
       description: "Email address of the account",
     }),
-    new_password: z.string().min(8).openapi({
-      description: "New password to set",
-    }),
+    new_password: z
+      .string()
+      .min(8)
+      .max(16)
+      .regex(/\d/, "Password must include at least one number")
+      .openapi({
+        description:
+          "New password to set (8-16 characters, must include at least one number)",
+      }),
     original_password: z.string().optional().openapi({
       description: "Current password for verification",
     }),
@@ -219,9 +225,15 @@ export const ResetPasswordConfirmRequestSchema = registry.register(
     code: z.string().length(6).openapi({
       description: "The 6-digit verification code",
     }),
-    newPassword: z.string().min(8).openapi({
-      description: "The new password",
-    }),
+    newPassword: z
+      .string()
+      .min(8)
+      .max(16)
+      .regex(/\d/, "Password must include at least one number")
+      .openapi({
+        description:
+          "The new password (8-16 characters, must include at least one number)",
+      }),
   }),
 );
 
