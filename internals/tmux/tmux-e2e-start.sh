@@ -2,6 +2,7 @@
 set -e
 
 SESSION_NAME="oko-e2e"
+WINDOW_NAME="services"
 PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 RESET_DB=false
 
@@ -77,35 +78,47 @@ fi
 
 print_info "Creating tmux session: $SESSION_NAME"
 
-# 1. oko_api (create session with first window)
-tmux new-session -d -s "$SESSION_NAME" -n "oko_api" -c "$PROJECT_ROOT/backend/oko_api/server"
-tmux send-keys -t "$SESSION_NAME:oko_api" "yarn dev" C-m
+# Create session with named window
+tmux new-session -d -s "$SESSION_NAME" -n "$WINDOW_NAME" -c "$PROJECT_ROOT"
 
-# 2. oko_attached
-tmux new-window -t "$SESSION_NAME" -n "oko_attached" -c "$PROJECT_ROOT/embed/oko_attached"
-tmux send-keys -t "$SESSION_NAME:oko_attached" "yarn dev" C-m
+# Create 5 more panes, applying tiled layout after each split to redistribute space
+for _ in {1..5}; do
+    tmux split-window -t "${SESSION_NAME}:${WINDOW_NAME}" -c "$PROJECT_ROOT"
+    tmux select-layout -t "${SESSION_NAME}:${WINDOW_NAME}" tiled
+done
 
-# 3. demo_web
-tmux new-window -t "$SESSION_NAME" -n "demo_web" -c "$PROJECT_ROOT/apps/demo_web"
-tmux send-keys -t "$SESSION_NAME:demo_web" "yarn dev" C-m
+# Get pane base index from tmux (could be 0 or 1)
+PANE_BASE=$(tmux show-options -gv pane-base-index 2>/dev/null || echo "0")
 
-# 4. ksn_1
-tmux new-window -t "$SESSION_NAME" -n "ksn_1" -c "$PROJECT_ROOT/key_share_node/server"
-tmux send-keys -t "$SESSION_NAME:ksn_1" "yarn start" C-m
+# Send commands to each pane (adjust for base index)
+P0=$((PANE_BASE + 0))
+P1=$((PANE_BASE + 1))
+P2=$((PANE_BASE + 2))
+P3=$((PANE_BASE + 3))
+P4=$((PANE_BASE + 4))
+P5=$((PANE_BASE + 5))
 
-# 5. ksn_2
-tmux new-window -t "$SESSION_NAME" -n "ksn_2" -c "$PROJECT_ROOT/key_share_node/server"
-tmux send-keys -t "$SESSION_NAME:ksn_2" "yarn start_2" C-m
+# Pane 0: oko_api
+tmux send-keys -t "${SESSION_NAME}:${WINDOW_NAME}.${P0}" "cd backend/oko_api/server && yarn dev" C-m
 
-# 6. ksn_3
-tmux new-window -t "$SESSION_NAME" -n "ksn_3" -c "$PROJECT_ROOT/key_share_node/server"
-tmux send-keys -t "$SESSION_NAME:ksn_3" "yarn start_3" C-m
+# Pane 1: oko_attached
+tmux send-keys -t "${SESSION_NAME}:${WINDOW_NAME}.${P1}" "cd embed/oko_attached && yarn dev" C-m
 
-# Select first window
-tmux select-window -t "$SESSION_NAME:oko_api"
+# Pane 2: demo_web
+tmux send-keys -t "${SESSION_NAME}:${WINDOW_NAME}.${P2}" "cd apps/demo_web && yarn dev" C-m
+
+# Pane 3: ksn_1
+tmux send-keys -t "${SESSION_NAME}:${WINDOW_NAME}.${P3}" "cd key_share_node/server && yarn start" C-m
+
+# Pane 4: ksn_2
+tmux send-keys -t "${SESSION_NAME}:${WINDOW_NAME}.${P4}" "cd key_share_node/server && yarn start_2" C-m
+
+# Pane 5: ksn_3
+tmux send-keys -t "${SESSION_NAME}:${WINDOW_NAME}.${P5}" "cd key_share_node/server && yarn start_3" C-m
 
 print_info "All services started in tmux session: $SESSION_NAME"
-print_info "Windows: oko_api, oko_attached, demo_web, ksn_1, ksn_2, ksn_3"
+print_info "Panes: oko_api, oko_attached, demo_web, ksn_1, ksn_2, ksn_3"
+print_info "Layout: tiled (2x3 grid)"
 echo ""
 print_info "Attaching to session..."
 
