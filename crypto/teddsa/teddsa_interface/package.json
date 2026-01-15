@@ -13,7 +13,8 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules jest"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "^0.0.3-alpha.65"
+    "@oko-wallet/bytes": "^0.0.3-alpha.65",
+    "@oko-wallet/oko-types": "^0.0.1-alpha.4"
   },
   "devDependencies": {
     "@jest/globals": "^29.7.0",
