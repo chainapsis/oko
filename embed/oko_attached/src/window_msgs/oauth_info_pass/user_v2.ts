@@ -36,8 +36,15 @@ import {
   doSendUserKeyShares,
   requestSplitShares,
 } from "@oko-wallet-attached/requests/ks_node";
-import { requestKeySharesV2 } from "@oko-wallet-attached/requests/ks_node_v2";
-import { decodeKeyShareStringToPoint256 } from "@oko-wallet-attached/crypto/key_share_utils";
+import {
+  requestKeySharesV2,
+  registerKeySharesV2,
+  registerKeyShareEd25519V2,
+} from "@oko-wallet-attached/requests/ks_node_v2";
+import {
+  decodeKeyShareStringToPoint256,
+  encodePoint256ToKeyShareString,
+} from "@oko-wallet-attached/crypto/key_share_utils";
 import type { UserKeySharePointByNode } from "@oko-wallet/oko-types/user_key_share";
 import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
 import {
@@ -98,10 +105,41 @@ export async function handleNewUserV2(
       err: { type: "sign_in_request_fail", error: splitUserKeySharesRes.err },
     };
   }
+  const secp256k1UserKeyShares = splitUserKeySharesRes.data;
 
   // 4. ed25519 key share split @TODO
+  // const ed25519UserKeyShares = await splitUserKeySharesEd25519(
+  //   ed25519Keygen1,
+  //   keyshareNodeMeta,
+  // );
 
-  // 5. Send key shares by both curves to ks nodes @TODO
+  // 5. Send key shares by both curves to ks nodes using V2 API
+  const registerKeySharesResults: Result<void, string>[] = await Promise.all(
+    secp256k1UserKeyShares.map((keyShareByNode) =>
+      registerKeySharesV2(keyShareByNode.node.endpoint, idToken, authType, {
+        secp256k1: {
+          public_key: secp256k1Keygen1.public_key.toHex(),
+          share: encodePoint256ToKeyShareString(keyShareByNode.share),
+        },
+        // ed25519: {
+        //   public_key: ed25519Keygen1.public_key.toHex(),
+        //   share: ed25519UserKeyShares[index].share, // TODO: encode ed25519 share
+        // },
+      }),
+    ),
+  );
+  const registerErrResults = registerKeySharesResults.filter(
+    (result) => result.success === false,
+  );
+  if (registerErrResults.length > 0) {
+    return {
+      success: false,
+      err: {
+        type: "sign_in_request_fail",
+        error: registerErrResults.map((result) => result.err).join("\n"),
+      },
+    };
+  }
 
   // 6. Call V2 keygen API with both curve types
   const reqKeygenV2Res = await reqKeygenV2(
@@ -422,8 +460,36 @@ export async function handleExistingUserNeedsEd25519Keygen(
     ed25519KeygenRes.data;
 
   // 4. ed25519 key share split @TODO
+  // const ed25519UserKeyShares = await splitUserKeySharesEd25519(
+  //   ed25519Keygen1,
+  //   keyshareNodeMetaEd25519,
+  // );
 
-  // 5. Send ed25519 key shares to ks nodes @TODO
+  // 5. Send ed25519 key shares to ks nodes using V2 API
+  // Note: Using keyshareNodeMetaEd25519.nodes for ed25519 registration
+  const registerEd25519Results: Result<void, string>[] = await Promise.all(
+    keyshareNodeMetaEd25519.nodes.map((node) =>
+      registerKeyShareEd25519V2(
+        node.endpoint,
+        idToken,
+        authType,
+        ed25519Keygen1.public_key.toHex(),
+        "", // TODO: replace with ed25519UserKeyShares[index].share
+      ),
+    ),
+  );
+  const registerEd25519ErrResults = registerEd25519Results.filter(
+    (result) => result.success === false,
+  );
+  if (registerEd25519ErrResults.length > 0) {
+    return {
+      success: false,
+      err: {
+        type: "sign_in_request_fail",
+        error: registerEd25519ErrResults.map((result) => result.err).join("\n"),
+      },
+    };
+  }
 
   // 6. Call keygenEd25519 API
   const reqKeygenEd25519Res = await reqKeygenEd25519(
