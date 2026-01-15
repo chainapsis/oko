@@ -225,6 +225,10 @@ const CheckEmailDataV2NotExistsSchema = registry.register(
     exists: z.literal(false).openapi({
       description: "User does not exist",
     }),
+    active_nodes_below_threshold: z.boolean().openapi({
+      description:
+        "True when count of active KS nodes is below global SSS threshold",
+    }),
     keyshare_node_meta: KeyshareNodeMetaV2Schema.openapi({
       description: "Global keyshare node metadata for signup flow",
     }),
@@ -237,6 +241,10 @@ const CheckEmailDataV2NeedsEd25519KeygenSchema = registry.register(
   z.object({
     exists: z.literal(true).openapi({
       description: "User exists",
+    }),
+    active_nodes_below_threshold: z.boolean().openapi({
+      description:
+        "True when count of active KS nodes is below global SSS threshold",
     }),
     needs_keygen_ed25519: z.literal(true).openapi({
       description: "Indicates ed25519 keygen is required",

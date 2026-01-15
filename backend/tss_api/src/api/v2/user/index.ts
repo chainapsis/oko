@@ -167,24 +167,27 @@ export async function checkEmailV2(
     }
     const activeKSNodes = getActiveKSNodesRes.data;
 
+    // Get global threshold (needed for all cases)
+    const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
+    if (getKeyshareNodeMetaRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `getKeyShareNodeMeta error: ${getKeyshareNodeMetaRes.err}`,
+      };
+    }
+    const globalThreshold = getKeyshareNodeMetaRes.data.sss_threshold;
+    const activeNodesBelowThreshold = activeKSNodes.length < globalThreshold;
+
     // Case 1: User doesn't exist
     if (user === null) {
-      const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
-      if (getKeyshareNodeMetaRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `getKeyShareNodeMeta error: ${getKeyshareNodeMetaRes.err}`,
-        };
-      }
-      const threshold = getKeyshareNodeMetaRes.data.sss_threshold;
-
       return {
         success: true,
         data: {
           exists: false,
+          active_nodes_below_threshold: activeNodesBelowThreshold,
           keyshare_node_meta: {
-            threshold,
+            threshold: globalThreshold,
             nodes: activeKSNodes.map((ksNode) => ({
               name: ksNode.node_name,
               endpoint: ksNode.server_url,
@@ -244,6 +247,7 @@ export async function checkEmailV2(
         success: true,
         data: {
           exists: true,
+          active_nodes_below_threshold: activeNodesBelowThreshold,
           needs_keygen_ed25519: true,
           secp256k1: secp256k1CheckInfo,
         },
@@ -289,22 +293,13 @@ export async function checkEmailV2(
     }
 
     // Case 4: User exists but no wallets exist (shouldn't happen, but handle it)
-    const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
-    if (getKeyshareNodeMetaRes.success === false) {
-      return {
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `getKeyShareNodeMeta error: ${getKeyshareNodeMetaRes.err}`,
-      };
-    }
-    const threshold = getKeyshareNodeMetaRes.data.sss_threshold;
-
     return {
       success: true,
       data: {
         exists: false,
+        active_nodes_below_threshold: activeNodesBelowThreshold,
         keyshare_node_meta: {
-          threshold,
+          threshold: globalThreshold,
           nodes: activeKSNodes.map((ksNode) => ({
             name: ksNode.node_name,
             endpoint: ksNode.server_url,

@@ -39,6 +39,7 @@ export interface WalletCheckInfo {
  */
 export interface CheckEmailResponseV2NotExists {
   exists: false;
+  active_nodes_below_threshold: boolean;
   keyshare_node_meta: KeyShareNodeMetaWithNodeStatusInfo;
 }
 
@@ -48,6 +49,7 @@ export interface CheckEmailResponseV2NotExists {
  */
 export interface CheckEmailResponseV2NeedsEd25519Keygen {
   exists: true;
+  active_nodes_below_threshold: boolean;
   needs_keygen_ed25519: true;
   secp256k1: WalletCheckInfo;
 }
