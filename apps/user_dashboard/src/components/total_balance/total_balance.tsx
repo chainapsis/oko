@@ -1,30 +1,21 @@
 "use client";
 
-import { type FC, useMemo } from "react";
-import { observer } from "mobx-react-lite";
-import { PricePretty } from "@keplr-wallet/unit";
+import type { FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Button } from "@oko-wallet/oko-common-ui/button";
+import { PricePretty } from "@keplr-wallet/unit";
 
-import styles from "./total_balance.module.scss";
-import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
+import { useTotalBalance } from "@oko-wallet-user-dashboard/hooks/queries";
 import { DepositModal } from "@oko-wallet-user-dashboard/components/deposit_modal/deposit_modal";
+import styles from "./total_balance.module.scss";
 
-export const TotalBalance: FC = observer(() => {
-  const { hugeQueriesStore } = useRootStore();
-  const spendableTotalPrice = useMemo(() => {
-    let result: PricePretty | undefined;
-    for (const bal of hugeQueriesStore.allKnownBalances) {
-      if (bal.price) {
-        if (!result) {
-          result = bal.price;
-        } else {
-          result = result.add(bal.price);
-        }
-      }
-    }
-    return result;
-  }, [hugeQueriesStore.allKnownBalances]);
+export const TotalBalance: FC = () => {
+  const { totalUsd, isLoading } = useTotalBalance();
+
+  const formattedTotal = new PricePretty(
+    { currency: "usd", symbol: "$", maxDecimals: 2, locale: "en-US" },
+    totalUsd,
+  ).toString();
 
   return (
     <div className={styles.container}>
@@ -33,7 +24,7 @@ export const TotalBalance: FC = observer(() => {
       </Typography>
 
       <Typography size="display-xs" weight="semibold" color="primary">
-        {spendableTotalPrice?.toString()}
+        {isLoading ? "..." : formattedTotal}
       </Typography>
 
       <DepositModal
@@ -50,4 +41,4 @@ export const TotalBalance: FC = observer(() => {
       />
     </div>
   );
-});
+};

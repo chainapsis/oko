@@ -5,22 +5,28 @@ import { useRouter } from "next/navigation";
 
 import { paths } from "@oko-wallet-user-dashboard/paths";
 import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
-import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
+import {
+  useSDKState,
+  selectCosmosInitialized,
+  selectEthInitialized,
+} from "@oko-wallet-user-dashboard/state/sdk";
 import { WholePageLoading } from "@oko-wallet-user-dashboard/components/whole_page_loading/whole_page_loading";
 
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
-  const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
+  const isCosmosInitialized = useSDKState(selectCosmosInitialized);
+  const isEthInitialized = useSDKState(selectEthInitialized);
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
 
-  useEffect(() => {
-    if (!isSignedIn && okoWallet) {
-      router.push(paths.sign_in);
-      return;
-    }
-  }, [router, isSignedIn, okoWallet]);
+  const isSDKReady = isCosmosInitialized && isEthInitialized;
 
-  if (!okoWallet || !isSignedIn) {
+  useEffect(() => {
+    if (isSDKReady && !isSignedIn) {
+      router.push(paths.sign_in);
+    }
+  }, [router, isSignedIn, isSDKReady]);
+
+  if (!isSDKReady || !isSignedIn) {
     return <WholePageLoading />;
   }
 
