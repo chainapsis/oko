@@ -1,6 +1,7 @@
 "use client";
 
 import type { FC, MouseEvent } from "react";
+import cn from "classnames";
 
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
@@ -67,7 +68,10 @@ export const TokenItem: FC<TokenItemProps> = ({
 
   return (
     <div
-      className={`${styles.container} ${disabled ? styles.disabled : ""} ${onClick ? styles.clickable : ""}`}
+      className={cn(styles.container, {
+        [styles.disabled]: disabled,
+        [styles.clickable]: onClick,
+      })}
       onClick={handleClick}
     >
       <div className={styles.leftSection}>
