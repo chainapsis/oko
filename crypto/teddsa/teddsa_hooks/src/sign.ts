@@ -21,7 +21,7 @@ export type TeddsaSignError =
   | { type: "aborted" }
   | { type: "error"; msg: string };
 
-function serializeKeyPackage(pkg: KeyPackageRaw): number[] {
+export function serializeKeyPackage(pkg: KeyPackageRaw): number[] {
   const result: number[] = [];
   result.push(...pkg.identifier);
   result.push(...pkg.signing_share);
@@ -32,7 +32,7 @@ function serializeKeyPackage(pkg: KeyPackageRaw): number[] {
   return result;
 }
 
-function serializePublicKeyPackage(pkg: PublicKeyPackageRaw): number[] {
+export function serializePublicKeyPackage(pkg: PublicKeyPackageRaw): number[] {
   const json = JSON.stringify(pkg);
   return Array.from(new TextEncoder().encode(json));
 }
