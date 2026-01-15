@@ -1,11 +1,7 @@
-import type { Response, Router } from "express";
+import type { Response } from "express";
 import type {
-  PresignStep1Body,
-  PresignStep1Response,
   PresignStep2Body,
   PresignStep2Response,
-  PresignStep3Body,
-  PresignStep3Response,
 } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
@@ -15,106 +11,91 @@ import {
 } from "@oko-wallet/oko-api-openapi/common";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import {
-  PresignStep1RequestSchema,
-  PresignStep1SuccessResponseSchema,
   PresignStep2RequestSchema,
   PresignStep2SuccessResponseSchema,
-  PresignStep3RequestSchema,
-  PresignStep3SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
 
-import {
-  runPresignStep1,
-  runPresignStep2,
-  runPresignStep3,
-} from "@oko-wallet-tss-api/api/v1/presign";
+import { runPresignStep2 } from "@oko-wallet-tss-api/api/v1/presign";
 import {
   type UserAuthenticatedRequest,
-  userJwtMiddlewareV2,
   sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
-import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 
-export function setPresignV2Routes(router: Router) {
-  registry.registerPath({
-    method: "post",
-    path: "/tss/v2/presign/step2",
-    tags: ["TSS"],
-    summary: "Execute step 2 of presign process",
-    description: "Processes wait messages and updates presign stage",
-    security: [{ userAuth: [] }],
-    request: {
-      headers: UserAuthHeaderSchema,
-      body: {
-        required: true,
-        content: {
-          "application/json": {
-            schema: PresignStep2RequestSchema,
-          },
+registry.registerPath({
+  method: "post",
+  path: "/tss/v2/presign/step2",
+  tags: ["TSS"],
+  summary: "Execute step 2 of presign process",
+  description: "Processes wait messages and updates presign stage",
+  security: [{ userAuth: [] }],
+  request: {
+    headers: UserAuthHeaderSchema,
+    body: {
+      required: true,
+      content: {
+        "application/json": {
+          schema: PresignStep2RequestSchema,
         },
       },
     },
-    responses: {
-      200: {
-        description: "Successfully processed step 2",
-        content: {
-          "application/json": {
-            schema: PresignStep2SuccessResponseSchema,
-          },
-        },
-      },
-      400: {
-        description: "Invalid request - Session or stage validation failed",
-        content: {
-          "application/json": {
-            schema: ErrorResponseSchema,
-          },
-        },
-      },
-      401: {
-        description: "Unauthorized - Invalid or missing JWT token",
-        content: {
-          "application/json": {
-            schema: ErrorResponseSchema,
-          },
-        },
-      },
-      500: {
-        description: "Internal server error",
-        content: {
-          "application/json": {
-            schema: ErrorResponseSchema,
-          },
+  },
+  responses: {
+    200: {
+      description: "Successfully processed step 2",
+      content: {
+        "application/json": {
+          schema: PresignStep2SuccessResponseSchema,
         },
       },
     },
+    400: {
+      description: "Invalid request - Session or stage validation failed",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    401: {
+      description: "Unauthorized - Invalid or missing JWT token",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    500: {
+      description: "Internal server error",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
+});
+
+export async function presignStep2(
+  req: UserAuthenticatedRequest<PresignStep2Body>,
+  res: Response<OkoApiResponse<PresignStep2Response>>,
+) {
+  const state = req.app.locals as any;
+  const user = res.locals.user;
+  const body = req.body;
+
+  const runPresignStep2Res = await runPresignStep2(state.db, {
+    email: user.email,
+    wallet_id: user.wallet_id_secp256k1,
+    session_id: body.session_id,
+    wait_1_0_1: body.wait_1_0_1,
   });
-  router.post(
-    "/presign/step2",
-    [userJwtMiddlewareV2, tssActivateMiddleware],
-    async (
-      req: UserAuthenticatedRequest<PresignStep2Body>,
-      res: Response<OkoApiResponse<PresignStep2Response>>,
-    ) => {
-      const state = req.app.locals as any;
-      const user = res.locals.user;
-      const body = req.body;
+  if (runPresignStep2Res.success === false) {
+    res
+      .status(ErrorCodeMap[runPresignStep2Res.code] ?? 500)
+      .json(runPresignStep2Res);
 
-      const runPresignStep2Res = await runPresignStep2(state.db, {
-        email: user.email.toLowerCase(),
-        wallet_id: user.wallet_id_secp256k1,
-        session_id: body.session_id,
-        wait_1_0_1: body.wait_1_0_1,
-      });
-      if (runPresignStep2Res.success === false) {
-        res
-          .status(ErrorCodeMap[runPresignStep2Res.code] ?? 500)
-          .json(runPresignStep2Res);
+    return;
+  }
 
-        return;
-      }
-
-      sendResponseWithNewToken(res, runPresignStep2Res.data);
-    },
-  );
+  sendResponseWithNewToken(res, runPresignStep2Res.data);
 }

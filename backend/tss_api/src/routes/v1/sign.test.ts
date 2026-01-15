@@ -123,7 +123,7 @@ describe("sign_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runSignStep1).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         msg: body.msg,
@@ -231,7 +231,7 @@ describe("sign_route_test", () => {
         data: mockApiResponse.data,
       });
       expect(runSignStep2).toHaveBeenCalledWith(pool, {
-        email: testEmail.toLowerCase(),
+        email: testEmail,
         wallet_id: testWalletId,
         session_id: body.session_id,
         sign_output: body.sign_output,

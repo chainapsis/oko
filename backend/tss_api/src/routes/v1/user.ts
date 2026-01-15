@@ -106,11 +106,7 @@ export function setUserV1Routes(router: Router) {
         return;
       }
 
-      const checkEmailRes = await checkEmail(
-        state.db,
-        email.toLowerCase(),
-        auth_type,
-      );
+      const checkEmailRes = await checkEmail(state.db, email, auth_type);
       if (checkEmailRes.success === false) {
         res
           .status(ErrorCodeMap[checkEmailRes.code] ?? 500) //
@@ -308,15 +304,10 @@ export function setUserV1Routes(router: Router) {
             return;
           }
 
-          const signInRes = await signIn(
-            state.db,
-            payload.email.toLowerCase(),
-            "google",
-            {
-              secret: state.jwt_secret,
-              expires_in: state.jwt_expires_in,
-            },
-          );
+          const signInRes = await signIn(state.db, payload.email, "google", {
+            secret: state.jwt_secret,
+            expires_in: state.jwt_expires_in,
+          });
 
           if (signInRes.success === false) {
             res.status(ErrorCodeMap[signInRes.code] ?? 500).json(signInRes);

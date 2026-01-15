@@ -66,6 +66,39 @@ export async function updateTssStageWithSessionState(
   }
 }
 
+export async function validateWalletEmail(
+  db: Pool,
+  walletId: string,
+  email: string,
+): Promise<Result<WalletWithEmail, string>> {
+  const getWalletRes = await getWalletByIdWithEmail(db, walletId);
+  if (getWalletRes.success === false) {
+    return {
+      success: false,
+      err: `getting wallet failed, err: ${getWalletRes.err}`,
+    };
+  }
+
+  if (getWalletRes.data === null) {
+    return {
+      success: false,
+      err: `Wallet not exists`,
+    };
+  }
+
+  if (getWalletRes.data.email !== email) {
+    return {
+      success: false,
+      err: `Email not corresponding`,
+    };
+  }
+
+  return {
+    success: true,
+    data: getWalletRes.data,
+  };
+}
+
 export async function validateWalletEmailAndCurveType(
   db: Pool,
   walletId: string,
