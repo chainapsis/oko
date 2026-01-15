@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -26,15 +26,25 @@
     "useEditorconfig": true
   },
   "linter": {
-    "enabled": false,
+    "enabled": true,
     "rules": {
       "recommended": true,
       "style": {
         "noNonNullAssertion": "off",
-        "useTemplate": "off"
+        "useTemplate": "off",
+        "useBlockStatements": "error",
+        "useNodejsImportProtocol": "off",
+        "useConsistentTypeDefinitions": "off"
       },
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noPrototypeBuiltins": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off"
       }
     }
   },
@@ -65,7 +75,22 @@
     "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "off"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ":NODE:",
+              [":PACKAGE:", "!@oko-wallet/**", "!@oko-wallet-*/**"],
+              ":BLANK_LINE:",
+              ["@oko-wallet/**", "@oko-wallet-*/**"],
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              [":PATH:", "!./**/*.scss"],
+              ":BLANK_LINE:",
+              "./**/*.scss"
+            ]
+          }
+        }
       }
     }
   },
