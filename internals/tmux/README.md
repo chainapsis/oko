@@ -65,8 +65,14 @@ oko-e2e (session)
 # Start services
 ./internals/tmux/tmux-e2e-start.sh
 
+# OR
+yarn ci tmux_start
+
 # Reset database and start
 ./internals/tmux/tmux-e2e-start.sh --reset
+
+# OR
+yarn ci tmux_stop
 ```
 
 ---
