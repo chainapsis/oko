@@ -21,8 +21,8 @@ export async function version(args: any[]) {
   expectSuccess(fetchRet, "git fetch failed");
 
   console.log("We will first re-build the packages\n");
-  await doBuildPkgs();
-  await doBuildSDK();
+  // await doBuildPkgs();
+  // await doBuildSDK();
 
   console.log("Checking type definition in sandbox simple host");
   const testSandboxRet = spawnSync("yarn", ["tsc"], {
@@ -45,10 +45,10 @@ export async function version(args: any[]) {
     process.exit(1);
   }
 
-  const changedRet = spawnSync("yarn", ["lerna", "changed"], {
-    cwd: paths.root,
-  });
-  console.log(123123, changedRet.stdout.toString());
+  // const changedRet = spawnSync("yarn", ["lerna", "changed"], {
+  //   cwd: paths.root,
+  // });
+  // console.log(123123, changedRet.stdout.toString());
 
   const ret = spawnSync(
     "yarn",
@@ -60,14 +60,15 @@ export async function version(args: any[]) {
       // "--no-git-tag-version",
       "--no-push",
       "--json",
+      "--yes",
     ],
     {
       cwd: paths.root,
-      // stdio: "inherit",
+      stdio: "inherit",
     },
   );
 
-  console.log(123123, ret.stdout.toString());
+  // console.log(123123, ret.stdout.toString());
   //
   // createGitCommitAndTags(changedPackages);
 }
