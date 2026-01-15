@@ -180,7 +180,7 @@ describe("tss_session_route_test", () => {
       expect(response.body.success).toBe(true);
       expect(response.body.data.session_id).toBe(validBody.session_id);
       expect(abortTssSession).toHaveBeenCalledWith(pool, {
-        email: testUser.email.toLowerCase(),
+        email: testUser.email,
         wallet_id: testWallet.wallet_id,
         session_id: validBody.session_id,
       });
@@ -204,7 +204,7 @@ describe("tss_session_route_test", () => {
       expect(response.body.code).toBe("UNKNOWN_ERROR");
       expect(response.body.msg).toBe("Database connection failed");
       expect(abortTssSession).toHaveBeenCalledWith(pool, {
-        email: testUser.email.toLowerCase(),
+        email: testUser.email,
         wallet_id: testWallet.wallet_id,
         session_id: validBody.session_id,
       });
@@ -228,7 +228,7 @@ describe("tss_session_route_test", () => {
       expect(response.body.code).toBe("INVALID_REQUEST");
       expect(response.body.msg).toBe("Invalid session state");
       expect(abortTssSession).toHaveBeenCalledWith(pool, {
-        email: testUser.email.toLowerCase(),
+        email: testUser.email,
         wallet_id: testWallet.wallet_id,
         session_id: validBody.session_id,
       });
@@ -252,7 +252,7 @@ describe("tss_session_route_test", () => {
       expect(response.body.code).toBe("UNAUTHORIZED");
       expect(response.body.msg).toBe("User not authorized for this wallet");
       expect(abortTssSession).toHaveBeenCalledWith(pool, {
-        email: testUser.email.toLowerCase(),
+        email: testUser.email,
         wallet_id: testWallet.wallet_id,
         session_id: validBody.session_id,
       });
@@ -276,7 +276,7 @@ describe("tss_session_route_test", () => {
       expect(response.body.code).toBe("TSS_SESSION_NOT_FOUND");
       expect(response.body.msg).toBe("TSS session not found");
       expect(abortTssSession).toHaveBeenCalledWith(pool, {
-        email: testUser.email.toLowerCase(),
+        email: testUser.email,
         wallet_id: testWallet.wallet_id,
         session_id: validBody.session_id,
       });
@@ -300,7 +300,7 @@ describe("tss_session_route_test", () => {
       expect(response.body.code).toBe("INVALID_TSS_SESSION");
       expect(response.body.msg).toBe("Session cannot be aborted");
       expect(abortTssSession).toHaveBeenCalledWith(pool, {
-        email: testUser.email.toLowerCase(),
+        email: testUser.email,
         wallet_id: testWallet.wallet_id,
         session_id: validBody.session_id,
       });

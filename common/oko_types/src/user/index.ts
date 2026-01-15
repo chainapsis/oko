@@ -26,6 +26,47 @@ export interface CheckEmailResponse {
   active_nodes_below_threshold: boolean;
 }
 
+export interface WalletCheckInfo {
+  keyshare_node_meta: KeyShareNodeMetaWithNodeStatusInfo;
+  needs_reshare: boolean;
+  reshare_reasons?: ReshareReason[];
+  active_nodes_below_threshold: boolean;
+}
+
+/**
+ * Response when user does not exist or user exists but has no wallets.
+ * Returns global keyshare node metadata for signup flow.
+ */
+export interface CheckEmailResponseV2NotExists {
+  exists: false;
+  keyshare_node_meta: KeyShareNodeMetaWithNodeStatusInfo;
+}
+
+/**
+ * Response when user exists with only secp256k1 wallet (legacy user).
+ * Indicates that ed25519 keygen is required for full wallet setup.
+ */
+export interface CheckEmailResponseV2NeedsEd25519Keygen {
+  exists: true;
+  needs_keygen_ed25519: true;
+  secp256k1: WalletCheckInfo;
+}
+
+/**
+ * Response when user exists with both secp256k1 and ed25519 wallets.
+ * Returns reshare status for each wallet type.
+ */
+export interface CheckEmailResponseV2BothWallets {
+  exists: true;
+  secp256k1: WalletCheckInfo;
+  ed25519: WalletCheckInfo;
+}
+
+export type CheckEmailResponseV2 =
+  | CheckEmailResponseV2NotExists
+  | CheckEmailResponseV2NeedsEd25519Keygen
+  | CheckEmailResponseV2BothWallets;
+
 export interface SignInResponse {
   token: string;
   user: {
@@ -60,12 +101,7 @@ export interface SignInSilentlyResponse {
 }
 
 // Reason codes for triggering reshare
-export type ReshareReason =
-  | "UNRECOVERABLE_NODE_DATA_LOSS"
-  | "NEW_NODE_ADDED"
-  // @TODO remove fields
-  | "NODE_REMOVED"
-  | "NODE_SET_MISMATCH"; // When both NEW_NODE_ADDED and NODE_REMOVED occur simultaneously
+export type ReshareReason = "UNRECOVERABLE_NODE_DATA_LOSS" | "NEW_NODE_ADDED";
 
 export interface ReshareRequest {
   public_key: string;

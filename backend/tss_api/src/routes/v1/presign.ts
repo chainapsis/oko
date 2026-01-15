@@ -103,7 +103,7 @@ export function setPresignV1Routes(router: Router) {
       const runPresignStep1Res = await runPresignStep1(
         state.db,
         {
-          email: user.email.toLowerCase(),
+          email: user.email,
           wallet_id: user.wallet_id,
           session_id: body.session_id,
           msgs_1: body.msgs_1,
@@ -187,7 +187,7 @@ export function setPresignV1Routes(router: Router) {
       const body = req.body;
 
       const runPresignStep2Res = await runPresignStep2(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         wait_1_0_1: body.wait_1_0_1,
@@ -269,7 +269,7 @@ export function setPresignV1Routes(router: Router) {
       const body = req.body;
 
       const runPresignStep3Res = await runPresignStep3(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         presign_big_r: body.presign_big_r,

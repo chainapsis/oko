@@ -115,7 +115,7 @@ export function setTssSessionRoutes(router: Router) {
       }
 
       const abortTssSessionRes = await abortTssSession(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: session_id,
       });

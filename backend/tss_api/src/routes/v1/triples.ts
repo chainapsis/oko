@@ -146,7 +146,7 @@ export function setTriplesV1Routes(router: Router) {
       }
 
       const runTriplesStep1Res = await runTriplesStep1(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         customer_id: apiKey.customer_id,
         msgs_1: body.msgs_1,
@@ -236,7 +236,7 @@ export function setTriplesV1Routes(router: Router) {
       }
 
       const runTriplesStep2Res = await runTriplesStep2(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         wait_1: body.wait_1,
@@ -326,7 +326,7 @@ export function setTriplesV1Routes(router: Router) {
       }
 
       const runTriplesStep3Res = await runTriplesStep3(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         wait_2: body.wait_2,
@@ -407,7 +407,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep4Res = await runTriplesStep4(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         wait_3: body.wait_3,
@@ -488,7 +488,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep5Res = await runTriplesStep5(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         wait_4: body.wait_4,
@@ -569,7 +569,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep6Res = await runTriplesStep6(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         batch_random_ot_wait_0: body.batch_random_ot_wait_0,
@@ -650,7 +650,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep7Res = await runTriplesStep7(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         correlated_ot_wait_0: body.correlated_ot_wait_0,
@@ -731,7 +731,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep8Res = await runTriplesStep8(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         random_ot_extension_wait_1: body.random_ot_extension_wait_1,
@@ -812,7 +812,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep9Res = await runTriplesStep9(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         mta_wait_1: body.mta_wait_1,
@@ -893,7 +893,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep10Res = await runTriplesStep10(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         wait_5: body.wait_5,
@@ -976,7 +976,7 @@ export function setTriplesV1Routes(router: Router) {
       const body = req.body;
 
       const runTriplesStep11Res = await runTriplesStep11(state.db, {
-        email: user.email.toLowerCase(),
+        email: user.email,
         wallet_id: user.wallet_id,
         session_id: body.session_id,
         pub_v: body.pub_v,

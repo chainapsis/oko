@@ -1,9 +1,7 @@
-import type { Response, Router } from "express";
+import type { Response } from "express";
 import type {
   SignStep1Body,
   SignStep1Response,
-  SignStep2Body,
-  SignStep2Response,
 } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
@@ -14,18 +12,14 @@ import {
 import {
   SignStep1RequestSchema,
   SignStep1SuccessResponseSchema,
-  SignStep2RequestSchema,
-  SignStep2SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/v1/sign";
+import { runSignStep1 } from "@oko-wallet-tss-api/api/v1/sign";
 import {
   type UserAuthenticatedRequest,
-  userJwtMiddlewareV2,
   sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
-import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 
 registry.registerPath({
   method: "post",
@@ -90,7 +84,7 @@ export async function signStep1(
   const body = req.body;
 
   const runSignStep1Res = await runSignStep1(state.db, {
-    email: user.email.toLowerCase(),
+    email: user.email,
     wallet_id: user.wallet_id_secp256k1,
     session_id: body.session_id,
     msg: body.msg,
