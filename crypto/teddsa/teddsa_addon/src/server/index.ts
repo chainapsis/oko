@@ -2,7 +2,7 @@
 import type {
   CommitmentEntry,
   SignatureShareEntry,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/oko-types/teddsa";
 
 import {
   napiKeygenCentralizedEd25519,
