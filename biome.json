@@ -35,6 +35,9 @@
       },
       "suspicious": {
         "noExplicitAny": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
       }
     }
   },
