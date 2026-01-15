@@ -36,6 +36,9 @@ import {
   doSendUserKeyShares,
   requestSplitShares,
 } from "@oko-wallet-attached/requests/ks_node";
+import { requestKeySharesV2 } from "@oko-wallet-attached/requests/ks_node_v2";
+import { decodeKeyShareStringToPoint256 } from "@oko-wallet-attached/crypto/key_share_utils";
+import type { UserKeySharePointByNode } from "@oko-wallet/oko-types/user_key_share";
 import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
 import {
   runTeddsaKeygen,
@@ -161,6 +164,161 @@ export async function handleNewUserV2(
 }
 
 /**
+ * Handle existing user who has both secp256k1 and ed25519 wallets.
+ * Called when checkEmailV2 returns CheckEmailResponseV2ExistingUser with both wallets.
+ */
+export async function handleExistingUserV2(
+  idToken: string,
+  keyshareNodeMetaSecp256k1: KeyShareNodeMetaWithNodeStatusInfo,
+  keyshareNodeMetaEd25519: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: AuthType,
+): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
+  // 1. Sign in to API server
+  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponseV2>(
+    "user/signin",
+    idToken,
+    {
+      auth_type: authType,
+    },
+    TSS_V2_ENDPOINT,
+  );
+  if (!signInRes.success) {
+    console.error("[attached] sign in failed, err: %s", signInRes.err);
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: signInRes.err.toString() },
+    };
+  }
+
+  const apiResponse = signInRes.data;
+  if (!apiResponse.success) {
+    console.error(
+      "[attached] sign in request failed, err: %s",
+      apiResponse.msg,
+    );
+    return {
+      success: false,
+      err: {
+        type: "sign_in_request_fail",
+        error: `code: ${apiResponse.code}`,
+      },
+    };
+  }
+
+  const signInResp = apiResponse.data;
+
+  // 2. Request secp256k1 and ed25519 shares from KS nodes using V2 API
+  const requestSharesRes = await requestKeySharesV2(
+    idToken,
+    keyshareNodeMetaSecp256k1.nodes,
+    keyshareNodeMetaSecp256k1.threshold,
+    authType,
+    {
+      secp256k1: signInResp.user.public_key_secp256k1,
+      ed25519: signInResp.user.public_key_ed25519,
+    },
+  );
+  if (!requestSharesRes.success) {
+    const error = requestSharesRes.err;
+
+    if (error.code === "WALLET_NOT_FOUND") {
+      console.error(
+        "[attached] detected share loss on node: %s",
+        error.affectedNode?.name,
+      );
+      // TODO: handle reshare case for V2
+      return {
+        success: false,
+        err: {
+          type: "reshare_fail",
+          error: `Wallet not found on node: ${error.affectedNode?.name}`,
+        },
+      };
+    }
+
+    console.error(
+      `[attached] insufficient shares: got ${error.got}/${error.need}`,
+    );
+    return {
+      success: false,
+      err: {
+        type: "insufficient_shares",
+      },
+    };
+  }
+
+  // 3. Combine secp256k1 shares (convert hex strings to Point256)
+  const secp256k1SharesByNode: UserKeySharePointByNode[] = [];
+  for (const item of requestSharesRes.data) {
+    const shareHex = item.shares.secp256k1;
+    if (!shareHex) {
+      return {
+        success: false,
+        err: {
+          type: "key_share_combine_fail",
+          error: `secp256k1 share missing from node: ${item.node.name}`,
+        },
+      };
+    }
+    const point256Res = decodeKeyShareStringToPoint256(shareHex);
+    if (point256Res.success === false) {
+      return {
+        success: false,
+        err: {
+          type: "key_share_combine_fail",
+          error: `secp256k1 decode err: ${point256Res.err}`,
+        },
+      };
+    }
+    secp256k1SharesByNode.push({
+      node: item.node,
+      share: point256Res.data,
+    });
+  }
+
+  const keyshare1Secp256k1Res = await combineUserShares(
+    secp256k1SharesByNode,
+    keyshareNodeMetaSecp256k1.threshold,
+  );
+  if (keyshare1Secp256k1Res.success === false) {
+    return {
+      success: false,
+      err: {
+        type: "key_share_combine_fail",
+        error: `secp256k1 combine err: ${keyshare1Secp256k1Res.err}`,
+      },
+    };
+  }
+
+  // 4. Combine ed25519 shares @TODO
+  // const ed25519SharesByNode = requestSharesRes.data.map((item) => ({
+  //   node: item.node,
+  //   share: item.shares.ed25519!,
+  // }));
+  // const keyshare1Ed25519Res = await combineUserSharesEd25519(
+  //   ed25519SharesByNode,
+  //   keyshareNodeMetaEd25519.threshold,
+  // );
+  const keyshare1Ed25519 = ""; // TODO: replace with combined result
+
+  return {
+    success: true,
+    data: {
+      publicKeySecp256k1: signInResp.user.public_key_secp256k1,
+      publicKeyEd25519: signInResp.user.public_key_ed25519,
+      walletIdSecp256k1: signInResp.user.wallet_id_secp256k1,
+      walletIdEd25519: signInResp.user.wallet_id_ed25519,
+      jwtToken: signInResp.token,
+      keyshare1Secp256k1: keyshare1Secp256k1Res.data,
+      keyshare1Ed25519,
+      isNewUser: false,
+      email: signInResp.user.email ?? null,
+      name: signInResp.user.name ?? null,
+    },
+  };
+}
+
+/**
  * Handle existing user who has secp256k1 wallet but needs ed25519 keygen.
  * Called when checkEmailV2 returns CheckEmailResponseV2NeedsEd25519Keygen.
  */
@@ -171,21 +329,86 @@ export async function handleExistingUserNeedsEd25519Keygen(
   authType: AuthType,
   secp256k1PublicKey: string,
 ): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
-  // 1. Request secp256k1 shares from KS nodes @TODO
-  // const requestSharesRes = await requestSplitShares(
-  //   secp256k1PublicKeyBytes,
-  //   idToken,
-  //   keyshareNodeMetaSecp256k1.nodes,
-  //   keyshareNodeMetaSecp256k1.threshold,
-  //   authType,
-  // );
+  // 1. Request secp256k1 shares from KS nodes using V2 API
+  const requestSharesRes = await requestKeySharesV2(
+    idToken,
+    keyshareNodeMetaSecp256k1.nodes,
+    keyshareNodeMetaSecp256k1.threshold,
+    authType,
+    {
+      secp256k1: secp256k1PublicKey,
+    },
+  );
+  if (!requestSharesRes.success) {
+    const error = requestSharesRes.err;
 
-  // 2. Combine secp256k1 shares @TODO
-  // const keyshare1Secp256k1Res = await combineUserShares(
-  //   requestSharesRes.data,
-  //   keyshareNodeMetaSecp256k1.threshold,
-  // );
-  const keyshare1Secp256k1 = ""; // TODO: replace with combined result
+    if (error.code === "WALLET_NOT_FOUND") {
+      console.error(
+        "[attached] detected share loss on node: %s",
+        error.affectedNode?.name,
+      );
+      return {
+        success: false,
+        err: {
+          type: "reshare_fail",
+          error: `Wallet not found on node: ${error.affectedNode?.name}`,
+        },
+      };
+    }
+
+    console.error(
+      `[attached] insufficient shares: got ${error.got}/${error.need}`,
+    );
+    return {
+      success: false,
+      err: {
+        type: "insufficient_shares",
+      },
+    };
+  }
+
+  // 2. Combine secp256k1 shares (convert hex strings to Point256)
+  const secp256k1SharesByNode: UserKeySharePointByNode[] = [];
+  for (const item of requestSharesRes.data) {
+    const shareHex = item.shares.secp256k1;
+    if (!shareHex) {
+      return {
+        success: false,
+        err: {
+          type: "key_share_combine_fail",
+          error: `secp256k1 share missing from node: ${item.node.name}`,
+        },
+      };
+    }
+    const point256Res = decodeKeyShareStringToPoint256(shareHex);
+    if (point256Res.success === false) {
+      return {
+        success: false,
+        err: {
+          type: "key_share_combine_fail",
+          error: `secp256k1 decode err: ${point256Res.err}`,
+        },
+      };
+    }
+    secp256k1SharesByNode.push({
+      node: item.node,
+      share: point256Res.data,
+    });
+  }
+
+  const keyshare1Secp256k1Res = await combineUserShares(
+    secp256k1SharesByNode,
+    keyshareNodeMetaSecp256k1.threshold,
+  );
+  if (keyshare1Secp256k1Res.success === false) {
+    return {
+      success: false,
+      err: {
+        type: "key_share_combine_fail",
+        error: `secp256k1 combine err: ${keyshare1Secp256k1Res.err}`,
+      },
+    };
+  }
 
   // 3. ed25519 keygen
   const ed25519KeygenRes = await runTeddsaKeygen();
@@ -235,7 +458,7 @@ export async function handleExistingUserNeedsEd25519Keygen(
       walletIdSecp256k1: reqKeygenEd25519Res.data.user.wallet_id_secp256k1,
       walletIdEd25519: reqKeygenEd25519Res.data.user.wallet_id_ed25519,
       jwtToken: reqKeygenEd25519Res.data.token,
-      keyshare1Secp256k1,
+      keyshare1Secp256k1: keyshare1Secp256k1Res.data,
       keyshare1Ed25519: JSON.stringify(keyPackageEd25519Hex),
       isNewUser: false,
       email: reqKeygenEd25519Res.data.user.email ?? null,
