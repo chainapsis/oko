@@ -1,14 +1,13 @@
 import { type ChangeEvent, type FC, useState, useMemo } from "react";
-
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
+
 import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
 import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
 import { useAllBalances } from "@oko-wallet-user-dashboard/hooks/queries";
 import { ShowHideChainsModal } from "@oko-wallet-user-dashboard/components/show_hide_chains_modal/show_hide_chains_modal";
-
 import styles from "./token_list.module.scss";
 import { TokenItem } from "../token_item/token_item";
 
