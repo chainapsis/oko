@@ -2,7 +2,6 @@
 
 import type { FC, MouseEvent } from "react";
 import cn from "classnames";
-
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
@@ -12,6 +11,7 @@ import { EmptyStateIcon } from "@oko-wallet/oko-common-ui/icons/empty_state_icon
 import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
 import { Badge } from "@oko-wallet/oko-common-ui/badge";
 import { CoinPretty, Dec, PricePretty } from "@keplr-wallet/unit";
+
 import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
 import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
 import { useCopyToClipboard } from "@oko-wallet-user-dashboard/hooks/use_copy_to_clipboard";
