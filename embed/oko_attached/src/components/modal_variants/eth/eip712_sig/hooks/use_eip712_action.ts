@@ -10,7 +10,7 @@ import type {
   ERC2612PermitAction,
   DAIPermitAction,
   UniswapPermitSingleAction,
-  X402TransferWithAuthorizationAction,
+  EIP3009TransferWithAuthorizationAction,
 } from "../actions/types";
 import {
   validateEip712Domain,
@@ -197,10 +197,10 @@ function parseUniswapPermitSingle(
   };
 }
 
-function parseX402TransferWithAuthorization(
+function parseEIP3009TransferWithAuthorization(
   data: TypedDataDefinition,
   chainInfo: ChainInfoForAttachedModal,
-): X402TransferWithAuthorizationAction | null {
+): EIP3009TransferWithAuthorizationAction | null {
   const transferType = data.types?.TransferWithAuthorization;
   if (!Array.isArray(transferType)) {
     return null;
@@ -228,7 +228,7 @@ function parseX402TransferWithAuthorization(
   const contractAddress = domain.verifyingContract;
 
   return {
-    kind: "x402.transferWithAuthorization",
+    kind: "eip3009.transferWithAuthorization",
     from: parsed.data.from,
     to: parsed.data.to,
     value: parsed.data.value,
@@ -273,12 +273,12 @@ function parseAction(payload: EthereumEip712SignPayload): EIP712Action | null {
     }
 
     case "TransferWithAuthorization": {
-      const x402Action = parseX402TransferWithAuthorization(
+      const eip3009Action = parseEIP3009TransferWithAuthorization(
         typedData,
         payload.chain_info,
       );
-      if (x402Action) {
-        return x402Action;
+      if (eip3009Action) {
+        return eip3009Action;
       }
       break;
     }

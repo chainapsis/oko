@@ -45,8 +45,8 @@ export const EIP712Actions: FC<EIP712ActionsProps> = ({ action, chain }) => {
           tokenLogoURI={action.tokenLogoURI}
         />
       );
-    case "x402.transferWithAuthorization":
-      // TODO: Implement x402 payment UI
+    case "eip3009.transferWithAuthorization":
+      // TODO: Implement EIP-3009 payment UI
       return <UnknownAction typedData={action.typedData} />;
     case "unknown":
       return <UnknownAction typedData={action.typedData} />;

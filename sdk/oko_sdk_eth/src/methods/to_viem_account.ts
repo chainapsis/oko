@@ -8,15 +8,17 @@ import { serializeTypedData } from "viem";
 import { toRpcTransactionRequest } from "@oko-wallet-sdk-eth/utils";
 
 /**
- * Check if the typed data is an x402/EIP-3009 payment authorization.
+ * Check if the typed data is an EIP-3009 TransferWithAuthorization.
  */
-function isX402PaymentAuthorization(typedData: TypedDataDefinition): boolean {
+function isEIP3009TransferWithAuthorization(
+  typedData: TypedDataDefinition,
+): boolean {
   return typedData.primaryType === "TransferWithAuthorization";
 }
 
 /**
  * Serialize typed data, using the appropriate method based on the typed data type.
- * - For x402/EIP-3009 payment authorizations: preserves domain (fixes viem's domain stripping)
+ * - For EIP-3009 TransferWithAuthorization: preserves domain (fixes viem's domain stripping)
  * - For other EIP-712 requests: uses viem's serializeTypedData
  */
 function serializeTypedDataForSigning<
@@ -24,9 +26,9 @@ function serializeTypedDataForSigning<
   P extends keyof T | "EIP712Domain",
 >(typedData: TypedDataDefinition<T, P>): string {
   const data = typedData as unknown as TypedDataDefinition;
-  if (isX402PaymentAuthorization(data)) {
+  if (isEIP3009TransferWithAuthorization(data)) {
     // Preserve domain even when types.EIP712Domain is not defined
-    // (viem's serializeTypedData strips it, breaking x402/EIP-3009)
+    // (viem's serializeTypedData strips it, breaking EIP-3009)
     return JSON.stringify(data, (_, value) =>
       typeof value === "bigint" ? value.toString() : value,
     );

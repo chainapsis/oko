@@ -27,8 +27,8 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
     });
 
   const actionResult = useEIP712Action(data.payload);
-  const isX402Payment =
-    actionResult.action?.kind === "x402.transferWithAuthorization";
+  const isEIP3009Payment =
+    actionResult.action?.kind === "eip3009.transferWithAuthorization";
 
   return (
     <div className={styles.container}>
@@ -45,7 +45,7 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
         </div>
 
         <Spacing height={20} />
-        {isX402Payment ? <X402PaymentDesc /> : <ArbitrarySignatureDesc />}
+        {isEIP3009Payment ? <X402PaymentDesc /> : <ArbitrarySignatureDesc />}
 
         <Spacing height={20} />
 

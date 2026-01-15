@@ -49,8 +49,8 @@ export interface UniswapPermitSingleAction {
 //   typedData: TypedDataDefinition;
 // }
 
-export interface X402TransferWithAuthorizationAction {
-  kind: "x402.transferWithAuthorization";
+export interface EIP3009TransferWithAuthorizationAction {
+  kind: "eip3009.transferWithAuthorization";
   from: Address;
   to: Address;
   value: string | bigint;
@@ -71,6 +71,6 @@ export type EIP712Action =
   | ERC2612PermitAction
   | DAIPermitAction
   | UniswapPermitSingleAction
-  | X402TransferWithAuthorizationAction
+  | EIP3009TransferWithAuthorizationAction
   // | UniswapPermitBatchAction
   | UnknownAction;
