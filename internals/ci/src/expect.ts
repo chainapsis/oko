@@ -2,7 +2,7 @@ import chalk from "chalk";
 import type { SpawnSyncReturns } from "node:child_process";
 
 export function expectSuccess(
-  ret: SpawnSyncReturns<ArrayBuffer | Uint8Array>,
+  ret: SpawnSyncReturns<ArrayBuffer | Uint8Array | string>,
   msg: string,
 ) {
   if (ret.error) {
