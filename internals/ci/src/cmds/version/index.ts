@@ -69,26 +69,25 @@ export async function version(args: any[]) {
     }
   }
 
-  // const ret = spawnSync(
-  //   "yarn",
-  //   [
-  //     "lerna",
-  //     "version",
-  //     "prerelease",
-  //     "--no-private",
-  //     // "--no-git-tag-version",
-  //     // "--force-git-tag",
-  //     "--no-push",
-  //     // "--json",
-  //     "--yes",
-  //     "--message",
-  //     "project: version bump %s",
-  //   ],
-  //   {
-  //     cwd: paths.root,
-  //     stdio: "inherit",
-  //   },
-  // );
+  const ret = spawnSync(
+    "yarn",
+    [
+      "lerna",
+      "version",
+      "prerelease",
+      "--no-private",
+      // "--no-git-tag-version",
+      // "--force-git-tag",
+      // "--no-push",
+      "--yes",
+      "--message",
+      "project: version bump %s",
+    ],
+    {
+      cwd: paths.root,
+      stdio: "inherit",
+    },
+  );
 }
 
 function getPackageJsonPaths(): string[] {
