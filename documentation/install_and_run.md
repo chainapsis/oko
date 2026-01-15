@@ -5,6 +5,7 @@ Shell scripts for local development environment setup and E2E testing.
 ## Prerequisites
 
 - Node.js 22+
+- tmux
 - Rust (optional, for cargo check)
 
 ## Scripts
