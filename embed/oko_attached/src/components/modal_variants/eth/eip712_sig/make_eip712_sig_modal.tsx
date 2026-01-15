@@ -38,10 +38,7 @@ export const MakeEIP712SigModal: FC<MakeEIP712SigModalProps> = ({
         </div>
 
         <div className={styles.modalInnerContentContainer}>
-          <EthereumEip712SignatureContent
-            payload={data.payload}
-            actionResult={actionResult}
-          />
+          <EthereumEip712SignatureContent payload={data.payload} />
         </div>
 
         <Spacing height={20} />
