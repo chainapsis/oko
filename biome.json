@@ -39,6 +39,9 @@
       },
       "performance": {
         "noImgElement": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off"
       }
     }
   },
