@@ -58,6 +58,7 @@ export async function version(args: any[]) {
       "prerelease",
       "--no-private",
       // "--no-git-tag-version",
+      "--force-git-tag",
       "--no-push",
       // "--json",
       "--yes",
