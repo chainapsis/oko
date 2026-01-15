@@ -1,4 +1,4 @@
-# Scripts
+# Install and run
 
 Shell scripts for local development environment setup and E2E testing.
 
@@ -12,13 +12,15 @@ Shell scripts for local development environment setup and E2E testing.
 
 ### ci-setup.sh
 
-Sets up the local development environment by running the same build steps as GitHub CI.
+Sets up the local development environment by running the same build steps as
+GitHub CI.
 
 ```bash
 ./scripts/ci-setup.sh [OPTIONS]
 ```
 
 **Build Steps:**
+
 1. Check Node.js version (22+)
 2. Enable corepack
 3. Install dependencies (`yarn install --immutable`)
@@ -31,11 +33,11 @@ Sets up the local development environment by running the same build steps as Git
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
-| `--skip-rust` | Skip Rust cargo check |
+| Option             | Description               |
+| ------------------ | ------------------------- |
+| `--skip-rust`      | Skip Rust cargo check     |
 | `--skip-typecheck` | Skip TypeScript typecheck |
-| `-h, --help` | Show help message |
+| `-h, --help`       | Show help message         |
 
 **Examples:**
 
@@ -59,23 +61,24 @@ Starts all E2E services in a tmux session with separate windows.
 
 **Services Started:**
 
-| Window | Service | Command |
-|--------|---------|---------|
-| oko_api | Backend API | `yarn dev` |
-| oko_attached | Embedded wallet | `yarn dev` |
-| demo_web | Demo web app | `yarn dev` |
-| ksn_1 | Key Share Node 1 | `yarn start` |
-| ksn_2 | Key Share Node 2 | `yarn start_2` |
-| ksn_3 | Key Share Node 3 | `yarn start_3` |
+| Window       | Service          | Command        |
+| ------------ | ---------------- | -------------- |
+| oko_api      | Backend API      | `yarn dev`     |
+| oko_attached | Embedded wallet  | `yarn dev`     |
+| demo_web     | Demo web app     | `yarn dev`     |
+| ksn_1        | Key Share Node 1 | `yarn start`   |
+| ksn_2        | Key Share Node 2 | `yarn start_2` |
+| ksn_3        | Key Share Node 3 | `yarn start_3` |
 
 **Options:**
 
-| Option | Description |
-|--------|-------------|
-| `--reset` | Reset database before starting (runs migrations and seed) |
-| `-h, --help` | Show help message |
+| Option       | Description                                               |
+| ------------ | --------------------------------------------------------- |
+| `--reset`    | Reset database before starting (runs migrations and seed) |
+| `-h, --help` | Show help message                                         |
 
 **Database Reset Steps (when using `--reset`):**
+
 1. `yarn ci db_migrate_api --use-env-file`
 2. `yarn ci db_seed_api --use-env-file`
 3. `yarn ci db_migrate_ksn --use-env-file`
@@ -118,6 +121,7 @@ Stops the E2E tmux session.
 ## Tmux Navigation
 
 Once attached to the session:
+
 - `Ctrl+b n` - Next window
 - `Ctrl+b p` - Previous window
 - `Ctrl+b <number>` - Go to window by number (0-5)
