@@ -244,5 +244,3 @@ export type Bytes64 = Bytes<64>;
 export type Bytes69 = Bytes<69>; // FROST SigningCommitments (postcard serialized)
 export type Bytes138 = Bytes<138>; // FROST SigningNonces (postcard serialized)
 export type BytesN = Bytes<number>;
-
-// test version change

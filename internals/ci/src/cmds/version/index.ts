@@ -45,35 +45,31 @@ export async function version(args: any[]) {
     process.exit(1);
   }
 
-  // const changedRet = spawnSync("yarn", ["lerna", "changed", "--json"], {
-  //   cwd: paths.root,
-  // });
-  // console.log(123123, changedRet.stdout.toString());
+  const changedRet = spawnSync("yarn", ["lerna", "changed", "--json"], {
+    cwd: paths.root,
+  });
+  console.log(123123, changedRet.stdout.toString());
 
-  const ret = spawnSync(
-    "yarn",
-    [
-      "lerna",
-      "version",
-      "prerelease",
-      "--no-private",
-      // "--no-git-tag-version",
-      "--force-git-tag",
-      "--no-push",
-      // "--json",
-      "--yes",
-      "--message",
-      "project: version bump %s",
-    ],
-    {
-      cwd: paths.root,
-      stdio: "inherit",
-    },
-  );
-
-  // console.log(123123, ret.stdout.toString());
-  //
-  // createGitCommitAndTags(changedPackages);
+  // const ret = spawnSync(
+  //   "yarn",
+  //   [
+  //     "lerna",
+  //     "version",
+  //     "prerelease",
+  //     "--no-private",
+  //     // "--no-git-tag-version",
+  //     // "--force-git-tag",
+  //     "--no-push",
+  //     // "--json",
+  //     "--yes",
+  //     "--message",
+  //     "project: version bump %s",
+  //   ],
+  //   {
+  //     cwd: paths.root,
+  //     stdio: "inherit",
+  //   },
+  // );
 }
 
 function getPackageJsonPaths(): string[] {
@@ -137,6 +133,7 @@ function findWorkspaceDependencies(): DependencyInfo[] {
   return wsDeps;
 }
 
+// NOTE: Now unused, but may change later
 function createGitCommitAndTags(
   changedPackages: Array<{ name: string; version: string }>,
 ) {
