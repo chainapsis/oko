@@ -5,6 +5,7 @@ import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_c
 import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
 
 import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
+import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
 import styles from "./token_list.module.scss";
 import { TokenItem } from "../token_item/token_item";
 import { useAllBalances } from "@oko-wallet-user-dashboard/hooks/queries";
@@ -48,9 +49,11 @@ export const TokenList: FC = () => {
         return true;
       }
 
-      const amount =
-        Number(bal.token.amount) / 10 ** bal.token.currency.coinDecimals;
-      const valueUsd = amount * bal.priceUsd;
+      const valueUsd = calculateUsdValue(
+        bal.token.amount,
+        bal.token.currency.coinDecimals,
+        bal.priceUsd,
+      );
       return valueUsd >= LOW_BALANCE_THRESHOLD_USD;
     });
   }, [searchedTokens, isHideLowBalance]);
@@ -66,9 +69,11 @@ export const TokenList: FC = () => {
         return false;
       }
 
-      const amount =
-        Number(bal.token.amount) / 10 ** bal.token.currency.coinDecimals;
-      const valueUsd = amount * bal.priceUsd;
+      const valueUsd = calculateUsdValue(
+        bal.token.amount,
+        bal.token.currency.coinDecimals,
+        bal.priceUsd,
+      );
       return valueUsd < LOW_BALANCE_THRESHOLD_USD;
     });
   }, [searchedTokens, isHideLowBalance]);

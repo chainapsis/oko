@@ -1,5 +1,5 @@
 import {
-  type FunctionComponent,
+  type FC,
   type MouseEvent,
   memo,
   useCallback,
@@ -22,20 +22,20 @@ interface ChainItemProps {
   onEnable: (chainId: string, checked: boolean) => void;
 }
 
-export const ChainItem: FunctionComponent<ChainItemProps> = memo(
+export const ChainItem: FC<ChainItemProps> = memo(
   ({ chainInfo, getTokenBalances, onEnable }) => {
     const isChainEnabled = useChainStore((state) => state.isChainEnabled);
     const [isExpanded, setIsExpanded] = useState(false);
     const [isEnabled, setIsEnabled] = useState(() =>
-      isChainEnabled(chainInfo.chainId)
+      isChainEnabled(chainInfo.chainId),
     );
 
     const tokenBalances = useMemo(
       () =>
         getTokenBalances(chainInfo.chainId).filter(
-          (bal) => BigInt(bal.token.amount) > BigInt(0)
+          (bal) => BigInt(bal.token.amount) > BigInt(0),
         ),
-      [getTokenBalances, chainInfo.chainId]
+      [getTokenBalances, chainInfo.chainId],
     );
 
     const imageUrl = chainInfo.chainSymbolImageUrl;
@@ -46,7 +46,7 @@ export const ChainItem: FunctionComponent<ChainItemProps> = memo(
         setIsEnabled(checked);
         onEnable(chainInfo.chainId, checked);
       },
-      [chainInfo.chainId, onEnable]
+      [chainInfo.chainId, onEnable],
     );
 
     const handleTokensClick = (e: MouseEvent) => {
@@ -109,16 +109,14 @@ export const ChainItem: FunctionComponent<ChainItemProps> = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 
 interface FoldableTokenItemProps {
   tokenBalance: TokenBalance;
 }
 
-const FoldableTokenItem: FunctionComponent<FoldableTokenItemProps> = ({
-  tokenBalance,
-}) => {
+const FoldableTokenItem: FC<FoldableTokenItemProps> = ({ tokenBalance }) => {
   const currency = tokenBalance.token.currency;
 
   const imageUrl = currency.coinImageUrl;

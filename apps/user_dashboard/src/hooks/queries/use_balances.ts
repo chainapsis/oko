@@ -9,6 +9,7 @@ import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import type { TokenBalance, RawBalance } from "@oko-wallet-user-dashboard/types/token";
 import { getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
 import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
+import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
 import { useEnabledChains } from "./use_chains";
 import { usePrices } from "./use_prices";
 import { useEthAddress, useBech32Addresses } from "./use_addresses";
@@ -237,13 +238,19 @@ export function useAllBalances() {
       // Sort by USD value (descending)
       const aValue =
         a.priceUsd && a.token.currency.coinDecimals
-          ? (Number(a.token.amount) / 10 ** a.token.currency.coinDecimals) *
-            a.priceUsd
+          ? calculateUsdValue(
+              a.token.amount,
+              a.token.currency.coinDecimals,
+              a.priceUsd,
+            )
           : 0;
       const bValue =
         b.priceUsd && b.token.currency.coinDecimals
-          ? (Number(b.token.amount) / 10 ** b.token.currency.coinDecimals) *
-            b.priceUsd
+          ? calculateUsdValue(
+              b.token.amount,
+              b.token.currency.coinDecimals,
+              b.priceUsd,
+            )
           : 0;
       return bValue - aValue;
     });
@@ -283,9 +290,11 @@ export function useTotalBalance() {
     if (!bal.priceUsd) {
       return sum;
     }
-    const amount =
-      Number(bal.token.amount) / 10 ** bal.token.currency.coinDecimals;
-    return sum + amount * bal.priceUsd;
+    return sum + calculateUsdValue(
+      bal.token.amount,
+      bal.token.currency.coinDecimals,
+      bal.priceUsd,
+    );
   }, 0);
 
   return {

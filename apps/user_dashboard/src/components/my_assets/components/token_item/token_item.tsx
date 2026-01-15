@@ -1,6 +1,6 @@
 "use client";
 
-import type { FunctionComponent, MouseEvent } from "react";
+import type { FC, MouseEvent } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
@@ -15,6 +15,7 @@ import styles from "./token_item.module.scss";
 import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
 import { AddressQrModal } from "@oko-wallet-user-dashboard/components/address_qr_modal/address_qr_modal";
 import { useCopyToClipboard } from "@oko-wallet-user-dashboard/hooks/use_copy_to_clipboard";
+import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
 
 interface TokenItemProps {
   tokenBalance: TokenBalance;
@@ -24,7 +25,7 @@ interface TokenItemProps {
   isNotReady?: boolean;
 }
 
-export const TokenItem: FunctionComponent<TokenItemProps> = ({
+export const TokenItem: FC<TokenItemProps> = ({
   tokenBalance,
   address,
   onClick,
@@ -39,8 +40,13 @@ export const TokenItem: FunctionComponent<TokenItemProps> = ({
 
   // Calculate price
   const priceUsd = tokenBalance.priceUsd;
-  const amount = Number(tokenBalance.token.amount) / 10 ** currency.coinDecimals;
-  const valueUsd = priceUsd ? amount * priceUsd : undefined;
+  const valueUsd = priceUsd
+    ? calculateUsdValue(
+        tokenBalance.token.amount,
+        currency.coinDecimals,
+        priceUsd,
+      )
+    : undefined;
 
   const isIBC = currency.coinMinimalDenom.startsWith("ibc/");
 
@@ -83,9 +89,7 @@ export const TokenItem: FunctionComponent<TokenItemProps> = ({
                 {coinDenom}
               </Typography>
             )}
-            {isIBC && (
-              <Badge type="pill" size="sm" color="gray" label="IBC" />
-            )}
+            {isIBC && <Badge type="pill" size="sm" color="gray" label="IBC" />}
             {tokenBalance.isFetching && !isNotReady && (
               <div className={styles.loadingIndicator} />
             )}
@@ -130,8 +134,13 @@ export const TokenItem: FunctionComponent<TokenItemProps> = ({
                 <Typography size="xs" weight="medium" color="tertiary">
                   {valueUsd !== undefined
                     ? new PricePretty(
-                        { currency: "usd", symbol: "$", maxDecimals: 2, locale: "en-US" },
-                        valueUsd
+                        {
+                          currency: "usd",
+                          symbol: "$",
+                          maxDecimals: 2,
+                          locale: "en-US",
+                        },
+                        valueUsd,
                       ).toString()
                     : "-"}
                 </Typography>
@@ -149,10 +158,7 @@ export const TokenItem: FunctionComponent<TokenItemProps> = ({
               type="button"
             >
               {isCopied ? (
-                <CheckCircleOutlinedIcon
-                  size={16}
-                  color="var(--fg-tertiary)"
-                />
+                <CheckCircleOutlinedIcon size={16} color="var(--fg-tertiary)" />
               ) : (
                 <CopyOutlinedIcon size={16} color="var(--fg-tertiary)" />
               )}
