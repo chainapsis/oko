@@ -172,7 +172,7 @@ export async function handleNewUserV2(
       walletIdEd25519: reqKeygenV2Res.data.user.wallet_id_ed25519,
       jwtToken: reqKeygenV2Res.data.token,
       keyshare1Secp256k1: secp256k1Keygen1.tss_private_share.toHex(),
-      keyshare1Ed25519: JSON.stringify(keyPackageEd25519Hex),
+      keyPackageEd25519Hex: JSON.stringify(keyPackageEd25519Hex),
       isNewUser: true,
       email: reqKeygenV2Res.data.user.email ?? null,
       name: reqKeygenV2Res.data.user.name ?? null,
@@ -312,11 +312,11 @@ export async function handleExistingUserV2(
   //   node: item.node,
   //   share: item.shares.ed25519!,
   // }));
-  // const keyshare1Ed25519Res = await combineUserSharesEd25519(
+  // const keyPackageEd25519HexRes = await combineUserSharesEd25519(
   //   ed25519SharesByNode,
   //   keyshareNodeMetaEd25519.threshold,
   // );
-  const keyshare1Ed25519 = ""; // TODO: replace with combined result
+  const keyPackageEd25519HexStr = ""; // TODO: replace with combined result (JSON stringified KeyPackageEd25519Hex)
 
   return {
     success: true,
@@ -327,7 +327,7 @@ export async function handleExistingUserV2(
       walletIdEd25519: signInResp.user.wallet_id_ed25519,
       jwtToken: signInResp.token,
       keyshare1Secp256k1: keyshare1Secp256k1Res.data,
-      keyshare1Ed25519,
+      keyPackageEd25519Hex: keyPackageEd25519HexStr,
       isNewUser: false,
       email: signInResp.user.email ?? null,
       name: signInResp.user.name ?? null,
@@ -508,7 +508,7 @@ export async function handleExistingUserNeedsEd25519Keygen(
       walletIdEd25519: reqKeygenEd25519Res.data.user.wallet_id_ed25519,
       jwtToken: reqKeygenEd25519Res.data.token,
       keyshare1Secp256k1: keyshare1Secp256k1Res.data,
-      keyshare1Ed25519: JSON.stringify(keyPackageEd25519Hex),
+      keyPackageEd25519Hex: JSON.stringify(keyPackageEd25519Hex),
       isNewUser: false,
       email: reqKeygenEd25519Res.data.user.email ?? null,
       name: reqKeygenEd25519Res.data.user.name ?? null,
