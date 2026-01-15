@@ -8,7 +8,7 @@ import type {
   SignatureShareEntry,
   KeyPackageRaw,
   PublicKeyPackageRaw,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/oko-types/teddsa";
 import {
   reqSignEd25519Round1,
   reqSignEd25519Round2,

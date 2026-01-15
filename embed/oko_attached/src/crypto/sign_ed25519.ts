@@ -8,7 +8,7 @@ import type {
   SignatureShareEntry,
   KeyPackageRaw,
   PublicKeyPackageRaw,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/oko-types/teddsa";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
 

@@ -2,7 +2,7 @@ import type { TeddsaKeygenOutputBytes } from "@oko-wallet/teddsa-hooks";
 import type {
   KeyPackageRaw,
   PublicKeyPackageRaw,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/oko-types/teddsa";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 

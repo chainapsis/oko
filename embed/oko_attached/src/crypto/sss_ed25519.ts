@@ -3,11 +3,11 @@ import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type { TeddsaKeyShareByNode } from "@oko-wallet/oko-types/user_key_share";
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { KeyPackage } from "@oko-wallet/teddsa-interface";
 import type {
-  KeyPackage,
   KeyPackageRaw,
   PublicKeyPackageRaw,
-} from "@oko-wallet/teddsa-interface";
+} from "@oko-wallet/oko-types/teddsa";
 
 import { hashKeyshareNodeNamesEd25519 } from "./hash";
 import { computeVerifyingShare } from "./scalar";
