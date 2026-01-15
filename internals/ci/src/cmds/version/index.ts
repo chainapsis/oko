@@ -21,8 +21,8 @@ export async function version(args: any[]) {
   expectSuccess(fetchRet, "git fetch failed");
 
   console.log("We will first re-build the packages\n");
-  // await doBuildPkgs();
-  // await doBuildSDK();
+  await doBuildPkgs();
+  await doBuildSDK();
 
   console.log("Checking type definition in sandbox simple host");
   const testSandboxRet = spawnSync("yarn", ["tsc"], {
@@ -69,7 +69,7 @@ export async function version(args: any[]) {
     }
   }
 
-  const ret = spawnSync(
+  const versionRet = spawnSync(
     "yarn",
     [
       "lerna",
@@ -88,6 +88,7 @@ export async function version(args: any[]) {
       stdio: "inherit",
     },
   );
+  expectSuccess(versionRet, "lerna version failed");
 }
 
 function getPackageJsonPaths(): string[] {
