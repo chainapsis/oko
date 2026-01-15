@@ -81,7 +81,7 @@ export async function version(args: any[]) {
       // "--no-push",
       "--yes",
       "--message",
-      "project: version bump %s",
+      "project: version bump to %s",
     ],
     {
       cwd: paths.root,
