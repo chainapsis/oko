@@ -45,7 +45,7 @@ export const Toggle: FC<ToggleProps> = ({
       </div>
 
       {label && (
-        <label
+        <span
           className={cn(styles.label, {
             [styles.disabled]: disabled,
           })}
@@ -59,7 +59,7 @@ export const Toggle: FC<ToggleProps> = ({
           >
             {label}
           </Typography>
-        </label>
+        </span>
       )}
     </div>
   );
