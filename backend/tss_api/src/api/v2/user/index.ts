@@ -250,6 +250,14 @@ export async function checkEmailV2(
           active_nodes_below_threshold: activeNodesBelowThreshold,
           needs_keygen_ed25519: true,
           secp256k1: secp256k1CheckInfo,
+          keyshare_node_meta: {
+            threshold: globalThreshold,
+            nodes: activeKSNodes.map((ksNode) => ({
+              name: ksNode.node_name,
+              endpoint: ksNode.server_url,
+              wallet_status: "NOT_REGISTERED" as const,
+            })),
+          },
         },
       };
     }

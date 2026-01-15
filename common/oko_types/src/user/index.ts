@@ -52,6 +52,8 @@ export interface CheckEmailResponseV2NeedsEd25519Keygen {
   active_nodes_below_threshold: boolean;
   needs_keygen_ed25519: true;
   secp256k1: WalletCheckInfo;
+  /** Global keyshare node metadata for ed25519 keygen */
+  keyshare_node_meta: KeyShareNodeMetaWithNodeStatusInfo;
 }
 
 /**

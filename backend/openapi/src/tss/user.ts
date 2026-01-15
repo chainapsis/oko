@@ -252,6 +252,9 @@ const CheckEmailDataV2NeedsEd25519KeygenSchema = registry.register(
     secp256k1: WalletCheckInfoSchema.openapi({
       description: "Reshare info for secp256k1 wallet",
     }),
+    keyshare_node_meta: KeyshareNodeMetaV2Schema.openapi({
+      description: "Global keyshare node metadata for ed25519 keygen",
+    }),
   }),
 );
 

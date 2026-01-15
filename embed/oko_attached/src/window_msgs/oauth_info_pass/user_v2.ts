@@ -338,15 +338,84 @@ export async function handleExistingUserV2(
 /**
  * Handle existing user who has secp256k1 wallet but needs ed25519 keygen.
  * Called when checkEmailV2 returns CheckEmailResponseV2NeedsEd25519Keygen.
+ *
+ * Flow: ed25519 keygen first -> get secp256k1 public_key from response -> combine secp256k1 shares
  */
 export async function handleExistingUserNeedsEd25519Keygen(
   idToken: string,
   keyshareNodeMetaSecp256k1: KeyShareNodeMetaWithNodeStatusInfo,
   keyshareNodeMetaEd25519: KeyShareNodeMetaWithNodeStatusInfo,
   authType: AuthType,
-  secp256k1PublicKey: string,
 ): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
-  // 1. Request secp256k1 shares from KS nodes using V2 API
+  // 1. ed25519 keygen
+  const ed25519KeygenRes = await runTeddsaKeygen();
+  if (ed25519KeygenRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519KeygenRes.err },
+    };
+  }
+  const { keygen_1: ed25519Keygen1, keygen_2: ed25519Keygen2 } =
+    ed25519KeygenRes.data;
+
+  // 2. ed25519 key share split @TODO
+  // const ed25519UserKeyShares = await splitUserKeySharesEd25519(
+  //   ed25519Keygen1,
+  //   keyshareNodeMetaEd25519,
+  // );
+
+  // 3. Send ed25519 key shares to ks nodes using V2 API
+  // Note: Using keyshareNodeMetaEd25519.nodes for ed25519 registration
+  const registerEd25519Results: Result<void, string>[] = await Promise.all(
+    keyshareNodeMetaEd25519.nodes.map((node) =>
+      registerKeyShareEd25519V2(
+        node.endpoint,
+        idToken,
+        authType,
+        ed25519Keygen1.public_key.toHex(),
+        "", // TODO: replace with ed25519UserKeyShares[index].share
+      ),
+    ),
+  );
+  const registerEd25519ErrResults = registerEd25519Results.filter(
+    (result) => result.success === false,
+  );
+  if (registerEd25519ErrResults.length > 0) {
+    return {
+      success: false,
+      err: {
+        type: "sign_in_request_fail",
+        error: registerEd25519ErrResults.map((result) => result.err).join("\n"),
+      },
+    };
+  }
+
+  // 4. Call keygenEd25519 API
+  const reqKeygenEd25519Res = await reqKeygenEd25519(
+    TSS_V2_ENDPOINT,
+    {
+      keygen_2: {
+        key_package: serializeKeyPackage(ed25519Keygen2.key_package),
+        public_key_package: serializePublicKeyPackage(
+          ed25519Keygen2.public_key_package,
+        ),
+        identifier: [...ed25519Keygen2.identifier],
+        public_key: [...ed25519Keygen2.public_key.toUint8Array()],
+      },
+    },
+    idToken,
+  );
+  if (reqKeygenEd25519Res.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: reqKeygenEd25519Res.msg },
+    };
+  }
+
+  // 5. Get secp256k1 public key from keygenEd25519 response
+  const secp256k1PublicKey = reqKeygenEd25519Res.data.user.public_key_secp256k1;
+
+  // 6. Request secp256k1 shares from KS nodes using V2 API
   const requestSharesRes = await requestKeySharesV2(
     idToken,
     keyshareNodeMetaSecp256k1.nodes,
@@ -384,7 +453,7 @@ export async function handleExistingUserNeedsEd25519Keygen(
     };
   }
 
-  // 2. Combine secp256k1 shares (convert hex strings to Point256)
+  // 7. Combine secp256k1 shares (convert hex strings to Point256)
   const secp256k1SharesByNode: UserKeySharePointByNode[] = [];
   for (const item of requestSharesRes.data) {
     const shareHex = item.shares.secp256k1;
@@ -427,72 +496,7 @@ export async function handleExistingUserNeedsEd25519Keygen(
     };
   }
 
-  // 3. ed25519 keygen
-  const ed25519KeygenRes = await runTeddsaKeygen();
-  if (ed25519KeygenRes.success === false) {
-    return {
-      success: false,
-      err: { type: "sign_in_request_fail", error: ed25519KeygenRes.err },
-    };
-  }
-  const { keygen_1: ed25519Keygen1, keygen_2: ed25519Keygen2 } =
-    ed25519KeygenRes.data;
-
-  // 4. ed25519 key share split @TODO
-  // const ed25519UserKeyShares = await splitUserKeySharesEd25519(
-  //   ed25519Keygen1,
-  //   keyshareNodeMetaEd25519,
-  // );
-
-  // 5. Send ed25519 key shares to ks nodes using V2 API
-  // Note: Using keyshareNodeMetaEd25519.nodes for ed25519 registration
-  const registerEd25519Results: Result<void, string>[] = await Promise.all(
-    keyshareNodeMetaEd25519.nodes.map((node) =>
-      registerKeyShareEd25519V2(
-        node.endpoint,
-        idToken,
-        authType,
-        ed25519Keygen1.public_key.toHex(),
-        "", // TODO: replace with ed25519UserKeyShares[index].share
-      ),
-    ),
-  );
-  const registerEd25519ErrResults = registerEd25519Results.filter(
-    (result) => result.success === false,
-  );
-  if (registerEd25519ErrResults.length > 0) {
-    return {
-      success: false,
-      err: {
-        type: "sign_in_request_fail",
-        error: registerEd25519ErrResults.map((result) => result.err).join("\n"),
-      },
-    };
-  }
-
-  // 6. Call keygenEd25519 API
-  const reqKeygenEd25519Res = await reqKeygenEd25519(
-    TSS_V2_ENDPOINT,
-    {
-      keygen_2: {
-        key_package: serializeKeyPackage(ed25519Keygen2.key_package),
-        public_key_package: serializePublicKeyPackage(
-          ed25519Keygen2.public_key_package,
-        ),
-        identifier: [...ed25519Keygen2.identifier],
-        public_key: [...ed25519Keygen2.public_key.toUint8Array()],
-      },
-    },
-    idToken,
-  );
-  if (reqKeygenEd25519Res.success === false) {
-    return {
-      success: false,
-      err: { type: "sign_in_request_fail", error: reqKeygenEd25519Res.msg },
-    };
-  }
-
-  // 7. Convert ed25519 keygen1 to hex format for storage
+  // 8. Convert ed25519 keygen1 to hex format for storage
   const keyPackageEd25519Hex = teddsaKeygenToHex(ed25519Keygen1);
 
   return {
