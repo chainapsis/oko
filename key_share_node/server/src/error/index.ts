@@ -19,4 +19,5 @@ export const ErrorCodeMap: Record<KSNodeApiErrorCode, number> = {
   RATE_LIMIT_EXCEEDED: 429,
   CURVE_TYPE_NOT_SUPPORTED: 400,
   RESHARE_FAILED: 500,
+  USER_ALREADY_REGISTERED: 409,
 };

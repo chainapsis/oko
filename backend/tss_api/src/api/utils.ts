@@ -86,10 +86,51 @@ export async function validateWalletEmail(
     };
   }
 
-  if (getWalletRes.data.email.toLowerCase() !== email.toLowerCase()) {
+  if (getWalletRes.data.email !== email) {
     return {
       success: false,
       err: `Email not corresponding`,
+    };
+  }
+
+  return {
+    success: true,
+    data: getWalletRes.data,
+  };
+}
+
+export async function validateWalletEmailAndCurveType(
+  db: Pool,
+  walletId: string,
+  email: string,
+  curveType: string,
+): Promise<Result<WalletWithEmail, string>> {
+  const getWalletRes = await getWalletByIdWithEmail(db, walletId);
+  if (getWalletRes.success === false) {
+    return {
+      success: false,
+      err: `getting wallet failed, err: ${getWalletRes.err}`,
+    };
+  }
+
+  if (getWalletRes.data === null) {
+    return {
+      success: false,
+      err: `Wallet not exists`,
+    };
+  }
+
+  if (getWalletRes.data.email !== email) {
+    return {
+      success: false,
+      err: `Email not corresponding`,
+    };
+  }
+
+  if (getWalletRes.data.curve_type !== curveType) {
+    return {
+      success: false,
+      err: `Curve type not corresponding`,
     };
   }
 

@@ -12,7 +12,7 @@ import {
   type RateLimitMiddlewareOption,
 } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import { registry } from "@oko-wallet-ksn-server/openapi/registry";
+import { registry } from "@oko-wallet-ksn-server/openapi/doc";
 import {
   PgDumpHistorySuccessResponseSchema,
   PgDumpHistoryQuerySchema,

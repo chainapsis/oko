@@ -20,6 +20,8 @@ import {
   EMAIL_REGEX,
   EMAIL_VERIFICATION_TIMER_SECONDS,
   PASSWORD_MIN_LENGTH,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_CONTAINS_NUMBER_REGEX,
   SIX_DIGITS_REGEX,
 } from "@oko-wallet-ct-dashboard/constants";
 import { ExpiryTimer } from "@oko-wallet-ct-dashboard/components/expiry_timer/expiry_timer";
@@ -49,6 +51,7 @@ export default function ForgotPasswordPage() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
+  const [isCodeExpired, setIsCodeExpired] = useState(false);
 
   const codeValue = useMemo(() => codeDigits.join(""), [codeDigits]);
 
@@ -116,6 +119,14 @@ export default function ForgotPasswordPage() {
       setError(`Password must be at least ${PASSWORD_MIN_LENGTH} characters`);
       return;
     }
+    if (password.length > PASSWORD_MAX_LENGTH) {
+      setError(`Password must be at most ${PASSWORD_MAX_LENGTH} characters`);
+      return;
+    }
+    if (!PASSWORD_CONTAINS_NUMBER_REGEX.test(password)) {
+      setError("Password must include at least one number");
+      return;
+    }
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
@@ -123,6 +134,7 @@ export default function ForgotPasswordPage() {
 
     setIsLoading(true);
     resetError();
+    setIsCodeExpired(false);
     try {
       const res = await requestResetPasswordConfirm(
         email,
@@ -132,7 +144,38 @@ export default function ForgotPasswordPage() {
       if (res.success) {
         router.push(paths.home);
       } else {
-        setError(res.msg || "Failed to reset password");
+        if (res.code === "INVALID_VERIFICATION_CODE") {
+          setIsCodeExpired(true);
+          setError("Verification code has expired. Please request a new code.");
+        } else {
+          setError(res.msg || "Failed to reset password");
+        }
+      }
+    } catch (err) {
+      setError("An unexpected error occurred");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleRequestNewCode = async () => {
+    if (!email || isLoading) {
+      return;
+    }
+
+    setIsLoading(true);
+    resetError();
+    setIsCodeExpired(false);
+    try {
+      const res = await requestForgotPassword(email);
+      if (res.success) {
+        setCodeDigits(EMPTY_CODE);
+        setVerifiedCode("");
+        setPassword("");
+        setConfirmPassword("");
+        goToStep(Step.CODE);
+      } else {
+        setError(res.msg || "Failed to send code");
       }
     } catch (err) {
       setError("An unexpected error occurred");
@@ -317,6 +360,7 @@ export default function ForgotPasswordPage() {
             }}
             fullWidth
             requiredSymbol
+            maxLength={16}
             helpText={
               error
                 ? undefined
@@ -344,6 +388,7 @@ export default function ForgotPasswordPage() {
             }}
             fullWidth
             requiredSymbol
+            maxLength={16}
             SideComponent={
               <button
                 type="button"
@@ -373,13 +418,24 @@ export default function ForgotPasswordPage() {
         )}
 
         <div className={styles.passwordButton}>
-          <Button
-            type="submit"
-            fullWidth
-            disabled={!password || !confirmPassword || isLoading}
-          >
-            {isLoading ? "Updating..." : "Update"}
-          </Button>
+          {isCodeExpired ? (
+            <Button
+              type="button"
+              fullWidth
+              onClick={handleRequestNewCode}
+              disabled={isLoading}
+            >
+              {isLoading ? "Sending..." : "Request New Code"}
+            </Button>
+          ) : (
+            <Button
+              type="submit"
+              fullWidth
+              disabled={!password || !confirmPassword || isLoading}
+            >
+              {isLoading ? "Updating..." : "Update"}
+            </Button>
+          )}
         </div>
       </form>
     </div>

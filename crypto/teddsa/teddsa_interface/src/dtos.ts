@@ -8,18 +8,17 @@ import {
   type Bytes69,
   type Bytes138,
 } from "@oko-wallet/bytes";
-import type {
+
+import {
+  CentralizedKeygenOutput,
+  CommitmentEntry,
   KeyPackageRaw,
   PublicKeyPackageRaw,
-  CentralizedKeygenOutput,
-} from "./keygen";
-import type {
-  SigningCommitmentOutput,
-  SignatureShareOutput,
-  CommitmentEntry,
-  SignatureShareEntry,
   SignatureOutput,
-} from "./sign";
+  SignatureShareEntry,
+  SignatureShareOutput,
+  SigningCommitmentOutput,
+} from "@oko-wallet/oko-types/teddsa";
 
 export interface KeyPackage {
   identifier: Bytes32;

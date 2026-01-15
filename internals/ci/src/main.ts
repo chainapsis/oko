@@ -14,13 +14,16 @@ import { deploy } from "./cmds/deploy";
 import { langFormat } from "./cmds/lang_format";
 import { langCheck } from "./cmds/lang_check";
 import { depsCheck } from "./cmds/deps_check";
+import { setup } from "./cmds/setup";
+import { tmuxStart } from "./cmds/tmux_start";
+import { tmuxStop } from "./cmds/tmux_stop";
 
 async function main() {
   const command = program.version("0.0.1").description("Oko Public CI");
 
   command.command("typecheck").action(typeCheck);
 
-  command.command("version").action(version);
+  command.command("version [args...]").action(version);
 
   command.command("publish").action(publish);
 
@@ -37,6 +40,16 @@ async function main() {
   command.command("build_cs").action(buildCs);
 
   command.command("build_frost").action(buildFrost);
+
+  command.command("tmux_start").action(tmuxStart);
+
+  command.command("tmux_stop").action(tmuxStop);
+
+  command
+    .command("setup")
+    .option("--skip-rust", "Skip rust build", false)
+    .option("--skip-typecheck", "Skip typecheck", false)
+    .action(setup);
 
   command
     .command("db_migrate_api")

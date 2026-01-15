@@ -18,7 +18,7 @@ INSERT INTO oko_users (
 ) 
 RETURNING *
 `;
-    const values = [uuidv4(), email.toLowerCase(), auth_type];
+    const values = [uuidv4(), email, auth_type];
 
     const result = await db.query<User>(query, values);
 
@@ -55,7 +55,7 @@ WHERE email = $1 AND auth_type = $2
 LIMIT 1
 `;
 
-    const result = await db.query(query, [email.toLowerCase(), auth_type]);
+    const result = await db.query(query, [email, auth_type]);
 
     let user: User | null = null;
     if (result.rows.length > 0) {
