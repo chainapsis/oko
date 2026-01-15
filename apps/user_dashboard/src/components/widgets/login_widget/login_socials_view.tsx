@@ -1,4 +1,5 @@
 import type { FC } from "react";
+
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";

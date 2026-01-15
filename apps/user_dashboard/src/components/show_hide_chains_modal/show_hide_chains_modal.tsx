@@ -8,21 +8,22 @@ import {
   useState,
 } from "react";
 import cn from "classnames";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Card } from "@oko-wallet/oko-common-ui/card";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-
-import styles from "./show_hide_chains_modal.module.scss";
-import { ShowHideChainsFilters } from "./components/filters";
-import { ChainItem } from "./components/chain_item";
 import { useChainStore, getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
 import { useAllBalances, useChains } from "@oko-wallet-user-dashboard/hooks/queries";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
+
+import styles from "./show_hide_chains_modal.module.scss";
+import { ShowHideChainsFilters } from "./components/filters";
+import { ChainItem } from "./components/chain_item";
 
 interface ShowHideChainsModalProps {
   renderTrigger: (props: { onOpen: () => void }) => ReactNode;

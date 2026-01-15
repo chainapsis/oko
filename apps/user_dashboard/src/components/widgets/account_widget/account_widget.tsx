@@ -1,15 +1,16 @@
 "use client";
 
 import { type FC, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import { useSDKState, selectCosmosSDK } from "@oko-wallet-user-dashboard/state/sdk";
 import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
+import { paths } from "@oko-wallet-user-dashboard/paths";
+
 import { AuthProgressWidget } from "./auth_progress_widget";
 import { LoginWidget } from "../login_widget/login_widget";
 import { Spinner } from "../../spinner/spinner";
-import { paths } from "@oko-wallet-user-dashboard/paths";
-import { useRouter } from "next/navigation";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-
 import styles from "./account_widget.module.scss";
 
 type SigningInState =

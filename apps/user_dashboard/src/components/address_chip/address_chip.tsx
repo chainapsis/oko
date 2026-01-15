@@ -1,9 +1,10 @@
 import { type FC, type MouseEvent, useMemo } from "react";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CopyOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/copy_outlined";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
-
 import { useCopyToClipboard } from "@oko-wallet-user-dashboard/hooks/use_copy_to_clipboard";
+
 import styles from "./address_chip.module.scss";
 
 interface AddressChipProps {

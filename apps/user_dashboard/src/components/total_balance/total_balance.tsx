@@ -1,13 +1,14 @@
 "use client";
 
 import type { FC } from "react";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { PricePretty } from "@keplr-wallet/unit";
-
-import styles from "./total_balance.module.scss";
 import { useTotalBalance } from "@oko-wallet-user-dashboard/hooks/queries";
 import { DepositModal } from "@oko-wallet-user-dashboard/components/deposit_modal/deposit_modal";
+
+import styles from "./total_balance.module.scss";
 
 export const TotalBalance: FC = () => {
   const { totalUsd, isLoading } = useTotalBalance();

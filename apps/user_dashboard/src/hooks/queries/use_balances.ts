@@ -1,15 +1,15 @@
-/**
- * Balance fetching with TanStack Query
- * Replaces store_legacy/huge-queries balance logic
- */
-
 import { useQuery, useQueries } from "@tanstack/react-query";
 import { useMemo } from "react";
+
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
-import type { TokenBalance, RawBalance } from "@oko-wallet-user-dashboard/types/token";
+import type {
+  TokenBalance,
+  RawBalance,
+} from "@oko-wallet-user-dashboard/types/token";
 import { getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
 import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
 import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
+
 import { useEnabledChains } from "./use_chains";
 import { usePrices } from "./use_prices";
 import { useEthAddress, useBech32Addresses } from "./use_addresses";
@@ -19,10 +19,10 @@ import { useEthAddress, useBech32Addresses } from "./use_addresses";
  */
 async function fetchCosmosBalances(
   restEndpoint: string,
-  bech32Address: string
+  bech32Address: string,
 ): Promise<RawBalance[]> {
   const response = await fetch(
-    `${restEndpoint}/cosmos/bank/v1beta1/balances/${bech32Address}`
+    `${restEndpoint}/cosmos/bank/v1beta1/balances/${bech32Address}`,
   );
   if (!response.ok) {
     throw new Error(`Failed to fetch balances: ${response.statusText}`);
@@ -37,7 +37,7 @@ async function fetchCosmosBalances(
  */
 async function fetchEvmBalance(
   rpcEndpoint: string,
-  address: string
+  address: string,
 ): Promise<string> {
   const response = await fetch(rpcEndpoint, {
     method: "POST",
@@ -72,7 +72,7 @@ interface UseBalancesOptions {
  */
 export function useChainBalances(
   chainInfo: ModularChainInfo | undefined,
-  options?: UseBalancesOptions
+  options?: UseBalancesOptions,
 ) {
   const chainId = chainInfo?.chainId;
   const isEvm = chainInfo?.evm !== undefined;
@@ -82,7 +82,7 @@ export function useChainBalances(
   const { address: ethAddress } = useEthAddress();
   const cosmosChainIds = useMemo(
     () => (chainId && isCosmos ? [chainId] : []),
-    [chainId, isCosmos]
+    [chainId, isCosmos],
   );
   const { addresses: bech32Addresses } = useBech32Addresses(cosmosChainIds);
   const bech32Address = chainId ? bech32Addresses[chainId] : undefined;
@@ -136,18 +136,21 @@ export function useChainBalances(
  * Hook to fetch balances for all enabled chains
  */
 export function useAllBalances() {
-  const { chains: enabledChains, isLoading: chainsLoading } = useEnabledChains();
+  const { chains: enabledChains, isLoading: chainsLoading } =
+    useEnabledChains();
   const { priceMap, isLoading: pricesLoading } = usePrices();
 
   // Get addresses using TanStack Query hooks
   const { address: ethAddress, isLoading: ethLoading } = useEthAddress();
   const cosmosChainIds = useMemo(
-    () => enabledChains
-      .filter((chain) => isCosmosChainId(chain.chainId))
-      .map((chain) => chain.chainId),
-    [enabledChains]
+    () =>
+      enabledChains
+        .filter((chain) => isCosmosChainId(chain.chainId))
+        .map((chain) => chain.chainId),
+    [enabledChains],
   );
-  const { addresses: bech32Addresses, isLoading: addressesLoading } = useBech32Addresses(cosmosChainIds);
+  const { addresses: bech32Addresses, isLoading: addressesLoading } =
+    useBech32Addresses(cosmosChainIds);
 
   // Create queries for all chains
   const balanceQueries = useQueries({
@@ -168,12 +171,12 @@ export function useAllBalances() {
             try {
               const rawBalances = await fetchCosmosBalances(
                 chain.cosmos.rest,
-                bech32Address
+                bech32Address,
               );
 
               for (const bal of rawBalances) {
                 const currency = chain.cosmos.currencies.find(
-                  (c) => c.coinMinimalDenom === bal.denom
+                  (c) => c.coinMinimalDenom === bal.denom,
                 );
                 if (currency && BigInt(bal.amount) > BigInt(0)) {
                   results.push({
@@ -191,7 +194,7 @@ export function useAllBalances() {
             } catch (error) {
               console.error(
                 `Failed to fetch Cosmos balances for ${chain.chainId}:`,
-                error
+                error,
               );
             }
           }
@@ -216,15 +219,14 @@ export function useAllBalances() {
             } catch (error) {
               console.error(
                 `Failed to fetch EVM balance for ${chain.chainId}:`,
-                error
+                error,
               );
             }
           }
 
           return results;
         },
-        enabled:
-          (isCosmos && !!bech32Address) || (isEvm && !!ethAddress),
+        enabled: (isCosmos && !!bech32Address) || (isEvm && !!ethAddress),
         staleTime: 30 * 1000,
         refetchInterval: 60 * 1000,
       };
@@ -267,7 +269,11 @@ export function useAllBalances() {
   }, new Map());
 
   const isLoading =
-    chainsLoading || ethLoading || addressesLoading || balanceQueries.some((q) => q.isLoading) || pricesLoading;
+    chainsLoading ||
+    ethLoading ||
+    addressesLoading ||
+    balanceQueries.some((q) => q.isLoading) ||
+    pricesLoading;
   const isFetching = balanceQueries.some((q) => q.isFetching);
   const hasError = balanceQueries.some((q) => q.error);
 
@@ -290,10 +296,13 @@ export function useTotalBalance() {
     if (!bal.priceUsd) {
       return sum;
     }
-    return sum + calculateUsdValue(
-      bal.token.amount,
-      bal.token.currency.coinDecimals,
-      bal.priceUsd,
+    return (
+      sum +
+      calculateUsdValue(
+        bal.token.amount,
+        bal.token.currency.coinDecimals,
+        bal.priceUsd,
+      )
     );
   }, 0);
 

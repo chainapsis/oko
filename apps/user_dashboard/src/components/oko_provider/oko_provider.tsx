@@ -2,11 +2,12 @@
 
 import { type FC, type PropsWithChildren, useEffect } from "react";
 
-import { useInitOko } from "./use_oko";
 import { useChainStore } from "@oko-wallet-user-dashboard/state/chains";
 import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
 import { useSDKState, selectCosmosInitialized } from "@oko-wallet-user-dashboard/state/sdk";
 import { useChains } from "@oko-wallet-user-dashboard/hooks/queries";
+
+import { useInitOko } from "./use_oko";
 
 export const OkoProvider: FC<PropsWithChildren> = ({ children }) => {
   useInitOko();

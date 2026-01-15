@@ -5,8 +5,10 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
-import { useEnabledChains } from "./use_chains";
+
 import { COINGECKO_ENDPOINT } from "@oko-wallet-user-dashboard/fetch";
+
+import { useEnabledChains } from "./use_chains";
 
 interface PriceResponse {
   [coinId: string]: {

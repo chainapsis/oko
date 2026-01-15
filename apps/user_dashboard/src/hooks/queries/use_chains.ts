@@ -5,6 +5,7 @@
 
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
+
 import type { CosmosChainInfo, ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import {
   useChainStore,

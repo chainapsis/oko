@@ -6,15 +6,16 @@ import {
   useMemo,
   useState,
 } from "react";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Toggle } from "@oko-wallet/oko-common-ui/toggle";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Badge } from "@oko-wallet/oko-common-ui/badge";
-
-import styles from "./chain_item.module.scss";
 import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import { useChainStore } from "@oko-wallet-user-dashboard/state/chains";
+
+import styles from "./chain_item.module.scss";
 
 interface ChainItemProps {
   chainInfo: ModularChainInfo;

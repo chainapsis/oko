@@ -1,12 +1,13 @@
 import cn from "classnames";
 import Image from "next/image";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { OkoLogoIcon } from "@oko-wallet/oko-common-ui/icons/oko_logo_icon";
-
-import styles from "./page.module.scss";
 import { AccountWidget } from "@oko-wallet-user-dashboard/components/widgets/account_widget/account_widget";
 import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard_header/dashboard_header";
 import { SignInImage } from "@oko-wallet-user-dashboard/components/sign_in_image/sign_in_image";
+
+import styles from "./page.module.scss";
 
 export default function Page() {
   const description =

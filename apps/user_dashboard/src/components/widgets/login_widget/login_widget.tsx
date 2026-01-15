@@ -1,4 +1,5 @@
 import { type FC, useState } from "react";
+
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import styles from "./login_widget.module.scss";
