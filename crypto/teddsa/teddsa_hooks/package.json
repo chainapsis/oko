@@ -7,8 +7,7 @@
     "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.42",
     "@oko-wallet/teddsa-api-lib": "workspace:*",
-    "@oko-wallet/teddsa-interface": "workspace:*",
-    "@oko-wallet/teddsa-wasm-mock": "workspace:*"
+    "@oko-wallet/teddsa-interface": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^24.10.1",

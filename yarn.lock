@@ -11292,18 +11292,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/teddsa-hooks-mock@workspace:crypto/teddsa/teddsa_hooks_mock":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/teddsa-hooks-mock@workspace:crypto/teddsa/teddsa_hooks_mock"
-  dependencies:
-    "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
-    "@oko-wallet/teddsa-wasm-mock": "workspace:*"
-    "@types/node": "npm:^24.10.1"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/teddsa-hooks@workspace:*, @oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-hooks@workspace:crypto/teddsa/teddsa_hooks"
@@ -11313,19 +11301,7 @@ __metadata:
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
     "@oko-wallet/teddsa-api-lib": "workspace:*"
     "@oko-wallet/teddsa-interface": "workspace:*"
-    "@oko-wallet/teddsa-wasm-mock": "workspace:*"
     "@types/node": "npm:^24.10.1"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/teddsa-interface-mock@workspace:*, @oko-wallet/teddsa-interface-mock@workspace:crypto/teddsa/teddsa_interface_mock":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/teddsa-interface-mock@workspace:crypto/teddsa/teddsa_interface_mock"
-  dependencies:
-    "@types/node": "npm:^24.10.1"
-    del-cli: "npm:^6.0.0"
-    tsc-alias: "npm:^1.8.16"
     typescript: "npm:^5.8.3"
   languageName: unknown
   linkType: soft
@@ -11344,26 +11320,6 @@ __metadata:
     ts-jest: "npm:^29.4.0"
     tsc-alias: "npm:^1.8.16"
     typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/teddsa-keplr-addon-mock@workspace:crypto/teddsa/teddsa_keplr_addon_mock":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/teddsa-keplr-addon-mock@workspace:crypto/teddsa/teddsa_keplr_addon_mock"
-  dependencies:
-    "@oko-wallet/teddsa-interface-mock": "workspace:*"
-    "@types/node": "npm:^24.10.1"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/teddsa-wasm-mock@workspace:*, @oko-wallet/teddsa-wasm-mock@workspace:crypto/teddsa/teddsa_wasm_mock":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/teddsa-wasm-mock@workspace:crypto/teddsa/teddsa_wasm_mock"
-  dependencies:
-    "@types/node": "npm:^24.10.1"
-    typescript: "npm:^5.8.3"
-    wasm-pack: "npm:^0.13.1"
   languageName: unknown
   linkType: soft
 
@@ -40057,15 +40013,6 @@ __metadata:
   checksum: 10c0/ea2344e3d21936111176375bd6f34eba69a38ef1bc59434d523fd313166f8a28a47b0a847846c119f72dcf2c1e1231596d74ac3fcfc3cc73966b3d293a327269
   languageName: node
   linkType: hard
-
-"teddsa-addon@workspace:crypto/teddsa/teddsa_keplr_addon_mock/addon":
-  version: 0.0.0-use.local
-  resolution: "teddsa-addon@workspace:crypto/teddsa/teddsa_keplr_addon_mock/addon"
-  dependencies:
-    "@napi-rs/cli": "npm:^2.18.4"
-    ava: "npm:^6.0.1"
-  languageName: unknown
-  linkType: soft
 
 "temp-dir@npm:1.0.0":
   version: 1.0.0
