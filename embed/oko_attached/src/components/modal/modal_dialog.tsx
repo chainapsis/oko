@@ -124,7 +124,19 @@ export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
 
   return (
     <ErrorBoundary
-      fallbackRender={({ error }) => <ErrorModal error={error} />}
+      fallbackRender={({ error }) => (
+        <ErrorModal
+          error={{
+            modal_type: "other",
+            modal_id: payload.modal_id,
+            type: "error",
+            error: {
+              type: "unknown_error",
+              error,
+            },
+          }}
+        />
+      )}
       onError={(error) => error.message}
     >
       {component}

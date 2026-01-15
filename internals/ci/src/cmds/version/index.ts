@@ -8,7 +8,90 @@ import { doBuildPkgs } from "@oko-wallet-ci/cmds/build_pkgs";
 import { expectSuccess } from "@oko-wallet-ci/expect";
 import { doBuildSDK } from "@oko-wallet-ci/cmds/build_sdk";
 
-const WILD_CHARACTER_VERSION = "workspace:*";
+const WILDCARD_VERSION = "workspace:*";
+
+// TODO: Currently only support "prelease" version bump.
+// Later the "version" script will have variants such as "version_prelease".
+export async function version(args: any[]) {
+  console.log("Start versioning packages, args: %s", args);
+
+  console.log("Fetching the Git repository at 'origin' to sync with the local");
+  const fetchRet = spawnSync("git", ["fetch", "origin"], {
+    cwd: paths.root,
+    stdio: "inherit",
+  });
+  expectSuccess(fetchRet, "git fetch failed");
+
+  console.log("We will first re-build the packages\n");
+  await doBuildPkgs();
+  await doBuildSDK();
+
+  console.log("Checking type definition in sandbox simple host");
+  const testSandboxRet = spawnSync("yarn", ["tsc"], {
+    cwd: paths.sandbox_simple_host,
+    stdio: "inherit",
+  });
+  expectSuccess(testSandboxRet, "publish failed");
+  console.log("%s %s", chalk.green.bold("Ok"), "sandbox_simple_host");
+
+  const wsDeps = findWorkspaceDependencies();
+  if (wsDeps.length > 0) {
+    console.error(
+      "%s workspace versioning is prohibited for public packages",
+      chalk.red.bold("Error"),
+    );
+
+    for (const dep of wsDeps) {
+      console.log("pkg: %s, dep: %s: %s", dep.pkg, dep.depName, dep.version);
+    }
+    process.exit(1);
+  }
+
+  const changedRet = spawnSync("yarn", ["lerna", "changed", "--json"], {
+    cwd: paths.root,
+  });
+  const changedRaw = changedRet.stdout.toString().trim();
+
+  if (changedRaw.length > 0) {
+    let changed;
+    try {
+      changed = JSON.parse(changedRaw) as { name: string; version: string }[];
+
+      console.log("Following pkgs are changed (current version)");
+      for (const dep of changed) {
+        console.log("%s: %s", dep.name, dep.version);
+      }
+    } catch (err) {
+      console.log(
+        "%s parsing the changed pkgs, err: %s",
+        chalk.red.bold("Error"),
+        err,
+      );
+      process.exit(1);
+    }
+  }
+
+  const versionRet = spawnSync(
+    "yarn",
+    [
+      "lerna",
+      "version",
+      "prerelease",
+      "--no-private",
+      // "--no-git-tag-version",
+      // "--force-git-tag",
+      // "--no-push",
+      "--yes",
+      "--message",
+      "project: version bump to %s",
+    ],
+    {
+      cwd: paths.root,
+      stdio: "inherit",
+    },
+  );
+  expectSuccess(versionRet, "lerna version failed");
+}
 
 function getPackageJsonPaths(): string[] {
   const lernaJsonPath = path.join(paths.root, "lerna.json");
@@ -18,129 +101,121 @@ function getPackageJsonPaths(): string[] {
   return packages.map((pkg) => path.join(paths.root, pkg, "package.json"));
 }
 
-interface WorkspaceDepInfo {
-  filePath: string;
+interface DependencyInfo {
+  pkg: string;
   depName: string;
-  depVersion: string;
-}
-
-interface WorkspaceDep {
-  name: string;
   version: string;
 }
 
-function findWorkspaceDeps(pkg: Record<string, unknown>): WorkspaceDep[] {
+function findWorkspaceDependencies(): DependencyInfo[] {
+  const packageJsonPaths = getPackageJsonPaths();
   const depFields = [
     "dependencies",
     "devDependencies",
     "peerDependencies",
     "optionalDependencies",
   ];
-  const found: { name: string; version: string }[] = [];
 
-  for (const field of depFields) {
-    const deps = pkg[field] as Record<string, string>;
+  let wsDeps = [];
 
-    if (deps && typeof deps === "object") {
-      for (const [name, version] of Object.entries(deps)) {
-        if (
-          typeof version === "string" &&
-          version.startsWith(WILD_CHARACTER_VERSION)
-        ) {
-          found.push({ name, version });
-        }
-      }
-    }
-  }
-
-  return found;
-}
-
-function checkWorkspaceVersions() {
-  console.log('Checking for "workspace:" versions in publishable pkgs');
-
-  const packageJsonFiles = getPackageJsonPaths();
-  const issues: WorkspaceDepInfo[] = [];
-
-  for (const filePath of packageJsonFiles) {
+  for (const pkgPath of packageJsonPaths) {
     try {
-      const content = fs.readFileSync(filePath, "utf-8");
-      const pkg = JSON.parse(content);
+      const content = fs.readFileSync(pkgPath, "utf-8");
+      const pJson = JSON.parse(content);
 
-      if (pkg.private === true) {
+      if (pJson.private === true) {
         continue;
       }
 
-      const workspaceDeps = findWorkspaceDeps(pkg);
-      for (const dep of workspaceDeps) {
-        issues.push({ filePath, depName: dep.name, depVersion: dep.version });
+      for (const field of depFields) {
+        const deps = pJson[field];
+        if (!deps || typeof deps !== "object") {
+          continue;
+        }
+
+        for (const [depName, depVersion] of Object.entries(deps)) {
+          if (
+            typeof depVersion === "string" &&
+            depVersion.startsWith(WILDCARD_VERSION)
+          ) {
+            wsDeps.push({
+              pkg: pJson.name,
+              depName,
+              version: depVersion,
+            });
+          }
+        }
       }
     } catch (err) {
-      console.warn(
-        "%s failed to read %s, err: %s",
-        chalk.bold.red("error"),
-        filePath,
-        err instanceof Error ? err.message : err,
-      );
-
-      process.exit(1);
+      console.warn("Failed to check deps. pkg %s, err: %s", pkgPath, err);
     }
   }
 
-  if (issues.length > 0) {
-    console.error(
-      `%s Found "workspace:" versions in publishable packages`,
-      chalk.bold.red("error"),
-    );
+  return wsDeps;
+}
 
-    for (const issue of issues) {
-      console.error(
-        `   ${issue.filePath}: ${issue.depName} -> ${issue.depVersion}`,
-      );
+// NOTE: Now unused, but may change later
+function createGitCommitAndTags(
+  changedPackages: Array<{ name: string; version: string }>,
+) {
+  console.log("Creating git commit and tags...");
+
+  if (changedPackages.length === 0) {
+    console.log("No packages were changed, skipping commit and tags");
+    return;
+  }
+
+  // Stage all changes
+  const addRet = spawnSync("git", ["add", "."], {
+    cwd: paths.root,
+    stdio: "inherit",
+  });
+  expectSuccess(addRet, "git add failed");
+
+  // Build commit message with version info
+  const versionList = changedPackages
+    .map((pkg) => `- ${pkg.name}@${pkg.version}`)
+    .join("\n");
+  const commitMessage = `chore: publish
+
+${versionList}`;
+
+  // Create commit
+  const commitRet = spawnSync("git", ["commit", "-m", commitMessage], {
+    cwd: paths.root,
+    stdio: "inherit",
+  });
+  expectSuccess(commitRet, "git commit failed");
+
+  // Create tags only for changed packages
+  for (const pkg of changedPackages) {
+    const tag = `${pkg.name}@${pkg.version}`;
+    console.log("  Creating tag: %s", tag);
+    const tagRet = spawnSync("git", ["tag", "-a", tag, "-m", tag], {
+      cwd: paths.root,
+      stdio: "inherit",
+    });
+    if (tagRet.status !== 0) {
+      console.warn("  Tag %s already exists, skipping", tag);
     }
-
-    console.error(
-      `Please replace wildcard versions ("%s") with actual version numbers 
-beforeversioning.`,
-      WILD_CHARACTER_VERSION,
-    );
-
-    process.exit(1);
   }
 
   console.log(
-    `%s No "workspace:" versions found in publishable packages`,
-    chalk.bold.green("Done"),
+    "%s Created commit and %d tags",
+    chalk.green.bold("Done"),
+    changedPackages.length,
   );
-}
 
-export async function version(..._args: any[]) {
-  console.log("Start versioning packages");
-
-  checkWorkspaceVersions();
-
-  console.log("We will re-build the packages now just to make sure\n");
-
-  await doBuildPkgs();
-  await doBuildSDK();
-
-  console.log("Testing type definition in sandbox simple host");
-  const testSandboxRet = spawnSync("yarn", ["tsc"], {
-    cwd: paths.sandbox_simple_host,
-    stdio: "inherit",
-  });
-  expectSuccess(testSandboxRet, "publish failed");
-  console.log("%s %s", chalk.green.bold("Ok"), "sandbox_simple_host");
-
-  console.log("Fetching the Git repository at 'origin' to sync with the local");
-  const fetchRet = spawnSync("git", ["fetch", "origin"], {
-    cwd: paths.root,
-    stdio: "inherit",
-  });
-  expectSuccess(fetchRet, "publish failed");
-
-  spawnSync("yarn", ["lerna", "version", "--no-private"], {
-    cwd: paths.root,
-    stdio: "inherit",
-  });
+  // Push commit and tags to remote
+  console.log("Pushing commit and tags to origin...");
+  const pushRet = spawnSync(
+    "git",
+    ["push", "-u", "origin", "HEAD", "--follow-tags"],
+    {
+      cwd: paths.root,
+      stdio: "inherit",
+    },
+  );
+  expectSuccess(pushRet, "git push failed");
+  console.log("%s Pushed to origin", chalk.green.bold("Done"));
 }
