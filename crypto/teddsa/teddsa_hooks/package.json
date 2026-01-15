@@ -3,8 +3,9 @@
   "main": "./src/index.ts",
   "version": "0.1.0",
   "dependencies": {
-    "@oko-wallet/bytes": "^0.0.3-alpha.65",
+    "@oko-wallet/bytes": "^0.1.2-alpha.1",
     "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*",
+    "@oko-wallet/oko-types": "^0.1.2-alpha.1",
     "@oko-wallet/stdlib-js": "^0.0.2-rc.42",
     "@oko-wallet/teddsa-api-lib": "workspace:*",
     "@oko-wallet/teddsa-interface": "workspace:*"

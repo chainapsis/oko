@@ -1,4 +1,4 @@
-import { CommitmentEntry, SignatureShareEntry } from "@oko-wallet-types/teddsa";
+import type { CommitmentEntry, SignatureShareEntry } from "@oko-wallet-types/teddsa";
 
 export interface SignEd25519Round1Request {
   email: string;

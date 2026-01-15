@@ -145,6 +145,8 @@ export function createMockOkoWallet(
 
     completeEmailSignIn: async () => {},
 
+    openSignInModal: async () => {},
+
     on: (handlerDef) => {
       // No-op for tests
     },
