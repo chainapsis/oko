@@ -23,7 +23,7 @@ async function main() {
 
   command.command("typecheck").action(typeCheck);
 
-  command.command("version").action(version);
+  command.command("version [args...]").action(version);
 
   command.command("publish").action(publish);
 
