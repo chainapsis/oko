@@ -10084,7 +10084,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/api-lib@workspace:crypto/tecdsa/api_lib"
   dependencies:
-    "@oko-wallet/oko-types": "npm:^0.0.1-alpha.4"
+    "@oko-wallet/oko-types": "npm:^0.0.1-alpha.5"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
     "@types/react-dom": "npm:^19.2.3"
@@ -11312,6 +11312,7 @@ __metadata:
     "@jest/globals": "npm:^29.7.0"
     "@oko-wallet/bytes": "npm:^0.0.3-alpha.65"
     "@oko-wallet/frost-ed25519-keplr-wasm": "workspace:*"
+    "@oko-wallet/oko-types": "npm:^0.0.1-alpha.4"
     "@types/jest": "npm:^29.5.14"
     "@types/node": "npm:^24.10.1"
     del-cli: "npm:^6.0.0"
