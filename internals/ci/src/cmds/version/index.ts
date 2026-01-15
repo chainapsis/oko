@@ -10,6 +10,8 @@ import { doBuildSDK } from "@oko-wallet-ci/cmds/build_sdk";
 
 const WILDCARD_VERSION = "workspace:*";
 
+// TODO: Currently only support "prelease" version bump.
+// Later the "version" script will have variants such as "version_prelease".
 export async function version(args: any[]) {
   console.log("Start versioning packages, args: %s", args);
 
