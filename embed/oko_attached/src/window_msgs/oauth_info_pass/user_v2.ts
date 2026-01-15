@@ -1,16 +1,10 @@
 import type {
   CheckEmailRequest,
-  CheckEmailResponse,
   CheckEmailResponseV2,
-  SignInResponse,
   SignInResponseV2,
 } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type {
-  KeygenRequestBody,
-  KeyShareNodeMetaWithNodeStatusInfo,
-  WalletKSNodeStatus,
-} from "@oko-wallet/oko-types/tss";
+import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
@@ -19,21 +13,12 @@ import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
 import {
   makeAuthorizedOkoApiRequest,
   makeOkoApiRequest,
-  TSS_V1_ENDPOINT,
-  SOCIAL_LOGIN_V1_ENDPOINT,
   TSS_V2_ENDPOINT,
 } from "@oko-wallet-attached/requests/oko_api";
 import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
-import type {
-  UserSignInResult,
-  UserSignInResultV2,
-} from "@oko-wallet-attached/window_msgs/types";
+import type { UserSignInResultV2 } from "@oko-wallet-attached/window_msgs/types";
 import type { FetchError } from "@oko-wallet-attached/requests/types";
 import { reshareUserKeyShares } from "@oko-wallet-attached/crypto/reshare";
-import {
-  doSendUserKeyShares,
-  requestSplitShares,
-} from "@oko-wallet-attached/requests/ks_node";
 import {
   requestKeySharesV2,
   registerKeySharesV2,
@@ -51,14 +36,10 @@ import {
   serializePublicKeyPackage,
 } from "@oko-wallet/teddsa-hooks";
 import { reqKeygenEd25519 } from "@oko-wallet/teddsa-api-lib";
-import { reqKeygen, reqKeygenV2 } from "@oko-wallet/api-lib";
-import { Bytes } from "@oko-wallet/bytes";
+import { reqKeygenV2 } from "@oko-wallet/api-lib";
 
 import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
-import {
-  teddsaKeygenToHex,
-  type KeyPackageEd25519Hex,
-} from "@oko-wallet-attached/crypto/keygen_ed25519";
+import { teddsaKeygenToHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
 import { saveReferral } from "./user";
 
 /**
