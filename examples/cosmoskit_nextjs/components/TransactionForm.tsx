@@ -132,7 +132,7 @@ export default function TransactionForm({ className }: TransactionFormProps) {
             exact: true,
           });
         }
-      } catch (err) {
+      } catch (_err) {
         // keep polling
       }
     }, 2000);

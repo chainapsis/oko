@@ -143,7 +143,7 @@ export const useSDKState = create(
       }
     },
     initOkoSol: async () => {
-      const state = get();
+      // const state = get();
 
       // if (state.oko_sol || state.isSolInitializing) {
       //   console.log("Sol SDK already initialized or initializing, skipping...");

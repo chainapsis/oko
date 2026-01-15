@@ -94,7 +94,15 @@ export function useTxSigModal(args: UseEthereumSigModalArgs) {
         },
       });
     }
-  }, [isSupportedChain, isSupportChecked]);
+  }, [
+    isSupportedChain,
+    isSupportChecked,
+    chainInfo.chain_id,
+    chainInfo.chain_name,
+    chainInfo.chain_symbol_image_url,
+    modalId,
+    setError,
+  ]);
 
   const publicClient = evmChain
     ? createPublicClient({
@@ -304,7 +312,7 @@ export function useTxSigModal(args: UseEthereumSigModalArgs) {
       feeCurrencyBalance.amount >= totalValue;
 
     setHasSufficientBalanceForTotal(hasSufficientBalanceForTotal);
-  }, [estimatedFee, feeCurrencyBalance, originalTransaction]);
+  }, [estimatedFee, feeCurrencyBalance, originalTransaction, isDemo]);
 
   // set the primary error message
   useEffect(() => {
@@ -373,6 +381,7 @@ export function useTxSigModal(args: UseEthereumSigModalArgs) {
     getFeeCurrencyBalanceError,
     getL1GasEstimationError,
     hasSufficientBalanceForTotal,
+    isDemo,
   ]);
 
   function onReject() {

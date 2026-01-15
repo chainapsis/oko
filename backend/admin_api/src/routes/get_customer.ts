@@ -3,7 +3,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { Customer } from "@oko-wallet/oko-types/customers";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getCustomerById } from "@oko-wallet-admin-api/api/customer";
 
 export async function get_customer(

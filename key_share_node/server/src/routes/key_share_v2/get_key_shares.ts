@@ -1,4 +1,4 @@
-import { type Response } from "express";
+import type { Response } from "express";
 import type {
   GetKeyShareV2Request,
   GetKeyShareV2RequestBody,
@@ -8,7 +8,7 @@ import { Bytes } from "@oko-wallet/bytes";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
 import { getKeyShareV2 } from "@oko-wallet-ksn-server/api/key_share";
-import { type AuthenticatedRequest } from "@oko-wallet-ksn-server/middlewares";
+import type { AuthenticatedRequest } from "@oko-wallet-ksn-server/middlewares";
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
 import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
 import { registry } from "@oko-wallet-ksn-server/openapi/doc";

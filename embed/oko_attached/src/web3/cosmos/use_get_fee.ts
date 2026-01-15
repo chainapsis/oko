@@ -74,7 +74,9 @@ export function useGetFee({ signDocJson, chainInfo }: UseGetFeeParams) {
   }, [signDocJson]);
 
   const localCurrency = useMemo(() => {
-    if (!feeCoin) return undefined;
+    if (!feeCoin) {
+      return undefined;
+    }
 
     return (
       chainInfo?.fee_currencies?.find(
@@ -91,10 +93,14 @@ export function useGetFee({ signDocJson, chainInfo }: UseGetFeeParams) {
   });
 
   const feePretty = useMemo(() => {
-    if (!feeCoin) return undefined;
+    if (!feeCoin) {
+      return undefined;
+    }
 
     const currency = localCurrency || fetchedCurrency;
-    if (!currency) return undefined;
+    if (!currency) {
+      return undefined;
+    }
 
     return new CoinPretty(currency, new Dec(feeCoin.amount));
   }, [feeCoin, localCurrency, fetchedCurrency]);

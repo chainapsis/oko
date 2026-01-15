@@ -13,7 +13,7 @@ import type {
 } from "@oko-wallet/oko-types/tss";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
+import type { OAuthSignInError } from "@oko-wallet/oko-sdk-core";
 
 import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
 import {
@@ -263,7 +263,7 @@ user pk: ${signInResp.user.public_key}`,
 
   // 4. Ed25519 keygen for Solana support (if user doesn't have Ed25519 wallet yet)
   // This is non-blocking - failure doesn't fail the entire sign-in
-  let keyPackageEd25519: KeyPackageEd25519Hex | null = null;
+  let _keyPackageEd25519: KeyPackageEd25519Hex | null = null;
   // Track updated JWT token (with wallet_id_ed25519) from Ed25519 keygen
   let updatedJwtToken: string | null = null;
   try {
@@ -293,7 +293,7 @@ user pk: ${signInResp.user.public_key}`,
       if (serverRes.ok) {
         const serverData = await serverRes.json();
         if (serverData.success) {
-          keyPackageEd25519 = teddsaKeygenToHex(ed25519Keygen1);
+          _keyPackageEd25519 = teddsaKeygenToHex(ed25519Keygen1);
           // Capture new JWT that includes wallet_id_ed25519
           updatedJwtToken = serverData.data.token;
           console.log("[attached] Ed25519 keygen successful for existing user");
@@ -662,7 +662,7 @@ export async function handleNewUser(
 
   // Ed25519 keygen (for Solana support)
   // This is non-blocking - failure doesn't fail the entire sign-in
-  let keyPackageEd25519: KeyPackageEd25519Hex | null = null;
+  let _keyPackageEd25519: KeyPackageEd25519Hex | null = null;
   // Track updated JWT token (with wallet_id_ed25519) from Ed25519 keygen
   let updatedJwtToken: string | null = null;
   try {
@@ -692,7 +692,7 @@ export async function handleNewUser(
       if (serverRes.ok) {
         const serverData = await serverRes.json();
         if (serverData.success) {
-          keyPackageEd25519 = teddsaKeygenToHex(ed25519Keygen1);
+          _keyPackageEd25519 = teddsaKeygenToHex(ed25519Keygen1);
           // Capture new JWT that includes wallet_id_ed25519
           updatedJwtToken = serverData.data.token;
           console.log("[attached] Ed25519 keygen successful");

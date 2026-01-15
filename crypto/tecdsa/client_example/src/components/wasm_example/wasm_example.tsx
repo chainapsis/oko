@@ -10,7 +10,7 @@ import { Workflow } from "../workflow/workflow";
 
 export const WasmExample = () => {
   const [isInitialized, setIsInitialized] = useState(false);
-  const [result, setResult] = useState<any>(null);
+  const [_result, _setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {

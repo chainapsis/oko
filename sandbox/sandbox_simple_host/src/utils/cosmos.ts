@@ -9,9 +9,7 @@ import { PubKey } from "@keplr-wallet/proto-types/cosmos/crypto/secp256k1/keys";
 import { SignMode } from "@keplr-wallet/proto-types/cosmos/tx/signing/v1beta1/signing";
 import { SigningStargateClient } from "@cosmjs/stargate";
 import type { Coin } from "@keplr-wallet/proto-types/cosmos/base/v1beta1/coin";
-import type {
-  OkoCosmosWalletInterface,
-} from "@oko-wallet/oko-sdk-cosmos";
+import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
 import { makeSignDoc as makeAminoSignDoc } from "@cosmjs/amino";
 
 import { TEST_COSMOS_CHAIN_ID, TEST_COSMOS_CHAIN_RPC } from "@/constants";
@@ -113,7 +111,7 @@ export async function makeMockSendTokenProtoSignDoc(
 
 export async function makeMockSendTokenAminoSignDoc(
   okoCosmosWallet: OkoCosmosWalletInterface,
-  coin: Coin = {
+  _coin: Coin = {
     denom: "uosmo",
     amount: "10",
   },

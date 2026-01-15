@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 
 import { TxContainer } from "../common/tx_container";
 import { TokenInfo } from "../common/token_info";

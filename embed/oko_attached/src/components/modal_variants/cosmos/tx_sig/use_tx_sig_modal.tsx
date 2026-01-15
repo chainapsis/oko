@@ -275,7 +275,7 @@ function extractFeeFromSignDoc(
     if (signDoc.fee.amount.length === 0) {
       return {
         fee: undefined,
-        gas: parseInt(signDoc.fee.gas),
+        gas: parseInt(signDoc.fee.gas, 10),
       };
     }
     return {
@@ -283,7 +283,7 @@ function extractFeeFromSignDoc(
         amount: signDoc.fee.amount[0].amount,
         denom: signDoc.fee.amount[0].denom,
       },
-      gas: parseInt(signDoc.fee.gas),
+      gas: parseInt(signDoc.fee.gas, 10),
     };
   }
 
@@ -294,7 +294,7 @@ function extractFeeFromSignDoc(
   if (authInfo.fee.amount.length === 0) {
     return {
       fee: undefined,
-      gas: parseInt(authInfo.fee.gasLimit),
+      gas: parseInt(authInfo.fee.gasLimit, 10),
     };
   }
   return {
@@ -302,7 +302,7 @@ function extractFeeFromSignDoc(
       amount: authInfo.fee.amount[0].amount,
       denom: authInfo.fee.amount[0].denom,
     },
-    gas: parseInt(authInfo.fee.gasLimit),
+    gas: parseInt(authInfo.fee.gasLimit, 10),
   };
 }
 

@@ -11,7 +11,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import Button from "./Button";
 import { useChain } from "@interchain-kit/react";
-import { OfflineSigner } from "@cosmjs/proto-signing";
+import type { OfflineSigner } from "@cosmjs/proto-signing";
 
 interface TransactionFormProps {
   className?: string;
@@ -131,7 +131,7 @@ export default function TransactionForm({ className }: TransactionFormProps) {
             exact: true,
           });
         }
-      } catch (err) {
+      } catch (_err) {
         // keep polling
       }
     }, 2000);

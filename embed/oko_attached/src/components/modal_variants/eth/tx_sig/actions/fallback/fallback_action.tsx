@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import type { RenderContext, EthTxAction } from "../types";

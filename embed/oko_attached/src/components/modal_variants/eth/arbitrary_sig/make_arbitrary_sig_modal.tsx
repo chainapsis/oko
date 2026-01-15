@@ -64,7 +64,7 @@ export const MakeArbitrarySigModal: FC<MakeArbitrarySigModalProps> = ({
         </div>
 
         <div className={styles.modalInnerContentContainer}>
-          {!!siweMessage ? (
+          {siweMessage ? (
             <EthereumSiweSignatureContent
               payload={data.payload}
               theme={theme}

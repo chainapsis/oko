@@ -3,7 +3,7 @@ import type {
   CustomerWithAPIKeys,
   GetCustomerRequest,
 } from "@oko-wallet/oko-types/customers";
-import { type Customer } from "@oko-wallet/oko-types/customers";
+import type { Customer } from "@oko-wallet/oko-types/customers";
 
 import {
   getCustomer,

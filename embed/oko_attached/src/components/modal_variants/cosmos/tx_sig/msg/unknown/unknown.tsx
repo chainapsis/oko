@@ -18,7 +18,9 @@ export const UnknownMessage: FC<UnknownMessageProps> = ({ msg }) => {
   useEffect(() => {
     const rootEl = contentRef.current;
     const sentinelEl = sentinelRef.current;
-    if (!rootEl || !sentinelEl) return;
+    if (!rootEl || !sentinelEl) {
+      return;
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -32,7 +34,7 @@ export const UnknownMessage: FC<UnknownMessageProps> = ({ msg }) => {
     );
     observer.observe(sentinelEl);
     return () => observer.disconnect();
-  }, [defaultMsg]);
+  }, []);
 
   const handleCollapse = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
     e.stopPropagation();

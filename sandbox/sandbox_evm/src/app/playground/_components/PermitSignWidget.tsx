@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Address, Hex } from "viem";
+import type { Address, Hex } from "viem";
 import { useAccount, useWalletClient, useChainId } from "wagmi";
 
 import { usePermit } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth/usePermit";
@@ -39,7 +39,9 @@ export function PermitSignWidget() {
   });
 
   const handlePermitSign = async () => {
-    if (!walletClient || !address) return;
+    if (!walletClient || !address) {
+      return;
+    }
     try {
       setIsPermitSigning(true);
       const deadlineSeconds = permitDeadline.trim()
@@ -56,14 +58,18 @@ export function PermitSignWidget() {
   };
 
   const copyPermitSignature = async () => {
-    if (!permitSignature) return;
+    if (!permitSignature) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(permitSignature);
     } catch {}
   };
 
   const copyPermitTypedData = async () => {
-    if (!signedTypedData) return;
+    if (!signedTypedData) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(signedTypedData);
     } catch {}

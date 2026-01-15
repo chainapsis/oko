@@ -17,7 +17,7 @@ import {
   TssStageType,
 } from "@oko-wallet/oko-types/tss";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import {
   runPresignServerStep1,
   runPresignServerStep2,

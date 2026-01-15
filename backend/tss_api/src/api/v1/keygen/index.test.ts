@@ -1,9 +1,9 @@
 import { jest } from "@jest/globals";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import {
-  type KeygenRequest,
-  type WalletKSNodeWithNodeNameAndServerUrl,
+import type {
+  KeygenRequest,
+  WalletKSNodeWithNodeNameAndServerUrl,
 } from "@oko-wallet/oko-types/tss";
 import { Participant } from "@oko-wallet/tecdsa-interface";
 import { napiRunKeygenClientCentralized } from "@oko-wallet/cait-sith-keplr-addon/addon";

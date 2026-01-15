@@ -41,7 +41,7 @@ export async function runPresign(
   authToken: string,
   getIsAborted: () => boolean,
 ): Promise<Result<PresignOutput, RunPresignError>> {
-  let currentAuthToken = authToken;
+  const currentAuthToken = authToken;
 
   // const handleTokenRefresh = (newToken: string) => {
   //   if (currentAuthToken !== newToken) {

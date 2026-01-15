@@ -1,4 +1,4 @@
-import {
+import type {
   TECDSAClientState,
   PresignStep1V2Request,
   PresignStep2V2Request,

@@ -1,5 +1,5 @@
 import type { Pool } from "pg";
-import { type PgDumpConfig } from "@oko-wallet/ksn-pg-interface";
+import type { PgDumpConfig } from "@oko-wallet/ksn-pg-interface";
 
 import { sleep } from "@oko-wallet-ksn-server/utils/time";
 import { deleteOldPgDumps, processPgDump } from "./dump";

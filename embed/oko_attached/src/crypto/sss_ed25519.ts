@@ -57,8 +57,12 @@ export async function splitTeddsaSigningShare(
           32,
         );
 
-        if (!idBytes.success) throw new Error(idBytes.err);
-        if (!shareBytes.success) throw new Error(shareBytes.err);
+        if (!idBytes.success) {
+          throw new Error(idBytes.err);
+        }
+        if (!shareBytes.success) {
+          throw new Error(shareBytes.err);
+        }
 
         return {
           node: {

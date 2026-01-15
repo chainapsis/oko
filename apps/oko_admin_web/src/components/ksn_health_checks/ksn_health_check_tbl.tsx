@@ -36,7 +36,7 @@ const columns = [
 ];
 
 export const KSNHealthCheckTable: FC = () => {
-  const [pagination, setPagination] = useState<PaginationState>({
+  const [pagination, _setPagination] = useState<PaginationState>({
     pageIndex: 0,
     pageSize: 20,
   });

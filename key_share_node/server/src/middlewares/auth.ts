@@ -99,7 +99,7 @@ export async function bearerTokenMiddleware(
         let userData: TelegramUserData;
         try {
           userData = JSON.parse(bearerToken) as TelegramUserData;
-        } catch (error) {
+        } catch (_error) {
           const errorRes: KSNodeApiErrorResponse = {
             success: false,
             code: "UNAUTHORIZED",

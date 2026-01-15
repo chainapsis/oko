@@ -152,7 +152,7 @@ describe("getKey", () => {
   it("should verify key structure for ethereum-compatible chain", async () => {
     mockGetPublicKey.mockResolvedValue(initiaPublicKey);
 
-    const result = await getKey.call(mockOkoCosmos, "interwoven-1");
+    // const result = await getKey.call(mockOkoCosmos, "interwoven-1");
 
     // Verify ethereum-specific properties
     // expect(result.algo).toBe("ethsecp256k1");

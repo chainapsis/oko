@@ -1,12 +1,12 @@
-import { Pool, type PoolClient } from "pg";
+import type { Pool, PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import type { Result } from "@oko-wallet/stdlib-js";
-import {
-  type WalletStatus,
-  type CreateWalletRequest,
-  type Wallet,
-  type WalletWithEmail,
-  type WalletWithEmailAndKSNodes,
+import type {
+  WalletStatus,
+  CreateWalletRequest,
+  Wallet,
+  WalletWithEmail,
+  WalletWithEmailAndKSNodes,
 } from "@oko-wallet/oko-types/wallets";
 import type { CurveType } from "@oko-wallet/oko-types/crypto";
 
@@ -239,7 +239,7 @@ SELECT COUNT(*) FROM oko_wallets
 
     return {
       success: true,
-      data: parseInt(result.rows[0].count),
+      data: parseInt(result.rows[0].count, 10),
     };
   } catch (error) {
     return {

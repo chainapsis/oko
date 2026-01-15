@@ -31,7 +31,7 @@ export async function telegramAuthMiddleware(
   let userData: TelegramUserData;
   try {
     userData = JSON.parse(bearerToken) as TelegramUserData;
-  } catch (error) {
+  } catch (_error) {
     res.status(401).json({
       error: "Invalid token format: Expected JSON string",
     });

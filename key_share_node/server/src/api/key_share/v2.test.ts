@@ -1,8 +1,5 @@
-import { Pool } from "pg";
-import {
-  createUser,
-  createWallet,
-} from "@oko-wallet/ksn-pg-interface";
+import type { Pool } from "pg";
+import { createUser, createWallet } from "@oko-wallet/ksn-pg-interface";
 import {
   Bytes,
   type Bytes32,
@@ -30,7 +27,7 @@ const TEST_SECP256K1_PK_2 =
   "028812785B3F855F677594A6FEB76CA3FD39F2CA36AC5A8454A1417C4232AC5600";
 const TEST_ED25519_PK =
   "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a";
-const TEST_ED25519_PK_2 =
+const _TEST_ED25519_PK_2 =
   "e75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511b";
 
 // Test user auth IDs (Google ID token sub format)

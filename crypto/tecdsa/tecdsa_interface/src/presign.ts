@@ -1,6 +1,6 @@
 import type { KeygenOutput } from "./keygen";
 import type { TriplePub, TriplesShare } from "./triples";
-import { Participant } from "./participant";
+import type { Participant } from "./participant";
 
 export interface PresignState {
   threshold: number;

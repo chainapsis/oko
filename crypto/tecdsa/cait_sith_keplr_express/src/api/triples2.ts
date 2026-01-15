@@ -1,4 +1,4 @@
-import { Router } from "express";
+import type { Router } from "express";
 import type {
   TriplePub,
   Triples2Step10Response,
@@ -437,7 +437,9 @@ export function setTriplesRoutes2(router: Router) {
 }
 
 function isPubVEqual(a: TriplePub[], b: TriplePub[]): boolean {
-  if (a.length !== b.length) return false;
+  if (a.length !== b.length) {
+    return false;
+  }
 
   for (let i = 0; i < a.length; i++) {
     const pubA = a[i];

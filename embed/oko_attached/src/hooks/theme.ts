@@ -53,7 +53,7 @@ export function useSetThemeInCallback(providerType: AuthType) {
     }
 
     fn();
-  }, []);
+  }, [getTheme, providerType]);
 
   return _theme;
 }

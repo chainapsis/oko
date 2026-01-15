@@ -1,7 +1,7 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import type { Msg } from "@keplr-wallet/types";
 import { Bech32Address } from "@keplr-wallet/cosmos";
-import { MsgSend as ThorMsgSend } from "@keplr-wallet/proto-types/thorchain/v1/types/msg_send";
+import type { MsgSend as ThorMsgSend } from "@keplr-wallet/proto-types/thorchain/v1/types/msg_send";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import styles from "./messages.module.scss";
@@ -35,7 +35,7 @@ export function renderProtoMessage(
   index: number,
 ) {
   switch (msg.typeUrl) {
-    case "/cosmos.bank.v1beta1.MsgSend":
+    case "/cosmos.bank.v1beta1.MsgSend": {
       const unpacked = msg.unpacked as SendMsg;
       return (
         <SendMessagePretty
@@ -45,6 +45,7 @@ export function renderProtoMessage(
           toAddress={unpacked.to_address}
         />
       );
+    }
 
     case "/types.MsgSend":
       return (

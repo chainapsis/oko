@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type {
   SignEd25519Round1Request,
   SignEd25519Round2Request,
@@ -75,7 +75,7 @@ async function setUpEd25519Wallet(pool: Pool): Promise<TestSetupResult> {
   const serverKeygenOutput = keygenResult.keygen_outputs[Participant.P1];
 
   // Set up KS nodes and metadata
-  const ksNodeIds = await setUpKSNodes(pool);
+  const _ksNodeIds = await setUpKSNodes(pool);
   await insertKeyShareNodeMeta(pool, {
     sss_threshold: SSS_THRESHOLD,
   });
@@ -269,7 +269,9 @@ describe("Ed25519 Signing", () => {
         round1Request,
       );
       expect(round1Result.success).toBe(true);
-      if (!round1Result.success) throw new Error("Round 1 failed");
+      if (!round1Result.success) {
+        throw new Error("Round 1 failed");
+      }
 
       // Client generates their round 1 output
       const clientRound1 = clientRunSignRound1Ed25519(
@@ -321,7 +323,7 @@ describe("Ed25519 Signing", () => {
     it("should fail with invalid session_id", async () => {
       const { walletId, customerId, clientKeygenOutput } =
         await setUpEd25519Wallet(pool);
-      const testMessage = new TextEncoder().encode("Test message");
+      const _testMessage = new TextEncoder().encode("Test message");
 
       const clientRound1 = clientRunSignRound1Ed25519(
         new Uint8Array(clientKeygenOutput.key_package),
@@ -366,7 +368,9 @@ describe("Ed25519 Signing", () => {
         round1Request,
       );
       expect(round1Result.success).toBe(true);
-      if (!round1Result.success) throw new Error("Round 1 failed");
+      if (!round1Result.success) {
+        throw new Error("Round 1 failed");
+      }
 
       const clientRound1 = clientRunSignRound1Ed25519(
         new Uint8Array(clientKeygenOutput.key_package),
@@ -428,7 +432,9 @@ describe("Ed25519 Signing", () => {
         msg: [...testMessage],
       });
       expect(round1Res.success).toBe(true);
-      if (!round1Res.success) throw new Error("Round 1 failed");
+      if (!round1Res.success) {
+        throw new Error("Round 1 failed");
+      }
 
       const clientR1 = clientRunSignRound1Ed25519(
         new Uint8Array(clientKeygenOutput.key_package),
@@ -452,7 +458,9 @@ describe("Ed25519 Signing", () => {
         },
       });
       expect(round2Res.success).toBe(true);
-      if (!round2Res.success) throw new Error("Round 2 failed");
+      if (!round2Res.success) {
+        throw new Error("Round 2 failed");
+      }
 
       const clientR2 = clientRunSignRound2Ed25519(
         testMessage,
@@ -562,7 +570,9 @@ describe("Ed25519 Signing", () => {
         round1Request,
       );
       expect(serverRound1Result.success).toBe(true);
-      if (!serverRound1Result.success) throw new Error("Server Round 1 failed");
+      if (!serverRound1Result.success) {
+        throw new Error("Server Round 1 failed");
+      }
 
       const clientRound1 = clientRunSignRound1Ed25519(
         new Uint8Array(clientKeygenOutput.key_package),
@@ -596,7 +606,9 @@ describe("Ed25519 Signing", () => {
         round2Request,
       );
       expect(serverRound2Result.success).toBe(true);
-      if (!serverRound2Result.success) throw new Error("Server Round 2 failed");
+      if (!serverRound2Result.success) {
+        throw new Error("Server Round 2 failed");
+      }
 
       const clientRound2 = clientRunSignRound2Ed25519(
         testMessage,
@@ -676,7 +688,9 @@ describe("Ed25519 Signing", () => {
       await insertKeyShareNodeMeta(pool, { sss_threshold: SSS_THRESHOLD });
 
       const createUserRes = await createUser(pool, TEST_EMAIL, "google");
-      if (!createUserRes.success) throw new Error("Failed to create user");
+      if (!createUserRes.success) {
+        throw new Error("Failed to create user");
+      }
 
       const encryptedShare = await encryptDataAsync(
         JSON.stringify({ private_share: "test", public_key: "test" }),
@@ -691,7 +705,9 @@ describe("Ed25519 Signing", () => {
         sss_threshold: SSS_THRESHOLD,
         status: "ACTIVE" as WalletStatus,
       });
-      if (!createWalletRes.success) throw new Error("Failed to create wallet");
+      if (!createWalletRes.success) {
+        throw new Error("Failed to create wallet");
+      }
 
       const aggregateRequest: SignEd25519AggregateRequest = {
         email: TEST_EMAIL,
@@ -762,7 +778,9 @@ describe("Ed25519 Signing", () => {
           msg: [...message],
         });
         expect(round1Res.success).toBe(true);
-        if (!round1Res.success) continue;
+        if (!round1Res.success) {
+          continue;
+        }
 
         const clientR1 = clientRunSignRound1Ed25519(
           new Uint8Array(clientKeygenOutput.key_package),
@@ -790,7 +808,9 @@ describe("Ed25519 Signing", () => {
           },
         });
         expect(round2Res.success).toBe(true);
-        if (!round2Res.success) continue;
+        if (!round2Res.success) {
+          continue;
+        }
 
         const clientR2 = clientRunSignRound2Ed25519(
           message,
@@ -838,7 +858,9 @@ describe("Ed25519 Signing", () => {
           user_verifying_share: userKeyPackageShares.verifying_share,
         });
         expect(aggRes.success).toBe(true);
-        if (!aggRes.success) continue;
+        if (!aggRes.success) {
+          continue;
+        }
 
         // Verify stage status is COMPLETED after aggregate
         const getStageAfterAggRes = await getTssStageWithSessionData(

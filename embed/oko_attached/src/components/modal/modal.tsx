@@ -34,7 +34,7 @@ export const Modal: FC = () => {
         clearError();
         return;
       } else {
-        let payload: OpenModalAckPayload = {
+        const payload: OpenModalAckPayload = {
           modal_type,
           modal_id,
           type: "reject",

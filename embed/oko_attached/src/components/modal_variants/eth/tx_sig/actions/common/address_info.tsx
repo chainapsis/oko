@@ -1,7 +1,7 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
-import { type Address } from "viem";
+import type { Address } from "viem";
 
 import styles from "./address_info.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";

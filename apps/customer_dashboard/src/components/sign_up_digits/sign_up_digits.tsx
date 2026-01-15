@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC } from "react";
+import type { FC } from "react";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 

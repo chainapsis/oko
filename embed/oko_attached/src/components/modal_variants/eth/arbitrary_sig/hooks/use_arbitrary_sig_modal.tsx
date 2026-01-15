@@ -58,7 +58,15 @@ export function useArbitrarySigModal(args: UseEthereumSigModalArgs) {
         },
       });
     }
-  }, [isSupportedChain, isSupportChecked]);
+  }, [
+    isSupportedChain,
+    isSupportChecked,
+    data.payload.chain_info.chain_id,
+    data.payload.chain_info.chain_name,
+    data.payload.chain_info.chain_symbol_image_url,
+    modalId,
+    setError,
+  ]);
 
   function onReject() {
     const ack: OpenModalAckPayload = {

@@ -1,4 +1,4 @@
-import { type FunctionComponent as FC, type JSX } from "preact";
+import type { FunctionComponent as FC, JSX } from "preact";
 import { useState, useEffect, useMemo } from "preact/hooks";
 
 import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";

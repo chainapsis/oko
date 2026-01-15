@@ -46,7 +46,9 @@ export const useAssetMetaStore = create(
       findAssetMeta: ({ chainIdentifier, denom }) => {
         const meta = get().assetMetaMap[keyOf(chainIdentifier, denom)];
 
-        if (!meta) return undefined;
+        if (!meta) {
+          return undefined;
+        }
 
         const currency: Currency = {
           coinDenom: meta.symbol,
@@ -68,7 +70,7 @@ export const useAssetMetaStore = create(
             },
           );
 
-          let next: AssetMetaMap = { ...current };
+          const next: AssetMetaMap = { ...current };
           if (missing.length > 0) {
             const fetched = await postAssetMeta({ assets: missing });
             for (const meta of fetched) {

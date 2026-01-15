@@ -1,4 +1,4 @@
-import { Router } from "express";
+import type { Router } from "express";
 import type {
   PresignStep1Request,
   PresignStep1Response,
@@ -21,7 +21,7 @@ import { appServerState } from "../state";
 export function setPresignRoutes(router: Router) {
   router.post<object, TriplesStep1Response, TriplesStep1Request>(
     "/triples_step_1",
-    (req, res) => {
+    (_req, res) => {
       try {
         const { serverState } = appServerState;
 

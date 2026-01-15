@@ -15,7 +15,7 @@ export function sendMsgToWindow(
 
       channel.port1.close();
 
-      if (data.hasOwnProperty("payload")) {
+      if (Object.prototype.hasOwnProperty.call(data, "payload")) {
         resolve(data);
       } else {
         resolve({

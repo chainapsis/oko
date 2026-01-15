@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import { randomBytes, randomUUID } from "crypto";
 import sharp from "sharp";
@@ -83,7 +83,7 @@ export async function createCustomer(
       };
     }
 
-    const labelRegex = /^[a-zA-Z0-9\s\-_\.]+$/;
+    const labelRegex = /^[a-zA-Z0-9\s\-_.]+$/;
     if (!labelRegex.test(body.label)) {
       return {
         success: false,
@@ -104,7 +104,7 @@ export async function createCustomer(
       let metadata;
       try {
         metadata = await sharp(opts.logo.buffer).metadata();
-      } catch (err) {
+      } catch (_err) {
         return {
           success: false,
           code: "IMAGE_UPLOAD_FAILED",
@@ -134,7 +134,7 @@ export async function createCustomer(
           .resize(128, 128, { fit: "cover" })
           .png({ quality: 90 })
           .toBuffer();
-      } catch (err) {
+      } catch (_err) {
         return {
           success: false,
           code: "IMAGE_UPLOAD_FAILED",

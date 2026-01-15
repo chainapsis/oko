@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, type PropsWithChildren } from "react";
+import type { FC, PropsWithChildren } from "react";
 
 import { useInitOko } from "./use_init_oko";
 import { Skeleton } from "@/components/skeleton/skeleton";

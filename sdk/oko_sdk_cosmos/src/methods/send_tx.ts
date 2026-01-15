@@ -51,10 +51,10 @@ export async function sendTx(
       },
     );
 
-    const txResponse = isProtoTx ? result.data["tx_response"] : result.data;
+    const txResponse = isProtoTx ? result.data.tx_response : result.data;
 
     if (txResponse.code != null && txResponse.code !== 0) {
-      throw new Error(txResponse["raw_log"]);
+      throw new Error(txResponse.raw_log);
     }
 
     const txHash = Buffer.from(txResponse.txhash, "hex");

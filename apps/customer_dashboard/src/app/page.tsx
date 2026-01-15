@@ -1,5 +1,3 @@
-
-
 import styles from "./page.module.scss";
 import { Authorized } from "@oko-wallet-ct-dashboard/components/authorized/authorized";
 import { DashboardBody } from "@oko-wallet-ct-dashboard/components/dashboard_body/dashboard_body";

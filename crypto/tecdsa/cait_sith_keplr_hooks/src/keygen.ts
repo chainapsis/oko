@@ -249,7 +249,7 @@ export async function runKeygenDecentralized(
   const keygenStep5Resp = await reqKeygenStep5(endpoint, keygenStep5Req);
   console.log("\n keygen step5 srv resp: %j", keygenStep5Resp);
 
-  if (keygenStep5Resp.public_key != keygenClientStep5Result.public_key) {
+  if (keygenStep5Resp.public_key !== keygenClientStep5Result.public_key) {
     throw new Error("public key is not same!");
   }
 

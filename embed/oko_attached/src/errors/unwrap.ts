@@ -11,5 +11,5 @@ export function useUnwrap(res: Result<any, AppError>) {
     if (!res.success) {
       setError(res.err);
     }
-  }, [res]);
+  }, [res, setError]);
 }

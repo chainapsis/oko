@@ -1,4 +1,4 @@
-import { Router } from "express";
+import type { Router } from "express";
 import type {
   KeygenStep1Request,
   KeygenStep1Response,
@@ -128,7 +128,7 @@ export function setKeygenRoutes(router: Router) {
         );
         serverState.keygenOutput = keygen2;
 
-        if (req.body.public_key != keygen2.public_key) {
+        if (req.body.public_key !== keygen2.public_key) {
           console.error("public key is not same!");
         }
 

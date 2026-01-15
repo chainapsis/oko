@@ -1,8 +1,8 @@
-import React from "react";
+import type { FC } from "react";
 
 import { s3BucketURL } from "./paths";
 
-export const SolanaIcon: React.FC<SolanaIconProps> = ({
+export const SolanaIcon: FC<SolanaIconProps> = ({
   width = 16,
   height = 16,
 }) => {

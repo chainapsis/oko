@@ -49,8 +49,7 @@ export function checkAndValidateADR36AminoSignDoc(
 ): boolean {
   const hasOnlyMsgSignData = (() => {
     if (
-      signDoc &&
-      signDoc.msgs &&
+      signDoc?.msgs &&
       Array.isArray(signDoc.msgs) &&
       signDoc.msgs.length === 1
     ) {

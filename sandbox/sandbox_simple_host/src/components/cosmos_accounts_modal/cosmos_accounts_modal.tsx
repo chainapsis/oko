@@ -23,7 +23,9 @@ export const CosmosAccountsModal: FC<CosmosAccountsModalProps> = ({
 
   const filtered = useMemo(() => {
     const loweredQuery = query.trim().toLowerCase();
-    if (!loweredQuery) return data;
+    if (!loweredQuery) {
+      return data;
+    }
     return data.filter((account) => {
       return (
         account.chainId.toLowerCase().includes(loweredQuery) ||
@@ -32,7 +34,9 @@ export const CosmosAccountsModal: FC<CosmosAccountsModalProps> = ({
     });
   }, [data, query]);
 
-  if (!open) return null;
+  if (!open) {
+    return null;
+  }
 
   return (
     <div className={styles.modalOverlay} onClick={onClose}>

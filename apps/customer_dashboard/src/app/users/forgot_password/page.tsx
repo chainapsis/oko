@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
+import type { FormEvent } from "react";
+import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
 import { Input } from "@oko-wallet/oko-common-ui/input";
@@ -62,7 +63,7 @@ export default function ForgotPasswordPage() {
     setStep(nextStep);
   };
 
-  const handleEmailSubmit = async (e: React.FormEvent) => {
+  const handleEmailSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!EMAIL_REGEX.test(email)) {
       setError("Please enter a valid email address.");
@@ -79,7 +80,7 @@ export default function ForgotPasswordPage() {
       } else {
         setError(res.msg || "Failed to send code");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);
@@ -102,14 +103,14 @@ export default function ForgotPasswordPage() {
       } else {
         setError(res.msg || "Invalid verification code");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handlePasswordSubmit = async (e: React.FormEvent) => {
+  const handlePasswordSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (!password || !confirmPassword) {
       setError("Please fill in all fields");
@@ -151,7 +152,7 @@ export default function ForgotPasswordPage() {
           setError(res.msg || "Failed to reset password");
         }
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);
@@ -177,7 +178,7 @@ export default function ForgotPasswordPage() {
       } else {
         setError(res.msg || "Failed to send code");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred");
     } finally {
       setIsLoading(false);
@@ -198,7 +199,7 @@ export default function ForgotPasswordPage() {
       } else {
         setError(res.msg || "Failed to resend code");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An unexpected error occurred");
     } finally {
       setIsResending(false);

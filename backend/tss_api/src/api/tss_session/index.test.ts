@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type { AbortTssSessionRequest } from "@oko-wallet/oko-types/tss";
 import { TssSessionState } from "@oko-wallet/oko-types/tss";
 import { createPgConn } from "@oko-wallet/postgres-lib";

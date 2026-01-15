@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import {
   createUser,
   getUserByEmailAndAuthType,
@@ -6,7 +6,7 @@ import {
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
 import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
-import { type WalletStatus, type Wallet } from "@oko-wallet/oko-types/wallets";
+import type { WalletStatus, Wallet } from "@oko-wallet/oko-types/wallets";
 import type { KeygenRequest } from "@oko-wallet/oko-types/tss";
 import type { SignInResponse, User } from "@oko-wallet/oko-types/user";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";

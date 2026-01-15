@@ -18,10 +18,14 @@ export function useMessageSigModal(args: UseMessageSigModalArgs) {
   const base = useSolSignatureBase({ modalId, hostOrigin, getIsAborted });
 
   async function onApprove() {
-    if (getIsAborted()) return;
+    if (getIsAborted()) {
+      return;
+    }
 
     const ctx = base.prepareSigningContext();
-    if (!ctx) return;
+    if (!ctx) {
+      return;
+    }
 
     base.setIsLoading(true);
 

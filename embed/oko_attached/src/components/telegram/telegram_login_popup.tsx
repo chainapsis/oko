@@ -24,7 +24,7 @@ export const TelegramLoginPopup: FC = () => {
 
     try {
       JSON.parse(stateParam);
-    } catch (err) {
+    } catch (_err) {
       return;
     }
 
@@ -54,7 +54,7 @@ export const TelegramLoginPopup: FC = () => {
     }
 
     return () => {
-      if (container && container.contains(script)) {
+      if (container?.contains(script)) {
         container.removeChild(script);
       }
     };

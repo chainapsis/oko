@@ -805,7 +805,7 @@ async function signRound2MessageDependencyTest() {
   const clientRound1 = runSignRound1Ed25519(clientKeyPackage);
   const serverRound1 = runSignRound1Ed25519(serverKeyPackage);
 
-  const allCommitments: CommitmentEntry[] = [
+  const _allCommitments: CommitmentEntry[] = [
     {
       identifier: clientRound1.identifier,
       commitments: clientRound1.commitments,

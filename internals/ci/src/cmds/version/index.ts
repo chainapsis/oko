@@ -1,5 +1,5 @@
-import fs from "node:fs";
-import path from "node:path";
+import fs from "fs";
+import path from "path";
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
@@ -116,7 +116,7 @@ function findWorkspaceDependencies(): DependencyInfo[] {
     "optionalDependencies",
   ];
 
-  let wsDeps = [];
+  const wsDeps = [];
 
   for (const pkgPath of packageJsonPaths) {
     try {
@@ -155,7 +155,7 @@ function findWorkspaceDependencies(): DependencyInfo[] {
 }
 
 // NOTE: Now unused, but may change later
-function createGitCommitAndTags(
+function _createGitCommitAndTags(
   changedPackages: Array<{ name: string; version: string }>,
 ) {
   console.log("Creating git commit and tags...");

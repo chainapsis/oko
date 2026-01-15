@@ -1,12 +1,9 @@
-import {
+import type {
   TECDSAClientState,
   SignStep1Request,
   SignStep2Request,
 } from "@oko-wallet/tecdsa-interface";
-import {
-  reqSignStep1,
-  reqSignStep2,
-} from "@oko-wallet/api-lib";
+import { reqSignStep1, reqSignStep2 } from "@oko-wallet/api-lib";
 import {
   runSignClientStep1,
   runSignClientStep2,

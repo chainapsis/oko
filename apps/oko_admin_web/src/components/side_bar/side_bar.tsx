@@ -1,5 +1,3 @@
-
-
 import styles from "./side_bar.module.scss";
 import { SideBarHeader } from "./side_bar_header";
 import { SideBarFooter } from "./side_bar_footer";

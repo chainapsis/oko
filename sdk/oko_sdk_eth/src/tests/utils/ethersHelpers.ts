@@ -1,5 +1,5 @@
 import type { Signer, TransactionRequest } from "ethers";
-import { BrowserProvider, ContractFactory, Contract } from "ethers";
+import { type BrowserProvider, type ContractFactory, Contract } from "ethers";
 
 export interface EthersTransactionHelperOptions {
   provider: BrowserProvider;

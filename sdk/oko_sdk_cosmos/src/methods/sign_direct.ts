@@ -1,5 +1,5 @@
 import type { KeplrSignOptions } from "@keplr-wallet/types";
-import { type DirectSignResponse } from "@cosmjs/proto-signing";
+import type { DirectSignResponse } from "@cosmjs/proto-signing";
 import type { MakeCosmosSigData } from "@oko-wallet/oko-sdk-core";
 
 import type { SignDoc } from "@oko-wallet-sdk-cosmos/types/sign";

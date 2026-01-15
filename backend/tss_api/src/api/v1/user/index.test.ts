@@ -1,8 +1,8 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import { type KeyShareNode } from "@oko-wallet/oko-types/tss";
+import type { KeyShareNode } from "@oko-wallet/oko-types/tss";
 import {
   insertKSNode,
   createWalletKSNodes,

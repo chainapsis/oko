@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import { maxUint256, type Chain } from "viem";
 
 import type { EIP712Action } from "./types";

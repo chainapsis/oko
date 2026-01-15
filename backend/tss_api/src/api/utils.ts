@@ -8,7 +8,7 @@ import type {
 } from "@oko-wallet/oko-types/tss";
 import type { WalletWithEmail } from "@oko-wallet/oko-types/wallets";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import {
   updateTssSessionState,
   updateTssStage,
@@ -44,14 +44,18 @@ export async function updateTssStageWithSessionState(
     await client.query("BEGIN");
 
     const stageRes = await updateTssStage(client, stageId, stageData);
-    if (!stageRes.success) throw new Error(stageRes.err);
+    if (!stageRes.success) {
+      throw new Error(stageRes.err);
+    }
 
     const sessionRes = await updateTssSessionState(
       client,
       sessionId,
       sessionState,
     );
-    if (!sessionRes.success) throw new Error(sessionRes.err);
+    if (!sessionRes.success) {
+      throw new Error(sessionRes.err);
+    }
 
     await client.query("COMMIT");
     return { success: true, data: void 0 };

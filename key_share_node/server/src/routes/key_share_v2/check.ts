@@ -1,4 +1,4 @@
-import { type Response } from "express";
+import type { Response } from "express";
 import type {
   CheckKeyShareV2Request,
   CheckKeyShareV2RequestBody,

@@ -10,7 +10,7 @@ import {
 } from "./utils";
 import {
   createMockSigner,
-  MockRpcServer,
+  type MockRpcServer,
   createMockRpcServer,
   mockMainnetRpc,
   MOCK_ADDRESS,
@@ -293,7 +293,7 @@ describe("Oko Provider - Base", () => {
         expect(provider.chainId).toBe(toHex(mainnet.id));
         expect(provider.isConnected).toBe(true);
 
-        let addedChains = (provider as any).addedChains;
+        const addedChains = (provider as any).addedChains;
         expect(addedChains).toHaveLength(1);
         expect(addedChains[0].connected).toBe(true);
       });

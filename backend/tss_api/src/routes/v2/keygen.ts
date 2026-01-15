@@ -13,7 +13,7 @@ import { registry } from "@oko-wallet/oko-api-openapi";
 import { KeygenRequestV2Schema } from "@oko-wallet/oko-api-openapi/tss";
 
 import { runKeygenV2 } from "@oko-wallet-tss-api/api/v2/keygen";
-import { type OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
+import type { OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 registry.registerPath({

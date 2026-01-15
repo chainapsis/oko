@@ -238,6 +238,7 @@ export function useEthereumTxActions(payload: EthereumTxSignPayload) {
     supportsERC20InterfaceQuery.isLoading,
     rpcTxRequest,
     chainInfo,
+    computeEthereumTxActions,
   ]);
 
   const isCalldataDecoding =

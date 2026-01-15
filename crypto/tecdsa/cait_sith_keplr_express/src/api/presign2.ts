@@ -1,4 +1,4 @@
-import { Router } from "express";
+import type { Router } from "express";
 import type {
   PresignStep1Response,
   PresignStep1V2Request,

@@ -47,8 +47,12 @@ export const OtpInput: FC<OtpInputProps> = ({
   };
 
   const handleChange = (index: number, inputValue: string) => {
-    if (inputValue.length > 1) return;
-    if (inputValue && !/^\d$/.test(inputValue)) return;
+    if (inputValue.length > 1) {
+      return;
+    }
+    if (inputValue && !/^\d$/.test(inputValue)) {
+      return;
+    }
 
     const newDigits = [...digits];
     newDigits[index] = inputValue;

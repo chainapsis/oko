@@ -84,12 +84,20 @@ export async function getKeyShareV2(
         : null,
     ]);
 
-    if (secp256k1Res?.success === false) return secp256k1Res;
-    if (ed25519Res?.success === false) return ed25519Res;
+    if (secp256k1Res?.success === false) {
+      return secp256k1Res;
+    }
+    if (ed25519Res?.success === false) {
+      return ed25519Res;
+    }
 
     const result: GetKeyShareV2Response = {};
-    if (secp256k1Res) result.secp256k1 = secp256k1Res.data;
-    if (ed25519Res) result.ed25519 = ed25519Res.data;
+    if (secp256k1Res) {
+      result.secp256k1 = secp256k1Res.data;
+    }
+    if (ed25519Res) {
+      result.ed25519 = ed25519Res.data;
+    }
 
     return {
       success: true,
@@ -136,8 +144,12 @@ export async function checkKeyShareV2(
     // User not found = all wallets don't exist
     if (getUserRes.data === null) {
       const result: CheckKeyShareV2Response = {};
-      if (wallets.secp256k1) result.secp256k1 = { exists: false };
-      if (wallets.ed25519) result.ed25519 = { exists: false };
+      if (wallets.secp256k1) {
+        result.secp256k1 = { exists: false };
+      }
+      if (wallets.ed25519) {
+        result.ed25519 = { exists: false };
+      }
       return { success: true, data: result };
     }
 
@@ -166,8 +178,12 @@ export async function checkKeyShareV2(
     }
 
     const result: CheckKeyShareV2Response = {};
-    if (secp256k1Res) result.secp256k1 = secp256k1Res;
-    if (ed25519Res) result.ed25519 = ed25519Res;
+    if (secp256k1Res) {
+      result.secp256k1 = secp256k1Res;
+    }
+    if (ed25519Res) {
+      result.ed25519 = ed25519Res;
+    }
 
     return {
       success: true,

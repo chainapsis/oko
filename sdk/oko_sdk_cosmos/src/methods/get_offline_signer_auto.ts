@@ -11,7 +11,7 @@ export async function getOfflineSignerAuto(
 ): Promise<OfflineDirectSigner | OfflineAminoSigner> {
   const key = await this.getKey(chainId);
 
-  if (key && key.isNanoLedger) {
+  if (key?.isNanoLedger) {
     return this.getOfflineSignerOnlyAmino(chainId, signOptions);
   }
   return this.getOfflineSigner(chainId, signOptions);

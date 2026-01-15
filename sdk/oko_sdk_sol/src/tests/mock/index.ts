@@ -147,7 +147,7 @@ export function createMockOkoWallet(
 
     openSignInModal: async () => {},
 
-    on: (handlerDef) => {
+    on: (_handlerDef) => {
       // No-op for tests
     },
   };

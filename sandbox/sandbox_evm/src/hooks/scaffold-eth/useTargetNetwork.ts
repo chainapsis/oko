@@ -3,7 +3,7 @@ import { useAccount } from "wagmi";
 
 import scaffoldConfig from "@oko-wallet-sandbox-evm/../scaffold.config";
 import { useGlobalState } from "@oko-wallet-sandbox-evm/services/store/store";
-import { ChainWithAttributes } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
+import type { ChainWithAttributes } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
 import { NETWORKS_EXTRA_DATA } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
 
 /**

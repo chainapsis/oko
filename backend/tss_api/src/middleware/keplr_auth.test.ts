@@ -1,5 +1,5 @@
 import request from "supertest";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 
 import { makeApp } from "@oko-wallet-tss-api/testing/app";
@@ -49,7 +49,7 @@ describe("keplr_auth_test", () => {
     const testWalletId = "wallet123";
 
     beforeAll(() => {
-      app.get(testEndpoint, userJwtMiddleware, (req: any, res: any) => {
+      app.get(testEndpoint, userJwtMiddleware, (_req: any, res: any) => {
         res.json({ user: res.locals.user });
       });
     });

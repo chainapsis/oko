@@ -1,8 +1,8 @@
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
 import Link from "next/link";
-import { type FC } from "react";
+import type { FC } from "react";
 import { useRouter } from "next/navigation";
-import { type CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
+import type { CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
 import {
   Table,
   TableBody,
@@ -86,7 +86,7 @@ function createColumns(onDeleteCustomer: (customerId: string) => void) {
         id: "users",
         header: "Users",
         cell: (info) => {
-          const val = info.getValue();
+          const _val = info.getValue();
           return <UserEmailVerifiedCell users={info.getValue()} />;
         },
       },

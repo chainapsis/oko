@@ -32,7 +32,9 @@
       "style": {
         "noNonNullAssertion": "off",
         "useTemplate": "off",
-        "useBlockStatements": "error"
+        "useBlockStatements": "error",
+        "useNodejsImportProtocol": "off",
+        "useConsistentTypeDefinitions": "off"
       },
       "suspicious": {
         "noExplicitAny": "off"

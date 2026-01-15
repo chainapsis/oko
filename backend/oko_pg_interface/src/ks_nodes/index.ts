@@ -1,14 +1,14 @@
-import { Pool, type PoolClient } from "pg";
+import type { Pool, PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
 import type { Result } from "@oko-wallet/stdlib-js";
-import {
-  type KSNodeStatus,
-  type KeyShareNode,
-  type KSNodeWithHealthCheck,
-  type WalletKSNodeWithNodeNameAndServerUrl,
-  type WalletKSNodeStatus,
-  type KSNodeHealthCheck,
-  type KSNodeTelemetry,
+import type {
+  KSNodeStatus,
+  KeyShareNode,
+  KSNodeWithHealthCheck,
+  WalletKSNodeWithNodeNameAndServerUrl,
+  WalletKSNodeStatus,
+  KSNodeHealthCheck,
+  KSNodeTelemetry,
 } from "@oko-wallet/oko-types/tss";
 import type { WithPagination, WithTime } from "@oko-wallet-types/aux_types";
 

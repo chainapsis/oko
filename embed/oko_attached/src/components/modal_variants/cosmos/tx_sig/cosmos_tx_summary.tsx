@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import type { StdSignDoc } from "@keplr-wallet/types";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";

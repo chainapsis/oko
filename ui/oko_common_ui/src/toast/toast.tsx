@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC, type MouseEvent } from "react";
+import type { FC, MouseEvent } from "react";
 
 import { CheckCircleOutlinedIcon } from "@oko-wallet-common-ui/icons/check_circle_outlined";
 import { ErrorIcon } from "@oko-wallet-common-ui/icons/error_icon";

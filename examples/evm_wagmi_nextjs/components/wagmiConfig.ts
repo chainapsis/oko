@@ -1,12 +1,12 @@
 import { createClient, getAddress, http, toHex, type Address } from "viem";
-import { createConfig, CreateConnectorFn, createConnector } from "wagmi";
+import { createConfig, type CreateConnectorFn, createConnector } from "wagmi";
 import {
   connectorsForWallets,
-  WalletDetailsParams,
-  Wallet,
+  type WalletDetailsParams,
+  type Wallet,
 } from "@rainbow-me/rainbowkit";
-import {
-  type OkoEthWalletInitArgs,
+import type {
+  OkoEthWalletInitArgs,
   OkoEthWalletInterface,
   OkoEIP1193Provider,
 } from "@oko-wallet/oko-sdk-eth";

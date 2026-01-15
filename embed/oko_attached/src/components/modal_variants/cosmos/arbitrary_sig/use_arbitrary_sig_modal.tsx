@@ -72,7 +72,7 @@ export function useArbitrarySigModal(args: UseCosmosArbitrarySigModalArgs) {
       };
 
       closeModal(ack);
-    } catch (error: any) {
+    } catch (_error: any) {
       // const ack: OpenModalAckPayload = {
       //   modal_type: "make_signature",
       //   modal_id: modalId,

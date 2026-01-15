@@ -12,7 +12,7 @@ import { setColorScheme } from "@oko-wallet-attached/components/attached_initial
 import { useTelegramCallback } from "./use_callback";
 
 export const TelegramCallback: FC = () => {
-  const [theme, setTheme] = useState<Theme>("light");
+  const [_theme, setTheme] = useState<Theme>("light");
 
   useEffect(() => {
     const theme = getSystemTheme();

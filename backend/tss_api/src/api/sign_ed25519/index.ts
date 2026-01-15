@@ -18,7 +18,7 @@ import {
   TssSessionState,
 } from "@oko-wallet/oko-types/tss";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
 import {
   runSignRound1Ed25519,

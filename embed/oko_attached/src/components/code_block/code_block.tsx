@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import cn from "classnames";
 
 import styles from "./code_block.module.scss";

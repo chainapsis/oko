@@ -1,7 +1,6 @@
 import type { FC } from "react";
 
 import styles from "./spinner.module.scss";
-import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 
 interface SpinnerProps {
   size?: number;
@@ -14,7 +13,6 @@ export const Spinner: FC<SpinnerProps> = ({
   className,
   status = "loading",
 }) => {
-  const theme = useThemeState((state) => state.theme);
   const isFailed = status === "failed";
 
   return (

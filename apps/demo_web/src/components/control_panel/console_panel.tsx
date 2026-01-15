@@ -1,6 +1,5 @@
 "use client";
 
-
 export const ConsolePanel = () => {
   return (
     <div>

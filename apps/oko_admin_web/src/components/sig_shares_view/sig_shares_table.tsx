@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type FC } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
-import { type TssSessionWithCustomerAndUser } from "@oko-wallet/oko-types/tss";
+import type { TssSessionWithCustomerAndUser } from "@oko-wallet/oko-types/tss";
 import {
   Table,
   TableBody,
@@ -154,8 +154,12 @@ export const SigSharesTable: FC = () => {
   const selectedNodeId = searchParams.get("node_id");
 
   const getFilterType = () => {
-    if (selectedNodeId) return "node";
-    if (selectedCustomerId) return "app";
+    if (selectedNodeId) {
+      return "node";
+    }
+    if (selectedCustomerId) {
+      return "app";
+    }
     return "app";
   };
 

@@ -7,7 +7,7 @@ import {
   type AbortTssSessionResponse,
   TssSessionState,
 } from "@oko-wallet/oko-types/tss";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
 import { validateWalletEmail } from "@oko-wallet-tss-api/api/utils";

@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC } from "react";
+import type { FC } from "react";
 import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
 import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
 

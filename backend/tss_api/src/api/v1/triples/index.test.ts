@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type {
   TriplesStep10Request,
   TriplesStep11Request,

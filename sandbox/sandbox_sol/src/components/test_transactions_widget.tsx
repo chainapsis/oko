@@ -60,7 +60,9 @@ export function TestTransactionsWidget() {
   const createTestTransaction = async (): Promise<
     Transaction | VersionedTransaction
   > => {
-    if (!publicKey) throw new Error("No public key");
+    if (!publicKey) {
+      throw new Error("No public key");
+    }
 
     const fromPubkey = new PublicKey(publicKey);
     const { blockhash } = await DEVNET_CONNECTION.getLatestBlockhash();
@@ -141,7 +143,9 @@ export function TestTransactionsWidget() {
   };
 
   const handleSignTransaction = async () => {
-    if (!okoSolWallet || !publicKey) return;
+    if (!okoSolWallet || !publicKey) {
+      return;
+    }
 
     setIsLoading(true);
     setError(null);

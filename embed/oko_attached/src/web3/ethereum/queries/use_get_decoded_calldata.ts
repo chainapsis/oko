@@ -15,7 +15,9 @@ export function useDecodedCalldata({
   return useQuery({
     queryKey: ["get-decoded-ethereum-tx-calldata", calldata],
     queryFn: async () => {
-      if (!calldata) return null;
+      if (!calldata) {
+        return null;
+      }
       return await decodeCalldata({ calldata });
     },
     ...options,

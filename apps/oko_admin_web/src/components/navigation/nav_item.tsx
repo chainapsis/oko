@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import styles from "./nav_item.module.scss";
 import cn from "classnames";
 

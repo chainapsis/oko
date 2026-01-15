@@ -22,7 +22,9 @@ export function useOkoSol() {
 
   // Initialize SDK
   useEffect(() => {
-    if (isInitialized || isInitializing) return;
+    if (isInitialized || isInitializing) {
+      return;
+    }
 
     const initSdk = async () => {
       setIsInitializing(true);
@@ -116,7 +118,9 @@ export function useOkoSol() {
 
   // Disconnect wallet
   const disconnect = useCallback(async () => {
-    if (!okoSolWallet) return;
+    if (!okoSolWallet) {
+      return;
+    }
 
     try {
       await okoSolWallet.disconnect();

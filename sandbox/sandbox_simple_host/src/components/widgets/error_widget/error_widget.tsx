@@ -7,7 +7,7 @@ import type { OkoWalletMsgOpenModal } from "@oko-wallet/oko-sdk-core";
 
 export const ErrorWidget: FC<LoginWidgetProps> = () => {
   const { okoCosmos } = useOko();
-  const [isSigningIn, setIsSigningIn] = useState(false);
+  const [_isSigningIn, setIsSigningIn] = useState(false);
 
   const handleClickError = async () => {
     try {

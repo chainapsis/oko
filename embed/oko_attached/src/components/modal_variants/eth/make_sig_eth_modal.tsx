@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import type { MakeEthereumSigData } from "@oko-wallet/oko-sdk-core";
 
 import { MakeArbitrarySigModal } from "@oko-wallet-attached/components/modal_variants/eth/arbitrary_sig/make_arbitrary_sig_modal";

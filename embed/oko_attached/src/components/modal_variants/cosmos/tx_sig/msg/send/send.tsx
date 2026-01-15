@@ -38,7 +38,7 @@ const TokenInfo: FC<{
           : undefined,
       };
     });
-  }, [currencies]);
+  }, [currencies, amount.map]);
 
   if (isLoading) {
     return <Skeleton width="125px" height="28px" />;

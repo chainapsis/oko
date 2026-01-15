@@ -204,7 +204,7 @@ export const EditInfoForm: FC = () => {
       } else {
         setError(result.msg ?? "Failed to update information.");
       }
-    } catch (err) {
+    } catch (_err) {
       setError("An error occurred while updating.");
     } finally {
       setIsLoading(false);

@@ -18,7 +18,7 @@ import {
   createEthSigner,
 } from "./utils";
 import {
-  MockRpcServer,
+  type MockRpcServer,
   createMockRpcServer,
   mockMainnetRpc,
   createMockSigner,

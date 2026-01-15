@@ -66,7 +66,7 @@ export function makeUserRouter() {
       res: Response<OkoApiResponse<Customer>>,
     ) => {
       try {
-        const state = req.app.locals as any;
+        const _state = req.app.locals as any;
 
         //   const customerRes = await getCustomerByUserId(
         //     state.db,

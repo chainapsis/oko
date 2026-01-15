@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC } from "react";
+import type { FC } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 
@@ -13,7 +13,7 @@ export const AppsViewHeader: FC = () => {
 
   const { data } = useGetCustomerListWithAPIKeys();
 
-  const hasApps = data && data.pagination && data.pagination.total > 0;
+  const hasApps = data?.pagination && data.pagination.total > 0;
 
   const verifiedCount = data?.pagination?.verified_count;
   const txGenCount = data?.pagination?.tx_active_count;

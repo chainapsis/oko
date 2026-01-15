@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 
 import styles from "./user_list_view.module.scss";
 import { UserListTable } from "./user_list_table";

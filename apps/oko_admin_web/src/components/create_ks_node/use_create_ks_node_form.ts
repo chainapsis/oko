@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { useMutation } from "@tanstack/react-query";
-import { type OkoApiSuccessResponse } from "@oko-wallet/oko-types/api_response";
-import { type CreateKSNodeResponse } from "@oko-wallet/oko-types/admin";
+import type { OkoApiSuccessResponse } from "@oko-wallet/oko-types/api_response";
+import type { CreateKSNodeResponse } from "@oko-wallet/oko-types/admin";
 
 import { isValidUrl } from "@oko-wallet-admin/utils/";
 import {

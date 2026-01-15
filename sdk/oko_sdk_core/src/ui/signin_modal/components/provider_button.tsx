@@ -1,4 +1,4 @@
-import { type FunctionComponent, type ComponentChildren } from "preact";
+import type { FunctionComponent, ComponentChildren } from "preact";
 
 export interface ProviderButtonProps {
   icon: ComponentChildren;

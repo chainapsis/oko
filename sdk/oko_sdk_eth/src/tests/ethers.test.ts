@@ -66,13 +66,13 @@ describe("Oko Provider - Ethers.js Integration", () => {
     let hardhatProvider: OkoEIP1193Provider;
     let delta: OkoEthSigner;
     let epsilon: OkoEthSigner;
-    let foxtrot: OkoEthSigner;
+    let _foxtrot: OkoEthSigner;
 
     beforeAll(async () => {
       // Use accounts 3, 4, 5 for ethers.test.ts to avoid conflicts with viem.test.ts
       delta = createEthSigner(hardhat.id, hardhatAccounts[3].privateKey);
       epsilon = createEthSigner(hardhat.id, hardhatAccounts[4].privateKey);
-      foxtrot = createEthSigner(hardhat.id, hardhatAccounts[5].privateKey);
+      _foxtrot = createEthSigner(hardhat.id, hardhatAccounts[5].privateKey);
 
       try {
         await hardhatNode.start();

@@ -1,4 +1,4 @@
-import { Router, type Response } from "express";
+import type { Router, Response } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { KSNodeTelemetryRequest } from "@oko-wallet/oko-types/tss";
 import {

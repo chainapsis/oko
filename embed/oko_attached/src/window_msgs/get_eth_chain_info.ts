@@ -35,7 +35,7 @@ export async function handleGetEthChain(
     if (chainId) {
       formattedChainId = chainId.startsWith("eip155:")
         ? chainId
-        : `eip155:${parseInt(chainId)}`;
+        : `eip155:${parseInt(chainId, 10)}`;
     }
 
     if (formattedChainId) {

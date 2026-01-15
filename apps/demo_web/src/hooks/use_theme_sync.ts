@@ -9,7 +9,9 @@ export const useThemeSync = () => {
   }, [initialize]);
 
   useEffect(() => {
-    if (preference !== "system") return;
+    if (preference !== "system") {
+      return;
+    }
 
     const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
     const handleChange = (e: MediaQueryListEvent) => {

@@ -1,11 +1,11 @@
 "use client";
 
-import React from "react";
+import type { ButtonHTMLAttributes } from "react";
 
 type ButtonVariant = "primary" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonVariant;
   size?: ButtonSize;
   fullWidth?: boolean;

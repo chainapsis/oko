@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import styles from "./actions.module.scss";

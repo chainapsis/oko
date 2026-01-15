@@ -23,10 +23,14 @@ function parsePriorityFee(
   let microLamportsPerUnit = 0;
 
   for (const ix of instructions) {
-    if (ix.programId !== COMPUTE_BUDGET_PROGRAM_ID) continue;
+    if (ix.programId !== COMPUTE_BUDGET_PROGRAM_ID) {
+      continue;
+    }
 
     const data = ix.data;
-    if (data.length === 0) continue;
+    if (data.length === 0) {
+      continue;
+    }
 
     const instructionType = data[0];
 

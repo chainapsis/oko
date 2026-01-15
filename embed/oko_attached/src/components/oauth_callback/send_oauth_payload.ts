@@ -79,7 +79,7 @@ async function sendMsgToEmbeddedWindow(
           };
         }
       }
-    } catch (err: any) {
+    } catch (_err: any) {
       console.log(`parent window's iframe not ours, idx: ${idx}`);
     }
   }

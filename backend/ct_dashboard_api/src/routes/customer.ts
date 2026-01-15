@@ -1,4 +1,4 @@
-import { Router, type Response } from "express";
+import type { Router, Response } from "express";
 import sharp from "sharp";
 import { randomUUID } from "crypto";
 import type {
@@ -388,7 +388,7 @@ export function setCustomerRoutes(router: Router) {
               .resize(128, 128, { fit: "cover" })
               .png({ quality: 90 })
               .toBuffer();
-          } catch (error) {
+          } catch (_error) {
             res.status(400).json({
               success: false,
               code: "IMAGE_UPLOAD_FAILED",

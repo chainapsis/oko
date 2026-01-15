@@ -85,7 +85,9 @@ export function SplTokenTransferWidget() {
   const [error, setError] = useState<string | null>(null);
 
   const handleSignTransaction = async () => {
-    if (!okoSolWallet || !publicKey) return;
+    if (!okoSolWallet || !publicKey) {
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -100,7 +102,7 @@ export function SplTokenTransferWidget() {
       }
 
       const tokenAmount = BigInt(
-        Math.floor(parseFloat(amount) * Math.pow(10, selectedToken.decimals)),
+        Math.floor(parseFloat(amount) * 10 ** selectedToken.decimals),
       );
       if (tokenAmount <= BigInt(0)) {
         throw new Error("Amount must be greater than 0");
@@ -149,7 +151,9 @@ export function SplTokenTransferWidget() {
   };
 
   const handleSendTransaction = async () => {
-    if (!okoSolWallet || !publicKey) return;
+    if (!okoSolWallet || !publicKey) {
+      return;
+    }
 
     setIsLoading(true);
     setError(null);
@@ -164,7 +168,7 @@ export function SplTokenTransferWidget() {
       }
 
       const tokenAmount = BigInt(
-        Math.floor(parseFloat(amount) * Math.pow(10, selectedToken.decimals)),
+        Math.floor(parseFloat(amount) * 10 ** selectedToken.decimals),
       );
       if (tokenAmount <= BigInt(0)) {
         throw new Error("Amount must be greater than 0");
@@ -230,7 +234,9 @@ export function SplTokenTransferWidget() {
               const token = DEVNET_TOKENS.find(
                 (t) => t.mint === e.target.value,
               );
-              if (token) setSelectedToken(token);
+              if (token) {
+                setSelectedToken(token);
+              }
             }}
           >
             {DEVNET_TOKENS.map((token) => (

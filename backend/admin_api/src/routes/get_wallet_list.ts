@@ -6,7 +6,7 @@ import type {
 import type { Response } from "express";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getWalletList } from "@oko-wallet-admin-api/api/wallet";
 
 export async function get_wallet_list(

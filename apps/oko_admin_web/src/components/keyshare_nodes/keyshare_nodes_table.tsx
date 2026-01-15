@@ -1,6 +1,6 @@
 "use client";
 
-import { type FC } from "react";
+import type { FC } from "react";
 import { createColumnHelper, flexRender } from "@tanstack/react-table";
 import type { KSNodeWithHealthCheck } from "@oko-wallet/oko-types/tss";
 import {
@@ -85,7 +85,9 @@ const createColumns = (
     header: "Checked At",
     cell: (info) => {
       const value = info.getValue();
-      if (!value) return <div className={styles.healthCheckedAt}>N/A</div>;
+      if (!value) {
+        return <div className={styles.healthCheckedAt}>N/A</div>;
+      }
 
       const date = new Date(value);
 

@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetWalletListRequest,

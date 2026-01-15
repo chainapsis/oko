@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import cn from "classnames";
 
 import styles from "./card.module.scss";

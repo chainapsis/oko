@@ -82,7 +82,11 @@ export const APIKeyItemRow: FC<APIKeyItemRowProps> = ({
             Copied ✓
           </Typography>
         ) : (
-          <button type="button" onClick={handleCopy} className={styles.buttonIcon}>
+          <button
+            type="button"
+            onClick={handleCopy}
+            className={styles.buttonIcon}
+          >
             <CopyOutlinedIcon color="var(--fg-tertiary)" />
           </button>
         )}

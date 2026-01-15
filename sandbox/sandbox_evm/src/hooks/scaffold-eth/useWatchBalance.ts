@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { UseBalanceParameters, useBalance, useBlockNumber } from "wagmi";
+import { type UseBalanceParameters, useBalance, useBlockNumber } from "wagmi";
 
 import { useTargetNetwork } from "./useTargetNetwork";
 
@@ -20,7 +20,7 @@ export const useWatchBalance = (useBalanceParameters: UseBalanceParameters) => {
   useEffect(() => {
     queryClient.invalidateQueries({ queryKey });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber]);
+  }, [queryClient.invalidateQueries, queryKey]);
 
   return restUseBalanceReturn;
 };

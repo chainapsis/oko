@@ -1,4 +1,4 @@
-import { type FC } from "react";
+import type { FC } from "react";
 import Link from "next/link";
 import { ArrowRightOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/arrow_right_outlined";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";

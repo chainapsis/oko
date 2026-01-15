@@ -7,10 +7,10 @@ import {
   hashTypedData,
   parseSignature,
 } from "viem";
-import { mainnet } from "viem/chains";
+import type { mainnet } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 
-import { hardhat } from "../hardhat";
+import type { hardhat } from "../hardhat";
 import type {
   OkoEthSigner,
   EthSignParams,
@@ -77,7 +77,7 @@ export function createChainParam(
 export function createDummySigner(): OkoEthSigner {
   return {
     getAddress: () => DUMMY_ADDRESS,
-    sign: async function (parameters: EthSignParams): Promise<EthSignResult> {
+    sign: async (parameters: EthSignParams): Promise<EthSignResult> => {
       switch (parameters.type) {
         case "sign_transaction": {
           return {
@@ -120,7 +120,7 @@ export function createEthSigner(
   const account = privateKeyToAccount(privateKey);
   return {
     getAddress: () => account.address,
-    sign: async function (parameters: EthSignParams): Promise<EthSignResult> {
+    sign: async (parameters: EthSignParams): Promise<EthSignResult> => {
       switch (parameters.type) {
         case "sign_transaction": {
           const { transaction } = parameters.data;

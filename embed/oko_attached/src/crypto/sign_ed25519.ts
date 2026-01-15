@@ -1,11 +1,9 @@
-
 import type {
   KeyPackageRaw,
   PublicKeyPackageRaw,
 } from "@oko-wallet/oko-types/teddsa";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
-
 
 export interface KeyPackageEd25519 {
   keyPackage: KeyPackageRaw;
@@ -14,11 +12,11 @@ export interface KeyPackageEd25519 {
 }
 
 export async function makeSignOutputEd25519(
-  message: Uint8Array,
-  keyPackage: KeyPackageEd25519,
-  apiKey: string,
-  authToken: string,
-  getIsAborted: () => boolean,
+  _message: Uint8Array,
+  _keyPackage: KeyPackageEd25519,
+  _apiKey: string,
+  _authToken: string,
+  _getIsAborted: () => boolean,
 ): Promise<Result<Uint8Array, MakeSignOutputError>> {
   try {
     // @TODO

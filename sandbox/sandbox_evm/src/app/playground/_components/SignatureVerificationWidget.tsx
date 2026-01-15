@@ -269,7 +269,9 @@ function TypedDataVerifier() {
   const parsedTypes = (() => {
     try {
       const t = JSON.parse(typedDataTypes);
-      if (t && typeof t === "object") return t as Record<string, any>;
+      if (t && typeof t === "object") {
+        return t as Record<string, any>;
+      }
     } catch {}
     return {} as Record<string, any>;
   })();

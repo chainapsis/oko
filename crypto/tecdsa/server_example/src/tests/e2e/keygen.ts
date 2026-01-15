@@ -1,11 +1,11 @@
 import {
-  TECDSAClientState,
+  type TECDSAClientState,
   Participant,
-  KeygenStep1V2Request,
-  KeygenStep2V2Request,
-  KeygenStep3V2Request,
-  KeygenStep4V2Request,
-  KeygenStep5V2Request,
+  type KeygenStep1V2Request,
+  type KeygenStep2V2Request,
+  type KeygenStep3V2Request,
+  type KeygenStep4V2Request,
+  type KeygenStep5V2Request,
 } from "@oko-wallet/tecdsa-interface";
 import {
   reqKeygenStep1,
@@ -147,7 +147,7 @@ export async function e2eKeygenTest(clientState: TECDSAClientState) {
   const keygenStep5Resp = await reqKeygenStep5(keygenStep5Req);
   console.log("\n keygen step5 srv resp: %j", keygenStep5Resp);
 
-  if (keygenStep5Resp.public_key != keygen_0.public_key) {
+  if (keygenStep5Resp.public_key !== keygen_0.public_key) {
     throw new Error("public key is not same!");
   }
 }

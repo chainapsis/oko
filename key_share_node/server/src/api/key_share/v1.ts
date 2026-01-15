@@ -259,7 +259,7 @@ export async function reshareKeyShare(
       };
     }
 
-    let wallet_id = getWalletRes.data.wallet_id;
+    const wallet_id = getWalletRes.data.wallet_id;
 
     // Get user to verify ownership
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
@@ -323,7 +323,10 @@ export async function reshareKeyShare(
       existingDecryptedShare.toLowerCase(),
       "utf-8",
     );
-    const providedShareBuffer = Buffer.from(share.toHex().toLowerCase(), "utf-8");
+    const providedShareBuffer = Buffer.from(
+      share.toHex().toLowerCase(),
+      "utf-8",
+    );
 
     if (
       existingShareBuffer.length !== providedShareBuffer.length ||

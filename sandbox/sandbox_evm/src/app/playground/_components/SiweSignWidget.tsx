@@ -44,14 +44,18 @@ export function SiweSignWidget() {
   };
 
   const copySignature = async () => {
-    if (!signature) return;
+    if (!signature) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(signature);
     } catch {}
   };
 
   const copyMessage = async () => {
-    if (!signedMessage) return;
+    if (!signedMessage) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(signedMessage);
     } catch {}

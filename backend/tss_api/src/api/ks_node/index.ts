@@ -67,7 +67,7 @@ export async function checkKeyShareFromKSNodes(
 
     if (errorResults.length > 0) {
       const errArr = [];
-      for (let err of errorResults) {
+      for (const err of errorResults) {
         const comm = targetKSNodes[err.index];
 
         if (err.resContent.status === "rejected") {

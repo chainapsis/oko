@@ -49,7 +49,7 @@ export function makeApp() {
       },
     },
   });
-  app.get<{}, string>("/", async (req, res) => {
+  app.get<{}, string>("/", async (_req, res) => {
     res.send("Ok");
   });
 

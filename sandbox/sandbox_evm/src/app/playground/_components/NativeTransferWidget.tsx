@@ -67,7 +67,9 @@ export function NativeTransferWidget() {
   };
 
   const copyTxHash = async () => {
-    if (!txHash) return;
+    if (!txHash) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(txHash);
     } catch {}

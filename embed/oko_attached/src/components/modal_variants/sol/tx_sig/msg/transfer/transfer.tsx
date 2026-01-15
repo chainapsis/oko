@@ -7,7 +7,9 @@ import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 
 function shortenAddress(address: string): string {
-  if (address.length <= 12) return address;
+  if (address.length <= 12) {
+    return address;
+  }
   return `${address.slice(0, 6)}...${address.slice(-4)}`;
 }
 

@@ -15,7 +15,9 @@ export const MockDappModal: FC<MockDappModalProps> = ({
   onClose,
   signWidgetProps,
 }) => {
-  if (!isOpen) return null;
+  if (!isOpen) {
+    return null;
+  }
 
   return createPortal(
     <>

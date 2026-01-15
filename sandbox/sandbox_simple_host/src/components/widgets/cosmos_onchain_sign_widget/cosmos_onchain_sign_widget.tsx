@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { type DirectSignResponse } from "@cosmjs/proto-signing";
-import { type AminoSignResponse } from "@cosmjs/amino";
+import type { DirectSignResponse } from "@cosmjs/proto-signing";
+import type { AminoSignResponse } from "@cosmjs/amino";
 import { useMutation } from "@tanstack/react-query";
 
 import { TxRaw } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";

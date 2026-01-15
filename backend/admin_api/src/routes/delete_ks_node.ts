@@ -6,7 +6,7 @@ import type {
 } from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { deleteKSNode } from "@oko-wallet-admin-api/api/ks_node";
 
 export async function delete_ks_node(

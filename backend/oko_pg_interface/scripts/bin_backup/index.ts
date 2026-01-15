@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { join, dirname } from "path";
 import { fileURLToPath } from "url";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import {
   dropAllTablesIfExist,
   type PgDatabaseConfig,

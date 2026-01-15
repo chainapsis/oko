@@ -1,4 +1,4 @@
-import React from "react";
+import type { ReactNode } from "react";
 
 import styles from "@oko-wallet-admin/styles/layout_with_side_bar.module.scss";
 import { SideBar } from "@oko-wallet-admin/components/side_bar/side_bar";
@@ -6,7 +6,7 @@ import { SideBar } from "@oko-wallet-admin/components/side_bar/side_bar";
 export default function AppsLayout({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
     <div className={styles.wrapper}>

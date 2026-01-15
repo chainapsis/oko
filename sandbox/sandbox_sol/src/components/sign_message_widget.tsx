@@ -13,7 +13,9 @@ export function SignMessageWidget() {
   const [error, setError] = useState<string | null>(null);
 
   const handleSignMessage = async () => {
-    if (!okoSolWallet) return;
+    if (!okoSolWallet) {
+      return;
+    }
 
     setIsLoading(true);
     setError(null);

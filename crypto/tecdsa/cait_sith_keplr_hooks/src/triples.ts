@@ -46,7 +46,7 @@ export async function runTriples(
   getIsAborted: () => boolean,
   // onAuthTokenRefresh: (newToken: string) => void,
 ): Promise<Result<TriplesResult, RunTriplesError>> {
-  let currentAuthToken = authToken;
+  const currentAuthToken = authToken;
 
   // // wrap the onAuthTokenRefresh function to handle change of authToken
   // const handleTokenRefresh = (newToken: string) => {

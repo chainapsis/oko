@@ -80,7 +80,7 @@ export const MakeMessageSigModal: FC<MakeMessageSigModalProps> = ({
         </div>
 
         <div className={styles.modalInnerContentContainer}>
-          {!!siwsMessage ? (
+          {siwsMessage ? (
             <SolanaSiwsSignatureContent payload={data.payload} theme={theme} />
           ) : (
             <SolanaMessageSignatureContent payload={data.payload} />

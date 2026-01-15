@@ -29,7 +29,9 @@ export function PersonalSignWidget() {
   };
 
   const copySignature = async () => {
-    if (!signature) return;
+    if (!signature) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(signature);
     } catch {}

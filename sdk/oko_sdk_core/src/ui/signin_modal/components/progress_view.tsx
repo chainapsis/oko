@@ -1,4 +1,4 @@
-import { type FunctionComponent as FC } from "preact";
+import type { FunctionComponent as FC } from "preact";
 
 import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";
 import {

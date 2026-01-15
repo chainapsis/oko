@@ -1,4 +1,4 @@
-import React from "react";
+import type { CSSProperties, FC } from "react";
 
 import { s3BucketURL } from "./paths";
 
@@ -25,5 +25,5 @@ export const LogoTextIcon: FC<LogoTextIconProps> = ({
 export interface LogoTextIconProps {
   width?: number;
   height?: number;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
 }

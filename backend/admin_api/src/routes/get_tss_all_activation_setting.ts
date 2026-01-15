@@ -3,7 +3,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { GetTssAllActivationSettingResponse } from "@oko-wallet-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getTssAllActivationSetting } from "@oko-wallet-admin-api/api/tss";
 
 export async function get_tss_all_activation_setting(

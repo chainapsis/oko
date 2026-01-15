@@ -82,7 +82,9 @@ export function Eip712SignWidget() {
   const [error, setError] = useState<string>("");
 
   const handleSignTypedData = async () => {
-    if (!walletClient || !address) return;
+    if (!walletClient || !address) {
+      return;
+    }
 
     try {
       setIsSigning(true);
@@ -143,14 +145,18 @@ export function Eip712SignWidget() {
   };
 
   const copySignature = async () => {
-    if (!signature) return;
+    if (!signature) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(signature);
     } catch {}
   };
 
   const copyTypedData = async () => {
-    if (!signedPayload) return;
+    if (!signedPayload) {
+      return;
+    }
     try {
       await navigator.clipboard.writeText(signedPayload);
     } catch {}

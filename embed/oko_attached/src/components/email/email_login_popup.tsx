@@ -75,7 +75,6 @@ export const EmailLoginPopup: FC<EmailLoginPopupProps> = ({
                         setEmail(event.target.value);
                       }}
                       className={styles.emailInput}
-                      autoFocus
                     />
                     <button
                       className={`${styles.nextButton} ${

@@ -12,7 +12,7 @@ import { Bytes, type Bytes32, type Bytes33 } from "@oko-wallet/bytes";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
 import { updateWalletKSNodesForReshareV2 } from "@oko-wallet-tss-api/api/v2/user";
-import { type OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
+import type { OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 registry.registerPath({

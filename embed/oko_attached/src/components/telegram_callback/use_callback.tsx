@@ -69,7 +69,7 @@ export async function handleTelegramCallback(): Promise<
   let oauthState: OAuthState;
   try {
     oauthState = JSON.parse(stateParam) as OAuthState;
-  } catch (err) {
+  } catch (_err) {
     return {
       success: false,
       err: { type: "params_not_sufficient" },

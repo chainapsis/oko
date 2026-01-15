@@ -3,7 +3,7 @@ import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getCustomerList } from "@oko-wallet-admin-api/api/customer";
 
 export async function get_customer_list(
@@ -28,8 +28,8 @@ export async function get_customer_list(
     limit = 10;
     offset = 0;
   } else {
-    limit = parseInt(limit);
-    offset = parseInt(offset);
+    limit = parseInt(limit, 10);
+    offset = parseInt(offset, 10);
   }
 
   const getCustomerListRes = await getCustomerList(state.db, limit, offset);

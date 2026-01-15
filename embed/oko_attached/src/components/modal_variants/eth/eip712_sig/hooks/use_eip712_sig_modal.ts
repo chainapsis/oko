@@ -57,7 +57,15 @@ export function useEIP712SigModal(args: UseEthereumSigModalArgs) {
         },
       });
     }
-  }, [isSupportedChain, isSupportChecked]);
+  }, [
+    isSupportedChain,
+    isSupportChecked,
+    data.payload.chain_info.chain_id,
+    data.payload.chain_info.chain_name,
+    data.payload.chain_info.chain_symbol_image_url,
+    modalId,
+    setError,
+  ]);
 
   function onReject() {
     const ack: OpenModalAckPayload = {
@@ -108,7 +116,7 @@ export function useEIP712SigModal(args: UseEthereumSigModalArgs) {
       };
 
       closeModal(ack);
-    } catch (error: any) {
+    } catch (_error: any) {
       // const ack: OpenModalAckPayload = {
       //   modal_type: "make_signature",
       //   modal_id: modalId,

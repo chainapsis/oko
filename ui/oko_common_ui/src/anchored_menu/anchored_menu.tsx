@@ -72,12 +72,11 @@ export const AnchoredMenu: FC<AnchoredMenuProps> = ({
             {...getFloatingProps()}
           >
             {HeaderComponent}
-            <ul className={styles.menuList} role="menu">
+            <ul className={styles.menuList}>
               {menuItems.map((item) => (
                 <li
                   key={item.id}
                   className={styles.menuItem}
-                  role="menuitem"
                   onClick={() => handleMenuItemClick(item)}
                 >
                   {item.icon && (

@@ -1,5 +1,5 @@
-import React from "react";
-import { Toast, ToastPosition, toast } from "react-hot-toast";
+import type { ReactNode } from "react";
+import { type Toast, type ToastPosition, toast } from "react-hot-toast";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 import {
   CheckCircleIcon,
@@ -9,7 +9,7 @@ import {
 } from "@heroicons/react/24/solid";
 
 type NotificationProps = {
-  content: React.ReactNode;
+  content: ReactNode;
   status: "success" | "info" | "loading" | "error" | "warning";
   duration?: number;
   icon?: string;
@@ -48,7 +48,7 @@ const Notification = ({
       <div
         className={`flex flex-row items-start justify-between max-w-sm rounded-xl shadow-center shadow-accent bg-base-200 p-4 transform-gpu relative transition-all duration-500 ease-in-out space-x-2
         ${
-          position.substring(0, 3) == "top"
+          position.substring(0, 3) === "top"
             ? `hover:translate-y-1 ${t.visible ? "top-0" : "-top-96"}`
             : `hover:-translate-y-1 ${t.visible ? "bottom-0" : "-bottom-96"}`
         }`}
@@ -81,19 +81,19 @@ const Notification = ({
 };
 
 export const notification = {
-  success: (content: React.ReactNode, options?: NotificationOptions) => {
+  success: (content: ReactNode, options?: NotificationOptions) => {
     return Notification({ content, status: "success", ...options });
   },
-  info: (content: React.ReactNode, options?: NotificationOptions) => {
+  info: (content: ReactNode, options?: NotificationOptions) => {
     return Notification({ content, status: "info", ...options });
   },
-  warning: (content: React.ReactNode, options?: NotificationOptions) => {
+  warning: (content: ReactNode, options?: NotificationOptions) => {
     return Notification({ content, status: "warning", ...options });
   },
-  error: (content: React.ReactNode, options?: NotificationOptions) => {
+  error: (content: ReactNode, options?: NotificationOptions) => {
     return Notification({ content, status: "error", ...options });
   },
-  loading: (content: React.ReactNode, options?: NotificationOptions) => {
+  loading: (content: ReactNode, options?: NotificationOptions) => {
     return Notification({ content, status: "loading", ...options });
   },
   remove: (toastId: string) => {

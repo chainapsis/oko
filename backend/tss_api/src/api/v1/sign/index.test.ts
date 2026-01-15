@@ -1,5 +1,5 @@
 import { jest } from "@jest/globals";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type {
   KeygenRequest,
   PresignStep1Request,

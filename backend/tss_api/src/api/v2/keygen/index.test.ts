@@ -1,9 +1,9 @@
 import { jest } from "@jest/globals";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import {
-  type KeygenRequestV2,
-  type KeygenEd25519Request,
+import type {
+  KeygenRequestV2,
+  KeygenEd25519Request,
 } from "@oko-wallet/oko-types/tss";
 import { Participant } from "@oko-wallet/tecdsa-interface";
 import { napiRunKeygenClientCentralized } from "@oko-wallet/cait-sith-keplr-addon/addon";
@@ -38,8 +38,9 @@ await jest.unstable_mockModule("@oko-wallet-tss-api/api/ks_node", () => ({
   checkKeyShareFromKSNodesV2: mockCheckKeyShareFromKSNodesV2,
 }));
 
-const { runKeygenV2, runKeygenEd25519 } =
-  await import("@oko-wallet-tss-api/api/v2/keygen");
+const { runKeygenV2, runKeygenEd25519 } = await import(
+  "@oko-wallet-tss-api/api/v2/keygen"
+);
 
 async function setUpKSNodes(pool: Pool): Promise<string[]> {
   const ksNodeNames = ["ksNode1", "ksNode2"];

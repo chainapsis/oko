@@ -16,7 +16,7 @@ import {
   TssSessionState,
   TssStageType,
 } from "@oko-wallet/oko-types/tss";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import {
   runSignServerStep1V2,
   runSignServerStep2,

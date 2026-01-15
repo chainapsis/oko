@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useRef } from "react";
+import type { ReactNode } from "react";
+import { useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Bars3Icon, BugAntIcon, PlayIcon } from "@heroicons/react/24/outline";
@@ -12,7 +13,7 @@ import { keplrIcon } from "@oko-wallet-sandbox-evm/assets/icon";
 type HeaderMenuLink = {
   label: string;
   href: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
 };
 
 export const menuLinks: HeaderMenuLink[] = [

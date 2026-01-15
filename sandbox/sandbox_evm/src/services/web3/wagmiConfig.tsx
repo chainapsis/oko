@@ -1,19 +1,19 @@
 "use client";
 
 import {
-  AddEthereumChainParameter,
+  type AddEthereumChainParameter,
   createClient,
-  ExactPartial,
+  type ExactPartial,
   fallback,
   getAddress,
   http,
   toHex,
 } from "viem";
-import { createConfig, CreateConnectorFn, createConnector } from "wagmi";
+import { createConfig, type CreateConnectorFn, createConnector } from "wagmi";
 import {
   connectorsForWallets,
-  WalletDetailsParams,
-  Wallet,
+  type WalletDetailsParams,
+  type Wallet,
 } from "@rainbow-me/rainbowkit";
 import type {
   OkoEthWalletInitArgs,
@@ -25,7 +25,7 @@ import { getAlchemyHttpUrl } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
 import { keplrIcon } from "@oko-wallet-sandbox-evm/assets/icon";
 import scaffoldConfig, {
   DEFAULT_ALCHEMY_API_KEY,
-  ScaffoldConfig,
+  type ScaffoldConfig,
 } from "@oko-wallet-sandbox-evm/../scaffold.config";
 
 const { targetNetworks } = scaffoldConfig;

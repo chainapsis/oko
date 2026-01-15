@@ -1,4 +1,4 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import type {
   TriplesStep10Request,
   TriplesStep10Response,
@@ -1006,7 +1006,9 @@ export async function runTriplesStep11(
 }
 
 function isPubVEqual(a: TriplePub[], b: TriplePub[]): boolean {
-  if (a.length !== b.length) return false;
+  if (a.length !== b.length) {
+    return false;
+  }
 
   for (let i = 0; i < a.length; i++) {
     const pubA = a[i];

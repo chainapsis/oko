@@ -18,7 +18,7 @@ export async function makeSignOutput(
   authToken: string,
   getIsAborted: () => boolean,
 ): Promise<Result<SignOutput, MakeSignOutputError>> {
-  let currentAuthToken = authToken;
+  const currentAuthToken = authToken;
 
   const triplesRes = await runTriples(
     TSS_V1_ENDPOINT,

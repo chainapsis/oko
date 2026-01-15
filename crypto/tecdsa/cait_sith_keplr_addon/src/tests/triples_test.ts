@@ -230,7 +230,9 @@ export function triplesTest(
 }
 
 function isPubVEqual(a: TriplePub[], b: TriplePub[]): boolean {
-  if (a.length !== b.length) return false;
+  if (a.length !== b.length) {
+    return false;
+  }
 
   for (let i = 0; i < a.length; i++) {
     const pubA = a[i];

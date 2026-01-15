@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from "uuid";
-import { type Customer } from "@oko-wallet/oko-types/customers";
+import type { Customer } from "@oko-wallet/oko-types/customers";
 import { hashPassword } from "@oko-wallet/crypto-js";
 import type {
   CustomerDashboardUser,

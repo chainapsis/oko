@@ -22,7 +22,7 @@ export async function sendMsgToIframe(
 
       console.debug("[oko] reply recv", data);
 
-      if (data.hasOwnProperty("payload")) {
+      if (Object.prototype.hasOwnProperty.call(data, "payload")) {
         resolve(data);
       } else {
         console.error("[oko] unknown msg type");

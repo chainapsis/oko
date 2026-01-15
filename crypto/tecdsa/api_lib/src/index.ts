@@ -47,11 +47,11 @@ import type {
   AbortTssSessionBody,
   AbortTssSessionResponse,
 } from "@oko-wallet/oko-types/tss";
-import { type SignInResponse } from "@oko-wallet/oko-types/user";
-import {
-  type ErrorCode,
-  type OkoApiErrorResponse,
-  type OkoApiResponse,
+import type { SignInResponse } from "@oko-wallet/oko-types/user";
+import type {
+  ErrorCode,
+  OkoApiErrorResponse,
+  OkoApiResponse,
 } from "@oko-wallet/oko-types/api_response";
 
 /* NOTE - The error type returned by the middleware is not compatible with OkoApiErrorResponse.

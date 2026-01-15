@@ -6,7 +6,7 @@ import type { GetAllKSNodeResponse } from "@oko-wallet-types/admin";
 
 import { OKO_ADMIN_API_ENDPOINT_V1 } from "..";
 import { doFetch } from "../fetcher";
-import { type GetKSNodesParams } from "./";
+import type { GetKSNodesParams } from "./";
 
 export function useAllKeyShareNodes() {
   const { token } = useAppState();

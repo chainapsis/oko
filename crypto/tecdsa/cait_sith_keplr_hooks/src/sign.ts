@@ -19,7 +19,7 @@ export async function runSign(
   authToken: string,
   getIsAborted: () => boolean,
 ): Promise<Result<SignOutput, RunSignError>> {
-  let currentAuthToken = authToken;
+  const currentAuthToken = authToken;
 
   const signState: TECDSASignState = {
     signState: null,

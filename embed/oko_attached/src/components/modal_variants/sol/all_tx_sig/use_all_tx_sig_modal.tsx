@@ -22,10 +22,14 @@ export function useAllTxSigModal(args: UseAllTxSigModalArgs) {
   const txCount = data.payload.data.serialized_transactions.length;
 
   async function onApprove() {
-    if (getIsAborted()) return;
+    if (getIsAborted()) {
+      return;
+    }
 
     const ctx = base.prepareSigningContext();
-    if (!ctx) return;
+    if (!ctx) {
+      return;
+    }
 
     base.setIsLoading(true);
     setSigningProgress(0);
@@ -35,7 +39,9 @@ export function useAllTxSigModal(args: UseAllTxSigModalArgs) {
       const messagesToSign = data.payload.data.messages_to_sign;
 
       for (let i = 0; i < messagesToSign.length; i++) {
-        if (getIsAborted()) return;
+        if (getIsAborted()) {
+          return;
+        }
 
         const message = base64ToUint8Array(messagesToSign[i]);
         const result = await signMessageToHex(message, ctx);

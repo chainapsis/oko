@@ -1,4 +1,4 @@
-import { Router } from "express";
+import type { Router } from "express";
 import type {
   SignStep1Response,
   SignStep1V2Request,

@@ -1,4 +1,4 @@
-import { Pool, type PoolClient } from "pg";
+import type { Pool, PoolClient } from "pg";
 import type { OkoAdminUser } from "@oko-wallet/oko-types/admin";
 import type { Result } from "@oko-wallet/stdlib-js";
 

@@ -1,8 +1,8 @@
-import { type FC } from "react";
+import type { FC } from "react";
 
 import styles from "./view_chains_modal.module.scss";
 
-const CHAINS = [
+const _CHAINS = [
   // { name: "Ethereum", icon: <EthereumIcon width={24} height={24} /> },
   // { name: "ChainName", icon: <CosmosIcon width={24} height={24} /> },
   // { name: "Bitcoin", icon: <CosmosIcon width={24} height={24} /> },

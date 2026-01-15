@@ -1,12 +1,12 @@
 import { describe, test, expect } from "@jest/globals";
 import {
   Bytes,
-  Byte,
-  Bytes16,
-  Bytes32,
-  Bytes33,
-  Bytes60,
-  Bytes64,
+  type Byte,
+  type Bytes16,
+  type Bytes32,
+  type Bytes33,
+  type Bytes60,
+  type Bytes64,
 } from "./index.js";
 
 describe("Bytes class", () => {

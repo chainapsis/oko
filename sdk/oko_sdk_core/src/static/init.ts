@@ -1,4 +1,4 @@
-import { type Result } from "@oko-wallet/stdlib-js";
+import type { Result } from "@oko-wallet/stdlib-js";
 import { UTM_SOURCE, UTM_CAMPAIGN } from "@oko-wallet/oko-types/referral";
 
 import { setUpIframeElement } from "@oko-wallet-sdk-core/iframe";
@@ -70,7 +70,7 @@ export function init(
       if (utmCampaign) {
         sdkEndpointURL.searchParams.append(UTM_CAMPAIGN, utmCampaign);
       }
-    } catch (err) {
+    } catch (_err) {
       return {
         success: false,
         err: { type: "sdk_endpoint_invalid_url" },

@@ -1,7 +1,7 @@
-import { Pool, type PoolClient } from "pg";
+import type { Pool, PoolClient } from "pg";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { Customer } from "@oko-wallet/oko-types/customers";
-import { type CustomerAndCTDUser } from "@oko-wallet/oko-types/ct_dashboard";
+import type { CustomerAndCTDUser } from "@oko-wallet/oko-types/ct_dashboard";
 import type {
   DeleteCustomerRequest,
   DeleteCustomerResponse,

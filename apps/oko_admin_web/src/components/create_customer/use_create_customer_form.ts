@@ -5,7 +5,7 @@ import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
 } from "@oko-wallet/oko-types/admin";
-import { type OkoApiSuccessResponse } from "@oko-wallet/oko-types/api_response";
+import type { OkoApiSuccessResponse } from "@oko-wallet/oko-types/api_response";
 
 import { isValidEmail, isValidUrl } from "@oko-wallet-admin/utils/";
 import { addCustomer } from "@oko-wallet-admin/fetch/customer";

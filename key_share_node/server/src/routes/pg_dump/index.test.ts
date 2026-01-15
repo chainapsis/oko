@@ -1,8 +1,8 @@
-import { join } from "node:path";
+import { join } from "path";
 import os from "node:os";
 import request from "supertest";
 import express from "express";
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import dayjs from "dayjs";
 import { Bytes } from "@oko-wallet/bytes";
 
@@ -28,7 +28,7 @@ const mockServerKeypair = {
   publicKey: publicKeyRes.data,
 };
 
-function makeUnsuccessfulAppStatus(pool: Pool): ServerState {
+function _makeUnsuccessfulAppStatus(pool: Pool): ServerState {
   return {
     db: pool,
     encryptionSecret: "temp_enc_secret",

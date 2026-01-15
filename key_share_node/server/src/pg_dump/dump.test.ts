@@ -1,6 +1,6 @@
-import { Pool } from "pg";
+import type { Pool } from "pg";
 import fs from "node:fs/promises";
-import { join } from "node:path";
+import { join } from "path";
 import os from "node:os";
 import {
   getPgDumpById,

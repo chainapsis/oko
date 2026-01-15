@@ -82,7 +82,7 @@ function decodeCalldataWithAllPossibilities({
       if (parsedTransaction) {
         results.push(parsedTransaction);
       }
-    } catch (error) {
+    } catch (_error) {
       console.error(
         `Failed to decode calldata with signature ${signature}, skipping`,
       );

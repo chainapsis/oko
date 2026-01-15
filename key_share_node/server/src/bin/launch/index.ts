@@ -50,7 +50,7 @@ async function main() {
         password: process.env.DB_PASSWORD,
         user: process.env.DB_USER,
         port: Number(process.env.DB_PORT),
-        ssl: process.env.DB_SSL === "true" ? true : false,
+        ssl: process.env.DB_SSL === "true",
       },
       process.env.DUMP_DIR,
     );
@@ -107,7 +107,7 @@ async function main() {
     password: process.env.DB_PASSWORD,
     user: process.env.DB_USER,
     port: Number(process.env.DB_PORT),
-    ssl: process.env.DB_SSL === "true" ? true : false,
+    ssl: process.env.DB_SSL === "true",
   });
   if (!createPostgresRes.success) {
     logger.error(createPostgresRes.err);

@@ -2,7 +2,7 @@ import { useMemo, useState } from "react";
 import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 
 import {
-  CommonInputProps,
+  type CommonInputProps,
   InputBase,
   SIGNED_NUMBER_REGEX,
 } from "@oko-wallet-sandbox-evm/components/scaffold-eth";

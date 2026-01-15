@@ -12,7 +12,9 @@ interface SolanaAllTxSignatureContentProps {
 }
 
 function getFaviconUrl(origin: string): string {
-  if (!origin) return "";
+  if (!origin) {
+    return "";
+  }
   try {
     const parsed = new URL(origin);
     return `https://www.google.com/s2/favicons?domain_url=${encodeURIComponent(

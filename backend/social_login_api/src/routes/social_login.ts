@@ -70,7 +70,7 @@ export function setSocialLoginRoutes(router: Router) {
       req: Request<any, any, SocialLoginXBody>,
       res: Response<OkoApiResponse<SocialLoginXResponse>>,
     ) => {
-      const state = req.app.locals;
+      const _state = req.app.locals;
       const body = req.body;
 
       if (!body.code || !body.code_verifier || !body.redirect_uri) {

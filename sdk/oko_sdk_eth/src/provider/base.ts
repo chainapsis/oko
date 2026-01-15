@@ -163,7 +163,7 @@ export class OkoEIP1193Provider
         return `${this.name}/${VERSION}`;
       case "eth_chainId":
         return this.activeChainState.chainId;
-      default:
+      default: {
         const {
           rpcUrls: [rpcUrl],
         } = this.activeChainState;
@@ -195,6 +195,7 @@ export class OkoEIP1193Provider
           throw data.error;
         }
         return data.result;
+      }
     }
   }
 
@@ -272,7 +273,7 @@ export class OkoEIP1193Provider
         } catch {
           return [];
         }
-      case "eth_sendTransaction":
+      case "eth_sendTransaction": {
         const [tx] =
           args.params as RpcRequestArgs<"eth_sendTransaction">["params"];
         const signedTx = await this.request({
@@ -290,6 +291,7 @@ export class OkoEIP1193Provider
         });
 
         return txHash;
+      }
       case "eth_signTransaction": {
         const [tx] =
           args.params as RpcRequestArgs<"eth_signTransaction">["params"];

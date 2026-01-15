@@ -1,6 +1,5 @@
 "use client";
 
-
 import styles from "./control_panel.module.scss";
 
 export const ControlPanel = () => {

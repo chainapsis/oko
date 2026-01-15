@@ -1,4 +1,4 @@
-import { type Express } from "express";
+import type { Express } from "express";
 import { makeCustomerRouter } from "@oko-wallet/ct-dashboard-api";
 import { makeOkoAdminRouter } from "@oko-wallet/admin-api";
 import {
