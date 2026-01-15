@@ -1,6 +1,6 @@
 {
   "name": "@oko-wallet/ksn-interface",
-  "version": "0.0.2-alpha.63",
+  "version": "0.1.2-alpha.0",
   "type": "module",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -51,8 +51,8 @@
     "directory": "key_share_node/ksn_interface"
   },
   "dependencies": {
-    "@oko-wallet/bytes": "^0.0.3-alpha.67",
-    "@oko-wallet/oko-types": "^0.0.1-alpha.7"
+    "@oko-wallet/bytes": "^0.1.2-alpha.0",
+    "@oko-wallet/oko-types": "^0.1.2-alpha.0"
   },
   "devDependencies": {
     "@types/jest": "^29.5.14",
