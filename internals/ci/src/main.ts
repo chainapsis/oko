@@ -14,6 +14,7 @@ import { deploy } from "./cmds/deploy";
 import { langFormat } from "./cmds/lang_format";
 import { langCheck } from "./cmds/lang_check";
 import { depsCheck } from "./cmds/deps_check";
+import { setup } from "./cmds/setup";
 
 async function main() {
   const command = program.version("0.0.1").description("Oko Public CI");
@@ -37,6 +38,12 @@ async function main() {
   command.command("build_cs").action(buildCs);
 
   command.command("build_frost").action(buildFrost);
+
+  command
+    .command("setup")
+    .option("--skip-rust", "Skip rust build", false)
+    .option("--skip-typecheck", "Skip typecheck", false)
+    .action(setup);
 
   command
     .command("db_migrate_api")
