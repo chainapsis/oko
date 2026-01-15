@@ -46,11 +46,15 @@ export const TokenItem: FunctionComponent<TokenItemProps> = ({
 
   const handleCopyAddress = (e: MouseEvent) => {
     e.stopPropagation();
-    if (address) copy(address);
+    if (address) {
+      copy(address);
+    }
   };
 
   const handleClick = () => {
-    if (disabled || !onClick) return;
+    if (disabled || !onClick) {
+      return;
+    }
     onClick();
   };
 

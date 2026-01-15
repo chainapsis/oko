@@ -120,7 +120,9 @@ export function calculateUsdValue(
   decimals: number,
   priceUsd: number | undefined
 ): number | undefined {
-  if (!priceUsd) return undefined;
+  if (!priceUsd) {
+    return undefined;
+  }
 
   const amountBigInt = BigInt(amount);
   const divisor = BigInt(10 ** decimals);

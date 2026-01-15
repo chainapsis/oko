@@ -24,7 +24,9 @@ export function useEthAddress() {
   const query = useQuery({
     queryKey: ["address", "eth"],
     queryFn: async () => {
-      if (!okoEth) return undefined;
+      if (!okoEth) {
+        return undefined;
+      }
       return okoEth.getAddress();
     },
     enabled: !!okoEth && isInitialized,
@@ -53,7 +55,9 @@ export function useBech32Address(chainId: string | undefined) {
   const query = useQuery({
     queryKey: ["address", "bech32", chainId],
     queryFn: async () => {
-      if (!okoCosmos || !chainId) return undefined;
+      if (!okoCosmos || !chainId) {
+        return undefined;
+      }
       try {
         const key = await okoCosmos.getKey(chainId);
         return key?.bech32Address;
@@ -110,7 +114,9 @@ export function useBech32Addresses(chainIds: string[]) {
   const query = useQuery({
     queryKey: ["addresses", "bech32", cosmosChainIds.sort().join(",")],
     queryFn: async () => {
-      if (!okoCosmos) return {};
+      if (!okoCosmos) {
+        return {};
+      }
 
       const results: Record<string, string | undefined> = {};
 

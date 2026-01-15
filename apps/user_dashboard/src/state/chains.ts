@@ -65,7 +65,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
 
       enableChains: (...chainIds) => {
         const { activeUserKey, enabledChainsByUser } = get();
-        if (!activeUserKey) return;
+        if (!activeUserKey) {
+          return;
+        }
 
         const currentEnabled =
           enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
@@ -85,7 +87,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
 
       disableChains: (...chainIds) => {
         const { activeUserKey, enabledChainsByUser } = get();
-        if (!activeUserKey) return;
+        if (!activeUserKey) {
+          return;
+        }
 
         const currentEnabled =
           enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
@@ -105,7 +109,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
 
       isChainEnabled: (chainId) => {
         const { activeUserKey, enabledChainsByUser } = get();
-        if (!activeUserKey) return false;
+        if (!activeUserKey) {
+          return false;
+        }
 
         const enabled =
           enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
@@ -115,7 +121,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
 
       getEnabledChainIds: () => {
         const { activeUserKey, enabledChainsByUser } = get();
-        if (!activeUserKey) return [...DEFAULT_ENABLED_CHAINS];
+        if (!activeUserKey) {
+          return [...DEFAULT_ENABLED_CHAINS];
+        }
         return enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
       },
     }),

@@ -280,7 +280,9 @@ export function useTotalBalance() {
   const { balances, isLoading } = useAllBalances();
 
   const totalUsd = balances.reduce((sum, bal) => {
-    if (!bal.priceUsd) return sum;
+    if (!bal.priceUsd) {
+      return sum;
+    }
     const amount =
       Number(bal.token.amount) / 10 ** bal.token.currency.coinDecimals;
     return sum + amount * bal.priceUsd;

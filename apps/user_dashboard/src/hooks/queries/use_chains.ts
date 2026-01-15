@@ -98,7 +98,9 @@ export function useChain(chainId: string | undefined) {
   const { chains, isLoading } = useChains();
 
   const chain = useMemo(() => {
-    if (!chainId) return undefined;
+    if (!chainId) {
+      return undefined;
+    }
     const identifier = getChainIdentifier(chainId);
     return chains.find((c) => getChainIdentifier(c.chainId) === identifier);
   }, [chains, chainId]);

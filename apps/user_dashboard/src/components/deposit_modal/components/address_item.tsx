@@ -39,7 +39,9 @@ export const AddressItem: FC<AddressItemProps> = ({
 
   const handleCopyAddress = (e: MouseEvent) => {
     e.stopPropagation();
-    if (address) copy(address);
+    if (address) {
+      copy(address);
+    }
   };
 
   return (

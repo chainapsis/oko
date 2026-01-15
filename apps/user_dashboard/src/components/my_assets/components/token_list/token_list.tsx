@@ -25,7 +25,9 @@ export const TokenList: FC = () => {
 
   // Filter tokens by search query
   const searchedTokens = useMemo(() => {
-    if (!searchQuery.trim()) return balances;
+    if (!searchQuery.trim()) {
+      return balances;
+    }
 
     const query = searchQuery.toLowerCase();
     return balances.filter((bal) => {
@@ -37,10 +39,14 @@ export const TokenList: FC = () => {
 
   // Filter low balance tokens
   const filteredTokens = useMemo(() => {
-    if (!isHideLowBalance) return searchedTokens;
+    if (!isHideLowBalance) {
+      return searchedTokens;
+    }
 
     return searchedTokens.filter((bal) => {
-      if (!bal.priceUsd) return true; // Keep tokens without price
+      if (!bal.priceUsd) {
+        return true;
+      }
 
       const amount =
         Number(bal.token.amount) / 10 ** bal.token.currency.coinDecimals;
@@ -51,10 +57,14 @@ export const TokenList: FC = () => {
 
   // Check if there are low balance tokens to hide
   const hasLowBalanceTokens = useMemo(() => {
-    if (!isHideLowBalance) return false;
+    if (!isHideLowBalance) {
+      return false;
+    }
 
     return searchedTokens.some((bal) => {
-      if (!bal.priceUsd) return false;
+      if (!bal.priceUsd) {
+        return false;
+      }
 
       const amount =
         Number(bal.token.amount) / 10 ** bal.token.currency.coinDecimals;
