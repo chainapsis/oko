@@ -7,7 +7,6 @@ import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
 import { COINGECKO_ENDPOINT } from "@oko-wallet-user-dashboard/fetch";
-
 import { useEnabledChains } from "./use_chains";
 
 interface PriceResponse {
@@ -38,7 +37,10 @@ async function fetchPrices(coinIds: string[]): Promise<PriceResponse> {
  * Get all CoinGecko IDs from enabled chains
  */
 function extractCoinGeckoIds(
-  chains: { cosmos?: { currencies: { coinGeckoId?: string }[] }; evm?: { currencies: { coinGeckoId?: string }[] } }[]
+  chains: {
+    cosmos?: { currencies: { coinGeckoId?: string }[] };
+    evm?: { currencies: { coinGeckoId?: string }[] };
+  }[],
 ): string[] {
   const ids: string[] = [];
 
@@ -70,7 +72,7 @@ export function usePrices() {
 
   const coinGeckoIds = useMemo(
     () => extractCoinGeckoIds(enabledChains),
-    [enabledChains]
+    [enabledChains],
   );
 
   const query = useQuery({
@@ -120,7 +122,7 @@ export function useTokenPrice(coinGeckoId: string | undefined) {
 export function calculateUsdValue(
   amount: string,
   decimals: number,
-  priceUsd: number | undefined
+  priceUsd: number | undefined,
 ): number | undefined {
   if (!priceUsd) {
     return undefined;

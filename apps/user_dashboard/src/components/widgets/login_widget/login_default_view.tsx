@@ -1,5 +1,4 @@
 import type { FC } from "react";
-
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
