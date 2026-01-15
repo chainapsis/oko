@@ -1,4 +1,4 @@
-# Install and run
+# Install and Run
 
 Shell scripts for local development environment setup and E2E testing.
 
@@ -16,7 +16,7 @@ Sets up the local development environment by running the same build steps as
 GitHub CI.
 
 ```bash
-./scripts/ci-setup.sh [OPTIONS]
+./internals/ci/ci-setup.sh [OPTIONS]
 ```
 
 **Build Steps:**
@@ -43,32 +43,59 @@ GitHub CI.
 
 ```bash
 # Full setup
-./scripts/ci-setup.sh
+./internals/ci/ci-setup.sh
 
 # Quick setup (skip checks)
-./scripts/ci-setup.sh --skip-rust --skip-typecheck
+./internals/ci/ci-setup.sh --skip-rust --skip-typecheck
 ```
 
 ---
 
 ### tmux-e2e-start.sh
 
-Starts all E2E services in a tmux session with separate windows.
+Starts all E2E services in a single tmux window with 6 panes (tiled layout).
 
 ```bash
-./scripts/tmux-e2e-start.sh [OPTIONS]
+./internals/tmux/tmux-e2e-start.sh [OPTIONS]
 ```
 
-**Services Started:**
+**Tmux Session Structure:**
 
-| Window       | Service          | Command        |
-| ------------ | ---------------- | -------------- |
-| oko_api      | Backend API      | `yarn dev`     |
-| oko_attached | Embedded wallet  | `yarn dev`     |
-| demo_web     | Demo web app     | `yarn dev`     |
-| ksn_1        | Key Share Node 1 | `yarn start`   |
-| ksn_2        | Key Share Node 2 | `yarn start_2` |
-| ksn_3        | Key Share Node 3 | `yarn start_3` |
+Session name: `oko-e2e`
+
+```
+oko-e2e (session)
+└── services (window)
+    ├── pane 0: oko_api      → backend/oko_api/server     (yarn dev)
+    ├── pane 1: oko_attached → embed/oko_attached         (yarn dev)
+    ├── pane 2: demo_web     → apps/demo_web              (yarn dev)
+    ├── pane 3: ksn_1        → key_share_node/server      (yarn start)
+    ├── pane 4: ksn_2        → key_share_node/server      (yarn start_2)
+    └── pane 5: ksn_3        → key_share_node/server      (yarn start_3)
+```
+
+**Pane Layout (tiled 2x3 grid):**
+
+```
++------------+------------+
+| oko_api    | oko_attach |
++------------+------------+
+| demo_web   | ksn_1      |
++------------+------------+
+| ksn_2      | ksn_3      |
++------------+------------+
+```
+
+**Services:**
+
+| Pane | Service          | Directory                | Command        |
+| ---- | ---------------- | ------------------------ | -------------- |
+| 0    | Backend API      | backend/oko_api/server   | `yarn dev`     |
+| 1    | Embedded wallet  | embed/oko_attached       | `yarn dev`     |
+| 2    | Demo web app     | apps/demo_web            | `yarn dev`     |
+| 3    | Key Share Node 1 | key_share_node/server    | `yarn start`   |
+| 4    | Key Share Node 2 | key_share_node/server    | `yarn start_2` |
+| 5    | Key Share Node 3 | key_share_node/server    | `yarn start_3` |
 
 **Options:**
 
@@ -87,10 +114,10 @@ Starts all E2E services in a tmux session with separate windows.
 
 ```bash
 # Start services
-./scripts/tmux-e2e-start.sh
+./internals/tmux/tmux-e2e-start.sh
 
 # Reset database and start
-./scripts/tmux-e2e-start.sh --reset
+./internals/tmux/tmux-e2e-start.sh --reset
 ```
 
 ---
@@ -100,30 +127,43 @@ Starts all E2E services in a tmux session with separate windows.
 Stops the E2E tmux session.
 
 ```bash
-./scripts/tmux-e2e-stop.sh
+./internals/tmux/tmux-e2e-stop.sh
 ```
 
 ---
 
 ## Typical Workflow
 
+**First time setup (fresh clone):**
+
 ```bash
-# 1. First time setup (run once)
-./scripts/ci-setup.sh
-
-# 2. Start E2E environment with fresh database
-./scripts/tmux-e2e-start.sh --reset
-
-# 3. When done, stop all services
-./scripts/tmux-e2e-stop.sh
+./internals/ci/ci-setup.sh
+./internals/tmux/tmux-e2e-start.sh --reset
 ```
 
-## Tmux Navigation
+**Already set up, just start services:**
+
+```bash
+./internals/tmux/tmux-e2e-start.sh
+```
+
+**Stop all services:**
+
+```bash
+./internals/tmux/tmux-e2e-stop.sh
+```
+
+---
+
+## Tmux Pane Navigation
 
 Once attached to the session:
 
-- `Ctrl+b n` - Next window
-- `Ctrl+b p` - Previous window
-- `Ctrl+b <number>` - Go to window by number (0-5)
-- `Ctrl+b d` - Detach from session (services keep running)
-- `Ctrl+b w` - List all windows
+| Shortcut       | Action                                      |
+| -------------- | ------------------------------------------- |
+| `Ctrl+b o`     | Move to next pane                           |
+| `Ctrl+b ;`     | Move to previous pane                       |
+| `Ctrl+b q`     | Show pane numbers, then press number to go  |
+| `Ctrl+b z`     | Toggle current pane fullscreen (zoom)       |
+| `Ctrl+b d`     | Detach from session (services keep running) |
+| `Ctrl+b arrow` | Move to pane in arrow direction             |
