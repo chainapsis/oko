@@ -16,6 +16,7 @@ export async function doBuildSDK() {
     paths.sdk_cosmos,
     paths.sdk_eth,
     paths.sdk_cosmos_kit,
+    paths.sdk_sol,
   ];
 
   console.log("Building SDK packages, total (%s)", pkgsInOrder.length);
