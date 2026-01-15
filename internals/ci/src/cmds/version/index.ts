@@ -40,12 +40,12 @@ export async function version(args: any[]) {
     );
 
     for (const dep of wsDeps) {
-      console.log("dep: %s", dep);
+      console.log("pkg: %s, dep: %s: %s", dep.pkg, dep.depName, dep.version);
     }
     process.exit(1);
   }
 
-  // const changedRet = spawnSync("yarn", ["lerna", "changed"], {
+  // const changedRet = spawnSync("yarn", ["lerna", "changed", "--json"], {
   //   cwd: paths.root,
   // });
   // console.log(123123, changedRet.stdout.toString());
@@ -59,8 +59,10 @@ export async function version(args: any[]) {
       "--no-private",
       "--no-git-tag-version",
       "--no-push",
-      "--json",
+      // "--json",
       "--yes",
+      "--message",
+      "project: version bump %s",
     ],
     {
       cwd: paths.root,
