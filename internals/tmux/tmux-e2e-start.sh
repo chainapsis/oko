@@ -2,7 +2,7 @@
 set -e
 
 SESSION_NAME="oko-e2e"
-PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 RESET_DB=false
 
 # Color definitions

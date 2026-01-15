@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-PROJECT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+PROJECT_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 cd "$PROJECT_ROOT"
 
 # Color definitions
@@ -132,5 +132,5 @@ echo "=========================================="
 echo -e "  ${GREEN}Setup Complete!${NC}"
 echo "=========================================="
 echo ""
-print_info "You can now run: ./scripts/tmux-e2e-start.sh"
+print_info "You can now run: ./internals/tmux/tmux-e2e-start.sh"
 echo ""
