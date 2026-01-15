@@ -28,7 +28,7 @@ export default function ResetPasswordPage() {
         <DashboardHeader />
         <div className={cn(styles.body, { [styles.afterLogin]: isAfterLogin })}>
           {isAfterLogin && (
-            <button className={styles.backButton} onClick={() => router.back()}>
+            <button type="button" className={styles.backButton} onClick={() => router.back()}>
               <ChevronLeftIcon size={24} color="var(--fg-tertiary)" />
             </button>
           )}

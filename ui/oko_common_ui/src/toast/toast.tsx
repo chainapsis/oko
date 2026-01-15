@@ -66,7 +66,7 @@ interface ToastCloseButtonProps {
 }
 export const ToastCloseButton: FC<ToastCloseButtonProps> = ({ closeToast }) => {
   return (
-    <button className={styles.closeButton} onClick={closeToast}>
+    <button type="button" className={styles.closeButton} onClick={closeToast}>
       <XCloseIcon color="var(--fg-quaternary)" size={20} />
     </button>
   );

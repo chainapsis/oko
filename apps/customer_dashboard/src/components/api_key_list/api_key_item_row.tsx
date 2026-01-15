@@ -59,6 +59,7 @@ export const APIKeyItemRow: FC<APIKeyItemRowProps> = ({
         <Spacing width={8} />
 
         <button
+          type="button"
           onClick={() => setIsVisible(!isVisible)}
           className={styles.buttonIcon}
         >
@@ -81,7 +82,7 @@ export const APIKeyItemRow: FC<APIKeyItemRowProps> = ({
             Copied ✓
           </Typography>
         ) : (
-          <button onClick={handleCopy} className={styles.buttonIcon}>
+          <button type="button" onClick={handleCopy} className={styles.buttonIcon}>
             <CopyOutlinedIcon color="var(--fg-tertiary)" />
           </button>
         )}
