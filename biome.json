@@ -74,7 +74,22 @@
     "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "off"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              ":NODE:",
+              [":PACKAGE:", "!@oko-wallet/**", "!@oko-wallet-*/**"],
+              ":BLANK_LINE:",
+              ["@oko-wallet/**", "@oko-wallet-*/**"],
+              ":BLANK_LINE:",
+              ":ALIAS:",
+              [":PATH:", "!./**/*.scss"],
+              ":BLANK_LINE:",
+              "./**/*.scss"
+            ]
+          }
+        }
       }
     }
   },
