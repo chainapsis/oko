@@ -20,6 +20,7 @@
     "./customers": "./dist/customers/index.js",
     "./log": "./dist/log/index.js",
     "./tss": "./dist/tss/index.js",
+    "./teddsa": "./dist/teddsa/index.js",
     "./user": "./dist/user/index.js",
     "./wallets": "./dist/wallets/index.js",
     "./aux_types": "./dist/aux_types/index.js",
