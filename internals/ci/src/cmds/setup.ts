@@ -80,5 +80,7 @@ export async function setup(args: SetupArgs) {
     console.log("Skipping cargo check (skip_rust)");
   }
 
-  console.log("setup complete");
+  console.log(`Setup complete
+You can now run: ./internals/tmux/tmux-e2e-start.sh
+`);
 }
