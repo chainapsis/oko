@@ -197,13 +197,10 @@ export async function registerKeyShareV2(
 ): Promise<KSNodeApiResponse<void>> {
   const { user_auth_id, auth_type, wallets } = request;
 
-  const client = await db.connect();
   try {
-    await client.query("BEGIN");
-
-    // Get or create user
+    // 1. Check if user exists (outside transaction)
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
-      client,
+      db,
       auth_type,
       user_auth_id,
     );
@@ -213,74 +210,69 @@ export async function registerKeyShareV2(
       );
     }
 
-    let userId: string;
-    if (getUserRes.data === null) {
-      // New user - create
-      const createUserRes = await createUser(client, auth_type, user_auth_id);
-      if (createUserRes.success === false) {
-        throw new Error(`Failed to createUser: ${createUserRes.err}`);
-      }
-      userId = createUserRes.data.user_id;
-    } else {
-      // Existing user - check if they already have any wallets
-      userId = getUserRes.data.user_id;
+    const existingUser = getUserRes.data;
 
-      const getWalletsRes = await getWalletsByUserId(client, userId);
-      if (getWalletsRes.success === false) {
-        throw new Error(`Failed to getWalletsByUserId: ${getWalletsRes.err}`);
+    // 2. Start transaction only for write operations
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
+
+      let userId: string;
+      if (existingUser === null) {
+        // New user - create
+        const createUserRes = await createUser(client, auth_type, user_auth_id);
+        if (createUserRes.success === false) {
+          throw new Error(`Failed to createUser: ${createUserRes.err}`);
+        }
+        userId = createUserRes.data.user_id;
+      } else {
+        userId = existingUser.user_id;
       }
 
-      if (getWalletsRes.data.length > 0) {
-        await client.query("ROLLBACK");
-        return {
-          success: false,
-          code: "USER_ALREADY_REGISTERED",
-          msg: "User already has registered wallets. Use /register/ed25519 for adding ed25519 wallet to existing users.",
-        };
+      // Register each wallet sequentially within the transaction
+      if (wallets.secp256k1) {
+        const res = await registerWalletKeyShare(
+          client,
+          wallets.secp256k1,
+          userId,
+          "secp256k1",
+          encryptionSecret,
+        );
+        if (res.success === false) {
+          await client.query("ROLLBACK");
+          return res;
+        }
       }
+
+      if (wallets.ed25519) {
+        const res = await registerWalletKeyShare(
+          client,
+          wallets.ed25519,
+          userId,
+          "ed25519",
+          encryptionSecret,
+        );
+        if (res.success === false) {
+          await client.query("ROLLBACK");
+          return res;
+        }
+      }
+
+      await client.query("COMMIT");
+      return { success: true, data: void 0 };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
     }
-
-    // Register each wallet sequentially within the transaction
-    if (wallets.secp256k1) {
-      const res = await registerWalletKeyShare(
-        client,
-        wallets.secp256k1,
-        userId,
-        "secp256k1",
-        encryptionSecret,
-      );
-      if (res.success === false) {
-        await client.query("ROLLBACK");
-        return res;
-      }
-    }
-
-    if (wallets.ed25519) {
-      const res = await registerWalletKeyShare(
-        client,
-        wallets.ed25519,
-        userId,
-        "ed25519",
-        encryptionSecret,
-      );
-      if (res.success === false) {
-        await client.query("ROLLBACK");
-        return res;
-      }
-    }
-
-    await client.query("COMMIT");
-    return { success: true, data: void 0 };
   } catch (error) {
-    await client.query("ROLLBACK");
     logger.error("Failed to register key shares: %s", error);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
       msg: "Failed to register key shares",
     };
-  } finally {
-    client.release();
   }
 }
 
@@ -297,13 +289,10 @@ export async function registerEd25519V2(
 ): Promise<KSNodeApiResponse<void>> {
   const { user_auth_id, auth_type, public_key, share } = request;
 
-  const client = await db.connect();
   try {
-    await client.query("BEGIN");
-
-    // Get existing user (must exist)
+    // 1. Validation queries (outside transaction)
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
-      client,
+      db,
       auth_type,
       user_auth_id,
     );
@@ -314,7 +303,6 @@ export async function registerEd25519V2(
     }
 
     if (getUserRes.data === null) {
-      await client.query("ROLLBACK");
       return {
         success: false,
         code: "USER_NOT_FOUND",
@@ -325,18 +313,19 @@ export async function registerEd25519V2(
     const userId = getUserRes.data.user_id;
 
     // Check existing wallets
-    const getWalletsRes = await getWalletsByUserId(client, userId);
+    const getWalletsRes = await getWalletsByUserId(db, userId);
     if (getWalletsRes.success === false) {
       throw new Error(`Failed to getWalletsByUserId: ${getWalletsRes.err}`);
     }
 
-    const wallets = getWalletsRes.data;
-    const secp256k1Wallet = wallets.find((w) => w.curve_type === "secp256k1");
-    const hasEd25519 = wallets.some((w) => w.curve_type === "ed25519");
+    const existingWallets = getWalletsRes.data;
+    const secp256k1Wallet = existingWallets.find(
+      (w) => w.curve_type === "secp256k1",
+    );
+    const hasEd25519 = existingWallets.some((w) => w.curve_type === "ed25519");
 
     // Must have secp256k1 wallet (existing user)
     if (!secp256k1Wallet) {
-      await client.query("ROLLBACK");
       return {
         success: false,
         code: "WALLET_NOT_FOUND",
@@ -346,7 +335,6 @@ export async function registerEd25519V2(
 
     // Must not have ed25519 wallet already
     if (hasEd25519) {
-      await client.query("ROLLBACK");
       return {
         success: false,
         code: "DUPLICATE_PUBLIC_KEY",
@@ -354,31 +342,39 @@ export async function registerEd25519V2(
       };
     }
 
-    // Register ed25519 wallet
-    const registerRes = await registerWalletKeyShare(
-      client,
-      { public_key, share },
-      userId,
-      "ed25519",
-      encryptionSecret,
-    );
-    if (registerRes.success === false) {
-      await client.query("ROLLBACK");
-      return registerRes;
-    }
+    // 2. Start transaction only for write operations
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
 
-    await client.query("COMMIT");
-    return { success: true, data: void 0 };
+      // Register ed25519 wallet
+      const registerRes = await registerWalletKeyShare(
+        client,
+        { public_key, share },
+        userId,
+        "ed25519",
+        encryptionSecret,
+      );
+      if (registerRes.success === false) {
+        await client.query("ROLLBACK");
+        return registerRes;
+      }
+
+      await client.query("COMMIT");
+      return { success: true, data: void 0 };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   } catch (error) {
-    await client.query("ROLLBACK");
     logger.error("Failed to register ed25519 wallet: %s", error);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
       msg: "Failed to register ed25519 wallet",
     };
-  } finally {
-    client.release();
   }
 }
 
@@ -477,19 +473,15 @@ export async function reshareRegisterV2(
 ): Promise<KSNodeApiResponse<void>> {
   const { user_auth_id, auth_type, wallets } = request;
 
-  const client = await db.connect();
   try {
-    await client.query("BEGIN");
-
-    // Get existing user (must exist - reshare scenario)
+    // 1. Validation queries (outside transaction)
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
-      client,
+      db,
       auth_type,
       user_auth_id,
     );
     if (getUserRes.success === false) {
       logger.error("Failed to get user: %s", getUserRes.err);
-      await client.query("ROLLBACK");
       return {
         success: false,
         code: "UNKNOWN_ERROR",
@@ -498,7 +490,6 @@ export async function reshareRegisterV2(
     }
 
     if (getUserRes.data === null) {
-      await client.query("ROLLBACK");
       return {
         success: false,
         code: "USER_NOT_FOUND",
@@ -508,46 +499,54 @@ export async function reshareRegisterV2(
 
     const userId = getUserRes.data.user_id;
 
-    // Register each wallet sequentially within the transaction
-    if (wallets.secp256k1) {
-      const res = await registerWalletKeyShare(
-        client,
-        wallets.secp256k1,
-        userId,
-        "secp256k1",
-        encryptionSecret,
-      );
-      if (res.success === false) {
-        await client.query("ROLLBACK");
-        return res;
-      }
-    }
+    // 2. Start transaction only for write operations
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
 
-    if (wallets.ed25519) {
-      const res = await registerWalletKeyShare(
-        client,
-        wallets.ed25519,
-        userId,
-        "ed25519",
-        encryptionSecret,
-      );
-      if (res.success === false) {
-        await client.query("ROLLBACK");
-        return res;
+      // Register each wallet sequentially within the transaction
+      if (wallets.secp256k1) {
+        const res = await registerWalletKeyShare(
+          client,
+          wallets.secp256k1,
+          userId,
+          "secp256k1",
+          encryptionSecret,
+        );
+        if (res.success === false) {
+          await client.query("ROLLBACK");
+          return res;
+        }
       }
-    }
 
-    await client.query("COMMIT");
-    return { success: true, data: void 0 };
+      if (wallets.ed25519) {
+        const res = await registerWalletKeyShare(
+          client,
+          wallets.ed25519,
+          userId,
+          "ed25519",
+          encryptionSecret,
+        );
+        if (res.success === false) {
+          await client.query("ROLLBACK");
+          return res;
+        }
+      }
+
+      await client.query("COMMIT");
+      return { success: true, data: void 0 };
+    } catch (error) {
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   } catch (error) {
-    await client.query("ROLLBACK");
     logger.error("Failed to register key shares during reshare: %s", error);
     return {
       success: false,
       code: "UNKNOWN_ERROR",
       msg: "Failed to register key shares during reshare",
     };
-  } finally {
-    client.release();
   }
 }
