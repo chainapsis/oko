@@ -43,7 +43,7 @@ const ToastIcon: FC<ToastIconProps> = ({ variant }) => {
   }
 };
 
-export const Toast: FC<ToastItemProps> = ({ title, description, variant }) => {
+export const Toast: FC<ToastItemProps> = ({ title, variant }) => {
   return (
     <div
       className={styles.toastInner}
@@ -66,7 +66,7 @@ interface ToastCloseButtonProps {
 }
 export const ToastCloseButton: FC<ToastCloseButtonProps> = ({ closeToast }) => {
   return (
-    <button className={styles.closeButton} onClick={closeToast}>
+    <button type="button" className={styles.closeButton} onClick={closeToast}>
       <XCloseIcon color="var(--fg-quaternary)" size={20} />
     </button>
   );

@@ -70,3 +70,20 @@ export interface UserSignInResult {
   name: string | null;
   email: string | null;
 }
+
+export interface UserSignInResultV2 {
+  publicKeySecp256k1: string;
+  publicKeyEd25519: string;
+  walletIdSecp256k1: string;
+  walletIdEd25519: string;
+  jwtToken: string;
+  /** hex-encoded tss_private_share for secp256k1 */
+  keyshare1Secp256k1: string;
+  /** hex-encoded KeyPackageRaw JSON for ed25519 (contains signing_share) */
+  keyPackageEd25519: string;
+  /** hex-encoded PublicKeyPackageRaw JSON for ed25519 */
+  publicKeyPackageEd25519: string;
+  isNewUser: boolean;
+  name: string | null;
+  email: string | null;
+}

@@ -1,6 +1,6 @@
 import { spawnSync } from "node:child_process";
-import chalk from "chalk";
 import { parentPort, workerData } from "node:worker_threads";
+import chalk from "chalk";
 
 import { getPkgName } from "@oko-wallet-ci/pkg_name";
 

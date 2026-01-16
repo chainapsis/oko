@@ -1,10 +1,12 @@
-import express from "express";
-import morgan from "morgan";
-import helmet from "helmet";
 import cors from "cors";
 import dotenv from "dotenv";
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
 
-import { setCustomerRoutes } from "@oko-wallet-ctd-api/routes/customer";
+import { makeCustomerRouter } from "../routes/v1";
+
+// import { setCustomerRoutes } from "@oko-wallet-ctd-api/routes/customer";
 
 dotenv.config();
 
@@ -20,7 +22,8 @@ export function makeApp() {
     res.send("Ok");
   });
 
-  setCustomerRoutes(app);
+  const router = makeCustomerRouter();
+  app.use(router);
 
   return app;
 }

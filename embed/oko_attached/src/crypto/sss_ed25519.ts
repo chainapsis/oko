@@ -182,3 +182,39 @@ export function extractSigningShareFromKeyPackage(
 ): Bytes32 {
   return keyPackage.signing_share;
 }
+
+/**
+ * Convert KeyPackage (Bytes type) to KeyPackageRaw (number[] type).
+ */
+export function keyPackageToRaw(keyPackage: KeyPackage): KeyPackageRaw {
+  return {
+    identifier: [...keyPackage.identifier.toUint8Array()],
+    signing_share: [...keyPackage.signing_share.toUint8Array()],
+    verifying_share: [...keyPackage.verifying_share.toUint8Array()],
+    verifying_key: [...keyPackage.verifying_key.toUint8Array()],
+    min_signers: keyPackage.min_signers,
+  };
+}
+
+/**
+ * Get client's FROST identifier for centralized 2-of-2 keygen.
+ * In centralized keygen, client (participant 0) has identifier = scalar 1.
+ * This is represented as little-endian 32-byte value.
+ */
+export function getClientFrostIdentifier(): Result<Bytes32, string> {
+  // Scalar 1 in little-endian format
+  const identifierBytes = new Uint8Array(32);
+  identifierBytes[0] = 1;
+  return Bytes.fromUint8Array(identifierBytes, 32);
+}
+
+/**
+ * Get server's FROST identifier for centralized 2-of-2 keygen.
+ * In centralized keygen, server (participant 1) has identifier = scalar 2.
+ */
+export function getServerFrostIdentifier(): Result<Bytes32, string> {
+  // Scalar 2 in little-endian format
+  const identifierBytes = new Uint8Array(32);
+  identifierBytes[0] = 2;
+  return Bytes.fromUint8Array(identifierBytes, 32);
+}

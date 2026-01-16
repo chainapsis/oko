@@ -1,12 +1,14 @@
-import cn from "classnames";
-
 import { LogoutIcon } from "@oko-wallet/oko-common-ui/icons/logout";
 import { ThreeDotsVerticalIcon } from "@oko-wallet/oko-common-ui/icons/three_dots_vertical";
 import { AnchoredMenu } from "@oko-wallet/oko-common-ui/anchored_menu";
+
+import cn from "classnames";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
-import { useSDKState, selectCosmosSDK } from "@oko-wallet-user-dashboard/state/sdk";
-
+import {
+  useSDKState,
+  selectCosmosSDK,
+} from "@oko-wallet-user-dashboard/state/sdk";
 import styles from "./account_info_with_sub_menu.module.scss";
 
 export const AccountInfoWithSubMenu = () => {
