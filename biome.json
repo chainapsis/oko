@@ -79,11 +79,9 @@
           "level": "on",
           "options": {
             "groups": [
-              ":NODE:",
-              [":PACKAGE:", "!@oko-wallet-*/**"],
+              [":NODE:", ":PACKAGE:", "!@oko-wallet-*/**"],
               ":BLANK_LINE:",
-              ":ALIAS:",
-              ":PATH:"
+              [":ALIAS:", ":PATH:"]
             ]
           }
         }
