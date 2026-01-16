@@ -1,62 +1,18 @@
-import { type Request, Router, type Response } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  SendVerificationRequest,
-  VerifyAndLoginRequest,
-  SignInRequest,
-  ChangePasswordRequest,
-  SendVerificationResponse,
-  LoginResponse,
-  ChangePasswordResponse,
-} from "@oko-wallet/oko-types/ct_dashboard";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import {
-  getCTDUserWithCustomerAndPasswordHashByEmail,
-  updateCustomerDashboardUserPassword,
-  verifyCustomerDashboardUserEmail,
-  getCTDUserWithCustomerByEmail,
-} from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
-import { hashPassword, comparePassword } from "@oko-wallet/crypto-js";
-import {
-  verifyEmailCode,
-  markCodeVerified,
-} from "@oko-wallet/oko-pg-interface/email_verifications";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {
-  ChangePasswordRequestSchema,
-  ChangePasswordSuccessResponseSchema,
-  CustomerAuthHeaderSchema,
-  LoginSuccessResponseSchema,
   SendVerificationRequestSchema,
   SendVerificationSuccessResponseSchema,
-  SignInRequestSchema,
-  VerifyAndLoginRequestSchema,
-  ForgotPasswordRequestSchema,
-  ForgotPasswordSuccessResponseSchema,
-  VerifyResetCodeRequestSchema,
-  VerifyResetCodeSuccessResponseSchema,
-  ResetPasswordConfirmRequestSchema,
-  ResetPasswordConfirmSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/ct_dashboard";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
+  SendVerificationRequest,
+  SendVerificationResponse,
+} from "@oko-wallet/oko-types/ct_dashboard";
+import type { Request, Response } from "express";
 
-import { generateCustomerToken } from "@oko-wallet-ctd-api/auth";
 import { sendEmailVerificationCode } from "@oko-wallet-ctd-api/email/send";
-import {
-  CHANGED_PASSWORD_MIN_LENGTH,
-  CHANGED_PASSWORD_MAX_LENGTH,
-  PASSWORD_CONTAINS_NUMBER_REGEX,
-  EMAIL_REGEX,
-  SIX_DIGITS_REGEX,
-} from "@oko-wallet-ctd-api/constants";
-import {
-  customerJwtMiddleware,
-  type CustomerAuthenticatedRequest,
-} from "@oko-wallet-ctd-api/middleware/auth";
-import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
-import { generateVerificationCode } from "@oko-wallet-ctd-api/email/verification";
-import { sendPasswordResetEmail } from "@oko-wallet-ctd-api/email/password_reset";
-import { createEmailVerification } from "@oko-wallet/oko-pg-interface/email_verifications";
 
 registry.registerPath({
   method: "post",

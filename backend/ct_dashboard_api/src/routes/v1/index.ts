@@ -1,18 +1,18 @@
 import express from "express";
 
-import { customerJwtMiddleware } from "@oko-wallet-ctd-api/middleware/auth";
-import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
+import { changePassword } from "./change_password";
 import { forgotPassword } from "./forgot_password";
-import { verifyResetCode } from "./verify_reset_code";
+import { getCustomerApiKeys } from "./get_customer_api_keys";
+import { getCustomerInfo } from "./get_customer_info";
 import { resetPasswordConfirm } from "./reset_password_confirm";
 import { sendCode } from "./send_code";
-import { verifyLogin } from "./verify_login";
 import { signIn } from "./signin";
-import { changePassword } from "./change_password";
-import { customerLogoUploadMiddleware } from "@oko-wallet-ctd-api/middleware/multer";
-import { getCustomerInfo } from "./get_customer_info";
-import { getCustomerApiKeys } from "./get_customer_api_keys";
 import { updateCustomerInfoRoute } from "./update_customer_info";
+import { verifyLogin } from "./verify_login";
+import { verifyResetCode } from "./verify_reset_code";
+import { customerJwtMiddleware } from "@oko-wallet-ctd-api/middleware/auth";
+import { customerLogoUploadMiddleware } from "@oko-wallet-ctd-api/middleware/multer";
+import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
 
 export function makeCustomerRouter() {
   const router = express.Router();

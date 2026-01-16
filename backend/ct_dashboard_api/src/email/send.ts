@@ -1,23 +1,23 @@
+import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import {
   createEmailVerification,
   getLatestPendingVerification,
 } from "@oko-wallet/oko-pg-interface/email_verifications";
-import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   SendVerificationRequest,
   SendVerificationResponse,
 } from "@oko-wallet/oko-types/ct_dashboard";
-import { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Pool } from "pg";
 
-import {
-  generateVerificationCode,
-  sendVerificationEmail,
-} from "@oko-wallet-ctd-api/email/verification";
 import {
   CAN_RESEND_CODE_INTERVAL_SECONDS,
   EMAIL_REGEX,
 } from "@oko-wallet-ctd-api/constants";
+import {
+  generateVerificationCode,
+  sendVerificationEmail,
+} from "@oko-wallet-ctd-api/email/verification";
 
 export async function sendEmailVerificationCode(
   db: Pool,
@@ -75,7 +75,7 @@ export async function sendEmailVerificationCode(
   // Check if there's already an active verification
   if (activeVerification !== null) {
     const diffTime = Math.abs(
-      new Date().getTime() - activeVerification.created_at.getTime(),
+      Date.now() - activeVerification.created_at.getTime(),
     );
     const diffSeconds = Math.ceil(diffTime / 1000);
     if (diffSeconds < CAN_RESEND_CODE_INTERVAL_SECONDS) {
