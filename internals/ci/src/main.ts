@@ -17,6 +17,7 @@ import { depsCheck } from "./cmds/deps_check";
 import { setup } from "./cmds/setup";
 import { tmuxStart } from "./cmds/tmux_start";
 import { tmuxStop } from "./cmds/tmux_stop";
+import { langLint } from "./cmds/lang_lint";
 
 async function main() {
   const command = program.version("0.0.1").description("Oko Public CI");
@@ -32,6 +33,8 @@ async function main() {
   command.command("lang_format").action(langFormat);
 
   command.command("lang_check").action(langCheck);
+
+  command.command("lang_lint").action(langLint);
 
   command.command("build_pkgs").action(buildPkgs);
 
