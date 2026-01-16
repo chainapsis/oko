@@ -1,11 +1,11 @@
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
+import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
 
 // CAIP-2 standard chain IDs using genesis hash (first 32 characters)
 export const SOLANA_MAINNET: ModularChainInfo = {
   chainId: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
   chainName: "Solana",
-  chainSymbolImageUrl:
-    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png",
+  chainSymbolImageUrl: `${S3_BUCKET_URL}/solana.png`,
   isTestnet: false,
   solana: {
     rpc: "https://api.mainnet-beta.solana.com",
@@ -23,8 +23,7 @@ export const SOLANA_MAINNET: ModularChainInfo = {
 export const SOLANA_DEVNET: ModularChainInfo = {
   chainId: "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
   chainName: "Solana Devnet",
-  chainSymbolImageUrl:
-    "https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/solana/info/logo.png",
+  chainSymbolImageUrl: `${S3_BUCKET_URL}/solana.png`,
   isTestnet: true,
   solana: {
     rpc: "https://api.devnet.solana.com",
