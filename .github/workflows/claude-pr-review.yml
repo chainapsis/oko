@@ -159,7 +159,11 @@ jobs:
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          track_progress: true
           prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
             Please review this PR.
 
             ## Linear Ticket Information
@@ -187,9 +191,13 @@ jobs:
             - Unnecessary complexity
             - Security vulnerabilities
 
-            ## Response Format
+            ## Instructions
 
-            Please provide your review in the following format:
+            1. Use `mcp__github_inline_comment__create_inline_comment` to post inline comments on specific code issues
+            2. Use `gh pr comment` for top-level summary feedback
+            3. Only post GitHub comments - don't submit review text as messages
+
+            ## Response Format (for top-level comment)
 
             ### Spec Implementation Status
             (Only if Linear ticket exists)
@@ -197,33 +205,11 @@ jobs:
             - Missing items
             - Implementation completeness: X%
 
-            ### Code Review
+            ### Code Review Summary
             - Key feedback (if any)
-            - Improvement suggestions (if any)
 
             ### Final Verdict
             - APPROVE / REQUEST_CHANGES / COMMENT with reasoning
-          claude_args: "--model claude-opus-4-5-20251101 --allowedTools Read,Glob,Grep"
-          use_sticky_comment: true
-
-      - name: Post Review Comment
-        if: always()
-        run: |
-          OUTPUT_FILE="/home/runner/work/_temp/claude-execution-output.json"
-          if [ -f "$OUTPUT_FILE" ]; then
-            # Extract the final assistant message from the conversation
-            REVIEW=$(jq -r '
-              .conversation // []
-              | map(select(.type == "assistant" and .message.content))
-              | last
-              | .message.content
-              | if type == "array" then map(select(.type == "text") | .text) | join("\n") else . end
-              // "No review content found"
-            ' "$OUTPUT_FILE")
-
-            if [ -n "$REVIEW" ] && [ "$REVIEW" != "No review content found" ]; then
-              gh pr comment ${{ github.event.pull_request.number }} --body "$REVIEW"
-            fi
-          fi
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          claude_args: |
+            --model claude-opus-4-5-20251101
+            --allowedTools "Read,Glob,Grep,mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"
