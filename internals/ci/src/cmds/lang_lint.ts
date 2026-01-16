@@ -4,12 +4,16 @@ import { expectSuccess } from "@oko-wallet-ci/expect";
 import { paths } from "@oko-wallet-ci/paths";
 
 export async function langLint(args: string[]) {
-  console.log("Checking language of codebase...", args);
+  console.log("Start lang lint, args: %s", args);
 
-  // const publishRet = spawnSync("yarn", ["exec", "biome", "check", "--write"], {
-  //   cwd: paths.root,
-  //   stdio: "inherit",
-  // });
-  //
-  // expectSuccess(publishRet, "format failed");
+  const ret = spawnSync(
+    "yarn",
+    ["exec", "biome", "check", "--write", ...args],
+    {
+      cwd: paths.root,
+      stdio: "inherit",
+    },
+  );
+
+  expectSuccess(ret, "format failed");
 }

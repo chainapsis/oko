@@ -34,7 +34,7 @@ async function main() {
 
   command.command("lang_check").argument("[args...]").action(langCheck);
 
-  command.command("lang_lint").action(langLint);
+  command.command("lang_lint").argument("[args...]").action(langLint);
 
   command.command("build_pkgs").action(buildPkgs);
 
