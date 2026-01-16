@@ -7,7 +7,10 @@ import type {
   SignEd25519AggregateBody,
   SignEd25519AggregateResponse,
 } from "@oko-wallet/oko-types/tss";
-import type { SignInResponse } from "@oko-wallet/oko-types/user";
+import type {
+  SignInResponse,
+  SignInResponseV2,
+} from "@oko-wallet/oko-types/user";
 import type {
   ErrorCode,
   OkoApiErrorResponse,
@@ -123,7 +126,7 @@ export async function reqKeygenEd25519(
   payload: KeygenEd25519Body,
   authToken: string,
 ) {
-  const resp: OkoApiResponse<SignInResponse> = await makePostRequest(
+  const resp: OkoApiResponse<SignInResponseV2> = await makePostRequest(
     endpoint,
     "keygen_ed25519",
     payload,

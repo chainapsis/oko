@@ -13,22 +13,27 @@ interface WalletState {
   name: string | null;
 }
 
-interface KeyPackageEd25519State {
-  keyPackage: string;
+interface Ed25519WalletState {
+  authType: AuthType;
+  walletId: string;
+  /** hex-encoded PublicKeyPackageRaw JSON */
   publicKeyPackage: string;
-  identifier: string;
   publicKey: string;
+  email: string | null;
+  name: string | null;
 }
 
 interface PerOriginState {
   theme: Theme | null;
   apiKey: string | null;
   keyshare_1: string | null;
-  keyPackageEd25519: KeyPackageEd25519State | null;
+  /** hex-encoded KeyPackageRaw JSON (contains signing_share for ed25519) */
+  keyPackageEd25519: string | null;
   nonce: string | null;
   codeVerifier: string | null;
   authToken: string | null;
   wallet: WalletState | null;
+  ed25519Wallet: Ed25519WalletState | null;
 }
 
 interface AppState {
@@ -48,13 +53,19 @@ interface AppActions {
   getWallet: (hostOrigin: string) => WalletState | null;
   setWallet: (hostOrigin: string, wallet: WalletState | null) => void;
 
+  getWalletEd25519: (hostOrigin: string) => Ed25519WalletState | null;
+  setWalletEd25519: (
+    hostOrigin: string,
+    wallet: Ed25519WalletState | null,
+  ) => void;
+
   getKeyshare_1: (hostOrigin: string) => string | null;
   setKeyshare_1: (hostOrigin: string, keyshare_1: string | null) => void;
 
-  getKeyPackageEd25519: (hostOrigin: string) => KeyPackageEd25519State | null;
+  getKeyPackageEd25519: (hostOrigin: string) => string | null;
   setKeyPackageEd25519: (
     hostOrigin: string,
-    keyPackage: KeyPackageEd25519State | null,
+    keyPackage: string | null,
   ) => void;
 
   getApiKey: (hostOrigin: string) => string | null;
@@ -119,7 +130,7 @@ export const useAppState = create(
       },
       setKeyPackageEd25519: (
         hostOrigin: string,
-        keyPackageEd25519: KeyPackageEd25519State | null,
+        keyPackageEd25519: string | null,
       ) => {
         set({
           perOrigin: {
@@ -156,6 +167,7 @@ export const useAppState = create(
               codeVerifier: null,
               authToken: null,
               wallet: null,
+              ed25519Wallet: null,
             },
           },
         });
@@ -186,6 +198,23 @@ export const useAppState = create(
 
       getWallet: (hostOrigin: string) => {
         return get().perOrigin[hostOrigin]?.wallet;
+      },
+      setWalletEd25519: (
+        hostOrigin: string,
+        ed25519Wallet: Ed25519WalletState | null,
+      ) => {
+        set({
+          perOrigin: {
+            ...get().perOrigin,
+            [hostOrigin]: {
+              ...get().perOrigin[hostOrigin],
+              ed25519Wallet,
+            },
+          },
+        });
+      },
+      getWalletEd25519: (hostOrigin: string) => {
+        return get().perOrigin[hostOrigin]?.ed25519Wallet;
       },
       getNonce: (hostOrigin: string) => {
         return get().perOrigin[hostOrigin]?.nonce;

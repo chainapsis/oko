@@ -136,30 +136,26 @@ const walletRegisterInfoSchema = z.object({
   share: shareSchema.describe("Key share in hex string format (64 bytes)"),
 });
 
-export const walletsRegisterRequestBodySchema = z
-  .object({
-    secp256k1: walletRegisterInfoSchema
-      .optional()
-      .describe("secp256k1 wallet registration info"),
-    ed25519: walletRegisterInfoSchema
-      .optional()
-      .describe("ed25519 wallet registration info"),
-  })
-  .refine((data) => data.secp256k1 || data.ed25519, {
-    message: "At least one of secp256k1 or ed25519 must be provided",
-  });
+export const walletsRegisterRequestBodySchema = z.object({
+  secp256k1: walletRegisterInfoSchema.describe(
+    "secp256k1 wallet registration info (required)",
+  ),
+  ed25519: walletRegisterInfoSchema.describe(
+    "ed25519 wallet registration info (required)",
+  ),
+});
 
 export const RegisterKeyShareV2RequestBodySchema = registry.register(
   "RegisterKeyShareV2RequestBody",
   z
     .object({
       wallets: walletsRegisterRequestBodySchema.describe(
-        "Object with curve_type as key and wallet info as value",
+        "Both secp256k1 and ed25519 wallet info are required",
       ),
     })
     .openapi("RegisterKeyShareV2RequestBody", {
       description:
-        "Request payload for registering multiple key shares at once.",
+        "Request payload for registering key shares. Both secp256k1 and ed25519 wallets are required.",
     }),
 );
 
@@ -258,11 +254,24 @@ export const ReshareKeyShareV2SuccessResponseSchema = registry.register(
 // POST /v2/keyshare/reshare/register
 // ============================================================================
 
+const walletsReshareRegisterRequestBodySchema = z
+  .object({
+    secp256k1: walletRegisterInfoSchema
+      .optional()
+      .describe("secp256k1 wallet registration info"),
+    ed25519: walletRegisterInfoSchema
+      .optional()
+      .describe("ed25519 wallet registration info"),
+  })
+  .refine((data) => data.secp256k1 || data.ed25519, {
+    message: "At least one of secp256k1 or ed25519 must be provided",
+  });
+
 export const ReshareRegisterV2RequestBodySchema = registry.register(
   "ReshareRegisterV2RequestBody",
   z
     .object({
-      wallets: walletsRegisterRequestBodySchema.describe(
+      wallets: walletsReshareRegisterRequestBodySchema.describe(
         "Object with curve_type as key and wallet info as value",
       ),
     })

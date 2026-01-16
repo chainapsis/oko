@@ -28,6 +28,7 @@ import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node
 import type { Wallet } from "@oko-wallet/oko-types/wallets";
 import type { NodeNameAndEndpoint } from "@oko-wallet/oko-types/user_key_share";
 import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
+import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
 
 import { generateUserTokenV2 } from "@oko-wallet-tss-api/api/keplr_auth";
 import { checkKeyShareFromKSNodesV2 } from "@oko-wallet-tss-api/api/ks_node";
@@ -40,6 +41,7 @@ export async function signInV2(
     secret: string;
     expires_in: string;
   },
+  encryptionSecret: string,
   email?: string,
   name?: string,
 ): Promise<OkoApiResponse<SignInResponseV2>> {
@@ -101,6 +103,19 @@ export async function signInV2(
     const secp256k1Wallet = secp256k1WalletRes.data;
     const ed25519Wallet = ed25519WalletRes.data;
 
+    // Decrypt ed25519 share to get server's verifying_share
+    const decryptedEd25519Share = await decryptDataAsync(
+      ed25519Wallet.enc_tss_share.toString("utf-8"),
+      encryptionSecret,
+    );
+    const ed25519SharesData = JSON.parse(decryptedEd25519Share) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+    const serverVerifyingShareEd25519Hex = Buffer.from(
+      ed25519SharesData.verifying_share,
+    ).toString("hex");
+
     const tokenResult = generateUserTokenV2({
       wallet_id_secp256k1: secp256k1Wallet.wallet_id,
       wallet_id_ed25519: ed25519Wallet.wallet_id,
@@ -125,6 +140,7 @@ export async function signInV2(
           wallet_id_ed25519: ed25519Wallet.wallet_id,
           public_key_secp256k1: secp256k1Wallet.public_key.toString("hex"),
           public_key_ed25519: ed25519Wallet.public_key.toString("hex"),
+          server_verifying_share_ed25519: serverVerifyingShareEd25519Hex,
           user_identifier: user_identifier,
           email: email ?? null,
           name: name ?? null,
@@ -167,24 +183,27 @@ export async function checkEmailV2(
     }
     const activeKSNodes = getActiveKSNodesRes.data;
 
+    // Get global threshold (needed for all cases)
+    const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
+    if (getKeyshareNodeMetaRes.success === false) {
+      return {
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `getKeyShareNodeMeta error: ${getKeyshareNodeMetaRes.err}`,
+      };
+    }
+    const globalThreshold = getKeyshareNodeMetaRes.data.sss_threshold;
+    const activeNodesBelowThreshold = activeKSNodes.length < globalThreshold;
+
     // Case 1: User doesn't exist
     if (user === null) {
-      const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
-      if (getKeyshareNodeMetaRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `getKeyShareNodeMeta error: ${getKeyshareNodeMetaRes.err}`,
-        };
-      }
-      const threshold = getKeyshareNodeMetaRes.data.sss_threshold;
-
       return {
         success: true,
         data: {
           exists: false,
+          active_nodes_below_threshold: activeNodesBelowThreshold,
           keyshare_node_meta: {
-            threshold,
+            threshold: globalThreshold,
             nodes: activeKSNodes.map((ksNode) => ({
               name: ksNode.node_name,
               endpoint: ksNode.server_url,
@@ -244,8 +263,17 @@ export async function checkEmailV2(
         success: true,
         data: {
           exists: true,
+          active_nodes_below_threshold: activeNodesBelowThreshold,
           needs_keygen_ed25519: true,
           secp256k1: secp256k1CheckInfo,
+          keyshare_node_meta: {
+            threshold: globalThreshold,
+            nodes: activeKSNodes.map((ksNode) => ({
+              name: ksNode.node_name,
+              endpoint: ksNode.server_url,
+              wallet_status: "NOT_REGISTERED" as const,
+            })),
+          },
         },
       };
     }
@@ -289,22 +317,13 @@ export async function checkEmailV2(
     }
 
     // Case 4: User exists but no wallets exist (shouldn't happen, but handle it)
-    const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
-    if (getKeyshareNodeMetaRes.success === false) {
-      return {
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `getKeyShareNodeMeta error: ${getKeyshareNodeMetaRes.err}`,
-      };
-    }
-    const threshold = getKeyshareNodeMetaRes.data.sss_threshold;
-
     return {
       success: true,
       data: {
         exists: false,
+        active_nodes_below_threshold: activeNodesBelowThreshold,
         keyshare_node_meta: {
-          threshold,
+          threshold: globalThreshold,
           nodes: activeKSNodes.map((ksNode) => ({
             name: ksNode.node_name,
             endpoint: ksNode.server_url,
