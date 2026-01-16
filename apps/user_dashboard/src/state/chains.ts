@@ -11,7 +11,7 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { ModularChainInfo, CosmosChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 
 const STORAGE_KEY = "oko:user_dashboard:chains";
-export const DEFAULT_ENABLED_CHAINS = ["cosmoshub", "osmosis", "eip155:1"] as const;
+export const DEFAULT_ENABLED_CHAINS = ["eip155:1", "solana:mainnet", "cosmoshub", "osmosis"] as const;
 
 // Cache for ChainIdHelper.parse() results
 const chainIdentifierCache = new Map<string, string>();

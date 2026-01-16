@@ -17,15 +17,16 @@ import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { useEnabledChains } from "@oko-wallet-user-dashboard/hooks/queries";
-import { useEthAddress, useBech32Addresses } from "@oko-wallet-user-dashboard/hooks/queries/use_addresses";
+import { useEthAddress, useBech32Addresses, useSolanaAddress } from "@oko-wallet-user-dashboard/hooks/queries/use_addresses";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
 import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
+import { getChainIdentifier, DEFAULT_ENABLED_CHAINS } from "@oko-wallet-user-dashboard/state/chains";
 
 import styles from "./deposit_modal.module.scss";
 import { AddressItem } from "./components/address_item";
 
-const ecosystemFilterOptions = ["All Chains", "Cosmos", "EVM"] as const;
+const ecosystemFilterOptions = ["All Chains", "Cosmos", "EVM", "Solana"] as const;
 type EcosystemFilter = (typeof ecosystemFilterOptions)[number];
 
 interface DepositModalProps {
@@ -52,13 +53,14 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
 
   const searchFields = ["chainName"];
 
-  // Get enabled chains with cosmos or evm modules
+  // Get enabled chains with cosmos, evm, or solana modules
   const visibleChains = useMemo(() => {
-    return enabledChains.filter((chain) => chain.cosmos || chain.evm);
+    return enabledChains.filter((chain) => chain.cosmos || chain.evm || chain.solana);
   }, [enabledChains]);
 
   // Get addresses using TanStack Query hooks
   const { address: ethAddress } = useEthAddress();
+  const { address: solanaAddress } = useSolanaAddress();
   const cosmosChainIds = useMemo(
     () => visibleChains
       .filter((chain) => isCosmosChainId(chain.chainId))
@@ -69,20 +71,50 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
 
   const searchedChainInfos = useSearch(visibleChains, searchQuery, searchFields);
 
-  const filteredChainInfos = searchedChainInfos.filter((chain) => {
-    switch (ecosystem) {
-      case "All Chains":
-        return true;
-      case "Cosmos":
-        return !!chain.cosmos;
-      case "EVM":
-        return !!chain.evm;
-    }
-  });
+  const filteredChainInfos = useMemo(() => {
+    const defaultChainOrder = new Map<string, number>(
+      DEFAULT_ENABLED_CHAINS.map((id, index) => [id, index])
+    );
+
+    return searchedChainInfos
+      .filter((chain) => {
+        switch (ecosystem) {
+          case "All Chains":
+            return true;
+          case "Cosmos":
+            return !!chain.cosmos;
+          case "EVM":
+            return !!chain.evm;
+          case "Solana":
+            return !!chain.solana;
+        }
+      })
+      .sort((a, b) => {
+        // Default chains first, in order
+        const aDefaultIndex = defaultChainOrder.get(getChainIdentifier(a.chainId));
+        const bDefaultIndex = defaultChainOrder.get(getChainIdentifier(b.chainId));
+        const aIsDefault = aDefaultIndex !== undefined;
+        const bIsDefault = bDefaultIndex !== undefined;
+
+        if (aIsDefault && bIsDefault) {
+          return aDefaultIndex - bDefaultIndex;
+        }
+        if (aIsDefault && !bIsDefault) {
+          return -1;
+        }
+        if (!aIsDefault && bIsDefault) {
+          return 1;
+        }
+        return a.chainName.localeCompare(b.chainName);
+      });
+  }, [searchedChainInfos, ecosystem]);
 
   const getAddressForChain = (chain: ModularChainInfo): string | undefined => {
     if (chain.evm) {
       return ethAddress;
+    }
+    if (chain.solana) {
+      return solanaAddress;
     }
     return bech32Addresses[chain.chainId];
   };

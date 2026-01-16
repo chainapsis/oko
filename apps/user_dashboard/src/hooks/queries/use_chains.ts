@@ -14,6 +14,7 @@ import {
   DEFAULT_ENABLED_CHAINS,
 } from "@oko-wallet-user-dashboard/state/chains";
 import { KEPLR_API_ENDPOINT } from "@oko-wallet-user-dashboard/fetch";
+import { SOLANA_MAINNET, SOLANA_DEVNET } from "@oko-wallet-user-dashboard/config/solana";
 
 interface KeplrChainsResponse {
   chains: CosmosChainInfo[];
@@ -30,7 +31,7 @@ async function fetchChains(): Promise<ModularChainInfo[]> {
 }
 
 /**
- * Hook to fetch chain list from Keplr API
+ * Hook to fetch chain list from Keplr API + non-Cosmos chains
  */
 export function useChains() {
   const query = useQuery({
@@ -41,8 +42,14 @@ export function useChains() {
     retry: 1,
   });
 
+  // Merge Keplr chains with non-Cosmos chains (Solana, etc.)
+  const allChains = useMemo(() => {
+    const keplrChains = query.data ?? [];
+    return [...keplrChains, SOLANA_MAINNET, SOLANA_DEVNET];
+  }, [query.data]);
+
   return {
-    chains: query.data ?? [],
+    chains: allChains,
     isLoading: query.isLoading,
     error: query.error,
     refetch: query.refetch,
