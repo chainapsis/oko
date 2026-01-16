@@ -1,3 +1,4 @@
+import { registry } from "@oko-wallet/oko-api-openapi";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   GetWalletListRequest,
@@ -8,6 +9,60 @@ import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 
 import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getWalletList } from "@oko-wallet-admin-api/api/wallet";
+import {
+  AdminAuthHeaderSchema,
+  ErrorResponseSchema,
+} from "@oko-wallet/oko-api-openapi/common";
+import {
+  GetWalletListRequestSchema,
+  GetWalletListSuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/oko_admin";
+
+registry.registerPath({
+  method: "post",
+  path: "/oko_admin/v1/wallet/get_wallet_list",
+  tags: ["Admin"],
+  summary: "Get wallet list with pagination",
+  description: "Retrieves a list of wallets with pagination",
+  security: [{ adminAuth: [] }],
+  request: {
+    headers: AdminAuthHeaderSchema,
+    body: {
+      required: false,
+      content: {
+        "application/json": {
+          schema: GetWalletListRequestSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: "Wallet list retrieved successfully",
+      content: {
+        "application/json": {
+          schema: GetWalletListSuccessResponseSchema,
+        },
+      },
+    },
+    401: {
+      description: "Unauthorized",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    500: {
+      description: "Server error",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
+});
 
 export async function get_wallet_list(
   req: AuthenticatedAdminRequest<GetWalletListRequest>,

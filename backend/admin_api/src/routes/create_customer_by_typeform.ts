@@ -1,3 +1,4 @@
+import { registry } from "@oko-wallet/oko-api-openapi";
 import type { Request, Response } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { CreateCustomerResponse } from "@oko-wallet/oko-types/admin";
@@ -8,6 +9,65 @@ import {
   type TypeformWebhookBody,
   extractTypeformData,
 } from "@oko-wallet-admin-api/api/customer/typeform";
+import {
+  CreateCustomerSuccessResponseSchema,
+  TypeformSignatureHeaderSchema,
+  TypeformWebhookRequestSchema,
+} from "@oko-wallet/oko-api-openapi/oko_admin";
+import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
+
+registry.registerPath({
+  method: "post",
+  path: "/oko_admin/v1/customer/create_customer_by_typeform",
+  tags: ["Admin"],
+  summary: "Create customer by Typeform",
+  description: "Creates a customer from a Typeform webhook payload",
+  request: {
+    headers: TypeformSignatureHeaderSchema,
+    body: {
+      required: true,
+      content: {
+        "application/json": {
+          schema: TypeformWebhookRequestSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    201: {
+      description: "Customer created successfully",
+      content: {
+        "application/json": {
+          schema: CreateCustomerSuccessResponseSchema,
+        },
+      },
+    },
+    400: {
+      description: "Invalid request",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    401: {
+      description: "Unauthorized",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    500: {
+      description: "Server error",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
+});
 
 export async function create_customer_by_typeform(
   req: Request,
