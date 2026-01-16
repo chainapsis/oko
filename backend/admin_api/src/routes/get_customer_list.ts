@@ -1,10 +1,58 @@
-import type { Response } from "express";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import {
+  AdminAuthHeaderSchema,
+  ErrorResponseSchema,
+} from "@oko-wallet/oko-api-openapi/common";
+import {
+  GetCustomerListQuerySchema,
+  GetCustomerListSuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type { CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import type { Response } from "express";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { getCustomerList } from "@oko-wallet-admin-api/api/customer";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+
+registry.registerPath({
+  method: "get",
+  path: "/oko_admin/v1/customer/get_customer_list",
+  tags: ["Admin"],
+  summary: "Get customers with pagination",
+  description: "Retrieves a list of customers with pagination",
+  security: [{ adminAuth: [] }],
+  request: {
+    headers: AdminAuthHeaderSchema,
+    query: GetCustomerListQuerySchema,
+  },
+  responses: {
+    200: {
+      description: "Customer list retrieved successfully",
+      content: {
+        "application/json": {
+          schema: GetCustomerListSuccessResponseSchema,
+        },
+      },
+    },
+    401: {
+      description: "Unauthorized",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    500: {
+      description: "Server error",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
+});
 
 export async function get_customer_list(
   req: AuthenticatedAdminRequest,
@@ -28,8 +76,8 @@ export async function get_customer_list(
     limit = 10;
     offset = 0;
   } else {
-    limit = parseInt(limit);
-    offset = parseInt(offset);
+    limit = parseInt(limit, 10);
+    offset = parseInt(offset, 10);
   }
 
   const getCustomerListRes = await getCustomerList(state.db, limit, offset);

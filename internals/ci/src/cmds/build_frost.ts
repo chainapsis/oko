@@ -1,8 +1,8 @@
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
-import { paths } from "@oko-wallet-ci/paths";
 import { expectSuccess } from "@oko-wallet-ci/expect";
+import { paths } from "@oko-wallet-ci/paths";
 
 export async function buildFrost(..._args: any[]) {
   console.log("Building frost_ed25519_keplr_wasm...");
