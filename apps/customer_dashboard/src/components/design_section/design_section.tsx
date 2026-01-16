@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState, type FC } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
@@ -16,7 +16,7 @@ import { displayToast } from "@oko-wallet-ct-dashboard/components/toast";
 
 const THEME_OPTIONS: CustomerTheme[] = ["light", "dark", "system"];
 
-export const DesignSection = () => {
+export const DesignSection: FC = () => {
   const queryClient = useQueryClient();
   const customer = useCustomerInfo();
   const token = useAppState((state) => state.token);

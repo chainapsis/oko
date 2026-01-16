@@ -5,6 +5,7 @@ import {
   ToastCloseButton,
   type ToastVariant,
 } from "@oko-wallet/oko-common-ui/toast";
+import type { FC } from "react";
 import { Bounce, type ToastOptions, toast } from "react-toastify";
 import { ToastContainer as ReactToastifyToastContainer } from "react-toastify";
 
@@ -40,7 +41,7 @@ export function displayToast({
   );
 }
 
-export const ToastContainer = () => {
+export const ToastContainer: FC = () => {
   return (
     <ReactToastifyToastContainer
       stacked
