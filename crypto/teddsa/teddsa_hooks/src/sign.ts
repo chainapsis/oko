@@ -21,20 +21,23 @@ export type TeddsaSignError =
   | { type: "aborted" }
   | { type: "error"; msg: string };
 
-function serializeKeyPackage(pkg: KeyPackageRaw): number[] {
-  const result: number[] = [];
-  result.push(...pkg.identifier);
-  result.push(...pkg.signing_share);
-  result.push(...pkg.verifying_share);
-  result.push(...pkg.verifying_key);
-  result.push(pkg.min_signers & 0xff);
-  result.push((pkg.min_signers >> 8) & 0xff);
+/**
+ * Serialize KeyPackageRaw to FROST library binary format.
+ * Uses WASM to produce the correct format expected by the backend.
+ */
+export function serializeKeyPackage(pkg: KeyPackageRaw): number[] {
+  const result: number[] = wasmModule.cli_serialize_key_package_ed25519(pkg);
   return result;
 }
 
-function serializePublicKeyPackage(pkg: PublicKeyPackageRaw): number[] {
-  const json = JSON.stringify(pkg);
-  return Array.from(new TextEncoder().encode(json));
+/**
+ * Serialize PublicKeyPackageRaw to FROST library binary format.
+ * Uses WASM to produce the correct format expected by the backend.
+ */
+export function serializePublicKeyPackage(pkg: PublicKeyPackageRaw): number[] {
+  const result: number[] =
+    wasmModule.cli_serialize_public_key_package_ed25519(pkg);
+  return result;
 }
 
 export function teddsaSignRound1(
