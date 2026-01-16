@@ -1,6 +1,5 @@
 use curve25519_dalek::constants::ED25519_BASEPOINT_TABLE;
 use curve25519_dalek::scalar::Scalar;
-use gloo_utils::format::JsValueSerdeExt;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
@@ -18,14 +17,13 @@ pub struct ScalarBaseMultOutput {
 /// verifying_share = signing_share * G (Ed25519 base point)
 #[wasm_bindgen]
 pub fn scalar_base_mult(input: JsValue) -> Result<JsValue, JsValue> {
-    let input: ScalarBaseMultInput = input
-        .into_serde()
+    let input: ScalarBaseMultInput = serde_wasm_bindgen::from_value(input)
         .map_err(|e| JsValue::from_str(&format!("Failed to parse input: {}", e)))?;
 
     let result =
         scalar_base_mult_inner(&input).map_err(|e| JsValue::from_str(&format!("{}", e)))?;
 
-    JsValue::from_serde(&result)
+    serde_wasm_bindgen::to_value(&result)
         .map_err(|e| JsValue::from_str(&format!("Failed to serialize output: {}", e)))
 }
 

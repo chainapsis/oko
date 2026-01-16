@@ -1,5 +1,4 @@
 use frost_ed25519_keplr::sss_split_ed25519;
-use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
@@ -25,11 +24,9 @@ pub fn sss_split(
     identifiers: JsValue,
     min_signers: u16,
 ) -> Result<JsValue, JsValue> {
-    let secret: [u8; 32] = secret
-        .into_serde()
+    let secret: [u8; 32] = serde_wasm_bindgen::from_value(secret)
         .map_err(|err| JsValue::from_str(&format!("Invalid secret format: {}", err)))?;
-    let identifiers: Vec<[u8; 32]> = identifiers
-        .into_serde()
+    let identifiers: Vec<[u8; 32]> = serde_wasm_bindgen::from_value(identifiers)
         .map_err(|err| JsValue::from_str(&format!("Invalid identifiers format: {}", err)))?;
 
     let mut rng = OsRng;
@@ -52,5 +49,5 @@ pub fn sss_split(
         public_key_package,
     };
 
-    JsValue::from_serde(&result).map_err(|err| JsValue::from_str(&err.to_string()))
+    serde_wasm_bindgen::to_value(&result).map_err(|err| JsValue::from_str(&err.to_string()))
 }

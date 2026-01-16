@@ -8,7 +8,7 @@ import { reqAbortTssSession } from "@oko-wallet/api-lib";
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
 
-import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
+import { TSS_V2_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
 export async function makeSignOutput(
   hash: Uint8Array,
@@ -21,7 +21,7 @@ export async function makeSignOutput(
   let currentAuthToken = authToken;
 
   const triplesRes = await runTriples(
-    TSS_V1_ENDPOINT,
+    TSS_V2_ENDPOINT,
     apiKey,
     currentAuthToken,
     getIsAborted,
@@ -38,7 +38,7 @@ export async function makeSignOutput(
   const { triple0, triple1, sessionId } = triplesRes.data;
 
   const presignRes = await runPresign(
-    TSS_V1_ENDPOINT,
+    TSS_V2_ENDPOINT,
     sessionId,
     {
       triple0,
@@ -55,7 +55,7 @@ export async function makeSignOutput(
   if (!presignRes.success) {
     if (presignRes.err.type === "aborted") {
       await reqAbortTssSession(
-        TSS_V1_ENDPOINT,
+        TSS_V2_ENDPOINT,
         { session_id: sessionId },
         currentAuthToken,
       );
@@ -68,7 +68,7 @@ export async function makeSignOutput(
   }
 
   const signOutput = await runSign(
-    TSS_V1_ENDPOINT,
+    TSS_V2_ENDPOINT,
     sessionId,
     hash,
     presignRes.data,
@@ -78,7 +78,7 @@ export async function makeSignOutput(
   if (!signOutput.success) {
     if (signOutput.err.type === "aborted") {
       await reqAbortTssSession(
-        TSS_V1_ENDPOINT,
+        TSS_V2_ENDPOINT,
         { session_id: sessionId },
         currentAuthToken,
       );

@@ -2,7 +2,6 @@ use frost::round1::{SigningCommitments, SigningNonces};
 use frost::round2::SignatureShare;
 use frost::{Identifier, SigningPackage};
 use frost_ed25519_keplr as frost;
-use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
@@ -176,18 +175,16 @@ fn verify_inner(
 
 #[wasm_bindgen]
 pub fn cli_sign_round1_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
-    let input: SignRound1Input = input
-        .into_serde()
+    let input: SignRound1Input = serde_wasm_bindgen::from_value(input)
         .map_err(|err| JsValue::from_str(&format!("Invalid input format: {}", err)))?;
 
     let out = sign_round1_inner(&input.key_package).map_err(|err| JsValue::from_str(&err))?;
-    JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
+    serde_wasm_bindgen::to_value(&out).map_err(|err| JsValue::from_str(&err.to_string()))
 }
 
 #[wasm_bindgen]
 pub fn cli_sign_round2_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
-    let input: SignRound2Input = input
-        .into_serde()
+    let input: SignRound2Input = serde_wasm_bindgen::from_value(input)
         .map_err(|err| JsValue::from_str(&format!("Invalid input format: {}", err)))?;
 
     let all_commitments: Vec<(Vec<u8>, Vec<u8>)> = input
@@ -204,13 +201,12 @@ pub fn cli_sign_round2_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
     )
     .map_err(|err| JsValue::from_str(&err))?;
 
-    JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
+    serde_wasm_bindgen::to_value(&out).map_err(|err| JsValue::from_str(&err.to_string()))
 }
 
 #[wasm_bindgen]
 pub fn cli_aggregate_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
-    let input: AggregateInput = input
-        .into_serde()
+    let input: AggregateInput = serde_wasm_bindgen::from_value(input)
         .map_err(|err| JsValue::from_str(&format!("Invalid input format: {}", err)))?;
 
     let all_commitments: Vec<(Vec<u8>, Vec<u8>)> = input
@@ -233,13 +229,12 @@ pub fn cli_aggregate_ed25519(input: JsValue) -> Result<JsValue, JsValue> {
     )
     .map_err(|err| JsValue::from_str(&err))?;
 
-    JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
+    serde_wasm_bindgen::to_value(&out).map_err(|err| JsValue::from_str(&err.to_string()))
 }
 
 #[wasm_bindgen]
 pub fn cli_verify_ed25519(input: JsValue) -> Result<bool, JsValue> {
-    let input: VerifyInput = input
-        .into_serde()
+    let input: VerifyInput = serde_wasm_bindgen::from_value(input)
         .map_err(|err| JsValue::from_str(&format!("Invalid input format: {}", err)))?;
 
     verify_inner(&input.message, &input.signature, &input.public_key_package)

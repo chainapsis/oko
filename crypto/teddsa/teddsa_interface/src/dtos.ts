@@ -102,14 +102,14 @@ export function publicKeyPackageFromRaw(
   raw: PublicKeyPackageRaw,
 ): PublicKeyPackage {
   const verifying_shares = new Map<string, Bytes32>();
-  for (const [idHex, share] of Object.entries(raw.verifying_shares)) {
-    const shareBytes = Bytes.fromUint8Array(new Uint8Array(share), 32);
+  for (const entry of raw.verifying_shares) {
+    const shareBytes = Bytes.fromUint8Array(new Uint8Array(entry.share), 32);
     if (!shareBytes.success) {
       throw new Error(
-        `Invalid verifying_share for ${idHex}: ${shareBytes.err}`,
+        `Invalid verifying_share for ${entry.identifier}: ${shareBytes.err}`,
       );
     }
-    verifying_shares.set(idHex, shareBytes.data);
+    verifying_shares.set(entry.identifier, shareBytes.data);
   }
   const verifying_key = Bytes.fromUint8Array(
     new Uint8Array(raw.verifying_key),
@@ -198,9 +198,12 @@ export function keyPackageToRaw(pkg: KeyPackage): KeyPackageRaw {
 export function publicKeyPackageToRaw(
   pkg: PublicKeyPackage,
 ): PublicKeyPackageRaw {
-  const verifying_shares: Record<string, number[]> = {};
+  const verifying_shares: { identifier: string; share: number[] }[] = [];
   for (const [idHex, share] of pkg.verifying_shares) {
-    verifying_shares[idHex] = Array.from(share.toUint8Array());
+    verifying_shares.push({
+      identifier: idHex,
+      share: Array.from(share.toUint8Array()),
+    });
   }
   return {
     verifying_shares,
