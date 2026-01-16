@@ -1,9 +1,9 @@
 import { spawnSync } from "node:child_process";
 
-import { paths } from "@oko-wallet-ci/paths";
 import { expectSuccess } from "@oko-wallet-ci/expect";
+import { paths } from "@oko-wallet-ci/paths";
 
-export async function langFormat(..._args: any[]) {
+export async function langFormat(_args: string[]) {
   console.log("Formatting codebase...");
 
   const publishRet = spawnSync("yarn", ["exec", "biome", "format", "--write"], {

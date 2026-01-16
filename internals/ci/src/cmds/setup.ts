@@ -1,7 +1,7 @@
 import { spawnSync } from "node:child_process";
 
-import { paths } from "@oko-wallet-ci/paths";
 import { expectSuccess } from "@oko-wallet-ci/expect";
+import { paths } from "@oko-wallet-ci/paths";
 
 export interface SetupArgs {
   skip_rust: boolean;

@@ -37,6 +37,7 @@ export const ResendCode = memo<ResendCodeProps>(
 
     return (
       <button
+        type="button"
         disabled={disabled || isLoading}
         onClick={handleClick}
         className={styles.resendLink}

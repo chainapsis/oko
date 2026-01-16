@@ -3,17 +3,17 @@ import { spawnSync } from "node:child_process";
 import { expectSuccess } from "@oko-wallet-ci/expect";
 import { paths } from "@oko-wallet-ci/paths";
 
-export async function depsCheck(..._args: any[]) {
-  console.log("Checking dependencies...");
+export async function langLint(args: string[]) {
+  console.log("Start lang lint, args: %s", args);
 
-  const publishRet = spawnSync(
+  const ret = spawnSync(
     "yarn",
-    ["syncpack", "lint", "--dependency-types", "prod,dev"],
+    ["exec", "biome", "check", "--write", ...args],
     {
       cwd: paths.root,
       stdio: "inherit",
     },
   );
 
-  expectSuccess(publishRet, "format failed");
+  expectSuccess(ret, "format failed");
 }
