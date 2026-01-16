@@ -5,16 +5,6 @@ import {
   ErrorResponseSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import {
-  AdminLoginSuccessResponseSchema,
-  AdminLogoutSuccessResponseSchema,
-  CreateCustomerSuccessResponseSchema,
-  CreateCustomerWithDashboardUserRequestSchema,
-  CustomerIdParamSchema,
-  DeleteCustomerSuccessResponseSchema,
-  GetCustomerListQuerySchema,
-  GetCustomerListSuccessResponseSchema,
-  GetCustomerSuccessResponseSchema,
-  GetTssAllActivationSettingSuccessResponseSchema,
   GetTssSessionListRequestSchema,
   GetTssSessionListSuccessResponseSchema,
   LoginRequestSchema,
