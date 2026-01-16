@@ -12,7 +12,6 @@ import type {
 import {
   reqSignEd25519Round1,
   reqSignEd25519Round2,
-  reqSignEd25519Aggregate,
 } from "@oko-wallet/teddsa-api-lib";
 
 import type { TeddsaKeygenOutputBytes } from "./types";
@@ -116,6 +115,7 @@ export async function runTeddsaSign(
   endpoint: string,
   message: Uint8Array,
   keyPackage: KeyPackageRaw,
+  publicKeyPackage: PublicKeyPackageRaw,
   authToken: string,
   getIsAborted: () => boolean,
 ): Promise<Result<Uint8Array, TeddsaSignError>> {
@@ -209,35 +209,25 @@ export async function runTeddsaSign(
     serverSignatureShare,
   ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
-  // Aggregate: Send all data to server to get final signature
+  // Aggregate locally
   if (getIsAborted()) {
     return { success: false, err: { type: "aborted" } };
   }
 
-  // Extract user_verifying_share from keyPackage
-  const userVerifyingShare = keyPackage.verifying_share;
-
-  const aggregateResp = await reqSignEd25519Aggregate(
-    endpoint,
-    {
-      session_id: sessionId,
-      msg: [...message],
-      all_commitments: allCommitments,
-      all_signature_shares: allSignatureShares,
-      user_verifying_share: userVerifyingShare,
-    },
-    authToken,
+  const aggregateResult = teddsaAggregate(
+    message,
+    allCommitments,
+    allSignatureShares,
+    publicKeyPackage,
   );
-  if (aggregateResp.success === false) {
+  if (!aggregateResult.success) {
     return {
       success: false,
-      err: { type: "error", msg: aggregateResp.msg },
+      err: { type: "error", msg: aggregateResult.err },
     };
   }
 
-  const signature = new Uint8Array(aggregateResp.data.signature);
-
-  return { success: true, data: signature };
+  return { success: true, data: aggregateResult.data };
 }
 
 export async function runTeddsaSignLocal(
