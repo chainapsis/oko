@@ -205,3 +205,25 @@ jobs:
             - APPROVE / REQUEST_CHANGES / COMMENT with reasoning
           claude_args: "--model claude-opus-4-5-20251101 --allowedTools Read,Glob,Grep"
           use_sticky_comment: true
+
+      - name: Post Review Comment
+        if: always()
+        run: |
+          OUTPUT_FILE="/home/runner/work/_temp/claude-execution-output.json"
+          if [ -f "$OUTPUT_FILE" ]; then
+            # Extract the final assistant message from the conversation
+            REVIEW=$(jq -r '
+              .conversation // []
+              | map(select(.type == "assistant" and .message.content))
+              | last
+              | .message.content
+              | if type == "array" then map(select(.type == "text") | .text) | join("\n") else . end
+              // "No review content found"
+            ' "$OUTPUT_FILE")
+
+            if [ -n "$REVIEW" ] && [ "$REVIEW" != "No review content found" ]; then
+              gh pr comment ${{ github.event.pull_request.number }} --body "$REVIEW"
+            fi
+          fi
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
