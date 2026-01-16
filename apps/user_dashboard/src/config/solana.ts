@@ -5,7 +5,7 @@ import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
 export const SOLANA_MAINNET: ModularChainInfo = {
   chainId: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp",
   chainName: "Solana",
-  chainSymbolImageUrl: `${S3_BUCKET_URL}/solana.png`,
+  chainSymbolImageUrl: `${S3_BUCKET_URL}/icons/solana.png`,
   isTestnet: false,
   solana: {
     rpc: "https://api.mainnet-beta.solana.com",
@@ -23,7 +23,7 @@ export const SOLANA_MAINNET: ModularChainInfo = {
 export const SOLANA_DEVNET: ModularChainInfo = {
   chainId: "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1",
   chainName: "Solana Devnet",
-  chainSymbolImageUrl: `${S3_BUCKET_URL}/solana.png`,
+  chainSymbolImageUrl: `${S3_BUCKET_URL}/icons/solana.png`,
   isTestnet: true,
   solana: {
     rpc: "https://api.devnet.solana.com",

@@ -28,9 +28,9 @@ export function useEthAddress() {
     queryKey: ["address", "eth"],
     queryFn: async () => {
       if (!okoEth) {
-        return undefined;
+        return null;
       }
-      return okoEth.getAddress();
+      return okoEth.getAddress() ?? null;
     },
     enabled: !!okoEth && isInitialized,
     staleTime: Infinity, // Address doesn't change
@@ -55,9 +55,9 @@ export function useSolanaAddress() {
     queryKey: ["address", "solana"],
     queryFn: async () => {
       if (!okoSol) {
-        return undefined;
+        return null;
       }
-      return okoSol.state.publicKey?.toBase58();
+      return okoSol.state.publicKey?.toBase58() ?? null;
     },
     enabled: !!okoSol && isInitialized,
     staleTime: Infinity,
@@ -87,14 +87,14 @@ export function useBech32Address(chainId: string | undefined) {
     queryKey: ["address", "bech32", chainId],
     queryFn: async () => {
       if (!okoCosmos || !chainId) {
-        return undefined;
+        return null;
       }
       try {
         const key = await okoCosmos.getKey(chainId);
-        return key?.bech32Address;
+        return key?.bech32Address ?? null;
       } catch (error) {
         console.error(`Failed to fetch bech32 address for ${chainId}:`, error);
-        return undefined;
+        return null;
       }
     },
     enabled: !!okoCosmos && isInitialized && !!chainId && isCosmosChain,
