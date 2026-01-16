@@ -104,6 +104,7 @@ export function makeMsgHandler() {
         break;
       }
 
+      // @TODO: Switch to handleOAuthInfoPassV2 for ed25519 support
       case "oauth_info_pass": {
         await handleOAuthInfoPass(ctx, message);
         break;
