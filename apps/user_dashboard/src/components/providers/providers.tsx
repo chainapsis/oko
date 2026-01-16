@@ -20,12 +20,10 @@ const queryClient = makeTanStackQueryClient();
 
 export const Providers: FC<PropsWithChildren> = ({ children }) => {
   return (
-    <OkoProvider>
-      <QueryClientProvider client={queryClient}>
-        <HydrationBoundary state={dehydrate(queryClient)}>
-          <>{children}</>
-        </HydrationBoundary>
-      </QueryClientProvider>
-    </OkoProvider>
+    <QueryClientProvider client={queryClient}>
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <OkoProvider>{children}</OkoProvider>
+      </HydrationBoundary>
+    </QueryClientProvider>
   );
 };

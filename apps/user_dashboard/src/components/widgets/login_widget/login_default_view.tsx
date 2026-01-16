@@ -1,4 +1,4 @@
-import { type FC, Fragment } from "react";
+import type { FC } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
@@ -23,7 +23,7 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
   onShowSocials,
 }) => {
   return (
-    <Fragment>
+    <>
       <Logo theme="light" width={58} height={22} className={styles.logo} />
 
       <div className={styles.loginMethodsWrapper}>
@@ -65,6 +65,6 @@ export const LoginDefaultView: FC<LoginDefaultViewProps> = ({
           <ChevronRightIcon size={20} color={"var(--fg-quaternary)"} />
         </Button>
       </div>
-    </Fragment>
+    </>
   );
 };

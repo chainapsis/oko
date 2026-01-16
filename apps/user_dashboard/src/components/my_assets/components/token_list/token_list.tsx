@@ -1,22 +1,21 @@
-import { type ChangeEvent, type FC, Fragment, useState } from "react";
-import { observer } from "mobx-react-lite";
-import { CoinPretty } from "@keplr-wallet/unit";
+import { type ChangeEvent, type FC, useState, useMemo } from "react";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
 
+import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
+import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
+import { useAllBalances } from "@oko-wallet-user-dashboard/hooks/queries";
+import { ShowHideChainsModal } from "@oko-wallet-user-dashboard/components/show_hide_chains_modal/show_hide_chains_modal";
 import styles from "./token_list.module.scss";
 import { TokenItem } from "../token_item/token_item";
-import { useRootStore } from "@oko-wallet-user-dashboard/state/store";
-import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
-import type { ViewToken } from "@oko-wallet-user-dashboard/store_legacy/huge-queries";
-import { ShowHideChainsModal } from "@oko-wallet-user-dashboard/components/show_hide_chains_modal/show_hide_chains_modal";
 
-export const TokenList = observer(() => {
-  const { hugeQueriesStore, chainStore, okoWalletAddressStore } =
-    useRootStore();
-  const tokens = hugeQueriesStore.getAllBalances({ allowIBCToken: true });
+// Minimum USD value to show (for hide low balance filter)
+const LOW_BALANCE_THRESHOLD_USD = 0.1;
+
+export const TokenList: FC = () => {
+  const { balances, isLoading } = useAllBalances();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isHideLowBalance, setIsHideLowBalance] = useState(false);
@@ -25,30 +24,59 @@ export const TokenList = observer(() => {
     setSearchQuery(e.target.value);
   };
 
-  const searchFields = [
-    "chainInfo.chainName",
-    {
-      key: "token.currency.coinDenom",
-      function: (viewToken: ViewToken) => {
-        const currency = viewToken.token.currency;
-        const coinDenom =
-          "originCurrency" in currency && currency.originCurrency
-            ? currency.originCurrency.coinDenom
-            : currency.coinDenom;
-        return CoinPretty.makeCoinDenomPretty(coinDenom);
-      },
-    },
-  ];
+  // Filter tokens by search query
+  const searchedTokens = useMemo(() => {
+    if (!searchQuery.trim()) {
+      return balances;
+    }
 
-  const searchedTokens = useSearch([...tokens], searchQuery, searchFields);
+    const query = searchQuery.toLowerCase();
+    return balances.filter((bal) => {
+      const chainName = bal.chainInfo.chainName.toLowerCase();
+      const symbol = bal.token.currency.coinDenom.toLowerCase();
+      return chainName.includes(query) || symbol.includes(query);
+    });
+  }, [balances, searchQuery]);
 
-  const hasLowBalanceTokens =
-    isHideLowBalance &&
-    hugeQueriesStore.filterLowBalanceTokens(tokens).lowBalanceTokens.length > 0;
+  // Filter low balance tokens
+  const filteredTokens = useMemo(() => {
+    if (!isHideLowBalance) {
+      return searchedTokens;
+    }
 
-  const balances = hasLowBalanceTokens
-    ? hugeQueriesStore.filterLowBalanceTokens(searchedTokens).filteredTokens
-    : searchedTokens;
+    return searchedTokens.filter((bal) => {
+      if (!bal.priceUsd) {
+        return true;
+      }
+
+      const valueUsd = calculateUsdValue(
+        bal.token.amount,
+        bal.token.currency.coinDecimals,
+        bal.priceUsd,
+      );
+      return valueUsd >= LOW_BALANCE_THRESHOLD_USD;
+    });
+  }, [searchedTokens, isHideLowBalance]);
+
+  // Check if there are low balance tokens to hide
+  const hasLowBalanceTokens = useMemo(() => {
+    if (!isHideLowBalance) {
+      return false;
+    }
+
+    return searchedTokens.some((bal) => {
+      if (!bal.priceUsd) {
+        return false;
+      }
+
+      const valueUsd = calculateUsdValue(
+        bal.token.amount,
+        bal.token.currency.coinDecimals,
+        bal.priceUsd,
+      );
+      return valueUsd < LOW_BALANCE_THRESHOLD_USD;
+    });
+  }, [searchedTokens, isHideLowBalance]);
 
   return (
     <>
@@ -86,28 +114,22 @@ export const TokenList = observer(() => {
       </div>
 
       <div className={styles.assetList}>
-        {balances.map((asset) => {
-          const address = chainStore.isEvmOnlyChain(asset.chainInfo.chainId)
-            ? okoWalletAddressStore.getEthAddress()
-            : okoWalletAddressStore.getBech32Address(asset.chainInfo.chainId);
-
-          return (
-            <Fragment
-              key={`${asset.chainInfo.chainId}-${asset.token.currency.coinMinimalDenom}`}
-            >
-              <TokenItem viewToken={asset} address={address} />
-            </Fragment>
-          );
-        })}
-        {balances.length === 0 && <EmptyState />}
+        {filteredTokens.map((asset) => (
+          <TokenItem
+            key={`${asset.chainInfo.chainId}-${asset.token.currency.coinMinimalDenom}`}
+            tokenBalance={asset}
+            address={asset.address}
+          />
+        ))}
+        {filteredTokens.length === 0 && !isLoading && <EmptyState />}
       </div>
     </>
   );
-});
+};
 
 const EmptyState: FC = () => {
-  const emptyImage = `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/assets/oko_user_dashboard_assets_empty.webp`;
-  const emptyImageAlt = `${process.env.NEXT_PUBLIC_S3_BUCKET_URL}/assets/oko_user_dashboard_assets_empty.png`;
+  const emptyImage = `${S3_BUCKET_URL}/assets/oko_user_dashboard_assets_empty.webp`;
+  const emptyImageAlt = `${S3_BUCKET_URL}/assets/oko_user_dashboard_assets_empty.png`;
 
   return (
     <div className={styles.emptyState}>
@@ -123,13 +145,13 @@ const EmptyState: FC = () => {
       </Typography>
 
       <Typography tagType="p" size="sm" weight="medium" color="quaternary">
-        If you have assets but they’re not appearing, please check if Hide Low{" "}
+        If you have assets but they're not appearing, please check if Hide Low{" "}
         Balance is turned on or if the chain is hidden in{" "}
         <ShowHideChainsModal
           renderTrigger={({ onOpen }) => (
             <span
               className={styles.showHideChainsLink}
-              aria-role="button"
+              role="button"
               onClick={onOpen}
             >
               Show/Hide Chains

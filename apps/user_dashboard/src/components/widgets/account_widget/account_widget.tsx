@@ -1,15 +1,18 @@
 "use client";
 
 import { type FC, useEffect, useState } from "react";
-import { useSDKState } from "@oko-wallet-user-dashboard/state/sdk";
-import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
-import { AuthProgressWidget } from "./auth_progress_widget";
-import { LoginWidget } from "../login_widget/login_widget";
-import { Spinner } from "../../spinner/spinner";
-import { paths } from "@oko-wallet-user-dashboard/paths";
 import { useRouter } from "next/navigation";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
+import {
+  useSDKState,
+  selectCosmosSDK,
+} from "@oko-wallet-user-dashboard/state/sdk";
+import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
+import { paths } from "@oko-wallet-user-dashboard/paths";
+import { AuthProgressWidget } from "./auth_progress_widget";
+import { LoginWidget } from "../login_widget/login_widget";
+import { Spinner } from "@oko-wallet-user-dashboard/components/spinner/spinner";
 import styles from "./account_widget.module.scss";
 
 type SigningInState =
@@ -18,7 +21,7 @@ type SigningInState =
   | { status: "failed"; error: string };
 
 export const AccountWidget: FC<AccountWidgetProps> = () => {
-  const okoWallet = useSDKState((state) => state.oko_cosmos)?.okoWallet;
+  const okoWallet = useSDKState(selectCosmosSDK)?.okoWallet;
   const [signingInState, setSigningInState] = useState<SigningInState>({
     status: "ready",
   });
