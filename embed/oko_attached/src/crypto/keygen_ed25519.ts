@@ -101,3 +101,21 @@ export function getPublicKeyFromKeyPackage(
 ): Result<Bytes32, string> {
   return Bytes.fromHexString(keyPackageHex.publicKey, 32);
 }
+
+export function extractKeyPackageHex(wallet: {
+  keyPackage: string;
+  publicKeyPackage: string;
+  publicKey: string;
+}): KeyPackageEd25519Hex {
+  // Client identifier is always scalar 1 (little-endian 32-byte)
+  const identifierBytes = new Uint8Array(32);
+  identifierBytes[0] = 1;
+  const identifier = uint8ArrayToHex(identifierBytes);
+
+  return {
+    keyPackage: wallet.keyPackage,
+    publicKeyPackage: wallet.publicKeyPackage,
+    identifier,
+    publicKey: wallet.publicKey,
+  };
+}

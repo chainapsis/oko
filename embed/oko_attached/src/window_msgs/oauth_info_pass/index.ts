@@ -137,12 +137,6 @@ export async function handleOAuthInfoPass(
       name: signInResult.name,
     });
 
-    // TODO: refactor this @chemonoworld @Ryz0nd
-    // Store Ed25519 key package if available (for Solana support)
-    // if (signInResult.keyPackageEd25519) {
-    //   appState.setKeyPackageEd25519(hostOrigin, signInResult.keyPackageEd25519);
-    // }
-
     hasSignedIn = true;
     isNewUser = signInResult.isNewUser;
 
@@ -345,18 +339,21 @@ export async function handleOAuthInfoPassV2(
       name: signInResult.name,
     });
 
-    // TODO: Store V2 wallet info (both curves)
-    // appState.setWalletV2(hostOrigin, {
-    //   authType,
-    //   walletIdSecp256k1: signInResult.walletIdSecp256k1,
-    //   walletIdEd25519: signInResult.walletIdEd25519,
-    //   publicKeySecp256k1: signInResult.publicKeySecp256k1,
-    //   publicKeyEd25519: signInResult.publicKeyEd25519,
-    //   keyshare1Secp256k1: signInResult.keyshare1Secp256k1,
-    //   keyshare1Ed25519: signInResult.keyshare1Ed25519,
-    //   email: signInResult.email,
-    //   name: signInResult.name,
-    // });
+    // Store ed25519 wallet info
+    const keyPackageEd25519 = JSON.parse(signInResult.keyPackageEd25519Hex) as {
+      keyPackage: string;
+      publicKeyPackage: string;
+      publicKey: string;
+    };
+    appState.setWalletEd25519(hostOrigin, {
+      authType,
+      walletId: signInResult.walletIdEd25519,
+      keyPackage: keyPackageEd25519.keyPackage,
+      publicKeyPackage: keyPackageEd25519.publicKeyPackage,
+      publicKey: keyPackageEd25519.publicKey,
+      email: signInResult.email,
+      name: signInResult.name,
+    });
 
     hasSignedIn = true;
     isNewUser = signInResult.isNewUser;
@@ -423,7 +420,10 @@ export async function handleUserSignInV2(
   }
 
   // Case 2: User exists with only secp256k1 wallet - needs ed25519 keygen
-  if ("needs_keygen_ed25519" in checkResult && checkResult.needs_keygen_ed25519) {
+  if (
+    "needs_keygen_ed25519" in checkResult &&
+    checkResult.needs_keygen_ed25519
+  ) {
     const secp256k1Meta = checkResult.secp256k1.keyshare_node_meta;
     const ed25519Meta = checkResult.keyshare_node_meta;
 

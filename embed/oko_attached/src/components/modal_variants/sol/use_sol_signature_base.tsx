@@ -11,7 +11,10 @@ import {
   makeSignOutputEd25519,
   type KeyPackageEd25519,
 } from "@oko-wallet-attached/crypto/sign_ed25519";
-import { teddsaKeygenFromHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
+import {
+  teddsaKeygenFromHex,
+  extractKeyPackageHex,
+} from "@oko-wallet-attached/crypto/keygen_ed25519";
 
 export interface UseSolSignatureBaseArgs {
   modalId: string;
@@ -67,12 +70,12 @@ export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
   const theme = useAppState().getTheme(hostOrigin);
   const apiKey = useAppState().getApiKey(hostOrigin);
   const authToken = useAppState().getAuthToken(hostOrigin);
-  const keyPackageHex = useAppState().getKeyPackageEd25519(hostOrigin);
+  const walletEd25519 = useAppState().getWalletEd25519(hostOrigin);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const isDemo = !!hostOrigin && hostOrigin === DEMO_WEB_ORIGIN;
-  const isApproveEnabled = !!keyPackageHex && !!apiKey && !!authToken;
+  const isApproveEnabled = !!walletEd25519 && !!apiKey && !!authToken;
 
   function onReject() {
     const ack: OpenModalAckPayload = {
@@ -126,11 +129,12 @@ export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
    * Prepare signing context. Returns null if validation fails.
    */
   function prepareSigningContext(): SigningContext | null {
-    if (!keyPackageHex || !apiKey || !authToken) {
-      emitUnknownError("Missing key package, API key, or auth token");
+    if (!walletEd25519 || !apiKey || !authToken) {
+      emitUnknownError("Missing ed25519 wallet, API key, or auth token");
       return null;
     }
 
+    const keyPackageHex = extractKeyPackageHex(walletEd25519);
     const keyPackageRes = teddsaKeygenFromHex(keyPackageHex);
     if (!keyPackageRes.success) {
       emitUnknownError(keyPackageRes.err);
