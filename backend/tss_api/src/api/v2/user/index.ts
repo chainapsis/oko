@@ -28,6 +28,7 @@ import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node
 import type { Wallet } from "@oko-wallet/oko-types/wallets";
 import type { NodeNameAndEndpoint } from "@oko-wallet/oko-types/user_key_share";
 import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
+import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
 
 import { generateUserTokenV2 } from "@oko-wallet-tss-api/api/keplr_auth";
 import { checkKeyShareFromKSNodesV2 } from "@oko-wallet-tss-api/api/ks_node";
@@ -40,6 +41,7 @@ export async function signInV2(
     secret: string;
     expires_in: string;
   },
+  encryptionSecret: string,
   email?: string,
   name?: string,
 ): Promise<OkoApiResponse<SignInResponseV2>> {
@@ -101,6 +103,19 @@ export async function signInV2(
     const secp256k1Wallet = secp256k1WalletRes.data;
     const ed25519Wallet = ed25519WalletRes.data;
 
+    // Decrypt ed25519 share to get server's verifying_share
+    const decryptedEd25519Share = await decryptDataAsync(
+      ed25519Wallet.enc_tss_share.toString("utf-8"),
+      encryptionSecret,
+    );
+    const ed25519SharesData = JSON.parse(decryptedEd25519Share) as {
+      signing_share: number[];
+      verifying_share: number[];
+    };
+    const serverVerifyingShareEd25519Hex = Buffer.from(
+      ed25519SharesData.verifying_share,
+    ).toString("hex");
+
     const tokenResult = generateUserTokenV2({
       wallet_id_secp256k1: secp256k1Wallet.wallet_id,
       wallet_id_ed25519: ed25519Wallet.wallet_id,
@@ -125,6 +140,7 @@ export async function signInV2(
           wallet_id_ed25519: ed25519Wallet.wallet_id,
           public_key_secp256k1: secp256k1Wallet.public_key.toString("hex"),
           public_key_ed25519: ed25519Wallet.public_key.toString("hex"),
+          server_verifying_share_ed25519: serverVerifyingShareEd25519Hex,
           user_identifier: user_identifier,
           email: email ?? null,
           name: name ?? null,

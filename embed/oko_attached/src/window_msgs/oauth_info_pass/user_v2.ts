@@ -422,10 +422,7 @@ export async function handleExistingUserV2(
   );
   const keyPackageRaw = keyPackageToRaw(keyPackage);
 
-  // Build PublicKeyPackageRaw
-  // Note: We need server's verifying_share for complete PublicKeyPackage.
-  // For now, we only have client's verifying_share (computed from signing_share).
-  // The server's verifying_share would need to be fetched from tss_api.
+  // Build PublicKeyPackageRaw with both client and server verifying_shares
   const serverIdentifierRes = getServerFrostIdentifier();
   if (!serverIdentifierRes.success) {
     return {
@@ -437,20 +434,35 @@ export async function handleExistingUserV2(
     };
   }
 
-  // TODO: Fetch server's verifying_share from tss_api for complete PublicKeyPackage
-  // For now, create partial PublicKeyPackage with only client's verifying_share
+  // Parse server's verifying_share from sign-in response
+  const serverVerifyingShareRes = Bytes.fromHexString(
+    signInResp.user.server_verifying_share_ed25519,
+    32,
+  );
+  if (!serverVerifyingShareRes.success) {
+    return {
+      success: false,
+      err: {
+        type: "key_share_combine_fail",
+        error: `server verifying_share parse err: ${serverVerifyingShareRes.err}`,
+      },
+    };
+  }
+
   const clientVerifyingShare = computeVerifyingShare(signingShareRes.data);
   const publicKeyPackageRaw: PublicKeyPackageRaw = {
     verifying_shares: {
       [clientIdentifierRes.data.toHex()]: [
         ...clientVerifyingShare.toUint8Array(),
       ],
-      // Server's verifying_share is not available without fetching from tss_api
+      [serverIdentifierRes.data.toHex()]: [
+        ...serverVerifyingShareRes.data.toUint8Array(),
+      ],
     },
     verifying_key: [...verifyingKey.toUint8Array()],
   };
 
-  // @TODO
+  // Create KeyPackageEd25519Hex for storage
   const keyPackageEd25519Hex = {
     keyPackage: Buffer.from(JSON.stringify(keyPackageRaw)).toString("hex"),
     publicKeyPackage: Buffer.from(JSON.stringify(publicKeyPackageRaw)).toString(

@@ -75,6 +75,10 @@ export const SignInResponseV2Schema = registry.register(
         public_key_ed25519: z.string().openapi({
           description: "ed25519 public key in hex format",
         }),
+        server_verifying_share_ed25519: z.string().openapi({
+          description:
+            "Server's ed25519 verifying share (32 bytes hex) - needed for PublicKeyPackage construction",
+        }),
         user_identifier: z.string().openapi({
           description: "User identifier",
         }),

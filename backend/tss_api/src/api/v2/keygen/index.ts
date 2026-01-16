@@ -245,12 +245,12 @@ export async function runKeygenV2(
     );
 
     // 7. Encrypt ed25519 share (extract signing_share and verifying_share)
-    const keyPackageShares = extractKeyPackageSharesEd25519(
+    const ed25519KeyPackageShares = extractKeyPackageSharesEd25519(
       new Uint8Array(keygen_2_ed25519.key_package),
     );
     const ed25519SharesData = {
-      signing_share: keyPackageShares.signing_share,
-      verifying_share: keyPackageShares.verifying_share,
+      signing_share: ed25519KeyPackageShares.signing_share,
+      verifying_share: ed25519KeyPackageShares.verifying_share,
     };
     const ed25519EncryptedShare = await encryptDataAsync(
       JSON.stringify(ed25519SharesData),
@@ -260,6 +260,9 @@ export async function runKeygenV2(
       ed25519EncryptedShare,
       "utf-8",
     );
+    const serverVerifyingShareEd25519Hex = Buffer.from(
+      ed25519KeyPackageShares.verifying_share,
+    ).toString("hex");
 
     // 8. Get SSS threshold
     const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
@@ -370,6 +373,7 @@ export async function runKeygenV2(
           wallet_id_ed25519: ed25519Wallet.wallet_id,
           public_key_secp256k1: keygen_2_secp256k1.public_key,
           public_key_ed25519: ed25519PublicKeyHex,
+          server_verifying_share_ed25519: serverVerifyingShareEd25519Hex,
           user_identifier,
           email: email ?? null,
           name: name ?? null,
@@ -533,14 +537,14 @@ export async function runKeygenEd25519(
     const ksNodeIds = ed25519KsNodeIds;
 
     // Extract signing_share and verifying_share from key_package
-    const keyPackageShares = extractKeyPackageSharesEd25519(
+    const ed25519KeyPackageShares = extractKeyPackageSharesEd25519(
       new Uint8Array(keygen_2.key_package),
     );
 
     // Store only signing_share and verifying_share (64 bytes total)
     const sharesData = {
-      signing_share: keyPackageShares.signing_share,
-      verifying_share: keyPackageShares.verifying_share,
+      signing_share: ed25519KeyPackageShares.signing_share,
+      verifying_share: ed25519KeyPackageShares.verifying_share,
     };
 
     const encryptedShare = await encryptDataAsync(
@@ -548,6 +552,9 @@ export async function runKeygenEd25519(
       encryptionSecret,
     );
     const encryptedShareBuffer = Buffer.from(encryptedShare, "utf-8");
+    const serverVerifyingShareEd25519Hex = Buffer.from(
+      ed25519KeyPackageShares.verifying_share,
+    ).toString("hex");
 
     const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
     if (getKeyshareNodeMetaRes.success === false) {
@@ -628,6 +635,7 @@ export async function runKeygenEd25519(
           wallet_id_ed25519: ed25519Wallet.wallet_id,
           public_key_secp256k1: secp256k1Wallet.public_key.toString("hex"),
           public_key_ed25519: ed25519PublicKeyHex,
+          server_verifying_share_ed25519: serverVerifyingShareEd25519Hex,
           user_identifier,
           email: email ?? null,
           name: name ?? null,
