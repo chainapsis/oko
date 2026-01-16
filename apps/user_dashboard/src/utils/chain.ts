@@ -41,7 +41,7 @@ export function isCosmosChainId(chainId: string): boolean {
 
 /**
  * Check if chainId is for a Solana chain
- * Solana chains use the "solana:" prefix convention (e.g., "solana:mainnet")
+ * Solana chains use the "solana:" prefix with genesis hash (e.g., "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp")
  */
 export function isSolanaChainId(chainId: string): boolean {
   return chainId.startsWith("solana:");

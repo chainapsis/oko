@@ -34,15 +34,15 @@ describe("Wallet Standard", () => {
 
   describe("Chain utilities", () => {
     it("should define correct chain constants", () => {
-      expect(SOLANA_MAINNET_CHAIN).toBe("solana:mainnet");
-      expect(SOLANA_DEVNET_CHAIN).toBe("solana:devnet");
-      expect(SOLANA_TESTNET_CHAIN).toBe("solana:testnet");
+      expect(SOLANA_MAINNET_CHAIN).toBe("solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp");
+      expect(SOLANA_DEVNET_CHAIN).toBe("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1");
+      expect(SOLANA_TESTNET_CHAIN).toBe("solana:4uhcVJyU9pJkvQyS88uRDiswHXSCkY3z");
     });
 
     it("should validate Solana chains correctly", () => {
-      expect(isSolanaChain("solana:mainnet")).toBe(true);
-      expect(isSolanaChain("solana:devnet")).toBe(true);
-      expect(isSolanaChain("solana:testnet")).toBe(true);
+      expect(isSolanaChain("solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp")).toBe(true);
+      expect(isSolanaChain("solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1")).toBe(true);
+      expect(isSolanaChain("solana:4uhcVJyU9pJkvQyS88uRDiswHXSCkY3z")).toBe(true);
       expect(isSolanaChain("ethereum:mainnet")).toBe(false);
       expect(isSolanaChain("bitcoin:mainnet")).toBe(false);
     });

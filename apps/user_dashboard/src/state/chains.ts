@@ -9,9 +9,10 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { ModularChainInfo, CosmosChainInfo } from "@oko-wallet-user-dashboard/types/chain";
+import { SOLANA_MAINNET } from "@oko-wallet-user-dashboard/config/solana";
 
 const STORAGE_KEY = "oko:user_dashboard:chains";
-export const DEFAULT_ENABLED_CHAINS = ["eip155:1", "solana:mainnet", "cosmoshub", "osmosis"] as const;
+export const DEFAULT_ENABLED_CHAINS = ["eip155:1", SOLANA_MAINNET.chainId, "cosmoshub", "osmosis"] as const;
 
 // Cache for ChainIdHelper.parse() results
 const chainIdentifierCache = new Map<string, string>();
