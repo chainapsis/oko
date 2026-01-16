@@ -257,7 +257,7 @@ export async function runTeddsaSignLocal(
         identifier: round1_2.data.identifier,
         commitments: round1_2.data.commitments,
       },
-    ];
+    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
     const round2_1 = teddsaSignRound2(
       message,
@@ -288,7 +288,7 @@ export async function runTeddsaSignLocal(
         identifier: round2_2.data.identifier,
         signature_share: round2_2.data.signature_share,
       },
-    ];
+    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
     const aggregateResult = teddsaAggregate(
       message,
