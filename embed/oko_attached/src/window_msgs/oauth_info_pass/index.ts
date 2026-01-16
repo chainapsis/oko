@@ -339,18 +339,15 @@ export async function handleOAuthInfoPassV2(
       name: signInResult.name,
     });
 
-    // Store ed25519 wallet info
-    const keyPackageEd25519 = JSON.parse(signInResult.keyPackageEd25519Hex) as {
-      keyPackage: string;
-      publicKeyPackage: string;
-      publicKey: string;
-    };
+    // Store ed25519 key package (signing share) separately
+    appState.setKeyPackageEd25519(hostOrigin, signInResult.keyPackageEd25519);
+
+    // Store ed25519 wallet info (without signing share)
     appState.setWalletEd25519(hostOrigin, {
       authType,
       walletId: signInResult.walletIdEd25519,
-      keyPackage: keyPackageEd25519.keyPackage,
-      publicKeyPackage: keyPackageEd25519.publicKeyPackage,
-      publicKey: keyPackageEd25519.publicKey,
+      publicKeyPackage: signInResult.publicKeyPackageEd25519,
+      publicKey: signInResult.publicKeyEd25519,
       email: signInResult.email,
       name: signInResult.name,
     });

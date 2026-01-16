@@ -16,8 +16,6 @@ interface WalletState {
 interface Ed25519WalletState {
   authType: AuthType;
   walletId: string;
-  /** hex-encoded KeyPackageRaw JSON */
-  keyPackage: string;
   /** hex-encoded PublicKeyPackageRaw JSON */
   publicKeyPackage: string;
   publicKey: string;
@@ -29,6 +27,8 @@ interface PerOriginState {
   theme: Theme | null;
   apiKey: string | null;
   keyshare_1: string | null;
+  /** hex-encoded KeyPackageRaw JSON (contains signing_share for ed25519) */
+  keyPackageEd25519: string | null;
   nonce: string | null;
   codeVerifier: string | null;
   authToken: string | null;
@@ -61,6 +61,12 @@ interface AppActions {
 
   getKeyshare_1: (hostOrigin: string) => string | null;
   setKeyshare_1: (hostOrigin: string, keyshare_1: string | null) => void;
+
+  getKeyPackageEd25519: (hostOrigin: string) => string | null;
+  setKeyPackageEd25519: (
+    hostOrigin: string,
+    keyPackage: string | null,
+  ) => void;
 
   getApiKey: (hostOrigin: string) => string | null;
   setApiKey: (hostOrigin: string, apiKey: string | null) => void;
@@ -122,6 +128,20 @@ export const useAppState = create(
           },
         });
       },
+      setKeyPackageEd25519: (
+        hostOrigin: string,
+        keyPackageEd25519: string | null,
+      ) => {
+        set({
+          perOrigin: {
+            ...get().perOrigin,
+            [hostOrigin]: {
+              ...get().perOrigin[hostOrigin],
+              keyPackageEd25519,
+            },
+          },
+        });
+      },
       setAuthToken: (hostOrigin: string, authToken: string | null) => {
         set({
           perOrigin: {
@@ -142,6 +162,7 @@ export const useAppState = create(
               theme: null,
               apiKey: null,
               keyshare_1: null,
+              keyPackageEd25519: null,
               nonce: null,
               codeVerifier: null,
               authToken: null,
@@ -203,6 +224,9 @@ export const useAppState = create(
       },
       getKeyshare_1: (hostOrigin: string) => {
         return get().perOrigin[hostOrigin]?.keyshare_1;
+      },
+      getKeyPackageEd25519: (hostOrigin: string) => {
+        return get().perOrigin[hostOrigin]?.keyPackageEd25519;
       },
       getApiKey: (hostOrigin: string) => {
         return get().perOrigin[hostOrigin]?.apiKey;

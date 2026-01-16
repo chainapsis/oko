@@ -205,7 +205,8 @@ export async function handleNewUserV2(
       walletIdEd25519: reqKeygenV2Res.data.user.wallet_id_ed25519,
       jwtToken: reqKeygenV2Res.data.token,
       keyshare1Secp256k1: secp256k1Keygen1.tss_private_share.toHex(),
-      keyPackageEd25519Hex: JSON.stringify(keyPackageEd25519Hex),
+      keyPackageEd25519: keyPackageEd25519Hex.keyPackage,
+      publicKeyPackageEd25519: keyPackageEd25519Hex.publicKeyPackage,
       isNewUser: true,
       email: reqKeygenV2Res.data.user.email ?? null,
       name: reqKeygenV2Res.data.user.name ?? null,
@@ -462,15 +463,13 @@ export async function handleExistingUserV2(
     verifying_key: [...verifyingKey.toUint8Array()],
   };
 
-  // Create KeyPackageEd25519Hex for storage
-  const keyPackageEd25519Hex = {
-    keyPackage: Buffer.from(JSON.stringify(keyPackageRaw)).toString("hex"),
-    publicKeyPackage: Buffer.from(JSON.stringify(publicKeyPackageRaw)).toString(
-      "hex",
-    ),
-    identifier: clientIdentifierRes.data.toHex(),
-    publicKey: signInResp.user.public_key_ed25519,
-  };
+  // Create hex-encoded strings for storage
+  const keyPackageEd25519 = Buffer.from(JSON.stringify(keyPackageRaw)).toString(
+    "hex",
+  );
+  const publicKeyPackageEd25519 = Buffer.from(
+    JSON.stringify(publicKeyPackageRaw),
+  ).toString("hex");
 
   return {
     success: true,
@@ -481,7 +480,8 @@ export async function handleExistingUserV2(
       walletIdEd25519: signInResp.user.wallet_id_ed25519,
       jwtToken: signInResp.token,
       keyshare1Secp256k1: keyshare1Secp256k1Res.data,
-      keyPackageEd25519Hex: JSON.stringify(keyPackageEd25519Hex),
+      keyPackageEd25519,
+      publicKeyPackageEd25519,
       isNewUser: false,
       email: signInResp.user.email ?? null,
       name: signInResp.user.name ?? null,
@@ -677,7 +677,8 @@ export async function handleExistingUserNeedsEd25519Keygen(
       walletIdEd25519: reqKeygenEd25519Res.data.user.wallet_id_ed25519,
       jwtToken: reqKeygenEd25519Res.data.token,
       keyshare1Secp256k1: keyshare1Secp256k1Res.data,
-      keyPackageEd25519Hex: JSON.stringify(keyPackageEd25519Hex),
+      keyPackageEd25519: keyPackageEd25519Hex.keyPackage,
+      publicKeyPackageEd25519: keyPackageEd25519Hex.publicKeyPackage,
       isNewUser: false,
       email: reqKeygenEd25519Res.data.user.email ?? null,
       name: reqKeygenEd25519Res.data.user.name ?? null,

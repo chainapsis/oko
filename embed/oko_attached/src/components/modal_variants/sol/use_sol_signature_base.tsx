@@ -71,11 +71,13 @@ export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
   const apiKey = useAppState().getApiKey(hostOrigin);
   const authToken = useAppState().getAuthToken(hostOrigin);
   const walletEd25519 = useAppState().getWalletEd25519(hostOrigin);
+  const keyPackageEd25519 = useAppState().getKeyPackageEd25519(hostOrigin);
 
   const [isLoading, setIsLoading] = useState(false);
 
   const isDemo = !!hostOrigin && hostOrigin === DEMO_WEB_ORIGIN;
-  const isApproveEnabled = !!walletEd25519 && !!apiKey && !!authToken;
+  const isApproveEnabled =
+    !!walletEd25519 && !!keyPackageEd25519 && !!apiKey && !!authToken;
 
   function onReject() {
     const ack: OpenModalAckPayload = {
@@ -129,12 +131,18 @@ export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
    * Prepare signing context. Returns null if validation fails.
    */
   function prepareSigningContext(): SigningContext | null {
-    if (!walletEd25519 || !apiKey || !authToken) {
-      emitUnknownError("Missing ed25519 wallet, API key, or auth token");
+    if (!walletEd25519 || !keyPackageEd25519 || !apiKey || !authToken) {
+      emitUnknownError(
+        "Missing ed25519 wallet, key package, API key, or auth token",
+      );
       return null;
     }
 
-    const keyPackageHex = extractKeyPackageHex(walletEd25519);
+    const keyPackageHex = extractKeyPackageHex(
+      keyPackageEd25519,
+      walletEd25519.publicKeyPackage,
+      walletEd25519.publicKey,
+    );
     const keyPackageRes = teddsaKeygenFromHex(keyPackageHex);
     if (!keyPackageRes.success) {
       emitUnknownError(keyPackageRes.err);

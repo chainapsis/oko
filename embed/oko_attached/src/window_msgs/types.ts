@@ -77,9 +77,12 @@ export interface UserSignInResultV2 {
   walletIdSecp256k1: string;
   walletIdEd25519: string;
   jwtToken: string;
+  /** hex-encoded tss_private_share for secp256k1 */
   keyshare1Secp256k1: string;
-  /** JSON stringified KeyPackageEd25519Hex - contains keyPackage, publicKeyPackage, identifier, publicKey */
-  keyPackageEd25519Hex: string;
+  /** hex-encoded KeyPackageRaw JSON for ed25519 (contains signing_share) */
+  keyPackageEd25519: string;
+  /** hex-encoded PublicKeyPackageRaw JSON for ed25519 */
+  publicKeyPackageEd25519: string;
   isNewUser: boolean;
   name: string | null;
   email: string | null;
