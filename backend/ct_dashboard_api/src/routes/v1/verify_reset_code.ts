@@ -57,51 +57,89 @@ import { rateLimitMiddleware } from "@oko-wallet-ctd-api/middleware/rate_limit";
 import { generateVerificationCode } from "@oko-wallet-ctd-api/email/verification";
 import { sendPasswordResetEmail } from "@oko-wallet-ctd-api/email/password_reset";
 import { createEmailVerification } from "@oko-wallet/oko-pg-interface/email_verifications";
-import { forgotPassword } from "./v1/forgot_password";
-import { verifyResetCode } from "./v1/verify_reset_code";
-import { resetPasswordConfirm } from "./v1/reset_password_confirm";
-import { sendCode } from "./v1/send_code";
-import { verifyLogin } from "./v1/verify_login";
-import { signIn } from "./v1/signin";
-import { changePassword } from "./v1/change_password";
 
-export function setCustomerAuthRoutes(router: Router) {
-  router.post(
-    "/customer/auth/forgot-password",
-    rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
-    forgotPassword,
-  );
+registry.registerPath({
+  method: "post",
+  path: "/customer_dashboard/v1/customer/auth/verify-reset-code",
+  tags: ["Customer Dashboard"],
+  summary: "Verify reset code",
+  description: "Verifies the password reset code without consuming it",
+  security: [],
+  request: {
+    body: {
+      required: true,
+      content: {
+        "application/json": {
+          schema: VerifyResetCodeRequestSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: "Code verified successfully",
+      content: {
+        "application/json": {
+          schema: VerifyResetCodeSuccessResponseSchema,
+        },
+      },
+    },
+    400: {
+      description: "Invalid code",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    500: {
+      description: "Server error",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
+});
 
-  router.post(
-    "/customer/auth/verify-reset-code",
-    rateLimitMiddleware({ windowSeconds: 10 * 60, maxRequests: 20 }),
-    verifyResetCode,
-  );
+export async function verifyResetCode(
+  req: Request,
+  res: Response<OkoApiResponse<{ isValid: boolean }>>,
+) {
+  try {
+    const state = req.app.locals as any;
+    const { email, code } = req.body;
 
-  router.post("/customer/auth/reset-password-confirm", resetPasswordConfirm);
+    if (!email || !code) {
+      res.status(400).json({
+        success: false,
+        code: "INVALID_REQUEST",
+        msg: "Email and code are required",
+      });
+      return;
+    }
 
-  router.post(
-    "/customer/auth/send-code",
-    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
-    sendCode,
-  );
+    const result = await markCodeVerified(state.db, email, code, 5);
+    if (!result.success) {
+      res.status(400).json({
+        success: false,
+        code: "INVALID_VERIFICATION_CODE",
+        msg: "Invalid or expired verification code",
+      });
+      return;
+    }
 
-  router.post(
-    "/customer/auth/verify-login",
-    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
-    verifyLogin,
-  );
-
-  router.post(
-    "/customer/auth/signin",
-    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
-    signIn,
-  );
-
-  router.post(
-    "/customer/auth/change-password",
-    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
-    customerJwtMiddleware,
-    changePassword,
-  );
+    res.status(200).json({
+      success: true,
+      data: { isValid: true },
+    });
+  } catch (error) {
+    console.error("Verify reset code error:", error);
+    res.status(500).json({
+      success: false,
+      code: "UNKNOWN_ERROR",
+      msg: "Internal server error",
+    });
+  }
 }
