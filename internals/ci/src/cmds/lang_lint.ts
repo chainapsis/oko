@@ -4,7 +4,7 @@ import { expectSuccess } from "@oko-wallet-ci/expect";
 import { paths } from "@oko-wallet-ci/paths";
 
 export async function langLint(...args: any) {
-  console.log("Checking language of codebase...", args);
+  console.log("Checking language of codebase...");
 
   const publishRet = spawnSync("yarn", ["exec", "biome", "check", "--write"], {
     cwd: paths.root,
