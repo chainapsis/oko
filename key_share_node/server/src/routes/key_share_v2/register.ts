@@ -22,9 +22,9 @@ registry.registerPath({
   method: "post",
   path: "/keyshare/v2/register",
   tags: ["Key Share v2"],
-  summary: "Register multiple key shares",
+  summary: "Register key shares (both curves required)",
   description:
-    "Register multiple key shares for the authenticated user in a single transaction.",
+    "Register key shares for the authenticated user. Both secp256k1 and ed25519 wallets are required.",
   security: [{ oauthAuth: [] }],
   request: {
     body: {
@@ -51,6 +51,13 @@ registry.registerPath({
         "application/json": {
           schema: ErrorResponseSchema,
           examples: {
+            INVALID_REQUEST: {
+              value: {
+                success: false,
+                code: "INVALID_REQUEST",
+                msg: "Both secp256k1 and ed25519 wallets are required",
+              },
+            },
             PUBLIC_KEY_INVALID: {
               value: {
                 success: false,
@@ -65,6 +72,16 @@ registry.registerPath({
                 msg: "Share is not valid",
               },
             },
+          },
+        },
+      },
+    },
+    409: {
+      description: "Conflict - Duplicate public key",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+          examples: {
             DUPLICATE_PUBLIC_KEY: {
               value: {
                 success: false,

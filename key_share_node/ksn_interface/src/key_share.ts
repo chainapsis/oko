@@ -148,6 +148,7 @@ export interface GetKeyShareV2Request {
 }
 
 export interface GetKeyShareV2RequestBody {
+  auth_type: AuthType;
   wallets: WalletsRequestBody;
 }
 
@@ -220,6 +221,7 @@ export interface RegisterKeyShareV2Request {
 }
 
 export interface RegisterKeyShareV2RequestBody {
+  auth_type: AuthType;
   wallets: WalletsRegisterRequestBody;
 }
 
@@ -237,6 +239,7 @@ export interface RegisterEd25519V2Request {
 }
 
 export interface RegisterEd25519V2RequestBody {
+  auth_type: AuthType;
   public_key: string; // hex string, 32 bytes
   share: string; // hex string, 64 bytes
 }
@@ -277,6 +280,7 @@ export interface ReshareKeyShareV2Request {
 }
 
 export interface ReshareKeyShareV2RequestBody {
+  auth_type: AuthType;
   wallets: WalletsReshareRequestBody;
 }
 
@@ -300,6 +304,7 @@ export interface ReshareRegisterV2Request {
  * Reuses WalletsRegisterRequestBody since structure is identical
  */
 export interface ReshareRegisterV2RequestBody {
+  auth_type: AuthType;
   wallets: WalletsRegisterRequestBody;
 }
 

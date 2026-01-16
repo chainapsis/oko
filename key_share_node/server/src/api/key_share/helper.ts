@@ -123,11 +123,11 @@ export async function checkWalletKeyShare(
 }
 
 /**
- * Register a single wallet and its key share within a transaction
- * Used by registerKeyShareV2 to register multiple wallets atomically
+ * Register a single wallet and its key share
+ * Can be used within a transaction (PoolClient) or standalone (Pool)
  */
 export async function registerWalletKeyShare(
-  client: PoolClient,
+  db: Pool | PoolClient,
   walletInfo: WalletRegisterInfo<PublicKeyBytes>,
   userId: string,
   curveType: CurveType,
@@ -136,7 +136,7 @@ export async function registerWalletKeyShare(
   const { public_key, share } = walletInfo;
 
   // Check for duplicate public key
-  const getWalletRes = await getWalletByPublicKey(client, public_key);
+  const getWalletRes = await getWalletByPublicKey(db, public_key);
   if (getWalletRes.success === false) {
     logger.error("Failed to get wallet by public key: %s", getWalletRes.err);
     return {
@@ -155,7 +155,7 @@ export async function registerWalletKeyShare(
   }
 
   // Create wallet
-  const createWalletRes = await createWallet(client, {
+  const createWalletRes = await createWallet(db, {
     user_id: userId,
     curve_type: curveType,
     public_key: public_key.toUint8Array(),
@@ -176,7 +176,7 @@ export async function registerWalletKeyShare(
   );
   const encryptedShareBuffer = Buffer.from(encryptedShare, "utf-8");
 
-  const createKeyShareRes = await createKeyShare(client, {
+  const createKeyShareRes = await createKeyShare(db, {
     wallet_id: createWalletRes.data.wallet_id,
     enc_share: encryptedShareBuffer,
   });

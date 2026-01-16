@@ -155,7 +155,7 @@ function findWorkspaceDependencies(): DependencyInfo[] {
 }
 
 // NOTE: Now unused, but may change later
-function createGitCommitAndTags(
+function _createGitCommitAndTags(
   changedPackages: Array<{ name: string; version: string }>,
 ) {
   console.log("Creating git commit and tags...");
