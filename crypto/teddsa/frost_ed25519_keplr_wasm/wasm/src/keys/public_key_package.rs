@@ -1,7 +1,9 @@
 use frost_ed25519_keplr::keys::{PublicKeyPackage, VerifyingShare};
 use frost_ed25519_keplr::{Identifier, VerifyingKey};
+use gloo_utils::format::JsValueSerdeExt;
 use serde::{Deserialize, Serialize};
 use std::collections::{BTreeMap, HashMap};
+use wasm_bindgen::prelude::*;
 
 use super::IdentifierHex;
 
@@ -54,4 +56,27 @@ impl PublicKeyPackageRaw {
 
         Ok(PublicKeyPackage::new(verifying_shares, verifying_key))
     }
+
+    /// Serialize to FROST library binary format
+    pub fn to_frost_bytes(&self) -> Result<Vec<u8>, String> {
+        let public_key_package = self.to_public_key_package()?;
+        public_key_package.serialize().map_err(|e| e.to_string())
+    }
+}
+
+/// Serialize a PublicKeyPackageRaw to FROST library binary format.
+/// This is used when sending public_key_package to the backend API.
+#[wasm_bindgen]
+pub fn cli_serialize_public_key_package_ed25519(
+    public_key_package_raw: JsValue,
+) -> Result<JsValue, JsValue> {
+    let raw: PublicKeyPackageRaw = public_key_package_raw
+        .into_serde()
+        .map_err(|e| JsValue::from_str(&format!("Failed to parse PublicKeyPackageRaw: {}", e)))?;
+
+    let frost_bytes = raw
+        .to_frost_bytes()
+        .map_err(|e| JsValue::from_str(&format!("Failed to serialize to FROST format: {}", e)))?;
+
+    JsValue::from_serde(&frost_bytes).map_err(|e| JsValue::from_str(&e.to_string()))
 }
