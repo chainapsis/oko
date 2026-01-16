@@ -65,13 +65,6 @@ registry.registerPath({
                 msg: "Share is not valid",
               },
             },
-            RESHARE_FAILED: {
-              value: {
-                success: false,
-                code: "RESHARE_FAILED",
-                msg: "Share mismatch for curve_type: secp256k1",
-              },
-            },
           },
         },
       },
@@ -120,6 +113,15 @@ registry.registerPath({
       content: {
         "application/json": {
           schema: ErrorResponseSchema,
+          examples: {
+            RESHARE_FAILED: {
+              value: {
+                success: false,
+                code: "RESHARE_FAILED",
+                msg: "Share mismatch",
+              },
+            },
+          },
         },
       },
     },

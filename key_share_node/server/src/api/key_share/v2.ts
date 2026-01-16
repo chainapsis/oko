@@ -84,12 +84,20 @@ export async function getKeyShareV2(
         : null,
     ]);
 
-    if (secp256k1Res?.success === false) return secp256k1Res;
-    if (ed25519Res?.success === false) return ed25519Res;
+    if (secp256k1Res?.success === false) {
+      return secp256k1Res;
+    }
+    if (ed25519Res?.success === false) {
+      return ed25519Res;
+    }
 
     const result: GetKeyShareV2Response = {};
-    if (secp256k1Res) result.secp256k1 = secp256k1Res.data;
-    if (ed25519Res) result.ed25519 = ed25519Res.data;
+    if (secp256k1Res) {
+      result.secp256k1 = secp256k1Res.data;
+    }
+    if (ed25519Res) {
+      result.ed25519 = ed25519Res.data;
+    }
 
     return {
       success: true,
@@ -136,8 +144,12 @@ export async function checkKeyShareV2(
     // User not found = all wallets don't exist
     if (getUserRes.data === null) {
       const result: CheckKeyShareV2Response = {};
-      if (wallets.secp256k1) result.secp256k1 = { exists: false };
-      if (wallets.ed25519) result.ed25519 = { exists: false };
+      if (wallets.secp256k1) {
+        result.secp256k1 = { exists: false };
+      }
+      if (wallets.ed25519) {
+        result.ed25519 = { exists: false };
+      }
       return { success: true, data: result };
     }
 
@@ -166,8 +178,12 @@ export async function checkKeyShareV2(
     }
 
     const result: CheckKeyShareV2Response = {};
-    if (secp256k1Res) result.secp256k1 = secp256k1Res;
-    if (ed25519Res) result.ed25519 = ed25519Res;
+    if (secp256k1Res) {
+      result.secp256k1 = secp256k1Res;
+    }
+    if (ed25519Res) {
+      result.ed25519 = ed25519Res;
+    }
 
     return {
       success: true,
@@ -186,7 +202,7 @@ export async function checkKeyShareV2(
 /**
  * Register multiple key shares at once (v2)
  *
- * Unlike v1, this endpoint accepts wallets as an object { secp256k1?: {...}, ed25519?: {...} }
+ * This endpoint requires BOTH wallets: { secp256k1: {...}, ed25519: {...} }
  * Each wallet contains public_key and share.
  * All wallets are registered atomically within a single transaction.
  */
@@ -197,8 +213,17 @@ export async function registerKeyShareV2(
 ): Promise<KSNodeApiResponse<void>> {
   const { user_auth_id, auth_type, wallets } = request;
 
+  // Validate that both wallets are provided
+  if (!wallets.secp256k1 || !wallets.ed25519) {
+    return {
+      success: false,
+      code: "INVALID_REQUEST",
+      msg: "Both secp256k1 and ed25519 wallets are required",
+    };
+  }
+
   try {
-    // 1. Check if user exists (outside transaction)
+    // 1. Check if user exists
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
       auth_type,
@@ -229,7 +254,7 @@ export async function registerKeyShareV2(
         userId = existingUser.user_id;
       }
 
-      // Register each wallet sequentially within the transaction
+      // Register each wallet
       if (wallets.secp256k1) {
         const res = await registerWalletKeyShare(
           client,
@@ -290,7 +315,7 @@ export async function registerEd25519V2(
   const { user_auth_id, auth_type, public_key, share } = request;
 
   try {
-    // 1. Validation queries (outside transaction)
+    // 1. Check if user exists
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
       auth_type,
@@ -312,7 +337,7 @@ export async function registerEd25519V2(
 
     const userId = getUserRes.data.user_id;
 
-    // Check existing wallets
+    // 2. Check existing wallets
     const getWalletsRes = await getWalletsByUserId(db, userId);
     if (getWalletsRes.success === false) {
       throw new Error(`Failed to getWalletsByUserId: ${getWalletsRes.err}`);
@@ -322,7 +347,6 @@ export async function registerEd25519V2(
     const secp256k1Wallet = existingWallets.find(
       (w) => w.curve_type === "secp256k1",
     );
-    const hasEd25519 = existingWallets.some((w) => w.curve_type === "ed25519");
 
     // Must have secp256k1 wallet (existing user)
     if (!secp256k1Wallet) {
@@ -333,41 +357,14 @@ export async function registerEd25519V2(
       };
     }
 
-    // Must not have ed25519 wallet already
-    if (hasEd25519) {
-      return {
-        success: false,
-        code: "DUPLICATE_PUBLIC_KEY",
-        msg: "ed25519 wallet already exists",
-      };
-    }
-
-    // 2. Start transaction only for write operations
-    const client = await db.connect();
-    try {
-      await client.query("BEGIN");
-
-      // Register ed25519 wallet
-      const registerRes = await registerWalletKeyShare(
-        client,
-        { public_key, share },
-        userId,
-        "ed25519",
-        encryptionSecret,
-      );
-      if (registerRes.success === false) {
-        await client.query("ROLLBACK");
-        return registerRes;
-      }
-
-      await client.query("COMMIT");
-      return { success: true, data: void 0 };
-    } catch (error) {
-      await client.query("ROLLBACK");
-      throw error;
-    } finally {
-      client.release();
-    }
+    // 3. Register ed25519 wallet
+    return await registerWalletKeyShare(
+      db,
+      { public_key, share },
+      userId,
+      "ed25519",
+      encryptionSecret,
+    );
   } catch (error) {
     logger.error("Failed to register ed25519 wallet: %s", error);
     return {
@@ -417,7 +414,7 @@ export async function reshareKeyShareV2(
 
     const userId = getUserRes.data.user_id;
 
-    // Process each wallet sequentially (all must succeed)
+    // Reshare each wallet
     if (wallets.secp256k1) {
       const res = await reshareWalletKeyShare(
         db,
@@ -474,7 +471,6 @@ export async function reshareRegisterV2(
   const { user_auth_id, auth_type, wallets } = request;
 
   try {
-    // 1. Validation queries (outside transaction)
     const getUserRes = await getUserByAuthTypeAndUserAuthId(
       db,
       auth_type,
@@ -499,12 +495,11 @@ export async function reshareRegisterV2(
 
     const userId = getUserRes.data.user_id;
 
-    // 2. Start transaction only for write operations
     const client = await db.connect();
     try {
       await client.query("BEGIN");
 
-      // Register each wallet sequentially within the transaction
+      // Register each wallet
       if (wallets.secp256k1) {
         const res = await registerWalletKeyShare(
           client,
