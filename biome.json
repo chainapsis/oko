@@ -36,9 +36,6 @@
         "useNodejsImportProtocol": "off",
         "useConsistentTypeDefinitions": "off"
       },
-      "correctness": {
-        "noUnusedImports": "error"
-      },
       "complexity": {
         "useArrowFunction": "off"
       },
