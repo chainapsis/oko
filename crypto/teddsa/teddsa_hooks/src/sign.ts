@@ -43,9 +43,9 @@ export function teddsaSignRound1(
   keyPackage: KeyPackageRaw,
 ): Result<SigningCommitmentOutput, string> {
   try {
-    const serialized = serializeKeyPackage(keyPackage);
+    const input = { key_package: keyPackage };
     const result: SigningCommitmentOutput =
-      wasmModule.cli_sign_round1_ed25519(serialized);
+      wasmModule.cli_sign_round1_ed25519(input);
     return { success: true, data: result };
   } catch (error: any) {
     return { success: false, err: String(error) };
@@ -61,7 +61,7 @@ export function teddsaSignRound2(
   try {
     const input = {
       message: [...message],
-      key_package: serializeKeyPackage(keyPackage),
+      key_package: keyPackage,
       nonces: [...nonces],
       all_commitments: allCommitments,
     };
@@ -84,7 +84,7 @@ export function teddsaAggregate(
       message: [...message],
       all_commitments: allCommitments,
       all_signature_shares: allSignatureShares,
-      public_key_package: serializePublicKeyPackage(publicKeyPackage),
+      public_key_package: publicKeyPackage,
     };
     const result: SignatureOutput = wasmModule.cli_aggregate_ed25519(input);
     return { success: true, data: new Uint8Array(result.signature) };
@@ -102,7 +102,7 @@ export function teddsaVerify(
     const input = {
       message: [...message],
       signature: [...signature],
-      public_key_package: serializePublicKeyPackage(publicKeyPackage),
+      public_key_package: publicKeyPackage,
     };
     const isValid: boolean = wasmModule.cli_verify_ed25519(input);
     return { success: true, data: isValid };

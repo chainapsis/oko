@@ -1,38 +1,37 @@
 use frost_ed25519_keplr::keys::{PublicKeyPackage, VerifyingShare};
 use frost_ed25519_keplr::{Identifier, VerifyingKey};
-use gloo_utils::format::JsValueSerdeExt;
 use serde::{Deserialize, Serialize};
-use std::collections::{BTreeMap, HashMap};
+use std::collections::BTreeMap;
 use wasm_bindgen::prelude::*;
 
-use super::IdentifierHex;
+/// Entry for verifying_shares - using Vec instead of HashMap for better serde_wasm_bindgen compatibility
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct VerifyingShareEntry {
+    pub identifier: String,
+    pub share: Vec<u8>,
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct PublicKeyPackageRaw {
-    pub verifying_shares: HashMap<IdentifierHex, [u8; 32]>,
-    pub verifying_key: [u8; 32],
+    /// Using Vec of entries instead of HashMap for serde_wasm_bindgen compatibility
+    pub verifying_shares: Vec<VerifyingShareEntry>,
+    pub verifying_key: Vec<u8>,
 }
 
 impl PublicKeyPackageRaw {
     pub fn from_public_key_package(pkg: &PublicKeyPackage) -> Result<Self, String> {
-        let mut verifying_shares = HashMap::new();
+        let mut verifying_shares = Vec::new();
 
         for (identifier, verifying_share) in pkg.verifying_shares() {
             let id_hex = hex::encode(identifier.serialize());
-            let share_bytes: [u8; 32] = verifying_share
-                .serialize()
-                .map_err(|e| e.to_string())?
-                .try_into()
-                .map_err(|_| "Invalid verifying share length")?;
-            verifying_shares.insert(id_hex, share_bytes);
+            let share_bytes: Vec<u8> = verifying_share.serialize().map_err(|e| e.to_string())?;
+            verifying_shares.push(VerifyingShareEntry {
+                identifier: id_hex,
+                share: share_bytes,
+            });
         }
 
-        let verifying_key: [u8; 32] = pkg
-            .verifying_key()
-            .serialize()
-            .map_err(|e| e.to_string())?
-            .try_into()
-            .map_err(|_| "Invalid verifying key length")?;
+        let verifying_key: Vec<u8> = pkg.verifying_key().serialize().map_err(|e| e.to_string())?;
 
         Ok(Self {
             verifying_shares,
@@ -43,11 +42,11 @@ impl PublicKeyPackageRaw {
     pub fn to_public_key_package(&self) -> Result<PublicKeyPackage, String> {
         let mut verifying_shares: BTreeMap<Identifier, VerifyingShare> = BTreeMap::new();
 
-        for (id_hex, share_bytes) in &self.verifying_shares {
-            let id_bytes = hex::decode(id_hex).map_err(|e| e.to_string())?;
+        for entry in &self.verifying_shares {
+            let id_bytes = hex::decode(&entry.identifier).map_err(|e| e.to_string())?;
             let identifier = Identifier::deserialize(&id_bytes).map_err(|e| e.to_string())?;
             let verifying_share =
-                VerifyingShare::deserialize(share_bytes).map_err(|e| e.to_string())?;
+                VerifyingShare::deserialize(&entry.share).map_err(|e| e.to_string())?;
             verifying_shares.insert(identifier, verifying_share);
         }
 
@@ -70,13 +69,12 @@ impl PublicKeyPackageRaw {
 pub fn cli_serialize_public_key_package_ed25519(
     public_key_package_raw: JsValue,
 ) -> Result<JsValue, JsValue> {
-    let raw: PublicKeyPackageRaw = public_key_package_raw
-        .into_serde()
+    let raw: PublicKeyPackageRaw = serde_wasm_bindgen::from_value(public_key_package_raw)
         .map_err(|e| JsValue::from_str(&format!("Failed to parse PublicKeyPackageRaw: {}", e)))?;
 
     let frost_bytes = raw
         .to_frost_bytes()
         .map_err(|e| JsValue::from_str(&format!("Failed to serialize to FROST format: {}", e)))?;
 
-    JsValue::from_serde(&frost_bytes).map_err(|e| JsValue::from_str(&e.to_string()))
+    serde_wasm_bindgen::to_value(&frost_bytes).map_err(|e| JsValue::from_str(&e.to_string()))
 }

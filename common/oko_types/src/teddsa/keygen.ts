@@ -26,8 +26,13 @@ export interface KeyPackageRaw {
   min_signers: number;
 }
 
+export interface VerifyingShareEntry {
+  identifier: string;
+  share: number[];
+}
+
 export interface PublicKeyPackageRaw {
-  verifying_shares: Record<string, number[]>;
+  verifying_shares: VerifyingShareEntry[];
   verifying_key: number[];
 }
 
