@@ -1,16 +1,16 @@
-import { registry } from "@oko-wallet/oko-api-openapi";
-import type { Response } from "express";
-import type { AdminLogoutResponse } from "@oko-wallet/oko-types/admin";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
-import { logout } from "@oko-wallet-admin-api/api/user";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   AdminAuthHeaderSchema,
   ErrorResponseSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import { AdminLogoutSuccessResponseSchema } from "@oko-wallet/oko-api-openapi/oko_admin";
+import type { AdminLogoutResponse } from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Response } from "express";
+
+import { logout } from "@oko-wallet-admin-api/api/user";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 
 registry.registerPath({
   method: "post",

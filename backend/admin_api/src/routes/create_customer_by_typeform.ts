@@ -1,20 +1,20 @@
-import { registry } from "@oko-wallet/oko-api-openapi";
-import type { Request, Response } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { CreateCustomerResponse } from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-
-import { createCustomerByTypeform } from "@oko-wallet-admin-api/api/customer";
-import {
-  type TypeformWebhookBody,
-  extractTypeformData,
-} from "@oko-wallet-admin-api/api/customer/typeform";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {
   CreateCustomerSuccessResponseSchema,
   TypeformSignatureHeaderSchema,
   TypeformWebhookRequestSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
-import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
+import type { CreateCustomerResponse } from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Request, Response } from "express";
+
+import { createCustomerByTypeform } from "@oko-wallet-admin-api/api/customer";
+import {
+  extractTypeformData,
+  type TypeformWebhookBody,
+} from "@oko-wallet-admin-api/api/customer/typeform";
 
 registry.registerPath({
   method: "post",

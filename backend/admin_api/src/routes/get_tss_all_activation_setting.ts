@@ -1,16 +1,16 @@
-import type { Response } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { GetTssAllActivationSettingResponse } from "@oko-wallet-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";
-
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
-import { getTssAllActivationSetting } from "@oko-wallet-admin-api/api/tss";
 import {
   AdminAuthHeaderSchema,
   ErrorResponseSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import { GetTssAllActivationSettingSuccessResponseSchema } from "@oko-wallet/oko-api-openapi/oko_admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Response } from "express";
+
+import { getTssAllActivationSetting } from "@oko-wallet-admin-api/api/tss";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+import type { GetTssAllActivationSettingResponse } from "@oko-wallet-types/admin";
 
 registry.registerPath({
   method: "post",

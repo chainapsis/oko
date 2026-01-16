@@ -1,14 +1,5 @@
-import { registry } from "@oko-wallet/oko-api-openapi";
-import type { Response } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  GetKSNodeByIdRequest,
-  GetKSNodeByIdResponse,
-} from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
-import { getKSNodeById } from "@oko-wallet-admin-api/api/ks_node";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   AdminAuthHeaderSchema,
   ErrorResponseSchema,
@@ -17,6 +8,15 @@ import {
   GetKSNodeByIdRequestSchema,
   GetKSNodeByIdSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
+import type {
+  GetKSNodeByIdRequest,
+  GetKSNodeByIdResponse,
+} from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Response } from "express";
+
+import { getKSNodeById } from "@oko-wallet-admin-api/api/ks_node";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 
 registry.registerPath({
   method: "post",

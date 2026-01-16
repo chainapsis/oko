@@ -1,14 +1,5 @@
-import type { Response } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  DeactivateKSNodeRequest,
-  DeactivateKSNodeResponse,
-} from "@oko-wallet/oko-types/admin";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";
-
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
-import { deleteKSNode } from "@oko-wallet-admin-api/api/ks_node";
 import {
   AdminAuthHeaderSchema,
   ErrorResponseSchema,
@@ -17,6 +8,15 @@ import {
   DeleteKSNodeRequestSchema,
   DeleteKSNodeSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/oko_admin";
+import type {
+  DeactivateKSNodeRequest,
+  DeactivateKSNodeResponse,
+} from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Response } from "express";
+
+import { deleteKSNode } from "@oko-wallet-admin-api/api/ks_node";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 
 registry.registerPath({
   method: "post",

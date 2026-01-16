@@ -1,18 +1,18 @@
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";
-import type { Response, Request } from "express";
+import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
+import {
+  AdminLoginSuccessResponseSchema,
+  LoginRequestSchema,
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 import type {
   AdminLoginRequest,
   AdminLoginResponse,
 } from "@oko-wallet/oko-types/admin";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import type { Request, Response } from "express";
 
 import { login } from "@oko-wallet-admin-api/api/user";
-import {
-  AdminLoginSuccessResponseSchema,
-  LoginRequestSchema,
-} from "@oko-wallet/oko-api-openapi/oko_admin";
-import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 
 registry.registerPath({
   method: "post",
