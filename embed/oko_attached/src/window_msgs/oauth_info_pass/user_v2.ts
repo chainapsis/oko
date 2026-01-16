@@ -43,8 +43,20 @@ import { teddsaKeygenToHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
 import {
   splitTeddsaSigningShare,
   extractSigningShare,
+  combineTeddsaShares,
+  reconstructKeyPackage,
+  keyPackageToRaw,
+  getClientFrostIdentifier,
+  getServerFrostIdentifier,
 } from "@oko-wallet-attached/crypto/sss_ed25519";
-import { teddsaKeyShareToHex } from "@oko-wallet/oko-types/user_key_share";
+import { computeVerifyingShare } from "@oko-wallet-attached/crypto/scalar";
+import {
+  teddsaKeyShareToHex,
+  hexToTeddsaKeyShare,
+  type TeddsaKeyShareByNode,
+} from "@oko-wallet/oko-types/user_key_share";
+import type { PublicKeyPackageRaw } from "@oko-wallet/oko-types/teddsa";
+import { Bytes } from "@oko-wallet/bytes";
 import { saveReferral } from "./user";
 
 /**
@@ -92,7 +104,9 @@ export async function handleNewUserV2(
   const secp256k1UserKeyShares = splitUserKeySharesRes.data;
 
   // 4. ed25519 key share split
-  const ed25519SigningShareRes = extractSigningShare(ed25519Keygen1.key_package);
+  const ed25519SigningShareRes = extractSigningShare(
+    ed25519Keygen1.key_package,
+  );
   if (ed25519SigningShareRes.success === false) {
     return {
       success: false,
@@ -326,16 +340,125 @@ export async function handleExistingUserV2(
     };
   }
 
-  // 4. Combine ed25519 shares @TODO
-  // const ed25519SharesByNode = requestSharesRes.data.map((item) => ({
-  //   node: item.node,
-  //   share: item.shares.ed25519!,
-  // }));
-  // const keyPackageEd25519HexRes = await combineUserSharesEd25519(
-  //   ed25519SharesByNode,
-  //   keyshareNodeMetaEd25519.threshold,
-  // );
-  const keyPackageEd25519HexStr = ""; // TODO: replace with combined result (JSON stringified KeyPackageEd25519Hex)
+  // 4. Combine ed25519 shares
+  const ed25519SharesByNode: TeddsaKeyShareByNode[] = [];
+  for (const item of requestSharesRes.data) {
+    const shareHex = item.shares.ed25519;
+    if (!shareHex) {
+      return {
+        success: false,
+        err: {
+          type: "key_share_combine_fail",
+          error: `ed25519 share missing from node: ${item.node.name}`,
+        },
+      };
+    }
+    try {
+      const teddsaShare = hexToTeddsaKeyShare(shareHex);
+      ed25519SharesByNode.push({
+        node: item.node,
+        share: teddsaShare,
+      });
+    } catch (e) {
+      return {
+        success: false,
+        err: {
+          type: "key_share_combine_fail",
+          error: `ed25519 decode err: ${String(e)}`,
+        },
+      };
+    }
+  }
+
+  // Get verifying_key from public key
+  const verifyingKeyRes = Bytes.fromHexString(
+    signInResp.user.public_key_ed25519,
+    32,
+  );
+  if (!verifyingKeyRes.success) {
+    return {
+      success: false,
+      err: {
+        type: "key_share_combine_fail",
+        error: `verifying_key parse err: ${verifyingKeyRes.err}`,
+      },
+    };
+  }
+  const verifyingKey = verifyingKeyRes.data;
+
+  // Combine shares to recover signing_share
+  const signingShareRes = await combineTeddsaShares(
+    ed25519SharesByNode,
+    keyshareNodeMetaEd25519.threshold,
+    verifyingKey,
+  );
+  if (!signingShareRes.success) {
+    return {
+      success: false,
+      err: {
+        type: "key_share_combine_fail",
+        error: `ed25519 combine err: ${signingShareRes.err}`,
+      },
+    };
+  }
+
+  // Reconstruct KeyPackage
+  const clientIdentifierRes = getClientFrostIdentifier();
+  if (!clientIdentifierRes.success) {
+    return {
+      success: false,
+      err: {
+        type: "key_share_combine_fail",
+        error: `client identifier err: ${clientIdentifierRes.err}`,
+      },
+    };
+  }
+
+  const keyPackage = reconstructKeyPackage(
+    signingShareRes.data,
+    clientIdentifierRes.data,
+    verifyingKey,
+    keyshareNodeMetaEd25519.threshold,
+  );
+  const keyPackageRaw = keyPackageToRaw(keyPackage);
+
+  // Build PublicKeyPackageRaw
+  // Note: We need server's verifying_share for complete PublicKeyPackage.
+  // For now, we only have client's verifying_share (computed from signing_share).
+  // The server's verifying_share would need to be fetched from tss_api.
+  const serverIdentifierRes = getServerFrostIdentifier();
+  if (!serverIdentifierRes.success) {
+    return {
+      success: false,
+      err: {
+        type: "key_share_combine_fail",
+        error: `server identifier err: ${serverIdentifierRes.err}`,
+      },
+    };
+  }
+
+  // TODO: Fetch server's verifying_share from tss_api for complete PublicKeyPackage
+  // For now, create partial PublicKeyPackage with only client's verifying_share
+  const clientVerifyingShare = computeVerifyingShare(signingShareRes.data);
+  const publicKeyPackageRaw: PublicKeyPackageRaw = {
+    verifying_shares: {
+      [clientIdentifierRes.data.toHex()]: [
+        ...clientVerifyingShare.toUint8Array(),
+      ],
+      // Server's verifying_share is not available without fetching from tss_api
+    },
+    verifying_key: [...verifyingKey.toUint8Array()],
+  };
+
+  // @TODO
+  const keyPackageEd25519Hex = {
+    keyPackage: Buffer.from(JSON.stringify(keyPackageRaw)).toString("hex"),
+    publicKeyPackage: Buffer.from(JSON.stringify(publicKeyPackageRaw)).toString(
+      "hex",
+    ),
+    identifier: clientIdentifierRes.data.toHex(),
+    publicKey: signInResp.user.public_key_ed25519,
+  };
 
   return {
     success: true,
@@ -346,7 +469,7 @@ export async function handleExistingUserV2(
       walletIdEd25519: signInResp.user.wallet_id_ed25519,
       jwtToken: signInResp.token,
       keyshare1Secp256k1: keyshare1Secp256k1Res.data,
-      keyPackageEd25519Hex: keyPackageEd25519HexStr,
+      keyPackageEd25519Hex: JSON.stringify(keyPackageEd25519Hex),
       isNewUser: false,
       email: signInResp.user.email ?? null,
       name: signInResp.user.name ?? null,
@@ -378,7 +501,9 @@ export async function handleExistingUserNeedsEd25519Keygen(
     ed25519KeygenRes.data;
 
   // 2. ed25519 key share split
-  const ed25519SigningShareRes = extractSigningShare(ed25519Keygen1.key_package);
+  const ed25519SigningShareRes = extractSigningShare(
+    ed25519Keygen1.key_package,
+  );
   if (ed25519SigningShareRes.success === false) {
     return {
       success: false,
