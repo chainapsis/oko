@@ -2,7 +2,7 @@ name: Claude PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [labeled]
     branches: [develop, main]
 
 env:
@@ -12,6 +12,10 @@ jobs:
   claude-review:
     name: Claude Code Review
     runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.label.name == 'claude-review'
     permissions:
       contents: read
       pull-requests: write
