@@ -1,6 +1,6 @@
 "use client";
 
-import { flexRender } from "@tanstack/react-table";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import {
   Table,
   TableBody,
@@ -9,12 +9,12 @@ import {
   TableRow,
 } from "@oko-wallet/oko-common-ui/table";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { flexRender } from "@tanstack/react-table";
 
-import { useAPIKeys } from "@oko-wallet-ct-dashboard/hooks/use_api_keys";
+import { APIKeyItemRow } from "./api_key_item_row";
 import styles from "./api_key_list.module.scss";
 import { useAPIKeysTable } from "./use_api_keys_table";
-import { APIKeyItemRow } from "./api_key_item_row";
+import { useAPIKeys } from "@oko-wallet-ct-dashboard/hooks/use_api_keys";
 
 export const APIKeyList = () => {
   const { data: apiKeys } = useAPIKeys();

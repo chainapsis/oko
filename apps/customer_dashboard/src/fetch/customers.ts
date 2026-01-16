@@ -5,8 +5,8 @@ import type {
   UpdateCustomerInfoResponse,
 } from "@oko-wallet/oko-types/customers";
 
-import { errorHandle } from "./utils";
 import { OKO_API_ENDPOINT } from ".";
+import { errorHandle } from "./utils";
 
 export const CUSTOMER_V1_ENDPOINT = `${OKO_API_ENDPOINT}/customer_dashboard/v1`;
 

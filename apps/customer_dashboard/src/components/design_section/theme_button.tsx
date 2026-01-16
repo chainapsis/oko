@@ -1,6 +1,6 @@
-import { type CustomerTheme } from "@oko-wallet/oko-types/customers";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { CheckIcon } from "@oko-wallet/oko-common-ui/icons/check_icon";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
 
 import styles from "./theme_button.module.scss";
 

@@ -6,8 +6,12 @@ import {
   type ToastVariant,
 } from "@oko-wallet/oko-common-ui/toast";
 import type { FC } from "react";
-import { Bounce, type ToastOptions, toast } from "react-toastify";
-import { ToastContainer as ReactToastifyToastContainer } from "react-toastify";
+import {
+  Bounce,
+  ToastContainer as ReactToastifyToastContainer,
+  type ToastOptions,
+  toast,
+} from "react-toastify";
 
 interface DisplayToastProps {
   variant: ToastVariant;
