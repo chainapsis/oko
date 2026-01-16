@@ -80,14 +80,10 @@
           "options": {
             "groups": [
               ":NODE:",
-              [":PACKAGE:", "!@oko-wallet/**", "!@oko-wallet-*/**"],
-              ":BLANK_LINE:",
-              ["@oko-wallet/**", "@oko-wallet-*/**"],
+              [":PACKAGE:", "!@oko-wallet-*/**"],
               ":BLANK_LINE:",
               ":ALIAS:",
-              [":PATH:", "!./**/*.scss"],
-              ":BLANK_LINE:",
-              "./**/*.scss"
+              ":PATH:"
             ]
           }
         }
