@@ -1,10 +1,11 @@
+import type { FC } from "react";
 import { CheckIcon } from "@oko-wallet/oko-common-ui/icons/check_icon";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
 
 import styles from "./theme_button.module.scss";
 
-const LightTheme = () => {
+const LightTheme: FC = () => {
   return (
     <div className={styles.lightThemeButton}>
       <div className={styles.lightThemeButtonInner}>
@@ -21,7 +22,7 @@ const LightTheme = () => {
   );
 };
 
-const DarkTheme = () => {
+const DarkTheme: FC = () => {
   return (
     <div className={styles.darkThemeButton}>
       <div className={styles.darkThemeButtonInner}>
@@ -37,7 +38,7 @@ const DarkTheme = () => {
   );
 };
 
-const SystemThemeButton = () => {
+const SystemThemeButton: FC = () => {
   return (
     <div className={styles.systemThemeButtonContainer}>
       <div className={styles.lightThemeButton}>
@@ -74,12 +75,12 @@ interface ThemeButtonProps {
   active: boolean;
   label: string;
 }
-export const ThemeButton = ({
+export const ThemeButton: FC<ThemeButtonProps> = ({
   theme,
   onClick,
   active,
   label,
-}: ThemeButtonProps) => {
+}) => {
   const themeButton = (() => {
     switch (theme) {
       case "light":

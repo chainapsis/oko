@@ -5,13 +5,14 @@ import { PasswordIcon } from "@oko-wallet/oko-common-ui/icons/password";
 import { ThreeDotsVerticalIcon } from "@oko-wallet/oko-common-ui/icons/three_dots_vertical";
 import { SidebarAccountInfo } from "@oko-wallet/oko-common-ui/sidebar_account_info";
 import { useRouter } from "next/navigation";
+import type { FC } from "react";
 
 import styles from "./account_info_with_sub_menu.module.scss";
 import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
 import { paths } from "@oko-wallet-ct-dashboard/paths";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 
-export const AccountInfoWithSubMenu = () => {
+export const AccountInfoWithSubMenu: FC = () => {
   const router = useRouter();
 
   const customer = useCustomerInfo();
