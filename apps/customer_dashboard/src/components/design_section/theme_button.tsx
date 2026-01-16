@@ -68,17 +68,18 @@ const SystemThemeButton = () => {
   );
 };
 
+interface ThemeButtonProps {
+  theme: CustomerTheme;
+  onClick: () => void;
+  active: boolean;
+  label: string;
+}
 export const ThemeButton = ({
   theme,
   onClick,
   active,
   label,
-}: {
-  theme: CustomerTheme;
-  onClick: () => void;
-  active: boolean;
-  label: string;
-}) => {
+}: ThemeButtonProps) => {
   const themeButton = (() => {
     switch (theme) {
       case "light":

@@ -8,17 +8,18 @@ import {
 import { Bounce, type ToastOptions, toast } from "react-toastify";
 import { ToastContainer as ReactToastifyToastContainer } from "react-toastify";
 
+interface DisplayToastProps {
+  variant: ToastVariant;
+  title: string;
+  description?: string;
+  toastOptions?: Partial<ToastOptions>;
+}
 export function displayToast({
   variant,
   title,
   description,
   toastOptions,
-}: {
-  variant: ToastVariant;
-  title: string;
-  description?: string;
-  toastOptions?: Partial<ToastOptions>;
-}) {
+}: DisplayToastProps) {
   toastOptions = {
     ...{
       position: "top-right",
