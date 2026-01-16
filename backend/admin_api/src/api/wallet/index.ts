@@ -1,13 +1,13 @@
-import { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  GetWalletListRequest,
-  GetWalletListResponse,
-} from "@oko-wallet/oko-types/admin";
 import {
   getAllWallets,
   getWalletsCount,
 } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import type {
+  GetWalletListRequest,
+  GetWalletListResponse,
+} from "@oko-wallet/oko-types/admin";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Pool } from "pg";
 
 export async function getWalletList(
   db: Pool,
