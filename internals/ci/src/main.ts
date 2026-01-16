@@ -32,7 +32,7 @@ async function main() {
 
   command.command("lang_format").action(langFormat);
 
-  command.command("lang_check").action(langCheck);
+  command.command("lang_check").argument("[args...]").action(langCheck);
 
   command.command("lang_lint").action(langLint);
 
