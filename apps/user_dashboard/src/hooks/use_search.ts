@@ -38,8 +38,12 @@ const getNestedValue = (obj: any, path: SearchField<any>): any => {
   const segments = path.split(".");
 
   const extract = (current: any, pathSegments: string[]): any => {
-    if (current == null) return undefined;
-    if (pathSegments.length === 0) return current;
+    if (current == null) {
+      return undefined;
+    }
+    if (pathSegments.length === 0) {
+      return current;
+    }
 
     const [head, ...tail] = pathSegments;
 
@@ -47,7 +51,9 @@ const getNestedValue = (obj: any, path: SearchField<any>): any => {
       const key = head.slice(0, -2);
       const arr = current?.[key];
 
-      if (!Array.isArray(arr)) return undefined;
+      if (!Array.isArray(arr)) {
+        return undefined;
+      }
 
       const results = arr.map((item) => extract(item, tail));
 

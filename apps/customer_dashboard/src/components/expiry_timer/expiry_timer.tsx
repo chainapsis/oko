@@ -29,7 +29,9 @@ export const ExpiryTimer: FC<ExpiryTimerProps> = ({
   }, [duration]);
 
   useEffect(() => {
-    if (secondLeft <= 0) return;
+    if (secondLeft <= 0) {
+      return;
+    }
 
     const interval = setInterval(() => {
       setSecondLeft((prev) => prev - 1);
@@ -50,7 +52,9 @@ export const ExpiryTimer: FC<ExpiryTimerProps> = ({
 };
 
 function formatTime(seconds: number): string {
-  if (seconds <= 0) return "00:00";
+  if (seconds <= 0) {
+    return "00:00";
+  }
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
