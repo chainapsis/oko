@@ -7,23 +7,24 @@ import {
 } from "@oko-wallet/oko-common-ui/toast";
 import type { FC } from "react";
 import {
-  type ToastOptions,
-  toast,
   Bounce,
   ToastContainer as ReactToastifyToastContainer,
+  type ToastOptions,
+  toast,
 } from "react-toastify";
 
+interface DisplayToastProps {
+  variant: ToastVariant;
+  title: string;
+  description?: string;
+  toastOptions?: Partial<ToastOptions>;
+}
 export function displayToast({
   variant,
   title,
   description,
   toastOptions,
-}: {
-  variant: ToastVariant;
-  title: string;
-  description?: string;
-  toastOptions?: Partial<ToastOptions>;
-}) {
+}: DisplayToastProps) {
   toastOptions = {
     ...{
       position: "top-right",

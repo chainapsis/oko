@@ -1,7 +1,7 @@
 "use client";
 
-import { type PropsWithChildren, useEffect, useState, type FC } from "react";
 import { useRouter } from "next/navigation";
+import { type FC, type PropsWithChildren, useEffect, useState } from "react";
 
 import { paths } from "@oko-wallet-ct-dashboard/paths";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";

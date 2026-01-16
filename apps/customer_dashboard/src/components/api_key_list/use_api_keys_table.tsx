@@ -1,5 +1,5 @@
-import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 import type { APIKey } from "@oko-wallet/oko-types/ct_dashboard";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 export const useAPIKeysTable = (data: APIKey[]) => {
   const columns = [

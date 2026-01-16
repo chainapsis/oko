@@ -1,33 +1,32 @@
 "use client";
 
-import React, { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
-import { Logo } from "@oko-wallet/oko-common-ui/logo";
-import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
 import { EyeIcon } from "@oko-wallet/oko-common-ui/icons/eye";
 import { EyeOffIcon } from "@oko-wallet/oko-common-ui/icons/eye_off";
+import { Input } from "@oko-wallet/oko-common-ui/input";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { useRouter } from "next/navigation";
+import { useMemo, useState } from "react";
 
-import {
-  requestForgotPassword,
-  requestVerifyResetCode,
-  requestResetPasswordConfirm,
-} from "@oko-wallet-ct-dashboard/fetch/users";
+import styles from "./page.module.scss";
+import { ExpiryTimer } from "@oko-wallet-ct-dashboard/components/expiry_timer/expiry_timer";
 import {
   EMAIL_REGEX,
   EMAIL_VERIFICATION_TIMER_SECONDS,
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_MAX_LENGTH,
   PASSWORD_CONTAINS_NUMBER_REGEX,
+  PASSWORD_MAX_LENGTH,
+  PASSWORD_MIN_LENGTH,
   SIX_DIGITS_REGEX,
 } from "@oko-wallet-ct-dashboard/constants";
-import { ExpiryTimer } from "@oko-wallet-ct-dashboard/components/expiry_timer/expiry_timer";
+import {
+  requestForgotPassword,
+  requestResetPasswordConfirm,
+  requestVerifyResetCode,
+} from "@oko-wallet-ct-dashboard/fetch/users";
 import { paths } from "@oko-wallet-ct-dashboard/paths";
-
-import styles from "./page.module.scss";
 
 enum Step {
   EMAIL = 0,
