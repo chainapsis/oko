@@ -6,7 +6,7 @@ import { expectSuccess } from "@oko-wallet-ci/expect";
 export async function langCheck(..._args: any[]) {
   console.log("Checking language of codebase...");
 
-  const publishRet = spawnSync("yarn", ["exec", "biome", "check"], {
+  const publishRet = spawnSync("yarn", ["exec", "biome", "check", "--write"], {
     cwd: paths.root,
     stdio: "inherit",
   });
