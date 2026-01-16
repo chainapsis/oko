@@ -36,3 +36,20 @@ export const SOLANA_DEVNET: ModularChainInfo = {
     ],
   },
 };
+
+export const SOLANA_TESTNET: ModularChainInfo = {
+  chainId: "solana:4uhcVJyU9pJkvQyS88uRDiswHXSCkY3z",
+  chainName: "Solana Testnet",
+  chainSymbolImageUrl: `${S3_BUCKET_URL}/icons/solana.png`,
+  isTestnet: true,
+  solana: {
+    rpc: "https://api.testnet.solana.com",
+    currencies: [
+      {
+        coinDenom: "SOL",
+        coinMinimalDenom: "lamports",
+        coinDecimals: 9,
+      },
+    ],
+  },
+};
