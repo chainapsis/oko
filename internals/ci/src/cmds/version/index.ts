@@ -1,12 +1,12 @@
+import { spawnSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
-import { paths } from "@oko-wallet-ci/paths";
 import { doBuildPkgs } from "@oko-wallet-ci/cmds/build_pkgs";
-import { expectSuccess } from "@oko-wallet-ci/expect";
 import { doBuildSDK } from "@oko-wallet-ci/cmds/build_sdk";
+import { expectSuccess } from "@oko-wallet-ci/expect";
+import { paths } from "@oko-wallet-ci/paths";
 
 const WILDCARD_VERSION = "workspace:*";
 
@@ -116,7 +116,7 @@ function findWorkspaceDependencies(): DependencyInfo[] {
     "optionalDependencies",
   ];
 
-  let wsDeps = [];
+  const wsDeps = [];
 
   for (const pkgPath of packageJsonPaths) {
     try {
