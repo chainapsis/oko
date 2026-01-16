@@ -53,9 +53,9 @@ export async function version(args: any[]) {
   const changedRaw = changedRet.stdout.toString().trim();
 
   if (changedRaw.length > 0) {
-    let changed;
+    let changed: { name: string; version: string }[];
     try {
-      changed = JSON.parse(changedRaw) as { name: string; version: string }[];
+      changed = JSON.parse(changedRaw);
 
       console.log("Following pkgs are changed (current version)");
       for (const dep of changed) {
