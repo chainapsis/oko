@@ -117,6 +117,7 @@ export async function runTeddsaSign(
   keyPackage: KeyPackageRaw,
   publicKeyPackage: PublicKeyPackageRaw,
   authToken: string,
+  apiKey: string,
   getIsAborted: () => boolean,
 ): Promise<Result<Uint8Array, TeddsaSignError>> {
   if (getIsAborted()) {
@@ -143,6 +144,7 @@ export async function runTeddsaSign(
     endpoint,
     { msg: [...message] },
     authToken,
+    apiKey,
   );
   if (round1Resp.success === false) {
     return {

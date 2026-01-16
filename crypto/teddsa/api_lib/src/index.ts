@@ -134,12 +134,14 @@ export async function reqSignEd25519Round1(
   endpoint: string,
   payload: SignEd25519Round1Body,
   authToken: string,
+  apiKey?: string,
 ) {
   const resp: OkoApiResponse<SignEd25519Round1Response> = await makePostRequest(
     endpoint,
     "sign_ed25519/round1",
     payload,
     authToken,
+    apiKey,
   );
   return resp;
 }

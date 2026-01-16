@@ -12,7 +12,7 @@ import type {
 import type { Result } from "@oko-wallet/stdlib-js";
 import type { MakeSignOutputError } from "@oko-wallet/oko-sdk-core";
 
-import { TSS_V1_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
+import { TSS_V2_ENDPOINT } from "@oko-wallet-attached/requests/oko_api";
 
 export interface KeyPackageEd25519 {
   keyPackage: KeyPackageRaw;
