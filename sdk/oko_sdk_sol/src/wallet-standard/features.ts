@@ -18,7 +18,7 @@ import type {
 import bs58 from "bs58";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { isSolanaChain, SOLANA_MAINNET_CHAIN } from "./chains";
+import { isSolanaChain, SOLANA_MAINNET_CHAIN, SOLANA_DEVNET_CHAIN, SOLANA_TESTNET_CHAIN } from "./chains";
 
 // Support both legacy and versioned transactions
 const SUPPORTED_TRANSACTION_VERSIONS = ["legacy", 0] as const;
@@ -27,10 +27,10 @@ function getConnection(chain?: string): Connection {
   if (!chain || chain === SOLANA_MAINNET_CHAIN) {
     return new Connection(clusterApiUrl("mainnet-beta"));
   }
-  if (chain === "solana:devnet") {
+  if (chain === SOLANA_DEVNET_CHAIN) {
     return new Connection(clusterApiUrl("devnet"));
   }
-  if (chain === "solana:testnet") {
+  if (chain === SOLANA_TESTNET_CHAIN) {
     return new Connection(clusterApiUrl("testnet"));
   }
   return new Connection(clusterApiUrl("mainnet-beta"));

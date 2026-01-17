@@ -7,7 +7,7 @@ import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import styles from "./filters.module.scss";
 
 const visibilityOptions = ["Show All", "Show Hidden"] as const;
-const ecosystemFilterOptions = ["All Chains", "Cosmos", "EVM"] as const;
+const ecosystemFilterOptions = ["All Chains", "Cosmos", "EVM", "Solana"] as const;
 
 type SelectedFilters = {
   visibility: (typeof visibilityOptions)[number];
