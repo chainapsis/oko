@@ -1,0 +1,63 @@
+{
+  "name": "@oko-wallet/oko-frost-kit",
+  "version": "0.0.1-alpha.1",
+  "type": "module",
+  "description": "Frost wallet connector for Oko Wallet (Rialo chain support)",
+  "author": "oko-wallet",
+  "license": "SEE LICENSE IN LICENSE",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "!CHANGELOG.md",
+    "!LICENSE"
+  ],
+  "scripts": {
+    "clean": "del-cli dist",
+    "build": "tsx ./scripts/build.ts",
+    "lint": "eslint --ext .tsx,.ts .",
+    "format": "eslint --ext .tsx,.ts --fix ."
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "frost",
+    "rialo",
+    "oko",
+    "wallet",
+    "embed"
+  ],
+  "dependencies": {
+    "@oko-wallet/oko-sdk-core": "workspace:*",
+    "@oko-wallet/oko-sdk-sol": "workspace:*",
+    "@wallet-standard/base": "^1.0.1",
+    "@wallet-standard/features": "^1.0.3",
+    "@wallet-standard/wallet": "^1.0.1"
+  },
+  "peerDependencies": {
+    "@rialo/frost-core": ">=0.1.0"
+  },
+  "peerDependenciesMeta": {
+    "@rialo/frost-core": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-json": "^6.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "del-cli": "^6.0.0",
+    "rollup": "^4.0.0",
+    "tsc-alias": "^1.8.16",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
