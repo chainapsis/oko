@@ -9,5 +9,4 @@ export {
   isSolanaChain,
   type SolanaChain,
 } from "./chains";
-export { OKO_ICON } from "./icon";
 export { buildSignInMessage, createSignInFeature } from "./sign-in";

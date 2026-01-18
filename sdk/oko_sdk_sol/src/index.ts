@@ -37,7 +37,6 @@ export {
   SOLANA_DEVNET_CHAIN,
   SOLANA_TESTNET_CHAIN,
   isSolanaChain,
-  OKO_ICON,
   buildSignInMessage,
   createSignInFeature,
 } from "./wallet-standard";
