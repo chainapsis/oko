@@ -1,31 +1,30 @@
-import { OkoFrostMainWallet } from "./main-wallet";
-import { okoWalletInfo } from "./registry";
-import type { OkoFrostWalletOptions } from "./types";
+import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
+import { registerOkoRialoWallet } from "./rialo-wallet-standard";
+
+export interface OkoFrostOptions {
+  api_key: string;
+  sdk_endpoint?: string;
+}
 
 /**
- * Create an OkoFrostMainWallet instance with the given options.
- * Use this factory function to integrate Oko Wallet with Frost/Rialo applications.
+ * Initialize Oko wallet for Rialo/Frost integration.
+ * This registers the wallet with wallet-standard so @rialo/frost can discover it.
  *
  * @example
  * ```typescript
- * const okoWallet = makeOkoFrostWallet({
+ * await initOkoFrostWallet({
  *   api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
- *   sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
  * });
- *
- * await okoWallet.initClient();
  * ```
  */
-export const makeOkoFrostWallet = (
-  options: OkoFrostWalletOptions,
-): OkoFrostMainWallet => {
-  return new OkoFrostMainWallet({
-    ...okoWalletInfo,
-    options,
-  });
-};
+export async function initOkoFrostWallet(options: OkoFrostOptions): Promise<void> {
+  const result = OkoSolWallet.init(options);
+  if (!result.success) {
+    throw new Error(`Failed to initialize Oko wallet: ${JSON.stringify(result.err)}`);
+  }
+  await result.data.waitUntilInitialized;
+  registerOkoRialoWallet(result.data);
+}
 
-export { OkoFrostMainWallet } from "./main-wallet";
-export { OkoFrostWalletClient } from "./client";
-export { okoWalletInfo } from "./registry";
-export type { OkoFrostWalletOptions, OkoFrostWalletInfo } from "./types";
+// For advanced usage
+export { registerOkoRialoWallet } from "./rialo-wallet-standard";
