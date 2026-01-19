@@ -18,6 +18,11 @@ interface SplitOutputRaw {
   public_key_package: PublicKeyPackageRaw;
 }
 
+interface ExtendOutputRaw {
+  new_key_packages: KeyPackageRaw[];
+  public_key_package: PublicKeyPackageRaw;
+}
+
 /**
  * Split client signing_share using SSS for KS node distribution.
  *
@@ -231,14 +236,14 @@ export interface ExpandTeddsaSharesResult {
 /**
  * Expand existing ed25519 signing_share SSS shares for additional nodes.
  *
- * This function recovers the original signing_share from existing shares,
- * then re-splits it for all nodes (existing + additional).
+ * Uses sss_extend_shares which preserves the original polynomial.
+ * Existing shares remain unchanged, only new shares are computed for additional nodes.
  *
  * @param existingShares - TeddsaKeyShareByNode[] from ACTIVE nodes
  * @param additionalNodes - NodeNameAndEndpoint[] for NOT_REGISTERED/UNRECOVERABLE nodes
  * @param threshold - SSS threshold
  * @param verifyingKey - PublicKeyPackage's verifying_key
- * @returns TeddsaKeyShareByNode[] - shares for ALL nodes (existing + additional)
+ * @returns TeddsaKeyShareByNode[] - shares for ALL nodes (existing unchanged + new for additional)
  */
 export async function expandTeddsaSigningShare(
   existingShares: TeddsaKeyShareByNode[],
@@ -247,7 +252,7 @@ export async function expandTeddsaSigningShare(
   verifyingKey: Bytes32,
 ): Promise<Result<ExpandTeddsaSharesResult, string>> {
   try {
-    // 1. Recover signing_share from existing shares
+    // 1. Recover signing_share from existing shares (for client KeyPackage reconstruction)
     const signingShareRes = await combineTeddsaShares(
       existingShares,
       threshold,
@@ -257,51 +262,79 @@ export async function expandTeddsaSigningShare(
       return { success: false, err: signingShareRes.err };
     }
 
-    // 2. Build full node list (existing + additional)
-    const allNodes: NodeNameAndEndpoint[] = [
-      ...existingShares.map((s) => s.node),
-      ...additionalNodes,
-    ];
+    // 2. Convert existing shares to KeyPackageRaw format for sss_extend_shares
+    const existingKeyPackages: KeyPackageRaw[] = existingShares.map((s) => {
+      const verifyingShare = computeVerifyingShare(s.share.signing_share);
+      return {
+        identifier: [...s.share.identifier.toUint8Array()],
+        signing_share: [...s.share.signing_share.toUint8Array()],
+        verifying_share: [...verifyingShare.toUint8Array()],
+        verifying_key: [...verifyingKey.toUint8Array()],
+        min_signers: threshold,
+      };
+    });
 
-    // 3. Generate new identifiers for all nodes
-    const identifiersRes = await hashKeyshareNodeNamesEd25519(
-      allNodes.map((n) => n.name),
+    // 3. Build PublicKeyPackageRaw from existing shares
+    const verifyingShares = existingShares.map((s) => {
+      const verifyingShare = computeVerifyingShare(s.share.signing_share);
+      return {
+        identifier: s.share.identifier.toHex(),
+        share: [...verifyingShare.toUint8Array()],
+      };
+    });
+
+    const existingPublicKeyPackage: PublicKeyPackageRaw = {
+      verifying_shares: verifyingShares,
+      verifying_key: [...verifyingKey.toUint8Array()],
+    };
+
+    // 4. Generate identifiers only for additional nodes
+    const newIdentifiersRes = await hashKeyshareNodeNamesEd25519(
+      additionalNodes.map((n) => n.name),
     );
-    if (!identifiersRes.success) {
-      return { success: false, err: identifiersRes.err };
+    if (!newIdentifiersRes.success) {
+      return { success: false, err: newIdentifiersRes.err };
     }
 
-    // 4. SSS re-split for all nodes
-    const identifiers = identifiersRes.data.map((b) => [...b.toUint8Array()]);
-    const signingShareArr = [...signingShareRes.data.toUint8Array()];
+    const newIdentifiers = newIdentifiersRes.data.map((b) => [
+      ...b.toUint8Array(),
+    ]);
 
-    const splitOutput: SplitOutputRaw = wasmModule.sss_split(
-      signingShareArr,
-      identifiers,
-      threshold,
+    // 5. Call sss_extend_shares (preserves original polynomial)
+    const extendOutput: ExtendOutputRaw = wasmModule.sss_extend_shares(
+      existingKeyPackages,
+      newIdentifiers,
+      existingPublicKeyPackage,
     );
 
-    // 5. Convert to TeddsaKeyShareByNode format
-    const resharedShares: TeddsaKeyShareByNode[] = splitOutput.key_packages.map(
-      (kp, i) => {
-        const idBytes = Bytes.fromUint8Array(new Uint8Array(kp.identifier), 32);
-        const shareBytes = Bytes.fromUint8Array(
-          new Uint8Array(kp.signing_share),
-          32,
-        );
+    // 6. Build result: existing shares (unchanged) + new shares
+    const resharedShares: TeddsaKeyShareByNode[] = [];
 
-        if (!idBytes.success) throw new Error(idBytes.err);
-        if (!shareBytes.success) throw new Error(shareBytes.err);
+    // Add existing shares (unchanged)
+    for (const existingShare of existingShares) {
+      resharedShares.push(existingShare);
+    }
 
-        return {
-          node: allNodes[i],
-          share: {
-            identifier: idBytes.data,
-            signing_share: shareBytes.data,
-          },
-        };
-      },
-    );
+    // Add new shares for additional nodes
+    for (let i = 0; i < extendOutput.new_key_packages.length; i++) {
+      const kp = extendOutput.new_key_packages[i];
+      const idBytes = Bytes.fromUint8Array(new Uint8Array(kp.identifier), 32);
+      const shareBytes = Bytes.fromUint8Array(
+        new Uint8Array(kp.signing_share),
+        32,
+      );
+
+      if (!idBytes.success) throw new Error(idBytes.err);
+      if (!shareBytes.success) throw new Error(shareBytes.err);
+
+      resharedShares.push({
+        node: additionalNodes[i],
+        share: {
+          identifier: idBytes.data,
+          signing_share: shareBytes.data,
+        },
+      });
+    }
 
     return {
       success: true,
