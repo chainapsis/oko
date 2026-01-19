@@ -8,8 +8,6 @@ import type {
   SignEd25519Round1Response,
   SignEd25519Round2Request,
   SignEd25519Round2Response,
-  SignEd25519AggregateRequest,
-  SignEd25519AggregateResponse,
   SignEd25519StageData,
 } from "@oko-wallet/oko-types/tss";
 import {
@@ -23,9 +21,7 @@ import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
 import {
   runSignRound1Ed25519,
   runSignRound2Ed25519,
-  runAggregateEd25519,
   reconstructKeyPackageEd25519,
-  reconstructPublicKeyPackageEd25519,
 } from "@oko-wallet/teddsa-addon/src/server";
 import {
   Participant,
@@ -272,13 +268,13 @@ export async function runSignEd25519Round2(
       stage.stage_id,
       session_id,
       {
-        stage_status: SignEd25519StageStatus.ROUND_2,
+        stage_status: SignEd25519StageStatus.COMPLETED,
         stage_data: {
           ...stageData,
           signature_share: round2Result.signature_share,
         },
       },
-      TssSessionState.IN_PROGRESS,
+      TssSessionState.COMPLETED,
     );
     if (!updateRes.success) {
       return {
@@ -302,145 +298,6 @@ export async function runSignEd25519Round2(
       success: false,
       code: "UNKNOWN_ERROR",
       msg: `runSignEd25519Round2 error: ${error instanceof Error ? error.message : String(error)}`,
-    };
-  }
-}
-
-export async function runSignEd25519Aggregate(
-  db: Pool,
-  encryptionSecret: string,
-  request: SignEd25519AggregateRequest,
-): Promise<OkoApiResponse<SignEd25519AggregateResponse>> {
-  try {
-    const {
-      email,
-      wallet_id,
-      session_id,
-      msg,
-      all_commitments,
-      all_signature_shares,
-      user_verifying_share,
-    } = request;
-
-    const validateWalletEmailAndCurveTypeRes =
-      await validateWalletEmailAndCurveType(db, wallet_id, email, "ed25519");
-    if (validateWalletEmailAndCurveTypeRes.success === false) {
-      return {
-        success: false,
-        code: "UNAUTHORIZED",
-        msg: validateWalletEmailAndCurveTypeRes.err,
-      };
-    }
-    const wallet = validateWalletEmailAndCurveTypeRes.data;
-
-    // Decrypt stored shares
-    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
-    const decryptedShare = await decryptDataAsync(
-      encryptedShare,
-      encryptionSecret,
-    );
-    const storedShares = JSON.parse(decryptedShare) as {
-      signing_share: number[];
-      verifying_share: number[];
-    };
-
-    // Reconstruct public_key_package from user and server verifying_shares
-    const userIdentifier = participantToIdentifier(Participant.P0);
-    const serverIdentifier = participantToIdentifier(Participant.P1);
-    const verifyingKey = Array.from(wallet.public_key);
-
-    let publicKeyPackageBytes: Uint8Array;
-    try {
-      publicKeyPackageBytes = reconstructPublicKeyPackageEd25519(
-        new Uint8Array(user_verifying_share),
-        new Uint8Array(userIdentifier),
-        new Uint8Array(storedShares.verifying_share),
-        new Uint8Array(serverIdentifier),
-        new Uint8Array(verifyingKey),
-      );
-    } catch (error) {
-      return {
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `Failed to reconstruct public_key_package: ${error instanceof Error ? error.message : String(error)}`,
-      };
-    }
-
-    // Get stage with session data to update status after aggregate
-    const getStageRes = await getTssStageWithSessionData(
-      db,
-      session_id,
-      TssStageType.SIGN_ED25519,
-    );
-    if (getStageRes.success === false) {
-      return {
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `Failed to get TSS stage: ${getStageRes.err}`,
-      };
-    }
-    const stage = getStageRes.data;
-
-    // Validate session
-    if (!validateTssSession(stage, wallet_id)) {
-      return {
-        success: false,
-        code: "INVALID_TSS_SESSION",
-        msg: "Invalid session state or wallet mismatch",
-      };
-    }
-
-    // Validate stage status (should be ROUND_2)
-    if (!validateTssStage(stage, SignEd25519StageStatus.ROUND_2)) {
-      return {
-        success: false,
-        code: "INVALID_TSS_SESSION",
-        msg: "Round 2 state not found. Please call round2 first.",
-      };
-    }
-
-    // Aggregate signature
-    const aggregateResult = runAggregateEd25519(
-      new Uint8Array(msg),
-      all_commitments,
-      all_signature_shares,
-      publicKeyPackageBytes,
-    );
-
-    // Update stage and session to COMPLETED after successful aggregate
-    const stageData = stage.stage_data as SignEd25519StageData;
-    const updateRes = await updateTssStageWithSessionState(
-      db,
-      stage.stage_id,
-      session_id,
-      {
-        stage_status: SignEd25519StageStatus.COMPLETED,
-        stage_data: {
-          ...stageData,
-          signature: aggregateResult.signature,
-        },
-      },
-      TssSessionState.COMPLETED,
-    );
-    if (!updateRes.success) {
-      return {
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `Failed to update TSS stage: ${updateRes.err}`,
-      };
-    }
-
-    return {
-      success: true,
-      data: {
-        signature: aggregateResult.signature,
-      },
-    };
-  } catch (error) {
-    return {
-      success: false,
-      code: "UNKNOWN_ERROR",
-      msg: `runSignEd25519Aggregate error: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
 }

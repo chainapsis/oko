@@ -1,15 +1,15 @@
 "use client";
 
-import { useState, type FC } from "react";
 import { EyeIcon } from "@oko-wallet/oko-common-ui/icons/eye";
 import { EyeOffIcon } from "@oko-wallet/oko-common-ui/icons/eye_off";
+import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Input } from "@oko-wallet/oko-common-ui/input";
+import { type FC, useState } from "react";
 
-import { AccountForm } from "@oko-wallet-ct-dashboard/ui";
-import { useResetPasswordForm } from "./use_reset_password_form";
 import styles from "./reset_password.module.scss";
+import { useResetPasswordForm } from "./use_reset_password_form";
+import { AccountForm } from "@oko-wallet-ct-dashboard/ui";
 
 export const ResetPassword: FC = () => {
   const { onSubmit, register, errors, isLoading, isValid } =

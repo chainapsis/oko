@@ -1,13 +1,13 @@
 "use client";
 
-import { type FC } from "react";
 import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { FC } from "react";
 
-import { useSignUpDigits } from "./use_sign_up_digits";
-import styles from "./sign_up_digits.module.scss";
-import { ResendCode } from "../resend_code/resend_code";
 import { ExpiryTimer } from "../expiry_timer/expiry_timer";
+import { ResendCode } from "../resend_code/resend_code";
+import styles from "./sign_up_digits.module.scss";
+import { useSignUpDigits } from "./use_sign_up_digits";
 import { EMAIL_VERIFICATION_TIMER_SECONDS } from "@oko-wallet-ct-dashboard/constants";
 
 export const SignUpDigits: FC = () => {

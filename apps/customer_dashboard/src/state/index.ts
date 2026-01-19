@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { combine, persist } from "zustand/middleware";
 
-import type { AppState, AppActions, AppUser } from "./types";
+import type { AppActions, AppState, AppUser } from "./types";
 
 const STORAGE_KEY = "oko_wallet";
 

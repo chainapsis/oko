@@ -11,7 +11,6 @@ import { signStep1 } from "./sign_step_1";
 import { signStep2 } from "./sign_step_2";
 import { signEd25519Round1 } from "./sign_ed25519_round1";
 import { signEd25519Round2 } from "./sign_ed25519_round2";
-import { signEd25519Aggregate } from "./sign_ed25519_aggregate";
 import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
 import { triplesStep1 } from "./triples_step_1";
 import { triplesStep2 } from "./triples_step_2";
@@ -81,12 +80,6 @@ export function makeV2Router() {
     "/sign_ed25519/round2",
     [userJwtMiddlewareV2, tssActivateMiddleware],
     signEd25519Round2,
-  );
-
-  router.post(
-    "/sign_ed25519/aggregate",
-    [userJwtMiddlewareV2, tssActivateMiddleware],
-    signEd25519Aggregate,
   );
 
   router.post(

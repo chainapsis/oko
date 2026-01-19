@@ -23,6 +23,7 @@
       "sandbox/sandbox_evm",
       "sandbox/sandbox_cosmos_kit",
       "sandbox/sandbox_interchain_kit",
+      "sandbox/sandbox_react_native",
       "crypto/bytes",
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",

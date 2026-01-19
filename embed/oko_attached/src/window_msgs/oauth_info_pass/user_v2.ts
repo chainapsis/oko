@@ -452,14 +452,16 @@ export async function handleExistingUserV2(
 
   const clientVerifyingShare = computeVerifyingShare(signingShareRes.data);
   const publicKeyPackageRaw: PublicKeyPackageRaw = {
-    verifying_shares: {
-      [clientIdentifierRes.data.toHex()]: [
-        ...clientVerifyingShare.toUint8Array(),
-      ],
-      [serverIdentifierRes.data.toHex()]: [
-        ...serverVerifyingShareRes.data.toUint8Array(),
-      ],
-    },
+    verifying_shares: [
+      {
+        identifier: clientIdentifierRes.data.toHex(),
+        share: [...clientVerifyingShare.toUint8Array()],
+      },
+      {
+        identifier: serverIdentifierRes.data.toHex(),
+        share: [...serverVerifyingShareRes.data.toUint8Array()],
+      },
+    ],
     verifying_key: [...verifyingKey.toUint8Array()],
   };
 

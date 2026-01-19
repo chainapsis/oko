@@ -1,17 +1,13 @@
 "use client";
 
 import type { FC } from "react";
-import { Input } from "@oko-wallet/oko-common-ui/input";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { PlusIcon } from "@oko-wallet/oko-common-ui/icons/plus";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
-import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Input } from "@oko-wallet/oko-common-ui/input";
 
 import { useEditInfoForm } from "./use_edit_info_form";
 import styles from "./edit_info_form.module.scss";
-
-const THEME_OPTIONS: CustomerTheme[] = ["light", "dark", "system"];
 
 export const EditInfoForm: FC = () => {
   const {
@@ -20,8 +16,6 @@ export const EditInfoForm: FC = () => {
     errors,
     isLoading,
     hasChanges,
-    theme,
-    setTheme,
     fileInputRef,
     previewUrl,
     isDragging,
@@ -58,46 +52,6 @@ export const EditInfoForm: FC = () => {
         error={errors.url?.message}
         onFocus={() => resetErrors("url")}
       />
-
-      <div className={styles.themeSection}>
-        <div className={styles.themeHeader}>
-          <span className={styles.themeLabel}>Oko Wallet Theme</span>
-          <span className={styles.themeDescription}>
-            Choose the default theme for the Oko wallet.
-          </span>
-        </div>
-
-        <div className={styles.themeOptions}>
-          {THEME_OPTIONS.map((option) => {
-            const label =
-              option === "system"
-                ? "System"
-                : option === "light"
-                  ? "Light"
-                  : "Dark";
-
-            return (
-              <button
-                key={option}
-                type="button"
-                className={`${styles.themeOptionButton} ${
-                  theme === option ? styles.themeOptionButtonActive : ""
-                }`}
-                onClick={() => setTheme(option)}
-                disabled={isLoading}
-              >
-                <Typography
-                  size="sm"
-                  weight="medium"
-                  color={theme === option ? "primary-on-brand" : "primary"}
-                >
-                  {label}
-                </Typography>
-              </button>
-            );
-          })}
-        </div>
-      </div>
 
       {/* Logo Upload with drag & drop */}
       <div className={styles.appLogoUploadWrapper}>

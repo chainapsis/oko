@@ -1,14 +1,14 @@
 "use client";
 
-import { type FC } from "react";
 import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import Link from "next/link";
+import type { FC } from "react";
 
-import { useAppState } from "@oko-wallet-ct-dashboard/state";
-import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
 import styles from "./account_info.module.scss";
+import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
+import { useAppState } from "@oko-wallet-ct-dashboard/state";
 
 export const AccountInfo: FC = () => {
   const user = useAppState((state) => state.user);
