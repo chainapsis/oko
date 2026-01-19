@@ -7,14 +7,16 @@ import {
 } from "@oko-wallet/tss-api";
 import { makeUserRouter } from "@oko-wallet/user-dashboard-api";
 import { makeLogRouter } from "@oko-wallet/log-api";
-import {
-  makeSocialLoginRouter,
-  makeSocialLoginV2Router,
-} from "@oko-wallet/social-login-api";
+// import {
+//   makeSocialLoginRouter,
+//   makeSocialLoginV2Router,
+// } from "@oko-wallet/social-login-api";
 import { makeAttachedRouter } from "@oko-wallet/attached-api";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { OkoApiStatusResponseSchema } from "@oko-wallet/oko-api-openapi/oko";
 import { getStatus } from "./get_status";
+import { makeSocialLoginRouter } from "./social_login/v1";
+import { makeSocialLoginV2Router } from "./social_login/v2";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
