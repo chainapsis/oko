@@ -28,7 +28,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/chainapsis/oko.git",
-    "directory": "sdk/oko_sdk_sol"
+    "directory": "sdk/oko_sdk_svm"
   },
   "scripts": {
     "clean": "del-cli dist tsconfig.rollup.tsbuildinfo",

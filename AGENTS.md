@@ -12,7 +12,7 @@ An open-source embedded wallet stack built on MPC (Multi-Party Computation). Thr
   - Both compile to WASM for browser environments
 - **`sdk/`** - Client SDKs for wallet integration
   - `oko_sdk_core/` - Core wallet logic
-  - `oko_sdk_eth/`, `oko_sdk_cosmos/`, `oko_sdk_sol/` - Chain-specific SDKs
+  - `oko_sdk_eth/`, `oko_sdk_cosmos/`, `oko_sdk_svm/` - Chain-specific SDKs
 - **`backend/`** - API services
   - `oko_api/` - Main API server
   - `tss_api/` - Threshold signature service
