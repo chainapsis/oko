@@ -389,7 +389,14 @@ export async function updateWalletKSNodesForReshareV2(
       };
     }
 
-    // Process secp256k1 wallet if provided
+    // Collect upsert data after validation
+    const upsertData: Array<{
+      walletType: "secp256k1" | "ed25519";
+      walletId: string;
+      nodeIds: string[];
+    }> = [];
+
+    // Validate secp256k1 wallet if provided
     if (wallets.secp256k1) {
       const secp256k1ServerUrls = Array.from(
         new Set(wallets.secp256k1.resharedKeyShares.map((n) => n.endpoint)),
@@ -468,23 +475,15 @@ export async function updateWalletKSNodesForReshareV2(
       }
 
       if (checkSecp256k1Res.data.secp256k1) {
-        const nodeIds = checkSecp256k1Res.data.secp256k1.nodeIds;
-        const upsertWalletKSNodesRes = await upsertWalletKSNodes(
-          db,
-          wallet.wallet_id,
-          nodeIds,
-        );
-        if (upsertWalletKSNodesRes.success === false) {
-          return {
-            success: false,
-            code: "UNKNOWN_ERROR",
-            msg: `upsertWalletKSNodes (secp256k1) error: ${upsertWalletKSNodesRes.err}`,
-          };
-        }
+        upsertData.push({
+          walletType: "secp256k1",
+          walletId: wallet.wallet_id,
+          nodeIds: checkSecp256k1Res.data.secp256k1.nodeIds,
+        });
       }
     }
 
-    // Process ed25519 wallet if provided
+    // Validate ed25519 wallet if provided
     if (wallets.ed25519) {
       const ed25519ServerUrls = Array.from(
         new Set(wallets.ed25519.resharedKeyShares.map((n) => n.endpoint)),
@@ -563,19 +562,41 @@ export async function updateWalletKSNodesForReshareV2(
       }
 
       if (checkEd25519Res.data.ed25519) {
-        const nodeIds = checkEd25519Res.data.ed25519.nodeIds;
-        const upsertWalletKSNodesRes = await upsertWalletKSNodes(
-          db,
-          wallet.wallet_id,
-          nodeIds,
-        );
-        if (upsertWalletKSNodesRes.success === false) {
-          return {
-            success: false,
-            code: "UNKNOWN_ERROR",
-            msg: `upsertWalletKSNodes (ed25519) error: ${upsertWalletKSNodesRes.err}`,
-          };
+        upsertData.push({
+          walletType: "ed25519",
+          walletId: wallet.wallet_id,
+          nodeIds: checkEd25519Res.data.ed25519.nodeIds,
+        });
+      }
+    }
+
+    // Run upserts in a transaction
+    if (upsertData.length > 0) {
+      const client = await db.connect();
+      try {
+        await client.query("BEGIN");
+
+        for (const data of upsertData) {
+          const upsertRes = await upsertWalletKSNodes(
+            client,
+            data.walletId,
+            data.nodeIds,
+          );
+          if (upsertRes.success === false) {
+            throw new Error(`(${data.walletType}) ${upsertRes.err}`);
+          }
         }
+
+        await client.query("COMMIT");
+      } catch (err) {
+        await client.query("ROLLBACK");
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `upsertWalletKSNodes error: ${err instanceof Error ? err.message : String(err)}`,
+        };
+      } finally {
+        client.release();
       }
     }
 
