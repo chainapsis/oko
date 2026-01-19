@@ -1001,7 +1001,7 @@ export async function handleReshareAndEd25519Keygen(
   const allNodes = keyshareNodeMetaSecp256k1.nodes;
   const sendResults = await Promise.all(
     secp256k1ExpandRes.data.reshared_user_key_shares.map(
-      async (secp256k1Share, index) => {
+      async (secp256k1Share) => {
         const ed25519Share = ed25519UserKeyShares.find(
           (s) => s.node.endpoint === secp256k1Share.node.endpoint,
         );
