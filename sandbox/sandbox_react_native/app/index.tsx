@@ -5,7 +5,7 @@ export default function Index() {
   const sandboxURL = "http://10.0.2.2:4200";
   console.log(123, sandboxURL);
 
-  // fetch(url).then((res) => console.log(res));
+  fetch(sandboxURL).then((res) => console.log(res));
 
   return (
     <View
@@ -15,8 +15,8 @@ export default function Index() {
         alignItems: "center",
       }}
     >
+      <Text>hello world</Text>
       <WebView source={{ uri: sandboxURL }} style={{ flex: 1 }} />;
-      {/* <Text>Edit app/index.tsx to edit this screen.</Text> */}
     </View>
   );
 }
