@@ -1099,9 +1099,11 @@ export async function handleReshareAndEd25519Keygen(
     idToken,
     {
       wallets: {
-        secp256k1: secp256k1PublicKey,
+        secp256k1: {
+          public_key: secp256k1PublicKey,
+          reshared_key_shares: resharedNodes,
+        },
       },
-      reshared_key_shares: resharedNodes,
     },
     TSS_V2_ENDPOINT,
   );

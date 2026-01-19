@@ -1,6 +1,7 @@
 import type { Response } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { ReshareWalletInfo } from "@oko-wallet/oko-types/user";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import {
   ErrorResponseSchema,
@@ -70,16 +71,17 @@ registry.registerPath({
   },
 });
 
+export interface ReshareWalletInfoWithBytes {
+  publicKey: Bytes33 | Bytes32;
+  resharedKeyShares: Array<{ name: string; endpoint: string }>;
+}
+
 export async function userReshareV2(
   req: OAuthAuthenticatedRequest<{
     wallets: {
-      secp256k1?: string;
-      ed25519?: string;
+      secp256k1?: ReshareWalletInfo;
+      ed25519?: ReshareWalletInfo;
     };
-    reshared_key_shares: Array<{
-      name: string;
-      endpoint: string;
-    }>;
   }>,
   res: Response<OkoApiResponse<void>, OAuthLocals>,
 ) {
@@ -87,7 +89,7 @@ export async function userReshareV2(
   const oauthUser = res.locals.oauth_user;
   const auth_type = oauthUser.type as AuthType;
   const user_identifier = oauthUser.user_identifier;
-  const { wallets, reshared_key_shares } = req.body;
+  const { wallets } = req.body;
 
   if (!user_identifier) {
     res.status(401).json({
@@ -107,13 +109,16 @@ export async function userReshareV2(
     return;
   }
 
-  const walletsBytes: {
-    secp256k1?: Bytes33;
-    ed25519?: Bytes32;
+  const walletsWithBytes: {
+    secp256k1?: ReshareWalletInfoWithBytes;
+    ed25519?: ReshareWalletInfoWithBytes;
   } = {};
 
   if (wallets.secp256k1) {
-    const secp256k1PublicKeyRes = Bytes.fromHexString(wallets.secp256k1, 33);
+    const secp256k1PublicKeyRes = Bytes.fromHexString(
+      wallets.secp256k1.public_key,
+      33,
+    );
     if (secp256k1PublicKeyRes.success === false) {
       res.status(400).json({
         success: false,
@@ -122,11 +127,25 @@ export async function userReshareV2(
       });
       return;
     }
-    walletsBytes.secp256k1 = secp256k1PublicKeyRes.data;
+    if (!wallets.secp256k1.reshared_key_shares?.length) {
+      res.status(400).json({
+        success: false,
+        code: "INVALID_REQUEST",
+        msg: "secp256k1 reshared_key_shares is required",
+      });
+      return;
+    }
+    walletsWithBytes.secp256k1 = {
+      publicKey: secp256k1PublicKeyRes.data,
+      resharedKeyShares: wallets.secp256k1.reshared_key_shares,
+    };
   }
 
   if (wallets.ed25519) {
-    const ed25519PublicKeyRes = Bytes.fromHexString(wallets.ed25519, 32);
+    const ed25519PublicKeyRes = Bytes.fromHexString(
+      wallets.ed25519.public_key,
+      32,
+    );
     if (ed25519PublicKeyRes.success === false) {
       res.status(400).json({
         success: false,
@@ -135,24 +154,25 @@ export async function userReshareV2(
       });
       return;
     }
-    walletsBytes.ed25519 = ed25519PublicKeyRes.data;
-  }
-
-  if (!reshared_key_shares?.length) {
-    res.status(400).json({
-      success: false,
-      code: "INVALID_REQUEST",
-      msg: "reshared_key_shares is required",
-    });
-    return;
+    if (!wallets.ed25519.reshared_key_shares?.length) {
+      res.status(400).json({
+        success: false,
+        code: "INVALID_REQUEST",
+        msg: "ed25519 reshared_key_shares is required",
+      });
+      return;
+    }
+    walletsWithBytes.ed25519 = {
+      publicKey: ed25519PublicKeyRes.data,
+      resharedKeyShares: wallets.ed25519.reshared_key_shares,
+    };
   }
 
   const reshareRes = await updateWalletKSNodesForReshareV2(
     state.db,
     user_identifier,
     auth_type,
-    walletsBytes,
-    reshared_key_shares,
+    walletsWithBytes,
   );
 
   if (reshareRes.success === false) {

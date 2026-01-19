@@ -276,7 +276,9 @@ export async function reshareUserKeySharesV2(
   }
 
   // 5. Send new shares to KSN (only for wallets that need reshare)
-  const allResharedNodes: NodeNameAndEndpoint[] = [];
+  // Track reshared nodes per wallet separately
+  const secp256k1ResharedNodes: NodeNameAndEndpoint[] = [];
+  const ed25519ResharedNodes: NodeNameAndEndpoint[] = [];
 
   if (secp256k1NeedsReshare || ed25519NeedsReshare) {
     // Collect all nodes that need updates
@@ -344,6 +346,7 @@ export async function reshareUserKeySharesV2(
           if (nodeInfo.secp256k1.isNewNode) {
             isNewNode = true;
           }
+          secp256k1ResharedNodes.push(nodeInfo.node);
         }
 
         if (nodeInfo.ed25519) {
@@ -354,9 +357,8 @@ export async function reshareUserKeySharesV2(
           if (nodeInfo.ed25519.isNewNode) {
             isNewNode = true;
           }
+          ed25519ResharedNodes.push(nodeInfo.node);
         }
-
-        allResharedNodes.push(nodeInfo.node);
 
         if (isNewNode) {
           return reshareRegisterV2(
@@ -386,13 +388,23 @@ export async function reshareUserKeySharesV2(
   }
 
   // 6. Update Oko API (only if any reshare happened)
-  if (allResharedNodes.length > 0) {
-    const reshareWallets: { secp256k1?: string; ed25519?: string } = {};
-    if (secp256k1NeedsReshare) {
-      reshareWallets.secp256k1 = secp256k1.publicKey.toHex();
+  const hasResharedNodes =
+    secp256k1ResharedNodes.length > 0 || ed25519ResharedNodes.length > 0;
+
+  if (hasResharedNodes) {
+    const reshareWallets: ReshareRequestV2["wallets"] = {};
+
+    if (secp256k1NeedsReshare && secp256k1ResharedNodes.length > 0) {
+      reshareWallets.secp256k1 = {
+        public_key: secp256k1.publicKey.toHex(),
+        reshared_key_shares: secp256k1ResharedNodes,
+      };
     }
-    if (ed25519NeedsReshare) {
-      reshareWallets.ed25519 = ed25519.publicKey.toHex();
+    if (ed25519NeedsReshare && ed25519ResharedNodes.length > 0) {
+      reshareWallets.ed25519 = {
+        public_key: ed25519.publicKey.toHex(),
+        reshared_key_shares: ed25519ResharedNodes,
+      };
     }
 
     const updateRes = await makeAuthorizedOkoApiRequest<ReshareRequestV2, void>(
@@ -400,7 +412,6 @@ export async function reshareUserKeySharesV2(
       idToken,
       {
         wallets: reshareWallets,
-        reshared_key_shares: allResharedNodes,
       },
       TSS_V2_ENDPOINT,
     );
