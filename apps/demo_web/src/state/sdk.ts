@@ -11,7 +11,7 @@ import {
 // import {
 //   OkoSolWallet,
 //   type OkoSolWalletInterface,
-// } from "@oko-wallet/oko-sdk-sol";
+// } from "@oko-wallet/oko-sdk-svm";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 

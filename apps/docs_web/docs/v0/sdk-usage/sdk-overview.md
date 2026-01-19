@@ -5,8 +5,8 @@ sidebar_position: 1
 
 # SDK Overview
 
-Oko provides specialized SDKs for different blockchain ecosystems.
-Choose the right packages for your project.
+Oko provides specialized SDKs for different blockchain ecosystems. Choose the
+right packages for your project.
 
 <!-- prettier-ignore -->
 :::tip Get started faster
@@ -24,7 +24,7 @@ npm install @oko-wallet/oko-sdk-cosmos
 npm install @oko-wallet/oko-sdk-eth
 
 # For Solana
-npm install @oko-wallet/oko-sdk-sol
+npm install @oko-wallet/oko-sdk-svm
 
 # Core SDK (for custom integration)
 npm install @oko-wallet/oko-sdk-core
@@ -62,7 +62,7 @@ const provider = await ethWallet.getEthereumProvider();
 ### Solana
 
 ```typescript
-import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
+import { OkoSolWallet } from "@oko-wallet/oko-sdk-svm";
 
 const initRes = OkoSolWallet.init(config);
 if (!initRes.success) {

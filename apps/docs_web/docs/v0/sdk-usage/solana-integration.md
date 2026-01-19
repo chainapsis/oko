@@ -15,13 +15,13 @@ Oko Solana SDK fully supports the [Wallet Standard](https://github.com/anza-xyz/
 ## Installation
 
 ```bash
-npm install @oko-wallet/oko-sdk-sol @solana/web3.js
+npm install @oko-wallet/oko-sdk-svm @solana/web3.js
 ```
 
 ## Basic Setup
 
 ```typescript
-import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
+import { OkoSolWallet } from "@oko-wallet/oko-sdk-svm";
 
 // Initialize Solana wallet
 const initRes = OkoSolWallet.init({
@@ -61,7 +61,7 @@ const transaction = new Transaction().add(
     fromPubkey: wallet.publicKey!,
     toPubkey: recipientAddress,
     lamports: 0.1 * LAMPORTS_PER_SOL,
-  })
+  }),
 );
 
 // Get recent blockhash
@@ -80,7 +80,7 @@ console.log("Transaction sent:", signature);
 // Alternative method that returns { signature }
 const { signature } = await wallet.signAndSendTransaction(
   transaction,
-  connection
+  connection,
 );
 ```
 
@@ -136,10 +136,11 @@ unsubscribe(); // or wallet.off("connect", handler);
 
 ## Wallet Standard Integration
 
-Register Oko wallet for automatic discovery by dApps using `@solana/wallet-adapter`:
+Register Oko wallet for automatic discovery by dApps using
+`@solana/wallet-adapter`:
 
 ```typescript
-import { OkoSolWallet, registerOkoWallet } from "@oko-wallet/oko-sdk-sol";
+import { OkoSolWallet, registerOkoWallet } from "@oko-wallet/oko-sdk-svm";
 
 const initRes = OkoSolWallet.init({ api_key: "your-api-key" });
 if (initRes.success) {
@@ -154,13 +155,13 @@ if (initRes.success) {
 
 ### Supported Features
 
-| Feature | Description |
-|---------|-------------|
-| `standard:connect` | Connect to wallet |
-| `standard:disconnect` | Disconnect from wallet |
-| `standard:events` | Subscribe to wallet events |
-| `solana:signMessage` | Sign arbitrary messages |
-| `solana:signTransaction` | Sign transactions |
+| Feature                         | Description                     |
+| ------------------------------- | ------------------------------- |
+| `standard:connect`              | Connect to wallet               |
+| `standard:disconnect`           | Disconnect from wallet          |
+| `standard:events`               | Subscribe to wallet events      |
+| `solana:signMessage`            | Sign arbitrary messages         |
+| `solana:signTransaction`        | Sign transactions               |
 | `solana:signAndSendTransaction` | Sign and broadcast transactions |
 
 ## Versioned Transactions
