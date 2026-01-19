@@ -14,11 +14,15 @@ import {
   makeAuthorizedOkoApiRequest,
   makeOkoApiRequest,
   TSS_V2_ENDPOINT,
+  SOCIAL_LOGIN_V2_ENDPOINT,
 } from "@oko-wallet-attached/requests/oko_api";
 import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
 import type { UserSignInResultV2 } from "@oko-wallet-attached/window_msgs/types";
 import type { FetchError } from "@oko-wallet-attached/requests/types";
-import { reshareUserKeyShares, runExpandShares } from "@oko-wallet-attached/crypto/reshare";
+import {
+  reshareUserKeyShares,
+  runExpandShares,
+} from "@oko-wallet-attached/crypto/reshare";
 import { reshareUserKeySharesV2 } from "@oko-wallet-attached/crypto/reshare_v2";
 import {
   requestKeySharesV2,
@@ -61,7 +65,6 @@ import {
 } from "@oko-wallet/oko-types/user_key_share";
 import type { PublicKeyPackageRaw } from "@oko-wallet/oko-types/teddsa";
 import { Bytes } from "@oko-wallet/bytes";
-import { saveReferral } from "./user";
 
 /**
  * Handle new user who needs both secp256k1 and ed25519 keygen.
@@ -186,7 +189,7 @@ export async function handleNewUserV2(
   // Save referral info after successful keygen
   if (referralInfo?.origin) {
     try {
-      await saveReferral(reqKeygenV2Res.data.token, {
+      await saveReferralV2(reqKeygenV2Res.data.token, {
         origin: referralInfo.origin,
         utm_source: referralInfo.utmSource,
         utm_campaign: referralInfo.utmCampaign,
@@ -1092,8 +1095,9 @@ export async function handleReshareAndEd25519Keygen(
   }
 
   // 9. Update Oko API reshare status
-  const resharedNodes =
-    secp256k1ExpandRes.data.reshared_user_key_shares.map((s) => s.node);
+  const resharedNodes = secp256k1ExpandRes.data.reshared_user_key_shares.map(
+    (s) => s.node,
+  );
   const updateRes = await makeAuthorizedOkoApiRequest<ReshareRequestV2, void>(
     "user/reshare",
     idToken,
@@ -1130,4 +1134,35 @@ export async function handleReshareAndEd25519Keygen(
       name: reqKeygenEd25519Res.data.user.name ?? null,
     },
   };
+}
+
+interface SaveReferralRequest {
+  origin: string;
+  utm_source: string | null;
+  utm_campaign: string | null;
+}
+
+interface SaveReferralResponse {
+  referral_id: string;
+}
+
+async function saveReferralV2(
+  authToken: string,
+  data: SaveReferralRequest,
+): Promise<void> {
+  const res = await makeAuthorizedOkoApiRequest<
+    SaveReferralRequest,
+    SaveReferralResponse
+  >("referral", authToken, data, SOCIAL_LOGIN_V2_ENDPOINT);
+
+  if (!res.success) {
+    throw new Error(
+      `Save referral V2 fetch failed: ${JSON.stringify(res.err)}`,
+    );
+  }
+
+  const apiResponse = res.data;
+  if (!apiResponse.success) {
+    throw new Error(`Save referral V2 API error: ${apiResponse.msg}`);
+  }
 }
