@@ -49,7 +49,9 @@ export function convertSecp256k1Shares(
   const result: UserKeySharePointByNode[] = [];
   for (const item of keySharesByNode) {
     const shareHex = item.shares.secp256k1;
-    if (!shareHex) continue;
+    if (!shareHex) {
+      continue;
+    }
 
     const point256Res = decodeKeyShareStringToPoint256(shareHex);
     if (!point256Res.success) {
@@ -72,7 +74,9 @@ export function convertEd25519Shares(
   const result: TeddsaKeyShareByNode[] = [];
   for (const item of keySharesByNode) {
     const shareHex = item.shares.ed25519;
-    if (!shareHex) continue;
+    if (!shareHex) {
+      continue;
+    }
 
     const teddsaShare = hexToTeddsaKeyShare(shareHex);
     result.push({

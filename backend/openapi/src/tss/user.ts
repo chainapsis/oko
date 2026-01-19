@@ -90,7 +90,9 @@ export const SignInResponseV2Schema = registry.register(
             "User name (nullable) Only for OAuth providers that support it",
         }),
       })
-      .openapi({ description: "Authenticated user information with both wallets" }),
+      .openapi({
+        description: "Authenticated user information with both wallets",
+      }),
   }),
 );
 

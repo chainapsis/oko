@@ -456,9 +456,7 @@ describe("Ed25519 Signing", () => {
         expect(getStageRes.data.stage_status).toBe(
           SignEd25519StageStatus.COMPLETED,
         );
-        expect(getStageRes.data.session_state).toBe(
-          TssSessionState.COMPLETED,
-        );
+        expect(getStageRes.data.session_state).toBe(TssSessionState.COMPLETED);
       }
 
       // Now try to use the COMPLETED session for Round2 - should fail

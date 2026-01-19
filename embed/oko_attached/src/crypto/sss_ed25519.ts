@@ -65,10 +65,16 @@ export async function splitTeddsaSigningShare(
       );
 
       if (!idBytes.success) {
-        return { success: false, err: `Invalid identifier bytes: ${idBytes.err}` };
+        return {
+          success: false,
+          err: `Invalid identifier bytes: ${idBytes.err}`,
+        };
       }
       if (!shareBytes.success) {
-        return { success: false, err: `Invalid signing_share bytes: ${shareBytes.err}` };
+        return {
+          success: false,
+          err: `Invalid signing_share bytes: ${shareBytes.err}`,
+        };
       }
 
       shares.push({
@@ -329,10 +335,16 @@ export async function expandTeddsaSigningShare(
       );
 
       if (!idBytes.success) {
-        return { success: false, err: `Invalid identifier bytes: ${idBytes.err}` };
+        return {
+          success: false,
+          err: `Invalid identifier bytes: ${idBytes.err}`,
+        };
       }
       if (!shareBytes.success) {
-        return { success: false, err: `Invalid signing_share bytes: ${shareBytes.err}` };
+        return {
+          success: false,
+          err: `Invalid signing_share bytes: ${shareBytes.err}`,
+        };
       }
 
       resharedShares.push({
