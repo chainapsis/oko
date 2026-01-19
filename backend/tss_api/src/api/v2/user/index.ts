@@ -26,7 +26,6 @@ import type {
 } from "@oko-wallet/oko-types/tss";
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { Wallet } from "@oko-wallet/oko-types/wallets";
-import type { NodeNameAndEndpoint } from "@oko-wallet/oko-types/user_key_share";
 import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
 
@@ -341,15 +340,19 @@ export async function checkEmailV2(
   }
 }
 
+interface ReshareWalletInfoWithBytes {
+  publicKey: Bytes33 | Bytes32;
+  resharedKeyShares: Array<{ name: string; endpoint: string }>;
+}
+
 export async function updateWalletKSNodesForReshareV2(
   db: Pool,
   email: string,
   auth_type: AuthType,
   wallets: {
-    secp256k1?: Bytes33;
-    ed25519?: Bytes32;
+    secp256k1?: ReshareWalletInfoWithBytes;
+    ed25519?: ReshareWalletInfoWithBytes;
   },
-  reshared_key_shares: NodeNameAndEndpoint[],
 ): Promise<OkoApiResponse<void>> {
   try {
     if (!wallets.secp256k1 && !wallets.ed25519) {
@@ -385,40 +388,50 @@ export async function updateWalletKSNodesForReshareV2(
       };
     }
 
-    const serverUrls = Array.from(
-      new Set(reshared_key_shares.map((n) => n.endpoint)),
-    );
-    const getKSNodesRes = await getKSNodesByServerUrl(db, serverUrls);
-    if (getKSNodesRes.success === false) {
-      return {
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `getKSNodesByServerUrl error: ${getKSNodesRes.err}`,
-      };
-    }
-    if (getKSNodesRes.data.length !== serverUrls.length) {
-      return {
-        success: false,
-        code: "KS_NODE_NOT_FOUND",
-        msg: "unknown server_urls detected",
-      };
-    }
+    // Collect upsert data after validation
+    const upsertData: Array<{
+      walletType: "secp256k1" | "ed25519";
+      walletId: string;
+      nodeIds: string[];
+    }> = [];
 
-    const checkKeyshareFromKSNodesRes = await checkKeyShareFromKSNodesV2(
-      email,
-      wallets,
-      getKSNodesRes.data,
-      auth_type,
-    );
-    if (checkKeyshareFromKSNodesRes.success === false) {
-      return checkKeyshareFromKSNodesRes;
-    }
+    // Validate secp256k1 wallet if provided
+    if (wallets.secp256k1) {
+      const secp256k1ServerUrls = Array.from(
+        new Set(wallets.secp256k1.resharedKeyShares.map((n) => n.endpoint)),
+      );
+      const getSecp256k1KSNodesRes = await getKSNodesByServerUrl(
+        db,
+        secp256k1ServerUrls,
+      );
+      if (getSecp256k1KSNodesRes.success === false) {
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `getKSNodesByServerUrl (secp256k1) error: ${getSecp256k1KSNodesRes.err}`,
+        };
+      }
+      if (getSecp256k1KSNodesRes.data.length !== secp256k1ServerUrls.length) {
+        return {
+          success: false,
+          code: "KS_NODE_NOT_FOUND",
+          msg: "unknown server_urls detected for secp256k1",
+        };
+      }
 
-    // Update wallet KS nodes for each wallet type
-    if (wallets.secp256k1 && checkKeyshareFromKSNodesRes.data.secp256k1) {
+      const checkSecp256k1Res = await checkKeyShareFromKSNodesV2(
+        email,
+        { secp256k1: wallets.secp256k1.publicKey as Bytes33 },
+        getSecp256k1KSNodesRes.data,
+        auth_type,
+      );
+      if (checkSecp256k1Res.success === false) {
+        return checkSecp256k1Res;
+      }
+
       const walletRes = await getWalletByPublicKey(
         db,
-        Buffer.from(wallets.secp256k1.toUint8Array()),
+        Buffer.from(wallets.secp256k1.publicKey.toUint8Array()),
       );
       if (walletRes.success === false) {
         return {
@@ -460,25 +473,52 @@ export async function updateWalletKSNodesForReshareV2(
         };
       }
 
-      const nodeIds = checkKeyshareFromKSNodesRes.data.secp256k1.nodeIds;
-      const upsertWalletKSNodesRes = await upsertWalletKSNodes(
-        db,
-        wallet.wallet_id,
-        nodeIds,
-      );
-      if (upsertWalletKSNodesRes.success === false) {
-        return {
-          success: false,
-          code: "UNKNOWN_ERROR",
-          msg: `upsertWalletKSNodes (secp256k1) error: ${upsertWalletKSNodesRes.err}`,
-        };
+      if (checkSecp256k1Res.data.secp256k1) {
+        upsertData.push({
+          walletType: "secp256k1",
+          walletId: wallet.wallet_id,
+          nodeIds: checkSecp256k1Res.data.secp256k1.nodeIds,
+        });
       }
     }
 
-    if (wallets.ed25519 && checkKeyshareFromKSNodesRes.data.ed25519) {
+    // Validate ed25519 wallet if provided
+    if (wallets.ed25519) {
+      const ed25519ServerUrls = Array.from(
+        new Set(wallets.ed25519.resharedKeyShares.map((n) => n.endpoint)),
+      );
+      const getEd25519KSNodesRes = await getKSNodesByServerUrl(
+        db,
+        ed25519ServerUrls,
+      );
+      if (getEd25519KSNodesRes.success === false) {
+        return {
+          success: false,
+          code: "UNKNOWN_ERROR",
+          msg: `getKSNodesByServerUrl (ed25519) error: ${getEd25519KSNodesRes.err}`,
+        };
+      }
+      if (getEd25519KSNodesRes.data.length !== ed25519ServerUrls.length) {
+        return {
+          success: false,
+          code: "KS_NODE_NOT_FOUND",
+          msg: "unknown server_urls detected for ed25519",
+        };
+      }
+
+      const checkEd25519Res = await checkKeyShareFromKSNodesV2(
+        email,
+        { ed25519: wallets.ed25519.publicKey as Bytes32 },
+        getEd25519KSNodesRes.data,
+        auth_type,
+      );
+      if (checkEd25519Res.success === false) {
+        return checkEd25519Res;
+      }
+
       const walletRes = await getWalletByPublicKey(
         db,
-        Buffer.from(wallets.ed25519.toUint8Array()),
+        Buffer.from(wallets.ed25519.publicKey.toUint8Array()),
       );
       if (walletRes.success === false) {
         return {
@@ -520,18 +560,42 @@ export async function updateWalletKSNodesForReshareV2(
         };
       }
 
-      const nodeIds = checkKeyshareFromKSNodesRes.data.ed25519.nodeIds;
-      const upsertWalletKSNodesRes = await upsertWalletKSNodes(
-        db,
-        wallet.wallet_id,
-        nodeIds,
-      );
-      if (upsertWalletKSNodesRes.success === false) {
+      if (checkEd25519Res.data.ed25519) {
+        upsertData.push({
+          walletType: "ed25519",
+          walletId: wallet.wallet_id,
+          nodeIds: checkEd25519Res.data.ed25519.nodeIds,
+        });
+      }
+    }
+
+    // Run upserts in a transaction
+    if (upsertData.length > 0) {
+      const client = await db.connect();
+      try {
+        await client.query("BEGIN");
+
+        for (const data of upsertData) {
+          const upsertRes = await upsertWalletKSNodes(
+            client,
+            data.walletId,
+            data.nodeIds,
+          );
+          if (upsertRes.success === false) {
+            throw new Error(`(${data.walletType}) ${upsertRes.err}`);
+          }
+        }
+
+        await client.query("COMMIT");
+      } catch (err) {
+        await client.query("ROLLBACK");
         return {
           success: false,
           code: "UNKNOWN_ERROR",
-          msg: `upsertWalletKSNodes (ed25519) error: ${upsertWalletKSNodesRes.err}`,
+          msg: `upsertWalletKSNodes error: ${err instanceof Error ? err.message : String(err)}`,
         };
+      } finally {
+        client.release();
       }
     }
 

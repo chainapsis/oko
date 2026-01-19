@@ -7,6 +7,7 @@ import { OKO_API_ENDPOINT } from "./endpoints";
 export const TSS_V1_ENDPOINT = `${OKO_API_ENDPOINT}/tss/v1`;
 export const TSS_V2_ENDPOINT = `${OKO_API_ENDPOINT}/tss/v2`;
 export const SOCIAL_LOGIN_V1_ENDPOINT = `${OKO_API_ENDPOINT}/social-login/v1`;
+export const SOCIAL_LOGIN_V2_ENDPOINT = `${OKO_API_ENDPOINT}/social-login/v2`;
 
 export async function makeOkoApiRequest<T, R>(
   path: string,

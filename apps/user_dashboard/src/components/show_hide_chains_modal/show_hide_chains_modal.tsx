@@ -15,8 +15,14 @@ import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { useChainStore, getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
-import { useAllBalances, useChains } from "@oko-wallet-user-dashboard/hooks/queries";
+import {
+  useChainStore,
+  getChainIdentifier,
+} from "@oko-wallet-user-dashboard/state/chains";
+import {
+  useAllBalances,
+  useChains,
+} from "@oko-wallet-user-dashboard/hooks/queries";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
@@ -86,7 +92,7 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
         },
       },
     ],
-    []
+    [],
   );
 
   const searchedChains = useSearch(visibleChains, searchQuery, searchFields);
@@ -119,7 +125,7 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
     (chainId: string): TokenBalance[] => {
       return balancesByChainIdentifier.get(getChainIdentifier(chainId)) ?? [];
     },
-    [balancesByChainIdentifier]
+    [balancesByChainIdentifier],
   );
 
   const handleEnable = useCallback((chainId: string, checked: boolean) => {

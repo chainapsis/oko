@@ -14,16 +14,21 @@ import {
   makeAuthorizedOkoApiRequest,
   makeOkoApiRequest,
   TSS_V2_ENDPOINT,
+  SOCIAL_LOGIN_V2_ENDPOINT,
 } from "@oko-wallet-attached/requests/oko_api";
 import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
 import type { UserSignInResultV2 } from "@oko-wallet-attached/window_msgs/types";
 import type { FetchError } from "@oko-wallet-attached/requests/types";
-import { reshareUserKeyShares } from "@oko-wallet-attached/crypto/reshare";
+import { runExpandShares } from "@oko-wallet-attached/crypto/reshare";
+import { reshareUserKeySharesV2 } from "@oko-wallet-attached/crypto/reshare_v2";
 import {
   requestKeySharesV2,
   registerKeySharesV2,
   registerKeyShareEd25519V2,
+  reshareKeySharesV2,
+  reshareRegisterV2,
 } from "@oko-wallet-attached/requests/ks_node_v2";
+import type { ReshareRequestV2 } from "@oko-wallet/oko-types/user";
 import {
   decodeKeyShareStringToPoint256,
   encodePoint256ToKeyShareString,
@@ -57,7 +62,6 @@ import {
 } from "@oko-wallet/oko-types/user_key_share";
 import type { PublicKeyPackageRaw } from "@oko-wallet/oko-types/teddsa";
 import { Bytes } from "@oko-wallet/bytes";
-import { saveReferral } from "./user";
 
 /**
  * Handle new user who needs both secp256k1 and ed25519 keygen.
@@ -182,7 +186,7 @@ export async function handleNewUserV2(
   // Save referral info after successful keygen
   if (referralInfo?.origin) {
     try {
-      await saveReferral(reqKeygenV2Res.data.token, {
+      await saveReferralV2(reqKeygenV2Res.data.token, {
         origin: referralInfo.origin,
         utm_source: referralInfo.utmSource,
         utm_campaign: referralInfo.utmCampaign,
@@ -702,4 +706,462 @@ export async function checkUserExistsV2(
   );
 
   return res;
+}
+
+/**
+ * Handle reshare for existing user with both secp256k1 and ed25519 wallets.
+ * Called when checkEmailV2 indicates needs_reshare for either curve.
+ */
+export async function handleReshareV2(
+  idToken: string,
+  keyshareNodeMetaSecp256k1: KeyShareNodeMetaWithNodeStatusInfo,
+  keyshareNodeMetaEd25519: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: AuthType,
+  secp256k1NeedsReshare: boolean,
+  ed25519NeedsReshare: boolean,
+): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
+  // 1. Sign in to API server to get public keys and server verifying share
+  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponseV2>(
+    "user/signin",
+    idToken,
+    {
+      auth_type: authType,
+    },
+    TSS_V2_ENDPOINT,
+  );
+  if (!signInRes.success) {
+    console.error("[attached] sign in failed, err: %s", signInRes.err);
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: signInRes.err.toString() },
+    };
+  }
+
+  const apiResponse = signInRes.data;
+  if (!apiResponse.success) {
+    console.error(
+      "[attached] sign in request failed, err: %s",
+      apiResponse.msg,
+    );
+    return {
+      success: false,
+      err: {
+        type: "sign_in_request_fail",
+        error: `code: ${apiResponse.code}`,
+      },
+    };
+  }
+
+  const signInResp = apiResponse.data;
+
+  // Parse public keys
+  const publicKeySecp256k1Res = Bytes.fromHexString(
+    signInResp.user.public_key_secp256k1,
+    33,
+  );
+  if (!publicKeySecp256k1Res.success) {
+    return {
+      success: false,
+      err: {
+        type: "reshare_fail",
+        error: `secp256k1 public key parse err: ${publicKeySecp256k1Res.err}`,
+      },
+    };
+  }
+
+  const publicKeyEd25519Res = Bytes.fromHexString(
+    signInResp.user.public_key_ed25519,
+    32,
+  );
+  if (!publicKeyEd25519Res.success) {
+    return {
+      success: false,
+      err: {
+        type: "reshare_fail",
+        error: `ed25519 public key parse err: ${publicKeyEd25519Res.err}`,
+      },
+    };
+  }
+
+  const serverVerifyingShareRes = Bytes.fromHexString(
+    signInResp.user.server_verifying_share_ed25519,
+    32,
+  );
+  if (!serverVerifyingShareRes.success) {
+    return {
+      success: false,
+      err: {
+        type: "reshare_fail",
+        error: `server verifying share parse err: ${serverVerifyingShareRes.err}`,
+      },
+    };
+  }
+
+  // 2. Call reshareUserKeySharesV2
+  const reshareRes = await reshareUserKeySharesV2(
+    idToken,
+    authType,
+    {
+      publicKey: publicKeySecp256k1Res.data,
+      keyshareNodeMeta: keyshareNodeMetaSecp256k1,
+      needsReshare: secp256k1NeedsReshare,
+    },
+    {
+      publicKey: publicKeyEd25519Res.data,
+      keyshareNodeMeta: keyshareNodeMetaEd25519,
+      serverVerifyingShare: serverVerifyingShareRes.data,
+      needsReshare: ed25519NeedsReshare,
+    },
+  );
+  if (!reshareRes.success) {
+    return {
+      success: false,
+      err: { type: "reshare_fail", error: reshareRes.err },
+    };
+  }
+
+  return {
+    success: true,
+    data: {
+      publicKeySecp256k1: signInResp.user.public_key_secp256k1,
+      publicKeyEd25519: signInResp.user.public_key_ed25519,
+      walletIdSecp256k1: signInResp.user.wallet_id_secp256k1,
+      walletIdEd25519: signInResp.user.wallet_id_ed25519,
+      jwtToken: signInResp.token,
+      keyshare1Secp256k1: reshareRes.data.keyshare1Secp256k1,
+      keyPackageEd25519: reshareRes.data.keyPackageEd25519,
+      publicKeyPackageEd25519: reshareRes.data.publicKeyPackageEd25519,
+      isNewUser: false,
+      email: signInResp.user.email ?? null,
+      name: signInResp.user.name ?? null,
+    },
+  };
+}
+
+/**
+ * Handle reshare for secp256k1 + keygen for ed25519 (scenario 6).
+ * Called when user has secp256k1 wallet, needs reshare, and needs ed25519 keygen.
+ */
+export async function handleReshareAndEd25519Keygen(
+  idToken: string,
+  keyshareNodeMetaSecp256k1: KeyShareNodeMetaWithNodeStatusInfo,
+  keyshareNodeMetaEd25519: KeyShareNodeMetaWithNodeStatusInfo,
+  authType: AuthType,
+): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
+  // 1. Classify nodes
+  const activeNodes = keyshareNodeMetaSecp256k1.nodes.filter(
+    (n) => n.wallet_status === "ACTIVE",
+  );
+  const additionalNodes = keyshareNodeMetaSecp256k1.nodes.filter(
+    (n) =>
+      n.wallet_status === "NOT_REGISTERED" ||
+      n.wallet_status === "UNRECOVERABLE_DATA_LOSS",
+  );
+
+  if (activeNodes.length < keyshareNodeMetaSecp256k1.threshold) {
+    return {
+      success: false,
+      err: {
+        type: "reshare_fail",
+        error: "insufficient existing KS nodes for reshare",
+      },
+    };
+  }
+
+  // 2. ed25519 keygen (new)
+  const ed25519KeygenRes = await runTeddsaKeygen();
+  if (ed25519KeygenRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519KeygenRes.err },
+    };
+  }
+  const { keygen_1: ed25519Keygen1, keygen_2: ed25519Keygen2 } =
+    ed25519KeygenRes.data;
+
+  // 3. ed25519 key share split
+  const ed25519SigningShareRes = extractSigningShare(
+    ed25519Keygen1.key_package,
+  );
+  if (ed25519SigningShareRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519SigningShareRes.err },
+    };
+  }
+  const ed25519SplitRes = await splitTeddsaSigningShare(
+    ed25519SigningShareRes.data,
+    keyshareNodeMetaEd25519,
+  );
+  if (ed25519SplitRes.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: ed25519SplitRes.err },
+    };
+  }
+  const ed25519UserKeyShares = ed25519SplitRes.data;
+
+  // 4. Request secp256k1 shares from ACTIVE nodes
+  const requestSharesRes = await requestKeySharesV2(
+    idToken,
+    activeNodes,
+    keyshareNodeMetaSecp256k1.threshold,
+    authType,
+    {
+      secp256k1: undefined, // Will be filled after sign-in
+    },
+  );
+
+  // We need to sign in first to get the public key
+  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponseV2>(
+    "user/signin",
+    idToken,
+    {
+      auth_type: authType,
+    },
+    TSS_V2_ENDPOINT,
+  );
+  if (!signInRes.success) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: signInRes.err.toString() },
+    };
+  }
+
+  const apiResponse = signInRes.data;
+  if (!apiResponse.success) {
+    return {
+      success: false,
+      err: {
+        type: "sign_in_request_fail",
+        error: `code: ${apiResponse.code}`,
+      },
+    };
+  }
+  const signInResp = apiResponse.data;
+  const secp256k1PublicKey = signInResp.user.public_key_secp256k1;
+
+  // 5. Request secp256k1 shares with public key
+  const requestSecp256k1SharesRes = await requestKeySharesV2(
+    idToken,
+    activeNodes,
+    keyshareNodeMetaSecp256k1.threshold,
+    authType,
+    {
+      secp256k1: secp256k1PublicKey,
+    },
+  );
+  if (!requestSecp256k1SharesRes.success) {
+    return {
+      success: false,
+      err: {
+        type: "reshare_fail",
+        error: `Failed to request secp256k1 shares: ${requestSecp256k1SharesRes.err.code}`,
+      },
+    };
+  }
+
+  // 6. secp256k1 expand
+  const secp256k1SharesByNode: UserKeySharePointByNode[] = [];
+  for (const item of requestSecp256k1SharesRes.data) {
+    const shareHex = item.shares.secp256k1;
+    if (!shareHex) {
+      continue;
+    }
+    const point256Res = decodeKeyShareStringToPoint256(shareHex);
+    if (!point256Res.success) {
+      return {
+        success: false,
+        err: {
+          type: "reshare_fail",
+          error: `secp256k1 decode err: ${point256Res.err}`,
+        },
+      };
+    }
+    secp256k1SharesByNode.push({
+      node: item.node,
+      share: point256Res.data,
+    });
+  }
+
+  const secp256k1ExpandRes = await runExpandShares(
+    secp256k1SharesByNode,
+    additionalNodes,
+    keyshareNodeMetaSecp256k1.threshold,
+  );
+  if (!secp256k1ExpandRes.success) {
+    return {
+      success: false,
+      err: { type: "reshare_fail", error: secp256k1ExpandRes.err },
+    };
+  }
+
+  // 7. Send shares to KSN
+  // For ACTIVE nodes: reshare secp256k1 + register ed25519
+  // For new nodes: reshare/register both
+  const allNodes = keyshareNodeMetaSecp256k1.nodes;
+  const sendResults = await Promise.all(
+    secp256k1ExpandRes.data.reshared_user_key_shares.map(
+      async (secp256k1Share) => {
+        const ed25519Share = ed25519UserKeyShares.find(
+          (s) => s.node.endpoint === secp256k1Share.node.endpoint,
+        );
+        if (!ed25519Share) {
+          return { success: false, err: "ed25519 share not found for node" };
+        }
+
+        const node = secp256k1Share.node;
+        const nodeStatus = allNodes.find(
+          (n) => n.endpoint === node.endpoint,
+        )?.wallet_status;
+
+        const isNewNode =
+          nodeStatus === "NOT_REGISTERED" ||
+          nodeStatus === "UNRECOVERABLE_DATA_LOSS";
+
+        if (isNewNode) {
+          // New node: reshare/register both curves
+          return reshareRegisterV2(node.endpoint, idToken, authType, {
+            secp256k1: {
+              public_key: secp256k1PublicKey,
+              share: encodePoint256ToKeyShareString(secp256k1Share.share),
+            },
+            ed25519: {
+              public_key: ed25519Keygen1.public_key.toHex(),
+              share: teddsaKeyShareToHex(ed25519Share.share),
+            },
+          });
+        } else {
+          // ACTIVE node: reshare secp256k1 + register ed25519 separately
+          const reshareSecp256k1Res = await reshareKeySharesV2(
+            node.endpoint,
+            idToken,
+            authType,
+            {
+              secp256k1: {
+                public_key: secp256k1PublicKey,
+                share: encodePoint256ToKeyShareString(secp256k1Share.share),
+              },
+            },
+          );
+          if (!reshareSecp256k1Res.success) {
+            return reshareSecp256k1Res;
+          }
+
+          return registerKeyShareEd25519V2(
+            node.endpoint,
+            idToken,
+            authType,
+            ed25519Keygen1.public_key.toHex(),
+            teddsaKeyShareToHex(ed25519Share.share),
+          );
+        }
+      },
+    ),
+  );
+
+  const errResults = sendResults.filter((r) => !r.success);
+  if (errResults.length > 0) {
+    return {
+      success: false,
+      err: {
+        type: "reshare_fail",
+        error: errResults.map((r) => (r as { err: string }).err).join("\n"),
+      },
+    };
+  }
+
+  // 8. Call keygenEd25519 API
+  const reqKeygenEd25519Res = await reqKeygenEd25519(
+    TSS_V2_ENDPOINT,
+    {
+      keygen_2: {
+        key_package: serializeKeyPackage(ed25519Keygen2.key_package),
+        public_key_package: serializePublicKeyPackage(
+          ed25519Keygen2.public_key_package,
+        ),
+        identifier: [...ed25519Keygen2.identifier],
+        public_key: [...ed25519Keygen2.public_key.toUint8Array()],
+      },
+    },
+    idToken,
+  );
+  if (reqKeygenEd25519Res.success === false) {
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: reqKeygenEd25519Res.msg },
+    };
+  }
+
+  // 9. Update Oko API reshare status
+  const resharedNodes = secp256k1ExpandRes.data.reshared_user_key_shares.map(
+    (s) => s.node,
+  );
+  const updateRes = await makeAuthorizedOkoApiRequest<ReshareRequestV2, void>(
+    "user/reshare",
+    idToken,
+    {
+      wallets: {
+        secp256k1: {
+          public_key: secp256k1PublicKey,
+          reshared_key_shares: resharedNodes,
+        },
+      },
+    },
+    TSS_V2_ENDPOINT,
+  );
+  if (!updateRes.success) {
+    console.warn("[attached] Failed to update reshare status:", updateRes.err);
+  }
+
+  // 10. Convert ed25519 keygen1 to hex format for storage
+  const keyPackageEd25519Hex = teddsaKeygenToHex(ed25519Keygen1);
+
+  return {
+    success: true,
+    data: {
+      publicKeySecp256k1: reqKeygenEd25519Res.data.user.public_key_secp256k1,
+      publicKeyEd25519: reqKeygenEd25519Res.data.user.public_key_ed25519,
+      walletIdSecp256k1: reqKeygenEd25519Res.data.user.wallet_id_secp256k1,
+      walletIdEd25519: reqKeygenEd25519Res.data.user.wallet_id_ed25519,
+      jwtToken: reqKeygenEd25519Res.data.token,
+      keyshare1Secp256k1: secp256k1ExpandRes.data.original_secret.toHex(),
+      keyPackageEd25519: keyPackageEd25519Hex.keyPackage,
+      publicKeyPackageEd25519: keyPackageEd25519Hex.publicKeyPackage,
+      isNewUser: false,
+      email: reqKeygenEd25519Res.data.user.email ?? null,
+      name: reqKeygenEd25519Res.data.user.name ?? null,
+    },
+  };
+}
+
+interface SaveReferralRequest {
+  origin: string;
+  utm_source: string | null;
+  utm_campaign: string | null;
+}
+
+interface SaveReferralResponse {
+  referral_id: string;
+}
+
+async function saveReferralV2(
+  authToken: string,
+  data: SaveReferralRequest,
+): Promise<void> {
+  const res = await makeAuthorizedOkoApiRequest<
+    SaveReferralRequest,
+    SaveReferralResponse
+  >("referral", authToken, data, SOCIAL_LOGIN_V2_ENDPOINT);
+
+  if (!res.success) {
+    throw new Error(
+      `Save referral V2 fetch failed: ${JSON.stringify(res.err)}`,
+    );
+  }
+
+  const apiResponse = res.data;
+  if (!apiResponse.success) {
+    throw new Error(`Save referral V2 API error: ${apiResponse.msg}`);
+  }
 }
