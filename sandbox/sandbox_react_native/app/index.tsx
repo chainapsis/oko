@@ -1,6 +1,9 @@
 import { Text, View } from "react-native";
 
 export default function Index() {
+
+  // <Webview source={{ uri: sandboxURL }} style={{ flex: 1 }} />;
+
   return (
     <View
       style={{
