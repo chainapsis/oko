@@ -38,6 +38,8 @@ import {
   handleNewUserV2,
   handleExistingUserV2,
   handleExistingUserNeedsEd25519Keygen,
+  handleReshareV2,
+  handleReshareAndEd25519Keygen,
 } from "./user_v2";
 import { bail } from "./errors";
 import { getCredentialsFromPayload } from "./validate_social_login";
@@ -424,6 +426,27 @@ export async function handleUserSignInV2(
     const secp256k1Meta = checkResult.secp256k1.keyshare_node_meta;
     const ed25519Meta = checkResult.keyshare_node_meta;
 
+    // Scenario 6: secp256k1 needs reshare + ed25519 needs keygen
+    if (checkResult.secp256k1.needs_reshare) {
+      const signInRes = await handleReshareAndEd25519Keygen(
+        idToken,
+        secp256k1Meta,
+        ed25519Meta,
+        authType,
+      );
+      if (!signInRes.success) {
+        return {
+          success: false,
+          err: signInRes.err,
+        };
+      }
+      return {
+        success: true,
+        data: signInRes.data,
+      };
+    }
+
+    // Normal ed25519 keygen flow (no reshare needed)
     const signInRes = await handleExistingUserNeedsEd25519Keygen(
       idToken,
       secp256k1Meta,
@@ -461,13 +484,22 @@ export async function handleUserSignInV2(
   const ed25519NeedsReshare = checkResult.ed25519.needs_reshare;
 
   if (secp256k1NeedsReshare || ed25519NeedsReshare) {
-    // TODO: Implement V2 reshare flow
+    // V2 reshare flow
+    const signInRes = await handleReshareV2(
+      idToken,
+      secp256k1Meta,
+      ed25519Meta,
+      authType,
+    );
+    if (!signInRes.success) {
+      return {
+        success: false,
+        err: signInRes.err,
+      };
+    }
     return {
-      success: false,
-      err: {
-        type: "reshare_fail",
-        error: `Reshare needed - secp256k1: ${secp256k1NeedsReshare}, ed25519: ${ed25519NeedsReshare}`,
-      },
+      success: true,
+      data: signInRes.data,
     };
   }
 

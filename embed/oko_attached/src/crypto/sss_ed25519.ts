@@ -1,4 +1,5 @@
 import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
+import type { NodeNameAndEndpoint } from "@oko-wallet/oko-types/user";
 import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
 import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 import type { TeddsaKeyShareByNode } from "@oko-wallet/oko-types/user_key_share";
@@ -217,4 +218,102 @@ export function getServerFrostIdentifier(): Result<Bytes32, string> {
   const identifierBytes = new Uint8Array(32);
   identifierBytes[0] = 2;
   return Bytes.fromUint8Array(identifierBytes, 32);
+}
+
+/**
+ * Result type for expandTeddsaSigningShare.
+ */
+export interface ExpandTeddsaSharesResult {
+  reshared_shares: TeddsaKeyShareByNode[];
+  original_signing_share: Bytes32;
+}
+
+/**
+ * Expand existing ed25519 signing_share SSS shares for additional nodes.
+ *
+ * This function recovers the original signing_share from existing shares,
+ * then re-splits it for all nodes (existing + additional).
+ *
+ * @param existingShares - TeddsaKeyShareByNode[] from ACTIVE nodes
+ * @param additionalNodes - NodeNameAndEndpoint[] for NOT_REGISTERED/UNRECOVERABLE nodes
+ * @param threshold - SSS threshold
+ * @param verifyingKey - PublicKeyPackage's verifying_key
+ * @returns TeddsaKeyShareByNode[] - shares for ALL nodes (existing + additional)
+ */
+export async function expandTeddsaSigningShare(
+  existingShares: TeddsaKeyShareByNode[],
+  additionalNodes: NodeNameAndEndpoint[],
+  threshold: number,
+  verifyingKey: Bytes32,
+): Promise<Result<ExpandTeddsaSharesResult, string>> {
+  try {
+    // 1. Recover signing_share from existing shares
+    const signingShareRes = await combineTeddsaShares(
+      existingShares,
+      threshold,
+      verifyingKey,
+    );
+    if (!signingShareRes.success) {
+      return { success: false, err: signingShareRes.err };
+    }
+
+    // 2. Build full node list (existing + additional)
+    const allNodes: NodeNameAndEndpoint[] = [
+      ...existingShares.map((s) => s.node),
+      ...additionalNodes,
+    ];
+
+    // 3. Generate new identifiers for all nodes
+    const identifiersRes = await hashKeyshareNodeNamesEd25519(
+      allNodes.map((n) => n.name),
+    );
+    if (!identifiersRes.success) {
+      return { success: false, err: identifiersRes.err };
+    }
+
+    // 4. SSS re-split for all nodes
+    const identifiers = identifiersRes.data.map((b) => [...b.toUint8Array()]);
+    const signingShareArr = [...signingShareRes.data.toUint8Array()];
+
+    const splitOutput: SplitOutputRaw = wasmModule.sss_split(
+      signingShareArr,
+      identifiers,
+      threshold,
+    );
+
+    // 5. Convert to TeddsaKeyShareByNode format
+    const resharedShares: TeddsaKeyShareByNode[] = splitOutput.key_packages.map(
+      (kp, i) => {
+        const idBytes = Bytes.fromUint8Array(new Uint8Array(kp.identifier), 32);
+        const shareBytes = Bytes.fromUint8Array(
+          new Uint8Array(kp.signing_share),
+          32,
+        );
+
+        if (!idBytes.success) throw new Error(idBytes.err);
+        if (!shareBytes.success) throw new Error(shareBytes.err);
+
+        return {
+          node: allNodes[i],
+          share: {
+            identifier: idBytes.data,
+            signing_share: shareBytes.data,
+          },
+        };
+      },
+    );
+
+    return {
+      success: true,
+      data: {
+        reshared_shares: resharedShares,
+        original_signing_share: signingShareRes.data,
+      },
+    };
+  } catch (e) {
+    return {
+      success: false,
+      err: `expandTeddsaSigningShare failed: ${String(e)}`,
+    };
+  }
 }

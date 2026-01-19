@@ -114,3 +114,17 @@ export interface ReshareRequest {
 }
 
 export type ReshareRequestBody = OAuthRequest<ReshareRequest>;
+
+/**
+ * V2 Reshare request body for /tss/v2/user/reshare endpoint.
+ * Supports both secp256k1 and ed25519 wallets.
+ */
+export interface ReshareRequestV2 {
+  wallets: {
+    secp256k1?: string; // hex public key, 33 bytes
+    ed25519?: string; // hex public key, 32 bytes
+  };
+  reshared_key_shares: NodeNameAndEndpoint[];
+}
+
+export { NodeNameAndEndpoint };
