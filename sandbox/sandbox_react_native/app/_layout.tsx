@@ -12,6 +12,11 @@ export const unstable_settings = {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
 
+  const url = 'http://10.0.2.2:4200'
+  console.log(123, url);
+
+  fetch(url).then((res) => console.log(res));
+
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
