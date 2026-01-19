@@ -22,15 +22,23 @@ function uintSchema(output: UintOutput = "bigint") {
 
   if (output === "string") {
     return base.transform((v) => {
-      if (typeof v === "bigint") return v.toString();
-      if (typeof v === "number") return BigInt(v).toString();
+      if (typeof v === "bigint") {
+        return v.toString();
+      }
+      if (typeof v === "number") {
+        return BigInt(v).toString();
+      }
       return BigInt(v).toString(); // handles "0x..." or decimals
     });
   }
 
   return base.transform((v) => {
-    if (typeof v === "bigint") return v;
-    if (typeof v === "number") return BigInt(v);
+    if (typeof v === "bigint") {
+      return v;
+    }
+    if (typeof v === "number") {
+      return BigInt(v);
+    }
     return BigInt(v);
   });
 }

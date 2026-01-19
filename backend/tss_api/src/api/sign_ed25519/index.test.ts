@@ -268,7 +268,9 @@ describe("Ed25519 Signing", () => {
         round1Request,
       );
       expect(round1Result.success).toBe(true);
-      if (!round1Result.success) throw new Error("Round 1 failed");
+      if (!round1Result.success) {
+        throw new Error("Round 1 failed");
+      }
 
       // Client generates their round 1 output
       const clientRound1 = clientRunSignRound1Ed25519(
@@ -365,7 +367,9 @@ describe("Ed25519 Signing", () => {
         round1Request,
       );
       expect(round1Result.success).toBe(true);
-      if (!round1Result.success) throw new Error("Round 1 failed");
+      if (!round1Result.success) {
+        throw new Error("Round 1 failed");
+      }
 
       const clientRound1 = clientRunSignRound1Ed25519(
         new Uint8Array(clientKeygenOutput.key_package),
@@ -427,7 +431,9 @@ describe("Ed25519 Signing", () => {
         msg: [...testMessage],
       });
       expect(round1Res.success).toBe(true);
-      if (!round1Res.success) throw new Error("Round 1 failed");
+      if (!round1Res.success) {
+        throw new Error("Round 1 failed");
+      }
 
       const clientR1 = clientRunSignRound1Ed25519(
         new Uint8Array(clientKeygenOutput.key_package),
@@ -443,7 +449,9 @@ describe("Ed25519 Signing", () => {
         },
       });
       expect(round2Res.success).toBe(true);
-      if (!round2Res.success) throw new Error("Round 2 failed");
+      if (!round2Res.success) {
+        throw new Error("Round 2 failed");
+      }
 
       // Verify stage status is COMPLETED after round2
       const getStageRes = await getTssStageWithSessionData(
