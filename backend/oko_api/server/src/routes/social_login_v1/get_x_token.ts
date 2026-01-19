@@ -1,7 +1,6 @@
-import type { Response, Router, Request } from "express";
+import type { Response, Request } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
-  SocialLoginXVerifyUserResponse,
   SocialLoginXBody,
   SocialLoginXResponse,
 } from "@oko-wallet/oko-types/social_login";
@@ -10,20 +9,9 @@ import { ErrorResponseSchema } from "@oko-wallet/oko-api-openapi/common";
 import {
   SocialLoginXRequestSchema,
   SocialLoginXSuccessResponseSchema,
-  SocialLoginXVerifyUserSuccessResponseSchema,
-  XAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/social_login";
 
-import {
-  getXUserInfo,
-  X_CLIENT_ID,
-  X_SOCIAL_LOGIN_TOKEN_URL,
-} from "@oko-wallet-api/api/x";
-// import {
-//   X_CLIENT_ID,
-//   X_SOCIAL_LOGIN_TOKEN_URL,
-// } from "@oko-wallet-social-login-api/constants/x";
-// import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
+import { X_CLIENT_ID, X_SOCIAL_LOGIN_TOKEN_URL } from "@oko-wallet-api/api/x";
 
 registry.registerPath({
   method: "post",
@@ -73,7 +61,6 @@ export async function getXToken(
   req: Request<any, any, SocialLoginXBody>,
   res: Response<OkoApiResponse<SocialLoginXResponse>>,
 ) {
-  const state = req.app.locals;
   const body = req.body;
 
   if (!body.code || !body.code_verifier || !body.redirect_uri) {

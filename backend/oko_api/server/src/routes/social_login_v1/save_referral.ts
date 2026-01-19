@@ -1,4 +1,4 @@
-import type { Response, Router, Request } from "express";
+import type { Response, Request } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import {
   ErrorResponseSchema,
@@ -8,17 +8,9 @@ import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   SaveReferralRequestSchema,
   SaveReferralSuccessResponseSchema,
-  GetReferralQuerySchema,
-  GetReferralSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/social_login";
-import { Bytes } from "@oko-wallet/bytes";
-import {
-  createReferral,
-  getReferralsByPublicKeyAndOrigin,
-  type ReferralPublicInfo,
-} from "@oko-wallet/oko-pg-interface/referrals";
+import { createReferral } from "@oko-wallet/oko-pg-interface/referrals";
 
-const CIVITIA_ORIGIN = "https://app.civitia.org";
 import { getWalletById } from "@oko-wallet/oko-pg-interface/oko_wallets";
 import type {
   SaveReferralRequest,
