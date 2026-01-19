@@ -1,7 +1,7 @@
 import express from "express";
 
 // import { setSocialLoginRoutes } from "./social_login";
-import { setReferralRoutes, setReferralRoutesV2 } from "./referral";
+// import { setReferralRoutes, setReferralRoutesV2 } from "./referral";
 import type { Response, Router, Request } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
@@ -27,6 +27,9 @@ import { getXUserInfo } from "@oko-wallet-api/api/x";
 import { getXToken } from "./get_x_token";
 import { verifyXUser } from "./verify_x_user";
 import { rateLimitMiddleware } from "@oko-wallet-api/middleware/rate_limit";
+import { userJwtMiddleware } from "@oko-wallet-tss-api/middleware/keplr_auth";
+import { saveReferral } from "./save_referral";
+import { referralCivitia } from "./referral_civitia";
 
 export function makeSocialLoginRouter() {
   const router = express.Router();
@@ -43,7 +46,18 @@ export function makeSocialLoginRouter() {
     verifyXUser,
   );
 
-  setReferralRoutes(router);
+  router.post(
+    "/referral",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
+    userJwtMiddleware,
+    saveReferral,
+  );
+
+  router.get(
+    "/referrals/civitia",
+    rateLimitMiddleware({ windowSeconds: 60, maxRequests: 30 }),
+    referralCivitia,
+  );
 
   return router;
 }

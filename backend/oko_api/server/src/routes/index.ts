@@ -15,8 +15,10 @@ import { makeAttachedRouter } from "@oko-wallet/attached-api";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import { OkoApiStatusResponseSchema } from "@oko-wallet/oko-api-openapi/oko";
 import { getStatus } from "./get_status";
-import { makeSocialLoginRouter } from "./social_login/v1";
-import { makeSocialLoginV2Router } from "./social_login/v2";
+import { makeSocialLoginRouter } from "./social_login_v1";
+import { makeSocialLoginV2Router } from "./social_login_v2";
+// import { makeSocialLoginRouter } from "./social_login/v1";
+// import { makeSocialLoginV2Router } from "./social_login/v2";
 
 export function setRoutes(app: Express) {
   app.use("/customer_dashboard/v1", makeCustomerRouter());
