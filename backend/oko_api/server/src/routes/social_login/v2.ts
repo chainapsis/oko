@@ -1,6 +1,6 @@
 import express from "express";
 
-import { setSocialLoginRoutes } from "./social_login";
+// import { setSocialLoginRoutes } from "./social_login";
 import { setReferralRoutes, setReferralRoutesV2 } from "./referral";
 
 export function makeSocialLoginV2Router() {

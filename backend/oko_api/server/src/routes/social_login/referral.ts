@@ -21,13 +21,19 @@ import {
 const CIVITIA_ORIGIN = "https://app.civitia.org";
 import { getWalletById } from "@oko-wallet/oko-pg-interface/oko_wallets";
 
+// import {
+//   type UserAuthenticatedRequest,
+//   userJwtMiddleware,
+//   userJwtMiddlewareV2,
+// } from "@oko-wallet-social-login-api/middleware/user_auth";
+// import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
+import { saveReferral } from "./save_referral";
+import { rateLimitMiddleware } from "@oko-wallet-api/middleware/rate_limit";
 import {
-  type UserAuthenticatedRequest,
   userJwtMiddleware,
   userJwtMiddlewareV2,
-} from "@oko-wallet-social-login-api/middleware/user_auth";
-import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
-import { saveReferral } from "./save_referral";
+  type UserAuthenticatedRequest,
+} from "@oko-wallet-tss-api/middleware/keplr_auth";
 
 interface SaveReferralRequest {
   origin: string;
@@ -225,7 +231,7 @@ export function setReferralRoutesV2(router: Router) {
     rateLimitMiddleware({ windowSeconds: 60, maxRequests: 10 }),
     userJwtMiddlewareV2,
     async (
-      req: UserAuthenticatedRequest<SaveReferralRequest>,
+      req: Request<any, any, SaveReferralRequest>,
       res: Response<OkoApiResponse<SaveReferralResponse>>,
     ) => {
       try {

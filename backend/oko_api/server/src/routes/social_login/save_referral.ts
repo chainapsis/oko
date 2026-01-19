@@ -20,6 +20,10 @@ import {
 
 const CIVITIA_ORIGIN = "https://app.civitia.org";
 import { getWalletById } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import type {
+  SaveReferralRequest,
+  SaveReferralResponse,
+} from "@oko-wallet/oko-types/referral";
 
 registry.registerPath({
   method: "post",

@@ -14,12 +14,16 @@ import {
   XAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/social_login";
 
-import { getXUserInfo } from "@oko-wallet-api/api/x";
 import {
+  getXUserInfo,
   X_CLIENT_ID,
   X_SOCIAL_LOGIN_TOKEN_URL,
-} from "@oko-wallet-social-login-api/constants/x";
-import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
+} from "@oko-wallet-api/api/x";
+// import {
+//   X_CLIENT_ID,
+//   X_SOCIAL_LOGIN_TOKEN_URL,
+// } from "@oko-wallet-social-login-api/constants/x";
+// import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
 
 registry.registerPath({
   method: "post",
