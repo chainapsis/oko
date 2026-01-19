@@ -14,7 +14,7 @@
       "!**/*.d.ts",
       "!**/routeTree.gen.ts",
       "!**/cait_sith_keplr_addon/addon/index.js",
-      "!sandbox/sandbox_react_native"
+      "sandbox/sandbox_react_native"
     ]
   },
   "formatter": {
