@@ -10,13 +10,22 @@ export default function Index() {
   return (
     <View
       style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
+        width: "100%",
+        height: "100%",
+        // flex: 1,
+        // justifyContent: "center",
+        // alignItems: "center",
+        borderColor: "red",
+        borderWidth: 1,
       }}
     >
-      {/* <Text>hello world</Text> */}
-      <WebView source={{ uri: "http://10.0.0.2:4200" }} style={{ flex: 1 }} />;
+      <Text style={{ textAlign: "center", borderColor: "red", borderWidth: 3 }}>
+        hello world
+      </Text>
+      <WebView
+        source={{ uri: sandboxURL }}
+        style={{ width: "100%", borderWidth: 2, borderColor: "black" }}
+      />
     </View>
   );
 }
