@@ -55,29 +55,33 @@ export async function splitTeddsaSigningShare(
       keyshareNodeMeta.threshold,
     );
 
-    const shares: TeddsaKeyShareByNode[] = splitOutput.key_packages.map(
-      (kp, i) => {
-        const idBytes = Bytes.fromUint8Array(new Uint8Array(kp.identifier), 32);
-        const shareBytes = Bytes.fromUint8Array(
-          new Uint8Array(kp.signing_share),
-          32,
-        );
+    const shares: TeddsaKeyShareByNode[] = [];
+    for (let i = 0; i < splitOutput.key_packages.length; i++) {
+      const kp = splitOutput.key_packages[i];
+      const idBytes = Bytes.fromUint8Array(new Uint8Array(kp.identifier), 32);
+      const shareBytes = Bytes.fromUint8Array(
+        new Uint8Array(kp.signing_share),
+        32,
+      );
 
-        if (!idBytes.success) throw new Error(idBytes.err);
-        if (!shareBytes.success) throw new Error(shareBytes.err);
+      if (!idBytes.success) {
+        return { success: false, err: `Invalid identifier bytes: ${idBytes.err}` };
+      }
+      if (!shareBytes.success) {
+        return { success: false, err: `Invalid signing_share bytes: ${shareBytes.err}` };
+      }
 
-        return {
-          node: {
-            name: keyshareNodeMeta.nodes[i].name,
-            endpoint: keyshareNodeMeta.nodes[i].endpoint,
-          },
-          share: {
-            identifier: idBytes.data,
-            signing_share: shareBytes.data,
-          },
-        };
-      },
-    );
+      shares.push({
+        node: {
+          name: keyshareNodeMeta.nodes[i].name,
+          endpoint: keyshareNodeMeta.nodes[i].endpoint,
+        },
+        share: {
+          identifier: idBytes.data,
+          signing_share: shareBytes.data,
+        },
+      });
+    }
 
     return { success: true, data: shares };
   } catch (e) {
@@ -324,8 +328,12 @@ export async function expandTeddsaSigningShare(
         32,
       );
 
-      if (!idBytes.success) throw new Error(idBytes.err);
-      if (!shareBytes.success) throw new Error(shareBytes.err);
+      if (!idBytes.success) {
+        return { success: false, err: `Invalid identifier bytes: ${idBytes.err}` };
+      }
+      if (!shareBytes.success) {
+        return { success: false, err: `Invalid signing_share bytes: ${shareBytes.err}` };
+      }
 
       resharedShares.push({
         node: additionalNodes[i],
