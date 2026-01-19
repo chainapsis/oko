@@ -13,7 +13,6 @@
       "sdk/oko_sdk_cosmos",
       "sdk/oko_sdk_eth",
       "sdk/oko_sdk_sol",
-      "sdk/oko_frost_kit",
       "examples/interchainkit_nextjs",
       "examples/cosmos_nextjs",
       "examples/cosmoskit_nextjs",
