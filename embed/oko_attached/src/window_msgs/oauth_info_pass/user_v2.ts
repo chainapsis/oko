@@ -717,6 +717,8 @@ export async function handleReshareV2(
   keyshareNodeMetaSecp256k1: KeyShareNodeMetaWithNodeStatusInfo,
   keyshareNodeMetaEd25519: KeyShareNodeMetaWithNodeStatusInfo,
   authType: AuthType,
+  secp256k1NeedsReshare: boolean,
+  ed25519NeedsReshare: boolean,
 ): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
   // 1. Sign in to API server to get public keys and server verifying share
   const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponseV2>(
@@ -797,13 +799,19 @@ export async function handleReshareV2(
 
   // 2. Call reshareUserKeySharesV2
   const reshareRes = await reshareUserKeySharesV2(
-    publicKeySecp256k1Res.data,
-    publicKeyEd25519Res.data,
     idToken,
-    keyshareNodeMetaSecp256k1,
-    keyshareNodeMetaEd25519,
     authType,
-    serverVerifyingShareRes.data,
+    {
+      publicKey: publicKeySecp256k1Res.data,
+      keyshareNodeMeta: keyshareNodeMetaSecp256k1,
+      needsReshare: secp256k1NeedsReshare,
+    },
+    {
+      publicKey: publicKeyEd25519Res.data,
+      keyshareNodeMeta: keyshareNodeMetaEd25519,
+      serverVerifyingShare: serverVerifyingShareRes.data,
+      needsReshare: ed25519NeedsReshare,
+    },
   );
   if (!reshareRes.success) {
     return {

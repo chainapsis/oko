@@ -490,6 +490,8 @@ export async function handleUserSignInV2(
       secp256k1Meta,
       ed25519Meta,
       authType,
+      secp256k1NeedsReshare,
+      ed25519NeedsReshare,
     );
     if (!signInRes.success) {
       return {
