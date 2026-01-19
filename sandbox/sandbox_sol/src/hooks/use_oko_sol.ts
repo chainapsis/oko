@@ -1,8 +1,38 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { OkoSolWallet, registerOkoWallet } from "@oko-wallet/oko-sdk-sol";
+import {
+  OkoSolWallet,
+  type WalletStandardConfig,
+} from "@oko-wallet/oko-sdk-svm";
+import {
+  SOLANA_CHAINS,
+  SOLANA_MAINNET_CHAIN,
+  SOLANA_DEVNET_CHAIN,
+  SOLANA_TESTNET_CHAIN,
+} from "@solana/wallet-standard-chains";
+import {
+  SolanaSignIn,
+  SolanaSignMessage,
+  SolanaSignTransaction,
+  SolanaSignAndSendTransaction,
+} from "@solana/wallet-standard-features";
 import { useSdkStore } from "@/store/sdk";
+
+const SOLANA_CONFIG: WalletStandardConfig = {
+  chains: SOLANA_CHAINS,
+  features: {
+    signIn: SolanaSignIn,
+    signMessage: SolanaSignMessage,
+    signTransaction: SolanaSignTransaction,
+    signAndSendTransaction: SolanaSignAndSendTransaction,
+  },
+  rpcEndpoints: {
+    [SOLANA_MAINNET_CHAIN]: "https://api.mainnet-beta.solana.com",
+    [SOLANA_DEVNET_CHAIN]: "https://api.devnet.solana.com",
+    [SOLANA_TESTNET_CHAIN]: "https://api.testnet.solana.com",
+  },
+};
 
 export function useOkoSol() {
   const {
@@ -29,10 +59,11 @@ export function useOkoSol() {
       setError(null);
 
       try {
-        // Initialize OkoSolWallet (internally initializes OkoWallet)
+        // Initialize OkoSolWallet with wallet-standard registration
         const solWalletResult = OkoSolWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
+          walletStandard: SOLANA_CONFIG,
         });
 
         if (!solWalletResult.success) {
@@ -48,12 +79,9 @@ export function useOkoSol() {
         const wallet = solWallet.okoWallet;
         setOkoWallet(wallet);
 
-        // Wait for initialization
+        // Wait for initialization (wallet-standard registration happens automatically)
         await solWallet.waitUntilInitialized;
-
-        // Register with wallet-standard for dApp discovery
-        registerOkoWallet(solWallet);
-        console.log("[sandbox_sol] Oko wallet registered with wallet-standard");
+        console.log("[sandbox_sol] Oko wallet initialized and registered with wallet-standard");
 
         setInitialized(true);
         console.log("[sandbox_sol] SDK initialized");
