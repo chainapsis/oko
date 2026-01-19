@@ -26,7 +26,6 @@ import type {
 } from "@oko-wallet/oko-types/tss";
 import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { Wallet } from "@oko-wallet/oko-types/wallets";
-import type { NodeNameAndEndpoint } from "@oko-wallet/oko-types/user_key_share";
 import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
 import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
 
