@@ -7,6 +7,7 @@ import type {
 } from "@oko-wallet-sdk-sol/types";
 import type { OkoSolWalletInitError } from "@oko-wallet-sdk-sol/errors";
 import { OkoSolWallet } from "@oko-wallet-sdk-sol/constructor";
+import { registerWalletStandard } from "@oko-wallet-sdk-sol/wallet-standard";
 
 export function init(
   args: OkoSolWalletInitArgs,
@@ -28,12 +29,23 @@ export function init(
     };
   }
 
+  const wallet = new (
+    OkoSolWallet as unknown as new (
+      ...args: unknown[]
+    ) => OkoSolWalletInterface
+  )(okoSolWalletRes.data);
+
+  if (args.walletStandard) {
+    const config = args.walletStandard;
+    wallet.waitUntilInitialized.then((result) => {
+      if (result.success) {
+        registerWalletStandard(wallet, config);
+      }
+    });
+  }
+
   return {
     success: true,
-    data: new (
-      OkoSolWallet as unknown as new (
-        ...args: unknown[]
-      ) => OkoSolWalletInterface
-    )(okoSolWalletRes.data),
+    data: wallet,
   };
 }

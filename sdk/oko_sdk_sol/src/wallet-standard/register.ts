@@ -1,16 +1,25 @@
 import { registerWallet } from "@wallet-standard/wallet";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import type { WalletStandardConfig } from "./chains";
 import { OkoStandardWallet } from "./wallet";
 
-let registered = false;
+const registeredConfigs = new Set<string>();
 
-export function registerOkoWallet(wallet: OkoSolWalletInterface): void {
-  if (registered) {
+function getConfigKey(config: WalletStandardConfig): string {
+  return config.chains.join(",");
+}
+
+export function registerWalletStandard(
+  wallet: OkoSolWalletInterface,
+  config: WalletStandardConfig,
+): void {
+  const key = getConfigKey(config);
+  if (registeredConfigs.has(key)) {
     return;
   }
 
-  const standardWallet = new OkoStandardWallet(wallet);
+  const standardWallet = new OkoStandardWallet(wallet, config);
   registerWallet(standardWallet);
-  registered = true;
+  registeredConfigs.add(key);
 }

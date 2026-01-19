@@ -2,6 +2,7 @@ import type {
   OkoWalletInitArgs,
   OkoWalletInterface,
 } from "@oko-wallet/oko-sdk-core";
+import type { WalletStandardConfig } from "@oko-wallet-sdk-sol/wallet-standard";
 import type {
   Connection,
   PublicKey,
@@ -23,7 +24,9 @@ export interface OkoSolWalletState {
   publicKeyRaw: string | null;
 }
 
-export type OkoSolWalletInitArgs = OkoWalletInitArgs;
+export type OkoSolWalletInitArgs = OkoWalletInitArgs & {
+  walletStandard?: WalletStandardConfig;
+};
 
 export interface OkoSolWalletStaticInterface {
   new (okoWallet: OkoWalletInterface): void;

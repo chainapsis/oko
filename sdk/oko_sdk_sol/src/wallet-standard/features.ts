@@ -2,39 +2,14 @@ import {
   Transaction,
   VersionedTransaction,
   Connection,
-  clusterApiUrl,
 } from "@solana/web3.js";
-import type {
-  SolanaSignAndSendTransactionFeature,
-  SolanaSignAndSendTransactionMethod,
-  SolanaSignAndSendTransactionOutput,
-  SolanaSignMessageFeature,
-  SolanaSignMessageMethod,
-  SolanaSignMessageOutput,
-  SolanaSignTransactionFeature,
-  SolanaSignTransactionMethod,
-  SolanaSignTransactionOutput,
-} from "@solana/wallet-standard-features";
+import type { IdentifierString } from "@wallet-standard/base";
 import bs58 from "bs58";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { isSolanaChain, SOLANA_MAINNET_CHAIN } from "./chains";
+import type { WalletStandardConfig } from "./chains";
 
-// Support both legacy and versioned transactions
 const SUPPORTED_TRANSACTION_VERSIONS = ["legacy", 0] as const;
-
-function getConnection(chain?: string): Connection {
-  if (!chain || chain === SOLANA_MAINNET_CHAIN) {
-    return new Connection(clusterApiUrl("mainnet-beta"));
-  }
-  if (chain === "solana:devnet") {
-    return new Connection(clusterApiUrl("devnet"));
-  }
-  if (chain === "solana:testnet") {
-    return new Connection(clusterApiUrl("testnet"));
-  }
-  return new Connection(clusterApiUrl("mainnet-beta"));
-}
 
 function deserializeTransaction(
   bytes: Uint8Array,
@@ -48,103 +23,99 @@ function deserializeTransaction(
 
 export function createSignMessageFeature(
   wallet: OkoSolWalletInterface,
-): SolanaSignMessageFeature {
-  const signMessage: SolanaSignMessageMethod = async (
-    ...inputs
-  ): Promise<SolanaSignMessageOutput[]> => {
-    const outputs: SolanaSignMessageOutput[] = [];
-
-    for (const input of inputs) {
-      const signature = await wallet.signMessage(input.message);
-      outputs.push({
-        signedMessage: input.message,
-        signature,
-      });
-    }
-
-    return outputs;
-  };
-
+  featureKey: IdentifierString,
+): Record<string, unknown> {
   return {
-    "solana:signMessage": {
+    [featureKey]: {
       version: "1.0.0",
-      signMessage,
+      signMessage: async (...inputs: { message: Uint8Array }[]) => {
+        const outputs = [];
+        for (const input of inputs) {
+          const signature = await wallet.signMessage(input.message);
+          outputs.push({ signedMessage: input.message, signature });
+        }
+        return outputs;
+      },
     },
   };
 }
 
 export function createSignTransactionFeature(
   wallet: OkoSolWalletInterface,
-): SolanaSignTransactionFeature {
-  const signTransaction: SolanaSignTransactionMethod = async (
-    ...inputs
-  ): Promise<SolanaSignTransactionOutput[]> => {
-    const outputs: SolanaSignTransactionOutput[] = [];
-
-    for (const input of inputs) {
-      if (input.chain && !isSolanaChain(input.chain)) {
-        throw new Error(`Unsupported chain: ${input.chain}`);
-      }
-
-      const transaction = deserializeTransaction(input.transaction);
-      const signedTransaction = await wallet.signTransaction(transaction);
-      const signedBytes = signedTransaction.serialize();
-
-      outputs.push({
-        signedTransaction: signedBytes,
-      });
-    }
-
-    return outputs;
-  };
-
+  featureKey: IdentifierString,
+  config: WalletStandardConfig,
+): Record<string, unknown> {
   return {
-    "solana:signTransaction": {
+    [featureKey]: {
       version: "1.0.0",
       supportedTransactionVersions: SUPPORTED_TRANSACTION_VERSIONS,
-      signTransaction,
+      signTransaction: async (
+        ...inputs: { transaction: Uint8Array; chain?: string }[]
+      ) => {
+        const outputs = [];
+        for (const input of inputs) {
+          if (
+            input.chain &&
+            !config.chains.includes(input.chain as IdentifierString)
+          ) {
+            throw new Error(`Unsupported chain: ${input.chain}`);
+          }
+          const transaction = deserializeTransaction(input.transaction);
+          const signedTransaction = await wallet.signTransaction(transaction);
+          outputs.push({ signedTransaction: signedTransaction.serialize() });
+        }
+        return outputs;
+      },
     },
   };
 }
 
 export function createSignAndSendTransactionFeature(
   wallet: OkoSolWalletInterface,
-): SolanaSignAndSendTransactionFeature {
-  const signAndSendTransaction: SolanaSignAndSendTransactionMethod = async (
-    ...inputs
-  ): Promise<SolanaSignAndSendTransactionOutput[]> => {
-    const outputs: SolanaSignAndSendTransactionOutput[] = [];
-
-    for (const input of inputs) {
-      if (input.chain && !isSolanaChain(input.chain)) {
-        throw new Error(`Unsupported chain: ${input.chain}`);
-      }
-
-      const transaction = deserializeTransaction(input.transaction);
-      const connection = getConnection(input.chain);
-
-      const { signature } = await wallet.signAndSendTransaction(
-        transaction,
-        connection,
-        input.options,
-      );
-
-      // signature is base58 encoded, decode to Uint8Array
-      const signatureBytes = bs58.decode(signature);
-
-      outputs.push({
-        signature: signatureBytes,
-      });
+  featureKey: IdentifierString,
+  config: WalletStandardConfig,
+): Record<string, unknown> {
+  const getConnection = (chain?: string): Connection => {
+    const targetChain = chain
+      ? (chain as IdentifierString)
+      : config.chains[0];
+    const endpoint = config.rpcEndpoints[targetChain];
+    if (!endpoint) {
+      throw new Error(`No RPC endpoint for chain: ${chain}`);
     }
-
-    return outputs;
+    return new Connection(endpoint);
   };
 
   return {
-    "solana:signAndSendTransaction": {
+    [featureKey]: {
       version: "1.0.0",
       supportedTransactionVersions: SUPPORTED_TRANSACTION_VERSIONS,
-      signAndSendTransaction,
+      signAndSendTransaction: async (
+        ...inputs: {
+          transaction: Uint8Array;
+          chain?: string;
+          options?: { skipPreflight?: boolean };
+        }[]
+      ) => {
+        const outputs = [];
+        for (const input of inputs) {
+          if (
+            input.chain &&
+            !config.chains.includes(input.chain as IdentifierString)
+          ) {
+            throw new Error(`Unsupported chain: ${input.chain}`);
+          }
+          const transaction = deserializeTransaction(input.transaction);
+          const connection = getConnection(input.chain);
+          const { signature } = await wallet.signAndSendTransaction(
+            transaction,
+            connection,
+            input.options,
+          );
+          outputs.push({ signature: bs58.decode(signature) });
+        }
+        return outputs;
+      },
     },
   };
 }

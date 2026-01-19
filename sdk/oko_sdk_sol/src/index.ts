@@ -25,20 +25,13 @@ export type {
   OkoSolWalletError,
 } from "./errors";
 
-// Wallet Standard
 export {
-  registerOkoWallet,
+  registerWalletStandard,
   OkoStandardWallet,
   OKO_WALLET_NAME,
-  OkoSolanaWalletAccount,
-  OKO_ACCOUNT_FEATURES,
-  SOLANA_CHAINS,
-  SOLANA_MAINNET_CHAIN,
-  SOLANA_DEVNET_CHAIN,
-  SOLANA_TESTNET_CHAIN,
-  isSolanaChain,
+  OkoWalletAccount,
   buildSignInMessage,
   createSignInFeature,
 } from "./wallet-standard";
 
-export type { SolanaChain } from "./wallet-standard";
+export type { WalletStandardConfig } from "./wallet-standard";

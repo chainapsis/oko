@@ -1,57 +1,55 @@
 import { jest } from "@jest/globals";
+import type { IdentifierString } from "@wallet-standard/base";
 
 import { OkoSolWallet } from "@oko-wallet-sdk-sol/sol_wallet";
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import {
   OkoStandardWallet,
-  OkoSolanaWalletAccount,
+  OkoWalletAccount,
   OKO_WALLET_NAME,
-  OKO_ACCOUNT_FEATURES,
-  SOLANA_CHAINS,
-  SOLANA_MAINNET_CHAIN,
-  SOLANA_DEVNET_CHAIN,
-  SOLANA_TESTNET_CHAIN,
-  isSolanaChain,
-  OKO_ICON,
   buildSignInMessage,
+  type WalletStandardConfig,
 } from "@oko-wallet-sdk-sol/wallet-standard";
 import { createMockOkoWallet } from "./mock";
 
+// Mock config for testing
+const TEST_MAINNET_CHAIN = "test:mainnet" as IdentifierString;
+const TEST_DEVNET_CHAIN = "test:devnet" as IdentifierString;
+
+const TEST_CHAINS = [TEST_MAINNET_CHAIN, TEST_DEVNET_CHAIN] as const;
+
+const TEST_CONFIG: WalletStandardConfig = {
+  chains: TEST_CHAINS,
+  features: {
+    signIn: "test:signIn" as IdentifierString,
+    signMessage: "test:signMessage" as IdentifierString,
+    signTransaction: "test:signTransaction" as IdentifierString,
+    signAndSendTransaction: "test:signAndSendTransaction" as IdentifierString,
+  },
+  rpcEndpoints: {
+    [TEST_MAINNET_CHAIN]: "https://api.test.mainnet",
+    [TEST_DEVNET_CHAIN]: "https://api.test.devnet",
+  },
+};
+
 describe("Wallet Standard", () => {
-  describe("OkoSolanaWalletAccount", () => {
+  describe("OkoWalletAccount", () => {
     it("should create account with correct properties", () => {
       const address = "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f";
       const publicKey = new Uint8Array(32).fill(0x7f);
+      const features = Object.values(TEST_CONFIG.features);
 
-      const account = new OkoSolanaWalletAccount(address, publicKey);
+      const account = new OkoWalletAccount(
+        address,
+        publicKey,
+        TEST_CHAINS,
+        features,
+      );
 
       expect(account.address).toBe(address);
       expect(account.publicKey).toEqual(publicKey);
-      expect(account.chains).toEqual(SOLANA_CHAINS);
-      expect(account.features).toEqual(OKO_ACCOUNT_FEATURES);
-    });
-  });
-
-  describe("Chain utilities", () => {
-    it("should define correct chain constants", () => {
-      expect(SOLANA_MAINNET_CHAIN).toBe("solana:mainnet");
-      expect(SOLANA_DEVNET_CHAIN).toBe("solana:devnet");
-      expect(SOLANA_TESTNET_CHAIN).toBe("solana:testnet");
-    });
-
-    it("should validate Solana chains correctly", () => {
-      expect(isSolanaChain("solana:mainnet")).toBe(true);
-      expect(isSolanaChain("solana:devnet")).toBe(true);
-      expect(isSolanaChain("solana:testnet")).toBe(true);
-      expect(isSolanaChain("ethereum:mainnet")).toBe(false);
-      expect(isSolanaChain("bitcoin:mainnet")).toBe(false);
-    });
-
-    it("should include all supported chains", () => {
-      expect(SOLANA_CHAINS).toContain(SOLANA_MAINNET_CHAIN);
-      expect(SOLANA_CHAINS).toContain(SOLANA_DEVNET_CHAIN);
-      expect(SOLANA_CHAINS).toContain(SOLANA_TESTNET_CHAIN);
-      expect(SOLANA_CHAINS.length).toBe(3);
+      expect(account.chains).toEqual(TEST_CHAINS);
+      expect(account.features).toEqual(features);
     });
   });
 
@@ -61,10 +59,8 @@ describe("Wallet Standard", () => {
 
     beforeEach(async () => {
       const mockOkoWallet = createMockOkoWallet();
-      wallet = new (OkoSolWallet as any)(
-        mockOkoWallet,
-      ) as OkoSolWalletInterface;
-      standardWallet = new OkoStandardWallet(wallet);
+      wallet = new (OkoSolWallet as any)(mockOkoWallet) as OkoSolWalletInterface;
+      standardWallet = new OkoStandardWallet(wallet, TEST_CONFIG);
     });
 
     describe("Wallet properties", () => {
@@ -78,12 +74,11 @@ describe("Wallet Standard", () => {
       });
 
       it("should have correct icon", () => {
-        expect(standardWallet.icon).toBe(OKO_ICON);
         expect(standardWallet.icon).toMatch(/^data:image\//);
       });
 
-      it("should have correct chains", () => {
-        expect(standardWallet.chains).toEqual(SOLANA_CHAINS);
+      it("should have correct chains from config", () => {
+        expect(standardWallet.chains).toEqual(TEST_CHAINS);
       });
 
       it("should have empty accounts when not connected", () => {
@@ -93,14 +88,14 @@ describe("Wallet Standard", () => {
 
     describe("Features", () => {
       it("should have standard:connect feature", () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         expect(features["standard:connect"]).toBeDefined();
         expect(features["standard:connect"].version).toBe("1.0.0");
         expect(typeof features["standard:connect"].connect).toBe("function");
       });
 
       it("should have standard:disconnect feature", () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         expect(features["standard:disconnect"]).toBeDefined();
         expect(features["standard:disconnect"].version).toBe("1.0.0");
         expect(typeof features["standard:disconnect"].disconnect).toBe(
@@ -109,40 +104,48 @@ describe("Wallet Standard", () => {
       });
 
       it("should have standard:events feature", () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         expect(features["standard:events"]).toBeDefined();
         expect(features["standard:events"].version).toBe("1.0.0");
         expect(typeof features["standard:events"].on).toBe("function");
       });
 
-      it("should have solana:signMessage feature", () => {
-        const features = standardWallet.features;
-        expect(features["solana:signMessage"]).toBeDefined();
-        expect(features["solana:signMessage"].version).toBe("1.0.0");
+      it("should have signMessage feature from config", () => {
+        const features = standardWallet.features as any;
+        expect(features[TEST_CONFIG.features.signMessage]).toBeDefined();
+        expect(features[TEST_CONFIG.features.signMessage].version).toBe("1.0.0");
       });
 
-      it("should have solana:signTransaction feature", () => {
-        const features = standardWallet.features;
-        expect(features["solana:signTransaction"]).toBeDefined();
-        expect(features["solana:signTransaction"].version).toBe("1.0.0");
+      it("should have signTransaction feature from config", () => {
+        const features = standardWallet.features as any;
+        expect(features[TEST_CONFIG.features.signTransaction]).toBeDefined();
+        expect(features[TEST_CONFIG.features.signTransaction].version).toBe(
+          "1.0.0",
+        );
         expect(
-          features["solana:signTransaction"].supportedTransactionVersions,
-        ).toContain("legacy");
-        expect(
-          features["solana:signTransaction"].supportedTransactionVersions,
-        ).toContain(0);
-      });
-
-      it("should have solana:signAndSendTransaction feature", () => {
-        const features = standardWallet.features;
-        expect(features["solana:signAndSendTransaction"]).toBeDefined();
-        expect(features["solana:signAndSendTransaction"].version).toBe("1.0.0");
-        expect(
-          features["solana:signAndSendTransaction"]
+          features[TEST_CONFIG.features.signTransaction]
             .supportedTransactionVersions,
         ).toContain("legacy");
         expect(
-          features["solana:signAndSendTransaction"]
+          features[TEST_CONFIG.features.signTransaction]
+            .supportedTransactionVersions,
+        ).toContain(0);
+      });
+
+      it("should have signAndSendTransaction feature from config", () => {
+        const features = standardWallet.features as any;
+        expect(
+          features[TEST_CONFIG.features.signAndSendTransaction],
+        ).toBeDefined();
+        expect(
+          features[TEST_CONFIG.features.signAndSendTransaction].version,
+        ).toBe("1.0.0");
+        expect(
+          features[TEST_CONFIG.features.signAndSendTransaction]
+            .supportedTransactionVersions,
+        ).toContain("legacy");
+        expect(
+          features[TEST_CONFIG.features.signAndSendTransaction]
             .supportedTransactionVersions,
         ).toContain(0);
       });
@@ -150,17 +153,17 @@ describe("Wallet Standard", () => {
 
     describe("Connect", () => {
       it("should connect and return accounts", async () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         const result = await features["standard:connect"].connect();
 
         expect(result.accounts).toHaveLength(1);
-        expect(result.accounts[0]).toBeInstanceOf(OkoSolanaWalletAccount);
+        expect(result.accounts[0]).toBeInstanceOf(OkoWalletAccount);
       });
 
       it("should update accounts after connect", async () => {
         expect(standardWallet.accounts).toHaveLength(0);
 
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         await features["standard:connect"].connect();
 
         expect(standardWallet.accounts).toHaveLength(1);
@@ -169,7 +172,7 @@ describe("Wallet Standard", () => {
 
     describe("Disconnect", () => {
       it("should disconnect successfully", async () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         await features["standard:connect"].connect();
         expect(standardWallet.accounts).toHaveLength(1);
 
@@ -180,7 +183,7 @@ describe("Wallet Standard", () => {
 
     describe("Events", () => {
       it("should register and unregister event listeners", () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         const listener = jest.fn();
 
         const unsubscribe = features["standard:events"].on("change", listener);
@@ -191,7 +194,7 @@ describe("Wallet Standard", () => {
       });
 
       it("should emit change event on connect", async () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         const listener = jest.fn();
 
         features["standard:events"].on("change", listener);
@@ -206,7 +209,7 @@ describe("Wallet Standard", () => {
       });
 
       it("should emit change event on disconnect", async () => {
-        const features = standardWallet.features;
+        const features = standardWallet.features as any;
         const listener = jest.fn();
 
         await features["standard:connect"].connect();
@@ -219,12 +222,13 @@ describe("Wallet Standard", () => {
     });
   });
 
-  describe("Account features", () => {
+  describe("WalletStandardConfig", () => {
     it("should have correct feature identifiers", () => {
-      expect(OKO_ACCOUNT_FEATURES).toContain("solana:signIn");
-      expect(OKO_ACCOUNT_FEATURES).toContain("solana:signMessage");
-      expect(OKO_ACCOUNT_FEATURES).toContain("solana:signTransaction");
-      expect(OKO_ACCOUNT_FEATURES).toContain("solana:signAndSendTransaction");
+      const features = TEST_CONFIG.features;
+      expect(features.signIn).toBe("test:signIn");
+      expect(features.signMessage).toBe("test:signMessage");
+      expect(features.signTransaction).toBe("test:signTransaction");
+      expect(features.signAndSendTransaction).toBe("test:signAndSendTransaction");
     });
   });
 
@@ -297,17 +301,17 @@ describe("Wallet Standard", () => {
 
       beforeEach(() => {
         const mockOkoWallet = createMockOkoWallet();
-        wallet = new (OkoSolWallet as any)(
-          mockOkoWallet,
-        ) as OkoSolWalletInterface;
-        standardWallet = new OkoStandardWallet(wallet);
+        wallet = new (OkoSolWallet as any)(mockOkoWallet) as OkoSolWalletInterface;
+        standardWallet = new OkoStandardWallet(wallet, TEST_CONFIG);
       });
 
-      it("should have solana:signIn feature", () => {
-        const features = standardWallet.features;
-        expect(features["solana:signIn"]).toBeDefined();
-        expect(features["solana:signIn"].version).toBe("1.0.0");
-        expect(typeof features["solana:signIn"].signIn).toBe("function");
+      it("should have signIn feature from config", () => {
+        const features = standardWallet.features as any;
+        expect(features[TEST_CONFIG.features.signIn]).toBeDefined();
+        expect(features[TEST_CONFIG.features.signIn].version).toBe("1.0.0");
+        expect(typeof features[TEST_CONFIG.features.signIn].signIn).toBe(
+          "function",
+        );
       });
     });
   });

@@ -5,23 +5,14 @@ import type {
   WalletIcon,
 } from "@wallet-standard/base";
 import type {
-  StandardConnectFeature,
-  StandardDisconnectFeature,
-  StandardEventsFeature,
   StandardEventsListeners,
   StandardEventsNames,
   StandardEventsOnMethod,
 } from "@wallet-standard/features";
-import type {
-  SolanaSignAndSendTransactionFeature,
-  SolanaSignInFeature,
-  SolanaSignMessageFeature,
-  SolanaSignTransactionFeature,
-} from "@solana/wallet-standard-features";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { OkoSolanaWalletAccount } from "./account";
-import { SOLANA_CHAINS } from "./chains";
+import { OkoWalletAccount } from "./account";
+import type { WalletStandardConfig } from "./chains";
 import {
   createSignAndSendTransactionFeature,
   createSignMessageFeature,
@@ -32,47 +23,33 @@ import { OKO_ICON } from "./icon";
 
 export const OKO_WALLET_NAME = "Oko" as const;
 
-type OkoWalletFeatures = StandardConnectFeature &
-  StandardDisconnectFeature &
-  StandardEventsFeature &
-  SolanaSignInFeature &
-  SolanaSignMessageFeature &
-  SolanaSignTransactionFeature &
-  SolanaSignAndSendTransactionFeature;
-
 export class OkoStandardWallet implements Wallet {
   readonly #wallet: OkoSolWalletInterface;
+  readonly #config: WalletStandardConfig;
   #accounts: WalletAccount[] = [];
-  #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } =
-    {};
+  #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } = {};
 
   readonly version = "1.0.0" as const;
   readonly name = OKO_WALLET_NAME;
   readonly icon: WalletIcon = OKO_ICON;
-  readonly chains: readonly IdentifierString[] = SOLANA_CHAINS;
+  readonly chains: readonly IdentifierString[];
 
   get accounts(): readonly WalletAccount[] {
     return this.#accounts;
   }
 
-  get features(): OkoWalletFeatures {
+  get features(): Record<string, unknown> {
+    const { features } = this.#config;
     return {
       "standard:connect": {
         version: "1.0.0",
         connect: async () => {
-          // Check if user is signed in
           let existingKey = await this.#wallet.okoWallet.getPublicKeyEd25519();
-
           if (!existingKey) {
-            // Trigger OAuth sign-in
             await this.#wallet.okoWallet.openSignInModal();
-
-            // Re-check after sign-in
             existingKey = await this.#wallet.okoWallet.getPublicKeyEd25519();
           }
-
           await this.#wallet.connect();
-
           this.#updateAccounts();
           return { accounts: this.#accounts };
         },
@@ -87,15 +64,20 @@ export class OkoStandardWallet implements Wallet {
         version: "1.0.0",
         on: this.#on.bind(this) as StandardEventsOnMethod,
       },
-      ...createSignInFeature(this.#wallet),
-      ...createSignMessageFeature(this.#wallet),
-      ...createSignTransactionFeature(this.#wallet),
-      ...createSignAndSendTransactionFeature(this.#wallet),
+      ...createSignInFeature(this.#wallet, this.#config),
+      ...createSignMessageFeature(this.#wallet, features.signMessage),
+      ...createSignTransactionFeature(this.#wallet, features.signTransaction, this.#config),
+      ...createSignAndSendTransactionFeature(this.#wallet, features.signAndSendTransaction, this.#config),
     };
   }
 
-  constructor(wallet: OkoSolWalletInterface) {
+  constructor(
+    wallet: OkoSolWalletInterface,
+    config: WalletStandardConfig,
+  ) {
     this.#wallet = wallet;
+    this.#config = config;
+    this.chains = config.chains;
 
     if (wallet.connected && wallet.publicKey) {
       this.#updateAccounts();
@@ -152,8 +134,19 @@ export class OkoStandardWallet implements Wallet {
   #updateAccounts(): void {
     const publicKey = this.#wallet.publicKey;
     if (publicKey) {
+      const accountFeatures = [
+        this.#config.features.signIn,
+        this.#config.features.signMessage,
+        this.#config.features.signTransaction,
+        this.#config.features.signAndSendTransaction,
+      ];
       this.#accounts = [
-        new OkoSolanaWalletAccount(publicKey.toBase58(), publicKey.toBytes()),
+        new OkoWalletAccount(
+          publicKey.toBase58(),
+          publicKey.toBytes(),
+          this.#config.chains,
+          accountFeatures,
+        ),
       ];
     } else {
       this.#accounts = [];
