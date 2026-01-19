@@ -33,10 +33,7 @@ import {
 } from "@oko-wallet-attached/crypto/key_share_utils";
 import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
 import { teddsaKeygenToHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
-import {
-  reshareUserKeyShares,
-  runExpandShares,
-} from "@oko-wallet-attached/crypto/reshare";
+import { runExpandShares } from "@oko-wallet-attached/crypto/reshare";
 import { reshareUserKeySharesV2 } from "@oko-wallet-attached/crypto/reshare_v2";
 import { computeVerifyingShare } from "@oko-wallet-attached/crypto/scalar";
 import {
