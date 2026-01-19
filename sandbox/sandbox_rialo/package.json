@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/sandbox-frost-kit",
+  "name": "@oko-wallet/sandbox-rialo",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -10,9 +10,10 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@oko-wallet/oko-frost-kit": "workspace:*",
+    "@oko-wallet/oko-sdk-svm": "workspace:*",
     "@rialo/frost": "^0.1.0",
     "@rialo/ts-cdk": "^0.1.0",
+    "@rialo/wallet-standard": "^0.1.0",
     "bs58": "^6.0.0",
     "next": "^16.1.1",
     "react": "^19.0.0",

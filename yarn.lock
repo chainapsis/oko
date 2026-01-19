@@ -10012,7 +10012,7 @@ __metadata:
     "@oko-wallet/oko-sdk-core": "npm:^0.1.2-alpha.1"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.1.2-alpha.1"
     "@oko-wallet/oko-sdk-eth": "npm:^0.1.2-alpha.1"
-    "@oko-wallet/oko-sdk-sol": "workspace:*"
+    "@oko-wallet/oko-sdk-svm": "workspace:*"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
     "@types/node": "npm:^24.10.1"
     "@types/react": "npm:^19.2.7"
@@ -10539,32 +10539,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-frost-kit@workspace:*, @oko-wallet/oko-frost-kit@workspace:sdk/oko_frost_kit":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/oko-frost-kit@workspace:sdk/oko_frost_kit"
-  dependencies:
-    "@oko-wallet/oko-sdk-core": "workspace:*"
-    "@oko-wallet/oko-sdk-sol": "workspace:*"
-    "@rollup/plugin-commonjs": "npm:^25.0.0"
-    "@rollup/plugin-json": "npm:^6.0.0"
-    "@rollup/plugin-node-resolve": "npm:^15.0.0"
-    "@rollup/plugin-typescript": "npm:^11.0.0"
-    "@wallet-standard/base": "npm:^1.0.1"
-    "@wallet-standard/features": "npm:^1.0.3"
-    "@wallet-standard/wallet": "npm:^1.0.1"
-    del-cli: "npm:^6.0.0"
-    rollup: "npm:^4.0.0"
-    tsc-alias: "npm:^1.8.16"
-    tsx: "npm:^4.20.3"
-    typescript: "npm:^5.8.3"
-  peerDependencies:
-    "@rialo/frost-core": ">=0.1.0"
-  peerDependenciesMeta:
-    "@rialo/frost-core":
-      optional: true
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/oko-interchain-kit@npm:^0.1.2-alpha.1, @oko-wallet/oko-interchain-kit@workspace:*, @oko-wallet/oko-interchain-kit@workspace:sdk/oko_interchain_kit":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-interchain-kit@workspace:sdk/oko_interchain_kit"
@@ -10634,7 +10608,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@oko-wallet/oko-sdk-core@npm:^0.1.2-alpha.1, @oko-wallet/oko-sdk-core@npm:^0.1.2-alpha.2, @oko-wallet/oko-sdk-core@workspace:*, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
+"@oko-wallet/oko-sdk-core@npm:^0.1.2-alpha.1, @oko-wallet/oko-sdk-core@npm:^0.1.2-alpha.2, @oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/oko-sdk-core@workspace:sdk/oko_sdk_core"
   dependencies:
@@ -10746,9 +10720,9 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/oko-sdk-sol@workspace:*, @oko-wallet/oko-sdk-sol@workspace:sdk/oko_sdk_sol":
+"@oko-wallet/oko-sdk-svm@workspace:*, @oko-wallet/oko-sdk-svm@workspace:sdk/oko_sdk_sol":
   version: 0.0.0-use.local
-  resolution: "@oko-wallet/oko-sdk-sol@workspace:sdk/oko_sdk_sol"
+  resolution: "@oko-wallet/oko-sdk-svm@workspace:sdk/oko_sdk_sol"
   dependencies:
     "@oko-wallet/oko-sdk-core": "npm:^0.1.2-alpha.1"
     "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.42"
@@ -10870,26 +10844,6 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/sandbox-frost-kit@workspace:sandbox/sandbox_frost_kit":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/sandbox-frost-kit@workspace:sandbox/sandbox_frost_kit"
-  dependencies:
-    "@oko-wallet/oko-frost-kit": "workspace:*"
-    "@rialo/frost": "npm:^0.1.0"
-    "@rialo/ts-cdk": "npm:^0.1.0"
-    "@tailwindcss/postcss": "npm:^4"
-    "@types/node": "npm:^22.0.0"
-    "@types/react": "npm:^19.0.0"
-    "@types/react-dom": "npm:^19.0.0"
-    bs58: "npm:^6.0.0"
-    next: "npm:^16.1.1"
-    react: "npm:^19.0.0"
-    react-dom: "npm:^19.0.0"
-    tailwindcss: "npm:^4.1.3"
-    typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
 "@oko-wallet/sandbox-interchain-kit@workspace:sandbox/sandbox_interchain_kit":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/sandbox-interchain-kit@workspace:sandbox/sandbox_interchain_kit"
@@ -10924,11 +10878,32 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"@oko-wallet/sandbox-rialo@workspace:sandbox/sandbox_rialo":
+  version: 0.0.0-use.local
+  resolution: "@oko-wallet/sandbox-rialo@workspace:sandbox/sandbox_rialo"
+  dependencies:
+    "@oko-wallet/oko-sdk-svm": "workspace:*"
+    "@rialo/frost": "npm:^0.1.0"
+    "@rialo/ts-cdk": "npm:^0.1.0"
+    "@rialo/wallet-standard": "npm:^0.1.0"
+    "@tailwindcss/postcss": "npm:^4"
+    "@types/node": "npm:^22.0.0"
+    "@types/react": "npm:^19.0.0"
+    "@types/react-dom": "npm:^19.0.0"
+    bs58: "npm:^6.0.0"
+    next: "npm:^16.1.1"
+    react: "npm:^19.0.0"
+    react-dom: "npm:^19.0.0"
+    tailwindcss: "npm:^4.1.3"
+    typescript: "npm:^5.8.3"
+  languageName: unknown
+  linkType: soft
+
 "@oko-wallet/sandbox-sol@workspace:sandbox/sandbox_sol":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/sandbox-sol@workspace:sandbox/sandbox_sol"
   dependencies:
-    "@oko-wallet/oko-sdk-sol": "workspace:*"
+    "@oko-wallet/oko-sdk-svm": "workspace:*"
     "@solana/wallet-adapter-base": "npm:^0.9.23"
     "@solana/wallet-adapter-react": "npm:^0.15.35"
     "@solana/wallet-adapter-react-ui": "npm:^0.9.35"
@@ -11193,6 +11168,7 @@ __metadata:
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.1.2-alpha.1"
     "@oko-wallet/oko-sdk-eth": "npm:^0.1.2-alpha.1"
+    "@oko-wallet/oko-sdk-svm": "workspace:*"
     "@oko-wallet/oko-types": "npm:^0.1.2-alpha.2"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@tanstack/react-query": "npm:^5.90.12"
@@ -14111,7 +14087,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rialo/wallet-standard@npm:0.1.1":
+"@rialo/wallet-standard@npm:0.1.1, @rialo/wallet-standard@npm:^0.1.0":
   version: 0.1.1
   resolution: "@rialo/wallet-standard@npm:0.1.1"
   dependencies:
@@ -14170,7 +14146,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@rollup/plugin-json@npm:^6.0.0, @rollup/plugin-json@npm:^6.1.0":
+"@rollup/plugin-json@npm:^6.1.0":
   version: 6.1.0
   resolution: "@rollup/plugin-json@npm:6.1.0"
   dependencies:
@@ -18226,7 +18202,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@wallet-standard/wallet@npm:^1.0.1, @wallet-standard/wallet@npm:^1.1.0":
+"@wallet-standard/wallet@npm:^1.1.0":
   version: 1.1.0
   resolution: "@wallet-standard/wallet@npm:1.1.0"
   dependencies:
