@@ -1,7 +1,6 @@
-import cn from "classnames";
-import type { FC } from "react";
-
+import { type FC } from "react";
 import styles from "./nav_item.module.scss";
+import cn from "classnames";
 
 export interface NavItemProps {
   onClick?: () => void;

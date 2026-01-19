@@ -1,4 +1,4 @@
-import type { Pool } from "pg";
+import { Pool } from "pg";
 
 import { readMigrateSql } from "../bin/db_aux/utils";
 

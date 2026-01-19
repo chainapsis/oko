@@ -1,10 +1,4 @@
 import type {
-  SolanaSignAndSendTransactionFeature,
-  SolanaSignInFeature,
-  SolanaSignMessageFeature,
-  SolanaSignTransactionFeature,
-} from "@solana/wallet-standard-features";
-import type {
   IdentifierString,
   Wallet,
   WalletAccount,
@@ -18,7 +12,14 @@ import type {
   StandardEventsNames,
   StandardEventsOnMethod,
 } from "@wallet-standard/features";
+import type {
+  SolanaSignAndSendTransactionFeature,
+  SolanaSignInFeature,
+  SolanaSignMessageFeature,
+  SolanaSignTransactionFeature,
+} from "@solana/wallet-standard-features";
 
+import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import { OkoSolanaWalletAccount } from "./account";
 import { SOLANA_CHAINS } from "./chains";
 import {
@@ -26,9 +27,8 @@ import {
   createSignMessageFeature,
   createSignTransactionFeature,
 } from "./features";
-import { OKO_ICON } from "./icon";
 import { createSignInFeature } from "./sign-in";
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import { OKO_ICON } from "./icon";
 
 export const OKO_WALLET_NAME = "Oko" as const;
 

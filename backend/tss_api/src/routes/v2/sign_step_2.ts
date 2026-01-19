@@ -1,5 +1,10 @@
+import type { Response } from "express";
+import type {
+  SignStep2Body,
+  SignStep2Response,
+} from "@oko-wallet/oko-types/tss";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
@@ -8,17 +13,12 @@ import {
   SignStep2RequestSchema,
   SignStep2SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type {
-  SignStep2Body,
-  SignStep2Response,
-} from "@oko-wallet/oko-types/tss";
-import type { Response } from "express";
+import { registry } from "@oko-wallet/oko-api-openapi";
 
 import { runSignStep2 } from "@oko-wallet-tss-api/api/v1/sign";
 import {
-  sendResponseWithNewToken,
   type UserAuthenticatedRequest,
+  sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 
 registry.registerPath({

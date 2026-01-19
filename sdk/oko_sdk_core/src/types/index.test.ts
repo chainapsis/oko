@@ -1,6 +1,6 @@
-import type {
-  MakeSigModalErrorAckPayload,
-  OtherModalErrorAckPayload,
+import {
+  type MakeSigModalErrorAckPayload,
+  type OtherModalErrorAckPayload,
 } from "./modal";
 
 type ErrorAck = MakeSigModalErrorAckPayload | OtherModalErrorAckPayload;

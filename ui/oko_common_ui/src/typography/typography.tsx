@@ -1,5 +1,5 @@
-import cn from "classnames";
 import React, { type FC } from "react";
+import cn from "classnames";
 
 import styles from "./typography.module.scss";
 

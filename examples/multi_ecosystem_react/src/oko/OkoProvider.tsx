@@ -1,16 +1,16 @@
-import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
-import type { ChainInfo } from "@keplr-wallet/types";
+import { createContext, useEffect, useState } from "react";
 import {
+  OkoCosmosWallet,
   getBech32Address,
   getCosmosAddress,
-  OkoCosmosWallet,
   type OkoCosmosWalletInterface,
 } from "@oko-wallet/oko-sdk-cosmos";
 import {
   OkoEthWallet,
   type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
-import { createContext, useEffect, useState } from "react";
+import type { ChainInfo } from "@keplr-wallet/types";
+import type { OfflineDirectSigner } from "@cosmjs/proto-signing";
 import type { Address } from "viem";
 
 interface OkoProviderValues {

@@ -1,9 +1,9 @@
 import React from "react";
 
-import { Navigation } from "../navigation/navigation";
 import styles from "./side_bar.module.scss";
-import { SideBarFooter } from "./side_bar_footer";
 import { SideBarHeader } from "./side_bar_header";
+import { SideBarFooter } from "./side_bar_footer";
+import { Navigation } from "../navigation/navigation";
 
 export const SideBar = () => {
   return (

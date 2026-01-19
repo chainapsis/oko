@@ -1,5 +1,4 @@
 import type { FC } from "react";
-
 import type { BasicIconProps } from "./types";
 
 export const FileIcon: FC<BasicIconProps> = ({

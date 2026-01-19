@@ -1,4 +1,3 @@
-import type { MakeSigError } from "@oko-wallet/oko-sdk-core";
 import {
   encodeEthereumSignature,
   hashEthereumMessage,
@@ -6,14 +5,15 @@ import {
   hashEthereumTypedData,
   parseTypedDataDefinition,
 } from "@oko-wallet/oko-sdk-eth";
-import type { Result } from "@oko-wallet/stdlib-js";
 import {
-  type Hex,
-  type SignableMessage,
   serializeSignature,
   serializeTransaction,
+  type Hex,
+  type SignableMessage,
   type TransactionSerializable,
 } from "viem";
+import type { MakeSigError } from "@oko-wallet/oko-sdk-core";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 import { makeSignature } from "@oko-wallet-attached/web3/sig";
 

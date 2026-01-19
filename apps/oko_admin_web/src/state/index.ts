@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { combine, persist } from "zustand/middleware";
+import { persist, combine } from "zustand/middleware";
 
 import type {
-  LoginActions,
   LoginState,
+  LoginActions,
   UserState,
 } from "@oko-wallet-admin/state/types";
 

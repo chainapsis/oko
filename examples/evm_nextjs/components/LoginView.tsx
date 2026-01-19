@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 
-import useOkoEvm from "@/hooks/useOkoEvm";
 import Button from "./Button";
+import useOkoEvm from "@/hooks/useOkoEvm";
 
 export default function LoginView() {
   const { isReady, isSigningIn, signIn } = useOkoEvm();

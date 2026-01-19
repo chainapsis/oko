@@ -5,8 +5,8 @@ import type {
   DeleteCustomerAndCustomerDashboardUsersResponse,
 } from "@oko-wallet/oko-types/customers";
 
-import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 import { doFetch } from "@oko-wallet-admin/fetch/fetcher";
+import { OKO_ADMIN_API_ENDPOINT_V1 } from "@oko-wallet-admin/fetch";
 
 export interface DeleteCustomerAndCTDUsersArgs {
   token: string;

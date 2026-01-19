@@ -65,7 +65,7 @@ export function parseSiwsMessage(message: string): Partial<SiwsMessage> {
   }
 
   // Find the separator between header and fields
-  const statementLines: string[] = [];
+  let statementLines: string[] = [];
   let fieldStartIndex = -1;
 
   for (let i = 2; i < lines.length; i++) {

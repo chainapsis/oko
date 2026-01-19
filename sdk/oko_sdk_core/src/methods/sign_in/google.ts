@@ -1,5 +1,3 @@
-import { generateNonce } from "./utils";
-import { GOOGLE_CLIENT_ID } from "@oko-wallet-sdk-core/auth/google";
 import type {
   OAuthState,
   OkoWalletInterface,
@@ -8,6 +6,9 @@ import type {
   OkoWalletMsgOAuthSignInUpdateAck,
 } from "@oko-wallet-sdk-core/types";
 import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
+import { GOOGLE_CLIENT_ID } from "@oko-wallet-sdk-core/auth/google";
+
+import { generateNonce } from "./utils";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 

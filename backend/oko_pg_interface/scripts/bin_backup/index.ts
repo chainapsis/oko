@@ -1,13 +1,13 @@
-import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
+import { readFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+import { Pool } from "pg";
 import {
-  createPgConn,
   dropAllTablesIfExist,
   type PgDatabaseConfig,
 } from "@oko-wallet/postgres-lib";
-import { readFileSync } from "fs";
-import { dirname, join } from "path";
-import type { Pool } from "pg";
-import { fileURLToPath } from "url";
+import { createPgConn } from "@oko-wallet/postgres-lib";
+import { loadEnv, verifyEnv } from "@oko-wallet/dotenv";
 
 import { ENV_FILE_NAME, envSchema } from "../envs";
 

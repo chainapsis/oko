@@ -1,10 +1,10 @@
 import type { StdSignDoc } from "@cosmjs/amino";
-import {
-  AuthInfo,
-  TxBody,
-} from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
-import type { Any } from "@keplr-wallet/proto-types/google/protobuf/any";
 import type { SignDoc } from "@oko-wallet/oko-sdk-cosmos";
+import {
+  TxBody,
+  AuthInfo,
+} from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
+import { Any } from "@keplr-wallet/proto-types/google/protobuf/any";
 
 export type AnyWithUnpacked = Any | (Any & { unpacked: unknown });
 
@@ -35,11 +35,9 @@ export class SignDocWrapper {
 
   static fromDirectSignDoc(signDoc: SignDoc): SignDocWrapper {
     const wrapper = new SignDocWrapper(signDoc);
-    const txMsgs = SignDocWrapper.extractTxMessages(signDoc);
-    const sequence = SignDocWrapper.extractSequence(signDoc);
-    const accountNumber = SignDocWrapper.formatAccountNumber(
-      signDoc.accountNumber,
-    );
+    const txMsgs = this.extractTxMessages(signDoc);
+    const sequence = this.extractSequence(signDoc);
+    const accountNumber = this.formatAccountNumber(signDoc.accountNumber);
 
     wrapper._protoSignDoc = {
       txMsgs,

@@ -5,8 +5,8 @@ import type {
   SolanaSignInOutput,
 } from "@solana/wallet-standard-features";
 
-import { OkoSolanaWalletAccount } from "./account";
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import { OkoSolanaWalletAccount } from "./account";
 
 /**
  * Build SIWS (Sign In With Solana) message following EIP-4361 format

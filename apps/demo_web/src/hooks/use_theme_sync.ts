@@ -1,5 +1,4 @@
 import { useEffect, useLayoutEffect } from "react";
-
 import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 
 export const useThemeSync = () => {

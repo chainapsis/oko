@@ -1,5 +1,3 @@
-import { createPkcePair } from "./utils";
-import { X_CLIENT_ID } from "@oko-wallet-sdk-core/auth/x";
 import type {
   OAuthState,
   OkoWalletInterface,
@@ -8,6 +6,8 @@ import type {
   OkoWalletMsgOAuthSignInUpdateAck,
 } from "@oko-wallet-sdk-core/types";
 import { RedirectUriSearchParamsKey } from "@oko-wallet-sdk-core/types/oauth";
+import { X_CLIENT_ID } from "@oko-wallet-sdk-core/auth/x";
+import { createPkcePair } from "./utils";
 
 const FIVE_MINS_MS = 5 * 60 * 1000;
 const X_SCOPES = ["tweet.read", "users.read", "offline.access"].join(" ");

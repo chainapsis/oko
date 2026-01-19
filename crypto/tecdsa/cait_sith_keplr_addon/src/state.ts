@@ -1,21 +1,21 @@
 import type {
-  KeygenEntity,
+  TECDSAClientState,
   KeyshareState,
-  PresignEntity,
   PresignOutput,
   PresignState,
   RcvdKeyshareMessages,
   RcvdPresignMessages,
   RcvdSignMessages,
-  RcvdTriplesMessages,
-  SignEntity,
-  SignState,
-  TECDSAClientState,
   TECDSAServerState,
+  SignState,
   TriplePub,
-  TriplesEntity,
   TriplesShare,
+  KeygenEntity,
+  TriplesEntity,
+  PresignEntity,
+  SignEntity,
   TriplesState,
+  RcvdTriplesMessages,
 } from "@oko-wallet/tecdsa-interface";
 
 export type UserId = string;

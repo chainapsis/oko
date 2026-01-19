@@ -1,41 +1,41 @@
-import { v4 as uuidv4 } from "uuid";
 import type { Address, RpcError, TypedDataDefinition } from "viem";
 import {
   hexToString,
-  isAddress,
   isAddressEqual,
   serializeTypedData,
+  isAddress,
 } from "viem";
+import { v4 as uuidv4 } from "uuid";
 
-import { ProviderEventEmitter } from "./emitter";
-import {
-  EthereumRpcError,
-  isConnectionError,
-  ProviderRpcErrorCode,
-  RpcErrorCode,
-} from "./error";
+import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import type {
-  EIP1193Provider,
-  OkoEIP1193ProviderOptions,
-  OkoEthRpcChain,
-  OkoEthRpcChainWithStatus,
-  ProviderConnectInfo,
-} from "./types";
-import type {
-  PublicRpcMethod,
   RpcMethod,
-  RpcRequestArgs,
   RpcResponse,
+  RpcRequestArgs,
   RpcResponseData,
+  PublicRpcMethod,
   WalletRpcMethod,
 } from "@oko-wallet-sdk-eth/rpc";
 import { PUBLIC_RPC_METHODS } from "@oko-wallet-sdk-eth/rpc";
-import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";
 import {
   parseTypedData,
-  validateChain,
   validateHexChainId,
+  validateChain,
 } from "@oko-wallet-sdk-eth/utils";
+import { ProviderEventEmitter } from "./emitter";
+import type {
+  EIP1193Provider,
+  OkoEIP1193ProviderOptions,
+  ProviderConnectInfo,
+  OkoEthRpcChain,
+  OkoEthRpcChainWithStatus,
+} from "./types";
+import {
+  EthereumRpcError,
+  ProviderRpcErrorCode,
+  RpcErrorCode,
+  isConnectionError,
+} from "./error";
 import { VERSION } from "@oko-wallet-sdk-eth/version";
 
 export class OkoEIP1193Provider
@@ -163,7 +163,7 @@ export class OkoEIP1193Provider
         return `${this.name}/${VERSION}`;
       case "eth_chainId":
         return this.activeChainState.chainId;
-      default: {
+      default:
         const {
           rpcUrls: [rpcUrl],
         } = this.activeChainState;
@@ -195,7 +195,6 @@ export class OkoEIP1193Provider
           throw data.error;
         }
         return data.result;
-      }
     }
   }
 
@@ -273,7 +272,7 @@ export class OkoEIP1193Provider
         } catch {
           return [];
         }
-      case "eth_sendTransaction": {
+      case "eth_sendTransaction":
         const [tx] =
           args.params as RpcRequestArgs<"eth_sendTransaction">["params"];
         const signedTx = await this.request({
@@ -291,7 +290,6 @@ export class OkoEIP1193Provider
         });
 
         return txHash;
-      }
       case "eth_signTransaction": {
         const [tx] =
           args.params as RpcRequestArgs<"eth_signTransaction">["params"];

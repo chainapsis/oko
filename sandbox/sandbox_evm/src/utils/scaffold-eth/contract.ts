@@ -1,17 +1,17 @@
-import type { MutateOptions } from "@tanstack/react-query";
-import type {
+import { MutateOptions } from "@tanstack/react-query";
+import {
   Abi,
   AbiParameter,
-  AbiParametersToPrimitiveTypes,
   AbiParameterToPrimitiveType,
+  AbiParametersToPrimitiveTypes,
   ExtractAbiEvent,
   ExtractAbiEventNames,
   ExtractAbiFunction,
-  ExtractAbiFunctionNames,
 } from "abitype";
+import type { ExtractAbiFunctionNames } from "abitype";
 import type { Simplify } from "type-fest";
 import type { MergeDeepRecord } from "type-fest/source/merge-deep";
-import type {
+import {
   Address,
   Block,
   GetEventArgs,
@@ -21,25 +21,25 @@ import type {
   TransactionReceipt,
   WriteContractErrorType,
 } from "viem";
-import type {
+import {
   Config,
   UseReadContractParameters,
   UseWatchContractEventParameters,
   UseWriteContractParameters,
 } from "wagmi";
 import {
+  WriteContractParameters,
+  WriteContractReturnType,
   simulateContract,
-  type WriteContractParameters,
-  type WriteContractReturnType,
 } from "wagmi/actions";
-import type { WriteContractVariables } from "wagmi/query";
+import { WriteContractVariables } from "wagmi/query";
 
-import { getParsedError } from "./getParsedError";
-import type { AllowedChainIds } from "./networks";
-import { notification } from "./notification";
-import type scaffoldConfig from "@oko-wallet-sandbox-evm/../scaffold.config";
 import deployedContractsData from "@oko-wallet-sandbox-evm/contracts/deployedContracts";
 import externalContractsData from "@oko-wallet-sandbox-evm/contracts/externalContracts";
+import scaffoldConfig from "@oko-wallet-sandbox-evm/../scaffold.config";
+import { getParsedError } from "./getParsedError";
+import { AllowedChainIds } from "./networks";
+import { notification } from "./notification";
 
 type AddExternalFlag<T> = {
   [ChainId in keyof T]: {

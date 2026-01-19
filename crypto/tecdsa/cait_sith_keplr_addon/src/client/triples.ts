@@ -1,12 +1,14 @@
 import type {
   ClientTriplesStepOutput,
+  TriplesState,
   RcvdTriplesMessages,
   TriplesGenManyResult,
-  TriplesState,
 } from "@oko-wallet/tecdsa-interface";
 
 import {
   napiRunTriples2ClientStep1,
+  napiRunTriples2ClientStep10,
+  napiRunTriples2ClientStep11,
   napiRunTriples2ClientStep2,
   napiRunTriples2ClientStep3,
   napiRunTriples2ClientStep4,
@@ -15,8 +17,6 @@ import {
   napiRunTriples2ClientStep7,
   napiRunTriples2ClientStep8,
   napiRunTriples2ClientStep9,
-  napiRunTriples2ClientStep10,
-  napiRunTriples2ClientStep11,
 } from "../../addon/index.js";
 
 export function runTriplesClientStep1(): ClientTriplesStepOutput {

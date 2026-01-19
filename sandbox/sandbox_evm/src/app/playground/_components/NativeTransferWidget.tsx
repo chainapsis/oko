@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { isAddress, parseEther } from "viem";
 import { useAccount, useWalletClient } from "wagmi";
+import { parseEther, isAddress } from "viem";
 
+import { useTransactor } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 import {
   AddressInput,
   EtherInput,
 } from "@oko-wallet-sandbox-evm/components/scaffold-eth/Input";
-import { useTransactor } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 
 export function NativeTransferWidget() {
   const { address } = useAccount();

@@ -1,7 +1,7 @@
-import * as wasmModule from "@oko-wallet/frost-ed25519-keplr-wasm/pkg/frost_ed25519_keplr_wasm";
 import { readFileSync } from "fs";
-import { dirname, join } from "path";
+import { join, dirname } from "path";
 import { fileURLToPath } from "url";
+import * as wasmModule from "@oko-wallet/frost-ed25519-keplr-wasm/pkg/frost_ed25519_keplr_wasm";
 
 export const wasmInitState = {
   initialized: false,

@@ -1,12 +1,12 @@
-import { Bech32Address, ChainIdHelper } from "@keplr-wallet/cosmos";
+import React, { useMemo, type FC } from "react";
 import type { Coin } from "@keplr-wallet/types";
 import { CoinPretty } from "@keplr-wallet/unit";
-import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import { Bech32Address, ChainIdHelper } from "@keplr-wallet/cosmos";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import React, { type FC, useMemo } from "react";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
-import styles from "../messages.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
+import styles from "../messages.module.scss";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
 import { useGetMultipleAssetMeta } from "@oko-wallet-attached/web3/cosmos/use_get_asset_meta";
 

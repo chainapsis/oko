@@ -1,21 +1,21 @@
-import knexConfig from "@oko-wallet/ksn-pg-interface/knexfile";
 import chalk from "chalk";
 import dayjs from "dayjs";
 import knex from "knex";
+import knexConfig from "@oko-wallet/ksn-pg-interface/knexfile";
 
-import { checkDBBackup } from "./check_db_backup";
-import { parseCLIArgs } from "./cli_args";
-import { getGitCommitHash } from "./git";
-import { initializeServerKeypair } from "./init_keypair";
-import { loadEncSecret } from "./load_enc_secret";
-import pJson from "@oko-wallet-ksn-server/../package.json";
-import { makeApp } from "@oko-wallet-ksn-server/app";
 import { connectPG } from "@oko-wallet-ksn-server/database";
+import { makeApp } from "@oko-wallet-ksn-server/app";
 import { loadEnv, verifyEnv } from "@oko-wallet-ksn-server/envs";
-import { logger } from "@oko-wallet-ksn-server/logger";
 import { startPgDumpRuntime } from "@oko-wallet-ksn-server/pg_dump/runtime";
 import { startTelemetryReporterRuntime } from "@oko-wallet-ksn-server/runtime/telemetry_reporter";
+import { loadEncSecret } from "./load_enc_secret";
+import { checkDBBackup } from "./check_db_backup";
+import { parseCLIArgs } from "./cli_args";
 import type { ServerState } from "@oko-wallet-ksn-server/state";
+import { getGitCommitHash } from "./git";
+import pJson from "@oko-wallet-ksn-server/../package.json";
+import { logger } from "@oko-wallet-ksn-server/logger";
+import { initializeServerKeypair } from "./init_keypair";
 
 const ONE_DAY_MS = 1 * 86400;
 

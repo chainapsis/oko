@@ -1,19 +1,20 @@
 "use client";
 
-import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
-import cn from "classnames";
+import { type FC } from "react";
 import { usePathname } from "next/navigation";
-import type { FC } from "react";
+import cn from "classnames";
 
-import { AccountInfoWithSubMenu } from "../account_info_with_sub_menu/account_info_with_sub_menu";
-import { ExternalLinkItem } from "../external_link_item/external_link_item";
-import { navigationItems } from "./constant";
-import styles from "./left_bar.module.scss";
+import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
 import {
   OKO_FEATURE_REQUEST_ENDPOINT,
   OKO_GET_SUPPORT_ENDPOINT,
 } from "@oko-wallet-user-dashboard/fetch";
 import { useViewState } from "@oko-wallet-user-dashboard/state/view";
+
+import styles from "./left_bar.module.scss";
+import { navigationItems } from "./constant";
+import { AccountInfoWithSubMenu } from "../account_info_with_sub_menu/account_info_with_sub_menu";
+import { ExternalLinkItem } from "../external_link_item/external_link_item";
 
 export const LeftBar: FC = () => {
   const isLeftBarOpen = useViewState((state) => state.isLeftBarOpen);

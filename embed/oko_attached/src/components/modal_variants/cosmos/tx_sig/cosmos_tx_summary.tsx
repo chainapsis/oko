@@ -1,15 +1,15 @@
-import type { StdSignDoc } from "@keplr-wallet/types";
-import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { type FC } from "react";
 import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import type { FC } from "react";
+import type { StdSignDoc } from "@keplr-wallet/types";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
 
 import styles from "./cosmos_tx_summary.module.scss";
 import { Messages } from "./msg/messages";
-import { useCosmosTxSummary } from "./use_tx_summary";
-import { useTrackTxSummaryView } from "@oko-wallet-attached/analytics/events";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
+import { useCosmosTxSummary } from "./use_tx_summary";
+import { useTrackTxSummaryView } from "@oko-wallet-attached/analytics/events";
 
 export interface CosmosTxSummaryProps {
   payload: CosmosTxSignPayload;

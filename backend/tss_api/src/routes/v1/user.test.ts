@@ -1,23 +1,23 @@
 import { jest } from "@jest/globals";
-import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
-import {
-  createWalletKSNodes,
-  insertKSNode,
-} from "@oko-wallet/oko-pg-interface/ks_nodes";
+import request from "supertest";
+import type { Pool } from "pg";
 import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
+import { createPgConn } from "@oko-wallet/postgres-lib";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
+import type { KeyShareNode } from "@oko-wallet/oko-types/tss";
+import {
+  insertKSNode,
+  createWalletKSNodes,
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 import {
   createWallet,
   updateWalletStatus,
 } from "@oko-wallet/oko-pg-interface/oko_wallets";
-import type { KeyShareNode } from "@oko-wallet/oko-types/tss";
-import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import { createPgConn } from "@oko-wallet/postgres-lib";
-import type { Pool } from "pg";
-import request from "supertest";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
-import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
+import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
 const SSS_THRESHOLD = 2;
 

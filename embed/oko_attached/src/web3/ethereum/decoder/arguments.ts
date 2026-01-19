@@ -1,4 +1,4 @@
-import { type Address, type Hex, isAddress } from "viem";
+import { isAddress, type Address, type Hex } from "viem";
 
 type ArgType =
   | "address"

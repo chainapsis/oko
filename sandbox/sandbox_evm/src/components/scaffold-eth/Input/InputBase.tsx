@@ -1,13 +1,13 @@
 import {
-  type ChangeEvent,
-  type FocusEvent,
-  type ReactNode,
+  ChangeEvent,
+  FocusEvent,
+  ReactNode,
   useCallback,
   useEffect,
   useRef,
 } from "react";
 
-import type { CommonInputProps } from "@oko-wallet-sandbox-evm/components/scaffold-eth";
+import { CommonInputProps } from "@oko-wallet-sandbox-evm/components/scaffold-eth";
 
 type InputBaseProps<T> = CommonInputProps<T> & {
   error?: boolean;

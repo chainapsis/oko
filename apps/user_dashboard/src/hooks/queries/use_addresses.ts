@@ -6,14 +6,14 @@
 import { useQuery } from "@tanstack/react-query";
 
 import {
-  selectCosmosInitialized,
+  useSDKState,
+  selectEthSDK,
   selectCosmosSDK,
   selectEthInitialized,
-  selectEthSDK,
-  useSDKState,
+  selectCosmosInitialized,
 } from "@oko-wallet-user-dashboard/state/sdk";
-import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import { isEvmOnlyChain } from "@oko-wallet-user-dashboard/utils/chain";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 
 /**
  * Hook to get ETH address

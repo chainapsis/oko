@@ -1,12 +1,12 @@
-import { blo } from "blo";
 import { useEffect, useState } from "react";
+import { blo } from "blo";
 import { useDebounceValue } from "usehooks-ts";
-import { type Address, isAddress } from "viem";
+import { Address, isAddress } from "viem";
 import { normalize } from "viem/ens";
 import { useEnsAddress, useEnsAvatar, useEnsName } from "wagmi";
 
 import {
-  type CommonInputProps,
+  CommonInputProps,
   InputBase,
   isENS,
 } from "@oko-wallet-sandbox-evm/components/scaffold-eth";

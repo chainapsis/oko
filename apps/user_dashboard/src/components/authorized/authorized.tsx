@@ -1,16 +1,16 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { type FC, type PropsWithChildren, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
-import { WholePageLoading } from "@oko-wallet-user-dashboard/components/whole_page_loading/whole_page_loading";
 import { paths } from "@oko-wallet-user-dashboard/paths";
+import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
 import {
+  useSDKState,
   selectCosmosInitialized,
   selectEthInitialized,
-  useSDKState,
 } from "@oko-wallet-user-dashboard/state/sdk";
-import { useUserInfoState } from "@oko-wallet-user-dashboard/state/user_info";
+import { WholePageLoading } from "@oko-wallet-user-dashboard/components/whole_page_loading/whole_page_loading";
 
 export const Authorized: FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();

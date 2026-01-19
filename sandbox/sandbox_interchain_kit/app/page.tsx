@@ -1,11 +1,10 @@
 "use client";
 
-import { assetLists, chains } from "@chain-registry/v2";
-import { ChainProvider, InterchainWalletModal } from "@interchain-kit/react";
-import { makeOkoWallet } from "@oko-wallet/oko-interchain-kit";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
+import { ChainProvider, InterchainWalletModal } from "@interchain-kit/react";
+import { chains, assetLists } from "@chain-registry/v2";
 import App from "@/components/App";
+import { makeOkoWallet } from "@oko-wallet/oko-interchain-kit";
 import "@interchain-kit/react/styles.css";
 
 const queryClient = new QueryClient();

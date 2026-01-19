@@ -1,7 +1,7 @@
+import { type FC } from "react";
+import type { ChainInfoForAttachedModal } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { ChainInfoForAttachedModal } from "@oko-wallet/oko-sdk-core";
-import type { FC } from "react";
 
 import styles from "./metadata_content.module.scss";
 import { SignerAddressOrEmail } from "./signer_address_or_email/signer_address_or_email";

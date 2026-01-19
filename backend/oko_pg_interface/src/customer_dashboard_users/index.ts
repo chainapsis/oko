@@ -1,18 +1,18 @@
-import type {
-  CustomerAndCTDUser,
-  CustomerAndCTDUserWithPasswordHash,
-  CustomerDashboardUser,
-  DeleteCustomerDashboardUsersByCustomerIdRequest,
-  DeleteCustomerDashboardUsersByCustomerIdResponse,
-  InsertCustomerDashboardUserRequest,
-  InsertCustomerDashboardUserResponse,
-  UpdateCustomerAccountPasswordRequest,
-  UpdateCustomerAccountPasswordReseponse,
-  VerifyCustomerAccountEmailRequest,
-  VerifyCustomerAccountEmailResponse,
-} from "@oko-wallet/oko-types/ct_dashboard";
+import { Pool, type PoolClient } from "pg";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { Pool, PoolClient } from "pg";
+import {
+  type CustomerAndCTDUser,
+  type CustomerAndCTDUserWithPasswordHash,
+  type CustomerDashboardUser,
+  type DeleteCustomerDashboardUsersByCustomerIdRequest,
+  type DeleteCustomerDashboardUsersByCustomerIdResponse,
+  type InsertCustomerDashboardUserRequest,
+  type InsertCustomerDashboardUserResponse,
+  type UpdateCustomerAccountPasswordRequest,
+  type UpdateCustomerAccountPasswordReseponse,
+  type VerifyCustomerAccountEmailRequest,
+  type VerifyCustomerAccountEmailResponse,
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 export async function insertCustomerDashboardUser(
   db: Pool | PoolClient,

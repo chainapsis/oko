@@ -1,14 +1,14 @@
+import type { FC } from "react";
+import type { SolanaTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { SolanaTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import type { FC } from "react";
+import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/sol";
 
 import styles from "../common/signature_content.module.scss";
-import { SolanaTxSummary } from "./sol_tx_summary";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SignerAddressOrEmail } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
+import { SolanaTxSummary } from "./sol_tx_summary";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
-import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/sol";
 
 interface SolanaTxSignatureContentProps {
   payload: SolanaTxSignPayload;

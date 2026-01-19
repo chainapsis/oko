@@ -1,9 +1,4 @@
 import {
-  type UseQueryOptions,
-  useQueries,
-  useQuery,
-} from "@tanstack/react-query";
-import {
   type Address,
   createPublicClient,
   type GetEnsNameReturnType,
@@ -11,6 +6,11 @@ import {
   isAddressEqual,
   zeroAddress,
 } from "viem";
+import {
+  useQuery,
+  useQueries,
+  type UseQueryOptions,
+} from "@tanstack/react-query";
 
 import { mainnetChain } from "@oko-wallet-attached/web3/ethereum/constants";
 

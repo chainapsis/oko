@@ -24,7 +24,7 @@ function normalizeQuantity(
     return toHex(n);
   }
 
-  const s = input.trim();
+  let s = input.trim();
   if (s.length === 0 || s === "0x") {
     return undefined;
   }

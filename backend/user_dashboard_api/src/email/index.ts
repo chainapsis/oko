@@ -1,9 +1,9 @@
+import nodemailer from "nodemailer";
 import type {
-  EmailResult,
   SendEmailOptions,
+  EmailResult,
   SMTPConfig,
 } from "@oko-wallet/oko-types/admin";
-import nodemailer from "nodemailer";
 
 export function sendEmailWithTransporter(
   transporter: nodemailer.Transporter,

@@ -1,6 +1,6 @@
 import type {
-  OkoWalletInterface,
   OkoWalletMsg,
+  OkoWalletInterface,
 } from "@oko-wallet-sdk-core/types";
 
 export async function sendMsgToIframe(

@@ -1,18 +1,17 @@
+import type { Pool } from "pg";
+import {
+  generateEddsaKeypair,
+  type EddsaKeypair,
+} from "@oko-wallet/crypto-js/node/ecdhe";
 import { Bytes } from "@oko-wallet/bytes";
 import {
-  type EddsaKeypair,
-  generateEddsaKeypair,
-} from "@oko-wallet/crypto-js/node/ecdhe";
+  encryptDataAsync,
+  decryptDataAsync,
+} from "@oko-wallet-ksn-server/encrypt";
 import {
   getActiveServerKeypair,
   insertServerKeypair,
 } from "@oko-wallet/ksn-pg-interface";
-import type { Pool } from "pg";
-
-import {
-  decryptDataAsync,
-  encryptDataAsync,
-} from "@oko-wallet-ksn-server/encrypt";
 import { logger } from "@oko-wallet-ksn-server/logger";
 
 export async function initializeServerKeypair(

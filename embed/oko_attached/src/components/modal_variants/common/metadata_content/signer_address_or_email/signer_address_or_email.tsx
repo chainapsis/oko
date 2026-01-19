@@ -1,9 +1,9 @@
-import { EyeIcon } from "@oko-wallet/oko-common-ui/icons/eye";
+import { useState, type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { type FC, useState } from "react";
+import { EyeIcon } from "@oko-wallet/oko-common-ui/icons/eye";
 
-import styles from "./signer_address_or_email.module.scss";
 import { useAppState } from "@oko-wallet-attached/store/app";
+import styles from "./signer_address_or_email.module.scss";
 
 interface SignerAddressOrEmailProps {
   signer: string;

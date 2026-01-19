@@ -1,7 +1,7 @@
-import type { FC, ReactNode } from "react";
+import { type FC, type ReactNode } from "react";
 
-import styles from "./sign_in_image.module.scss";
 import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
+import styles from "./sign_in_image.module.scss";
 
 export interface SignInImageProps {
   children?: ReactNode;

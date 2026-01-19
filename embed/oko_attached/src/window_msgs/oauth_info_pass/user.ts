@@ -1,42 +1,43 @@
-import { reqKeygen } from "@oko-wallet/api-lib";
-import { Bytes } from "@oko-wallet/bytes";
-import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
-import type { OAuthSignInError } from "@oko-wallet/oko-sdk-core";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
+  CheckEmailRequest,
+  CheckEmailResponse,
+  SignInResponse,
+} from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type {
   KeygenRequestBody,
   KeyShareNodeMetaWithNodeStatusInfo,
   WalletKSNodeStatus,
 } from "@oko-wallet/oko-types/tss";
-import type {
-  CheckEmailRequest,
-  CheckEmailResponse,
-  SignInResponse,
-} from "@oko-wallet/oko-types/user";
 import type { Result } from "@oko-wallet/stdlib-js";
-import { runTeddsaKeygen } from "@oko-wallet/teddsa-hooks";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
 
-import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
 import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
 import {
-  type KeyPackageEd25519Hex,
-  teddsaKeygenToHex,
-} from "@oko-wallet-attached/crypto/keygen_ed25519";
+  makeAuthorizedOkoApiRequest,
+  makeOkoApiRequest,
+  TSS_V1_ENDPOINT,
+  SOCIAL_LOGIN_V1_ENDPOINT,
+} from "@oko-wallet-attached/requests/oko_api";
+import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
+import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
+import type { FetchError } from "@oko-wallet-attached/requests/types";
 import { reshareUserKeyShares } from "@oko-wallet-attached/crypto/reshare";
 import {
   doSendUserKeyShares,
   requestSplitShares,
 } from "@oko-wallet-attached/requests/ks_node";
-import {
-  makeAuthorizedOkoApiRequest,
-  makeOkoApiRequest,
-  SOCIAL_LOGIN_V1_ENDPOINT,
-  TSS_V1_ENDPOINT,
-} from "@oko-wallet-attached/requests/oko_api";
-import type { FetchError } from "@oko-wallet-attached/requests/types";
+import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
+import { runTeddsaKeygen } from "@oko-wallet/teddsa-hooks";
+import { reqKeygen } from "@oko-wallet/api-lib";
+import { Bytes } from "@oko-wallet/bytes";
+
 import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
-import type { UserSignInResult } from "@oko-wallet-attached/window_msgs/types";
+import {
+  teddsaKeygenToHex,
+  type KeyPackageEd25519Hex,
+} from "@oko-wallet-attached/crypto/keygen_ed25519";
 
 export async function handleExistingUser(
   idToken: string,

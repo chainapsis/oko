@@ -1,9 +1,10 @@
-import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
+import { type FC } from "react";
+
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { FC } from "react";
+import { ImageWithAlt } from "@oko-wallet/oko-common-ui/image_with_alt";
+import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
 
 import styles from "./connected_apps.module.scss";
-import { S3_BUCKET_URL } from "@oko-wallet-user-dashboard/fetch";
 
 export const ConnectedApps: FC = () => {
   //TODO: remove this after Connected-App feature is implemented

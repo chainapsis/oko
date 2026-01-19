@@ -1,6 +1,6 @@
-import { CloseButtonIcon } from "@oko-wallet/oko-common-ui/icons/close_button_icon";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { FC } from "react";
+import { CloseButtonIcon } from "@oko-wallet/oko-common-ui/icons/close_button_icon";
 
 import styles from "./integration_card.module.scss";
 

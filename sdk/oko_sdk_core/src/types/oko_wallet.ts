@@ -1,15 +1,15 @@
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
+import type { EventEmitter3 } from "@oko-wallet-sdk-core/event";
 import type { OkoWalletCoreEvent2, OkoWalletCoreEventHandler2 } from "./event";
-import type { OpenModalAckPayload } from "./modal";
 import type { OkoWalletMsg, OkoWalletMsgOpenModal, WalletInfo } from "./msg";
-import type { SignInType } from "./oauth";
+import type { OpenModalAckPayload } from "./modal";
 import type {
   OkoWalletInitError,
   OpenModalError,
 } from "@oko-wallet-sdk-core/errors";
-import type { EventEmitter3 } from "@oko-wallet-sdk-core/event";
+import type { SignInType } from "./oauth";
 
 export type { WalletInfo };
 

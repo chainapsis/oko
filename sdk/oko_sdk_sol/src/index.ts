@@ -1,41 +1,45 @@
-export { SolWalletEventEmitter } from "./emitter";
-export type {
-  LazyInitError,
-  OkoSolWalletError,
-  OkoSolWalletInitError,
-} from "./errors";
 export { OkoSolWallet } from "./sol_wallet";
+export { SolWalletEventEmitter } from "./emitter";
+
 export type {
-  OkoSolWalletInitArgs,
-  OkoSolWalletInterface,
   OkoSolWalletState,
+  OkoSolWalletInitArgs,
   OkoSolWalletStaticInterface,
-  SolSignAllTransactionsParams,
-  SolSignAllTransactionsResult,
-  SolSignMessageParams,
-  SolSignMessageResult,
+  OkoSolWalletInterface,
   SolSignParams,
   SolSignResult,
   SolSignTransactionParams,
+  SolSignAllTransactionsParams,
+  SolSignMessageParams,
   SolSignTransactionResult,
+  SolSignAllTransactionsResult,
+  SolSignMessageResult,
   SolWalletEvent,
-  SolWalletEventHandler,
   SolWalletEventMap,
+  SolWalletEventHandler,
 } from "./types";
-export type { SolanaChain } from "./wallet-standard";
+
+export type {
+  OkoSolWalletInitError,
+  LazyInitError,
+  OkoSolWalletError,
+} from "./errors";
+
 // Wallet Standard
 export {
-  buildSignInMessage,
-  createSignInFeature,
-  isSolanaChain,
-  OKO_ACCOUNT_FEATURES,
-  OKO_ICON,
+  registerOkoWallet,
+  OkoStandardWallet,
   OKO_WALLET_NAME,
   OkoSolanaWalletAccount,
-  OkoStandardWallet,
-  registerOkoWallet,
+  OKO_ACCOUNT_FEATURES,
   SOLANA_CHAINS,
-  SOLANA_DEVNET_CHAIN,
   SOLANA_MAINNET_CHAIN,
+  SOLANA_DEVNET_CHAIN,
   SOLANA_TESTNET_CHAIN,
+  isSolanaChain,
+  OKO_ICON,
+  buildSignInMessage,
+  createSignInFeature,
 } from "./wallet-standard";
+
+export type { SolanaChain } from "./wallet-standard";

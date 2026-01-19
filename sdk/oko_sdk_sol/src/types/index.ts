@@ -1,22 +1,25 @@
 export type {
-  SolWalletEvent,
-  SolWalletEventHandler,
-  SolWalletEventMap,
-} from "./event";
-export type { OkoSolWalletInternal } from "./internal";
+  OkoSolWalletState,
+  OkoSolWalletInitArgs,
+  OkoSolWalletStaticInterface,
+  OkoSolWalletInterface,
+} from "./sol_wallet";
+
 export type {
-  SolSignAllTransactionsParams,
-  SolSignAllTransactionsResult,
-  SolSignMessageParams,
-  SolSignMessageResult,
   SolSignParams,
   SolSignResult,
   SolSignTransactionParams,
+  SolSignAllTransactionsParams,
+  SolSignMessageParams,
   SolSignTransactionResult,
+  SolSignAllTransactionsResult,
+  SolSignMessageResult,
 } from "./sign";
+
 export type {
-  OkoSolWalletInitArgs,
-  OkoSolWalletInterface,
-  OkoSolWalletState,
-  OkoSolWalletStaticInterface,
-} from "./sol_wallet";
+  SolWalletEvent,
+  SolWalletEventMap,
+  SolWalletEventHandler,
+} from "./event";
+
+export type { OkoSolWalletInternal } from "./internal";

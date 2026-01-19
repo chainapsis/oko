@@ -1,21 +1,21 @@
 "use client";
 
-import type {
+import {
   Hash,
   SendTransactionParameters,
   TransactionReceipt,
   WalletClient,
 } from "viem";
-import { type Config, useConfig, useWalletClient } from "wagmi";
+import { Config, useConfig, useWalletClient } from "wagmi";
 import { getPublicClient } from "wagmi/actions";
-import type { SendTransactionMutate } from "wagmi/query";
+import { SendTransactionMutate } from "wagmi/query";
 
 import {
   getBlockExplorerTxLink,
   getParsedError,
   notification,
 } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";
-import type { TransactorFuncOptions } from "@oko-wallet-sandbox-evm/utils/scaffold-eth/contract";
+import { TransactorFuncOptions } from "@oko-wallet-sandbox-evm/utils/scaffold-eth/contract";
 
 type TransactionFunc = (
   tx:
@@ -75,7 +75,7 @@ export const useTransactor = (
     }
 
     let notificationId = null;
-    let transactionHash: Hash | undefined;
+    let transactionHash: Hash | undefined = undefined;
     let transactionReceipt: TransactionReceipt | undefined;
     let blockExplorerTxURL = "";
     try {

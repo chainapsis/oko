@@ -1,8 +1,8 @@
 import {
-  decryptWithEcdheKey,
-  deriveSessionKey,
   encryptWithEcdheKey,
+  decryptWithEcdheKey,
   generateEddsaKeypair,
+  deriveSessionKey,
 } from "@oko-wallet/crypto-js/browser";
 
 async function test1() {

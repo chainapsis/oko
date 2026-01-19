@@ -1,9 +1,9 @@
-import type {
-  EmailSentLog,
-  InsertEmailSentLogRequest,
-} from "@oko-wallet/oko-types/ct_dashboard";
+import { Pool, type PoolClient } from "pg";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { Pool, PoolClient } from "pg";
+import {
+  type InsertEmailSentLogRequest,
+  type EmailSentLog,
+} from "@oko-wallet/oko-types/ct_dashboard";
 
 export async function insertEmailSentLog(
   db: Pool | PoolClient,

@@ -1,5 +1,5 @@
-import type { SolWalletEventEmitter } from "../emitter";
 import type { OkoSolWalletInterface } from "./sol_wallet";
+import type { SolWalletEventEmitter } from "../emitter";
 
 /**
  * Internal interface that extends OkoSolWalletInterface with private emitter.

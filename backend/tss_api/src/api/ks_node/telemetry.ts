@@ -1,10 +1,10 @@
-import {
-  getKSNodeByPublicKey,
-  getLastKSNodeTelemetry,
-  insertKSNodeTelemetry,
-} from "@oko-wallet/oko-pg-interface/ks_nodes";
-import type { Result } from "@oko-wallet/stdlib-js";
 import type { Pool } from "pg";
+import type { Result } from "@oko-wallet/stdlib-js";
+import {
+  insertKSNodeTelemetry,
+  getLastKSNodeTelemetry,
+  getKSNodeByPublicKey,
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
 
 import { sendSlackAlert } from "@oko-wallet-tss-api/utils/slack";
 

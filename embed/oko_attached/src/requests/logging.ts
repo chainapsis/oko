@@ -1,10 +1,10 @@
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { PostLogBody, PostLogResponse } from "@oko-wallet/oko-types/log";
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { PostLogBody, PostLogResponse } from "@oko-wallet/oko-types/log";
 
-import { OKO_API_ENDPOINT } from "./endpoints";
-import type { PostLogParams } from "@oko-wallet-attached/logging/types";
 import type { FetchError } from "@oko-wallet-attached/requests/types";
+import type { PostLogParams } from "@oko-wallet-attached/logging/types";
+import { OKO_API_ENDPOINT } from "./endpoints";
 
 export async function postLog(
   log: PostLogParams,

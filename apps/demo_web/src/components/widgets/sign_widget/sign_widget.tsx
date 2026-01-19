@@ -1,12 +1,12 @@
+import { type ReactElement, useState, useRef, useEffect, type FC } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 import { InfoCircleIcon } from "@oko-wallet/oko-common-ui/icons/info_circle";
 import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
+import { CheckCircleOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/check_circle_outlined";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { type FC, type ReactElement, useEffect, useRef, useState } from "react";
 
-import styles from "./sign_widget.module.scss";
 import { Widget } from "@oko-wallet-demo-web/components/widgets/widget_components";
+import styles from "./sign_widget.module.scss";
 
 type SignStep = "initial" | "loading" | "success" | "error";
 

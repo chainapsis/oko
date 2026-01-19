@@ -1,13 +1,13 @@
-import { UTM_CAMPAIGN, UTM_SOURCE } from "@oko-wallet/oko-types/referral";
-import type { Result } from "@oko-wallet/stdlib-js";
+import { type Result } from "@oko-wallet/stdlib-js";
+import { UTM_SOURCE, UTM_CAMPAIGN } from "@oko-wallet/oko-types/referral";
 
-import { OkoWallet } from "@oko-wallet-sdk-core/constructor";
-import type { OkoWalletInitError } from "@oko-wallet-sdk-core/errors";
 import { setUpIframeElement } from "@oko-wallet-sdk-core/iframe";
 import type {
   OkoWalletInitArgs,
   OkoWalletInterface,
 } from "@oko-wallet-sdk-core/types";
+import { OkoWallet } from "@oko-wallet-sdk-core/constructor";
+import type { OkoWalletInitError } from "@oko-wallet-sdk-core/errors";
 
 const SDK_ENDPOINT = `https://attached.oko.app`;
 

@@ -1,14 +1,14 @@
-import type { AppCurrency } from "@keplr-wallet/types";
-import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
-import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { FC } from "react";
-import { type Address, type Chain, createPublicClient, http } from "viem";
+import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import { createPublicClient, http, type Address, type Chain } from "viem";
+import type { AppCurrency } from "@keplr-wallet/types";
 
 import styles from "./token_info.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
-import { useGetTokenMetadata } from "@oko-wallet-attached/web3/ethereum/queries";
 import { formatTokenAmount } from "@oko-wallet-attached/web3/ethereum/utils";
+import { useGetTokenMetadata } from "@oko-wallet-attached/web3/ethereum/queries";
 
 export interface TokenInfoProps {
   tokenAddress?: Address;

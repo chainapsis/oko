@@ -1,6 +1,6 @@
-import type { Result } from "@oko-wallet/stdlib-js";
-import type { Pool, PoolClient } from "pg";
+import { Pool, type PoolClient } from "pg";
 import { v4 as uuidv4 } from "uuid";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 export interface ServerKeypair {
   keypair_id: string;

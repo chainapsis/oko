@@ -1,6 +1,6 @@
-import type { AuthType, OAuthRequest } from "../auth";
-import type { KeyShareNodeMetaWithNodeStatusInfo } from "../tss/ks_node";
 import type { NodeNameAndEndpoint } from "../user_key_share";
+import type { KeyShareNodeMetaWithNodeStatusInfo } from "../tss/ks_node";
+import type { OAuthRequest, AuthType } from "../auth";
 
 export interface User {
   user_id: string;
@@ -134,4 +134,4 @@ export interface ReshareRequestV2 {
   };
 }
 
-export type { NodeNameAndEndpoint };
+export { NodeNameAndEndpoint };

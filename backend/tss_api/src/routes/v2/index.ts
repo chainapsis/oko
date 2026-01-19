@@ -1,14 +1,17 @@
 import { Router } from "express";
 
+import { oauthMiddleware } from "@oko-wallet-tss-api/middleware/oauth";
+import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 import { keygenV2 } from "./keygen";
-import { keygenEd25519 } from "./keygen_ed25519";
+import { userJwtMiddlewareV2 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { presignStep1 } from "./presign_step_1";
 import { presignStep2 } from "./presign_step_2";
 import { presignStep3 } from "./presign_step_3";
-import { signEd25519Round1 } from "./sign_ed25519_round1";
-import { signEd25519Round2 } from "./sign_ed25519_round2";
 import { signStep1 } from "./sign_step_1";
 import { signStep2 } from "./sign_step_2";
+import { signEd25519Round1 } from "./sign_ed25519_round1";
+import { signEd25519Round2 } from "./sign_ed25519_round2";
+import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
 import { triplesStep1 } from "./triples_step_1";
 import { triplesStep2 } from "./triples_step_2";
 import { triplesStep3 } from "./triples_step_3";
@@ -20,13 +23,10 @@ import { triplesStep8 } from "./triples_step_8";
 import { triplesStep9 } from "./triples_step_9";
 import { triplesStep10 } from "./triples_step_10";
 import { triplesStep11 } from "./triples_step_11";
-import { userCheckEmailV2 } from "./user_check_email";
-import { userReshareV2 } from "./user_reshare";
+import { keygenEd25519 } from "./keygen_ed25519";
 import { userSignInV2 } from "./user_signin";
-import { apiKeyMiddleware } from "@oko-wallet-tss-api/middleware/api_key_auth";
-import { userJwtMiddlewareV2 } from "@oko-wallet-tss-api/middleware/keplr_auth";
-import { oauthMiddleware } from "@oko-wallet-tss-api/middleware/oauth";
-import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
+import { userReshareV2 } from "./user_reshare";
+import { userCheckEmailV2 } from "./user_check_email";
 
 export function makeV2Router() {
   const router = Router();

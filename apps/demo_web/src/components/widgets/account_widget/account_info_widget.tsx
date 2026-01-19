@@ -1,16 +1,16 @@
-import { DoorOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/door_outlined";
-import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { FC } from "react";
-
-import { Widget } from "../widget_components";
-import styles from "./account_info_widget.module.scss";
-import { AppleIcon } from "@oko-wallet-common-ui/icons/apple_icon";
-import { DiscordIcon } from "@oko-wallet-common-ui/icons/discord_icon";
+import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { DoorOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/door_outlined";
 import { MailboxIcon } from "@oko-wallet-common-ui/icons/mailbox";
 import { TelegramIcon } from "@oko-wallet-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet-common-ui/icons/x_icon";
+import { AppleIcon } from "@oko-wallet-common-ui/icons/apple_icon";
+import { DiscordIcon } from "@oko-wallet-common-ui/icons/discord_icon";
+
+import { Widget } from "../widget_components";
+import styles from "./account_info_widget.module.scss";
 import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
 
 export type AccountInfoWidgetProps = {

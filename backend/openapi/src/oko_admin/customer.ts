@@ -1,7 +1,7 @@
 import { z } from "zod";
 
-import { PaginationSchema } from "../common";
 import { registry } from "../registry";
+import { PaginationSchema } from "../common";
 
 const CustomerSchema = registry.register(
   "Customer",

@@ -5,15 +5,15 @@ import type {
 } from "@oko-wallet/oko-types/teddsa";
 
 import {
-  napiAggregateEd25519,
-  napiExtractKeyPackageSharesEd25519,
   napiKeygenCentralizedEd25519,
   napiKeygenImportEd25519,
-  napiReconstructKeyPackageEd25519,
-  napiReconstructPublicKeyPackageEd25519,
   napiSignRound1Ed25519,
   napiSignRound2Ed25519,
+  napiAggregateEd25519,
   napiVerifyEd25519,
+  napiExtractKeyPackageSharesEd25519,
+  napiReconstructKeyPackageEd25519,
+  napiReconstructPublicKeyPackageEd25519,
 } from "../../addon/index.js";
 
 // NOTE: NAPI-specific types (serialized bytes format)

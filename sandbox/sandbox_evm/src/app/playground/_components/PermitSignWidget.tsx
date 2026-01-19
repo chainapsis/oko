@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import type { Address, Hex } from "viem";
-import { useAccount, useChainId, useWalletClient } from "wagmi";
+import { Address, Hex } from "viem";
+import { useAccount, useWalletClient, useChainId } from "wagmi";
 
+import { usePermit } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth/usePermit";
 import {
   AddressInput,
   IntegerInput,
 } from "@oko-wallet-sandbox-evm/components/scaffold-eth/Input";
-import { usePermit } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth/usePermit";
 
 export function PermitSignWidget() {
   const { address } = useAccount();

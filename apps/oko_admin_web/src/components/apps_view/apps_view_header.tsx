@@ -1,12 +1,12 @@
 "use client";
 
-import { Button } from "@oko-wallet/oko-common-ui/button";
+import { type FC } from "react";
 import { useRouter } from "next/navigation";
-import type { FC } from "react";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
+import { paths } from "@oko-wallet-admin/paths";
 import { useGetCustomerListWithAPIKeys } from "./use_get_customer";
 import { TitleHeader } from "@oko-wallet-admin/components/title_header/title_header";
-import { paths } from "@oko-wallet-admin/paths";
 
 export const AppsViewHeader: FC = () => {
   const router = useRouter();

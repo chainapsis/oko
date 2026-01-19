@@ -1,15 +1,15 @@
-import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { type FC, type ReactNode, useState, useMemo } from "react";
 import type { SolanaTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import { type FC, type ReactNode, useMemo, useState } from "react";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/sol";
 
 import styles from "../common/summary.module.scss";
-import { Instructions } from "./msg/instructions";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
-import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
 import { TxContainer } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/common/tx_container";
-import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/sol";
+import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
+import { Instructions } from "./msg/instructions";
 
 export interface SolanaTxSummaryProps {
   payload: SolanaTxSignPayload;

@@ -1,9 +1,8 @@
 "use client";
 
-import bs58 from "bs58";
 import { useState } from "react";
-
 import { useSdkStore } from "@/store/sdk";
+import bs58 from "bs58";
 import Button from "./Button";
 
 export function SignMessageWidget() {

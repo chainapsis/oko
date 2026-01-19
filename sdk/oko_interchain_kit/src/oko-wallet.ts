@@ -1,3 +1,4 @@
+import { CosmosWallet } from "@interchain-kit/core";
 import type {
   BroadcastMode,
   SignOptions,
@@ -5,7 +6,6 @@ import type {
   Wallet,
   WalletAccount,
 } from "@interchain-kit/core";
-import { CosmosWallet } from "@interchain-kit/core";
 import type { OkoCosmosWalletInterface } from "@oko-wallet/oko-sdk-cosmos";
 
 /**

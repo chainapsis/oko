@@ -1,11 +1,11 @@
+import { useEffect, useMemo, type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { type FC, useEffect, useMemo } from "react";
 
-import { LoginPopupErrorView } from "../login_popup/login_popup_error_view";
-import styles from "./email_login.module.scss";
-import { EmailLoginPopup } from "./email_login_popup";
 import { AttachedInitialized } from "@oko-wallet-attached/components/attached_initialized/attached_initialized";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import { EmailLoginPopup } from "./email_login_popup";
+import { LoginPopupErrorView } from "../login_popup/login_popup_error_view";
+import styles from "./email_login.module.scss";
 
 export const EmailLogin: FC = () => {
   useNotifyPopupReady();

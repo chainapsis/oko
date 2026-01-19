@@ -1,14 +1,15 @@
 "use client";
 
-import { MenuIcon } from "@oko-wallet/oko-common-ui/icons/menu";
-import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
-import { Logo } from "@oko-wallet/oko-common-ui/logo";
-import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 import type { Property } from "csstype";
 import type { FC } from "react";
 
-import styles from "./dashboard_header.module.scss";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { MenuIcon } from "@oko-wallet/oko-common-ui/icons/menu";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { useViewState } from "@oko-wallet-user-dashboard/state/view";
+
+import styles from "./dashboard_header.module.scss";
 
 export const DashboardHeader: FC<{
   theme?: Theme;

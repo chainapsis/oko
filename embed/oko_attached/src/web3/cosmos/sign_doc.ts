@@ -1,12 +1,12 @@
-import type { AminoMsg, StdSignDoc } from "@cosmjs/amino";
 import {
-  AuthInfo,
   TxBody,
+  AuthInfo,
 } from "@keplr-wallet/proto-types/cosmos/tx/v1beta1/tx";
+import type { AminoMsg, StdSignDoc } from "@cosmjs/amino";
+import type { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 import type { Any } from "@keplr-wallet/proto-types/google/protobuf/any";
 import type { MakeCosmosSigError } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { SignDoc } from "cosmjs-types/cosmos/tx/v1beta1/tx";
 
 import { sortObjectByKey } from "@oko-wallet-attached/utils/json";
 

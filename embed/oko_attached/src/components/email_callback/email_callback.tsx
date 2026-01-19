@@ -1,16 +1,16 @@
 "use client";
 
-import { ErrorIcon } from "@oko-wallet/oko-common-ui/icons/error_icon";
-import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import { type FC } from "react";
 import { LoadingIcon } from "@oko-wallet/oko-common-ui/icons/loading";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { FC } from "react";
-
-import { useEmailCallback } from "@oko-wallet-attached/components/email_callback/use_callback";
-import styles from "@oko-wallet-attached/components/google_callback/google_callback.module.scss";
-import { useSetThemeInCallback } from "@oko-wallet-attached/hooks/theme";
 import { OkoLogoIcon } from "@oko-wallet-common-ui/icons/oko_logo_icon";
+import { ErrorIcon } from "@oko-wallet/oko-common-ui/icons/error_icon";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+
+import styles from "@oko-wallet-attached/components/google_callback/google_callback.module.scss";
+import { useEmailCallback } from "@oko-wallet-attached/components/email_callback/use_callback";
+import { useSetThemeInCallback } from "@oko-wallet-attached/hooks/theme";
 
 export const EmailCallback: FC = () => {
   const theme = useSetThemeInCallback("auth0");

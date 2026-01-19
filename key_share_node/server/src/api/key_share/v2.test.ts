@@ -1,26 +1,26 @@
+import { Pool } from "pg";
+import {
+  createKeyShare,
+  createUser,
+  createWallet,
+} from "@oko-wallet/ksn-pg-interface";
 import {
   Bytes,
   type Bytes32,
   type Bytes33,
   type Bytes64,
 } from "@oko-wallet/bytes";
-import {
-  createKeyShare,
-  createUser,
-  createWallet,
-} from "@oko-wallet/ksn-pg-interface";
-import type { Pool } from "pg";
 
+import { connectPG, resetPgDatabase } from "@oko-wallet-ksn-server/database";
+import { testPgConfig } from "@oko-wallet-ksn-server/database/test_config";
 import {
   checkKeyShareV2,
   getKeyShareV2,
-  registerEd25519V2,
   registerKeyShareV2,
+  registerEd25519V2,
   reshareKeyShareV2,
   reshareRegisterV2,
 } from "@oko-wallet-ksn-server/api/key_share";
-import { connectPG, resetPgDatabase } from "@oko-wallet-ksn-server/database";
-import { testPgConfig } from "@oko-wallet-ksn-server/database/test_config";
 
 const TEST_ENC_SECRET = "test_enc_secret";
 

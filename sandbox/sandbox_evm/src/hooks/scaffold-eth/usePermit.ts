@@ -1,13 +1,13 @@
 import { useState } from "react";
 import {
-  type Hex,
-  isAddress,
+  Hex,
   pad,
-  type TypedDataDefinition,
-  type TypedDataDomain,
   toHex,
-  type WalletClient,
+  TypedDataDomain,
+  WalletClient,
   zeroAddress,
+  isAddress,
+  TypedDataDefinition,
 } from "viem";
 import { useReadContract, useWalletClient } from "wagmi";
 

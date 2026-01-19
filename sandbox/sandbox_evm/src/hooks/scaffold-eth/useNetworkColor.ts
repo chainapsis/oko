@@ -1,5 +1,5 @@
 import { useSelectedNetwork } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
-import type {
+import {
   AllowedChainIds,
   ChainWithAttributes,
 } from "@oko-wallet-sandbox-evm/utils/scaffold-eth";

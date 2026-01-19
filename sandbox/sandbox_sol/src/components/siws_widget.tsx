@@ -1,10 +1,9 @@
 "use client";
 
-import { buildSignInMessage, OkoStandardWallet } from "@oko-wallet/oko-sdk-sol";
-import bs58 from "bs58";
 import { useState } from "react";
-
 import { useSdkStore } from "@/store/sdk";
+import { OkoStandardWallet, buildSignInMessage } from "@oko-wallet/oko-sdk-sol";
+import bs58 from "bs58";
 import Button from "./Button";
 
 export function SiwsWidget() {

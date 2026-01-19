@@ -1,12 +1,14 @@
+import { Participant } from "@oko-wallet/tecdsa-interface";
 import type {
   TECDSAClientState,
   TECDSAServerState,
   TriplePub,
 } from "@oko-wallet/tecdsa-interface";
-import { Participant } from "@oko-wallet/tecdsa-interface";
 
 import {
   runTriplesClientStep1,
+  runTriplesClientStep10,
+  runTriplesClientStep11,
   runTriplesClientStep2,
   runTriplesClientStep3,
   runTriplesClientStep4,
@@ -15,11 +17,11 @@ import {
   runTriplesClientStep7,
   runTriplesClientStep8,
   runTriplesClientStep9,
-  runTriplesClientStep10,
-  runTriplesClientStep11,
 } from "../client";
 import {
   runTriples2ServerStep1,
+  runTriples2ServerStep10,
+  runTriples2ServerStep11,
   runTriples2ServerStep2,
   runTriples2ServerStep3,
   runTriples2ServerStep4,
@@ -28,8 +30,6 @@ import {
   runTriples2ServerStep7,
   runTriples2ServerStep8,
   runTriples2ServerStep9,
-  runTriples2ServerStep10,
-  runTriples2ServerStep11,
 } from "../server/triples";
 
 export function triplesTest(

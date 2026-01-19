@@ -1,28 +1,28 @@
+import type { Request, Response, NextFunction } from "express";
+import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
+import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   DiscordTokenInfo,
   GoogleTokenInfo,
 } from "@oko-wallet/ksn-interface/auth";
-import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { Result } from "@oko-wallet/stdlib-js";
-import type { NextFunction, Request, Response } from "express";
 
+import type { OAuthValidationFail } from "@oko-wallet-ksn-server/auth/types";
 import {
   validateAuth0Token,
   validateDiscordOAuthToken,
   validateGoogleOAuthToken,
   validateTelegramHash,
 } from "@oko-wallet-ksn-server/auth";
+import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
+import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
+import { validateAccessTokenOfX } from "@oko-wallet-ksn-server/auth/x";
 import type { Auth0TokenInfo } from "@oko-wallet-ksn-server/auth/auth0";
+import type { XUserInfo } from "@oko-wallet-ksn-server/auth/x";
 import type {
   TelegramUserData,
   TelegramUserInfo,
 } from "@oko-wallet-ksn-server/auth/telegram";
-import type { OAuthValidationFail } from "@oko-wallet-ksn-server/auth/types";
-import type { XUserInfo } from "@oko-wallet-ksn-server/auth/x";
-import { validateAccessTokenOfX } from "@oko-wallet-ksn-server/auth/x";
-import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import type { ResponseLocal } from "@oko-wallet-ksn-server/routes/io";
 
 type OAuthBody = {
   auth_type?: AuthType;

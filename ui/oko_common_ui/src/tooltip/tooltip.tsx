@@ -1,20 +1,19 @@
+import { useRef, useState, type FC } from "react";
 import {
-  arrow,
-  FloatingArrow,
-  offset,
-  type Placement,
   useFloating,
-  useHover,
   useInteractions,
+  useHover,
+  type Placement,
+  offset,
 } from "@floating-ui/react";
+import { FloatingArrow, arrow } from "@floating-ui/react";
 import cn from "classnames";
-import { type FC, useRef, useState } from "react";
 
 import styles from "./tooltip.module.scss";
 import {
+  Typography,
   type BaseTypographyColor,
   type BaseTypographyCustomColor,
-  Typography,
 } from "@oko-wallet-common-ui/typography/typography";
 
 export type TooltipProps = {

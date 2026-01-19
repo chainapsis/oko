@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 
-import { useOko } from "@/hooks/use_oko";
 import { SignWidget } from "../sign_widget/sign_widget";
+import { useOko } from "@/hooks/use_oko";
 
 const COSMOS_CHAIN_ID = "cosmoshub-4";
 

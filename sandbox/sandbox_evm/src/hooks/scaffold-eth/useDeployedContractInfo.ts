@@ -4,11 +4,11 @@ import { usePublicClient } from "wagmi";
 
 import { useSelectedNetwork } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 import {
-  type Contract,
+  Contract,
   ContractCodeStatus,
-  type ContractName,
+  ContractName,
+  UseDeployedContractConfig,
   contracts,
-  type UseDeployedContractConfig,
 } from "@oko-wallet-sandbox-evm/utils/scaffold-eth/contract";
 
 type DeployedContractData<TContractName extends ContractName> = {

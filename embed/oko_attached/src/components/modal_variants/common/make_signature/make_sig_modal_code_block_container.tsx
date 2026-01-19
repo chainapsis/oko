@@ -1,5 +1,5 @@
-import cn from "classnames";
 import type { FC, ReactNode } from "react";
+import cn from "classnames";
 
 import styles from "./make_sig_modal_code_block_container.module.scss";
 

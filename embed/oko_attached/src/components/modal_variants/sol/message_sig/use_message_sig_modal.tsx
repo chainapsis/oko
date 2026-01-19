@@ -1,10 +1,9 @@
 import type { MakeSolMessageSignData } from "@oko-wallet/oko-sdk-core";
-
-import {
-  signMessageToHex,
-  useSolSignatureBase,
-} from "../use_sol_signature_base";
 import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
+import {
+  useSolSignatureBase,
+  signMessageToHex,
+} from "../use_sol_signature_base";
 
 export interface UseMessageSigModalArgs {
   modalId: string;

@@ -1,18 +1,32 @@
+import type { Result } from "@oko-wallet/stdlib-js";
 import type {
-  OAuthSignInError,
   OkoWalletMsgOAuthInfoPass,
   OkoWalletMsgOAuthInfoPassAck,
   OkoWalletMsgOAuthSignInUpdate,
+  OAuthSignInError,
 } from "@oko-wallet/oko-sdk-core";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type {
   CheckEmailResponse,
   CheckEmailResponseV2,
 } from "@oko-wallet/oko-types/user";
-import type { Result } from "@oko-wallet/stdlib-js";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 
 import { sendMsgToWindow } from "../send";
-import { bail } from "./errors";
+import {
+  OKO_ATTACHED_POPUP,
+  OKO_SDK_TARGET,
+} from "@oko-wallet-attached/window_msgs/target";
+import type { MsgEventContext } from "@oko-wallet-attached/window_msgs/types";
+import { useAppState } from "@oko-wallet-attached/store/app";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import {
+  setUserId,
+  setUserProperties,
+} from "@oko-wallet-attached/analytics/amplitude";
+import type {
+  UserSignInResult,
+  UserSignInResultV2,
+} from "@oko-wallet-attached/window_msgs/types";
 import {
   checkUserExists,
   handleExistingUser,
@@ -21,28 +35,14 @@ import {
 } from "./user";
 import {
   checkUserExistsV2,
-  handleExistingUserNeedsEd25519Keygen,
-  handleExistingUserV2,
   handleNewUserV2,
-  handleReshareAndEd25519Keygen,
+  handleExistingUserV2,
+  handleExistingUserNeedsEd25519Keygen,
   handleReshareV2,
+  handleReshareAndEd25519Keygen,
 } from "./user_v2";
+import { bail } from "./errors";
 import { getCredentialsFromPayload } from "./validate_social_login";
-import {
-  setUserId,
-  setUserProperties,
-} from "@oko-wallet-attached/analytics/amplitude";
-import { useAppState } from "@oko-wallet-attached/store/app";
-import { useMemoryState } from "@oko-wallet-attached/store/memory";
-import {
-  OKO_ATTACHED_POPUP,
-  OKO_SDK_TARGET,
-} from "@oko-wallet-attached/window_msgs/target";
-import type {
-  MsgEventContext,
-  UserSignInResult,
-  UserSignInResultV2,
-} from "@oko-wallet-attached/window_msgs/types";
 
 export async function handleOAuthInfoPass(
   ctx: MsgEventContext,

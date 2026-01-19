@@ -1,13 +1,13 @@
-import { devEnvSchema } from "./dev_envs";
-import { loadEnvs } from "@oko-wallet-ksn-pg-interface/bin/db_aux/envs";
+import {
+  dropAllTablesIfExist,
+  createTables,
+} from "@oko-wallet-ksn-pg-interface/postgres";
 import {
   createDBConn,
   type PgDatabaseConfig,
 } from "@oko-wallet-ksn-pg-interface/bin/db_aux/utils";
-import {
-  createTables,
-  dropAllTablesIfExist,
-} from "@oko-wallet-ksn-pg-interface/postgres";
+import { loadEnvs } from "@oko-wallet-ksn-pg-interface/bin/db_aux/envs";
+import { devEnvSchema } from "./dev_envs";
 
 const DEFAULT_DB_NAME = "key_share_node_dev";
 

@@ -1,4 +1,4 @@
-import type { Participant } from "./participant";
+import { Participant } from "./participant";
 
 export interface KeyshareState {
   participants: number[];

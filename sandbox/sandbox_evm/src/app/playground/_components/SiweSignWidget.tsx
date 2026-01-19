@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { createSiweMessage, generateSiweNonce } from "viem/siwe";
 import { useAccount, useChainId, useWalletClient } from "wagmi";
+import { createSiweMessage, generateSiweNonce } from "viem/siwe";
+import { useState } from "react";
 
 import { useSignMessage } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth";
 

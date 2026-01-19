@@ -1,10 +1,10 @@
-import {
-  type UseQueryOptions,
-  useQueries,
-  useQuery,
-} from "@tanstack/react-query";
-import { createPublicClient, type GetEnsAvatarReturnType, http } from "viem";
+import { type GetEnsAvatarReturnType, createPublicClient, http } from "viem";
 import { normalize } from "viem/ens";
+import {
+  useQuery,
+  useQueries,
+  type UseQueryOptions,
+} from "@tanstack/react-query";
 
 import { mainnetChain } from "@oko-wallet-attached/web3/ethereum/constants";
 

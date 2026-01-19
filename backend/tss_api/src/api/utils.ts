@@ -1,19 +1,19 @@
-import { getCustomer } from "@oko-wallet/oko-pg-interface/customers";
 import { getWalletByIdWithEmail } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import { TssSessionState } from "@oko-wallet/oko-types/tss";
+import type { Customer } from "@oko-wallet/oko-types/customers";
+import type {
+  TssStageWithSessionData,
+  TssStageStatus,
+  UpdateTssStageRequest,
+} from "@oko-wallet/oko-types/tss";
+import type { WalletWithEmail } from "@oko-wallet/oko-types/wallets";
+import type { Result } from "@oko-wallet/stdlib-js";
+import { Pool } from "pg";
 import {
   updateTssSessionState,
   updateTssStage,
 } from "@oko-wallet/oko-pg-interface/tss";
-import type { Customer } from "@oko-wallet/oko-types/customers";
-import type {
-  TssStageStatus,
-  TssStageWithSessionData,
-  UpdateTssStageRequest,
-} from "@oko-wallet/oko-types/tss";
-import { TssSessionState } from "@oko-wallet/oko-types/tss";
-import type { WalletWithEmail } from "@oko-wallet/oko-types/wallets";
-import type { Result } from "@oko-wallet/stdlib-js";
-import type { Pool } from "pg";
+import { getCustomer } from "@oko-wallet/oko-pg-interface/customers";
 
 export function validateTssSession(
   triplesStage: TssStageWithSessionData | null,

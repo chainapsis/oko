@@ -1,16 +1,16 @@
-import { Button } from "@oko-wallet/oko-common-ui/button";
+import React, { type FC } from "react";
 import { ErrorIcon } from "@oko-wallet/oko-common-ui/icons/error_icon";
-import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import React, { type FC } from "react";
+import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
 import styles from "./error_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
-import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
-import type { AppError } from "@oko-wallet-attached/errors";
 import { useAppState } from "@oko-wallet-attached/store/app";
 import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import type { AppError } from "@oko-wallet-attached/errors";
+import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
 function isAppErrorFn(error: unknown): error is AppError {
   return typeof error === "object" && error !== null && "type" in error;

@@ -1,8 +1,4 @@
-import {
-  runSignServerStep1,
-  runSignServerStep1V2,
-  runSignServerStep2,
-} from "@oko-wallet/cait-sith-keplr-addon/src/server";
+import { Router } from "express";
 import type {
   SignStep1Response,
   SignStep1V2Request,
@@ -10,7 +6,11 @@ import type {
   SignStep2Response,
   SignStep2V2Request,
 } from "@oko-wallet/tecdsa-interface";
-import type { Router } from "express";
+import {
+  runSignServerStep1,
+  runSignServerStep1V2,
+  runSignServerStep2,
+} from "@oko-wallet/cait-sith-keplr-addon/src/server";
 
 import { appServerState } from "../state";
 

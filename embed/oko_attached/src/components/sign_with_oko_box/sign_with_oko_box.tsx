@@ -1,9 +1,9 @@
-import type { Theme } from "@oko-wallet/oko-common-ui/theme";
+import { type FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { FC } from "react";
+import { OkoLogoWithNameIcon } from "@oko-wallet-common-ui/icons/oko_logo_with_name_icon";
+import type { Theme } from "@oko-wallet/oko-common-ui/theme";
 
 import styles from "./sign_with_oko_box.module.scss";
-import { OkoLogoWithNameIcon } from "@oko-wallet-common-ui/icons/oko_logo_with_name_icon";
 
 export const SignWithOkoBox: FC<SignWithOkoBoxProps> = ({
   theme,

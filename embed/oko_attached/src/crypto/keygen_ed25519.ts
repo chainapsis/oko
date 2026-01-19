@@ -1,10 +1,10 @@
-import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
+import type { TeddsaKeygenOutputBytes } from "@oko-wallet/teddsa-hooks";
 import type {
   KeyPackageRaw,
   PublicKeyPackageRaw,
 } from "@oko-wallet/oko-types/teddsa";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { TeddsaKeygenOutputBytes } from "@oko-wallet/teddsa-hooks";
+import { Bytes, type Bytes32 } from "@oko-wallet/bytes";
 
 export interface KeyPackageEd25519Hex {
   keyPackage: string;

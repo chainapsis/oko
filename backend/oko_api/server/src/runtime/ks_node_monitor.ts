@@ -1,11 +1,11 @@
+import type { Pool } from "pg";
+import type { Logger } from "winston";
 import {
-  getKSNodeByPublicKey,
   getLatestKSNodeTelemetries,
+  getKSNodeByPublicKey,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { sendSlackAlert } from "@oko-wallet/tss-api";
 import dayjs from "dayjs";
-import type { Pool } from "pg";
-import type { Logger } from "winston";
 
 const HEARTBEAT_THRESHOLD_MINUTES = 10;
 

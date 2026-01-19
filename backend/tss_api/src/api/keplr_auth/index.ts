@@ -1,13 +1,13 @@
-import type { TokenResult } from "@oko-wallet/oko-types/auth";
-import type {
-  GenerateUserTokenArgs,
-  GenerateUserTokenArgsV2,
-  UserTokenPayload,
-  UserTokenPayloadV2,
-} from "@oko-wallet/oko-types/tss";
-import type { Result } from "@oko-wallet/stdlib-js";
 import dayjs from "dayjs";
 import jwt from "jsonwebtoken";
+import type { TokenResult } from "@oko-wallet/oko-types/auth";
+import type { Result } from "@oko-wallet/stdlib-js";
+import type {
+  GenerateUserTokenArgs,
+  UserTokenPayload,
+  GenerateUserTokenArgsV2,
+  UserTokenPayloadV2,
+} from "@oko-wallet/oko-types/tss";
 
 import type {
   UserTokenJWTPayload,

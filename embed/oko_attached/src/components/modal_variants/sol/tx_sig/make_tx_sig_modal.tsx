@@ -1,18 +1,18 @@
-import { Button } from "@oko-wallet/oko-common-ui/button";
+import type { FC } from "react";
+import type { MakeSolTxSignData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import type { MakeSolTxSignData } from "@oko-wallet/oko-sdk-core";
-import type { FC } from "react";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
-import { SolanaTxFee } from "./sol_tx_fee";
-import { SolanaTxSignatureContent } from "./sol_tx_signature_content";
-import { useParseTx } from "./use_parse_tx";
-import { useTxSigModal } from "./use_tx_sig_modal";
-import { trackTxButtonEvent } from "@oko-wallet-attached/analytics/events";
+import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
 import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
-import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
+import { trackTxButtonEvent } from "@oko-wallet-attached/analytics/events";
+import { useTxSigModal } from "./use_tx_sig_modal";
+import { SolanaTxSignatureContent } from "./sol_tx_signature_content";
+import { SolanaTxFee } from "./sol_tx_fee";
+import { useParseTx } from "./use_parse_tx";
 
 export interface MakeTxSigModalProps {
   getIsAborted: () => boolean;

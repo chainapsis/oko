@@ -1,13 +1,13 @@
 import type { OkoWalletInterface } from "@oko-wallet/oko-sdk-core";
 import { PublicKey } from "@solana/web3.js";
 
-import { SolWalletEventEmitter } from "./emitter";
-import { lazyInit } from "./private/lazy_init";
 import type {
   OkoSolWalletInterface,
   OkoSolWalletInternal,
   OkoSolWalletStaticInterface,
 } from "./types";
+import { SolWalletEventEmitter } from "./emitter";
+import { lazyInit } from "./private/lazy_init";
 
 export const OkoSolWallet = function (
   this: OkoSolWalletInternal,

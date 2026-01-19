@@ -1,34 +1,19 @@
-import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { PublicKeyPackageRaw } from "@oko-wallet/oko-types/teddsa";
 import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
-import type { ReshareRequestV2 } from "@oko-wallet/oko-types/user";
 import type {
   NodeNameAndEndpoint,
-  TeddsaKeyShareByNode,
   UserKeySharePointByNode,
+  TeddsaKeyShareByNode,
 } from "@oko-wallet/oko-types/user_key_share";
 import {
   hexToTeddsaKeyShare,
   teddsaKeyShareToHex,
 } from "@oko-wallet/oko-types/user_key_share";
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { PublicKeyPackageRaw } from "@oko-wallet/oko-types/teddsa";
+import type { ReshareRequestV2 } from "@oko-wallet/oko-types/user";
 
-import { combineUserShares } from "./combine";
-import {
-  decodeKeyShareStringToPoint256,
-  encodePoint256ToKeyShareString,
-} from "./key_share_utils";
-import { runExpandShares } from "./reshare";
-import { computeVerifyingShare } from "./scalar";
-import {
-  combineTeddsaShares,
-  expandTeddsaSigningShare,
-  getClientFrostIdentifier,
-  getServerFrostIdentifier,
-  keyPackageToRaw,
-  reconstructKeyPackage,
-} from "./sss_ed25519";
 import {
   type KeySharesByNode,
   requestKeySharesV2,
@@ -39,6 +24,21 @@ import {
   makeAuthorizedOkoApiRequest,
   TSS_V2_ENDPOINT,
 } from "@oko-wallet-attached/requests/oko_api";
+import {
+  decodeKeyShareStringToPoint256,
+  encodePoint256ToKeyShareString,
+} from "./key_share_utils";
+import { runExpandShares } from "./reshare";
+import {
+  expandTeddsaSigningShare,
+  reconstructKeyPackage,
+  keyPackageToRaw,
+  getClientFrostIdentifier,
+  getServerFrostIdentifier,
+  combineTeddsaShares,
+} from "./sss_ed25519";
+import { computeVerifyingShare } from "./scalar";
+import { combineUserShares } from "./combine";
 
 /**
  * Convert V2 API response to secp256k1 UserKeySharePointByNode format.

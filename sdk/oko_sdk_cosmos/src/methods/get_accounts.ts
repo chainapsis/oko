@@ -2,10 +2,10 @@ import type { AccountData } from "@cosmjs/amino";
 
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
 import {
-  getBech32Address,
-  getCosmosAddress,
-  getEthAddress,
   isEthereumCompatible,
+  getEthAddress,
+  getCosmosAddress,
+  getBech32Address,
 } from "@oko-wallet-sdk-cosmos/utils/address";
 import { sendGetCosmosChainInfo } from "@oko-wallet-sdk-cosmos/utils/chain";
 

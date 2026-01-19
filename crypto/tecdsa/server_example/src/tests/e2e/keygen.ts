@@ -1,4 +1,13 @@
 import {
+  TECDSAClientState,
+  Participant,
+  KeygenStep1V2Request,
+  KeygenStep2V2Request,
+  KeygenStep3V2Request,
+  KeygenStep4V2Request,
+  KeygenStep5V2Request,
+} from "@oko-wallet/tecdsa-interface";
+import {
   reqKeygenStep1,
   reqKeygenStep2,
   reqKeygenStep3,
@@ -12,15 +21,6 @@ import {
   runKeygenClientStep4,
   runKeygenClientStep5,
 } from "@oko-wallet/cait-sith-keplr-addon/src/client";
-import {
-  type KeygenStep1V2Request,
-  type KeygenStep2V2Request,
-  type KeygenStep3V2Request,
-  type KeygenStep4V2Request,
-  type KeygenStep5V2Request,
-  Participant,
-  type TECDSAClientState,
-} from "@oko-wallet/tecdsa-interface";
 
 export async function e2eKeygenTest(clientState: TECDSAClientState) {
   // cli keygen step 1

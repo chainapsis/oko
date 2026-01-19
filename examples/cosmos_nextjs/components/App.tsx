@@ -1,8 +1,8 @@
 "use client";
 
-import useOkoCosmos from "@/hooks/useOkoCosmos";
-import ConnectedView from "./ConnectedView";
 import LoginView from "./LoginView";
+import ConnectedView from "./ConnectedView";
+import useOkoCosmos from "@/hooks/useOkoCosmos";
 
 export default function App() {
   const { isSignedIn } = useOkoCosmos();

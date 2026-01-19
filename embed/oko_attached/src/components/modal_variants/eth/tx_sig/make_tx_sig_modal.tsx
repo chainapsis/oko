@@ -1,17 +1,17 @@
-import { Button } from "@oko-wallet/oko-common-ui/button";
+import { type FC } from "react";
+import type { MakeTxSignSigData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import type { MakeTxSignSigData } from "@oko-wallet/oko-sdk-core";
-import type { FC } from "react";
+import { Button } from "@oko-wallet/oko-common-ui/button";
 
+import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
+import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
+import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
+import { useTxSigModal } from "./hooks/use_tx_sig_modal";
 import { EthereumTxFee } from "./eth_tx_fee";
 import { EthereumTxSignatureContent } from "./ethereum_tx_signature_content";
 import { useEthereumTxActions } from "./hooks/use_ethereum_tx_actions";
-import { useTxSigModal } from "./hooks/use_tx_sig_modal";
 import { trackTxButtonEvent } from "@oko-wallet-attached/analytics/events";
-import { CommonModal } from "@oko-wallet-attached/components/modal_variants/common/common_modal";
-import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
-import styles from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_signature_modal.module.scss";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 
 export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({

@@ -1,5 +1,8 @@
-import { Badge } from "@oko-wallet/oko-common-ui/badge";
-import { Button } from "@oko-wallet/oko-common-ui/button";
+import { createColumnHelper, flexRender } from "@tanstack/react-table";
+import Link from "next/link";
+import { type FC } from "react";
+import { useRouter } from "next/navigation";
+import { type CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
 import {
   Table,
   TableBody,
@@ -9,25 +12,22 @@ import {
   TableRow,
 } from "@oko-wallet/oko-common-ui/table";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
-import { createColumnHelper, flexRender } from "@tanstack/react-table";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import type { FC } from "react";
+import { Button } from "@oko-wallet/oko-common-ui/button";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
 
-import { APIKeyCell } from "./api_key_cell";
 import styles from "./customer_table.module.scss";
 import { useGetCustomerListWithAPIKeys } from "./use_get_customer";
 import { useDeleteCustomerAndCTDUsers } from "./user_delete_customer_and_ctd_users";
-import { UserEmailVerifiedCell } from "./user_email_verified_cell";
 import { AccountInfoBase } from "@oko-wallet-admin/components/account/account_info_base";
-import { EmptyState } from "@oko-wallet-admin/components/empty_state/empty_state";
 import { Pagination } from "@oko-wallet-admin/components/pagination/pagination";
+import { EmptyState } from "@oko-wallet-admin/components/empty_state/empty_state";
+import { paths } from "@oko-wallet-admin/paths";
 import {
   useTable,
   useTablePagination,
 } from "@oko-wallet-admin/components/table/use_table";
-import { paths } from "@oko-wallet-admin/paths";
+import { APIKeyCell } from "./api_key_cell";
+import { UserEmailVerifiedCell } from "./user_email_verified_cell";
 
 const defaultData: CustomerWithAPIKeys[] = [];
 

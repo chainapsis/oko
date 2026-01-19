@@ -1,11 +1,11 @@
-import { registry } from "@oko-wallet/oko-api-openapi";
+import { Router, type Response } from "express";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { KSNodeTelemetryRequest } from "@oko-wallet/oko-types/tss";
 import {
   KSNodeTelemetryRequestSchema,
   KSNodeTelemetryResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { KSNodeTelemetryRequest } from "@oko-wallet/oko-types/tss";
-import type { Response, Router } from "express";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import { z } from "zod";
 
 import { processKSNodeTelemetry } from "@oko-wallet-tss-api/api/ks_node/telemetry";

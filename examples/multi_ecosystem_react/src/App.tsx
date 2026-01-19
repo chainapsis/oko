@@ -1,7 +1,7 @@
-import CosmosTransactionForm from "@/components/CosmosTransactionForm";
+import { OkoProvider } from "@/oko/OkoProvider";
 import Header from "@/components/Header";
 import StatusBar from "@/components/StatusBar";
-import { OkoProvider } from "@/oko/OkoProvider";
+import CosmosTransactionForm from "@/components/CosmosTransactionForm";
 import EvmTransactionForm from "./components/EvmTransactionForm";
 
 function App() {

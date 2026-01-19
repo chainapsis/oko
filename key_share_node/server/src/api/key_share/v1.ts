@@ -1,12 +1,5 @@
-import type {
-  CheckKeyShareRequest,
-  CheckKeyShareResponse,
-  GetKeyShareRequest,
-  GetKeyShareResponse,
-  RegisterKeyShareRequest,
-  ReshareKeyShareRequest,
-} from "@oko-wallet/ksn-interface/key_share";
-import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
+import { timingSafeEqual } from "crypto";
+import type { Pool, PoolClient } from "pg";
 import {
   createKeyShare,
   createUser,
@@ -16,8 +9,15 @@ import {
   getWalletByPublicKey,
   updateReshare,
 } from "@oko-wallet/ksn-pg-interface";
-import { timingSafeEqual } from "crypto";
-import type { Pool, PoolClient } from "pg";
+import type {
+  CheckKeyShareRequest,
+  CheckKeyShareResponse,
+  GetKeyShareRequest,
+  GetKeyShareResponse,
+  RegisterKeyShareRequest,
+  ReshareKeyShareRequest,
+} from "@oko-wallet/ksn-interface/key_share";
+import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
 import {
   decryptDataAsync,
@@ -259,7 +259,7 @@ export async function reshareKeyShare(
       };
     }
 
-    const wallet_id = getWalletRes.data.wallet_id;
+    let wallet_id = getWalletRes.data.wallet_id;
 
     // Get user to verify ownership
     const getUserRes = await getUserByAuthTypeAndUserAuthId(

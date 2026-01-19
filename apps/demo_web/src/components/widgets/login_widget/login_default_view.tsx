@@ -1,20 +1,20 @@
+import { type FC, Fragment } from "react";
 import { Button } from "@oko-wallet/oko-common-ui/button";
-import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
-import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
-import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
 import { GoogleIcon } from "@oko-wallet/oko-common-ui/icons/google_icon";
-import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
-import { OkoLogoWithNameIcon } from "@oko-wallet/oko-common-ui/icons/oko_logo_with_name_icon";
+import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ExternalLinkOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/external_link_outlined";
+import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { TelegramIcon } from "@oko-wallet/oko-common-ui/icons/telegram_icon";
 import { XIcon } from "@oko-wallet/oko-common-ui/icons/x_icon";
-import { Logo } from "@oko-wallet/oko-common-ui/logo";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { type FC, Fragment } from "react";
+import { AppleIcon } from "@oko-wallet/oko-common-ui/icons/apple_icon";
+import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
+import { OkoLogoWithNameIcon } from "@oko-wallet/oko-common-ui/icons/oko_logo_with_name_icon";
 
 import styles from "./login_widget.module.scss";
-import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 import type { LoginMethod } from "@oko-wallet-demo-web/types/login";
+import { useThemeState } from "@oko-wallet-demo-web/state/theme";
 
 export interface LoginDefaultViewProps {
   onSignIn: (method: LoginMethod) => void;

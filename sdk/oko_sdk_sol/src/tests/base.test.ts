@@ -1,16 +1,16 @@
 import { PublicKey } from "@solana/web3.js";
 
+import { OkoSolWallet } from "@oko-wallet-sdk-sol/sol_wallet";
+import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import {
+  SolanaRpcError,
+  SolanaRpcErrorCode,
+} from "@oko-wallet-sdk-sol/methods/make_signature";
 import {
   createMockOkoWallet,
   createMockOkoWalletWithNoAccount,
   MOCK_ED25519_PUBLIC_KEY,
 } from "./mock";
-import {
-  SolanaRpcError,
-  SolanaRpcErrorCode,
-} from "@oko-wallet-sdk-sol/methods/make_signature";
-import { OkoSolWallet } from "@oko-wallet-sdk-sol/sol_wallet";
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 
 describe("OkoSolWallet - Base Operations", () => {
   describe("Constructor", () => {

@@ -1,23 +1,23 @@
-import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import {
   createEmailVerification,
   getLatestPendingVerification,
 } from "@oko-wallet/oko-pg-interface/email_verifications";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { getCTDUserWithCustomerAndPasswordHashByEmail } from "@oko-wallet/oko-pg-interface/customer_dashboard_users";
 import type {
   SendVerificationRequest,
   SendVerificationResponse,
 } from "@oko-wallet/oko-types/ct_dashboard";
-import type { Pool } from "pg";
+import { Pool } from "pg";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
-import {
-  CAN_RESEND_CODE_INTERVAL_SECONDS,
-  EMAIL_REGEX,
-} from "@oko-wallet-usrd-api/constants";
 import {
   generateVerificationCode,
   sendVerificationEmail,
 } from "@oko-wallet-usrd-api/email";
+import {
+  CAN_RESEND_CODE_INTERVAL_SECONDS,
+  EMAIL_REGEX,
+} from "@oko-wallet-usrd-api/constants";
 
 export async function sendEmailVerificationCode(
   db: Pool,

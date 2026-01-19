@@ -1,11 +1,11 @@
 import type {
-  Account,
-  Authorization,
-  EncodeDeployDataParameters,
   Hex,
-  PublicClient,
   TypedDataDefinition,
+  PublicClient,
   WalletClient,
+  Account,
+  EncodeDeployDataParameters,
+  Authorization,
 } from "viem";
 import { encodeDeployData } from "viem";
 

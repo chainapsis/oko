@@ -1,24 +1,24 @@
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/oko-api-openapi";
-import {
-  ErrorResponseSchema,
-  UserAuthHeaderSchema,
-} from "@oko-wallet/oko-api-openapi/common";
-import {
-  PresignStep2RequestSchema,
-  PresignStep2SuccessResponseSchema,
-} from "@oko-wallet/oko-api-openapi/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Response } from "express";
 import type {
   PresignStep2Body,
   PresignStep2Response,
 } from "@oko-wallet/oko-types/tss";
-import type { Response } from "express";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import {
+  ErrorResponseSchema,
+  UserAuthHeaderSchema,
+} from "@oko-wallet/oko-api-openapi/common";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import {
+  PresignStep2RequestSchema,
+  PresignStep2SuccessResponseSchema,
+} from "@oko-wallet/oko-api-openapi/tss";
 
 import { runPresignStep2 } from "@oko-wallet-tss-api/api/v1/presign";
 import {
-  sendResponseWithNewToken,
   type UserAuthenticatedRequest,
+  sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 
 registry.registerPath({

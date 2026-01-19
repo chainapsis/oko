@@ -1,8 +1,8 @@
-import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 import { useMemo, useState } from "react";
+import { ArrowsRightLeftIcon } from "@heroicons/react/24/outline";
 
 import {
-  type CommonInputProps,
+  CommonInputProps,
   InputBase,
   SIGNED_NUMBER_REGEX,
 } from "@oko-wallet-sandbox-evm/components/scaffold-eth";

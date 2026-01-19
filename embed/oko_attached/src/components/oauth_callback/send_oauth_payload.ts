@@ -1,16 +1,16 @@
+import type { Result } from "@oko-wallet/stdlib-js";
 import type {
-  OAuthPayload,
-  OAuthTokenRequestPayload,
   OkoWalletMsg,
   OkoWalletMsgOAuthInfoPass,
+  OAuthPayload,
+  OAuthTokenRequestPayload,
 } from "@oko-wallet/oko-sdk-core";
-import type { Result } from "@oko-wallet/stdlib-js";
 
+import { sendMsgToWindow } from "@oko-wallet-attached/window_msgs/send";
 import type {
   HandleCallbackError,
   SendMsgToEmbeddedWindowError,
 } from "@oko-wallet-attached/components/google_callback/types";
-import { sendMsgToWindow } from "@oko-wallet-attached/window_msgs/send";
 
 export async function sendOAuthPayloadToEmbeddedWindow(
   payload: OAuthPayload | OAuthTokenRequestPayload,

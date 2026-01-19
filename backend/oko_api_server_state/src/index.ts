@@ -1,15 +1,15 @@
-import { Bytes } from "@oko-wallet/bytes";
-import { decryptDataAsync, encryptDataAsync } from "@oko-wallet/crypto-js/node";
+import { Pool } from "pg";
+import type { Logger } from "winston";
 import {
-  type EddsaKeypair,
   generateEddsaKeypair,
+  type EddsaKeypair,
 } from "@oko-wallet/crypto-js/node/ecdhe";
+import { Bytes } from "@oko-wallet/bytes";
+import { encryptDataAsync, decryptDataAsync } from "@oko-wallet/crypto-js/node";
 import {
   getActiveServerKeypair,
   insertServerKeypair,
 } from "@oko-wallet/oko-pg-interface/server_keypairs";
-import type { Pool } from "pg";
-import type { Logger } from "winston";
 
 import { createPgDatabase } from "./database";
 import { initLogger } from "./logger";

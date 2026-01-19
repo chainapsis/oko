@@ -1,30 +1,30 @@
+import type { Request, Response, NextFunction } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { NextFunction, Request, Response } from "express";
 
-import {
-  type Auth0AuthenticatedRequest,
-  auth0AuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/auth0_auth";
-import {
-  type DiscordAuthenticatedRequest,
-  discordAuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/discord_auth";
 import {
   type GoogleAuthenticatedRequest,
   googleAuthMiddleware,
 } from "@oko-wallet-tss-api/middleware/google_auth";
 import {
-  type TelegramAuthenticatedRequest,
-  telegramAuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/telegram_auth";
-import type {
-  OAuthBody,
-  OAuthLocals,
-} from "@oko-wallet-tss-api/middleware/types";
+  type Auth0AuthenticatedRequest,
+  auth0AuthMiddleware,
+} from "@oko-wallet-tss-api/middleware/auth0_auth";
 import {
   type XAuthenticatedRequest,
   xAuthMiddleware,
 } from "@oko-wallet-tss-api/middleware/x_auth";
+import {
+  type TelegramAuthenticatedRequest,
+  telegramAuthMiddleware,
+} from "@oko-wallet-tss-api/middleware/telegram_auth";
+import {
+  discordAuthMiddleware,
+  type DiscordAuthenticatedRequest,
+} from "@oko-wallet-tss-api/middleware/discord_auth";
+import type {
+  OAuthBody,
+  OAuthLocals,
+} from "@oko-wallet-tss-api/middleware/types";
 
 export type OAuthAuthenticatedRequest<T = {}> = Request<
   any,

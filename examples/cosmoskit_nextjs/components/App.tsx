@@ -1,10 +1,10 @@
 "use client";
 
-import { WalletStatus } from "@cosmos-kit/core";
 import { useChain } from "@cosmos-kit/react";
+import { WalletStatus } from "@cosmos-kit/core";
 
-import ConnectedView from "./ConnectedView";
 import LoginView from "./LoginView";
+import ConnectedView from "./ConnectedView";
 
 export default function App() {
   const { status } = useChain("osmosistestnet");

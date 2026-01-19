@@ -1,5 +1,5 @@
+import type { Response } from "express";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
@@ -8,17 +8,17 @@ import {
   TriplesStep11RequestSchema,
   TriplesStep11SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import type {
   TriplesStep11Body,
   TriplesStep11Response,
 } from "@oko-wallet/oko-types/tss";
-import type { Response } from "express";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { registry } from "@oko-wallet/oko-api-openapi";
 
 import { runTriplesStep11 } from "@oko-wallet-tss-api/api/v1/triples";
 import {
-  sendResponseWithNewToken,
   type UserAuthenticatedRequest,
+  sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 
 registry.registerPath({

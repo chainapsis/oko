@@ -1,28 +1,28 @@
 import { jest } from "@jest/globals";
-import { napiRunKeygenClientCentralized } from "@oko-wallet/cait-sith-keplr-addon/addon";
-import { decryptData } from "@oko-wallet/crypto-js/node";
-import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
+import { Pool } from "pg";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 import {
-  getWalletKSNodesByWalletId,
+  type KeygenRequest,
+  type WalletKSNodeWithNodeNameAndServerUrl,
+} from "@oko-wallet/oko-types/tss";
+import { Participant } from "@oko-wallet/tecdsa-interface";
+import { napiRunKeygenClientCentralized } from "@oko-wallet/cait-sith-keplr-addon/addon";
+import {
   insertKSNode,
+  getWalletKSNodesByWalletId,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
+import { decryptData } from "@oko-wallet/crypto-js/node";
+import { createPgConn } from "@oko-wallet/postgres-lib";
 import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   createWallet,
   getWalletById,
 } from "@oko-wallet/oko-pg-interface/oko_wallets";
-import type {
-  KeygenRequest,
-  WalletKSNodeWithNodeNameAndServerUrl,
-} from "@oko-wallet/oko-types/tss";
-import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import { createPgConn } from "@oko-wallet/postgres-lib";
-import { Participant } from "@oko-wallet/tecdsa-interface";
-import type { Pool } from "pg";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 
-import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
-import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
 import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
+import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
+import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
 const mockCheckKeyShareFromKSNodes = jest.fn() as jest.Mock;
 

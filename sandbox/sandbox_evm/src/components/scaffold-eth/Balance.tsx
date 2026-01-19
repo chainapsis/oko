@@ -1,6 +1,6 @@
 "use client";
 
-import { type Address, formatEther } from "viem";
+import { Address, formatEther } from "viem";
 
 import { useDisplayUsdMode } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth/useDisplayUsdMode";
 import { useTargetNetwork } from "@oko-wallet-sandbox-evm/hooks/scaffold-eth/useTargetNetwork";

@@ -1,12 +1,11 @@
 import { Transaction, VersionedTransaction } from "@solana/web3.js";
-import bs58 from "bs58";
-
 import { parseInstruction } from "./instruction";
 import type {
-  ParsedInstruction,
   ParsedTransaction,
+  ParsedInstruction,
   ParseResult,
 } from "./types";
+import bs58 from "bs58";
 
 export async function parseTransaction(
   transaction: Transaction | VersionedTransaction,

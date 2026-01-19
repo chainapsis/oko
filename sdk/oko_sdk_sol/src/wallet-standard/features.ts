@@ -1,3 +1,9 @@
+import {
+  Transaction,
+  VersionedTransaction,
+  Connection,
+  clusterApiUrl,
+} from "@solana/web3.js";
 import type {
   SolanaSignAndSendTransactionFeature,
   SolanaSignAndSendTransactionMethod,
@@ -9,16 +15,10 @@ import type {
   SolanaSignTransactionMethod,
   SolanaSignTransactionOutput,
 } from "@solana/wallet-standard-features";
-import {
-  Connection,
-  clusterApiUrl,
-  Transaction,
-  VersionedTransaction,
-} from "@solana/web3.js";
 import bs58 from "bs58";
 
-import { isSolanaChain, SOLANA_MAINNET_CHAIN } from "./chains";
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import { isSolanaChain, SOLANA_MAINNET_CHAIN } from "./chains";
 
 // Support both legacy and versioned transactions
 const SUPPORTED_TRANSACTION_VERSIONS = ["legacy", 0] as const;

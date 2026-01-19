@@ -1,11 +1,11 @@
 "use client";
 
-import { Eip712SignWidget } from "./EIP712SignWidget";
-import { NativeTransferWidget } from "./NativeTransferWidget";
-import { PermitSignWidget } from "./PermitSignWidget";
 import { PersonalSignWidget } from "./PersonalSignWidget";
-import { SignatureVerificationWidget } from "./SignatureVerificationWidget";
+import { PermitSignWidget } from "./PermitSignWidget";
 import { SiweSignWidget } from "./SiweSignWidget";
+import { SignatureVerificationWidget } from "./SignatureVerificationWidget";
+import { NativeTransferWidget } from "./NativeTransferWidget";
+import { Eip712SignWidget } from "./EIP712SignWidget";
 
 export function SigningPlayground() {
   return (

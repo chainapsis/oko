@@ -1,7 +1,7 @@
-import { initWasm as initCaitSithWasm } from "@oko-wallet/cait-sith-keplr-wasm";
 import * as caitSithWasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
-import { initWasm as initFrostWasm } from "@oko-wallet/frost-ed25519-keplr-wasm";
+import { initWasm as initCaitSithWasm } from "@oko-wallet/cait-sith-keplr-wasm";
 import * as frostWasmModule from "@oko-wallet/frost-ed25519-keplr-wasm/pkg/frost_ed25519_keplr_wasm";
+import { initWasm as initFrostWasm } from "@oko-wallet/frost-ed25519-keplr-wasm";
 
 export async function initKeplrWasm() {
   try {

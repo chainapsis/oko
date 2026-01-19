@@ -1,15 +1,15 @@
+import dotenv from "dotenv";
+import path from "path";
 import type {
   EmailResult,
   SendEmailOptions,
 } from "@oko-wallet/oko-types/admin";
-import dotenv from "dotenv";
-import path from "path";
 
 import {
-  getTransporter,
   sendEmail,
-  sendEmailWithTransporter,
   testEmailConnection,
+  sendEmailWithTransporter,
+  getTransporter,
 } from "@oko-wallet-usrd-api/email";
 
 dotenv.config({

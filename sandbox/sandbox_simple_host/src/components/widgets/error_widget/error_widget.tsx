@@ -1,11 +1,11 @@
-import type { OkoWalletMsgOpenModal } from "@oko-wallet/oko-sdk-core";
-import { type FC, useState } from "react";
+import { useState, type FC } from "react";
 
-import { useAddresses } from "@/hooks/use_addresses";
-import { useOko } from "@/hooks/use_oko";
-import { useUserInfoState } from "@/state/user_info";
 import { Widget } from "../widget_components";
 import styles from "./error_widget.module.scss";
+import { useOko } from "@/hooks/use_oko";
+import { useUserInfoState } from "@/state/user_info";
+import { useAddresses } from "@/hooks/use_addresses";
+import type { OkoWalletMsgOpenModal } from "@oko-wallet/oko-sdk-core";
 
 export const ErrorWidget: FC<LoginWidgetProps> = () => {
   const { okoCosmos } = useOko();
@@ -48,4 +48,4 @@ export const ErrorWidget: FC<LoginWidgetProps> = () => {
   );
 };
 
-export type LoginWidgetProps = {};
+export interface LoginWidgetProps {}

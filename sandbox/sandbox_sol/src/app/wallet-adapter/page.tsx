@@ -1,12 +1,11 @@
 "use client";
 
+import { useEffect } from "react";
 import { useWallet } from "@solana/wallet-adapter-react";
 import {
-  WalletDisconnectButton,
   WalletMultiButton,
+  WalletDisconnectButton,
 } from "@solana/wallet-adapter-react-ui";
-import { useEffect } from "react";
-
 import { WalletAdapterProvider } from "@/components/WalletAdapterProvider";
 import { useOkoSol } from "@/hooks/use_oko_sol";
 

@@ -1,15 +1,15 @@
 import type {
   GetKeyShareV2RequestBody,
   GetKeyShareV2Response,
-  RegisterEd25519V2RequestBody,
   RegisterKeyShareV2RequestBody,
+  RegisterEd25519V2RequestBody,
   ReshareKeyShareV2RequestBody,
   ReshareRegisterV2RequestBody,
 } from "@oko-wallet/ksn-interface/key_share";
-import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { NodeStatusInfo } from "@oko-wallet/oko-types/tss";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
 
 export interface RequestKeySharesV2Result {
   secp256k1?: string; // share hex string
@@ -51,7 +51,7 @@ export async function requestKeySharesV2(
 
   const succeeded: KeySharesByNode[] = [];
   let nodesToTry = shuffledNodes.slice(0, threshold);
-  const backupNodes = shuffledNodes.slice(threshold);
+  let backupNodes = shuffledNodes.slice(threshold);
 
   while (succeeded.length < threshold && nodesToTry.length > 0) {
     const results = await Promise.allSettled(

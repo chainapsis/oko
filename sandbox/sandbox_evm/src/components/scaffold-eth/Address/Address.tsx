@@ -1,7 +1,7 @@
 "use client";
 
-import { type Address as AddressType, getAddress, isAddress } from "viem";
 import { normalize } from "viem/ens";
+import { Address as AddressType, getAddress, isAddress } from "viem";
 import { useEnsAvatar, useEnsName } from "wagmi";
 
 import { AddressCopyIcon } from "./AddressCopyIcon";

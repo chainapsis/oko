@@ -1,8 +1,8 @@
 "use client";
 
-import ConnectedView from "@/components/ConnectedView";
-import LoginView from "@/components/LoginView";
 import { useOkoSol } from "@/hooks/use_oko_sol";
+import LoginView from "@/components/LoginView";
+import ConnectedView from "@/components/ConnectedView";
 
 export default function Home() {
   const {

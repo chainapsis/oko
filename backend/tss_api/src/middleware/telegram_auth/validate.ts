@@ -1,5 +1,5 @@
-import type { Result } from "@oko-wallet/stdlib-js";
 import crypto from "crypto";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 export interface TelegramUserData {
   id: string;

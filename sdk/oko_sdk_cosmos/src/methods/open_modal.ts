@@ -1,6 +1,6 @@
 import type {
-  MakeCosmosSigData,
   OkoWalletMsgOpenModal,
+  MakeCosmosSigData,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
 import { v4 as uuidv4 } from "uuid";

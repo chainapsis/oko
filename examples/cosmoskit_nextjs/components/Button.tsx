@@ -1,6 +1,6 @@
 "use client";
 
-import type React from "react";
+import React from "react";
 
 type ButtonVariant = "primary" | "ghost";
 type ButtonSize = "sm" | "md" | "lg";

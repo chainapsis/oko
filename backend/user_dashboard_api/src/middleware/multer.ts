@@ -1,5 +1,5 @@
-import type { NextFunction, Request, Response } from "express";
 import multer from "multer";
+import type { Request, Response, NextFunction } from "express";
 
 export const customerLogoUpload = multer({
   limits: {

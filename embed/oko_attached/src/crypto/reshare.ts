@@ -1,8 +1,4 @@
-import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
-import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
-import type { ReshareRequestBody } from "@oko-wallet/oko-types/user";
 import type {
   NodeNameAndEndpoint,
   PointNumArr,
@@ -10,13 +6,17 @@ import type {
   UserKeySharePointByNode,
 } from "@oko-wallet/oko-types/user_key_share";
 import type { Result } from "@oko-wallet/stdlib-js";
-
-import { hashKeyshareNodeNames } from "./hash";
 import {
   doSendResharedUserKeyShares,
   doSendUserKeyShares,
   requestSplitShares,
 } from "@oko-wallet-attached/requests/ks_node";
+import { Bytes, type Bytes33 } from "@oko-wallet/bytes";
+import * as wasmModule from "@oko-wallet/cait-sith-keplr-wasm/pkg/cait_sith_keplr_wasm";
+import type { ReshareRequestBody } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+
+import { hashKeyshareNodeNames } from "./hash";
 import { makeAuthorizedOkoApiRequest } from "@oko-wallet-attached/requests/oko_api";
 
 export async function reshareUserKeyShares(

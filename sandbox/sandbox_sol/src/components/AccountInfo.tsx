@@ -1,11 +1,10 @@
 "use client";
 
-import { LAMPORTS_PER_SOL, PublicKey } from "@solana/web3.js";
+import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
-
-import { DEVNET_CONNECTION } from "@/lib/connection";
+import { PublicKey, LAMPORTS_PER_SOL } from "@solana/web3.js";
 import Button from "./Button";
+import { DEVNET_CONNECTION } from "@/lib/connection";
 
 interface AccountInfoProps {
   publicKey: string;

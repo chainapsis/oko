@@ -1,10 +1,10 @@
-import type { Bytes32 } from "@oko-wallet/bytes";
-import { Bytes } from "@oko-wallet/bytes";
 import { wasmModule } from "@oko-wallet/frost-ed25519-keplr-wasm";
-import type { CentralizedKeygenOutput } from "@oko-wallet/oko-types/teddsa";
+import { Bytes } from "@oko-wallet/bytes";
+import type { Bytes32 } from "@oko-wallet/bytes";
 import type { Result } from "@oko-wallet/stdlib-js";
+import type { CentralizedKeygenOutput } from "@oko-wallet/oko-types/teddsa";
 
-import type { TeddsaKeygenOutputBytes, TeddsaKeygenResult } from "./types";
+import type { TeddsaKeygenResult, TeddsaKeygenOutputBytes } from "./types";
 
 export async function importExternalSecretKeyEd25519(
   secretKey: Bytes32,

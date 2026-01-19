@@ -1,17 +1,17 @@
+import { serializeSignature } from "viem/accounts";
 import {
-  getTransactionType,
   InvalidSerializableTransactionError,
   type RpcTransactionRequest,
+  getTransactionType,
   recoverPublicKey,
   serializeTransaction,
 } from "viem";
-import { serializeSignature } from "viem/accounts";
 
 import {
-  encodeEthereumSignature,
-  isSignableTransaction,
   publicKeyToEthereumAddress,
+  encodeEthereumSignature,
   toSignableTransaction,
+  isSignableTransaction,
   toTransactionSerializable,
 } from "@oko-wallet-sdk-eth/utils";
 

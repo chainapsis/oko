@@ -1,8 +1,6 @@
-import type { Signer, TransactionRequest } from "ethers";
+import type { TransactionRequest, Signer } from "ethers";
 import {
   BrowserProvider,
-  Contract,
-  ContractFactory,
   hashMessage,
   isAddress,
   parseEther,
@@ -10,25 +8,27 @@ import {
   recoverAddress,
   Transaction,
   TypedDataEncoder,
+  ContractFactory,
+  Contract,
 } from "ethers";
 import { isAddressEqual } from "viem";
 import { mainnet } from "viem/chains";
 
-import { hardhat, hardhatAccounts, hardhatNode } from "./hardhat";
 import {
+  createChainParam,
+  createProviderOptions,
+  createDummySigner,
+  DUMMY_ADDRESS,
+  createEthSigner,
+  generateRandomAddress,
   COUNTER_ABI,
   COUNTER_DEPLOYMENT_BYTECODE,
-  createChainParam,
-  createDummySigner,
-  createEthSigner,
-  createProviderOptions,
-  DUMMY_ADDRESS,
   generateInvalidBytecode,
-  generateRandomAddress,
 } from "./utils";
+import { hardhat, hardhatAccounts, hardhatNode } from "./hardhat";
 import {
-  createEthersContractHelper,
   createEthersTransactionHelper,
+  createEthersContractHelper,
 } from "./utils/ethersHelpers";
 import { OkoEIP1193Provider } from "@oko-wallet-sdk-eth/provider";
 import type { OkoEthSigner } from "@oko-wallet-sdk-eth/types";

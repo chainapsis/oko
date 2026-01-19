@@ -1,23 +1,22 @@
 import {
-  ChainDisconnectedError,
-  EstimateGasExecutionError,
+  RpcRequestError,
   HttpRequestError,
+  WebSocketRequestError,
+  TimeoutError,
+  EstimateGasExecutionError,
   InsufficientFundsError,
   InvalidInputRpcError,
   InvalidParamsRpcError,
-  LimitExceededRpcError,
   MethodNotFoundRpcError,
   MethodNotSupportedRpcError,
-  ProviderDisconnectedError,
-  RpcRequestError,
-  TimeoutError,
   TransactionExecutionError,
   TransactionRejectedRpcError,
-  UnknownRpcError,
   UserRejectedRequestError,
-  WebSocketRequestError,
+  ProviderDisconnectedError,
+  ChainDisconnectedError,
+  LimitExceededRpcError,
+  UnknownRpcError,
 } from "viem";
-
 import type { StructuredRpcError } from "./queries/types";
 
 function extractRpcErrorCode(

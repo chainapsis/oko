@@ -1,9 +1,9 @@
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import type {
-  OkoWalletInterface,
   OkoWalletMsg,
   OkoWalletMsgInitAck,
+  OkoWalletInterface,
 } from "@oko-wallet-sdk-core/types";
 import type { InitPayload } from "@oko-wallet-sdk-core/types/init";
 

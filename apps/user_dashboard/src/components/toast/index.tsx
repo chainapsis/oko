@@ -7,10 +7,10 @@ import {
 } from "@oko-wallet/oko-common-ui/toast";
 import type { FC } from "react";
 import {
-  Bounce,
-  ToastContainer as ReactToastifyToastContainer,
   type ToastOptions,
   toast,
+  Bounce,
+  ToastContainer as ReactToastifyToastContainer,
 } from "react-toastify";
 
 export function displayToast({

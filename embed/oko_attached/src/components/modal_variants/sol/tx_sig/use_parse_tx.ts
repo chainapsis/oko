@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react";
-
+import { useState, useEffect } from "react";
 import {
   deserializeTransaction,
-  type ParsedTransaction,
   parseTransaction,
+  type ParsedTransaction,
 } from "@oko-wallet-attached/tx-parsers/sol";
+
 import { base64ToUint8Array } from "@oko-wallet-attached/utils/base64";
 
 export interface UseParseTxResult {

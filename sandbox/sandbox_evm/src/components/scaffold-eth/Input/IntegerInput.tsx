@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { parseEther } from "viem";
 
 import {
-  type CommonInputProps,
+  CommonInputProps,
   InputBase,
   IntegerVariant,
   isValidInteger,

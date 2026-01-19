@@ -1,6 +1,5 @@
-import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { Request } from "express";
-
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OAuthUser } from "@oko-wallet-ksn-server/auth/types";
 
 type OAuthBody = {

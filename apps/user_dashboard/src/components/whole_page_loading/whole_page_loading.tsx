@@ -1,12 +1,12 @@
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { FC } from "react";
 import cn from "classnames";
 import Image from "next/image";
-import type { FC } from "react";
 
-import { Spinner } from "../spinner/spinner";
 import styles from "./whole_page_loading.module.scss";
+import { Spinner } from "../spinner/spinner";
 import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard_header/dashboard_header";
 import { SignInImage } from "@oko-wallet-user-dashboard/components/sign_in_image/sign_in_image";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 export const WholePageLoading: FC = () => {
   const description =

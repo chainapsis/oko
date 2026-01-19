@@ -1,4 +1,4 @@
-import type { StdSignature, StdSignDoc } from "@cosmjs/amino";
+import type { StdSignDoc, StdSignature } from "@cosmjs/amino";
 import type { KeplrSignOptions } from "@keplr-wallet/types";
 
 import type { SignDoc } from "@oko-wallet-sdk-core/types/cosmos_sign";

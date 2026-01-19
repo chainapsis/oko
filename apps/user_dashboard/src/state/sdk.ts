@@ -8,12 +8,11 @@ import {
 } from "@oko-wallet/oko-sdk-eth";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
-
-import { useUserInfoState } from "./user_info";
 import {
   OKO_SDK_API_KEY,
   OKO_SDK_ENDPOINT,
 } from "@oko-wallet-user-dashboard/fetch";
+import { useUserInfoState } from "./user_info";
 
 // SDK type identifiers
 export type SDKType = "eth" | "cosmos";

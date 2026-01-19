@@ -1,21 +1,19 @@
+import type { Response } from "express";
+import type { KeygenBodyV2 } from "@oko-wallet/oko-types/tss";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
-import { registry } from "@oko-wallet/oko-api-openapi";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { SignInResponseV2 } from "@oko-wallet/oko-types/user";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
-import {
-  KeygenRequestV2Schema,
-  SignInSuccessResponseV2Schema,
-} from "@oko-wallet/oko-api-openapi/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { KeygenBodyV2 } from "@oko-wallet/oko-types/tss";
-import type { SignInResponseV2 } from "@oko-wallet/oko-types/user";
-import type { Response } from "express";
+import { SignInSuccessResponseV2Schema } from "@oko-wallet/oko-api-openapi/tss";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import { KeygenRequestV2Schema } from "@oko-wallet/oko-api-openapi/tss";
 
 import { runKeygenV2 } from "@oko-wallet-tss-api/api/v2/keygen";
-import type { OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
+import { type OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 registry.registerPath({

@@ -1,7 +1,7 @@
+import type { FC } from "react";
+import type { SolanaAllTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { SolanaAllTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import type { FC } from "react";
 
 import styles from "../common/signature_content.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";

@@ -1,5 +1,5 @@
-import type { CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
 import { useQuery } from "@tanstack/react-query";
+import type { CustomerWithAPIKeys } from "@oko-wallet/oko-types/customers";
 
 import { getCustomerListWithAPIKeys } from "@oko-wallet-admin/fetch/customer";
 import { useAppState } from "@oko-wallet-admin/state";

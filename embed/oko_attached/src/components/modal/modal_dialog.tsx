@@ -1,14 +1,14 @@
-import { type FC, useEffect, useRef } from "react";
+import { useEffect, useRef, type FC } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 
-import { UnsupportedChainModal } from "../modal_variants/unsupported_chain/unsupported_chain_modal";
-import { TelegramLoginModal } from "@oko-wallet-attached/components/modal_variants/auth/telegram_login/telegram_login_modal";
 import { MakeSignatureCosmosModal } from "@oko-wallet-attached/components/modal_variants/cosmos/make_signature_cosmos_modal";
-import { ErrorModal } from "@oko-wallet-attached/components/modal_variants/error/error_modal";
 import { MakeSignatureEthModal } from "@oko-wallet-attached/components/modal_variants/eth/make_sig_eth_modal";
 import { MakeSignatureSolModal } from "@oko-wallet-attached/components/modal_variants/sol/make_signature_sol_modal";
-import { useMemoryState } from "@oko-wallet-attached/store/memory";
 import type { ModalRequest } from "@oko-wallet-attached/store/memory/types";
+import { ErrorModal } from "@oko-wallet-attached/components/modal_variants/error/error_modal";
+import { useMemoryState } from "@oko-wallet-attached/store/memory";
+import { UnsupportedChainModal } from "../modal_variants/unsupported_chain/unsupported_chain_modal";
+import { TelegramLoginModal } from "@oko-wallet-attached/components/modal_variants/auth/telegram_login/telegram_login_modal";
 
 export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
   const msg = modalRequest.msg;

@@ -1,8 +1,9 @@
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
-import { TRANSACTION_HISTORY_SUPPORT_LIST } from "./constant";
-import styles from "./page.module.scss";
 import { TxHistorySupportItem } from "@oko-wallet-user-dashboard/components/tx_history_support_item/tx_history_support_item";
+
+import styles from "./page.module.scss";
+import { TRANSACTION_HISTORY_SUPPORT_LIST } from "./constant";
 
 export default function Page() {
   return (

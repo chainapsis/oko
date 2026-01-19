@@ -1,8 +1,8 @@
+import { type FC } from "react";
 import {
-  type BaseTypographyProps,
   Typography,
+  type BaseTypographyProps,
 } from "@oko-wallet/oko-common-ui/typography";
-import type { FC } from "react";
 
 import styles from "./avatar.module.scss";
 

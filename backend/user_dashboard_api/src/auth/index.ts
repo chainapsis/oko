@@ -1,14 +1,14 @@
+import jwt from "jsonwebtoken";
 import type { TokenResult } from "@oko-wallet/oko-types/auth";
 import type {
   CustomerTokenPayload,
-  CustomerVerifyResult,
   GenerateCustomerTokenArgs,
   VerifyCustomerTokenArgs,
+  CustomerVerifyResult,
 } from "@oko-wallet/oko-types/ct_dashboard";
 import type { Result } from "@oko-wallet/stdlib-js";
-import jwt from "jsonwebtoken";
 
-import { CUSTOMER_AUDIENCE, CUSTOMER_ISSUER } from "../constants";
+import { CUSTOMER_ISSUER, CUSTOMER_AUDIENCE } from "../constants";
 
 export function generateCustomerToken(
   args: GenerateCustomerTokenArgs,
