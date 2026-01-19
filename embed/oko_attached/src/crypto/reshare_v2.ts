@@ -24,7 +24,6 @@ import {
   makeAuthorizedOkoApiRequest,
   TSS_V2_ENDPOINT,
 } from "@oko-wallet-attached/requests/oko_api";
-
 import {
   decodeKeyShareStringToPoint256,
   encodePoint256ToKeyShareString,
@@ -115,15 +114,15 @@ export interface ReshareV2Result {
  * This function handles the full reshare flow:
  * 1. Classify nodes by status per wallet (ACTIVE vs NOT_REGISTERED/UNRECOVERABLE)
  * 2. Request existing shares from ACTIVE nodes
- * 3. Expand shares only for wallets that need reshare
+ * 3. Expand shares only for wallets that need reshare (based on needsReshare flag)
  * 4. Send new shares to KSN only for wallets that need reshare
  * 5. Update Oko API
  * 6. Return client's keyshare1 and KeyPackage
  *
  * @param idToken - JWT token for authentication
  * @param authType - Authentication type
- * @param secp256k1 - If provided, secp256k1 wallet needs reshare
- * @param ed25519 - If provided, ed25519 wallet needs reshare
+ * @param secp256k1 - secp256k1 wallet info (needsReshare flag determines if reshare is needed)
+ * @param ed25519 - ed25519 wallet info (needsReshare flag determines if reshare is needed)
  */
 export async function reshareUserKeySharesV2(
   idToken: string,
@@ -153,51 +152,48 @@ export async function reshareUserKeySharesV2(
       n.wallet_status === "UNRECOVERABLE_DATA_LOSS",
   );
 
-  // Check threshold for wallets that need reshare
-  if (
-    secp256k1NeedsReshare &&
-    secp256k1ActiveNodes.length < secp256k1.keyshareNodeMeta.threshold
-  ) {
+  // Check threshold for both wallets
+  if (secp256k1ActiveNodes.length < secp256k1.keyshareNodeMeta.threshold) {
     return {
       success: false,
-      err: "insufficient existing KS nodes for secp256k1 reshare",
+      err: "insufficient existing KS nodes for secp256k1",
     };
   }
-  if (
-    ed25519NeedsReshare &&
-    ed25519ActiveNodes.length < ed25519.keyshareNodeMeta.threshold
-  ) {
+  if (ed25519ActiveNodes.length < ed25519.keyshareNodeMeta.threshold) {
     return {
       success: false,
-      err: "insufficient existing KS nodes for ed25519 reshare",
+      err: "insufficient existing KS nodes for ed25519",
     };
   }
 
-  // 2. Request existing shares from ACTIVE nodes
-  // Use the union of active nodes from both wallets
-  const allActiveEndpoints = new Set([
-    ...secp256k1ActiveNodes.map((n) => n.endpoint),
-    ...ed25519ActiveNodes.map((n) => n.endpoint),
+  // 2. Request existing shares from ACTIVE nodes (separately for each wallet)
+  const [secp256k1SharesRes, ed25519SharesRes] = await Promise.all([
+    requestKeySharesV2(
+      idToken,
+      secp256k1ActiveNodes,
+      secp256k1.keyshareNodeMeta.threshold,
+      authType,
+      { secp256k1: secp256k1.publicKey.toHex() },
+    ),
+    requestKeySharesV2(
+      idToken,
+      ed25519ActiveNodes,
+      ed25519.keyshareNodeMeta.threshold,
+      authType,
+      { ed25519: ed25519.publicKey.toHex() },
+    ),
   ]);
-  const combinedActiveNodes = secp256k1ActiveNodes.filter((n) =>
-    allActiveEndpoints.has(n.endpoint),
-  );
 
-  const requestSharesRes = await requestKeySharesV2(
-    idToken,
-    combinedActiveNodes,
-    // secp256k1 threshold is used for both wallets
-    secp256k1.keyshareNodeMeta.threshold,
-    authType,
-    {
-      secp256k1: secp256k1.publicKey.toHex(),
-      ed25519: ed25519.publicKey.toHex(),
-    },
-  );
-  if (!requestSharesRes.success) {
+  if (!secp256k1SharesRes.success) {
     return {
       success: false,
-      err: `Failed to request shares: ${requestSharesRes.err.code}`,
+      err: `Failed to request secp256k1 shares: ${secp256k1SharesRes.err.code}`,
+    };
+  }
+  if (!ed25519SharesRes.success) {
+    return {
+      success: false,
+      err: `Failed to request ed25519 shares: ${ed25519SharesRes.err.code}`,
     };
   }
 
@@ -207,7 +203,7 @@ export async function reshareUserKeySharesV2(
     resharedShares?: UserKeySharePointByNode[];
   };
 
-  const secp256k1SharesByNode = convertSecp256k1Shares(requestSharesRes.data);
+  const secp256k1SharesByNode = convertSecp256k1Shares(secp256k1SharesRes.data);
 
   if (secp256k1NeedsReshare) {
     // Expand shares for new nodes
@@ -243,7 +239,7 @@ export async function reshareUserKeySharesV2(
     resharedShares?: TeddsaKeyShareByNode[];
   };
 
-  const ed25519SharesByNode = convertEd25519Shares(requestSharesRes.data);
+  const ed25519SharesByNode = convertEd25519Shares(ed25519SharesRes.data);
 
   if (ed25519NeedsReshare) {
     // Expand shares for new nodes
