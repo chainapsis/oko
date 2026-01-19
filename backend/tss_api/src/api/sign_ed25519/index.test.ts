@@ -2,7 +2,6 @@ import { Pool } from "pg";
 import type {
   SignEd25519Round1Request,
   SignEd25519Round2Request,
-  SignEd25519AggregateRequest,
 } from "@oko-wallet/oko-types/tss";
 import {
   TssStageType,
@@ -15,6 +14,7 @@ import {
   runKeygenCentralizedEd25519,
   runSignRound1Ed25519 as clientRunSignRound1Ed25519,
   runSignRound2Ed25519 as clientRunSignRound2Ed25519,
+  runAggregateEd25519 as clientRunAggregateEd25519,
   runVerifyEd25519,
   extractKeyPackageSharesEd25519,
 } from "@oko-wallet/teddsa-addon/src/server";
@@ -32,7 +32,6 @@ import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
 import {
   runSignEd25519Round1,
   runSignEd25519Round2,
-  runSignEd25519Aggregate,
 } from "@oko-wallet-tss-api/api/sign_ed25519";
 import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
 
@@ -300,7 +299,7 @@ describe("Ed25519 Signing", () => {
           round2Result.data.signature_share_0.signature_share,
         ).toBeDefined();
 
-        // Verify stage status is ROUND_2 (not COMPLETED)
+        // Verify stage status is COMPLETED after round2
         const getStageRes = await getTssStageWithSessionData(
           pool,
           round1Result.data.session_id,
@@ -309,10 +308,10 @@ describe("Ed25519 Signing", () => {
         expect(getStageRes.success).toBe(true);
         if (getStageRes.success && getStageRes.data) {
           expect(getStageRes.data.stage_status).toBe(
-            SignEd25519StageStatus.ROUND_2,
+            SignEd25519StageStatus.COMPLETED,
           );
           expect(getStageRes.data.session_state).toBe(
-            TssSessionState.IN_PROGRESS,
+            TssSessionState.COMPLETED,
           );
         }
       }
@@ -389,7 +388,7 @@ describe("Ed25519 Signing", () => {
       );
       expect(round2Result.success).toBe(true);
 
-      // Verify stage status is ROUND_2 after first Round2 call
+      // Verify stage status is COMPLETED after first Round2 call
       const getStageRes = await getTssStageWithSessionData(
         pool,
         round1Result.data.session_id,
@@ -398,11 +397,11 @@ describe("Ed25519 Signing", () => {
       expect(getStageRes.success).toBe(true);
       if (getStageRes.success && getStageRes.data) {
         expect(getStageRes.data.stage_status).toBe(
-          SignEd25519StageStatus.ROUND_2,
+          SignEd25519StageStatus.COMPLETED,
         );
       }
 
-      // Second Round 2 call with same session - should fail (already ROUND_2)
+      // Second Round 2 call with same session - should fail (already COMPLETED)
       const duplicateRound2Result = await runSignEd25519Round2(
         pool,
         TEMP_ENC_SECRET,
@@ -420,7 +419,7 @@ describe("Ed25519 Signing", () => {
         await setUpEd25519Wallet(pool);
       const testMessage = new TextEncoder().encode("Test message for signing");
 
-      // Complete full signing flow first
+      // Complete signing flow (round2 now completes the session)
       const round1Res = await runSignEd25519Round1(pool, TEMP_ENC_SECRET, {
         email: TEST_EMAIL,
         wallet_id: walletId,
@@ -434,14 +433,6 @@ describe("Ed25519 Signing", () => {
         new Uint8Array(clientKeygenOutput.key_package),
       );
 
-      const allCommitments = [
-        { identifier: clientR1.identifier, commitments: clientR1.commitments },
-        {
-          identifier: round1Res.data.commitments_0.identifier,
-          commitments: round1Res.data.commitments_0.commitments,
-        },
-      ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
-
       const round2Res = await runSignEd25519Round2(pool, TEMP_ENC_SECRET, {
         email: TEST_EMAIL,
         wallet_id: walletId,
@@ -454,66 +445,18 @@ describe("Ed25519 Signing", () => {
       expect(round2Res.success).toBe(true);
       if (!round2Res.success) throw new Error("Round 2 failed");
 
-      const clientR2 = clientRunSignRound2Ed25519(
-        testMessage,
-        new Uint8Array(clientKeygenOutput.key_package),
-        new Uint8Array(clientR1.nonces),
-        allCommitments,
-      );
-
-      const allShares = [
-        {
-          identifier: clientR2.identifier,
-          signature_share: clientR2.signature_share,
-        },
-        {
-          identifier: round2Res.data.signature_share_0.identifier,
-          signature_share: round2Res.data.signature_share_0.signature_share,
-        },
-      ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
-
-      // Extract user's verifying_share for aggregate
-      const userKeyPackageShares = extractKeyPackageSharesEd25519(
-        new Uint8Array(clientKeygenOutput.key_package),
-      );
-
-      // Verify stage status is ROUND_2 before aggregate
-      const getStageBeforeAggRes = await getTssStageWithSessionData(
+      // Verify stage status is COMPLETED after round2
+      const getStageRes = await getTssStageWithSessionData(
         pool,
         round1Res.data.session_id,
         TssStageType.SIGN_ED25519,
       );
-      expect(getStageBeforeAggRes.success).toBe(true);
-      if (getStageBeforeAggRes.success && getStageBeforeAggRes.data) {
-        expect(getStageBeforeAggRes.data.stage_status).toBe(
-          SignEd25519StageStatus.ROUND_2,
-        );
-      }
-
-      // Complete the signing with Aggregate
-      const aggRes = await runSignEd25519Aggregate(pool, TEMP_ENC_SECRET, {
-        email: TEST_EMAIL,
-        wallet_id: walletId,
-        session_id: round1Res.data.session_id,
-        msg: [...testMessage],
-        all_commitments: allCommitments,
-        all_signature_shares: allShares,
-        user_verifying_share: userKeyPackageShares.verifying_share,
-      });
-      expect(aggRes.success).toBe(true);
-
-      // Verify stage status is COMPLETED after aggregate
-      const getStageAfterAggRes = await getTssStageWithSessionData(
-        pool,
-        round1Res.data.session_id,
-        TssStageType.SIGN_ED25519,
-      );
-      expect(getStageAfterAggRes.success).toBe(true);
-      if (getStageAfterAggRes.success && getStageAfterAggRes.data) {
-        expect(getStageAfterAggRes.data.stage_status).toBe(
+      expect(getStageRes.success).toBe(true);
+      if (getStageRes.success && getStageRes.data) {
+        expect(getStageRes.data.stage_status).toBe(
           SignEd25519StageStatus.COMPLETED,
         );
-        expect(getStageAfterAggRes.data.session_state).toBe(
+        expect(getStageRes.data.session_state).toBe(
           TssSessionState.COMPLETED,
         );
       }
@@ -539,204 +482,6 @@ describe("Ed25519 Signing", () => {
       expect(replayRound2Res.success).toBe(false);
       if (!replayRound2Res.success) {
         expect(replayRound2Res.code).toBe("INVALID_TSS_SESSION");
-      }
-    });
-  });
-
-  describe("runSignEd25519Aggregate", () => {
-    it("should aggregate signatures and produce valid signature", async () => {
-      const { walletId, customerId, clientKeygenOutput, serverKeygenOutput } =
-        await setUpEd25519Wallet(pool);
-      const testMessage = new TextEncoder().encode("Test message for signing");
-
-      // Round 1: Both parties generate commitments
-      const round1Request: SignEd25519Round1Request = {
-        email: TEST_EMAIL,
-        wallet_id: walletId,
-        customer_id: customerId,
-        msg: [...testMessage],
-      };
-      const serverRound1Result = await runSignEd25519Round1(
-        pool,
-        TEMP_ENC_SECRET,
-        round1Request,
-      );
-      expect(serverRound1Result.success).toBe(true);
-      if (!serverRound1Result.success) throw new Error("Server Round 1 failed");
-
-      const clientRound1 = clientRunSignRound1Ed25519(
-        new Uint8Array(clientKeygenOutput.key_package),
-      );
-
-      // Collect all commitments (sorted by identifier)
-      const allCommitments = [
-        {
-          identifier: clientRound1.identifier,
-          commitments: clientRound1.commitments,
-        },
-        {
-          identifier: serverRound1Result.data.commitments_0.identifier,
-          commitments: serverRound1Result.data.commitments_0.commitments,
-        },
-      ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
-
-      // Round 2: Both parties generate signature shares
-      const round2Request: SignEd25519Round2Request = {
-        email: TEST_EMAIL,
-        wallet_id: walletId,
-        session_id: serverRound1Result.data.session_id,
-        commitments_1: {
-          identifier: clientRound1.identifier,
-          commitments: clientRound1.commitments,
-        },
-      };
-      const serverRound2Result = await runSignEd25519Round2(
-        pool,
-        TEMP_ENC_SECRET,
-        round2Request,
-      );
-      expect(serverRound2Result.success).toBe(true);
-      if (!serverRound2Result.success) throw new Error("Server Round 2 failed");
-
-      const clientRound2 = clientRunSignRound2Ed25519(
-        testMessage,
-        new Uint8Array(clientKeygenOutput.key_package),
-        new Uint8Array(clientRound1.nonces),
-        allCommitments,
-      );
-
-      // Collect all signature shares (sorted by identifier)
-      const allSignatureShares = [
-        {
-          identifier: clientRound2.identifier,
-          signature_share: clientRound2.signature_share,
-        },
-        {
-          identifier: serverRound2Result.data.signature_share_0.identifier,
-          signature_share:
-            serverRound2Result.data.signature_share_0.signature_share,
-        },
-      ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
-
-      // Extract user's verifying_share for aggregate
-      const userKeyPackageShares = extractKeyPackageSharesEd25519(
-        new Uint8Array(clientKeygenOutput.key_package),
-      );
-
-      // Aggregate
-      const aggregateRequest: SignEd25519AggregateRequest = {
-        email: TEST_EMAIL,
-        wallet_id: walletId,
-        session_id: serverRound1Result.data.session_id,
-        msg: [...testMessage],
-        all_commitments: allCommitments,
-        all_signature_shares: allSignatureShares,
-        user_verifying_share: userKeyPackageShares.verifying_share,
-      };
-      const aggregateResult = await runSignEd25519Aggregate(
-        pool,
-        TEMP_ENC_SECRET,
-        aggregateRequest,
-      );
-
-      expect(aggregateResult.success).toBe(true);
-      if (aggregateResult.success) {
-        expect(aggregateResult.data.signature).toBeDefined();
-        expect(aggregateResult.data.signature.length).toBe(64);
-
-        // Verify stage status is COMPLETED after aggregate
-        const getStageRes = await getTssStageWithSessionData(
-          pool,
-          serverRound1Result.data.session_id,
-          TssStageType.SIGN_ED25519,
-        );
-        expect(getStageRes.success).toBe(true);
-        if (getStageRes.success && getStageRes.data) {
-          expect(getStageRes.data.stage_status).toBe(
-            SignEd25519StageStatus.COMPLETED,
-          );
-          expect(getStageRes.data.session_state).toBe(
-            TssSessionState.COMPLETED,
-          );
-        }
-
-        // Verify the signature
-        const isValid = runVerifyEd25519(
-          testMessage,
-          new Uint8Array(aggregateResult.data.signature),
-          new Uint8Array(clientKeygenOutput.public_key_package),
-        );
-        expect(isValid).toBe(true);
-      }
-    });
-
-    it("should fail with wrong wallet type", async () => {
-      // Create a secp256k1 wallet instead of ed25519
-      await setUpKSNodes(pool);
-      await insertKeyShareNodeMeta(pool, { sss_threshold: SSS_THRESHOLD });
-
-      const createUserRes = await createUser(pool, TEST_EMAIL, "google");
-      if (!createUserRes.success) throw new Error("Failed to create user");
-
-      const encryptedShare = await encryptDataAsync(
-        JSON.stringify({ private_share: "test", public_key: "test" }),
-        TEMP_ENC_SECRET,
-      );
-
-      const createWalletRes = await createWallet(pool, {
-        user_id: createUserRes.data.user_id,
-        curve_type: "secp256k1",
-        public_key: Buffer.from("03" + "00".repeat(32), "hex"),
-        enc_tss_share: Buffer.from(encryptedShare, "utf-8"),
-        sss_threshold: SSS_THRESHOLD,
-        status: "ACTIVE" as WalletStatus,
-      });
-      if (!createWalletRes.success) throw new Error("Failed to create wallet");
-
-      const aggregateRequest: SignEd25519AggregateRequest = {
-        email: TEST_EMAIL,
-        wallet_id: createWalletRes.data.wallet_id,
-        session_id: "00000000-0000-0000-0000-000000000000", // Dummy session_id for error test
-        msg: [1, 2, 3],
-        all_commitments: [],
-        all_signature_shares: [],
-        user_verifying_share: new Array(32).fill(0), // Dummy value for error test
-      };
-
-      const result = await runSignEd25519Aggregate(
-        pool,
-        TEMP_ENC_SECRET,
-        aggregateRequest,
-      );
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.code).toBe("INVALID_WALLET_TYPE");
-      }
-    });
-
-    it("should fail with invalid wallet_id", async () => {
-      await setUpEd25519Wallet(pool);
-
-      const aggregateRequest: SignEd25519AggregateRequest = {
-        email: TEST_EMAIL,
-        wallet_id: "00000000-0000-0000-0000-000000000000",
-        session_id: "00000000-0000-0000-0000-000000000000", // Dummy session_id for error test
-        msg: [1, 2, 3],
-        all_commitments: [],
-        all_signature_shares: [],
-        user_verifying_share: new Array(32).fill(0), // Dummy value for error test
-      };
-
-      const result = await runSignEd25519Aggregate(
-        pool,
-        TEMP_ENC_SECRET,
-        aggregateRequest,
-      );
-
-      expect(result.success).toBe(false);
-      if (!result.success) {
-        expect(result.code).toBe("UNAUTHORIZED");
       }
     });
   });
@@ -779,7 +524,7 @@ describe("Ed25519 Signing", () => {
           },
         ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
-        // Round 2
+        // Round 2 (now completes the session)
         const round2Res = await runSignEd25519Round2(pool, TEMP_ENC_SECRET, {
           email: TEST_EMAIL,
           wallet_id: walletId,
@@ -792,6 +537,22 @@ describe("Ed25519 Signing", () => {
         expect(round2Res.success).toBe(true);
         if (!round2Res.success) continue;
 
+        // Verify stage status is COMPLETED after round2
+        const getStageRes = await getTssStageWithSessionData(
+          pool,
+          round1Res.data.session_id,
+          TssStageType.SIGN_ED25519,
+        );
+        if (getStageRes.success && getStageRes.data) {
+          expect(getStageRes.data.stage_status).toBe(
+            SignEd25519StageStatus.COMPLETED,
+          );
+          expect(getStageRes.data.session_state).toBe(
+            TssSessionState.COMPLETED,
+          );
+        }
+
+        // Client generates their round2 output
         const clientR2 = clientRunSignRound2Ed25519(
           message,
           new Uint8Array(clientKeygenOutput.key_package),
@@ -810,55 +571,20 @@ describe("Ed25519 Signing", () => {
           },
         ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
-        // Extract user's verifying_share for aggregate
-        const userKeyPackageShares = extractKeyPackageSharesEd25519(
-          new Uint8Array(clientKeygenOutput.key_package),
+        // Client-side aggregation
+        const aggregateResult = clientRunAggregateEd25519(
+          message,
+          allCommitments,
+          allShares,
+          new Uint8Array(clientKeygenOutput.public_key_package),
         );
 
-        // Verify stage status is ROUND_2 before aggregate
-        const getStageBeforeAggRes = await getTssStageWithSessionData(
-          pool,
-          round1Res.data.session_id,
-          TssStageType.SIGN_ED25519,
-        );
-        if (getStageBeforeAggRes.success && getStageBeforeAggRes.data) {
-          expect(getStageBeforeAggRes.data.stage_status).toBe(
-            SignEd25519StageStatus.ROUND_2,
-          );
-        }
+        expect(aggregateResult.signature.length).toBe(64);
 
-        // Aggregate
-        const aggRes = await runSignEd25519Aggregate(pool, TEMP_ENC_SECRET, {
-          email: TEST_EMAIL,
-          wallet_id: walletId,
-          session_id: round1Res.data.session_id,
-          msg: [...message],
-          all_commitments: allCommitments,
-          all_signature_shares: allShares,
-          user_verifying_share: userKeyPackageShares.verifying_share,
-        });
-        expect(aggRes.success).toBe(true);
-        if (!aggRes.success) continue;
-
-        // Verify stage status is COMPLETED after aggregate
-        const getStageAfterAggRes = await getTssStageWithSessionData(
-          pool,
-          round1Res.data.session_id,
-          TssStageType.SIGN_ED25519,
-        );
-        if (getStageAfterAggRes.success && getStageAfterAggRes.data) {
-          expect(getStageAfterAggRes.data.stage_status).toBe(
-            SignEd25519StageStatus.COMPLETED,
-          );
-          expect(getStageAfterAggRes.data.session_state).toBe(
-            TssSessionState.COMPLETED,
-          );
-        }
-
-        // Verify
+        // Verify the signature
         const isValid = runVerifyEd25519(
           message,
-          new Uint8Array(aggRes.data.signature),
+          new Uint8Array(aggregateResult.signature),
           new Uint8Array(clientKeygenOutput.public_key_package),
         );
         expect(isValid).toBe(true);
