@@ -1,18 +1,17 @@
-import { useQuery, useQueries } from "@tanstack/react-query";
+import { useQueries, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
-import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
-import type {
-  TokenBalance,
-  RawBalance,
-} from "@oko-wallet-user-dashboard/types/token";
-import { getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
-import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
-import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
-
+import { useBech32Addresses, useEthAddress } from "./use_addresses";
 import { useEnabledChains } from "./use_chains";
 import { usePrices } from "./use_prices";
-import { useEthAddress, useBech32Addresses } from "./use_addresses";
+import { getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
+import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
+import type {
+  RawBalance,
+  TokenBalance,
+} from "@oko-wallet-user-dashboard/types/token";
+import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
+import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
 
 /**
  * Fetch Cosmos balances from LCD endpoint

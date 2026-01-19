@@ -1,10 +1,10 @@
-import type { IdentifierString, WalletAccount } from "@wallet-standard/base";
 import type {
   SolanaSignAndSendTransactionFeature,
   SolanaSignInFeature,
   SolanaSignMessageFeature,
   SolanaSignTransactionFeature,
 } from "@solana/wallet-standard-features";
+import type { IdentifierString, WalletAccount } from "@wallet-standard/base";
 
 import { SOLANA_CHAINS, type SolanaChain } from "./chains";
 

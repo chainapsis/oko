@@ -1,8 +1,6 @@
 "use client";
 
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import type { FC } from "react";
-import { flexRender } from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -11,6 +9,8 @@ import {
   TableRow,
 } from "@oko-wallet/oko-common-ui/table";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { flexRender } from "@tanstack/react-table";
+import type { FC } from "react";
 
 import { APIKeyItemRow } from "./api_key_item_row";
 import styles from "./api_key_list.module.scss";

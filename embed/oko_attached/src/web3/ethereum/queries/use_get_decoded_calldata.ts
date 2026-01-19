@@ -1,5 +1,5 @@
+import { type UseQueryOptions, useQuery } from "@tanstack/react-query";
 import type { DecodeFunctionDataReturnType, Hex } from "viem";
-import { useQuery, type UseQueryOptions } from "@tanstack/react-query";
 
 import { decodeCalldata } from "@oko-wallet-attached/web3/ethereum/decoder";
 

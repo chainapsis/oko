@@ -1,12 +1,4 @@
-import { timingSafeEqual } from "crypto";
-import type { Pool, PoolClient } from "pg";
-import {
-  createKeyShare,
-  createWallet,
-  getKeyShareByWalletId,
-  getWalletByPublicKey,
-  updateReshare,
-} from "@oko-wallet/ksn-pg-interface";
+import type { CurveType } from "@oko-wallet/ksn-interface/curve_type";
 import type {
   CheckWalletResult,
   GetKeyShareV2ResponseWallet,
@@ -14,8 +6,16 @@ import type {
   WalletRegisterInfo,
   WalletReshareInfo,
 } from "@oko-wallet/ksn-interface/key_share";
-import type { CurveType } from "@oko-wallet/ksn-interface/curve_type";
 import type { KSNodeApiResponse } from "@oko-wallet/ksn-interface/response";
+import {
+  createKeyShare,
+  createWallet,
+  getKeyShareByWalletId,
+  getWalletByPublicKey,
+  updateReshare,
+} from "@oko-wallet/ksn-pg-interface";
+import { timingSafeEqual } from "crypto";
+import type { Pool, PoolClient } from "pg";
 
 import {
   decryptDataAsync,

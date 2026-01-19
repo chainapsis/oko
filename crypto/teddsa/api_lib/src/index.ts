@@ -1,4 +1,9 @@
 import type {
+  ErrorCode,
+  OkoApiErrorResponse,
+  OkoApiResponse,
+} from "@oko-wallet/oko-types/api_response";
+import type {
   KeygenEd25519Body,
   SignEd25519Round1Body,
   SignEd25519Round1Response,
@@ -6,11 +11,6 @@ import type {
   SignEd25519Round2Response,
 } from "@oko-wallet/oko-types/tss";
 import type { SignInResponseV2 } from "@oko-wallet/oko-types/user";
-import type {
-  ErrorCode,
-  OkoApiErrorResponse,
-  OkoApiResponse,
-} from "@oko-wallet/oko-types/api_response";
 
 interface MiddlewareErrorResponse {
   error: string;

@@ -1,5 +1,6 @@
-import crypto from "crypto";
 import type { Result } from "@oko-wallet/stdlib-js";
+import crypto from "crypto";
+
 import type { OAuthValidationFail } from "../types";
 
 export interface TelegramUserData {

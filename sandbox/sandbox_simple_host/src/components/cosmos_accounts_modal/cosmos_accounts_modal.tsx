@@ -1,10 +1,10 @@
 import { type FC, useMemo, useState } from "react";
 
-import styles from "./cosmos_accounts_modal.module.scss";
 import {
-  useCosmosAccounts,
   type CosmosChainAccount,
+  useCosmosAccounts,
 } from "@/components/cosmos_accounts_modal/use_cosmos_accounts";
+import styles from "./cosmos_accounts_modal.module.scss";
 
 export interface CosmosAccountsModalProps {
   open: boolean;

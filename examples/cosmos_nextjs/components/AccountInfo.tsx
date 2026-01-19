@@ -1,13 +1,13 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
-import Link from "next/link";
-import { CoinPretty } from "@keplr-wallet/unit";
 import { StargateClient } from "@cosmjs/stargate";
+import { CoinPretty } from "@keplr-wallet/unit";
+import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
+import { useState } from "react";
 
-import Button from "./Button";
 import useOkoCosmos from "@/hooks/useOkoCosmos";
+import Button from "./Button";
 
 interface AccountInfoProps {
   className?: string;

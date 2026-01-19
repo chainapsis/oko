@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import {
-  recoverMessageAddress,
-  recoverTypedDataAddress,
-  recoverTransactionAddress,
-  type TransactionSerialized,
   createPublicClient,
   http,
+  recoverMessageAddress,
+  recoverTransactionAddress,
+  recoverTypedDataAddress,
+  type TransactionSerialized,
 } from "viem";
 import { mainnet } from "viem/chains";
 import { parseSiweMessage } from "viem/siwe";

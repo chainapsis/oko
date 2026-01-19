@@ -1,17 +1,17 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import {
   PublicKey,
   Transaction,
   TransactionInstruction,
 } from "@solana/web3.js";
 import bs58 from "bs58";
+import Link from "next/link";
+import { useState } from "react";
 
+import { DEVNET_CONNECTION } from "@/lib/connection";
 import { useSdkStore } from "@/store/sdk";
 import Button from "./Button";
-import { DEVNET_CONNECTION } from "@/lib/connection";
 
 // Token Program ID
 const TOKEN_PROGRAM_ID = new PublicKey(
@@ -100,7 +100,7 @@ export function SplTokenTransferWidget() {
       }
 
       const tokenAmount = BigInt(
-        Math.floor(parseFloat(amount) * Math.pow(10, selectedToken.decimals)),
+        Math.floor(parseFloat(amount) * 10 ** selectedToken.decimals),
       );
       if (tokenAmount <= BigInt(0)) {
         throw new Error("Amount must be greater than 0");
@@ -164,7 +164,7 @@ export function SplTokenTransferWidget() {
       }
 
       const tokenAmount = BigInt(
-        Math.floor(parseFloat(amount) * Math.pow(10, selectedToken.decimals)),
+        Math.floor(parseFloat(amount) * 10 ** selectedToken.decimals),
       );
       if (tokenAmount <= BigInt(0)) {
         throw new Error("Amount must be greater than 0");

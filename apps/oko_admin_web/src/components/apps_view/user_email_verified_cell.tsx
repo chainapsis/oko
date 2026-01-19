@@ -1,7 +1,7 @@
-import { type FC } from "react";
 import { Badge } from "@oko-wallet/oko-common-ui/badge";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { CustomerDashboardUserStatus } from "@oko-wallet/oko-types/ct_dashboard";
+import type { FC } from "react";
 
 import styles from "./user_email_verified_cell.module.scss";
 

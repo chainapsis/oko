@@ -1,7 +1,7 @@
 import express from "express";
 
-import { setSocialLoginRoutes } from "./social_login";
 import { setReferralRoutes, setReferralRoutesV2 } from "./referral";
+import { setSocialLoginRoutes } from "./social_login";
 
 export function makeSocialLoginRouter() {
   const router = express.Router();

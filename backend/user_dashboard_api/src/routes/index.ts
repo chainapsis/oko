@@ -1,19 +1,19 @@
-import express, { type IRouter, type Response } from "express";
-
-import { setUserAuthRoutes } from "@oko-wallet-usrd-api/routes/user_auth";
-import { setUserRoutes } from "@oko-wallet-usrd-api/routes/user";
-import {
-  customerJwtMiddleware,
-  type CustomerAuthenticatedRequest,
-} from "@oko-wallet-usrd-api/middleware/auth";
-import type { OkoApiResponse } from "@oko-wallet-types/api_response";
-import type { Customer } from "@oko-wallet-types/customers";
 import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import { CustomerAuthHeaderSchema } from "@oko-wallet/oko-api-openapi/ct_dashboard";
+import express, { type IRouter, type Response } from "express";
+
+import type { OkoApiResponse } from "@oko-wallet-types/api_response";
+import type { Customer } from "@oko-wallet-types/customers";
+import {
+  type CustomerAuthenticatedRequest,
+  customerJwtMiddleware,
+} from "@oko-wallet-usrd-api/middleware/auth";
+import { setUserRoutes } from "@oko-wallet-usrd-api/routes/user";
+import { setUserAuthRoutes } from "@oko-wallet-usrd-api/routes/user_auth";
 
 export function makeUserRouter() {
   const router = express.Router() as IRouter;

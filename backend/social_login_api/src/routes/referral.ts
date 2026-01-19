@@ -1,32 +1,33 @@
-import type { Response, Router, Request } from "express";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { Bytes } from "@oko-wallet/bytes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
 } from "@oko-wallet/oko-api-openapi/common";
-import { registry } from "@oko-wallet/oko-api-openapi";
 import {
-  SaveReferralRequestSchema,
-  SaveReferralSuccessResponseSchema,
   GetReferralQuerySchema,
   GetReferralSuccessResponseSchema,
+  SaveReferralRequestSchema,
+  SaveReferralSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/social_login";
-import { Bytes } from "@oko-wallet/bytes";
 import {
   createReferral,
   getReferralsByPublicKeyAndOrigin,
   type ReferralPublicInfo,
 } from "@oko-wallet/oko-pg-interface/referrals";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Request, Response, Router } from "express";
 
 const CIVITIA_ORIGIN = "https://app.civitia.org";
+
 import { getWalletById } from "@oko-wallet/oko-pg-interface/oko_wallets";
 
+import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
 import {
   type UserAuthenticatedRequest,
   userJwtMiddleware,
   userJwtMiddlewareV2,
 } from "@oko-wallet-social-login-api/middleware/user_auth";
-import { rateLimitMiddleware } from "@oko-wallet-social-login-api/middleware/rate_limit";
 
 interface SaveReferralRequest {
   origin: string;

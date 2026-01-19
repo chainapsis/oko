@@ -1,5 +1,5 @@
-import React from "react";
 import { BanknotesIcon, CurrencyDollarIcon } from "@heroicons/react/24/outline";
+import React from "react";
 
 import { useGlobalState } from "@oko-wallet-sandbox-evm/services/store/store";
 

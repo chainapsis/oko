@@ -1,7 +1,7 @@
 import { Buffer } from "buffer";
 
-import { simpleFetch } from "@oko-wallet-sdk-cosmos/utils";
 import type { OkoCosmosWalletInterface } from "@oko-wallet-sdk-cosmos/types";
+import { simpleFetch } from "@oko-wallet-sdk-cosmos/utils";
 
 export async function sendTx(
   this: OkoCosmosWalletInterface,

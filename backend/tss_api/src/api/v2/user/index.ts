@@ -1,8 +1,24 @@
-import { Pool } from "pg";
+import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
+import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
+import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
+import {
+  getActiveKSNodes,
+  getKSNodesByServerUrl,
+  getWalletKSNodesByWalletId,
+  upsertWalletKSNodes,
+} from "@oko-wallet/oko-pg-interface/ks_nodes";
+import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
 } from "@oko-wallet/oko-pg-interface/oko_wallets";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type {
+  KeyShareNode,
+  WalletKSNodeStatus,
+  WalletKSNodeWithNodeNameAndServerUrl,
+} from "@oko-wallet/oko-types/tss";
 import type {
   CheckEmailResponseV2,
   ReshareReason,
@@ -10,24 +26,8 @@ import type {
   User,
   WalletCheckInfo,
 } from "@oko-wallet/oko-types/user";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/oko_users";
-import {
-  getActiveKSNodes,
-  getWalletKSNodesByWalletId,
-  getKSNodesByServerUrl,
-  upsertWalletKSNodes,
-} from "@oko-wallet/oko-pg-interface/ks_nodes";
-import type {
-  WalletKSNodeWithNodeNameAndServerUrl,
-  WalletKSNodeStatus,
-  KeyShareNode,
-} from "@oko-wallet/oko-types/tss";
-import { getKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import type { Wallet } from "@oko-wallet/oko-types/wallets";
-import type { Bytes32, Bytes33 } from "@oko-wallet/bytes";
-import { decryptDataAsync } from "@oko-wallet/crypto-js/node";
+import type { Pool } from "pg";
 
 import { generateUserTokenV2 } from "@oko-wallet-tss-api/api/keplr_auth";
 import { checkKeyShareFromKSNodesV2 } from "@oko-wallet-tss-api/api/ks_node";

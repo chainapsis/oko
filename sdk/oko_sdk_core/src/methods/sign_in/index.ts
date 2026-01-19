@@ -1,10 +1,10 @@
+import { handleDiscordSignIn } from "./discord";
+import { handleEmailSignIn } from "./email";
+import { handleGoogleSignIn } from "./google";
+import { handleTelegramSignIn } from "./telegram";
+import { handleXSignIn } from "./x";
 import type { OkoWalletInterface } from "@oko-wallet-sdk-core/types";
 import type { SignInType } from "@oko-wallet-sdk-core/types/oauth";
-import { handleGoogleSignIn } from "./google";
-import { handleEmailSignIn } from "./email";
-import { handleXSignIn } from "./x";
-import { handleTelegramSignIn } from "./telegram";
-import { handleDiscordSignIn } from "./discord";
 
 export async function signIn(this: OkoWalletInterface, type: SignInType) {
   await this.waitUntilInitialized;

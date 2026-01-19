@@ -1,7 +1,7 @@
 "use client";
 
-import { type FC, type ReactNode } from "react";
 import cn from "classnames";
+import type { FC, ReactNode } from "react";
 
 import styles from "./sidebar_account_info.module.scss";
 import { Typography } from "@oko-wallet-common-ui/typography/typography";

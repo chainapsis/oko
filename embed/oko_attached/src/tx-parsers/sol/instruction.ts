@@ -1,10 +1,11 @@
 import {
-  SolanaFMParser,
-  ParserType,
   type InstructionParserInterface,
+  ParserType,
+  SolanaFMParser,
 } from "@solanafm/explorer-kit";
 import { getProgramIdl } from "@solanafm/explorer-kit-idls";
-import type { ParsedInstruction, ParsedAccount, ParseResult } from "./types";
+
+import type { ParsedAccount, ParsedInstruction, ParseResult } from "./types";
 
 const parserCache = new Map<string, InstructionParserInterface | null>();
 

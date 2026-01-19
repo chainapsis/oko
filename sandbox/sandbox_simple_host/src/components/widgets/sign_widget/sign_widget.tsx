@@ -1,4 +1,4 @@
-import { type ReactElement, useState, type FC } from "react";
+import { type FC, type ReactElement, useState } from "react";
 
 import { MockDappModal } from "@/components/widgets/sign_widget/mock_dapp_modal/mock_dapp_modal";
 import styles from "@/components/widgets/sign_widget/sign_widget.module.scss";

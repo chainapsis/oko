@@ -1,12 +1,5 @@
-import type { Response, Router } from "express";
-import type {
-  SignStep1Body,
-  SignStep1Response,
-  SignStep2Body,
-  SignStep2Response,
-} from "@oko-wallet/oko-types/tss";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   UserAuthHeaderSchema,
@@ -17,13 +10,20 @@ import {
   SignStep2RequestSchema,
   SignStep2SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
-import { registry } from "@oko-wallet/oko-api-openapi";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type {
+  SignStep1Body,
+  SignStep1Response,
+  SignStep2Body,
+  SignStep2Response,
+} from "@oko-wallet/oko-types/tss";
+import type { Response, Router } from "express";
 
 import { runSignStep1, runSignStep2 } from "@oko-wallet-tss-api/api/v1/sign";
 import {
+  sendResponseWithNewToken,
   type UserAuthenticatedRequest,
   userJwtMiddleware,
-  sendResponseWithNewToken,
 } from "@oko-wallet-tss-api/middleware/keplr_auth";
 import { tssActivateMiddleware } from "@oko-wallet-tss-api/middleware/tss_activate";
 

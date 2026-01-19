@@ -1,11 +1,11 @@
-import type { FC } from "react";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { FC } from "react";
 
+import styles from "../instructions.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
 import { useGetSolanaTokenMetadata } from "@oko-wallet-attached/web3/solana/queries";
-import styles from "../instructions.module.scss";
 
 function shortenAddress(address: string): string {
   if (address.length <= 12) return address;

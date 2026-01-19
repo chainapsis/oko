@@ -1,9 +1,9 @@
 import { useEffect } from "react";
 
 import {
-  useSDKState,
-  selectEthSDK,
   selectCosmosSDK,
+  selectEthSDK,
+  useSDKState,
 } from "@oko-wallet-user-dashboard/state/sdk";
 
 export function useInitOko() {

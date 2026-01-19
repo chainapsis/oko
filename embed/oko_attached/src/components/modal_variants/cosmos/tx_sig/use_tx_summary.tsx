@@ -1,14 +1,14 @@
-import { useState } from "react";
-import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import type { Msg, StdSignDoc } from "@keplr-wallet/types";
+import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
+import { useState } from "react";
 
-import { extractMsgsFromSignDoc } from "@oko-wallet-attached/web3/cosmos/sign_doc";
 import {
   useGetParsedMsgs,
   useGetSignDocStringWithParsedMsg,
 } from "./use_parse_msgs";
 import type { UnpackedMsgForView } from "@oko-wallet-attached/types/cosmos_msg";
+import { extractMsgsFromSignDoc } from "@oko-wallet-attached/web3/cosmos/sign_doc";
 
 export function useCosmosTxSummary(
   args: UseCosmosTxSummaryArgs,

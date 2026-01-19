@@ -1,6 +1,6 @@
-import type { Hex, Address, ByteArray } from "viem";
-import { publicKeyToAddress } from "viem/accounts";
 import { secp256k1 } from "@noble/curves/secp256k1";
+import type { Address, ByteArray, Hex } from "viem";
+import { publicKeyToAddress } from "viem/accounts";
 
 import type { RpcChain } from "@oko-wallet-sdk-eth/provider/types";
 

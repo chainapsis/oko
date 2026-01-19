@@ -1,6 +1,6 @@
-import { type FC, type ReactElement } from "react";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Tooltip } from "@oko-wallet/oko-common-ui/tooltip";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { FC, ReactElement } from "react";
 
 import styles from "./address_row.module.scss";
 

@@ -1,12 +1,12 @@
 import { Router } from "express";
 
-import { bearerTokenMiddleware } from "@oko-wallet-ksn-server/middlewares";
-import { getKeysharesV2 } from "./get_key_shares";
 import { keyshareV2Check } from "./check";
-import { keyshareV2Register } from "./register";
 import { registerKeyshareEd25519 } from "./ed25519";
+import { getKeysharesV2 } from "./get_key_shares";
+import { keyshareV2Register } from "./register";
 import { keyshareV2Reshare } from "./reshare";
 import { keyshareV2ReshareRegister } from "./reshare_register";
+import { bearerTokenMiddleware } from "@oko-wallet-ksn-server/middlewares";
 
 export function makeKeyshareV2Router() {
   const router = Router();

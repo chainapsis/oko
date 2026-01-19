@@ -1,4 +1,10 @@
-import { Router } from "express";
+import {
+  runKeygenServerStep1,
+  runKeygenServerStep2,
+  runKeygenServerStep3,
+  runKeygenServerStep4,
+  runKeygenServerStep5,
+} from "@oko-wallet/cait-sith-keplr-addon/src/server";
 import type {
   KeygenStep1Request,
   KeygenStep1Response,
@@ -12,13 +18,7 @@ import type {
   KeygenStep5Response,
 } from "@oko-wallet/tecdsa-interface";
 import { Participant } from "@oko-wallet/tecdsa-interface";
-import {
-  runKeygenServerStep1,
-  runKeygenServerStep2,
-  runKeygenServerStep3,
-  runKeygenServerStep4,
-  runKeygenServerStep5,
-} from "@oko-wallet/cait-sith-keplr-addon/src/server";
+import type { Router } from "express";
 
 import { appServerState } from "../state";
 

@@ -1,13 +1,13 @@
-import { type FC, type ReactNode, useState, useMemo } from "react";
-import type { SolanaMessageSignPayload } from "@oko-wallet/oko-sdk-core";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { SolanaMessageSignPayload } from "@oko-wallet/oko-sdk-core";
+import { type FC, type ReactNode, useMemo, useState } from "react";
 
 import styles from "../common/summary.module.scss";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
-import { TxContainer } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/common/tx_container";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
+import { TxContainer } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/common/tx_container";
 
 export interface SolanaMessageSummaryProps {
   payload: SolanaMessageSignPayload;

@@ -1,7 +1,7 @@
-import express from "express";
-import morgan from "morgan";
-import helmet from "helmet";
 import cors from "cors";
+import express from "express";
+import helmet from "helmet";
+import morgan from "morgan";
 
 import { makeLogRouter } from "@oko-wallet-log-api/routes";
 

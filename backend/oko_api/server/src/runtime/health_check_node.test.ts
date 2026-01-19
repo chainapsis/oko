@@ -1,8 +1,8 @@
 import { jest } from "@jest/globals";
-import { Pool } from "pg";
+import { healthCheckKSNode } from "@oko-wallet/admin-api/api";
 import { insertKSNode } from "@oko-wallet/oko-pg-interface/ks_nodes";
 import { createPgConn } from "@oko-wallet/postgres-lib";
-import { healthCheckKSNode } from "@oko-wallet/admin-api/api";
+import type { Pool } from "pg";
 
 import { testPgConfig } from "@oko-wallet-api/database/test_config";
 import { resetPgDatabase } from "@oko-wallet-api/testing/database";

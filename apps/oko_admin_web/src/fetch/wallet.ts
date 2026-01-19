@@ -3,8 +3,8 @@ import type {
   GetWalletListResponse,
 } from "@oko-wallet/oko-types/admin";
 
-import { doFetch } from "./fetcher";
 import { OKO_ADMIN_API_ENDPOINT_V1 } from ".";
+import { doFetch } from "./fetcher";
 
 export async function getWalletList({
   token,

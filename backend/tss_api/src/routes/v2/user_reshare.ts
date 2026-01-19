@@ -1,19 +1,19 @@
-import type { Response } from "express";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { ReshareWalletInfo } from "@oko-wallet/oko-types/user";
+import { Bytes, type Bytes32, type Bytes33 } from "@oko-wallet/bytes";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
 import {
   ErrorResponseSchema,
   OAuthHeaderSchema,
   SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/common";
 import { ReshareRequestV2Schema } from "@oko-wallet/oko-api-openapi/tss";
-import { Bytes, type Bytes32, type Bytes33 } from "@oko-wallet/bytes";
-import { registry } from "@oko-wallet/oko-api-openapi";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { ReshareWalletInfo } from "@oko-wallet/oko-types/user";
+import type { Response } from "express";
 
 import { updateWalletKSNodesForReshareV2 } from "@oko-wallet-tss-api/api/v2/user";
-import { type OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
+import type { OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 
 registry.registerPath({

@@ -1,10 +1,10 @@
-import { type FC, type FormEvent, useContext } from "react";
-import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
-import { ThemeContext } from "@oko-wallet/oko-common-ui/theme";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
 import { MailboxIcon } from "@oko-wallet/oko-common-ui/icons/mailbox";
 import { Logo } from "@oko-wallet/oko-common-ui/logo";
+import { OtpInput } from "@oko-wallet/oko-common-ui/otp_input";
+import { ThemeContext } from "@oko-wallet/oko-common-ui/theme";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { EmailLoginModalPayload } from "@oko-wallet/oko-sdk-core";
+import { type FC, type FormEvent, useContext } from "react";
 
 import styles from "./email_login_popup.module.scss";
 import { useEmailLogin } from "./use_email_login";

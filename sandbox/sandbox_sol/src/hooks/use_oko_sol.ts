@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
 import { OkoSolWallet, registerOkoWallet } from "@oko-wallet/oko-sdk-sol";
+import { useCallback, useEffect, useState } from "react";
+
 import { useSdkStore } from "@/store/sdk";
 
 export function useOkoSol() {

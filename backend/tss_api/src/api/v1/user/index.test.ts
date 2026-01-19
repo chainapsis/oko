@@ -1,21 +1,21 @@
-import { Pool } from "pg";
-import { createPgConn } from "@oko-wallet/postgres-lib";
-import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
-import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
-import { type KeyShareNode } from "@oko-wallet/oko-types/tss";
+import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
 import {
-  insertKSNode,
   createWalletKSNodes,
+  insertKSNode,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
+import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   createWallet,
   updateWalletStatus,
 } from "@oko-wallet/oko-pg-interface/oko_wallets";
-import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_node_meta";
+import type { KeyShareNode } from "@oko-wallet/oko-types/tss";
+import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
+import { createPgConn } from "@oko-wallet/postgres-lib";
+import type { Pool } from "pg";
 
-import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
-import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
 import { checkEmail, signIn } from "@oko-wallet-tss-api/api/v1/user";
+import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
+import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
 
 const SSS_THRESHOLD = 2;
 

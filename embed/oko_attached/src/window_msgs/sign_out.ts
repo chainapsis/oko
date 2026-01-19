@@ -1,11 +1,10 @@
 import type { OkoWalletMsgSignOutAck } from "@oko-wallet/oko-sdk-core";
 
-import type { MsgEventContext } from "./types";
-import { postLog } from "@oko-wallet-attached/requests/logging";
 import { errorToLog } from "@oko-wallet-attached/logging/error";
+import { postLog } from "@oko-wallet-attached/requests/logging";
 import { useAppState } from "@oko-wallet-attached/store/app";
-import { OKO_SDK_TARGET } from "./target";
-
+import type { MsgEventContext } from "@oko-wallet-attached/window_msgs/types";
+import { OKO_SDK_TARGET } from "@oko-wallet-attached/window_msgs/target";
 export async function handleSignOut(ctx: MsgEventContext): Promise<void> {
   const { port, hostOrigin } = ctx;
 

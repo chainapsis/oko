@@ -1,70 +1,69 @@
+import { reqKeygenV2 } from "@oko-wallet/api-lib";
+import { Bytes } from "@oko-wallet/bytes";
+import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
+import type { OAuthSignInError } from "@oko-wallet/oko-sdk-core";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { PublicKeyPackageRaw } from "@oko-wallet/oko-types/teddsa";
+import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
 import type {
   CheckEmailRequest,
   CheckEmailResponseV2,
+  ReshareRequestV2,
   SignInResponseV2,
 } from "@oko-wallet/oko-types/user";
-import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { KeyShareNodeMetaWithNodeStatusInfo } from "@oko-wallet/oko-types/tss";
-import type { Result } from "@oko-wallet/stdlib-js";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { type OAuthSignInError } from "@oko-wallet/oko-sdk-core";
-
-import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
-import {
-  makeAuthorizedOkoApiRequest,
-  makeOkoApiRequest,
-  TSS_V2_ENDPOINT,
-  SOCIAL_LOGIN_V2_ENDPOINT,
-} from "@oko-wallet-attached/requests/oko_api";
-import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
-import type { UserSignInResultV2 } from "@oko-wallet-attached/window_msgs/types";
-import type { FetchError } from "@oko-wallet-attached/requests/types";
-import {
-  reshareUserKeyShares,
-  runExpandShares,
-} from "@oko-wallet-attached/crypto/reshare";
-import { reshareUserKeySharesV2 } from "@oko-wallet-attached/crypto/reshare_v2";
-import {
-  requestKeySharesV2,
-  registerKeySharesV2,
-  registerKeyShareEd25519V2,
-  reshareKeySharesV2,
-  reshareRegisterV2,
-} from "@oko-wallet-attached/requests/ks_node_v2";
-import type { ReshareRequestV2 } from "@oko-wallet/oko-types/user";
-import {
-  decodeKeyShareStringToPoint256,
-  encodePoint256ToKeyShareString,
-} from "@oko-wallet-attached/crypto/key_share_utils";
 import type { UserKeySharePointByNode } from "@oko-wallet/oko-types/user_key_share";
-import { runKeygen } from "@oko-wallet/cait-sith-keplr-hooks";
+import {
+  hexToTeddsaKeyShare,
+  type TeddsaKeyShareByNode,
+  teddsaKeyShareToHex,
+} from "@oko-wallet/oko-types/user_key_share";
+import type { Result } from "@oko-wallet/stdlib-js";
+import { reqKeygenEd25519 } from "@oko-wallet/teddsa-api-lib";
 import {
   runTeddsaKeygen,
   serializeKeyPackage,
   serializePublicKeyPackage,
 } from "@oko-wallet/teddsa-hooks";
-import { reqKeygenEd25519 } from "@oko-wallet/teddsa-api-lib";
-import { reqKeygenV2 } from "@oko-wallet/api-lib";
 
-import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
+import { combineUserShares } from "@oko-wallet-attached/crypto/combine";
+import {
+  decodeKeyShareStringToPoint256,
+  encodePoint256ToKeyShareString,
+} from "@oko-wallet-attached/crypto/key_share_utils";
+import { splitUserKeyShares } from "@oko-wallet-attached/crypto/keygen";
 import { teddsaKeygenToHex } from "@oko-wallet-attached/crypto/keygen_ed25519";
 import {
-  splitTeddsaSigningShare,
-  extractSigningShare,
-  combineTeddsaShares,
-  reconstructKeyPackage,
-  keyPackageToRaw,
-  getClientFrostIdentifier,
-  getServerFrostIdentifier,
-} from "@oko-wallet-attached/crypto/sss_ed25519";
+  reshareUserKeyShares,
+  runExpandShares,
+} from "@oko-wallet-attached/crypto/reshare";
+import { reshareUserKeySharesV2 } from "@oko-wallet-attached/crypto/reshare_v2";
 import { computeVerifyingShare } from "@oko-wallet-attached/crypto/scalar";
 import {
-  teddsaKeyShareToHex,
-  hexToTeddsaKeyShare,
-  type TeddsaKeyShareByNode,
-} from "@oko-wallet/oko-types/user_key_share";
-import type { PublicKeyPackageRaw } from "@oko-wallet/oko-types/teddsa";
-import { Bytes } from "@oko-wallet/bytes";
+  combineTeddsaShares,
+  extractSigningShare,
+  getClientFrostIdentifier,
+  getServerFrostIdentifier,
+  keyPackageToRaw,
+  reconstructKeyPackage,
+  splitTeddsaSigningShare,
+} from "@oko-wallet-attached/crypto/sss_ed25519";
+import {
+  registerKeyShareEd25519V2,
+  registerKeySharesV2,
+  requestKeySharesV2,
+  reshareKeySharesV2,
+  reshareRegisterV2,
+} from "@oko-wallet-attached/requests/ks_node_v2";
+import {
+  makeAuthorizedOkoApiRequest,
+  makeOkoApiRequest,
+  SOCIAL_LOGIN_V2_ENDPOINT,
+  TSS_V2_ENDPOINT,
+} from "@oko-wallet-attached/requests/oko_api";
+import type { FetchError } from "@oko-wallet-attached/requests/types";
+import type { ReferralInfo } from "@oko-wallet-attached/store/memory/types";
+import type { UserSignInResultV2 } from "@oko-wallet-attached/window_msgs/types";
 
 /**
  * Handle new user who needs both secp256k1 and ed25519 keygen.
@@ -968,7 +967,9 @@ export async function handleReshareAndEd25519Keygen(
   const secp256k1SharesByNode: UserKeySharePointByNode[] = [];
   for (const item of requestSecp256k1SharesRes.data) {
     const shareHex = item.shares.secp256k1;
-    if (!shareHex) continue;
+    if (!shareHex) {
+      continue;
+    }
     const point256Res = decodeKeyShareStringToPoint256(shareHex);
     if (!point256Res.success) {
       return {

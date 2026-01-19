@@ -1,9 +1,9 @@
 import { describe, expect, it } from "@jest/globals";
 import { Bytes } from "@oko-wallet/bytes";
 
-import { encryptWithEcdheKey, decryptWithEcdheKey } from "./aes_gcm";
 import { generateEddsaKeypair } from "../../common/ecdhe/curve25519";
 import { deriveSessionKey } from "../../common/ecdhe/key_derivation";
+import { decryptWithEcdheKey, encryptWithEcdheKey } from "./aes_gcm";
 
 describe("AES-GCM encryption and decryption", () => {
   const createSessionKey = () => {

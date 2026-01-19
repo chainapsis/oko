@@ -1,9 +1,9 @@
 "use client";
 
-import Link from "next/link";
-import type { NextPage } from "next";
-import { useAccount } from "wagmi";
 import { BugAntIcon, PlayIcon } from "@heroicons/react/24/outline";
+import type { NextPage } from "next";
+import Link from "next/link";
+import { useAccount } from "wagmi";
 
 import { Address } from "@oko-wallet-sandbox-evm/components/scaffold-eth";
 

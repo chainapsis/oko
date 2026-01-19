@@ -2,15 +2,15 @@ import type { Abi, DecodeFunctionDataReturnType, Hex } from "viem";
 import { decodeFunctionData, parseAbi } from "viem";
 
 import {
+  ERC20_WRITE_FUNCTIONS_ABI,
+  ERC721_WRITE_FUNCTIONS_ABI,
+  ERC1155_WRITE_FUNCTIONS_ABI,
+  ZERO_INTERFACE_ID,
+} from "./constants";
+import {
   fetchFunctionFrom4Bytes,
   fetchFunctionFromOpenchain,
 } from "./selector";
-import {
-  ERC1155_WRITE_FUNCTIONS_ABI,
-  ERC20_WRITE_FUNCTIONS_ABI,
-  ERC721_WRITE_FUNCTIONS_ABI,
-  ZERO_INTERFACE_ID,
-} from "./constants";
 
 export async function decodeCalldataWithSelector({
   calldata,

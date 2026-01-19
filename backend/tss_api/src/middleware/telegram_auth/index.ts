@@ -1,10 +1,10 @@
-import type { Request, Response, NextFunction } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
+import type { NextFunction, Request, Response } from "express";
 
 import {
-  validateTelegramHash,
   type TelegramUserData,
   type TelegramUserInfo,
+  validateTelegramHash,
 } from "@oko-wallet-tss-api/middleware/telegram_auth/validate";
 import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
 

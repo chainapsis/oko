@@ -1,5 +1,5 @@
-import type { Result } from "@oko-wallet/stdlib-js";
 import type { SocialLoginXVerifyUserResponse } from "@oko-wallet/oko-types/social_login";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 import { X_USER_INFO_URL } from "../constants/x";
 

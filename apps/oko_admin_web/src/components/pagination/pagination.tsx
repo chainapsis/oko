@@ -1,4 +1,5 @@
-import { type FC } from "react";
+import type { FC } from "react";
+
 import styles from "./pagination.module.scss";
 
 export interface PaginationProps {
