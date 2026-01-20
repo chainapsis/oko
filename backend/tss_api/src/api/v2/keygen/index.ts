@@ -153,26 +153,22 @@ export async function runKeygenV2(
     }
 
     // 3. Validate ed25519 public key
-    const ed25519PublicKeyUint8 = new Uint8Array(keygen_2_ed25519.public_key);
-    const ed25519PublicKeyHex = Buffer.from(ed25519PublicKeyUint8).toString(
-      "hex",
-    );
-
-    const ed25519PublicKeyRes = Bytes.fromUint8Array(ed25519PublicKeyUint8, 32);
-    if (ed25519PublicKeyRes.success === false) {
+    const ed25519PkValidation = validateEd25519PublicKey(keygen_2_ed25519.public_key);
+    if (!ed25519PkValidation.success) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `ed25519 publicKeyRes error: ${ed25519PublicKeyRes.err}`,
+        msg: ed25519PkValidation.error,
       };
     }
-    const ed25519PublicKeyBytes = ed25519PublicKeyRes.data;
+    const {
+      publicKeyHex: ed25519PublicKeyHex,
+      publicKeyBytes: ed25519PublicKeyBytes,
+      publicKeyBuffer: ed25519PublicKeyBuffer,
+    } = ed25519PkValidation.data;
 
     // Check for duplicate ed25519 public key
-    const ed25519WalletByPkRes = await getWalletByPublicKey(
-      db,
-      Buffer.from(ed25519PublicKeyBytes.toUint8Array()),
-    );
+    const ed25519WalletByPkRes = await getWalletByPublicKey(db, ed25519PublicKeyBuffer);
     if (ed25519WalletByPkRes.success === false) {
       return {
         success: false,
@@ -245,24 +241,10 @@ export async function runKeygenV2(
     );
 
     // 7. Encrypt ed25519 share (extract signing_share and verifying_share)
-    const ed25519KeyPackageShares = extractKeyPackageSharesEd25519(
-      new Uint8Array(keygen_2_ed25519.key_package),
-    );
-    const ed25519SharesData = {
-      signing_share: ed25519KeyPackageShares.signing_share,
-      verifying_share: ed25519KeyPackageShares.verifying_share,
-    };
-    const ed25519EncryptedShare = await encryptDataAsync(
-      JSON.stringify(ed25519SharesData),
-      encryptionSecret,
-    );
-    const ed25519EncryptedShareBuffer = Buffer.from(
-      ed25519EncryptedShare,
-      "utf-8",
-    );
-    const serverVerifyingShareEd25519Hex = Buffer.from(
-      ed25519KeyPackageShares.verifying_share,
-    ).toString("hex");
+    const {
+      encryptedShareBuffer: ed25519EncryptedShareBuffer,
+      serverVerifyingShareHex: serverVerifyingShareEd25519Hex,
+    } = await encryptEd25519KeyPackageShares(keygen_2_ed25519.key_package, encryptionSecret);
 
     // 8. Get SSS threshold
     const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
@@ -468,25 +450,21 @@ export async function runKeygenEd25519(
       };
     }
 
-    const ed25519PublicKeyUint8 = new Uint8Array(keygen_2.public_key);
-    const ed25519PublicKeyHex = Buffer.from(ed25519PublicKeyUint8).toString(
-      "hex",
-    );
-
-    const ed25519PublicKeyRes = Bytes.fromUint8Array(ed25519PublicKeyUint8, 32);
-    if (ed25519PublicKeyRes.success === false) {
+    const ed25519PkValidation = validateEd25519PublicKey(keygen_2.public_key);
+    if (!ed25519PkValidation.success) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `ed25519 publicKeyRes error: ${ed25519PublicKeyRes.err}`,
+        msg: ed25519PkValidation.error,
       };
     }
-    const ed25519PublicKeyBytes = ed25519PublicKeyRes.data;
+    const {
+      publicKeyHex: ed25519PublicKeyHex,
+      publicKeyBytes: ed25519PublicKeyBytes,
+      publicKeyBuffer: ed25519PublicKeyBuffer,
+    } = ed25519PkValidation.data;
 
-    const walletByPublicKeyRes = await getWalletByPublicKey(
-      db,
-      Buffer.from(ed25519PublicKeyBytes.toUint8Array()),
-    );
+    const walletByPublicKeyRes = await getWalletByPublicKey(db, ed25519PublicKeyBuffer);
     if (walletByPublicKeyRes.success === false) {
       return {
         success: false,
@@ -536,25 +514,11 @@ export async function runKeygenEd25519(
     }
     const ksNodeIds = ed25519KsNodeIds;
 
-    // Extract signing_share and verifying_share from key_package
-    const ed25519KeyPackageShares = extractKeyPackageSharesEd25519(
-      new Uint8Array(keygen_2.key_package),
-    );
-
-    // Store only signing_share and verifying_share (64 bytes total)
-    const sharesData = {
-      signing_share: ed25519KeyPackageShares.signing_share,
-      verifying_share: ed25519KeyPackageShares.verifying_share,
-    };
-
-    const encryptedShare = await encryptDataAsync(
-      JSON.stringify(sharesData),
-      encryptionSecret,
-    );
-    const encryptedShareBuffer = Buffer.from(encryptedShare, "utf-8");
-    const serverVerifyingShareEd25519Hex = Buffer.from(
-      ed25519KeyPackageShares.verifying_share,
-    ).toString("hex");
+    // Extract and encrypt ed25519 key package shares
+    const {
+      encryptedShareBuffer,
+      serverVerifyingShareHex: serverVerifyingShareEd25519Hex,
+    } = await encryptEd25519KeyPackageShares(keygen_2.key_package, encryptionSecret);
 
     const getKeyshareNodeMetaRes = await getKeyShareNodeMeta(db);
     if (getKeyshareNodeMetaRes.success === false) {
@@ -649,4 +613,69 @@ export async function runKeygenEd25519(
       msg: `runKeygenEd25519 error: ${error}`,
     };
   }
+}
+
+interface Ed25519PublicKeyValidationResult {
+  publicKeyHex: string;
+  publicKeyBytes: Bytes<32>;
+  publicKeyBuffer: Buffer;
+}
+
+/**
+ * Validate and convert ed25519 public key from number array to various formats.
+ */
+function validateEd25519PublicKey(
+  publicKeyArray: number[],
+): { success: true; data: Ed25519PublicKeyValidationResult } | { success: false; error: string } {
+  const publicKeyUint8 = new Uint8Array(publicKeyArray);
+  const publicKeyHex = Buffer.from(publicKeyUint8).toString("hex");
+
+  const publicKeyRes = Bytes.fromUint8Array(publicKeyUint8, 32);
+  if (publicKeyRes.success === false) {
+    return {
+      success: false,
+      error: `ed25519 publicKeyRes error: ${publicKeyRes.err}`,
+    };
+  }
+
+  return {
+    success: true,
+    data: {
+      publicKeyHex,
+      publicKeyBytes: publicKeyRes.data,
+      publicKeyBuffer: Buffer.from(publicKeyRes.data.toUint8Array()),
+    },
+  };
+}
+
+interface Ed25519EncryptedShareResult {
+  encryptedShareBuffer: Buffer;
+  serverVerifyingShareHex: string;
+}
+
+/**
+ * Extract shares from ed25519 key package and encrypt for storage.
+ */
+async function encryptEd25519KeyPackageShares(
+  keyPackage: number[],
+  encryptionSecret: string,
+): Promise<Ed25519EncryptedShareResult> {
+  const keyPackageShares = extractKeyPackageSharesEd25519(
+    new Uint8Array(keyPackage),
+  );
+
+  const sharesData = {
+    signing_share: keyPackageShares.signing_share,
+    verifying_share: keyPackageShares.verifying_share,
+  };
+
+  const encryptedShare = await encryptDataAsync(
+    JSON.stringify(sharesData),
+    encryptionSecret,
+  );
+
+  return {
+    encryptedShareBuffer: Buffer.from(encryptedShare, "utf-8"),
+    serverVerifyingShareHex: Buffer.from(keyPackageShares.verifying_share).toString("hex"),
+  };
 }
