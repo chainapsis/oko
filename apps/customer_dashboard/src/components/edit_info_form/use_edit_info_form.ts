@@ -2,17 +2,28 @@ import { useState, useRef, type ChangeEvent, type DragEvent } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import { useQueryClient } from "@tanstack/react-query";
-import type { CustomerTheme } from "@oko-wallet/oko-types/customers";
+import type { Customer, CustomerTheme } from "@oko-wallet/oko-types/customers";
 
 import { useCustomerInfo } from "@oko-wallet-ct-dashboard/hooks/use_customer_info";
 import { useAppState } from "@oko-wallet-ct-dashboard/state";
 import { requestUpdateCustomerInfo } from "@oko-wallet-ct-dashboard/fetch/customers";
+
+const ONE_MB = 1 * 1024 * 1024;
 
 export type EditInfoInputs = {
   label: string;
   url: string;
   theme: CustomerTheme;
 };
+
+interface FormHasChangesArgs {
+  label: string;
+  url: string;
+  logoFile: File | null;
+  shouldDeleteLogo: boolean;
+  theme: string;
+  customer: Customer | null | undefined;
+}
 
 function validateUrl(url: string): boolean {
   try {
@@ -36,6 +47,21 @@ function editInfoResolver(values: EditInfoInputs) {
     values: values,
     errors: errors,
   } as any;
+}
+
+function formHasChanges({
+  label,
+  url,
+  logoFile,
+  shouldDeleteLogo,
+  theme,
+  customer,
+}: FormHasChangesArgs) {
+  label !== customer?.label ||
+    url !== (customer?.url ?? "") ||
+    logoFile !== null ||
+    shouldDeleteLogo ||
+    theme !== customer?.theme;
 }
 
 export function useEditInfoForm() {
@@ -76,12 +102,14 @@ export function useEditInfoForm() {
   const url = watch("url");
   const theme = watch("theme");
 
-  const hasChanges =
-    label !== customer.data?.label ||
-    url !== (customer.data?.url ?? "") ||
-    logoFile !== null ||
-    shouldDeleteLogo ||
-    theme !== customer.data?.theme;
+  const hasChanges = formHasChanges({
+    label,
+    url,
+    logoFile,
+    shouldDeleteLogo,
+    theme,
+    customer: customer.data,
+  });
 
   const validateImageDimensions = (file: File): Promise<boolean> => {
     return new Promise((resolve) => {
@@ -108,7 +136,7 @@ export function useEditInfoForm() {
       return;
     }
 
-    if (file.size > 1 * 1024 * 1024) {
+    if (file.size > ONE_MB) {
       setError("root", { message: "File size must be under 1 MB." });
       return;
     }
@@ -219,7 +247,7 @@ export function useEditInfoForm() {
           message: result.msg ?? "Failed to update information.",
         });
       }
-    } catch (err) {
+    } catch (err: any) {
       setError("root", { message: "An error occurred while updating." });
     } finally {
       setIsLoading(false);
