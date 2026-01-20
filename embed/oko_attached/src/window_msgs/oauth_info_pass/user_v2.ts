@@ -161,6 +161,7 @@ export async function handleNewUserV2(
   const reqKeygenV2Res = await reqKeygenV2(
     TSS_V2_ENDPOINT,
     {
+      auth_type: authType,
       keygen_2_secp256k1: {
         public_key: secp256k1Keygen1.public_key.toHex(),
         private_share: secp256k1Keygen2.tss_private_share.toHex(),
@@ -569,6 +570,7 @@ export async function handleExistingUserNeedsEd25519Keygen(
   const reqKeygenEd25519Res = await reqKeygenEd25519(
     TSS_V2_ENDPOINT,
     {
+      auth_type: authType,
       keygen_2: {
         key_package: serializeKeyPackage(ed25519Keygen2.key_package),
         public_key_package: serializePublicKeyPackage(
@@ -1075,6 +1077,7 @@ export async function handleReshareAndEd25519Keygen(
   const reqKeygenEd25519Res = await reqKeygenEd25519(
     TSS_V2_ENDPOINT,
     {
+      auth_type: authType,
       keygen_2: {
         key_package: serializeKeyPackage(ed25519Keygen2.key_package),
         public_key_package: serializePublicKeyPackage(
