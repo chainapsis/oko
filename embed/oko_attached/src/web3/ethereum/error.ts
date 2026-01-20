@@ -25,8 +25,9 @@ function extractRpcErrorCode(
 ): number | string | undefined {
   const anyErr = (err as any) ?? {};
 
-  if (typeof anyErr.code === "number" || typeof anyErr.code === "string")
+  if (typeof anyErr.code === "number" || typeof anyErr.code === "string") {
     return anyErr.code;
+  }
 
   // viem has nested error structure, so we need to traverse the error chain to find the code
   let cur: any = anyErr;
@@ -48,15 +49,23 @@ function extractRpcErrorCode(
       null;
   }
 
-  if (anyErr?.details?.code) return anyErr.details.code;
-  if (anyErr?.data?.code) return anyErr.data.code;
-  if (anyErr?.error?.code) return anyErr.error.code;
+  if (anyErr?.details?.code) {
+    return anyErr.details.code;
+  }
+  if (anyErr?.data?.code) {
+    return anyErr.data.code;
+  }
+  if (anyErr?.error?.code) {
+    return anyErr.error.code;
+  }
 
   // find code pattern in message
   const msg = String(anyErr?.message ?? anyErr ?? "");
   const m =
     msg.match(/"code"\s*:\s*(-?\d+)/) ?? msg.match(/code[:=]\s*(-?\d+)/i);
-  if (m) return Number(m[1]);
+  if (m) {
+    return Number(m[1]);
+  }
 
   return undefined;
 }

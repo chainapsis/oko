@@ -63,10 +63,7 @@ interface AppActions {
   setKeyshare_1: (hostOrigin: string, keyshare_1: string | null) => void;
 
   getKeyPackageEd25519: (hostOrigin: string) => string | null;
-  setKeyPackageEd25519: (
-    hostOrigin: string,
-    keyPackage: string | null,
-  ) => void;
+  setKeyPackageEd25519: (hostOrigin: string, keyPackage: string | null) => void;
 
   getApiKey: (hostOrigin: string) => string | null;
   setApiKey: (hostOrigin: string, apiKey: string | null) => void;

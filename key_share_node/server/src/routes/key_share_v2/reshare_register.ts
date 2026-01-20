@@ -84,23 +84,6 @@ registry.registerPath({
         },
       },
     },
-    404: {
-      description: "Not found - User must already exist for reshare",
-      content: {
-        "application/json": {
-          schema: ErrorResponseSchema,
-          examples: {
-            USER_NOT_FOUND: {
-              value: {
-                success: false,
-                code: "USER_NOT_FOUND",
-                msg: "User not found (reshare requires existing user)",
-              },
-            },
-          },
-        },
-      },
-    },
     500: {
       description: "Internal server error",
       content: {

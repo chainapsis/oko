@@ -455,13 +455,9 @@ export async function reshareKeyShareV2(
 /**
  * Register key shares during reshare (v2) - for new node joining
  *
- * Unlike /v2/register, this endpoint requires the user to already exist.
  * This is for the reshare scenario where a new node joins the network
- * and needs to register key shares for an existing user.
- *
- * Key differences from /v2/register:
- * - User MUST already exist (will not create new user)
- * - Wallets must NOT already exist on this node
+ * and needs to register key shares for a user.
+ * If the user doesn't exist on this node, it will be created.
  */
 export async function reshareRegisterV2(
   db: Pool,
@@ -485,19 +481,23 @@ export async function reshareRegisterV2(
       };
     }
 
-    if (getUserRes.data === null) {
-      return {
-        success: false,
-        code: "USER_NOT_FOUND",
-        msg: "User not found (reshare requires existing user)",
-      };
-    }
-
-    const userId = getUserRes.data.user_id;
+    const existingUser = getUserRes.data;
 
     const client = await db.connect();
     try {
       await client.query("BEGIN");
+
+      let userId: string;
+      if (existingUser === null) {
+        // New user on this node - create
+        const createUserRes = await createUser(client, auth_type, user_auth_id);
+        if (createUserRes.success === false) {
+          throw new Error(`Failed to createUser: ${createUserRes.err}`);
+        }
+        userId = createUserRes.data.user_id;
+      } else {
+        userId = existingUser.user_id;
+      }
 
       // Register each wallet
       if (wallets.secp256k1) {

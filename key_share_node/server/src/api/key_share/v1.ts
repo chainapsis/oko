@@ -323,7 +323,10 @@ export async function reshareKeyShare(
       existingDecryptedShare.toLowerCase(),
       "utf-8",
     );
-    const providedShareBuffer = Buffer.from(share.toHex().toLowerCase(), "utf-8");
+    const providedShareBuffer = Buffer.from(
+      share.toHex().toLowerCase(),
+      "utf-8",
+    );
 
     if (
       existingShareBuffer.length !== providedShareBuffer.length ||

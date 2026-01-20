@@ -17,7 +17,10 @@ import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { useEnabledChains } from "@oko-wallet-user-dashboard/hooks/queries";
-import { useEthAddress, useBech32Addresses } from "@oko-wallet-user-dashboard/hooks/queries/use_addresses";
+import {
+  useEthAddress,
+  useBech32Addresses,
+} from "@oko-wallet-user-dashboard/hooks/queries/use_addresses";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
 import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
@@ -60,14 +63,19 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
   // Get addresses using TanStack Query hooks
   const { address: ethAddress } = useEthAddress();
   const cosmosChainIds = useMemo(
-    () => visibleChains
-      .filter((chain) => isCosmosChainId(chain.chainId))
-      .map((chain) => chain.chainId),
-    [visibleChains]
+    () =>
+      visibleChains
+        .filter((chain) => isCosmosChainId(chain.chainId))
+        .map((chain) => chain.chainId),
+    [visibleChains],
   );
   const { addresses: bech32Addresses } = useBech32Addresses(cosmosChainIds);
 
-  const searchedChainInfos = useSearch(visibleChains, searchQuery, searchFields);
+  const searchedChainInfos = useSearch(
+    visibleChains,
+    searchQuery,
+    searchFields,
+  );
 
   const filteredChainInfos = searchedChainInfos.filter((chain) => {
     switch (ecosystem) {
@@ -140,17 +148,10 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
                 <Dropdown>
                   <Dropdown.Trigger asChild>
                     <div className={styles.dropdownTrigger}>
-                      <Typography
-                        size="sm"
-                        color="secondary"
-                        weight="semibold"
-                      >
+                      <Typography size="sm" color="secondary" weight="semibold">
                         {ecosystem}
                       </Typography>
-                      <ChevronDownIcon
-                        color="var(--fg-quaternary)"
-                        size={20}
-                      />
+                      <ChevronDownIcon color="var(--fg-quaternary)" size={20} />
                     </div>
                   </Dropdown.Trigger>
                   <Dropdown.Content className={styles.dropdownContent}>
