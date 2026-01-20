@@ -166,6 +166,8 @@ export const useSDKState = create(
           console.log("Sol SDK initialized");
 
           const okoSol = initRes.data;
+          setupSolListener(okoSol);
+
           set({
             oko_sol: okoSol,
             isSolInitializing: false,
@@ -221,4 +223,17 @@ function setupCosmosListener(cosmosSDK: OkoCosmosWalletInterface) {
       },
     });
   }
+}
+
+function setupSolListener(solSDK: OkoSolWalletInterface) {
+  const setPublicKeyEd25519 = useUserInfoState.getState().setPublicKeyEd25519;
+
+  console.log("[Demo] Setting up Sol accountChanged listener");
+  solSDK.on("accountChanged", () => {
+    const ed25519Key = solSDK.state.publicKeyRaw;
+    console.log("[Demo] Sol accountChanged event received:", {
+      ed25519Key: ed25519Key ? "exists" : "null",
+    });
+    setPublicKeyEd25519(ed25519Key);
+  });
 }
