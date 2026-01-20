@@ -39,6 +39,9 @@ jobs:
       - name: Run typecheck
         run: yarn ci typecheck
 
+      - name: Run language check (lint)
+        run: yarn ci lang_check
+
   rust-check:
     name: Rust Check
     runs-on: ubuntu-latest
@@ -50,7 +53,3 @@ jobs:
 
       - name: Run cargo check
         run: cargo check --workspace
-
-  lint:
-    name: TypeScript code check (lint)
-    runs-on: ubuntu-latest
