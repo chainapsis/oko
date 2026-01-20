@@ -57,11 +57,13 @@ function formHasChanges({
   theme,
   customer,
 }: FormHasChangesArgs) {
-  label !== customer?.label ||
+  return (
+    label !== customer?.label ||
     url !== (customer?.url ?? "") ||
     logoFile !== null ||
     shouldDeleteLogo ||
-    theme !== customer?.theme;
+    theme !== customer?.theme
+  );
 }
 
 export function useEditInfoForm() {

@@ -75,6 +75,8 @@ export const EditInfoForm: FC = () => {
 
         {/* Clickable upload area with drag & drop */}
         <div
+          role="button"
+          tabIndex={0}
           className={`${styles.appLogoUploadInput} ${isDragging ? styles.dragging : ""}`}
           onClick={handleUploadClick}
           onDragEnter={handleDragEnter}
