@@ -210,38 +210,11 @@ export async function handleExistingUserV2(
   authType: AuthType,
 ): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
   // 1. Sign in to API server
-  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponseV2>(
-    "user/signin",
-    idToken,
-    {
-      auth_type: authType,
-    },
-    TSS_V2_ENDPOINT,
-  );
-  if (!signInRes.success) {
-    console.error("[attached] sign in failed, err: %s", signInRes.err);
-    return {
-      success: false,
-      err: { type: "sign_in_request_fail", error: signInRes.err.toString() },
-    };
+  const signInResult = await signInV2(idToken, authType);
+  if (!signInResult.success) {
+    return { success: false, err: signInResult.err };
   }
-
-  const apiResponse = signInRes.data;
-  if (!apiResponse.success) {
-    console.error(
-      "[attached] sign in request failed, err: %s",
-      apiResponse.msg,
-    );
-    return {
-      success: false,
-      err: {
-        type: "sign_in_request_fail",
-        error: `code: ${apiResponse.code}`,
-      },
-    };
-  }
-
-  const signInResp = apiResponse.data;
+  const signInResp = signInResult.data;
 
   // 2. Request secp256k1 and ed25519 shares from KS nodes using V2 API
   const requestSharesRes = await requestKeySharesV2(
@@ -641,38 +614,11 @@ export async function handleReshareV2(
   ed25519NeedsReshare: boolean,
 ): Promise<Result<UserSignInResultV2, OAuthSignInError>> {
   // 1. Sign in to API server to get public keys and server verifying share
-  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponseV2>(
-    "user/signin",
-    idToken,
-    {
-      auth_type: authType,
-    },
-    TSS_V2_ENDPOINT,
-  );
-  if (!signInRes.success) {
-    console.error("[attached] sign in failed, err: %s", signInRes.err);
-    return {
-      success: false,
-      err: { type: "sign_in_request_fail", error: signInRes.err.toString() },
-    };
+  const signInResult = await signInV2(idToken, authType);
+  if (!signInResult.success) {
+    return { success: false, err: signInResult.err };
   }
-
-  const apiResponse = signInRes.data;
-  if (!apiResponse.success) {
-    console.error(
-      "[attached] sign in request failed, err: %s",
-      apiResponse.msg,
-    );
-    return {
-      success: false,
-      err: {
-        type: "sign_in_request_fail",
-        error: `code: ${apiResponse.code}`,
-      },
-    };
-  }
-
-  const signInResp = apiResponse.data;
+  const signInResp = signInResult.data;
 
   // Parse public keys
   const publicKeySecp256k1Res = Bytes.fromHexString(
@@ -802,35 +748,14 @@ export async function handleReshareAndEd25519Keygen(
   } = ed25519KeygenSplitRes.data;
 
   // 3. Sign in to get the public key
-  const signInRes = await makeAuthorizedOkoApiRequest<any, SignInResponseV2>(
-    "user/signin",
-    idToken,
-    {
-      auth_type: authType,
-    },
-    TSS_V2_ENDPOINT,
-  );
-  if (!signInRes.success) {
-    return {
-      success: false,
-      err: { type: "sign_in_request_fail", error: signInRes.err.toString() },
-    };
+  const signInResult = await signInV2(idToken, authType);
+  if (!signInResult.success) {
+    return { success: false, err: signInResult.err };
   }
-
-  const apiResponse = signInRes.data;
-  if (!apiResponse.success) {
-    return {
-      success: false,
-      err: {
-        type: "sign_in_request_fail",
-        error: `code: ${apiResponse.code}`,
-      },
-    };
-  }
-  const signInResp = apiResponse.data;
+  const signInResp = signInResult.data;
   const secp256k1PublicKey = signInResp.user.public_key_secp256k1;
 
-  // 5. Request secp256k1 shares with public key
+  // 4. Request secp256k1 shares with public key
   const requestSecp256k1SharesRes = await requestKeySharesV2(
     idToken,
     activeNodes,
@@ -1154,4 +1079,47 @@ async function runEd25519KeygenAndSplit(
       userKeyShares: splitRes.data,
     },
   };
+}
+
+interface SignInRequestV2 {
+  auth_type: AuthType;
+}
+
+/**
+ * Sign in to API server and return user data.
+ * Used by handlers that need to authenticate before requesting shares.
+ */
+async function signInV2(
+  idToken: string,
+  authType: AuthType,
+): Promise<Result<SignInResponseV2, { type: "sign_in_request_fail"; error: string }>> {
+  const signInRes = await makeAuthorizedOkoApiRequest<
+    SignInRequestV2,
+    SignInResponseV2
+  >("user/signin", idToken, { auth_type: authType }, TSS_V2_ENDPOINT);
+
+  if (!signInRes.success) {
+    console.error("[attached] sign in failed, err: %s", signInRes.err);
+    return {
+      success: false,
+      err: { type: "sign_in_request_fail", error: signInRes.err.toString() },
+    };
+  }
+
+  const apiResponse = signInRes.data;
+  if (!apiResponse.success) {
+    console.error(
+      "[attached] sign in request failed, err: %s",
+      apiResponse.msg,
+    );
+    return {
+      success: false,
+      err: {
+        type: "sign_in_request_fail",
+        error: `code: ${apiResponse.code}`,
+      },
+    };
+  }
+
+  return { success: true, data: apiResponse.data };
 }
