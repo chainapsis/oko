@@ -2,7 +2,6 @@ import { Text, View } from "react-native";
 import { WebView } from "react-native-webview";
 
 export default function Index() {
-  // temp
   // const sandboxURL = "http://10.0.2.2:4200";
   const sandboxURL = "https://reactnative.dev";
   console.log("url", sandboxURL);
