@@ -60,7 +60,6 @@ export function useAddresses() {
           promises.push(
             (async () => {
               try {
-                // lazyInit에서 이미 connected=true일 수 있음
                 if (!okoSol.connected) {
                   await okoSol.connect();
                 }
