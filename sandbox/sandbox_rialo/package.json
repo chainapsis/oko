@@ -10,7 +10,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@oko-wallet/oko-sdk-svm": "workspace:*",
+    "@oko-wallet/oko-sdk-sol": "workspace:*",
     "@rialo/frost": "^0.1.0",
     "@rialo/ts-cdk": "^0.1.0",
     "@rialo/wallet-standard": "^0.1.0",

@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import {
   OkoSolWallet,
   type WalletStandardConfig,
-} from "@oko-wallet/oko-sdk-svm";
+} from "@oko-wallet/oko-sdk-sol";
 import {
   SOLANA_CHAINS,
   SOLANA_MAINNET_CHAIN,

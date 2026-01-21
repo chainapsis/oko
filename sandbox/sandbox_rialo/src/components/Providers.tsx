@@ -2,7 +2,10 @@
 
 import { type ReactNode, useEffect, useState } from "react";
 import { FrostProvider } from "@rialo/frost";
-import { OkoSolWallet, type WalletStandardConfig } from "@oko-wallet/oko-sdk-svm";
+import {
+  OkoSolWallet,
+  type WalletStandardConfig,
+} from "@oko-wallet/oko-sdk-sol";
 import type { IdentifierString } from "@wallet-standard/base";
 import {
   RIALO_CHAINS,
@@ -43,7 +46,9 @@ export function Providers({ children }: { children: ReactNode }) {
         });
 
         if (!result.success) {
-          throw new Error(`Failed to initialize: ${JSON.stringify(result.err)}`);
+          throw new Error(
+            `Failed to initialize: ${JSON.stringify(result.err)}`,
+          );
         }
 
         await result.data.waitUntilInitialized;

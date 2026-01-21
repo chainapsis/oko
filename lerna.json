@@ -32,7 +32,7 @@
     "sdk/oko_sdk_core",
     "sdk/oko_sdk_cosmos",
     "sdk/oko_sdk_eth",
-    "sdk/oko_sdk_svm",
+    "sdk/oko_sdk_sol",
     "crypto/bytes",
     "crypto/crypto_js",
     "crypto/tecdsa/tecdsa_interface",

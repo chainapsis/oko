@@ -24,7 +24,7 @@ npm install @oko-wallet/oko-sdk-cosmos
 npm install @oko-wallet/oko-sdk-eth
 
 # For Solana
-npm install @oko-wallet/oko-sdk-svm
+npm install @oko-wallet/oko-sdk-sol
 
 # Core SDK (for custom integration)
 npm install @oko-wallet/oko-sdk-core
@@ -62,7 +62,7 @@ const provider = await ethWallet.getEthereumProvider();
 ### Solana
 
 ```typescript
-import { OkoSolWallet } from "@oko-wallet/oko-sdk-svm";
+import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
 
 const initRes = OkoSolWallet.init(config);
 if (!initRes.success) {

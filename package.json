@@ -12,7 +12,7 @@
       "sdk/oko_sdk_core",
       "sdk/oko_sdk_cosmos",
       "sdk/oko_sdk_eth",
-      "sdk/oko_sdk_svm",
+      "sdk/oko_sdk_sol",
       "examples/interchainkit_nextjs",
       "examples/cosmos_nextjs",
       "examples/cosmoskit_nextjs",

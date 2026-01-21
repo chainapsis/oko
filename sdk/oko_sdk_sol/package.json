@@ -1,5 +1,5 @@
 {
-  "name": "@oko-wallet/oko-sdk-svm",
+  "name": "@oko-wallet/oko-sdk-sol",
   "private": true,
   "version": "^0.1.2-alpha.1",
   "main": "./dist/index.js",
@@ -28,7 +28,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/chainapsis/oko.git",
-    "directory": "sdk/oko_sdk_svm"
+    "directory": "sdk/oko_sdk_sol"
   },
   "scripts": {
     "clean": "del-cli dist tsconfig.rollup.tsbuildinfo",
