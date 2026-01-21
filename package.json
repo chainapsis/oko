@@ -35,7 +35,6 @@
       "backend/attached_api",
       "backend/oko_pg_interface",
       "backend/admin_api",
-      "backend/tss_api",
       "backend/openapi",
       "backend/user_dashboard_api",
       "embed/oko_attached",
