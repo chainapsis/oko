@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  OkoSolWallet,
+  OkoSvmWallet,
   type WalletStandardConfig,
-} from "@oko-wallet/oko-sdk-sol";
+} from "@oko-wallet/oko-sdk-svm";
 import {
   SOLANA_CHAINS,
   SOLANA_DEVNET_CHAIN,
@@ -36,15 +36,15 @@ const SOLANA_CONFIG: WalletStandardConfig = {
   },
 };
 
-export function useOkoSol() {
+export function useOkoSvm() {
   const {
     okoWallet,
-    okoSolWallet,
+    okoSvmWallet,
     isInitialized,
     isConnected,
     publicKey,
     setOkoWallet,
-    setOkoSolWallet,
+    setOkoSvmWallet,
     setInitialized,
     setConnected,
   } = useSdkStore();
@@ -63,28 +63,28 @@ export function useOkoSol() {
       setError(null);
 
       try {
-        // Initialize OkoSolWallet with wallet-standard registration
-        const solWalletResult = OkoSolWallet.init({
+        // Initialize OkoSvmWallet with wallet-standard registration
+        const svmWalletResult = OkoSvmWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
           wallet_standard: [SOLANA_CONFIG],
         });
 
-        if (!solWalletResult.success) {
+        if (!svmWalletResult.success) {
           throw new Error(
-            `Failed to init OkoSolWallet: ${JSON.stringify(solWalletResult.err)}`,
+            `Failed to init OkoSvmWallet: ${JSON.stringify(svmWalletResult.err)}`,
           );
         }
 
-        const solWallet = solWalletResult.data;
-        setOkoSolWallet(solWallet);
+        const svmWallet = svmWalletResult.data;
+        setOkoSvmWallet(svmWallet);
 
         // Get the internal OkoWallet instance
-        const wallet = solWallet.okoWallet;
+        const wallet = svmWallet.okoWallet;
         setOkoWallet(wallet);
 
         // Wait for initialization (wallet-standard registration happens automatically)
-        await solWallet.waitUntilInitialized;
+        await svmWallet.waitUntilInitialized;
         console.log(
           "[sandbox_sol] Oko wallet initialized and registered with wallet-standard",
         );
@@ -94,12 +94,12 @@ export function useOkoSol() {
 
         // Check for existing Ed25519 key (Solana uses Ed25519, not secp256k1)
         const existingEd25519Pubkey =
-          await solWallet.okoWallet.getPublicKeyEd25519();
+          await svmWallet.okoWallet.getPublicKeyEd25519();
         if (existingEd25519Pubkey) {
-          await solWallet.connect();
+          await svmWallet.connect();
           console.log(
             "[sandbox_sol] Reconnected:",
-            solWallet.publicKey?.toBase58(),
+            svmWallet.publicKey?.toBase58(),
           );
         }
       } catch (err) {
@@ -116,12 +116,12 @@ export function useOkoSol() {
     isInitialized,
     isInitializing,
     setOkoWallet,
-    setOkoSolWallet,
+    setOkoSvmWallet,
     setInitialized,
   ]);
 
   useEffect(() => {
-    if (!okoSolWallet) {
+    if (!okoSvmWallet) {
       return;
     }
 
@@ -141,19 +141,19 @@ export function useOkoSol() {
       console.log("[sandbox_sol] disconnect event");
     };
 
-    okoSolWallet.on("accountChanged", handleAccountChanged);
-    okoSolWallet.on("connect", handleConnect);
-    okoSolWallet.on("disconnect", handleDisconnect);
+    okoSvmWallet.on("accountChanged", handleAccountChanged);
+    okoSvmWallet.on("connect", handleConnect);
+    okoSvmWallet.on("disconnect", handleDisconnect);
 
     return () => {
-      okoSolWallet.off("accountChanged", handleAccountChanged);
-      okoSolWallet.off("connect", handleConnect);
-      okoSolWallet.off("disconnect", handleDisconnect);
+      okoSvmWallet.off("accountChanged", handleAccountChanged);
+      okoSvmWallet.off("connect", handleConnect);
+      okoSvmWallet.off("disconnect", handleDisconnect);
     };
-  }, [okoSolWallet, setConnected]);
+  }, [okoSvmWallet, setConnected]);
 
   const connect = useCallback(async () => {
-    if (!okoSolWallet) {
+    if (!okoSvmWallet) {
       setError("SDK not initialized");
       return;
     }
@@ -162,44 +162,44 @@ export function useOkoSol() {
       setError(null);
 
       // Check if user is signed in
-      const existingPubkey = await okoSolWallet.okoWallet.getPublicKey();
+      const existingPubkey = await okoSvmWallet.okoWallet.getPublicKey();
       if (!existingPubkey) {
         // Not signed in - open provider select modal
-        await okoSolWallet.okoWallet.openSignInModal();
+        await okoSvmWallet.okoWallet.openSignInModal();
       }
 
       // connect() internally handles Ed25519 key creation if needed
-      await okoSolWallet.connect();
+      await okoSvmWallet.connect();
       console.log(
         "[sandbox_sol] Connected:",
-        okoSolWallet.publicKey?.toBase58(),
+        okoSvmWallet.publicKey?.toBase58(),
       );
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(message);
       console.error("[sandbox_sol] Failed to connect:", message);
     }
-  }, [okoSolWallet]);
+  }, [okoSvmWallet]);
 
   // Disconnect wallet
   const disconnect = useCallback(async () => {
-    if (!okoSolWallet) {
+    if (!okoSvmWallet) {
       return;
     }
 
     try {
-      await okoSolWallet.disconnect();
+      await okoSvmWallet.disconnect();
       console.log("[sandbox_sol] Disconnected");
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(message);
       console.error("[sandbox_sol] Failed to disconnect:", message);
     }
-  }, [okoSolWallet]);
+  }, [okoSvmWallet]);
 
   return {
     okoWallet,
-    okoSolWallet,
+    okoSvmWallet,
     isInitialized,
     isInitializing,
     isConnected,

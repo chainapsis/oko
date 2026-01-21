@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import { useSdkStore } from "@/store/sdk";
-import { OkoStandardWallet, buildSignInMessage } from "@oko-wallet/oko-sdk-sol";
+import { OkoStandardWallet, buildSignInMessage } from "@oko-wallet/oko-sdk-svm";
 import bs58 from "bs58";
 import Button from "./Button";
 
 export function SiwsWidget() {
-  const { okoSolWallet } = useSdkStore();
+  const { okoSvmWallet } = useSdkStore();
 
   // SIWS input fields
   const [domain, setDomain] = useState("");
@@ -42,12 +42,12 @@ export function SiwsWidget() {
 
   // Preview the SIWS message
   const handlePreview = () => {
-    if (!okoSolWallet?.publicKey) {
+    if (!okoSvmWallet?.publicKey) {
       setError("Wallet not connected");
       return;
     }
 
-    const address = okoSolWallet.publicKey.toBase58();
+    const address = okoSvmWallet.publicKey.toBase58();
     const message = buildSignInMessage(
       {
         domain: domain || undefined,
@@ -63,7 +63,7 @@ export function SiwsWidget() {
 
   // Execute SIWS
   const handleSignIn = async () => {
-    if (!okoSolWallet) {
+    if (!okoSvmWallet) {
       setError("SDK not initialized");
       return;
     }
@@ -74,7 +74,7 @@ export function SiwsWidget() {
 
     try {
       // Create StandardWallet wrapper
-      const standardWallet = new OkoStandardWallet(okoSolWallet);
+      const standardWallet = new OkoStandardWallet(okoSvmWallet);
 
       // Call solana:signIn feature
       const [signInResult] = await standardWallet.features[
@@ -191,7 +191,7 @@ export function SiwsWidget() {
       <div className="flex gap-3 mb-6">
         <Button
           onClick={handlePreview}
-          disabled={!okoSolWallet?.connected}
+          disabled={!okoSvmWallet?.connected}
           variant="ghost"
           className="flex-1"
         >
@@ -199,7 +199,7 @@ export function SiwsWidget() {
         </Button>
         <Button
           onClick={handleSignIn}
-          disabled={isLoading || !okoSolWallet?.connected}
+          disabled={isLoading || !okoSvmWallet?.connected}
           loading={isLoading}
           className="flex-1"
         >
