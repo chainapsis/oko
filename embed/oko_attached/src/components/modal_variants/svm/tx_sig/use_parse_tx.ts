@@ -3,7 +3,7 @@ import {
   deserializeTransaction,
   parseTransaction,
   type ParsedTransaction,
-} from "@oko-wallet-attached/tx-parsers/sol";
+} from "@oko-wallet-attached/tx-parsers/svm";
 
 import { base64ToUint8Array } from "@oko-wallet-attached/utils/base64";
 

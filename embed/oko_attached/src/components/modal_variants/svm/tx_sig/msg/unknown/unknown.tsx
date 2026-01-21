@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/svm";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "../instructions.module.scss";
