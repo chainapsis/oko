@@ -63,7 +63,7 @@ export function useOkoSol() {
         const solWalletResult = OkoSolWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
-          walletStandard: SOLANA_CONFIG,
+          wallet_standard: SOLANA_CONFIG,
         });
 
         if (!solWalletResult.success) {
@@ -81,7 +81,9 @@ export function useOkoSol() {
 
         // Wait for initialization (wallet-standard registration happens automatically)
         await solWallet.waitUntilInitialized;
-        console.log("[sandbox_sol] Oko wallet initialized and registered with wallet-standard");
+        console.log(
+          "[sandbox_sol] Oko wallet initialized and registered with wallet-standard",
+        );
 
         setInitialized(true);
         console.log("[sandbox_sol] SDK initialized");

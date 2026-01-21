@@ -25,7 +25,7 @@ export interface OkoSolWalletState {
 }
 
 export type OkoSolWalletInitArgs = OkoWalletInitArgs & {
-  walletStandard?: WalletStandardConfig;
+  wallet_standard?: WalletStandardConfig;
 };
 
 export interface OkoSolWalletStaticInterface {

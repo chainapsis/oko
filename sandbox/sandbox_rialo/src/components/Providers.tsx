@@ -42,7 +42,7 @@ export function Providers({ children }: { children: ReactNode }) {
         const result = OkoSolWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
-          walletStandard: RIALO_CONFIG,
+          wallet_standard: RIALO_CONFIG,
         });
 
         if (!result.success) {
