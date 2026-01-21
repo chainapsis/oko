@@ -1,9 +1,9 @@
 import type { FC, ReactNode } from "react";
-import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/sol";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/svm";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import styles from "./instructions.module.scss";
-import { SolTransferPretty } from "./transfer/transfer";
+import { SvmTransferPretty } from "./transfer/transfer";
 import { TokenTransferPretty } from "./transfer/token_transfer";
 import { UnknownInstruction } from "./unknown/unknown";
 
@@ -22,7 +22,7 @@ function renderInstruction(
 
       if (lamports !== undefined) {
         return (
-          <SolTransferPretty
+          <SvmTransferPretty
             key={index}
             lamports={lamports}
             from={from}

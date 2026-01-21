@@ -1,15 +1,16 @@
 import type { FC } from "react";
-import type { SolanaAllTxSignPayload } from "@oko-wallet/oko-sdk-core";
+import type { SvmMessageSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "../common/signature_content.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SignerAddressOrEmail } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
+import { SvmMessageSummary } from "./svm_message_summary";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 
-interface SolanaAllTxSignatureContentProps {
-  payload: SolanaAllTxSignPayload;
+interface SvmMessageSignatureContentProps {
+  payload: SvmMessageSignPayload;
 }
 
 function getFaviconUrl(origin: string): string {
@@ -24,12 +25,11 @@ function getFaviconUrl(origin: string): string {
   }
 }
 
-export const SolanaAllTxSignatureContent: FC<
-  SolanaAllTxSignatureContentProps
+export const SvmMessageSignatureContent: FC<
+  SvmMessageSignatureContentProps
 > = ({ payload }) => {
-  const { origin, signer, data } = payload;
+  const { origin, signer } = payload;
   const faviconUrl = getFaviconUrl(origin);
-  const txCount = data.serialized_transactions.length;
 
   return (
     <div className={styles.signatureContent}>
@@ -41,9 +41,7 @@ export const SolanaAllTxSignatureContent: FC<
 
       <Spacing height={16} />
 
-      <div className={styles.signTypeTitle}>
-        Sign {txCount} Solana Transactions
-      </div>
+      <div className={styles.signTypeTitle}>Sign Message</div>
 
       <Spacing height={12} />
 
@@ -76,7 +74,7 @@ export const SolanaAllTxSignatureContent: FC<
                 variant="rounded"
               />
               <Typography size="lg" color="secondary" weight="semibold">
-                Solana signatures
+                Solana signature
               </Typography>
             </div>
           </div>
@@ -88,18 +86,7 @@ export const SolanaAllTxSignatureContent: FC<
 
       <Spacing height={16} />
 
-      <div
-        style={{
-          padding: "12px 16px",
-          backgroundColor: "var(--bg-secondary)",
-          borderRadius: "12px",
-        }}
-      >
-        <Typography size="md" color="secondary">
-          This request will sign {txCount} transactions at once. Please review
-          carefully before approving.
-        </Typography>
-      </div>
+      <SvmMessageSummary payload={payload} />
     </div>
   );
 };

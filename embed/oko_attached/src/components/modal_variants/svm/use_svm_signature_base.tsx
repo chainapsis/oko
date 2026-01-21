@@ -1,6 +1,6 @@
 import { useState } from "react";
 import type {
-  MakeSolSigError,
+  MakeSvmSigError,
   OpenModalAckPayload,
 } from "@oko-wallet/oko-sdk-core";
 
@@ -16,7 +16,7 @@ import {
   extractKeyPackageHex,
 } from "@oko-wallet-attached/crypto/keygen_ed25519";
 
-export interface UseSolSignatureBaseArgs {
+export interface UseSvmSignatureBaseArgs {
   modalId: string;
   hostOrigin: string;
   getIsAborted: () => boolean;
@@ -42,7 +42,7 @@ export async function signMessageToHex(
   ctx: SigningContext,
 ): Promise<
   | { success: true; signature: string }
-  | { success: false; error: MakeSolSigError }
+  | { success: false; error: MakeSvmSigError }
 > {
   const signatureRes = await makeSignOutputEd25519(
     message,
@@ -63,7 +63,7 @@ export async function signMessageToHex(
   return { success: true, signature: signatureHex };
 }
 
-export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
+export function useSvmSignatureBase(args: UseSvmSignatureBaseArgs) {
   const { modalId, hostOrigin, getIsAborted } = args;
   const { closeModal, setError } = useMemoryState();
 
@@ -81,16 +81,16 @@ export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
 
   function onReject() {
     const ack: OpenModalAckPayload = {
-      modal_type: "sol/make_signature",
+      modal_type: "svm/make_signature",
       modal_id: modalId,
       type: "reject",
     };
     closeModal(ack);
   }
 
-  function emitError(error: MakeSolSigError) {
+  function emitError(error: MakeSvmSigError) {
     setError({
-      modal_type: "sol/make_signature",
+      modal_type: "svm/make_signature",
       modal_id: modalId,
       type: "error",
       error,
@@ -103,11 +103,11 @@ export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
 
   function closeWithSignature(signature: string) {
     const ack: OpenModalAckPayload = {
-      modal_type: "sol/make_signature",
+      modal_type: "svm/make_signature",
       modal_id: modalId,
       type: "approve",
       data: {
-        chain_type: "sol",
+        chain_type: "svm",
         sig_result: { type: "signature", signature },
       },
     };
@@ -116,11 +116,11 @@ export function useSolSignatureBase(args: UseSolSignatureBaseArgs) {
 
   function closeWithSignatures(signatures: string[]) {
     const ack: OpenModalAckPayload = {
-      modal_type: "sol/make_signature",
+      modal_type: "svm/make_signature",
       modal_id: modalId,
       type: "approve",
       data: {
-        chain_type: "sol",
+        chain_type: "svm",
         sig_result: { type: "signatures", signatures },
       },
     };

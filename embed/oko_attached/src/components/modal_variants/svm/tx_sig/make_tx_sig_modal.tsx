@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { MakeSolTxSignData } from "@oko-wallet/oko-sdk-core";
+import type { MakeSvmTxSignData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
@@ -10,14 +10,14 @@ import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 import { trackTxButtonEvent } from "@oko-wallet-attached/analytics/events";
 import { useTxSigModal } from "./use_tx_sig_modal";
-import { SolanaTxSignatureContent } from "./sol_tx_signature_content";
-import { SolanaTxFee } from "./sol_tx_fee";
+import { SvmTxSignatureContent } from "./svm_tx_signature_content";
+import { SvmTxFee } from "./svm_tx_fee";
 import { useParseTx } from "./use_parse_tx";
 
 export interface MakeTxSigModalProps {
   getIsAborted: () => boolean;
   modalId: string;
-  data: MakeSolTxSignData;
+  data: MakeSvmTxSignData;
 }
 
 export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
@@ -42,7 +42,7 @@ export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
     trackTxButtonEvent({
       eventType: "reject",
       hostOrigin: data.payload.origin,
-      chainType: "solana",
+      chainType: "svm",
       instructions: parsedTx?.instructions ?? null,
     });
 
@@ -53,7 +53,7 @@ export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
     trackTxButtonEvent({
       eventType: "approve",
       hostOrigin: data.payload.origin,
-      chainType: "solana",
+      chainType: "svm",
       instructions: parsedTx?.instructions ?? null,
     });
 
@@ -68,7 +68,7 @@ export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
         </div>
 
         <div className={styles.modalInnerContentContainer}>
-          <SolanaTxSignatureContent
+          <SvmTxSignatureContent
             payload={data.payload}
             parsedTx={parsedTx}
             parseError={parseError}
@@ -78,7 +78,7 @@ export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
 
         <Spacing height={20} />
 
-        <SolanaTxFee
+        <SvmTxFee
           serializedTransaction={data.payload.data.serialized_transaction}
           isVersioned={data.payload.data.is_versioned}
         />

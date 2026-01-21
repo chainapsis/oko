@@ -1,14 +1,14 @@
 import { useState } from "react";
-import type { MakeSolAllTxSignData } from "@oko-wallet/oko-sdk-core";
+import type { MakeSvmAllTxSignData } from "@oko-wallet/oko-sdk-core";
 import { base64ToUint8Array } from "@oko-wallet-attached/utils/base64";
 import {
-  useSolSignatureBase,
+  useSvmSignatureBase,
   signMessageToHex,
-} from "../use_sol_signature_base";
+} from "../use_svm_signature_base";
 
 export interface UseAllTxSigModalArgs {
   modalId: string;
-  data: MakeSolAllTxSignData;
+  data: MakeSvmAllTxSignData;
   getIsAborted: () => boolean;
 }
 
@@ -16,7 +16,7 @@ export function useAllTxSigModal(args: UseAllTxSigModalArgs) {
   const { modalId, data, getIsAborted } = args;
   const hostOrigin = data.payload.origin;
 
-  const base = useSolSignatureBase({ modalId, hostOrigin, getIsAborted });
+  const base = useSvmSignatureBase({ modalId, hostOrigin, getIsAborted });
   const [signingProgress, setSigningProgress] = useState(0);
 
   const txCount = data.payload.data.serialized_transactions.length;

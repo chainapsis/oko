@@ -4,7 +4,7 @@ import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
-import { useGetSolanaTokenMetadata } from "@oko-wallet-attached/web3/solana/queries";
+import { useGetSvmTokenMetadata } from "@oko-wallet-attached/web3/svm/queries";
 import styles from "../instructions.module.scss";
 
 function shortenAddress(address: string): string {
@@ -42,7 +42,7 @@ export const TokenTransferPretty: FC<TokenTransferPrettyProps> = ({
   from,
   to,
 }) => {
-  const { data: tokenMetadata, isLoading } = useGetSolanaTokenMetadata({
+  const { data: tokenMetadata, isLoading } = useGetSvmTokenMetadata({
     mintAddress: mint,
   });
 

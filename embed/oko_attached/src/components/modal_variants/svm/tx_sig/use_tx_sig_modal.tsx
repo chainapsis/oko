@@ -1,13 +1,13 @@
-import type { MakeSolTxSignData } from "@oko-wallet/oko-sdk-core";
+import type { MakeSvmTxSignData } from "@oko-wallet/oko-sdk-core";
 import { base64ToUint8Array } from "@oko-wallet-attached/utils/base64";
 import {
-  useSolSignatureBase,
+  useSvmSignatureBase,
   signMessageToHex,
-} from "../use_sol_signature_base";
+} from "../use_svm_signature_base";
 
 export interface UseTxSigModalArgs {
   modalId: string;
-  data: MakeSolTxSignData;
+  data: MakeSvmTxSignData;
   getIsAborted: () => boolean;
 }
 
@@ -15,7 +15,7 @@ export function useTxSigModal(args: UseTxSigModalArgs) {
   const { modalId, data, getIsAborted } = args;
   const hostOrigin = data.payload.origin;
 
-  const base = useSolSignatureBase({ modalId, hostOrigin, getIsAborted });
+  const base = useSvmSignatureBase({ modalId, hostOrigin, getIsAborted });
 
   async function onApprove() {
     if (getIsAborted()) return;

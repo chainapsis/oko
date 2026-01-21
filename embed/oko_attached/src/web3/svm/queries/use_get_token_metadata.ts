@@ -12,16 +12,16 @@ export interface JupiterToken {
   isVerified: boolean;
 }
 
-export type SolanaTokenMetadataResult = {
+export type SvmTokenMetadataResult = {
   name?: string;
   symbol?: string;
   decimals?: number;
   icon?: string;
 };
 
-export interface UseGetSolanaTokenMetadataProps {
+export interface UseGetSvmTokenMetadataProps {
   mintAddress?: string;
-  options?: Partial<UseQueryOptions<SolanaTokenMetadataResult>>;
+  options?: Partial<UseQueryOptions<SvmTokenMetadataResult>>;
 }
 
 async function fetchTokenMetadata(
@@ -52,13 +52,13 @@ async function fetchTokenMetadata(
   return token ?? null;
 }
 
-export function useGetSolanaTokenMetadata({
+export function useGetSvmTokenMetadata({
   mintAddress,
   options,
-}: UseGetSolanaTokenMetadataProps) {
+}: UseGetSvmTokenMetadataProps) {
   return useQuery({
-    queryKey: ["solana-token-metadata", mintAddress],
-    queryFn: async (): Promise<SolanaTokenMetadataResult> => {
+    queryKey: ["svm-token-metadata", mintAddress],
+    queryFn: async (): Promise<SvmTokenMetadataResult> => {
       const defaultResult = {
         name: undefined,
         symbol: undefined,

@@ -1,8 +1,8 @@
 import type { FC } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
-import styles from "./sol_tx_fee.module.scss";
-import { useCalculateFee } from "@oko-wallet-attached/web3/solana/use_calculate_fee";
+import styles from "./svm_tx_fee.module.scss";
+import { useCalculateFee } from "@oko-wallet-attached/web3/svm/use_calculate_fee";
 
 const LAMPORTS_PER_SOL = 1_000_000_000;
 
@@ -14,12 +14,12 @@ function formatFee(lamports: number): string {
   return `${sol.toFixed(6)} SOL`;
 }
 
-export interface SolanaTxFeeProps {
+export interface SvmTxFeeProps {
   serializedTransaction: string;
   isVersioned: boolean;
 }
 
-export const SolanaTxFee: FC<SolanaTxFeeProps> = ({
+export const SvmTxFee: FC<SvmTxFeeProps> = ({
   serializedTransaction,
   isVersioned,
 }) => {

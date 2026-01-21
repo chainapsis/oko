@@ -1,13 +1,13 @@
-import type { MakeSolMessageSignData } from "@oko-wallet/oko-sdk-core";
+import type { MakeSvmMessageSignData } from "@oko-wallet/oko-sdk-core";
 import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
 import {
-  useSolSignatureBase,
+  useSvmSignatureBase,
   signMessageToHex,
-} from "../use_sol_signature_base";
+} from "../use_svm_signature_base";
 
 export interface UseMessageSigModalArgs {
   modalId: string;
-  data: MakeSolMessageSignData;
+  data: MakeSvmMessageSignData;
   getIsAborted: () => boolean;
 }
 
@@ -15,7 +15,7 @@ export function useMessageSigModal(args: UseMessageSigModalArgs) {
   const { modalId, data, getIsAborted } = args;
   const hostOrigin = data.payload.origin;
 
-  const base = useSolSignatureBase({ modalId, hostOrigin, getIsAborted });
+  const base = useSvmSignatureBase({ modalId, hostOrigin, getIsAborted });
 
   async function onApprove() {
     if (getIsAborted()) return;

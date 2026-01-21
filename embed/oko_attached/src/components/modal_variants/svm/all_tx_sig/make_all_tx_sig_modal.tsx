@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import type { MakeSolAllTxSignData } from "@oko-wallet/oko-sdk-core";
+import type { MakeSvmAllTxSignData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
@@ -9,12 +9,12 @@ import { CommonModal } from "@oko-wallet-attached/components/modal_variants/comm
 import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 import { useAllTxSigModal } from "./use_all_tx_sig_modal";
-import { SolanaAllTxSignatureContent } from "./sol_all_tx_signature_content";
+import { SvmAllTxSignatureContent } from "./svm_all_tx_signature_content";
 
 export interface MakeAllTxSigModalProps {
   getIsAborted: () => boolean;
   modalId: string;
-  data: MakeSolAllTxSignData;
+  data: MakeSvmAllTxSignData;
 }
 
 export const MakeAllTxSigModal: FC<MakeAllTxSigModalProps> = ({
@@ -57,7 +57,7 @@ export const MakeAllTxSigModal: FC<MakeAllTxSigModalProps> = ({
         </div>
 
         <div className={styles.modalInnerContentContainer}>
-          <SolanaAllTxSignatureContent payload={data.payload} />
+          <SvmAllTxSignatureContent payload={data.payload} />
         </div>
 
         <Spacing height={20} />

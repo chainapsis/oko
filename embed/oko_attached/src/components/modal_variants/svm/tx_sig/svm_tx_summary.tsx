@@ -1,63 +1,73 @@
 import { type FC, type ReactNode, useState, useMemo } from "react";
-import type { SolanaMessageSignPayload } from "@oko-wallet/oko-sdk-core";
+import type { SvmTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/svm";
 
 import styles from "../common/summary.module.scss";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { TxContainer } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/common/tx_container";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
+import { Instructions } from "./msg/instructions";
 
-export interface SolanaMessageSummaryProps {
-  payload: SolanaMessageSignPayload;
+export interface SvmTxSummaryProps {
+  payload: SvmTxSignPayload;
+  parsedTx: ParsedTransaction | null;
+  parseError: string | null;
+  isLoading: boolean;
 }
 
-export const SolanaMessageSummary: FC<SolanaMessageSummaryProps> = ({
+export const SvmTxSummary: FC<SvmTxSummaryProps> = ({
   payload,
+  parsedTx,
+  parseError,
+  isLoading,
 }) => {
   const [isRawView, setIsRawView] = useState(false);
 
-  const { rawData, smartViewContent } = useMemo(() => {
-    const msgData = payload.data;
-    let decoded = "";
+  const txData = payload.data;
 
-    try {
-      const hex = msgData.message.startsWith("0x")
-        ? msgData.message.slice(2)
-        : msgData.message;
-      const byteArray = new Uint8Array(hex.length / 2);
-      for (let i = 0; i < byteArray.length; i++) {
-        byteArray[i] = parseInt(hex.slice(i * 2, i * 2 + 2), 16);
-      }
-      decoded = new TextDecoder().decode(byteArray);
-    } catch {
-      decoded = msgData.message;
+  const { rawData, smartViewContent } = useMemo(() => {
+    let content: ReactNode;
+
+    if (parseError) {
+      content = (
+        <TxContainer>
+          <TxRow label="Error">
+            <Typography color="primary" size="sm" weight="semibold">
+              {parseError}
+            </Typography>
+          </TxRow>
+        </TxContainer>
+      );
+    } else if (isLoading || !parsedTx) {
+      content = (
+        <TxContainer>
+          <TxRow label="Status">
+            <Typography color="secondary" size="sm" weight="semibold">
+              Parsing...
+            </Typography>
+          </TxRow>
+        </TxContainer>
+      );
+    } else {
+      content = <Instructions instructions={parsedTx.instructions} />;
     }
 
-    const content: ReactNode = (
-      <TxContainer>
-        <TxRow label="Content">
-          <Typography
-            color="primary"
-            size="sm"
-            weight="semibold"
-            style={{
-              wordBreak: "break-word",
-              whiteSpace: "pre-wrap",
-            }}
-          >
-            {decoded.length > 200 ? decoded.slice(0, 200) + "..." : decoded}
-          </Typography>
-        </TxRow>
-      </TxContainer>
-    );
-
     return {
-      rawData: JSON.stringify({ message: msgData.message }, null, 2),
+      rawData: JSON.stringify(
+        {
+          serialized_transaction: txData.serialized_transaction,
+          message_to_sign: txData.message_to_sign,
+          is_versioned: txData.is_versioned,
+        },
+        null,
+        2,
+      ),
       smartViewContent: content,
     };
-  }, [payload.data]);
+  }, [txData, parsedTx, parseError, isLoading]);
 
   function handleToggleView() {
     setIsRawView((prev) => !prev);
@@ -82,7 +92,7 @@ export const SolanaMessageSummary: FC<SolanaMessageSummaryProps> = ({
     <div className={styles.summaryContainer}>
       <div className={styles.summaryHeader}>
         <Typography color="secondary" size="sm" weight="semibold">
-          Message
+          Transaction
         </Typography>
         <div className={styles.summaryHeaderRight} onClick={handleToggleView}>
           <Typography color="tertiary" size="xs" weight="medium">

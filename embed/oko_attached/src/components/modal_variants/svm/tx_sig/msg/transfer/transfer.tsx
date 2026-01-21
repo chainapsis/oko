@@ -21,13 +21,13 @@ function formatLamports(lamports: bigint | number): string {
   return `${formatter.format(`${lamports}E-9` as unknown as number)} SOL`;
 }
 
-export interface SolTransferPrettyProps {
+export interface SvmTransferPrettyProps {
   lamports: bigint | number;
   from?: string;
   to?: string;
 }
 
-export const SolTransferPretty: FC<SolTransferPrettyProps> = ({
+export const SvmTransferPretty: FC<SvmTransferPrettyProps> = ({
   lamports,
   from,
   to,

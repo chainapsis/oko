@@ -1,5 +1,5 @@
 import { useMemo, useState, type FC } from "react";
-import type { MakeSolMessageSignData } from "@oko-wallet/oko-sdk-core";
+import type { MakeSvmMessageSignData } from "@oko-wallet/oko-sdk-core";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Button } from "@oko-wallet/oko-common-ui/button";
@@ -9,19 +9,19 @@ import { CommonModal } from "@oko-wallet-attached/components/modal_variants/comm
 import { DemoView } from "@oko-wallet-attached/components/modal_variants/common/make_signature/demo_view";
 import { SignWithOkoBox } from "@oko-wallet-attached/components/sign_with_oko_box/sign_with_oko_box";
 import { useMessageSigModal } from "./use_message_sig_modal";
-import { SolanaMessageSignatureContent } from "./sol_message_signature_content";
+import { SvmMessageSignatureContent } from "./svm_message_signature_content";
 import {
   getSiwsMessage,
   verifySiwsMessage,
-} from "@oko-wallet-attached/components/modal_variants/sol/siws_message";
-import { SolanaSiwsSignatureContent } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/make_siws_signature_content";
+} from "@oko-wallet-attached/components/modal_variants/svm/siws_message";
+import { SvmSiwsSignatureContent } from "@oko-wallet-attached/components/modal_variants/svm/message_sig/siws_sig/make_siws_signature_content";
 import { RiskWarningCheckBox } from "@oko-wallet-attached/components/modal_variants/common/risk_warning/risk_warning";
 import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
 
 export interface MakeMessageSigModalProps {
   getIsAborted: () => boolean;
   modalId: string;
-  data: MakeSolMessageSignData;
+  data: MakeSvmMessageSignData;
 }
 
 export const MakeMessageSigModal: FC<MakeMessageSigModalProps> = ({
@@ -81,9 +81,9 @@ export const MakeMessageSigModal: FC<MakeMessageSigModalProps> = ({
 
         <div className={styles.modalInnerContentContainer}>
           {!!siwsMessage ? (
-            <SolanaSiwsSignatureContent payload={data.payload} theme={theme} />
+            <SvmSiwsSignatureContent payload={data.payload} theme={theme} />
           ) : (
-            <SolanaMessageSignatureContent payload={data.payload} />
+            <SvmMessageSignatureContent payload={data.payload} />
           )}
         </div>
 

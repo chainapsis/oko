@@ -1,4 +1,4 @@
-import type { SolanaMessageSignPayload } from "@oko-wallet/oko-sdk-core";
+import type { SvmMessageSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import type { Theme } from "@oko-wallet/oko-common-ui/theme";
@@ -8,8 +8,8 @@ import styles from "@oko-wallet-attached/components/modal_variants/common/sign_i
 import {
   getSiwsMessage,
   verifySiwsMessage,
-} from "@oko-wallet-attached/components/modal_variants/sol/siws_message";
-import { SiwsSigTitleBadge } from "@oko-wallet-attached/components/modal_variants/sol/message_sig/siws_sig/siws_sig_title_badge";
+} from "@oko-wallet-attached/components/modal_variants/svm/siws_message";
+import { SiwsSigTitleBadge } from "@oko-wallet-attached/components/modal_variants/svm/message_sig/siws_sig/siws_sig_title_badge";
 import { SignerInfo } from "@oko-wallet-attached/components/modal_variants/common/signer_info";
 import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
@@ -18,13 +18,13 @@ import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 import { hexToUint8Array } from "@oko-wallet-attached/crypto/keygen_ed25519";
 
-interface SolanaSiwsSignatureContentProps {
-  payload: SolanaMessageSignPayload;
+interface SvmSiwsSignatureContentProps {
+  payload: SvmMessageSignPayload;
   theme: Theme | null;
 }
 
-export const SolanaSiwsSignatureContent: FC<
-  SolanaSiwsSignatureContentProps
+export const SvmSiwsSignatureContent: FC<
+  SvmSiwsSignatureContentProps
 > = ({ payload, theme }) => {
   // Decode hex message to string
   const decodedMessage = useMemo(() => {

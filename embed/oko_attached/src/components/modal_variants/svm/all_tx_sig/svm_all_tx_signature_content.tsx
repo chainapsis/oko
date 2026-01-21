@@ -1,16 +1,15 @@
 import type { FC } from "react";
-import type { SolanaMessageSignPayload } from "@oko-wallet/oko-sdk-core";
+import type { SvmAllTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 
 import styles from "../common/signature_content.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SignerAddressOrEmail } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
-import { SolanaMessageSummary } from "./sol_message_summary";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 
-interface SolanaMessageSignatureContentProps {
-  payload: SolanaMessageSignPayload;
+interface SvmAllTxSignatureContentProps {
+  payload: SvmAllTxSignPayload;
 }
 
 function getFaviconUrl(origin: string): string {
@@ -25,11 +24,12 @@ function getFaviconUrl(origin: string): string {
   }
 }
 
-export const SolanaMessageSignatureContent: FC<
-  SolanaMessageSignatureContentProps
+export const SvmAllTxSignatureContent: FC<
+  SvmAllTxSignatureContentProps
 > = ({ payload }) => {
-  const { origin, signer } = payload;
+  const { origin, signer, data } = payload;
   const faviconUrl = getFaviconUrl(origin);
+  const txCount = data.serialized_transactions.length;
 
   return (
     <div className={styles.signatureContent}>
@@ -41,7 +41,9 @@ export const SolanaMessageSignatureContent: FC<
 
       <Spacing height={16} />
 
-      <div className={styles.signTypeTitle}>Sign Message</div>
+      <div className={styles.signTypeTitle}>
+        Sign {txCount} Solana Transactions
+      </div>
 
       <Spacing height={12} />
 
@@ -74,7 +76,7 @@ export const SolanaMessageSignatureContent: FC<
                 variant="rounded"
               />
               <Typography size="lg" color="secondary" weight="semibold">
-                Solana signature
+                Solana signatures
               </Typography>
             </div>
           </div>
@@ -86,7 +88,18 @@ export const SolanaMessageSignatureContent: FC<
 
       <Spacing height={16} />
 
-      <SolanaMessageSummary payload={payload} />
+      <div
+        style={{
+          padding: "12px 16px",
+          backgroundColor: "var(--bg-secondary)",
+          borderRadius: "12px",
+        }}
+      >
+        <Typography size="md" color="secondary">
+          This request will sign {txCount} transactions at once. Please review
+          carefully before approving.
+        </Typography>
+      </div>
     </div>
   );
 };

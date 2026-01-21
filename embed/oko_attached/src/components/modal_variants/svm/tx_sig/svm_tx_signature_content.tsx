@@ -1,17 +1,17 @@
 import type { FC } from "react";
-import type { SolanaTxSignPayload } from "@oko-wallet/oko-sdk-core";
+import type { SvmTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/sol";
+import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/svm";
 
 import styles from "../common/signature_content.module.scss";
 import { Avatar } from "@oko-wallet-attached/components/avatar/avatar";
 import { SignerAddressOrEmail } from "@oko-wallet-attached/components/modal_variants/common/metadata_content/signer_address_or_email/signer_address_or_email";
-import { SolanaTxSummary } from "./sol_tx_summary";
+import { SvmTxSummary } from "./svm_tx_summary";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 
-interface SolanaTxSignatureContentProps {
-  payload: SolanaTxSignPayload;
+interface SvmTxSignatureContentProps {
+  payload: SvmTxSignPayload;
   parsedTx: ParsedTransaction | null;
   parseError: string | null;
   isLoading: boolean;
@@ -29,7 +29,7 @@ function getFaviconUrl(origin: string): string {
   }
 }
 
-export const SolanaTxSignatureContent: FC<SolanaTxSignatureContentProps> = ({
+export const SvmTxSignatureContent: FC<SvmTxSignatureContentProps> = ({
   payload,
   parsedTx,
   parseError,
@@ -93,7 +93,7 @@ export const SolanaTxSignatureContent: FC<SolanaTxSignatureContentProps> = ({
 
       <Spacing height={16} />
 
-      <SolanaTxSummary
+      <SvmTxSummary
         payload={payload}
         parsedTx={parsedTx}
         parseError={parseError}
