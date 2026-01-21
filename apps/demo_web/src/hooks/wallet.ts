@@ -65,7 +65,9 @@ export function useAddresses() {
                   setSolanaAddress(okoSol.publicKey.toBase58());
                 }
               })
-              .catch((err) => console.error("Failed to get Solana address:", err)),
+              .catch((err) =>
+                console.error("Failed to get Solana address:", err),
+              ),
           );
         }
 
