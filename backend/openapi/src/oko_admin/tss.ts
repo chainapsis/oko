@@ -44,6 +44,10 @@ const TssSessionWithCustomerAndUserSchema = registry.register(
     user_email: z.email().optional().openapi({
       description: "User email address (optional)",
     }),
+
+    curve_type: z.string().optional().openapi({
+      description: "Wallet curve type (optional)",
+    }),
   }),
 );
 

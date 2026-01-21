@@ -72,13 +72,18 @@ const columns = [
   }),
   columnHelper.accessor((row) => row.user_email, {
     id: "user_email",
-    header: "Email",
+    header: "User Identifier",
     cell: (info) => <div className={styles.userEmail}>{info.getValue()}</div>,
   }),
   columnHelper.accessor((row) => row.wallet_id, {
     id: "wallet_id",
     header: "Wallet ID",
     cell: (info) => <div className={styles.walletId}>{info.getValue()}</div>,
+  }),
+  columnHelper.accessor((row) => row.curve_type, {
+    id: "curve_type",
+    header: "Curve Type",
+    cell: (info) => <div>{info.getValue()}</div>,
   }),
   columnHelper.accessor((row) => row.wallet_public_key, {
     id: "wallet_public_key",
