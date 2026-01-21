@@ -469,14 +469,14 @@ export async function runKeygenEd25519(
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `getWalletByPublicKey error: ${walletByPublicKeyRes.err}`,
+        msg: `getWalletByPublicKey (ed25519) error: ${walletByPublicKeyRes.err}`,
       };
     }
     if (walletByPublicKeyRes.data !== null) {
       return {
         success: false,
         code: "DUPLICATE_PUBLIC_KEY",
-        msg: `Duplicate public key: ${ed25519PublicKeyHex}`,
+        msg: `Duplicate ed25519 public key: ${ed25519PublicKeyHex}`,
       };
     }
 
