@@ -22,7 +22,6 @@
     "@oko-wallet/oko-pg-interface": "workspace:*",
     "@oko-wallet/oko-types": "^0.1.2-alpha.1",
     "@oko-wallet/stdlib-js": "0.0.2-rc.41",
-    "@oko-wallet/tss-api": "workspace:*",
     "@oko-wallet/user-dashboard-api": "workspace:*",
     "chalk": "^5.5.0",
     "cors": "^2.8.5",
