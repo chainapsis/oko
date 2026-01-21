@@ -14,7 +14,6 @@
     "backend/attached_api",
     "backend/ct_dashboard_api",
     "backend/user_dashboard_api",
-    "backend/social_login_api",
     "backend/tss_api",
     "common/oko_types",
     "embed/oko_attached",

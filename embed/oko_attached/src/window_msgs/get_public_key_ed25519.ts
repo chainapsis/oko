@@ -6,15 +6,13 @@ import type { MsgEventContext } from "./types";
 
 export async function handleGetPublicKeyEd25519(ctx: MsgEventContext) {
   const { port, hostOrigin } = ctx;
-  const keyPackageEd25519 = useAppState
-    .getState()
-    .getKeyPackageEd25519(hostOrigin);
+  const walletEd25519 = useAppState.getState().getWalletEd25519(hostOrigin);
 
   let payload: OkoWalletMsgGetPublicKeyEd25519Ack["payload"];
-  if (keyPackageEd25519?.publicKey) {
+  if (walletEd25519?.publicKey) {
     payload = {
       success: true,
-      data: keyPackageEd25519.publicKey,
+      data: walletEd25519.publicKey,
     };
   } else {
     payload = {

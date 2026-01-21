@@ -1,4 +1,7 @@
-import type { CommitmentEntry, SignatureShareEntry } from "@oko-wallet-types/teddsa";
+import type {
+  CommitmentEntry,
+  SignatureShareEntry,
+} from "@oko-wallet-types/teddsa";
 
 export interface SignEd25519Round1Request {
   email: string;
@@ -30,28 +33,6 @@ export interface SignEd25519Round2Response {
 export type SignEd25519Round2Body = {
   session_id: string;
   commitments_1: CommitmentEntry;
-};
-
-export interface SignEd25519AggregateRequest {
-  email: string;
-  wallet_id: string;
-  session_id: string;
-  msg: number[];
-  all_commitments: CommitmentEntry[];
-  all_signature_shares: SignatureShareEntry[];
-  user_verifying_share: number[]; // P0's verifying_share (32 bytes)
-}
-
-export interface SignEd25519AggregateResponse {
-  signature: number[];
-}
-
-export type SignEd25519AggregateBody = {
-  session_id: string;
-  msg: number[];
-  all_commitments: CommitmentEntry[];
-  all_signature_shares: SignatureShareEntry[];
-  user_verifying_share: number[];
 };
 
 export interface SignEd25519ServerState {

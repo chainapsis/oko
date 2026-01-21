@@ -1,5 +1,3 @@
-import { Bounce, ToastContainer } from "react-toastify";
-
 import { ToastCloseButton } from "@oko-wallet-common-ui/toast/toast";
 import { Authorized } from "@oko-wallet-user-dashboard/components/authorized/authorized";
 import { DashboardBody } from "@oko-wallet-user-dashboard/components/dashboard_body/dashboard_body";
@@ -8,7 +6,7 @@ import { DashboardHeader } from "@oko-wallet-user-dashboard/components/dashboard
 import { ConnectedApps } from "@oko-wallet-user-dashboard/components/connected_apps/connected_apps";
 import { TotalBalance } from "@oko-wallet-user-dashboard/components/total_balance/total_balance";
 import { MyAssets } from "@oko-wallet-user-dashboard/components/my_assets/my_assets";
-
+import { ToastContainer } from "@oko-wallet-user-dashboard/components/toast";
 import styles from "./page.module.scss";
 
 export default function Home() {
@@ -27,12 +25,7 @@ export default function Home() {
           </DashboardBody>
         </div>
       </div>
-      <ToastContainer
-        stacked
-        transition={Bounce}
-        toastClassName="custom-toast"
-        closeButton={ToastCloseButton}
-      />
+      <ToastContainer />
     </Authorized>
   );
 }

@@ -61,9 +61,9 @@ export async function hashKeyshareNodeNamesEd25519(
     const hashU8Arr = new Uint8Array(hash.toUint8Array());
     // Ed25519 scalar order is ~2^252 (specifically: 2^252 + 27742317777372353535851937790883648493)
     // In little-endian, byte 31 is the most significant byte.
-    // Set byte 31 to 0x0F or less to ensure value is < 2^252
+    // Set byte 31 to 0x00 or less to ensure value is < 2^252
     // This gives us ~248 bits of entropy which is still cryptographically secure.
-    hashU8Arr[31] = hashU8Arr[31] & 0x0f;
+    hashU8Arr[31] = hashU8Arr[31] & 0x00;
     const bytesRes = Bytes.fromUint8Array(hashU8Arr, 32);
     if (bytesRes.success === false) {
       return {

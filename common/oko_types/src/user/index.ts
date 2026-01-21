@@ -39,6 +39,7 @@ export interface WalletCheckInfo {
  */
 export interface CheckEmailResponseV2NotExists {
   exists: false;
+  active_nodes_below_threshold: boolean;
   keyshare_node_meta: KeyShareNodeMetaWithNodeStatusInfo;
 }
 
@@ -48,8 +49,11 @@ export interface CheckEmailResponseV2NotExists {
  */
 export interface CheckEmailResponseV2NeedsEd25519Keygen {
   exists: true;
+  active_nodes_below_threshold: boolean;
   needs_keygen_ed25519: true;
   secp256k1: WalletCheckInfo;
+  /** Global keyshare node metadata for ed25519 keygen */
+  keyshare_node_meta: KeyShareNodeMetaWithNodeStatusInfo;
 }
 
 /**
@@ -85,6 +89,7 @@ export interface SignInResponseV2 {
     wallet_id_ed25519: string;
     public_key_secp256k1: string;
     public_key_ed25519: string;
+    server_verifying_share_ed25519: string;
     user_identifier: string;
     email: string | null;
     name: string | null;
@@ -109,3 +114,24 @@ export interface ReshareRequest {
 }
 
 export type ReshareRequestBody = OAuthRequest<ReshareRequest>;
+
+/**
+ * Reshare info for a single wallet type.
+ */
+export interface ReshareWalletInfo {
+  public_key: string; // hex public key
+  reshared_key_shares: NodeNameAndEndpoint[];
+}
+
+/**
+ * V2 Reshare request body for /tss/v2/user/reshare endpoint.
+ * Supports both secp256k1 and ed25519 wallets with per-wallet node lists.
+ */
+export interface ReshareRequestV2 {
+  wallets: {
+    secp256k1?: ReshareWalletInfo;
+    ed25519?: ReshareWalletInfo;
+  };
+}
+
+export { NodeNameAndEndpoint };

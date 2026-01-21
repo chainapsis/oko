@@ -1,16 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import cn from "classnames";
 import { useRouter } from "next/navigation";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
+import { useEffect, useState } from "react";
 
-import { ResetPassword } from "@oko-wallet-ct-dashboard/components/reset_password/reset_password";
-import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
 import styles from "./page.module.scss";
 import { Authorized } from "@oko-wallet-ct-dashboard/components/authorized/authorized";
+import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
+import { ResetPassword } from "@oko-wallet-ct-dashboard/components/reset_password/reset_password";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
@@ -28,7 +28,11 @@ export default function ResetPasswordPage() {
         <DashboardHeader />
         <div className={cn(styles.body, { [styles.afterLogin]: isAfterLogin })}>
           {isAfterLogin && (
-            <button className={styles.backButton} onClick={() => router.back()}>
+            <button
+              type="button"
+              className={styles.backButton}
+              onClick={() => router.back()}
+            >
               <ChevronLeftIcon size={24} color="var(--fg-tertiary)" />
             </button>
           )}

@@ -1,11 +1,16 @@
 use frost::keys::KeyPackage;
 use frost_ed25519_keplr as frost;
-use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
 
 use crate::{KeyPackageRaw, PublicKeyPackageRaw};
+
+/// Helper function to serialize with maps as objects (for JS plain objects instead of Map)
+fn to_js_value<T: Serialize>(value: &T) -> Result<JsValue, JsValue> {
+    let serializer = serde_wasm_bindgen::Serializer::new().serialize_maps_as_objects(true);
+    value.serialize(&serializer).map_err(|err| JsValue::from_str(&err.to_string()))
+}
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct CentralizedKeygenOutputRaw {
@@ -96,15 +101,14 @@ fn keygen_import_inner(secret: [u8; 32]) -> Result<CentralizedKeygenOutputRaw, S
 #[wasm_bindgen]
 pub fn cli_keygen_centralized_ed25519() -> Result<JsValue, JsValue> {
     let out = keygen_centralized_inner().map_err(|err| JsValue::from_str(&err))?;
-    JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
+    to_js_value(&out)
 }
 
 #[wasm_bindgen]
 pub fn cli_keygen_import_ed25519(secret_key: JsValue) -> Result<JsValue, JsValue> {
-    let secret: [u8; 32] = secret_key
-        .into_serde()
+    let secret: [u8; 32] = serde_wasm_bindgen::from_value(secret_key)
         .map_err(|err| JsValue::from_str(&format!("Invalid secret key format: {}", err)))?;
 
     let out = keygen_import_inner(secret).map_err(|err| JsValue::from_str(&err))?;
-    JsValue::from_serde(&out).map_err(|err| JsValue::from_str(&err.to_string()))
+    to_js_value(&out)
 }

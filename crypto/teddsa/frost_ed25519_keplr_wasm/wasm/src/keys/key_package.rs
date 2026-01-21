@@ -1,6 +1,7 @@
 use frost_ed25519_keplr::keys::{KeyPackage, SigningShare, VerifyingShare};
 use frost_ed25519_keplr::{Identifier, VerifyingKey};
 use serde::{Deserialize, Serialize};
+use wasm_bindgen::prelude::*;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct KeyPackageRaw {
@@ -68,4 +69,24 @@ impl KeyPackageRaw {
             self.min_signers,
         ))
     }
+
+    /// Serialize to FROST library binary format
+    pub fn to_frost_bytes(&self) -> Result<Vec<u8>, String> {
+        let key_package = self.to_key_package()?;
+        key_package.serialize().map_err(|e| e.to_string())
+    }
+}
+
+/// Serialize a KeyPackageRaw to FROST library binary format.
+/// This is used when sending key_package to the backend API.
+#[wasm_bindgen]
+pub fn cli_serialize_key_package_ed25519(key_package_raw: JsValue) -> Result<JsValue, JsValue> {
+    let raw: KeyPackageRaw = serde_wasm_bindgen::from_value(key_package_raw)
+        .map_err(|e| JsValue::from_str(&format!("Failed to parse KeyPackageRaw: {}", e)))?;
+
+    let frost_bytes = raw
+        .to_frost_bytes()
+        .map_err(|e| JsValue::from_str(&format!("Failed to serialize to FROST format: {}", e)))?;
+
+    serde_wasm_bindgen::to_value(&frost_bytes).map_err(|e| JsValue::from_str(&e.to_string()))
 }

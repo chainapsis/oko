@@ -17,16 +17,28 @@ import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
 import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { useEnabledChains } from "@oko-wallet-user-dashboard/hooks/queries";
-import { useEthAddress, useBech32Addresses, useSolanaAddress } from "@oko-wallet-user-dashboard/hooks/queries/use_addresses";
+import {
+  useEthAddress,
+  useBech32Addresses,
+  useSolanaAddress,
+} from "@oko-wallet-user-dashboard/hooks/queries/use_addresses";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
 import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
-import { getChainIdentifier, DEFAULT_ENABLED_CHAINS } from "@oko-wallet-user-dashboard/state/chains";
+import {
+  getChainIdentifier,
+  DEFAULT_ENABLED_CHAINS,
+} from "@oko-wallet-user-dashboard/state/chains";
 
 import styles from "./deposit_modal.module.scss";
 import { AddressItem } from "./components/address_item";
 
-const ecosystemFilterOptions = ["All Chains", "Cosmos", "EVM", "Solana"] as const;
+const ecosystemFilterOptions = [
+  "All Chains",
+  "Cosmos",
+  "EVM",
+  "Solana",
+] as const;
 type EcosystemFilter = (typeof ecosystemFilterOptions)[number];
 
 interface DepositModalProps {
@@ -55,25 +67,32 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
 
   // Get enabled chains with cosmos, evm, or solana modules
   const visibleChains = useMemo(() => {
-    return enabledChains.filter((chain) => chain.cosmos || chain.evm || chain.solana);
+    return enabledChains.filter(
+      (chain) => chain.cosmos || chain.evm || chain.solana,
+    );
   }, [enabledChains]);
 
   // Get addresses using TanStack Query hooks
   const { address: ethAddress } = useEthAddress();
   const { address: solanaAddress } = useSolanaAddress();
   const cosmosChainIds = useMemo(
-    () => visibleChains
-      .filter((chain) => isCosmosChainId(chain.chainId))
-      .map((chain) => chain.chainId),
-    [visibleChains]
+    () =>
+      visibleChains
+        .filter((chain) => isCosmosChainId(chain.chainId))
+        .map((chain) => chain.chainId),
+    [visibleChains],
   );
   const { addresses: bech32Addresses } = useBech32Addresses(cosmosChainIds);
 
-  const searchedChainInfos = useSearch(visibleChains, searchQuery, searchFields);
+  const searchedChainInfos = useSearch(
+    visibleChains,
+    searchQuery,
+    searchFields,
+  );
 
   const filteredChainInfos = useMemo(() => {
     const defaultChainOrder = new Map<string, number>(
-      DEFAULT_ENABLED_CHAINS.map((id, index) => [id, index])
+      DEFAULT_ENABLED_CHAINS.map((id, index) => [id, index]),
     );
 
     return searchedChainInfos
@@ -87,12 +106,18 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
             return !!chain.evm;
           case "Solana":
             return !!chain.solana;
+          default:
+            throw new Error("unreachable");
         }
       })
       .sort((a, b) => {
         // Default chains first, in order
-        const aDefaultIndex = defaultChainOrder.get(getChainIdentifier(a.chainId));
-        const bDefaultIndex = defaultChainOrder.get(getChainIdentifier(b.chainId));
+        const aDefaultIndex = defaultChainOrder.get(
+          getChainIdentifier(a.chainId),
+        );
+        const bDefaultIndex = defaultChainOrder.get(
+          getChainIdentifier(b.chainId),
+        );
         const aIsDefault = aDefaultIndex !== undefined;
         const bIsDefault = bDefaultIndex !== undefined;
 
@@ -109,7 +134,9 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
       });
   }, [searchedChainInfos, ecosystem]);
 
-  const getAddressForChain = (chain: ModularChainInfo): string | undefined => {
+  const getAddressForChain = (
+    chain: ModularChainInfo,
+  ): string | null | undefined => {
     if (chain.evm) {
       return ethAddress;
     }
@@ -172,17 +199,10 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
                 <Dropdown>
                   <Dropdown.Trigger asChild>
                     <div className={styles.dropdownTrigger}>
-                      <Typography
-                        size="sm"
-                        color="secondary"
-                        weight="semibold"
-                      >
+                      <Typography size="sm" color="secondary" weight="semibold">
                         {ecosystem}
                       </Typography>
-                      <ChevronDownIcon
-                        color="var(--fg-quaternary)"
-                        size={20}
-                      />
+                      <ChevronDownIcon color="var(--fg-quaternary)" size={20} />
                     </div>
                   </Dropdown.Trigger>
                   <Dropdown.Content className={styles.dropdownContent}>

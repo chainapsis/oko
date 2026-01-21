@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.10/schema.json",
   "vcs": {
     "enabled": true,
     "clientKind": "git",
@@ -13,7 +13,8 @@
       "!**/dist",
       "!**/*.d.ts",
       "!**/routeTree.gen.ts",
-      "!**/cait_sith_keplr_addon/addon/index.js"
+      "!**/cait_sith_keplr_addon/addon/index.js",
+      "sandbox/sandbox_react_native"
     ]
   },
   "formatter": {
@@ -26,15 +27,30 @@
     "useEditorconfig": true
   },
   "linter": {
-    "enabled": false,
+    "enabled": true,
     "rules": {
       "recommended": true,
       "style": {
         "noNonNullAssertion": "off",
-        "useTemplate": "off"
+        "useTemplate": "off",
+        "useBlockStatements": "error",
+        "useNodejsImportProtocol": "off",
+        "useConsistentTypeDefinitions": "off"
+      },
+      "complexity": {
+        "useArrowFunction": "off"
       },
       "suspicious": {
-        "noExplicitAny": "off"
+        "noExplicitAny": "off",
+        "noPrototypeBuiltins": "off"
+      },
+      "performance": {
+        "noImgElement": "off"
+      },
+      "a11y": {
+        "useKeyWithClickEvents": "off",
+        "noLabelWithoutControl": "off",
+        "useSemanticElements": "off"
       }
     }
   },
@@ -65,7 +81,16 @@
     "enabled": true,
     "actions": {
       "source": {
-        "organizeImports": "off"
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [
+              [":NODE:", ":PACKAGE:", "!@oko-wallet-*/**"],
+              ":BLANK_LINE:",
+              [":ALIAS:", ":PATH:"]
+            ]
+          }
+        }
       }
     }
   },

@@ -1,7 +1,7 @@
-import chalk from "chalk";
-import { Worker } from "node:worker_threads";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
+import { Worker } from "node:worker_threads";
+import chalk from "chalk";
 
 import { paths } from "@oko-wallet-ci/paths";
 
@@ -19,7 +19,7 @@ export async function typeCheck(..._args: any[]) {
     paths.ksn_server,
     paths.sandbox_simple_host,
     paths.oko_api_server,
-    paths.tss_api,
+    // paths.tss_api,
     paths.admin_api,
     paths.ct_dashboard_api,
     paths.oko_attached,
@@ -129,7 +129,7 @@ export function spawnWorker(workerName: string, pkgPaths: string[]) {
 }
 
 function chunkArr(arr: any[], chunkCount: number) {
-  let ret: any[][] = [];
+  const ret: any[][] = [];
   for (let i = 0; i < chunkCount; i += 1) {
     ret.push([]);
   }

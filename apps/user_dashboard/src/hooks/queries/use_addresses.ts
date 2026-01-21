@@ -14,7 +14,10 @@ import {
   selectCosmosInitialized,
   selectSolInitialized,
 } from "@oko-wallet-user-dashboard/state/sdk";
-import { isEvmOnlyChain, isSolanaChainId } from "@oko-wallet-user-dashboard/utils/chain";
+import {
+  isEvmOnlyChain,
+  isSolanaChainId,
+} from "@oko-wallet-user-dashboard/utils/chain";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 
 /**
@@ -79,9 +82,13 @@ export function useBech32Address(chainId: string | undefined) {
   const isInitialized = useSDKState(selectCosmosInitialized);
 
   // Skip for non-cosmos chains
-  const isCosmosChain = Boolean(chainId && !chainId.startsWith("eip155:") &&
-    !chainId.startsWith("bip122:") && !chainId.startsWith("starknet:") &&
-    !chainId.startsWith("solana:"));
+  const isCosmosChain = Boolean(
+    chainId &&
+      !chainId.startsWith("eip155:") &&
+      !chainId.startsWith("bip122:") &&
+      !chainId.startsWith("starknet:") &&
+      !chainId.startsWith("solana:"),
+  );
 
   const query = useQuery({
     queryKey: ["address", "bech32", chainId],
@@ -114,11 +121,14 @@ export function useBech32Address(chainId: string | undefined) {
  */
 export function useChainAddress(chainInfo: ModularChainInfo | undefined) {
   const { address: ethAddress, isLoading: ethLoading } = useEthAddress();
-  const { address: solanaAddress, isLoading: solanaLoading } = useSolanaAddress();
+  const { address: solanaAddress, isLoading: solanaLoading } =
+    useSolanaAddress();
   const { address: bech32Address, isLoading: bech32Loading } = useBech32Address(
-    chainInfo && !isEvmOnlyChain(chainInfo) && !isSolanaChainId(chainInfo.chainId)
+    chainInfo &&
+      !isEvmOnlyChain(chainInfo) &&
+      !isSolanaChainId(chainInfo.chainId)
       ? chainInfo.chainId
-      : undefined
+      : undefined,
   );
 
   if (!chainInfo) {
@@ -146,8 +156,11 @@ export function useBech32Addresses(chainIds: string[]) {
 
   // Filter to cosmos-only chains
   const cosmosChainIds = chainIds.filter(
-    (id) => !id.startsWith("eip155:") && !id.startsWith("bip122:") &&
-      !id.startsWith("starknet:") && !id.startsWith("solana:")
+    (id) =>
+      !id.startsWith("eip155:") &&
+      !id.startsWith("bip122:") &&
+      !id.startsWith("starknet:") &&
+      !id.startsWith("solana:"),
   );
 
   const query = useQuery({
@@ -165,10 +178,13 @@ export function useBech32Addresses(chainIds: string[]) {
             const key = await okoCosmos.getKey(chainId);
             results[chainId] = key?.bech32Address;
           } catch (error) {
-            console.error(`Failed to fetch bech32 address for ${chainId}:`, error);
+            console.error(
+              `Failed to fetch bech32 address for ${chainId}:`,
+              error,
+            );
             results[chainId] = undefined;
           }
-        })
+        }),
       );
 
       return results;

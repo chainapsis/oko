@@ -1,13 +1,75 @@
-import type { Response } from "express";
+import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import { registry } from "@oko-wallet/oko-api-openapi";
+import {
+  AdminAuthHeaderSchema,
+  ErrorResponseSchema,
+} from "@oko-wallet/oko-api-openapi/common";
+import {
+  CreateCustomerSuccessResponseSchema,
+  CreateCustomerWithDashboardUserRequestSchema,
+} from "@oko-wallet/oko-api-openapi/oko_admin";
 import type {
   CreateCustomerResponse,
   CreateCustomerWithDashboardUserRequest,
 } from "@oko-wallet/oko-types/admin";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
+import type { Response } from "express";
 
-import { type AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
 import { createCustomer } from "@oko-wallet-admin-api/api/customer";
+import type { AuthenticatedAdminRequest } from "@oko-wallet-admin-api/middleware/auth";
+
+registry.registerPath({
+  method: "post",
+  path: "/oko_admin/v1/customer/create_customer",
+  tags: ["Admin"],
+  summary: "Create new customer",
+  description: "Creates a new customer with dashboard user account",
+  security: [{ adminAuth: [] }],
+  request: {
+    headers: AdminAuthHeaderSchema,
+    body: {
+      content: {
+        "multipart/form-data": {
+          schema: CreateCustomerWithDashboardUserRequestSchema,
+        },
+      },
+    },
+  },
+  responses: {
+    201: {
+      description: "Customer created successfully",
+      content: {
+        "application/json": {
+          schema: CreateCustomerSuccessResponseSchema,
+        },
+      },
+    },
+    400: {
+      description: "Invalid request",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    401: {
+      description: "Unauthorized",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+    500: {
+      description: "Server error",
+      content: {
+        "application/json": {
+          schema: ErrorResponseSchema,
+        },
+      },
+    },
+  },
+});
 
 export async function create_customer(
   req: AuthenticatedAdminRequest<CreateCustomerWithDashboardUserRequest> & {

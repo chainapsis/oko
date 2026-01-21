@@ -145,7 +145,7 @@ export async function reshareUserKeyShares(
   };
 }
 
-async function runExpandShares(
+export async function runExpandShares(
   splitKeyShares: UserKeySharePointByNode[],
   additionalKSNodes: NodeNameAndEndpoint[],
   threshold: number,

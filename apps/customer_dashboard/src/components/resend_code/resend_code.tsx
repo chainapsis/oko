@@ -1,5 +1,5 @@
-import { memo, useState } from "react";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { memo, useState } from "react";
 
 import styles from "./resend_code.module.scss";
 import { requestSendVerificationCode } from "@oko-wallet-ct-dashboard/fetch/users";
@@ -37,6 +37,7 @@ export const ResendCode = memo<ResendCodeProps>(
 
     return (
       <button
+        type="button"
         disabled={disabled || isLoading}
         onClick={handleClick}
         className={styles.resendLink}

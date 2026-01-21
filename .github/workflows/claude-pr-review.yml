@@ -1,0 +1,214 @@
+name: Claude PR Review
+
+on:
+  pull_request:
+    types: [labeled]
+    branches: [develop, main]
+
+env:
+  LINEAR_TEAM_PREFIX: "OKO"
+
+jobs:
+  claude-review:
+    name: Claude Code Review
+    runs-on: ubuntu-latest
+    if: |
+      github.event.pull_request.draft == false &&
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.label.name == 'claude-review'
+    permissions:
+      contents: read
+      pull-requests: write
+      issues: write
+      id-token: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Extract Linear Issue ID
+        id: extract-issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branchName = context.payload.pull_request.head.ref;
+            const prTitle = context.payload.pull_request.title;
+            const prBody = context.payload.pull_request.body || '';
+
+            const teamPrefix = '${{ env.LINEAR_TEAM_PREFIX }}';
+            const regex = new RegExp(`\\b(${teamPrefix}-\\d+)\\b`, 'i');
+
+            let issueId = null;
+
+            const branchMatch = branchName.match(regex);
+            if (branchMatch) {
+              issueId = branchMatch[1].toUpperCase();
+            }
+
+            if (!issueId) {
+              const titleMatch = prTitle.match(regex);
+              if (titleMatch) {
+                issueId = titleMatch[1].toUpperCase();
+              }
+            }
+
+            if (!issueId) {
+              const bodyMatch = prBody.match(regex);
+              if (bodyMatch) {
+                issueId = bodyMatch[1].toUpperCase();
+              }
+            }
+
+            if (issueId) {
+              core.setOutput('issue_id', issueId);
+              core.setOutput('found', 'true');
+            } else {
+              core.setOutput('found', 'false');
+            }
+
+      - name: Fetch Linear Issue
+        id: linear-issue
+        if: steps.extract-issue.outputs.found == 'true'
+        uses: actions/github-script@v7
+        env:
+          LINEAR_API_KEY: ${{ secrets.LINEAR_API_KEY }}
+        with:
+          script: |
+            const issueId = '${{ steps.extract-issue.outputs.issue_id }}';
+            const match = issueId.match(/^([A-Z]+)-(\d+)$/);
+
+            if (!match) {
+              core.setOutput('success', 'false');
+              return;
+            }
+
+            const [, teamKey, issueNumber] = match;
+
+            const query = `
+              query GetIssue($teamKey: String!, $issueNumber: Float!) {
+                issues(
+                  filter: {
+                    number: { eq: $issueNumber }
+                    team: { key: { eq: $teamKey } }
+                  }
+                  first: 1
+                ) {
+                  nodes {
+                    id
+                    identifier
+                    title
+                    description
+                    state { name type }
+                    labels { nodes { name } }
+                  }
+                }
+              }
+            `;
+
+            try {
+              const response = await fetch('https://api.linear.app/graphql', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Authorization': process.env.LINEAR_API_KEY
+                },
+                body: JSON.stringify({
+                  query,
+                  variables: {
+                    teamKey,
+                    issueNumber: parseInt(issueNumber)
+                  }
+                })
+              });
+
+              const result = await response.json();
+
+              if (result.errors) {
+                core.setOutput('success', 'false');
+                return;
+              }
+
+              const issue = result.data?.issues?.nodes?.[0];
+
+              if (!issue) {
+                core.setOutput('success', 'false');
+                return;
+              }
+
+              core.setOutput('success', 'true');
+              core.setOutput('title', issue.title || '');
+              core.setOutput('description', issue.description || 'No description provided');
+              core.setOutput('state', issue.state?.name || 'Unknown');
+              core.setOutput('labels', (issue.labels?.nodes || []).map(l => l.name).join(', '));
+            } catch (error) {
+              core.setOutput('success', 'false');
+            }
+
+      - name: Get Changed Files
+        id: changed-files
+        run: |
+          FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }}..${{ github.sha }} | head -50)
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Claude Code Review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          prompt: |
+            REPO: ${{ github.repository }}
+            PR NUMBER: ${{ github.event.pull_request.number }}
+
+            Please review this PR.
+
+            ## Linear Ticket Information
+            - **Issue ID**: ${{ steps.extract-issue.outputs.found == 'true' && steps.extract-issue.outputs.issue_id || 'Not linked' }}
+            - **Title**: ${{ steps.linear-issue.outputs.success == 'true' && steps.linear-issue.outputs.title || 'N/A' }}
+            - **State**: ${{ steps.linear-issue.outputs.success == 'true' && steps.linear-issue.outputs.state || 'N/A' }}
+            - **Labels**: ${{ steps.linear-issue.outputs.success == 'true' && steps.linear-issue.outputs.labels || 'N/A' }}
+
+            ## Linear Ticket Spec/Description
+            ${{ steps.linear-issue.outputs.success == 'true' && steps.linear-issue.outputs.description || 'No Linear ticket linked to this PR.' }}
+
+            ## Changed Files
+            ${{ steps.changed-files.outputs.files }}
+
+            ## Review Criteria
+
+            ### 1. Spec Compliance (if Linear ticket exists)
+            - Verify all requirements from the Linear ticket are implemented
+            - Check for scope creep beyond the spec
+            - Evaluate implementation completeness (0-100%)
+
+            ### 2. Code Quality
+            - Adherence to project coding conventions (Biome, TypeScript strict)
+            - Preference for Rust-style patterns (Result, Option patterns, etc.)
+            - Unnecessary complexity
+            - Security vulnerabilities
+
+            ## Instructions
+
+            1. Use `mcp__github_inline_comment__create_inline_comment` to post inline comments on specific code issues
+            2. Use `gh pr comment` for top-level summary feedback
+            3. Only post GitHub comments - don't submit review text as messages
+
+            ## Response Format (for top-level comment)
+
+            ### Spec Implementation Status
+            (Only if Linear ticket exists)
+            - Implemented items
+            - Missing items
+            - Implementation completeness: X%
+
+            ### Code Review Summary
+            - Key feedback (if any)
+
+            ### Final Verdict
+            - APPROVE / REQUEST_CHANGES / COMMENT with reasoning
+          claude_args: |
+            --model claude-opus-4-5-20251101
+            --allowedTools "Read,Glob,Grep,mcp__github_inline_comment__create_inline_comment,Bash(gh pr comment:*),Bash(gh pr diff:*),Bash(gh pr view:*)"

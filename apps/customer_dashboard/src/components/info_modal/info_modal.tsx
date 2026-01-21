@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, type FC } from "react";
 import { Card } from "@oko-wallet/oko-common-ui/card";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { type FC, useState } from "react";
 
 import styles from "./info_modal.module.scss";
 
@@ -38,6 +38,7 @@ export const InfoModal: FC<InfoModalProps> = ({
                     {title}
                   </Typography>
                   <button
+                    type="button"
                     className={styles.closeButton}
                     onClick={onClose}
                     aria-label="Close modal"

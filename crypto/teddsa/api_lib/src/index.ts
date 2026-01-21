@@ -4,10 +4,8 @@ import type {
   SignEd25519Round1Response,
   SignEd25519Round2Body,
   SignEd25519Round2Response,
-  SignEd25519AggregateBody,
-  SignEd25519AggregateResponse,
 } from "@oko-wallet/oko-types/tss";
-import type { SignInResponse } from "@oko-wallet/oko-types/user";
+import type { SignInResponseV2 } from "@oko-wallet/oko-types/user";
 import type {
   ErrorCode,
   OkoApiErrorResponse,
@@ -123,7 +121,7 @@ export async function reqKeygenEd25519(
   payload: KeygenEd25519Body,
   authToken: string,
 ) {
-  const resp: OkoApiResponse<SignInResponse> = await makePostRequest(
+  const resp: OkoApiResponse<SignInResponseV2> = await makePostRequest(
     endpoint,
     "keygen_ed25519",
     payload,
@@ -136,12 +134,14 @@ export async function reqSignEd25519Round1(
   endpoint: string,
   payload: SignEd25519Round1Body,
   authToken: string,
+  apiKey?: string,
 ) {
   const resp: OkoApiResponse<SignEd25519Round1Response> = await makePostRequest(
     endpoint,
     "sign_ed25519/round1",
     payload,
     authToken,
+    apiKey,
   );
   return resp;
 }
@@ -157,20 +157,5 @@ export async function reqSignEd25519Round2(
     payload,
     authToken,
   );
-  return resp;
-}
-
-export async function reqSignEd25519Aggregate(
-  endpoint: string,
-  payload: SignEd25519AggregateBody,
-  authToken: string,
-) {
-  const resp: OkoApiResponse<SignEd25519AggregateResponse> =
-    await makePostRequest(
-      endpoint,
-      "sign_ed25519/aggregate",
-      payload,
-      authToken,
-    );
   return resp;
 }

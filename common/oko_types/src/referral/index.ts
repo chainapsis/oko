@@ -35,3 +35,13 @@ export interface ReferralInfo {
   utmSource: string | null;
   utmCampaign: string | null;
 }
+
+export interface SaveReferralRequest {
+  origin: string;
+  utm_source?: string | null;
+  utm_campaign?: string | null;
+}
+
+export interface SaveReferralResponse {
+  referral_id: string;
+}

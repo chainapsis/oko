@@ -1,12 +1,12 @@
-import { Pool } from "pg";
-import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import { comparePassword } from "@oko-wallet/crypto-js";
+import { getAdminByEmail } from "@oko-wallet/oko-pg-interface/admin_users";
 import type {
   AdminLoginRequest,
   AdminLoginResponse,
   AdminLogoutResponse,
 } from "@oko-wallet/oko-types/admin";
-import { getAdminByEmail } from "@oko-wallet/oko-pg-interface/admin_users";
-import { comparePassword } from "@oko-wallet/crypto-js";
+import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
+import type { Pool } from "pg";
 
 import { generateAdminToken } from "@oko-wallet-admin-api/auth";
 

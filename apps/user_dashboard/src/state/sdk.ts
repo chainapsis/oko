@@ -89,7 +89,9 @@ export const useSDKState = create(
       });
 
       if (!OKO_SDK_API_KEY) {
-        console.error("ETH SDK init fail: NEXT_PUBLIC_OKO_SDK_API_KEY is not set");
+        console.error(
+          "ETH SDK init fail: NEXT_PUBLIC_OKO_SDK_API_KEY is not set",
+        );
         set({
           sdks: {
             ...get().sdks,
@@ -111,7 +113,11 @@ export const useSDKState = create(
         set({
           sdks: {
             ...get().sdks,
-            eth: { instance: okoEth, isInitializing: false, isLazyInitialized: false },
+            eth: {
+              instance: okoEth,
+              isInitializing: false,
+              isLazyInitialized: false,
+            },
           },
         });
 
@@ -142,7 +148,9 @@ export const useSDKState = create(
       const cosmosStatus = sdks.cosmos;
 
       if (cosmosStatus.instance || cosmosStatus.isInitializing) {
-        console.log("Cosmos SDK already initialized or initializing, skipping...");
+        console.log(
+          "Cosmos SDK already initialized or initializing, skipping...",
+        );
         return cosmosStatus.instance;
       }
 
@@ -155,7 +163,9 @@ export const useSDKState = create(
       });
 
       if (!OKO_SDK_API_KEY) {
-        console.error("Cosmos SDK init fail: NEXT_PUBLIC_OKO_SDK_API_KEY is not set");
+        console.error(
+          "Cosmos SDK init fail: NEXT_PUBLIC_OKO_SDK_API_KEY is not set",
+        );
         set({
           sdks: {
             ...get().sdks,
@@ -181,7 +191,9 @@ export const useSDKState = create(
           handler: ({ email, publicKey }) => {
             useUserInfoState.getState().setUserInfo({
               email: email || null,
-              publicKey: publicKey ? Buffer.from(publicKey).toString("hex") : null,
+              publicKey: publicKey
+                ? Buffer.from(publicKey).toString("hex")
+                : null,
             });
           },
         });
@@ -189,7 +201,11 @@ export const useSDKState = create(
         set({
           sdks: {
             ...get().sdks,
-            cosmos: { instance: okoCosmos, isInitializing: false, isLazyInitialized: false },
+            cosmos: {
+              instance: okoCosmos,
+              isInitializing: false,
+              isLazyInitialized: false,
+            },
           },
         });
 
@@ -284,9 +300,20 @@ export const useSDKState = create(
 );
 
 // Convenience selectors for backward compatibility
+<<<<<<< HEAD
 export const selectEthSDK = (state: SDKState & SDKActions) => state.sdks.eth.instance;
 export const selectCosmosSDK = (state: SDKState & SDKActions) => state.sdks.cosmos.instance;
 export const selectSolSDK = (state: SDKState & SDKActions) => state.sdks.sol.instance;
 export const selectEthInitialized = (state: SDKState & SDKActions) => state.sdks.eth.isLazyInitialized;
 export const selectCosmosInitialized = (state: SDKState & SDKActions) => state.sdks.cosmos.isLazyInitialized;
 export const selectSolInitialized = (state: SDKState & SDKActions) => state.sdks.sol.isLazyInitialized;
+=======
+export const selectEthSDK = (state: SDKState & SDKActions) =>
+  state.sdks.eth.instance;
+export const selectCosmosSDK = (state: SDKState & SDKActions) =>
+  state.sdks.cosmos.instance;
+export const selectEthInitialized = (state: SDKState & SDKActions) =>
+  state.sdks.eth.isLazyInitialized;
+export const selectCosmosInitialized = (state: SDKState & SDKActions) =>
+  state.sdks.cosmos.isLazyInitialized;
+>>>>>>> develop

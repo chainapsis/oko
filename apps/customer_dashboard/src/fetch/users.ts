@@ -5,8 +5,8 @@ import type {
   SendVerificationResponse,
 } from "@oko-wallet/oko-types/ct_dashboard";
 
-import { errorHandle } from "./utils";
 import { CUSTOMER_V1_ENDPOINT } from "./customers";
+import { errorHandle } from "./utils";
 
 export async function requestSignIn(
   email: string,

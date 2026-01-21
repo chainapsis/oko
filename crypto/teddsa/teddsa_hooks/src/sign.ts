@@ -12,7 +12,6 @@ import type {
 import {
   reqSignEd25519Round1,
   reqSignEd25519Round2,
-  reqSignEd25519Aggregate,
 } from "@oko-wallet/teddsa-api-lib";
 
 import type { TeddsaKeygenOutputBytes } from "./types";
@@ -21,29 +20,32 @@ export type TeddsaSignError =
   | { type: "aborted" }
   | { type: "error"; msg: string };
 
-function serializeKeyPackage(pkg: KeyPackageRaw): number[] {
-  const result: number[] = [];
-  result.push(...pkg.identifier);
-  result.push(...pkg.signing_share);
-  result.push(...pkg.verifying_share);
-  result.push(...pkg.verifying_key);
-  result.push(pkg.min_signers & 0xff);
-  result.push((pkg.min_signers >> 8) & 0xff);
+/**
+ * Serialize KeyPackageRaw to FROST library binary format.
+ * Uses WASM to produce the correct format expected by the backend.
+ */
+export function serializeKeyPackage(pkg: KeyPackageRaw): number[] {
+  const result: number[] = wasmModule.cli_serialize_key_package_ed25519(pkg);
   return result;
 }
 
-function serializePublicKeyPackage(pkg: PublicKeyPackageRaw): number[] {
-  const json = JSON.stringify(pkg);
-  return Array.from(new TextEncoder().encode(json));
+/**
+ * Serialize PublicKeyPackageRaw to FROST library binary format.
+ * Uses WASM to produce the correct format expected by the backend.
+ */
+export function serializePublicKeyPackage(pkg: PublicKeyPackageRaw): number[] {
+  const result: number[] =
+    wasmModule.cli_serialize_public_key_package_ed25519(pkg);
+  return result;
 }
 
 export function teddsaSignRound1(
   keyPackage: KeyPackageRaw,
 ): Result<SigningCommitmentOutput, string> {
   try {
-    const serialized = serializeKeyPackage(keyPackage);
+    const input = { key_package: keyPackage };
     const result: SigningCommitmentOutput =
-      wasmModule.cli_sign_round1_ed25519(serialized);
+      wasmModule.cli_sign_round1_ed25519(input);
     return { success: true, data: result };
   } catch (error: any) {
     return { success: false, err: String(error) };
@@ -59,7 +61,7 @@ export function teddsaSignRound2(
   try {
     const input = {
       message: [...message],
-      key_package: serializeKeyPackage(keyPackage),
+      key_package: keyPackage,
       nonces: [...nonces],
       all_commitments: allCommitments,
     };
@@ -82,7 +84,7 @@ export function teddsaAggregate(
       message: [...message],
       all_commitments: allCommitments,
       all_signature_shares: allSignatureShares,
-      public_key_package: serializePublicKeyPackage(publicKeyPackage),
+      public_key_package: publicKeyPackage,
     };
     const result: SignatureOutput = wasmModule.cli_aggregate_ed25519(input);
     return { success: true, data: new Uint8Array(result.signature) };
@@ -100,7 +102,7 @@ export function teddsaVerify(
     const input = {
       message: [...message],
       signature: [...signature],
-      public_key_package: serializePublicKeyPackage(publicKeyPackage),
+      public_key_package: publicKeyPackage,
     };
     const isValid: boolean = wasmModule.cli_verify_ed25519(input);
     return { success: true, data: isValid };
@@ -113,7 +115,9 @@ export async function runTeddsaSign(
   endpoint: string,
   message: Uint8Array,
   keyPackage: KeyPackageRaw,
+  publicKeyPackage: PublicKeyPackageRaw,
   authToken: string,
+  apiKey: string,
   getIsAborted: () => boolean,
 ): Promise<Result<Uint8Array, TeddsaSignError>> {
   if (getIsAborted()) {
@@ -140,6 +144,7 @@ export async function runTeddsaSign(
     endpoint,
     { msg: [...message] },
     authToken,
+    apiKey,
   );
   if (round1Resp.success === false) {
     return {
@@ -206,35 +211,25 @@ export async function runTeddsaSign(
     serverSignatureShare,
   ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
-  // Aggregate: Send all data to server to get final signature
+  // Aggregate locally
   if (getIsAborted()) {
     return { success: false, err: { type: "aborted" } };
   }
 
-  // Extract user_verifying_share from keyPackage
-  const userVerifyingShare = keyPackage.verifying_share;
-
-  const aggregateResp = await reqSignEd25519Aggregate(
-    endpoint,
-    {
-      session_id: sessionId,
-      msg: [...message],
-      all_commitments: allCommitments,
-      all_signature_shares: allSignatureShares,
-      user_verifying_share: userVerifyingShare,
-    },
-    authToken,
+  const aggregateResult = teddsaAggregate(
+    message,
+    allCommitments,
+    allSignatureShares,
+    publicKeyPackage,
   );
-  if (aggregateResp.success === false) {
+  if (!aggregateResult.success) {
     return {
       success: false,
-      err: { type: "error", msg: aggregateResp.msg },
+      err: { type: "error", msg: aggregateResult.err },
     };
   }
 
-  const signature = new Uint8Array(aggregateResp.data.signature);
-
-  return { success: true, data: signature };
+  return { success: true, data: aggregateResult.data };
 }
 
 export async function runTeddsaSignLocal(
@@ -262,7 +257,7 @@ export async function runTeddsaSignLocal(
         identifier: round1_2.data.identifier,
         commitments: round1_2.data.commitments,
       },
-    ];
+    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
     const round2_1 = teddsaSignRound2(
       message,
@@ -293,7 +288,7 @@ export async function runTeddsaSignLocal(
         identifier: round2_2.data.identifier,
         signature_share: round2_2.data.signature_share,
       },
-    ];
+    ].sort((a, b) => (a.identifier[0] ?? 0) - (b.identifier[0] ?? 0));
 
     const aggregateResult = teddsaAggregate(
       message,

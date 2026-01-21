@@ -1,15 +1,14 @@
 "use client";
 
-import React from "react";
-import { useRouter } from "next/navigation";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
 import { ChevronLeftIcon } from "@oko-wallet/oko-common-ui/icons/chevron_left";
+import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { useRouter } from "next/navigation";
 
-import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
-import { Authorized } from "@oko-wallet-ct-dashboard/components/authorized/authorized";
-import { EditInfoForm } from "@oko-wallet-ct-dashboard/components/edit_info_form/edit_info_form";
 import styles from "./page.module.scss";
+import { Authorized } from "@oko-wallet-ct-dashboard/components/authorized/authorized";
+import { DashboardHeader } from "@oko-wallet-ct-dashboard/components/dashboard_header/dashboard_header";
+import { EditInfoForm } from "@oko-wallet-ct-dashboard/components/edit_info_form/edit_info_form";
 
 export default function EditInfoPage() {
   const router = useRouter();
@@ -19,7 +18,11 @@ export default function EditInfoPage() {
       <div className={styles.wrapper}>
         <DashboardHeader />
         <div className={styles.body}>
-          <button className={styles.backButton} onClick={() => router.back()}>
+          <button
+            type="button"
+            className={styles.backButton}
+            onClick={() => router.back()}
+          >
             <ChevronLeftIcon size={24} color="var(--fg-tertiary)" />
           </button>
 

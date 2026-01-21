@@ -1,8 +1,8 @@
 import { spawnSync } from "node:child_process";
 import chalk from "chalk";
 
-import { paths } from "@oko-wallet-ci/paths";
 import { expectSuccess } from "@oko-wallet-ci/expect";
+import { paths } from "@oko-wallet-ci/paths";
 import { getPkgName } from "@oko-wallet-ci/pkg_name";
 
 export async function buildPkgs(..._args: any[]) {
@@ -16,8 +16,8 @@ export async function doBuildPkgs() {
     paths.dotenv,
     paths.crypto_bytes,
     paths.crypto_js,
-    paths.teddsa_interface,
     paths.oko_types,
+    paths.teddsa_interface,
     paths.ksn_interface,
     paths.tecdsa_interface,
     // paths.sdk_core,

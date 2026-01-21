@@ -1,8 +1,8 @@
-import { type FC } from "react";
-import Link from "next/link";
 import { ArrowRightOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/arrow_right_outlined";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import Link from "next/link";
+import type { FC } from "react";
 
 import styles from "./home_banner.module.scss";
 

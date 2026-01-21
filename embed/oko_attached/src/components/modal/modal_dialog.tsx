@@ -137,7 +137,9 @@ export const ModalDialog: FC<ModalDialogProps> = ({ modalRequest }) => {
           }}
         />
       )}
-      onError={(error) => error.message}
+      onError={(error) =>
+        error instanceof Error ? error.message : String(error)
+      }
     >
       {component}
     </ErrorBoundary>

@@ -1,5 +1,4 @@
 use frost_ed25519_keplr::reshare;
-use gloo_utils::format::JsValueSerdeExt;
 use rand_core::OsRng;
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::*;
@@ -23,12 +22,10 @@ pub fn sss_reshare(
     new_identifiers: JsValue,
     new_min_signers: u16,
 ) -> Result<JsValue, JsValue> {
-    let key_packages_raw: Vec<KeyPackageRaw> = key_packages
-        .into_serde()
+    let key_packages_raw: Vec<KeyPackageRaw> = serde_wasm_bindgen::from_value(key_packages)
         .map_err(|err| JsValue::from_str(&format!("Invalid key_packages format: {}", err)))?;
 
-    let new_identifiers: Vec<[u8; 32]> = new_identifiers
-        .into_serde()
+    let new_identifiers: Vec<[u8; 32]> = serde_wasm_bindgen::from_value(new_identifiers)
         .map_err(|err| JsValue::from_str(&format!("Invalid new_identifiers format: {}", err)))?;
 
     let key_packages: Vec<_> = key_packages_raw
@@ -58,5 +55,5 @@ pub fn sss_reshare(
         secret: reshare_output.secret,
     };
 
-    JsValue::from_serde(&result).map_err(|err| JsValue::from_str(&err.to_string()))
+    serde_wasm_bindgen::to_value(&result).map_err(|err| JsValue::from_str(&err.to_string()))
 }

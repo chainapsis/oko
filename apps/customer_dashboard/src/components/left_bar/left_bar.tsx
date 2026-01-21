@@ -1,13 +1,13 @@
 "use client";
 
-import { type FC } from "react";
-import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
 import { HomeOutlinedIcon } from "@oko-wallet/oko-common-ui/icons/home_outlined";
+import { MenuItem } from "@oko-wallet/oko-common-ui/menu";
+import type { FC } from "react";
 
-import { paths } from "@oko-wallet-ct-dashboard/paths";
-import styles from "./left_bar.module.scss";
 import { AccountInfoWithSubMenu } from "../account_info_with_sub_menu/account_info_with_sub_menu";
 import { ExternalLinkItem } from "../external_link_item/external_link_item";
+import styles from "./left_bar.module.scss";
+import { paths } from "@oko-wallet-ct-dashboard/paths";
 
 export const LeftBar: FC = () => {
   return (

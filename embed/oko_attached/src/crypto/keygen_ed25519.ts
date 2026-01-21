@@ -101,3 +101,29 @@ export function getPublicKeyFromKeyPackage(
 ): Result<Bytes32, string> {
   return Bytes.fromHexString(keyPackageHex.publicKey, 32);
 }
+
+/**
+ * Build KeyPackageEd25519Hex from separate components for signing operations.
+ * Computes client identifier (scalar 1) at runtime.
+ *
+ * @param keyPackage - hex-encoded KeyPackageRaw JSON (contains signing_share)
+ * @param publicKeyPackage - hex-encoded PublicKeyPackageRaw JSON
+ * @param publicKey - hex-encoded public key (verifying_key)
+ */
+export function extractKeyPackageHex(
+  keyPackage: string,
+  publicKeyPackage: string,
+  publicKey: string,
+): KeyPackageEd25519Hex {
+  // Client identifier is always scalar 1 (little-endian 32-byte)
+  const identifierBytes = new Uint8Array(32);
+  identifierBytes[0] = 1;
+  const identifier = uint8ArrayToHex(identifierBytes);
+
+  return {
+    keyPackage,
+    publicKeyPackage,
+    identifier,
+    publicKey,
+  };
+}

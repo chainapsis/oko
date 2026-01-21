@@ -1,5 +1,5 @@
-import chalk from "chalk";
 import type { SpawnSyncReturns } from "node:child_process";
+import chalk from "chalk";
 
 export function expectSuccess(
   ret: SpawnSyncReturns<ArrayBuffer | Uint8Array | string>,

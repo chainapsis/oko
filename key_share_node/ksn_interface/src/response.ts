@@ -15,6 +15,7 @@ export interface KSNodeApiErrorResponse {
 
 export type KSNodeApiErrorCode =
   | "UNKNOWN_ERROR"
+  | "INVALID_REQUEST"
   | "DUPLICATE_PUBLIC_KEY"
   | "USER_NOT_FOUND"
   | "WALLET_NOT_FOUND"

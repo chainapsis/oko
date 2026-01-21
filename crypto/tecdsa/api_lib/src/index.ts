@@ -47,7 +47,11 @@ import type {
   AbortTssSessionBody,
   AbortTssSessionResponse,
 } from "@oko-wallet/oko-types/tss";
-import { type SignInResponse } from "@oko-wallet/oko-types/user";
+import {
+  type SignInResponse,
+  type SignInResponseV2,
+} from "@oko-wallet/oko-types/user";
+import type { KeygenBodyV2 } from "@oko-wallet/oko-types/tss";
 import {
   type ErrorCode,
   type OkoApiErrorResponse,
@@ -183,6 +187,21 @@ export async function reqKeygen(
   authToken: string,
 ) {
   const resp: OkoApiResponse<SignInResponse> = await makePostRequest(
+    endpoint,
+    "keygen",
+    payload,
+    undefined,
+    authToken,
+  );
+  return resp;
+}
+
+export async function reqKeygenV2(
+  endpoint: string,
+  payload: KeygenBodyV2,
+  authToken: string,
+) {
+  const resp: OkoApiResponse<SignInResponseV2> = await makePostRequest(
     endpoint,
     "keygen",
     payload,

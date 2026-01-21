@@ -2,6 +2,7 @@ import type { KSNodeApiErrorCode } from "@oko-wallet/ksn-interface/response";
 
 export const ErrorCodeMap: Record<KSNodeApiErrorCode, number> = {
   UNKNOWN_ERROR: 500,
+  INVALID_REQUEST: 400,
   DUPLICATE_PUBLIC_KEY: 409,
   USER_NOT_FOUND: 404,
   WALLET_NOT_FOUND: 404,
