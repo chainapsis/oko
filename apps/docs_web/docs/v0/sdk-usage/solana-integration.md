@@ -15,16 +15,16 @@ Oko Solana SDK fully supports the [Wallet Standard](https://github.com/anza-xyz/
 ## Installation
 
 ```bash
-npm install @oko-wallet/oko-sdk-sol @solana/web3.js
+npm install @oko-wallet/oko-sdk-svm @solana/web3.js
 ```
 
 ## Basic Setup
 
 ```typescript
-import { OkoSolWallet } from "@oko-wallet/oko-sdk-sol";
+import { OkoSvmWallet } from "@oko-wallet/oko-sdk-svm";
 
 // Initialize Solana wallet
-const initRes = OkoSolWallet.init({
+const initRes = OkoSvmWallet.init({
   api_key: "your-api-key",
 });
 
@@ -137,7 +137,7 @@ unsubscribe(); // or wallet.off("connect", handler);
 ## Wallet Standard Integration
 
 ```typescript
-import { OkoSolWallet, type WalletStandardConfig } from "@oko-wallet/oko-sdk-sol";
+import { OkoSvmWallet, type WalletStandardConfig } from "@oko-wallet/oko-sdk-svm";
 import {
   SOLANA_CHAINS,
   SOLANA_MAINNET_CHAIN,
@@ -164,7 +164,7 @@ const SOLANA_CONFIG: WalletStandardConfig = {
   },
 };
 
-const initRes = OkoSolWallet.init({
+const initRes = OkoSvmWallet.init({
   api_key: "your-api-key",
   wallet_standard: [SOLANA_CONFIG],
 });
