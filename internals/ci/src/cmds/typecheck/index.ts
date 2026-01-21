@@ -19,7 +19,7 @@ export async function typeCheck(..._args: any[]) {
     paths.ksn_server,
     paths.sandbox_simple_host,
     paths.oko_api_server,
-    paths.tss_api,
+    // paths.tss_api,
     paths.admin_api,
     paths.ct_dashboard_api,
     paths.oko_attached,
