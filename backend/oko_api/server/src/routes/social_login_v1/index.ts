@@ -1,4 +1,4 @@
-import { userJwtMiddleware } from "@oko-wallet-tss-api/middleware/keplr_auth";
+import { userJwtMiddleware } from "@oko-wallet-api/middleware/auth/keplr_auth";
 import express from "express";
 
 import { getXToken } from "./get_x_token";
