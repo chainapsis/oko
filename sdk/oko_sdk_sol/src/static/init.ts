@@ -35,8 +35,8 @@ export function init(
     ) => OkoSolWalletInterface
   )(okoSolWalletRes.data);
 
-  if (args.walletStandard) {
-    const config = args.walletStandard;
+  if (args.wallet_standard) {
+    const config = args.wallet_standard;
     wallet.waitUntilInitialized.then((result) => {
       if (result.success) {
         registerWalletStandard(wallet, config);
