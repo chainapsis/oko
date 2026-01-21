@@ -10937,7 +10937,6 @@ __metadata:
     "@oko-wallet/oko-pg-interface": "workspace:*"
     "@oko-wallet/oko-types": "npm:^0.1.2-alpha.1"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
-    "@oko-wallet/tss-api": "workspace:*"
     "@oko-wallet/user-dashboard-api": "workspace:*"
     "@types/cors": "npm:^2.8.17"
     "@types/express": "npm:^5.0.6"
@@ -11524,7 +11523,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@oko-wallet/teddsa-addon@workspace:*, @oko-wallet/teddsa-addon@workspace:crypto/teddsa/teddsa_addon":
+"@oko-wallet/teddsa-addon@workspace:crypto/teddsa/teddsa_addon":
   version: 0.0.0-use.local
   resolution: "@oko-wallet/teddsa-addon@workspace:crypto/teddsa/teddsa_addon"
   dependencies:
@@ -11575,51 +11574,6 @@ __metadata:
     ts-jest: "npm:^29.4.0"
     tsc-alias: "npm:^1.8.16"
     typescript: "npm:^5.8.3"
-  languageName: unknown
-  linkType: soft
-
-"@oko-wallet/tss-api@workspace:*, @oko-wallet/tss-api@workspace:backend/tss_api":
-  version: 0.0.0-use.local
-  resolution: "@oko-wallet/tss-api@workspace:backend/tss_api"
-  dependencies:
-    "@oko-wallet/bytes": "npm:^0.1.2-alpha.1"
-    "@oko-wallet/cait-sith-keplr-addon": "workspace:*"
-    "@oko-wallet/crypto-js": "npm:^0.1.2-alpha.1"
-    "@oko-wallet/ksn-interface": "npm:^0.1.2-alpha.1"
-    "@oko-wallet/oko-api-error-codes": "workspace:*"
-    "@oko-wallet/oko-api-openapi": "workspace:*"
-    "@oko-wallet/oko-api-server-state": "workspace:*"
-    "@oko-wallet/oko-pg-interface": "workspace:*"
-    "@oko-wallet/oko-types": "npm:^0.1.2-alpha.1"
-    "@oko-wallet/postgres-lib": "workspace:*"
-    "@oko-wallet/stdlib-js": "npm:^0.0.2-rc.44"
-    "@oko-wallet/tecdsa-interface": "npm:0.0.2-alpha.22"
-    "@oko-wallet/teddsa-addon": "workspace:*"
-    "@oko-wallet/teddsa-interface": "workspace:*"
-    "@types/cors": "npm:^2.8.17"
-    "@types/express": "npm:^5.0.6"
-    "@types/jest": "npm:^29.5.14"
-    "@types/jsonwebtoken": "npm:^9.0.7"
-    "@types/morgan": "npm:^1.9.9"
-    "@types/node": "npm:^24.10.1"
-    "@types/supertest": "npm:^6.0.3"
-    "@types/swagger-jsdoc": "npm:^6.0.4"
-    "@types/swagger-ui-express": "npm:^4.1.8"
-    cors: "npm:^2.8.5"
-    dayjs: "npm:^1.11.18"
-    dotenv: "npm:^16.4.5"
-    express: "npm:^4.21.1"
-    helmet: "npm:^8.0.0"
-    jest: "npm:^30.1.3"
-    jsonwebtoken: "npm:^9.0.2"
-    morgan: "npm:^1.10.0"
-    pg: "npm:^8.16.3"
-    supertest: "npm:^7.0.0"
-    swagger-ui-express: "npm:^5.0.1"
-    ts-jest: "npm:^29.4.5"
-    typescript: "npm:^5.8.3"
-    uuid: "npm:^13.0.0"
-    zod: "npm:^4.1.12"
   languageName: unknown
   linkType: soft
 

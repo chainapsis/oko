@@ -25,7 +25,6 @@
     "paths": {
       "@oko-wallet-api/*": ["./src/*"],
       "@oko-wallet-ctd-api/*": ["../../ct_dashboard_api/src/*"],
-      "@oko-wallet-tss-api/*": ["../../tss_api/src/*"],
       "@oko-wallet-admin-api/*": ["../../admin_api/src/*"],
       "@oko-wallet-log-api/*": ["../../log_api/src/*"],
       "@oko-wallet-attached-api/*": ["../../attached_api/src/*"],
