@@ -58,18 +58,14 @@ export function useAddresses() {
 
         if (okoSol) {
           promises.push(
-            (async () => {
-              try {
-                if (!okoSol.connected) {
-                  await okoSol.connect();
-                }
+            Promise.resolve()
+              .then(() => (!okoSol.connected ? okoSol.connect() : undefined))
+              .then(() => {
                 if (okoSol.publicKey && isSignedRef.current) {
                   setSolanaAddress(okoSol.publicKey.toBase58());
                 }
-              } catch (err) {
-                console.error("Failed to get Solana address:", err);
-              }
-            })(),
+              })
+              .catch((err) => console.error("Failed to get Solana address:", err)),
           );
         }
 
