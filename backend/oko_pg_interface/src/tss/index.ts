@@ -283,6 +283,7 @@ export async function getTssSessions(
   offset: number,
   node_id?: string,
   customer_id?: string,
+  curve_type?: string,
 ): Promise<Result<TssSessionWithCustomerAndUser[], string>> {
   try {
     const baseQuery = `
@@ -316,6 +317,12 @@ LEFT JOIN oko_users u ON w.user_id = u.user_id
     if (customer_id) {
       conditions.push(`s.customer_id = $${paramIndex}`);
       queryParams.push(customer_id);
+      paramIndex++;
+    }
+
+    if (curve_type) {
+      conditions.push(`w.curve_type = $${paramIndex}`);
+      queryParams.push(curve_type);
       paramIndex++;
     }
 

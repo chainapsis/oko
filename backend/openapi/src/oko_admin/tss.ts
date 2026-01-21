@@ -68,6 +68,9 @@ export const GetTssSessionListRequestSchema = registry.register(
     customer_id: z.string().optional().openapi({
       description: "Customer ID to filter by (optional)",
     }),
+    curve_type: z.string().optional().openapi({
+      description: "Curve type to filter by (optional, e.g. secp256k1 or ed25519)",
+    }),
   }),
 );
 

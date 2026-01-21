@@ -157,6 +157,7 @@ export const SigSharesTable: FC = () => {
   const selectedCustomerId =
     searchParams.get("customer_id") || searchParams.get("app_id");
   const selectedNodeId = searchParams.get("node_id");
+  const selectedCurveType = searchParams.get("curve_type");
 
   const getFilterType = () => {
     if (selectedNodeId) return "node";
@@ -230,10 +231,23 @@ export const SigSharesTable: FC = () => {
     router.push(`?${params.toString()}`, { scroll: false });
   };
 
+  const handleCurveTypeChange = (curveType: string | null) => {
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (curveType) {
+      params.set("curve_type", curveType);
+    } else {
+      params.delete("curve_type");
+    }
+
+    router.push(`?${params.toString()}`, { scroll: false });
+  };
+
   const { data } = useGetTSSSessionsList({
     page: pageIndex,
     nodeId: selectedNodeId || undefined,
     customerId: selectedCustomerId || undefined,
+    curveType: selectedCurveType || undefined,
   });
 
   const tssSessions = data?.tss_sessions ?? defaultData;
@@ -386,6 +400,52 @@ export const SigSharesTable: FC = () => {
               </Dropdown.Content>
             </Dropdown>
           )}
+
+          <div className={styles.divider}>|</div>
+
+          <Typography
+            size="md"
+            weight="medium"
+            color="tertiary"
+            className={styles.separatorText}
+          >
+            Curve
+          </Typography>
+
+          <Dropdown>
+            <Dropdown.Trigger asChild>
+              <div className={styles.dropdownTrigger}>
+                <Badge
+                  color={selectedCurveType ? "brand" : "gray"}
+                  size="md"
+                  label={selectedCurveType || "All"}
+                />
+                <ChevronDownIcon
+                  color="var(--fg-tertiary)"
+                  size={16}
+                  className={styles.chevronIcon}
+                />
+              </div>
+            </Dropdown.Trigger>
+            <Dropdown.Content className={styles.dropdownContent}>
+              <Dropdown.Item onClick={() => handleCurveTypeChange(null)}>
+                <Typography size="sm" color="primary">
+                  All
+                </Typography>
+              </Dropdown.Item>
+              <Dropdown.Divider />
+              <Dropdown.Item onClick={() => handleCurveTypeChange("secp256k1")}>
+                <Typography size="sm" color="primary">
+                  secp256k1
+                </Typography>
+              </Dropdown.Item>
+              <Dropdown.Item onClick={() => handleCurveTypeChange("ed25519")}>
+                <Typography size="sm" color="primary">
+                  ed25519
+                </Typography>
+              </Dropdown.Item>
+            </Dropdown.Content>
+          </Dropdown>
         </div>
       </div>
       {tssSessions.length === 0 ? (
