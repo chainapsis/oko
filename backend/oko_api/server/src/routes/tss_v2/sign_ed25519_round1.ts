@@ -11,11 +11,11 @@ import {
 } from "@oko-wallet/oko-api-openapi/common";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { runSignEd25519Round1 } from "@oko-wallet-tss-api/api/sign_ed25519";
+import { runSignEd25519Round1 } from "@oko-wallet-api/api/tss/sign_ed25519";
 import {
   type UserAuthenticatedRequest,
   sendResponseWithNewToken,
-} from "@oko-wallet-tss-api/middleware/keplr_auth";
+} from "@oko-wallet-api/middleware/auth/keplr_auth";
 
 registry.registerPath({
   method: "post",

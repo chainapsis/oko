@@ -5,8 +5,8 @@ import {
   validateTelegramHash,
   type TelegramUserData,
   type TelegramUserInfo,
-} from "@oko-wallet-tss-api/middleware/telegram_auth/validate";
-import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
+} from "@oko-wallet-api/middleware/auth/telegram_auth/validate";
+import type { OAuthLocals } from "@oko-wallet-api/middleware/auth/types";
 
 export interface TelegramAuthenticatedRequest<T = any> extends Request {
   body: T;

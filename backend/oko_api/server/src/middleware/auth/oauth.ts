@@ -4,27 +4,27 @@ import type { AuthType } from "@oko-wallet/oko-types/auth";
 import {
   type GoogleAuthenticatedRequest,
   googleAuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/google_auth";
+} from "@oko-wallet-api/middleware/auth/google_auth";
 import {
   type Auth0AuthenticatedRequest,
   auth0AuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/auth0_auth";
+} from "@oko-wallet-api/middleware/auth/auth0_auth";
 import {
   type XAuthenticatedRequest,
   xAuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/x_auth";
+} from "@oko-wallet-api/middleware/auth/x_auth";
 import {
   type TelegramAuthenticatedRequest,
   telegramAuthMiddleware,
-} from "@oko-wallet-tss-api/middleware/telegram_auth";
+} from "@oko-wallet-api/middleware/auth/telegram_auth";
 import {
   discordAuthMiddleware,
   type DiscordAuthenticatedRequest,
-} from "@oko-wallet-tss-api/middleware/discord_auth";
+} from "@oko-wallet-api/middleware/auth/discord_auth";
 import type {
   OAuthBody,
   OAuthLocals,
-} from "@oko-wallet-tss-api/middleware/types";
+} from "@oko-wallet-api/middleware/auth/types";
 
 export type OAuthAuthenticatedRequest<T = {}> = Request<
   any,

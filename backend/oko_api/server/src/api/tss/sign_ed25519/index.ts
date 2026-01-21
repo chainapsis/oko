@@ -33,7 +33,7 @@ import {
   validateTssSession,
   validateTssStage,
   updateTssStageWithSessionState,
-} from "@oko-wallet-tss-api/api/utils";
+} from "@oko-wallet-api/api/tss/utils";
 
 export async function runSignEd25519Round1(
   db: Pool,

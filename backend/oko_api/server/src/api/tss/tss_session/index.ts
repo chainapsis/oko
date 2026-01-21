@@ -10,7 +10,7 @@ import {
 import { Pool } from "pg";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 
-import { validateWalletEmail } from "@oko-wallet-tss-api/api/utils";
+import { validateWalletEmail } from "@oko-wallet-api/api/tss/utils";
 
 export async function abortTssSession(
   db: Pool,

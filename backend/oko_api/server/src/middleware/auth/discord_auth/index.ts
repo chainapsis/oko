@@ -1,8 +1,8 @@
 import type { Request, Response, NextFunction } from "express";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 
-import { validateDiscordOAuthToken } from "@oko-wallet-tss-api/middleware/discord_auth/validate";
-import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
+import { validateDiscordOAuthToken } from "@oko-wallet-api/middleware/auth/discord_auth/validate";
+import type { OAuthLocals } from "@oko-wallet-api/middleware/auth/types";
 
 export interface DiscordAuthenticatedRequest<T = any> extends Request {
   body: T;

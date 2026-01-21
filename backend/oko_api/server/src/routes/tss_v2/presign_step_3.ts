@@ -15,11 +15,11 @@ import {
   PresignStep3SuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/tss";
 
-import { runPresignStep3 } from "@oko-wallet-tss-api/api/v1/presign";
+import { runPresignStep3 } from "@oko-wallet-api/api/tss/v1/presign";
 import {
   type UserAuthenticatedRequest,
   sendResponseWithNewToken,
-} from "@oko-wallet-tss-api/middleware/keplr_auth";
+} from "@oko-wallet-api/middleware/auth/keplr_auth";
 
 registry.registerPath({
   method: "post",

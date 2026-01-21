@@ -1,8 +1,8 @@
-import { validateAuth0IdToken } from "@oko-wallet-tss-api/middleware/auth0_auth/validate";
+import { validateAuth0IdToken } from "@oko-wallet-api/middleware/auth/auth0_auth/validate";
 import {
   AUTH0_CLIENT_ID,
   AUTH0_DOMAIN,
-} from "@oko-wallet-tss-api/middleware/auth0_auth/client_id";
+} from "@oko-wallet-api/middleware/auth/auth0_auth/client_id";
 
 describe("validateAuth0IdToken", () => {
   it("should validate a valid Auth0 ID token", async () => {

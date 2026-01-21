@@ -2,12 +2,12 @@ import request from "supertest";
 import { Pool } from "pg";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 
-import { makeApp } from "@oko-wallet-tss-api/testing/app";
-import { testPgConfig } from "@oko-wallet-tss-api/database/test_config";
-import { resetPgDatabase } from "@oko-wallet-tss-api/testing/database";
-import { generateUserToken } from "@oko-wallet-tss-api/api/keplr_auth";
-import { userJwtMiddleware } from "@oko-wallet-tss-api/middleware/keplr_auth";
-import { TEMP_ENC_SECRET } from "@oko-wallet-tss-api/api/utils";
+import { makeApp } from "@oko-wallet-api/testing/app";
+import { testPgConfig } from "@oko-wallet-api/database/test_config";
+import { resetPgDatabase } from "@oko-wallet-api/testing/database";
+import { generateUserToken } from "@oko-wallet-api/api/tss/keplr_auth";
+import { userJwtMiddleware } from "@oko-wallet-api/middleware/auth/keplr_auth";
+import { TEMP_ENC_SECRET } from "@oko-wallet-api/api/tss/utils";
 
 describe("keplr_auth_test", () => {
   let app: any;

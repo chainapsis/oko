@@ -13,11 +13,11 @@ import type {
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { runTriplesStep1 } from "@oko-wallet-tss-api/api/v1/triples";
+import { runTriplesStep1 } from "@oko-wallet-api/api/tss/v1/triples";
 import {
   type UserAuthenticatedRequest,
   sendResponseWithNewToken,
-} from "@oko-wallet-tss-api/middleware/keplr_auth";
+} from "@oko-wallet-api/middleware/auth/keplr_auth";
 
 registry.registerPath({
   method: "post",

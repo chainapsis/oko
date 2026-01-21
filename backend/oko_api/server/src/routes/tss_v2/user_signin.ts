@@ -13,9 +13,9 @@ import {
 } from "@oko-wallet/oko-api-openapi/tss";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { signInV2 } from "@oko-wallet-tss-api/api/v2/user";
-import { type OAuthAuthenticatedRequest } from "@oko-wallet-tss-api/middleware/oauth";
-import type { OAuthLocals } from "@oko-wallet-tss-api/middleware/types";
+import { signInV2 } from "@oko-wallet-api/api/tss/v2/user";
+import { type OAuthAuthenticatedRequest } from "@oko-wallet-api/middleware/auth/oauth";
+import type { OAuthLocals } from "@oko-wallet-api/middleware/auth/types";
 
 registry.registerPath({
   method: "post",

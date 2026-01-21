@@ -15,11 +15,11 @@ import {
 } from "@oko-wallet/oko-api-openapi/tss";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { runSignStep1 } from "@oko-wallet-tss-api/api/v1/sign";
+import { runSignStep1 } from "@oko-wallet-api/api/tss/v1/sign";
 import {
   type UserAuthenticatedRequest,
   sendResponseWithNewToken,
-} from "@oko-wallet-tss-api/middleware/keplr_auth";
+} from "@oko-wallet-api/middleware/auth/keplr_auth";
 
 registry.registerPath({
   method: "post",

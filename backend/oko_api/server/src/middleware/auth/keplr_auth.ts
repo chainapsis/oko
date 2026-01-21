@@ -3,7 +3,7 @@ import type { Request, Response, NextFunction } from "express";
 import {
   verifyUserToken,
   verifyUserTokenV2,
-} from "@oko-wallet-tss-api/api/keplr_auth";
+} from "@oko-wallet-api/api/tss/keplr_auth";
 
 export interface UserAuthenticatedRequest<T = any> extends Request {
   body: T;

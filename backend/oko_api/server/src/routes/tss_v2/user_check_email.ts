@@ -13,7 +13,7 @@ import {
 } from "@oko-wallet/oko-api-openapi/tss";
 import { registry } from "@oko-wallet/oko-api-openapi";
 
-import { checkEmailV2 } from "@oko-wallet-tss-api/api/v2/user";
+import { checkEmailV2 } from "@oko-wallet-api/api/tss/v2/user";
 
 registry.registerPath({
   method: "post",
