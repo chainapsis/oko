@@ -14,6 +14,10 @@ const WalletWithEmailAndKSNodesResponseSchema = registry.register(
       description: "User email address",
     }),
 
+    auth_type: z.string().openapi({
+      description: "User authentication type",
+    }),
+
     wallet_id: z.string().openapi({
       description: "Wallet identifier",
     }),

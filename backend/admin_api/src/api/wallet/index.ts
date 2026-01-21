@@ -51,6 +51,7 @@ export async function getWalletList(
         wallets: getAllWalletsRes.data.map((wallet) => ({
           public_key: wallet.public_key.toString("hex"),
           email: wallet.email,
+          auth_type: wallet.auth_type,
           wallet_id: wallet.wallet_id,
           wallet_ks_nodes: wallet.wallet_ks_nodes,
         })),

@@ -6,6 +6,7 @@ export interface GetWalletListRequest {
 export interface WalletWithEmailAndKSNodesResponse {
   public_key: string;
   email: string;
+  auth_type: string;
   wallet_id: string;
   wallet_ks_nodes: string[];
 }

@@ -197,9 +197,10 @@ export async function getAllWallets(
 ): Promise<Result<WalletWithEmailAndKSNodes[], string>> {
   try {
     const query = `
-SELECT 
-  w.*, 
+SELECT
+  w.*,
   u.email AS email,
+  u.auth_type AS auth_type,
   COALESCE(
     JSON_AGG(wk.node_id) FILTER (WHERE wk.wallet_ks_node_id IS NOT NULL),
     '[]'::json
@@ -207,7 +208,7 @@ SELECT
 FROM oko_wallets w
 LEFT JOIN oko_users u ON w.user_id = u.user_id
 LEFT JOIN wallet_ks_nodes wk ON w.wallet_id = wk.wallet_id
-GROUP BY w.wallet_id, w.user_id, w.curve_type, w.public_key, w.status, w.enc_tss_share, w.metadata, w.created_at, w.updated_at, u.email
+GROUP BY w.wallet_id, w.user_id, w.curve_type, w.public_key, w.status, w.enc_tss_share, w.metadata, w.created_at, w.updated_at, u.email, u.auth_type
 ORDER BY w.created_at DESC
 LIMIT $1
 OFFSET $2

@@ -22,9 +22,13 @@ function createColumns(
     | undefined,
 ) {
   return [
+    columnHelper.accessor((row) => row.auth_type, {
+      id: "auth_type",
+      header: "Auth Type",
+    }),
     columnHelper.accessor((row) => row.email, {
       id: "email",
-      header: "Email",
+      header: "User Identifier",
     }),
     columnHelper.accessor((row) => row.public_key, {
       id: "public_key",

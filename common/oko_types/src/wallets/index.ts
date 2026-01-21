@@ -30,5 +30,6 @@ export type WalletWithEmail = Wallet & {
 
 export type WalletWithEmailAndKSNodes = Wallet & {
   email: string;
+  auth_type: string;
   wallet_ks_nodes: string[];
 };
