@@ -11,7 +11,7 @@ import type {
 } from "@wallet-standard/features";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { OkoWalletAccount } from "./account";
+import { OkoSolanaWalletAccount } from "./account";
 import type { WalletStandardConfig } from "./chains";
 import {
   createSignAndSendTransactionFeature,
@@ -141,7 +141,7 @@ export class OkoStandardWallet implements Wallet {
         this.#config.features.signAndSendTransaction,
       ];
       this.#accounts = [
-        new OkoWalletAccount(
+        new OkoSolanaWalletAccount(
           publicKey.toBase58(),
           publicKey.toBytes(),
           this.#config.chains,

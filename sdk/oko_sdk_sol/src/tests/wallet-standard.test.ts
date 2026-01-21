@@ -5,7 +5,7 @@ import { OkoSolWallet } from "@oko-wallet-sdk-sol/sol_wallet";
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import {
   OkoStandardWallet,
-  OkoWalletAccount,
+  OkoSolanaWalletAccount,
   OKO_WALLET_NAME,
   buildSignInMessage,
   type WalletStandardConfig,
@@ -33,13 +33,13 @@ const TEST_CONFIG: WalletStandardConfig = {
 };
 
 describe("Wallet Standard", () => {
-  describe("OkoWalletAccount", () => {
+  describe("OkoSolanaWalletAccount", () => {
     it("should create account with correct properties", () => {
       const address = "7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f7f";
       const publicKey = new Uint8Array(32).fill(0x7f);
       const features = Object.values(TEST_CONFIG.features);
 
-      const account = new OkoWalletAccount(
+      const account = new OkoSolanaWalletAccount(
         address,
         publicKey,
         TEST_CHAINS,
@@ -157,7 +157,7 @@ describe("Wallet Standard", () => {
         const result = await features["standard:connect"].connect();
 
         expect(result.accounts).toHaveLength(1);
-        expect(result.accounts[0]).toBeInstanceOf(OkoWalletAccount);
+        expect(result.accounts[0]).toBeInstanceOf(OkoSolanaWalletAccount);
       });
 
       it("should update accounts after connect", async () => {

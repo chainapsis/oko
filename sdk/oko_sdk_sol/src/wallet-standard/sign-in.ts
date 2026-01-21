@@ -3,7 +3,7 @@ import type {
 } from "@solana/wallet-standard-features";
 
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
-import { OkoWalletAccount } from "./account";
+import { OkoSolanaWalletAccount } from "./account";
 import type { WalletStandardConfig } from "./chains";
 
 export function buildSignInMessage(
@@ -94,7 +94,7 @@ export function createSignInFeature(
         config.features.signAndSendTransaction,
       ];
 
-      const account = new OkoWalletAccount(
+      const account = new OkoSolanaWalletAccount(
         address,
         publicKey.toBytes(),
         config.chains,

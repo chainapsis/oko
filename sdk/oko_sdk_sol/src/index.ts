@@ -29,7 +29,7 @@ export {
   registerWalletStandard,
   OkoStandardWallet,
   OKO_WALLET_NAME,
-  OkoWalletAccount,
+  OkoSolanaWalletAccount,
   buildSignInMessage,
   createSignInFeature,
 } from "./wallet-standard";

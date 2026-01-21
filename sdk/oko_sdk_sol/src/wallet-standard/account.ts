@@ -1,6 +1,6 @@
 import type { IdentifierString, WalletAccount } from "@wallet-standard/base";
 
-export class OkoWalletAccount implements WalletAccount {
+export class OkoSolanaWalletAccount implements WalletAccount {
   readonly address: string;
   readonly publicKey: Uint8Array;
   readonly chains: readonly IdentifierString[];
