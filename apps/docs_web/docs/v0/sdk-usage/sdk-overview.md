@@ -23,7 +23,7 @@ npm install @oko-wallet/oko-sdk-cosmos
 # For Ethereum/EVM chains
 npm install @oko-wallet/oko-sdk-eth
 
-# For Solana
+# For Solana/SVM chains
 npm install @oko-wallet/oko-sdk-svm
 
 # Core SDK (for custom integration)
