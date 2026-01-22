@@ -1,9 +1,8 @@
 import type { IdentifierString } from "@wallet-standard/base";
 
-// CAIP-2 standard chain IDs using genesis hash (first 32 characters)
-export const SOLANA_MAINNET_CHAIN = "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdp" as IdentifierString;
-export const SOLANA_DEVNET_CHAIN = "solana:EtWTRABZaYq6iMfeYKouRu166VU2xqa1" as IdentifierString;
-export const SOLANA_TESTNET_CHAIN = "solana:4uhcVJyU9pJkvQyS88uRDiswHXSCkY3z" as IdentifierString;
+export const SOLANA_MAINNET_CHAIN = "solana:mainnet" as IdentifierString;
+export const SOLANA_DEVNET_CHAIN = "solana:devnet" as IdentifierString;
+export const SOLANA_TESTNET_CHAIN = "solana:testnet" as IdentifierString;
 
 export const SOLANA_CHAINS = [
   SOLANA_MAINNET_CHAIN,
