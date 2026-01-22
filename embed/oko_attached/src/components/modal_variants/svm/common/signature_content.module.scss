@@ -1,7 +1,7 @@
 .signatureContent {
   display: flex;
   flex-direction: column;
-  padding: 0 16px;
+  padding: 0;
 }
 
 .chainInfo {
@@ -38,14 +38,20 @@
 }
 
 .originFavicon {
-  width: 16px;
-  height: 16px;
-  margin-right: 8px;
+  width: 20px;
+  height: 20px;
+  margin-right: 4px;
+  border-radius: 5px;
+  box-shadow:
+    0px 0.625px 0.625px -0.5px rgba(10, 13, 18, 0.13),
+    0px 0.625px 1.875px 0px rgba(10, 13, 18, 0.1),
+    0px 0.625px 1.25px 0px rgba(10, 13, 18, 0.06);
 }
 
 .signInfoColumn {
   display: flex;
   flex-direction: column;
+  gap: 12px;
 }
 
 .chainInfoRow {

@@ -83,7 +83,7 @@ export const MakeTxSigModal: FC<MakeTxSigModalProps> = ({
           isVersioned={data.payload.data.is_versioned}
         />
 
-        <Spacing height={20} />
+        <Spacing height={16} />
 
         <div className={styles.buttonContainer}>
           <Button

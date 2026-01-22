@@ -2,6 +2,7 @@ import { type FC, type ReactNode, useState, useMemo } from "react";
 import type { SvmTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import { Typography } from "@oko-wallet/oko-common-ui/typography";
 import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/svm";
 
 import styles from "../common/summary.module.scss";
@@ -44,11 +45,7 @@ export const SvmTxSummary: FC<SvmTxSummaryProps> = ({
     } else if (isLoading || !parsedTx) {
       content = (
         <TxContainer>
-          <TxRow label="Status">
-            <Typography color="secondary" size="sm" weight="semibold">
-              Parsing...
-            </Typography>
-          </TxRow>
+          <Skeleton width="100%" height="32px" />
         </TxContainer>
       );
     } else {
@@ -92,7 +89,7 @@ export const SvmTxSummary: FC<SvmTxSummaryProps> = ({
     <div className={styles.summaryContainer}>
       <div className={styles.summaryHeader}>
         <Typography color="secondary" size="sm" weight="semibold">
-          Transaction
+          Transaction Summary
         </Typography>
         <div className={styles.summaryHeaderRight} onClick={handleToggleView}>
           <Typography color="tertiary" size="xs" weight="medium">
