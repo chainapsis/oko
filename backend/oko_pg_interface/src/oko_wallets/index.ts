@@ -7,6 +7,7 @@ import {
   type Wallet,
   type WalletWithEmail,
   type WalletWithEmailAndKSNodes,
+  type UserWithWallets,
 } from "@oko-wallet/oko-types/wallets";
 import type { CurveType } from "@oko-wallet/oko-types/crypto";
 
@@ -257,8 +258,8 @@ export async function updateWalletStatus(
 ): Promise<Result<void, string>> {
   try {
     const query = `
-UPDATE oko_wallets 
-SET status = $1, updated_at = now() 
+UPDATE oko_wallets
+SET status = $1, updated_at = now()
 WHERE wallet_id = $2
 `;
 
@@ -274,6 +275,78 @@ WHERE wallet_id = $2
     return {
       success: true,
       data: void 0,
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getAllUsersWithWallets(
+  db: Pool | PoolClient,
+  limit: number,
+  offset: number,
+): Promise<Result<UserWithWallets[], string>> {
+  try {
+    const query = `
+SELECT
+  u.user_id,
+  u.email,
+  u.auth_type,
+  w_secp.public_key AS secp256k1_public_key,
+  w_secp.wallet_id AS secp256k1_wallet_id,
+  COALESCE(
+    (SELECT JSON_AGG(wk.node_id) FROM wallet_ks_nodes wk WHERE wk.wallet_id = w_secp.wallet_id),
+    '[]'::json
+  ) AS secp256k1_ks_nodes,
+  w_ed.public_key AS ed25519_public_key,
+  w_ed.wallet_id AS ed25519_wallet_id,
+  COALESCE(
+    (SELECT JSON_AGG(wk.node_id) FROM wallet_ks_nodes wk WHERE wk.wallet_id = w_ed.wallet_id),
+    '[]'::json
+  ) AS ed25519_ks_nodes
+FROM oko_users u
+LEFT JOIN oko_wallets w_secp ON u.user_id = w_secp.user_id AND w_secp.curve_type = 'secp256k1' AND w_secp.status = 'ACTIVE'
+LEFT JOIN oko_wallets w_ed ON u.user_id = w_ed.user_id AND w_ed.curve_type = 'ed25519' AND w_ed.status = 'ACTIVE'
+WHERE w_secp.wallet_id IS NOT NULL OR w_ed.wallet_id IS NOT NULL
+ORDER BY u.created_at DESC
+LIMIT $1
+OFFSET $2
+`;
+
+    const result = await db.query(query, [limit, offset]);
+
+    return {
+      success: true,
+      data: result.rows as UserWithWallets[],
+    };
+  } catch (error) {
+    return {
+      success: false,
+      err: String(error),
+    };
+  }
+}
+
+export async function getUsersWithWalletsCount(
+  db: Pool | PoolClient,
+): Promise<Result<number, string>> {
+  try {
+    const query = `
+SELECT COUNT(DISTINCT u.user_id)
+FROM oko_users u
+LEFT JOIN oko_wallets w_secp ON u.user_id = w_secp.user_id AND w_secp.curve_type = 'secp256k1' AND w_secp.status = 'ACTIVE'
+LEFT JOIN oko_wallets w_ed ON u.user_id = w_ed.user_id AND w_ed.curve_type = 'ed25519' AND w_ed.status = 'ACTIVE'
+WHERE w_secp.wallet_id IS NOT NULL OR w_ed.wallet_id IS NOT NULL
+`;
+
+    const result = await db.query(query);
+
+    return {
+      success: true,
+      data: parseInt(result.rows[0].count),
     };
   } catch (error) {
     return {
