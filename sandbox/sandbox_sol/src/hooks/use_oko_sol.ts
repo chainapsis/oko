@@ -63,7 +63,7 @@ export function useOkoSol() {
         const solWalletResult = OkoSolWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
-          wallet_standard: SOLANA_CONFIG,
+          wallet_standard: [SOLANA_CONFIG],
         });
 
         if (!solWalletResult.success) {
