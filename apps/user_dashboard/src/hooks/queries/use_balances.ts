@@ -8,12 +8,15 @@ import type {
   RawBalance,
 } from "@oko-wallet-user-dashboard/types/token";
 import { getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
-import { isCosmosChainId, isSolanaChainId } from "@oko-wallet-user-dashboard/utils/chain";
+import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
 import { calculateUsdValue } from "@oko-wallet-user-dashboard/utils/format_token_amount";
-
 import { useEnabledChains } from "./use_chains";
 import { usePrices } from "./use_prices";
-import { useEthAddress, useBech32Addresses, useSolanaAddress } from "./use_addresses";
+import {
+  useEthAddress,
+  useBech32Addresses,
+  useSolanaAddress,
+} from "./use_addresses";
 
 /**
  * Fetch Cosmos balances from LCD endpoint
@@ -162,8 +165,10 @@ export function useChainBalances(
     cosmosBalances: cosmosQuery.data ?? [],
     evmBalance: evmQuery.data ?? "0",
     solanaBalance: solanaQuery.data ?? "0",
-    isLoading: cosmosQuery.isLoading || evmQuery.isLoading || solanaQuery.isLoading,
-    isFetching: cosmosQuery.isFetching || evmQuery.isFetching || solanaQuery.isFetching,
+    isLoading:
+      cosmosQuery.isLoading || evmQuery.isLoading || solanaQuery.isLoading,
+    isFetching:
+      cosmosQuery.isFetching || evmQuery.isFetching || solanaQuery.isFetching,
     error: cosmosQuery.error || evmQuery.error || solanaQuery.error,
   };
 }
@@ -178,7 +183,8 @@ export function useAllBalances() {
 
   // Get addresses using TanStack Query hooks
   const { address: ethAddress, isLoading: ethLoading } = useEthAddress();
-  const { address: solanaAddress, isLoading: solanaLoading } = useSolanaAddress();
+  const { address: solanaAddress, isLoading: solanaLoading } =
+    useSolanaAddress();
   const cosmosChainIds = useMemo(
     () =>
       enabledChains
@@ -200,7 +206,13 @@ export function useAllBalances() {
         : undefined;
 
       return {
-        queryKey: ["balances", chain.chainId, bech32Address, ethAddress, solanaAddress],
+        queryKey: [
+          "balances",
+          chain.chainId,
+          bech32Address,
+          ethAddress,
+          solanaAddress,
+        ],
         queryFn: async (): Promise<TokenBalance[]> => {
           const results: TokenBalance[] = [];
 
@@ -265,7 +277,10 @@ export function useAllBalances() {
           // Fetch Solana native balance
           if (isSolana && solanaAddress && chain.solana?.rpc) {
             try {
-              const balance = await fetchSolanaBalance(chain.solana.rpc, solanaAddress);
+              const balance = await fetchSolanaBalance(
+                chain.solana.rpc,
+                solanaAddress,
+              );
               const nativeCurrency = chain.solana.currencies[0];
               if (nativeCurrency && BigInt(balance) > BigInt(0)) {
                 results.push({
@@ -289,7 +304,10 @@ export function useAllBalances() {
 
           return results;
         },
-        enabled: (isCosmos && !!bech32Address) || (isEvm && !!ethAddress) || (isSolana && !!solanaAddress),
+        enabled:
+          (isCosmos && !!bech32Address) ||
+          (isEvm && !!ethAddress) ||
+          (isSolana && !!solanaAddress),
         staleTime: 30 * 1000,
         refetchInterval: 60 * 1000,
       };
@@ -321,15 +339,13 @@ export function useAllBalances() {
     });
 
   // Group balances by chain identifier
-  const balancesByChainIdentifier = allBalances.reduce<
-    Map<string, TokenBalance[]>
-  >((map, balance) => {
+  const balancesByChainIdentifier = new Map();
+  for (const balance of allBalances) {
     const identifier = getChainIdentifier(balance.chainInfo.chainId);
-    const existing = map.get(identifier) ?? [];
+    const existing = balancesByChainIdentifier.get(identifier) ?? [];
     existing.push(balance);
-    map.set(identifier, existing);
-    return map;
-  }, new Map());
+    balancesByChainIdentifier.set(identifier, existing);
+  }
 
   const isLoading =
     chainsLoading ||
@@ -356,19 +372,19 @@ export function useAllBalances() {
 export function useTotalBalance() {
   const { balances, isLoading } = useAllBalances();
 
-  const totalUsd = balances.reduce((sum, bal) => {
+  let totalUsd = 0;
+  for (const bal of balances) {
     if (!bal.priceUsd) {
-      return sum;
+      continue;
+      // return sum;
     }
-    return (
-      sum +
-      calculateUsdValue(
-        bal.token.amount,
-        bal.token.currency.coinDecimals,
-        bal.priceUsd,
-      )
+
+    totalUsd += calculateUsdValue(
+      bal.token.amount,
+      bal.token.currency.coinDecimals,
+      bal.priceUsd,
     );
-  }, 0);
+  }
 
   return {
     totalUsd,
