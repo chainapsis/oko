@@ -297,19 +297,19 @@ SELECT
   u.auth_type,
   w_secp.public_key AS secp256k1_public_key,
   w_secp.wallet_id AS secp256k1_wallet_id,
-  COALESCE(
-    (SELECT JSON_AGG(wk.node_id) FROM wallet_ks_nodes wk WHERE wk.wallet_id = w_secp.wallet_id),
-    '[]'::json
-  ) AS secp256k1_ks_nodes,
+  COALESCE(secp_nodes.nodes, '[]'::json) AS secp256k1_ks_nodes,
   w_ed.public_key AS ed25519_public_key,
   w_ed.wallet_id AS ed25519_wallet_id,
-  COALESCE(
-    (SELECT JSON_AGG(wk.node_id) FROM wallet_ks_nodes wk WHERE wk.wallet_id = w_ed.wallet_id),
-    '[]'::json
-  ) AS ed25519_ks_nodes
+  COALESCE(ed_nodes.nodes, '[]'::json) AS ed25519_ks_nodes
 FROM oko_users u
 LEFT JOIN oko_wallets w_secp ON u.user_id = w_secp.user_id AND w_secp.curve_type = 'secp256k1' AND w_secp.status = 'ACTIVE'
 LEFT JOIN oko_wallets w_ed ON u.user_id = w_ed.user_id AND w_ed.curve_type = 'ed25519' AND w_ed.status = 'ACTIVE'
+LEFT JOIN LATERAL (
+  SELECT JSON_AGG(wk.node_id) AS nodes FROM wallet_ks_nodes wk WHERE wk.wallet_id = w_secp.wallet_id
+) secp_nodes ON true
+LEFT JOIN LATERAL (
+  SELECT JSON_AGG(wk.node_id) AS nodes FROM wallet_ks_nodes wk WHERE wk.wallet_id = w_ed.wallet_id
+) ed_nodes ON true
 WHERE w_secp.wallet_id IS NOT NULL OR w_ed.wallet_id IS NOT NULL
 ORDER BY u.created_at DESC
 LIMIT $1
