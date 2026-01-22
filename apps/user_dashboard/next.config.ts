@@ -4,10 +4,14 @@ const nextConfig: NextConfig = {
   images: {
     qualities: [100, 75],
     remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "oko-wallet.s3.ap-northeast-2.amazonaws.com",
-      },
+      ...(process.env.NEXT_PUBLIC_S3_BUCKET_URL
+        ? [
+            {
+              protocol: "https" as const,
+              hostname: new URL(process.env.NEXT_PUBLIC_S3_BUCKET_URL).hostname,
+            },
+          ]
+        : []),
     ],
   },
   typescript: {
