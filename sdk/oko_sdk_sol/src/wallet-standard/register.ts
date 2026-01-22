@@ -8,13 +8,16 @@ const registeredWallets = new WeakSet<OkoSolWalletInterface>();
 
 export function registerWalletStandard(
   wallet: OkoSolWalletInterface,
-  config: WalletStandardConfig,
+  configs: WalletStandardConfig[],
 ): void {
   if (registeredWallets.has(wallet)) {
     return;
   }
 
-  const standardWallet = new OkoStandardWallet(wallet, config);
-  registerWallet(standardWallet);
+  for (const config of configs) {
+    const standardWallet = new OkoStandardWallet(wallet, config);
+    registerWallet(standardWallet);
+  }
+
   registeredWallets.add(wallet);
 }

@@ -79,9 +79,9 @@ export function createSignAndSendTransactionFeature(
     const targetChain = chain
       ? (chain as IdentifierString)
       : config.chains[0];
-    const endpoint = config.rpcEndpoints[targetChain];
+    const endpoint = config.rpcEndpoints?.[targetChain];
     if (!endpoint) {
-      throw new Error(`No RPC endpoint for chain: ${chain}`);
+      throw new Error(`No RPC endpoint for chain: ${targetChain}`);
     }
     return new Connection(endpoint);
   };
