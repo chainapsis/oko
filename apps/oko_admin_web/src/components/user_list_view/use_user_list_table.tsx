@@ -111,6 +111,8 @@ function createColumns(
     columnHelper.accessor((row) => row.email, {
       id: "email",
       header: "User Identifier",
+      size: 200,
+      maxSize: 200,
     }),
     columnHelper.display({
       id: "wallets",
