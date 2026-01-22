@@ -51,18 +51,18 @@ export function useEthAddress() {
  * Hook to get Solana address
  */
 export function useSolanaAddress() {
-  const okoSol = useSDKState(selectSolSDK);
+  const okoSvm = useSDKState(selectSolSDK);
   const isInitialized = useSDKState(selectSolInitialized);
 
   const query = useQuery({
     queryKey: ["address", "solana"],
     queryFn: async () => {
-      if (!okoSol) {
+      if (!okoSvm) {
         return null;
       }
-      return okoSol.state.publicKey?.toBase58() ?? null;
+      return okoSvm.state.publicKey?.toBase58() ?? null;
     },
-    enabled: !!okoSol && isInitialized,
+    enabled: !!okoSvm && isInitialized,
     staleTime: Infinity,
     gcTime: Infinity,
   });

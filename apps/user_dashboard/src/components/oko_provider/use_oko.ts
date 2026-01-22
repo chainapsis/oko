@@ -10,7 +10,7 @@ import {
 export function useInitOko() {
   const initOkoCosmos = useSDKState((state) => state.initOkoCosmos);
   const initOkoEth = useSDKState((state) => state.initOkoEth);
-  const initOkoSol = useSDKState((state) => state.initOkoSol);
+  const initOkoSvm = useSDKState((state) => state.initOkoSvm);
 
   const isInitialized = useSDKState(
     (state) =>
@@ -22,8 +22,8 @@ export function useInitOko() {
   useEffect(() => {
     initOkoCosmos();
     initOkoEth();
-    initOkoSol();
-  }, [initOkoCosmos, initOkoEth, initOkoSol]);
+    initOkoSvm();
+  }, [initOkoCosmos, initOkoEth, initOkoSvm]);
 
   return { isInitialized };
 }

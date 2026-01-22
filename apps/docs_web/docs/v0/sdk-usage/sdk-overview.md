@@ -64,7 +64,7 @@ const provider = await ethWallet.getEthereumProvider();
 ```typescript
 import { OkoSvmWallet } from "@oko-wallet/oko-sdk-svm";
 
-const initRes = OkoSolWallet.init(config);
+const initRes = OkoSvmWallet.init(config);
 if (!initRes.success) {
   throw new Error(`Solana wallet initialization failed: ${initRes.err}`);
 }

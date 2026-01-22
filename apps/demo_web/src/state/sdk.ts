@@ -20,7 +20,7 @@ import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 interface SDKState {
   oko_eth: OkoEthWalletInterface | null;
   oko_cosmos: OkoCosmosWalletInterface | null;
-  oko_sol: OkoSvmWalletInterface | null;
+  oko_svm: OkoSvmWalletInterface | null;
 
   isEthInitializing: boolean;
   isEthLazyInitialized: boolean;
@@ -35,13 +35,13 @@ interface SDKState {
 interface SDKActions {
   initOkoEth: () => Promise<OkoEthWalletInterface | null>;
   initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
-  initOkoSol: () => Promise<OkoSvmWalletInterface | null>;
+  initOkoSvm: () => Promise<OkoSvmWalletInterface | null>;
 }
 
 const initialState: SDKState = {
   oko_eth: null,
   oko_cosmos: null,
-  oko_sol: null,
+  oko_svm: null,
 
   isEthInitializing: false,
   isEthLazyInitialized: false,
@@ -142,12 +142,12 @@ export const useSDKState = create(
         return null;
       }
     },
-    initOkoSol: async () => {
+    initOkoSvm: async () => {
       const state = get();
 
-      if (state.oko_sol || state.isSolInitializing) {
+      if (state.oko_svm || state.isSolInitializing) {
         console.log("Sol SDK already initialized or initializing, skipping...");
-        return state.oko_sol;
+        return state.oko_svm;
       }
 
       try {
@@ -165,16 +165,16 @@ export const useSDKState = create(
         if (initRes.success) {
           console.log("Sol SDK initialized");
 
-          const okoSol = initRes.data;
-          setupSolListener(okoSol);
+          const okoSvm = initRes.data;
+          setupSolListener(okoSvm);
 
           set({
-            oko_sol: okoSol,
+            oko_svm: okoSvm,
             isSolInitializing: false,
           });
 
           try {
-            await okoSol.waitUntilInitialized;
+            await okoSvm.waitUntilInitialized;
             console.log("Sol SDK lazy initialized");
             set({
               isSolLazyInitialized: true,
@@ -184,7 +184,7 @@ export const useSDKState = create(
             set({ isSolLazyInitialized: true }); // Still mark as done to not block
           }
 
-          return okoSol;
+          return okoSvm;
         } else {
           console.error("Sol sdk init fail, err: %s", initRes.err);
           set({ isSolInitializing: false, isSolLazyInitialized: true });

@@ -45,14 +45,14 @@ interface SDKState {
   sdks: {
     eth: SDKStatus<OkoEthWalletInterface>;
     cosmos: SDKStatus<OkoCosmosWalletInterface>;
-    sol: SDKStatus<OkoSvmWalletInterface>;
+    svm: SDKStatus<OkoSvmWalletInterface>;
   };
 }
 
 interface SDKActions {
   initOkoEth: () => Promise<OkoEthWalletInterface | null>;
   initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
-  initOkoSol: () => Promise<OkoSvmWalletInterface | null>;
+  initOkoSvm: () => Promise<OkoSvmWalletInterface | null>;
 }
 
 const createInitialSDKStatus = <T>(): SDKStatus<T> => ({
@@ -65,7 +65,7 @@ const initialState: SDKState = {
   sdks: {
     eth: createInitialSDKStatus<OkoEthWalletInterface>(),
     cosmos: createInitialSDKStatus<OkoCosmosWalletInterface>(),
-    sol: createInitialSDKStatus<OkoSvmWalletInterface>(),
+    svm: createInitialSDKStatus<OkoSvmWalletInterface>(),
   },
 };
 
@@ -231,20 +231,20 @@ export const useSDKState = create(
       }
     },
 
-    initOkoSol: async () => {
+    initOkoSvm: async () => {
       const { sdks } = get();
-      const solStatus = sdks.sol;
+      const svmStatus = sdks.svm;
 
-      if (solStatus.instance || solStatus.isInitializing) {
+      if (svmStatus.instance || svmStatus.isInitializing) {
         console.log("Sol SDK already initialized or initializing, skipping...");
-        return solStatus.instance;
+        return svmStatus.instance;
       }
 
       console.log("Initializing Sol SDK...");
       set({
         sdks: {
           ...sdks,
-          sol: { ...solStatus, isInitializing: true },
+          svm: { ...svmStatus, isInitializing: true },
         },
       });
 
@@ -255,7 +255,7 @@ export const useSDKState = create(
         set({
           sdks: {
             ...get().sdks,
-            sol: { ...solStatus, isInitializing: false },
+            svm: { ...svmStatus, isInitializing: false },
           },
         });
         return null;
@@ -269,33 +269,33 @@ export const useSDKState = create(
       if (initRes.success) {
         console.log("Sol SDK initialized");
 
-        const okoSol = initRes.data;
+        const okoSvm = initRes.data;
         set({
           sdks: {
             ...get().sdks,
-            sol: {
-              instance: okoSol,
+            svm: {
+              instance: okoSvm,
               isInitializing: false,
               isLazyInitialized: false,
             },
           },
         });
 
-        await okoSol.waitUntilInitialized;
+        await okoSvm.waitUntilInitialized;
         set({
           sdks: {
             ...get().sdks,
-            sol: { ...get().sdks.sol, isLazyInitialized: true },
+            svm: { ...get().sdks.svm, isLazyInitialized: true },
           },
         });
 
-        return okoSol;
+        return okoSvm;
       } else {
         console.error("Sol SDK init fail, err: %s", initRes.err);
         set({
           sdks: {
             ...get().sdks,
-            sol: { ...solStatus, isInitializing: false },
+            svm: { ...svmStatus, isInitializing: false },
           },
         });
 
@@ -311,10 +311,10 @@ export const selectEthSDK = (state: SDKState & SDKActions) =>
 export const selectCosmosSDK = (state: SDKState & SDKActions) =>
   state.sdks.cosmos.instance;
 export const selectSolSDK = (state: SDKState & SDKActions) =>
-  state.sdks.sol.instance;
+  state.sdks.svm.instance;
 export const selectEthInitialized = (state: SDKState & SDKActions) =>
   state.sdks.eth.isLazyInitialized;
 export const selectCosmosInitialized = (state: SDKState & SDKActions) =>
   state.sdks.cosmos.isLazyInitialized;
 export const selectSolInitialized = (state: SDKState & SDKActions) =>
-  state.sdks.sol.isLazyInitialized;
+  state.sdks.svm.isLazyInitialized;
