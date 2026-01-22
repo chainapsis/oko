@@ -18,19 +18,19 @@ import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 const SOLANA_RPC_URL = "https://api.devnet.solana.com";
 
 export const SolanaOnchainSignWidget = () => {
-  const okoSol = useSDKState((state) => state.oko_sol);
+  const okoSvm = useSDKState((state) => state.oko_svm);
   const [isLegacy, setIsLegacy] = useState(false);
 
   const handleClickSolOnchainSignV0 = useCallback(async () => {
-    if (okoSol === null) {
-      throw new Error("okoSol is not initialized");
+    if (okoSvm === null) {
+      throw new Error("okoSvm is not initialized");
     }
 
-    if (!okoSol.connected) {
-      await okoSol.connect();
+    if (!okoSvm.connected) {
+      await okoSvm.connect();
     }
 
-    if (!okoSol.publicKey) {
+    if (!okoSvm.publicKey) {
       throw new Error("No public key available");
     }
 
@@ -42,14 +42,14 @@ export const SolanaOnchainSignWidget = () => {
 
     const instructions = [
       SystemProgram.transfer({
-        fromPubkey: okoSol.publicKey,
+        fromPubkey: okoSvm.publicKey,
         toPubkey: toAddress,
         lamports: 0.001 * LAMPORTS_PER_SOL,
       }),
     ];
 
     const messageV0 = new TransactionMessage({
-      payerKey: okoSol.publicKey,
+      payerKey: okoSvm.publicKey,
       recentBlockhash: blockhash,
       instructions,
     }).compileToV0Message();
@@ -57,24 +57,24 @@ export const SolanaOnchainSignWidget = () => {
     const versionedTransaction = new VersionedTransaction(messageV0);
 
     const signedTransaction =
-      await okoSol.signTransaction(versionedTransaction);
+      await okoSvm.signTransaction(versionedTransaction);
 
     console.log(
       "Solana v0 signed transaction:",
       Buffer.from(signedTransaction.signatures[0]).toString("hex"),
     );
-  }, [okoSol]);
+    }, [okoSvm]);
 
   const handleClickSolOnchainSignLegacy = useCallback(async () => {
-    if (okoSol === null) {
-      throw new Error("okoSol is not initialized");
+    if (okoSvm === null) {
+      throw new Error("okoSvm is not initialized");
     }
 
-    if (!okoSol.connected) {
-      await okoSol.connect();
+    if (!okoSvm.connected) {
+      await okoSvm.connect();
     }
 
-    if (!okoSol.publicKey) {
+    if (!okoSvm.publicKey) {
       throw new Error("No public key available");
     }
 
@@ -84,7 +84,7 @@ export const SolanaOnchainSignWidget = () => {
 
     const transaction = new Transaction().add(
       SystemProgram.transfer({
-        fromPubkey: okoSol.publicKey,
+        fromPubkey: okoSvm.publicKey,
         toPubkey: toAddress,
         lamports: 0.001 * LAMPORTS_PER_SOL,
       }),
@@ -92,9 +92,9 @@ export const SolanaOnchainSignWidget = () => {
 
     const { blockhash } = await connection.getLatestBlockhash();
     transaction.recentBlockhash = blockhash;
-    transaction.feePayer = okoSol.publicKey;
+    transaction.feePayer = okoSvm.publicKey;
 
-    const signedTransaction = await okoSol.signTransaction(transaction);
+    const signedTransaction = await okoSvm.signTransaction(transaction);
 
     console.log(
       "Solana legacy signed transaction:",
@@ -102,7 +102,7 @@ export const SolanaOnchainSignWidget = () => {
         sig.signature ? Buffer.from(sig.signature).toString("hex") : null,
       ),
     );
-  }, [okoSol]);
+  }, [okoSvm]);
 
   return (
     <SignWidget

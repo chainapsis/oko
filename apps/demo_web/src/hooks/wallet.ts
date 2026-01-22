@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { OkoSolWalletInterface } from "@oko-wallet/oko-sdk-sol";
+import type { OkoSvmWalletInterface } from "@oko-wallet/oko-sdk-svm";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants/cosmos";
@@ -9,7 +9,7 @@ import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 export function useAddresses() {
   const okoCosmos = useSDKState((state) => state.oko_cosmos);
   const okoEth = useSDKState((state) => state.oko_eth);
-  const okoSol = useSDKState((state) => state.oko_sol);
+  const okoSvm = useSDKState((state) => state.oko_svm);
   const isSignedIn = useUserInfoState((state) => state.isSignedIn);
   const isSignedRef = useRef(isSignedIn);
   isSignedRef.current = isSignedIn;
@@ -58,10 +58,10 @@ export function useAddresses() {
           );
         }
 
-        if (okoSol) {
+        if (okoSvm) {
           promises.push(
             new Promise((resolve, reject) => {
-              connectSol(okoSol, isSignedRef.current, setSolanaAddress)
+              connectSol(okoSvm, isSignedRef.current, setSolanaAddress)
                 .then(resolve)
                 .catch(reject);
             }),
@@ -81,7 +81,7 @@ export function useAddresses() {
     isSignedIn,
     okoCosmos,
     okoEth,
-    okoSol,
+    okoSvm,
     cosmosAddress,
     ethAddress,
     solanaAddress,
@@ -91,18 +91,18 @@ export function useAddresses() {
 }
 
 async function connectSol(
-  okoSol: OkoSolWalletInterface,
+  okoSvm: OkoSvmWalletInterface,
   isSignedRef: boolean,
   setSolanaAddress: (pk: string) => void,
 ): Promise<Result<void, any>> {
   try {
     // this might have been done in lazyInit()
-    if (!okoSol.connected) {
-      await okoSol.connect();
+    if (!okoSvm.connected) {
+      await okoSvm.connect();
     }
 
-    if (okoSol.publicKey && isSignedRef) {
-      setSolanaAddress(okoSol.publicKey.toBase58());
+    if (okoSvm.publicKey && isSignedRef) {
+      setSolanaAddress(okoSvm.publicKey.toBase58());
     }
 
     return { success: true, data: void 0 };

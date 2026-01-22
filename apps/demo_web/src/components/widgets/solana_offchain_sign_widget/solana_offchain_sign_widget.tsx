@@ -4,22 +4,22 @@ import { SignWidget } from "@oko-wallet-demo-web/components/widgets/sign_widget/
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
 
 export const SolanaOffchainSignWidget = () => {
-  const okoSol = useSDKState((state) => state.oko_sol);
+  const okoSvm = useSDKState((state) => state.oko_svm);
 
   const handleClickSolOffchainSign = async () => {
-    if (okoSol === null) {
-      throw new Error("okoSol is not initialized");
+    if (okoSvm === null) {
+      throw new Error("okoSvm is not initialized");
     }
 
     // Connect if not already connected
-    if (!okoSol.connected) {
-      await okoSol.connect();
+    if (!okoSvm.connected) {
+      await okoSvm.connect();
     }
 
     const message = "Welcome to Oko! Try generating an Ed25519 MPC signature.";
     const messageBytes = new TextEncoder().encode(message);
 
-    const signature = await okoSol.signMessage(messageBytes);
+    const signature = await okoSvm.signMessage(messageBytes);
 
     // Log signature for demo purposes
     console.log("Solana signature:", Buffer.from(signature).toString("hex"));

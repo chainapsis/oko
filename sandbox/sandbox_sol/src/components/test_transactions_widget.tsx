@@ -51,7 +51,7 @@ const TEST_TX_OPTIONS: TestTxOption[] = [
 ];
 
 export function TestTransactionsWidget() {
-  const { okoSolWallet, publicKey } = useSdkStore();
+  const { okoSvmWallet, publicKey } = useSdkStore();
   const [selectedTx, setSelectedTx] = useState<TestTxType>("sol_transfer");
   const [signature, setSignature] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -141,7 +141,7 @@ export function TestTransactionsWidget() {
   };
 
   const handleSignTransaction = async () => {
-    if (!okoSolWallet || !publicKey) return;
+    if (!okoSvmWallet || !publicKey) return;
 
     setIsLoading(true);
     setError(null);
@@ -150,7 +150,7 @@ export function TestTransactionsWidget() {
     try {
       const tx = await createTestTransaction();
 
-      const signedTx = await okoSolWallet.signTransaction(tx);
+      const signedTx = await okoSvmWallet.signTransaction(tx);
 
       if (signedTx instanceof VersionedTransaction) {
         const sig = signedTx.signatures[0];
