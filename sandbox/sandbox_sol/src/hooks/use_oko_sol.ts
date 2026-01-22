@@ -1,22 +1,23 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
 import {
   OkoSolWallet,
   type WalletStandardConfig,
 } from "@oko-wallet/oko-sdk-sol";
 import {
   SOLANA_CHAINS,
-  SOLANA_MAINNET_CHAIN,
   SOLANA_DEVNET_CHAIN,
+  SOLANA_MAINNET_CHAIN,
   SOLANA_TESTNET_CHAIN,
 } from "@solana/wallet-standard-chains";
 import {
+  SolanaSignAndSendTransaction,
   SolanaSignIn,
   SolanaSignMessage,
   SolanaSignTransaction,
-  SolanaSignAndSendTransaction,
 } from "@solana/wallet-standard-features";
+import { useCallback, useEffect, useState } from "react";
+
 import { useSdkStore } from "@/store/sdk";
 
 const SOLANA_CONFIG: WalletStandardConfig = {
@@ -52,7 +53,9 @@ export function useOkoSol() {
 
   // Initialize SDK
   useEffect(() => {
-    if (isInitialized || isInitializing) return;
+    if (isInitialized || isInitializing) {
+      return;
+    }
 
     const initSdk = async () => {
       setIsInitializing(true);
@@ -146,7 +149,9 @@ export function useOkoSol() {
 
   // Disconnect wallet
   const disconnect = useCallback(async () => {
-    if (!okoSolWallet) return;
+    if (!okoSolWallet) {
+      return;
+    }
 
     try {
       await okoSolWallet.disconnect();
