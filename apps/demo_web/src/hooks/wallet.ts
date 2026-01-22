@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from "react";
+import type { OkoSolWalletInterface } from "@oko-wallet/oko-sdk-sol";
+import type { Result } from "@oko-wallet/stdlib-js";
 
 import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants/cosmos";
 import { useSDKState } from "@oko-wallet-demo-web/state/sdk";
@@ -34,7 +36,7 @@ export function useAddresses() {
 
     const loadAddresses = async () => {
       try {
-        const promises = [];
+        const promises: Promise<any>[] = [];
 
         if (okoCosmos) {
           promises.push(
@@ -58,16 +60,11 @@ export function useAddresses() {
 
         if (okoSol) {
           promises.push(
-            Promise.resolve()
-              .then(() => (!okoSol.connected ? okoSol.connect() : undefined))
-              .then(() => {
-                if (okoSol.publicKey && isSignedRef.current) {
-                  setSolanaAddress(okoSol.publicKey.toBase58());
-                }
-              })
-              .catch((err) =>
-                console.error("Failed to get Solana address:", err),
-              ),
+            new Promise((resolve, reject) => {
+              connectSol(okoSol, isSignedRef.current, setSolanaAddress)
+                .then(resolve)
+                .catch(reject);
+            }),
           );
         }
 
@@ -80,7 +77,37 @@ export function useAddresses() {
     if (isSignedIn) {
       loadAddresses();
     }
-  }, [isSignedIn, okoCosmos, okoEth, okoSol]);
+  }, [
+    isSignedIn,
+    okoCosmos,
+    okoEth,
+    okoSol,
+    cosmosAddress,
+    ethAddress,
+    solanaAddress,
+  ]);
 
   return { cosmosAddress, ethAddress, solanaAddress };
+}
+
+async function connectSol(
+  okoSol: OkoSolWalletInterface,
+  isSignedRef: boolean,
+  setSolanaAddress: (pk: string) => void,
+): Promise<Result<void, any>> {
+  try {
+    // this might have been done in lazyInit()
+    if (!okoSol.connected) {
+      await okoSol.connect();
+    }
+
+    if (okoSol.publicKey && isSignedRef) {
+      setSolanaAddress(okoSol.publicKey.toBase58());
+    }
+
+    return { success: true, data: void 0 };
+  } catch (err: any) {
+    console.error("Failed to get Solana address:", err);
+    return { success: false, err };
+  }
 }
