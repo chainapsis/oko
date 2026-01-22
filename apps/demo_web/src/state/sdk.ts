@@ -9,9 +9,9 @@ import {
   type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
 import {
-  OkoSolWallet,
-  type OkoSolWalletInterface,
-} from "@oko-wallet/oko-sdk-sol";
+  OkoSvmWallet,
+  type OkoSvmWalletInterface,
+} from "@oko-wallet/oko-sdk-svm";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 
@@ -20,7 +20,7 @@ import { useUserInfoState } from "@oko-wallet-demo-web/state/user_info";
 interface SDKState {
   oko_eth: OkoEthWalletInterface | null;
   oko_cosmos: OkoCosmosWalletInterface | null;
-  oko_sol: OkoSolWalletInterface | null;
+  oko_sol: OkoSvmWalletInterface | null;
 
   isEthInitializing: boolean;
   isEthLazyInitialized: boolean;
@@ -35,7 +35,7 @@ interface SDKState {
 interface SDKActions {
   initOkoEth: () => Promise<OkoEthWalletInterface | null>;
   initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
-  initOkoSol: () => Promise<OkoSolWalletInterface | null>;
+  initOkoSol: () => Promise<OkoSvmWalletInterface | null>;
 }
 
 const initialState: SDKState = {
@@ -156,7 +156,7 @@ export const useSDKState = create(
           isSolInitializing: true,
         });
 
-        const initRes = OkoSolWallet.init({
+        const initRes = OkoSvmWallet.init({
           api_key:
             "72bd2afd04374f86d563a40b814b7098e5ad6c7f52d3b8f84ab0c3d05f73ac6c",
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
@@ -225,7 +225,7 @@ function setupCosmosListener(cosmosSDK: OkoCosmosWalletInterface) {
   }
 }
 
-function setupSolListener(solSDK: OkoSolWalletInterface) {
+function setupSolListener(solSDK: OkoSvmWalletInterface) {
   const setPublicKeyEd25519 = useUserInfoState.getState().setPublicKeyEd25519;
 
   console.log("[Demo] Setting up Sol accountChanged listener");

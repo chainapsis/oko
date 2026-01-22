@@ -11465,7 +11465,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@oko-wallet/sandbox-rialo@workspace:sandbox/sandbox_rialo"
   dependencies:
-    "@oko-wallet/oko-sdk-sol": "workspace:*"
+    "@oko-wallet/oko-sdk-svm": "workspace:*"
     "@rialo/frost": "npm:^0.1.0"
     "@rialo/ts-cdk": "npm:^0.1.0"
     "@rialo/wallet-standard": "npm:^0.1.0"
@@ -11681,7 +11681,7 @@ __metadata:
     "@oko-wallet/oko-common-ui": "workspace:*"
     "@oko-wallet/oko-sdk-cosmos": "npm:^0.1.2-alpha.1"
     "@oko-wallet/oko-sdk-eth": "npm:^0.1.2-alpha.1"
-    "@oko-wallet/oko-sdk-sol": "workspace:*"
+    "@oko-wallet/oko-sdk-svm": "workspace:*"
     "@oko-wallet/oko-types": "npm:^0.1.2-alpha.2"
     "@oko-wallet/stdlib-js": "npm:0.0.2-rc.41"
     "@solana/web3.js": "npm:^1.98.0"

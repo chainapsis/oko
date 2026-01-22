@@ -7,9 +7,9 @@ import {
   type OkoEthWalletInterface,
 } from "@oko-wallet/oko-sdk-eth";
 import {
-  OkoSolWallet,
-  type OkoSolWalletInterface,
-} from "@oko-wallet/oko-sdk-sol";
+  OkoSvmWallet,
+  type OkoSvmWalletInterface,
+} from "@oko-wallet/oko-sdk-svm";
 import { create } from "zustand";
 import { combine } from "zustand/middleware";
 import {
@@ -32,7 +32,7 @@ export interface SDKStatus<T = unknown> {
 export type SDKInstances = {
   eth: OkoEthWalletInterface | null;
   cosmos: OkoCosmosWalletInterface | null;
-  sol: OkoSolWalletInterface | null;
+  sol: OkoSvmWalletInterface | null;
 };
 
 // Event types
@@ -45,14 +45,14 @@ interface SDKState {
   sdks: {
     eth: SDKStatus<OkoEthWalletInterface>;
     cosmos: SDKStatus<OkoCosmosWalletInterface>;
-    sol: SDKStatus<OkoSolWalletInterface>;
+    sol: SDKStatus<OkoSvmWalletInterface>;
   };
 }
 
 interface SDKActions {
   initOkoEth: () => Promise<OkoEthWalletInterface | null>;
   initOkoCosmos: () => Promise<OkoCosmosWalletInterface | null>;
-  initOkoSol: () => Promise<OkoSolWalletInterface | null>;
+  initOkoSol: () => Promise<OkoSvmWalletInterface | null>;
 }
 
 const createInitialSDKStatus = <T>(): SDKStatus<T> => ({
@@ -65,7 +65,7 @@ const initialState: SDKState = {
   sdks: {
     eth: createInitialSDKStatus<OkoEthWalletInterface>(),
     cosmos: createInitialSDKStatus<OkoCosmosWalletInterface>(),
-    sol: createInitialSDKStatus<OkoSolWalletInterface>(),
+    sol: createInitialSDKStatus<OkoSvmWalletInterface>(),
   },
 };
 
@@ -261,7 +261,7 @@ export const useSDKState = create(
         return null;
       }
 
-      const initRes = OkoSolWallet.init({
+      const initRes = OkoSvmWallet.init({
         api_key: OKO_SDK_API_KEY,
         sdk_endpoint: OKO_SDK_ENDPOINT,
       });

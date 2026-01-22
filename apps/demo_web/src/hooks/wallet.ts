@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { OkoSolWalletInterface } from "@oko-wallet/oko-sdk-sol";
+import type { OkoSvmWalletInterface } from "@oko-wallet/oko-sdk-svm";
 import type { Result } from "@oko-wallet/stdlib-js";
 
 import { COSMOS_CHAIN_ID } from "@oko-wallet-demo-web/constants/cosmos";
@@ -91,7 +91,7 @@ export function useAddresses() {
 }
 
 async function connectSol(
-  okoSol: OkoSolWalletInterface,
+  okoSol: OkoSvmWalletInterface,
   isSignedRef: boolean,
   setSolanaAddress: (pk: string) => void,
 ): Promise<Result<void, any>> {

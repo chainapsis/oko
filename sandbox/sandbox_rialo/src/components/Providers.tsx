@@ -1,9 +1,9 @@
 "use client";
 
 import {
-  OkoSolWallet,
+  OkoSvmWallet,
   type WalletStandardConfig,
-} from "@oko-wallet/oko-sdk-sol";
+} from "@oko-wallet/oko-sdk-svm";
 import { FrostProvider } from "@rialo/frost";
 import {
   RIALO_CHAINS,
@@ -40,7 +40,7 @@ export function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
     const initWallet = async () => {
       try {
-        const result = OkoSolWallet.init({
+        const result = OkoSvmWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
           wallet_standard: [RIALO_CONFIG],

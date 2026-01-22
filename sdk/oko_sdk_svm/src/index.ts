@@ -25,22 +25,14 @@ export type {
   OkoSvmWalletError,
 } from "./errors";
 
-// Wallet Standard (keep Solana-specific names for compatibility)
+// Wallet Standard
 export {
-  registerOkoWallet,
+  registerWalletStandard,
   OkoStandardWallet,
   OKO_WALLET_NAME,
   OkoSvmWalletAccount,
-  OKO_ACCOUNT_FEATURES,
-  SOLANA_CHAINS,
-  SOLANA_MAINNET_CHAIN,
-  SOLANA_DEVNET_CHAIN,
-  SOLANA_TESTNET_CHAIN,
-  isSolanaChain,
-  isSvmChain,
-  OKO_ICON,
   buildSignInMessage,
   createSignInFeature,
 } from "./wallet-standard";
 
-export type { SolanaChain, SvmChain } from "./wallet-standard";
+export type { WalletStandardConfig } from "./wallet-standard";
