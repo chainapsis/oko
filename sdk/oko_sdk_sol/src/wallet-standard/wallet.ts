@@ -25,7 +25,7 @@ export const OKO_WALLET_NAME = "Oko" as const;
 
 export class OkoStandardWallet implements Wallet {
   readonly #wallet: OkoSolWalletInterface;
-  readonly #config: WalletStandardConfig;
+  readonly #configs: WalletStandardConfig[];
   #accounts: WalletAccount[] = [];
   #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } =
     {};
@@ -40,8 +40,7 @@ export class OkoStandardWallet implements Wallet {
   }
 
   get features(): Record<string, unknown> {
-    const { features } = this.#config;
-    return {
+    const base: Record<string, unknown> = {
       "standard:connect": {
         version: "1.0.0",
         connect: async () => {
@@ -65,25 +64,33 @@ export class OkoStandardWallet implements Wallet {
         version: "1.0.0",
         on: this.#on.bind(this) as StandardEventsOnMethod,
       },
-      ...createSignInFeature(this.#wallet, this.#config),
-      ...createSignMessageFeature(this.#wallet, features.signMessage),
-      ...createSignTransactionFeature(
-        this.#wallet,
-        features.signTransaction,
-        this.#config,
-      ),
-      ...createSignAndSendTransactionFeature(
-        this.#wallet,
-        features.signAndSendTransaction,
-        this.#config,
-      ),
     };
+
+    for (const config of this.#configs) {
+      Object.assign(
+        base,
+        createSignInFeature(this.#wallet, config),
+        createSignMessageFeature(this.#wallet, config.features.signMessage),
+        createSignTransactionFeature(
+          this.#wallet,
+          config.features.signTransaction,
+          config,
+        ),
+        createSignAndSendTransactionFeature(
+          this.#wallet,
+          config.features.signAndSendTransaction,
+          config,
+        ),
+      );
+    }
+
+    return base;
   }
 
-  constructor(wallet: OkoSolWalletInterface, config: WalletStandardConfig) {
+  constructor(wallet: OkoSolWalletInterface, configs: WalletStandardConfig[]) {
     this.#wallet = wallet;
-    this.#config = config;
-    this.chains = config.chains;
+    this.#configs = configs;
+    this.chains = configs.flatMap((c) => c.chains);
 
     if (wallet.connected && wallet.publicKey) {
       this.#updateAccounts();
@@ -140,17 +147,17 @@ export class OkoStandardWallet implements Wallet {
   #updateAccounts(): void {
     const publicKey = this.#wallet.publicKey;
     if (publicKey) {
-      const accountFeatures = [
-        this.#config.features.signIn,
-        this.#config.features.signMessage,
-        this.#config.features.signTransaction,
-        this.#config.features.signAndSendTransaction,
-      ];
+      const accountFeatures = this.#configs.flatMap((c) => [
+        c.features.signIn,
+        c.features.signMessage,
+        c.features.signTransaction,
+        c.features.signAndSendTransaction,
+      ]);
       this.#accounts = [
         new OkoSolanaWalletAccount(
           publicKey.toBase58(),
           publicKey.toBytes(),
-          this.#config.chains,
+          this.chains,
           accountFeatures,
         ),
       ];

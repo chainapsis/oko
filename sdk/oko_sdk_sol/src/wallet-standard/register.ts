@@ -14,10 +14,8 @@ export function registerWalletStandard(
     return;
   }
 
-  for (const config of configs) {
-    const standardWallet = new OkoStandardWallet(wallet, config);
-    registerWallet(standardWallet);
-  }
+  const standardWallet = new OkoStandardWallet(wallet, configs);
+  registerWallet(standardWallet);
 
   registeredWallets.add(wallet);
 }

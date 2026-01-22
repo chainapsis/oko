@@ -62,7 +62,7 @@ describe("Wallet Standard", () => {
       wallet = new (OkoSolWallet as any)(
         mockOkoWallet,
       ) as OkoSolWalletInterface;
-      standardWallet = new OkoStandardWallet(wallet, TEST_CONFIG);
+      standardWallet = new OkoStandardWallet(wallet, [TEST_CONFIG]);
     });
 
     describe("Wallet properties", () => {
@@ -310,7 +310,7 @@ describe("Wallet Standard", () => {
         wallet = new (OkoSolWallet as any)(
           mockOkoWallet,
         ) as OkoSolWalletInterface;
-        standardWallet = new OkoStandardWallet(wallet, TEST_CONFIG);
+        standardWallet = new OkoStandardWallet(wallet, [TEST_CONFIG]);
       });
 
       it("should have signIn feature from config", () => {
