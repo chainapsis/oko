@@ -1,1 +1,1 @@
-# oko_sdk_sol
+# oko_sdk_svm
