@@ -95,26 +95,49 @@ export async function userJwtMiddlewareV2(
       return;
     }
 
-    const payload = verifyTokenRes.data;
+    // Cast to any to handle both v1 and v2 token payloads
+    const payload = verifyTokenRes.data as any;
 
-    if (
-      !payload.email ||
-      !payload.wallet_id_secp256k1 ||
-      !payload.wallet_id_ed25519
-    ) {
+    if (!payload.email) {
       res.status(401).json({
         error: "Unauthorized: Invalid token",
       });
       return;
     }
 
-    res.locals.user = {
-      email: payload.email,
-      wallet_id_secp256k1: payload.wallet_id_secp256k1,
-      wallet_id_ed25519: payload.wallet_id_ed25519,
-    };
+    // v2 token payload
+    if (payload.wallet_id_secp256k1 && payload.wallet_id_ed25519) {
+      res.locals.user = {
+        email: payload.email,
+        wallet_id_secp256k1: payload.wallet_id_secp256k1,
+        wallet_id_ed25519: payload.wallet_id_ed25519,
+      };
 
-    next();
+      next();
+      return;
+    }
+
+    // ============================================================
+    // TEMPORARY: v1 token compatibility layer
+    // TODO: Remove this block later
+    // ============================================================
+    if (payload.wallet_id) {
+      res.locals.user = {
+        email: payload.email,
+        wallet_id_secp256k1: payload.wallet_id,
+        wallet_id_ed25519: null,
+      };
+
+      next();
+      return;
+    }
+    // ============================================================
+    // END TEMPORARY v1 compatibility
+    // ============================================================
+
+    res.status(401).json({
+      error: "Unauthorized: Invalid token",
+    });
     return;
   } catch (error) {
     res.status(500).json({
