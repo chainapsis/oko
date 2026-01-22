@@ -10,7 +10,6 @@ import type {
   StandardEventsOnMethod,
 } from "@wallet-standard/features";
 
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import { OkoSolanaWalletAccount } from "./account";
 import type { WalletStandardConfig } from "./chains";
 import {
@@ -18,8 +17,9 @@ import {
   createSignMessageFeature,
   createSignTransactionFeature,
 } from "./features";
-import { createSignInFeature } from "./sign-in";
 import { OKO_ICON } from "./icon";
+import { createSignInFeature } from "./sign-in";
+import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 
 export const OKO_WALLET_NAME = "Oko" as const;
 
@@ -27,7 +27,8 @@ export class OkoStandardWallet implements Wallet {
   readonly #wallet: OkoSolWalletInterface;
   readonly #config: WalletStandardConfig;
   #accounts: WalletAccount[] = [];
-  #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } = {};
+  #listeners: { [E in StandardEventsNames]?: StandardEventsListeners[E][] } =
+    {};
 
   readonly version = "1.0.0" as const;
   readonly name = OKO_WALLET_NAME;
@@ -66,15 +67,20 @@ export class OkoStandardWallet implements Wallet {
       },
       ...createSignInFeature(this.#wallet, this.#config),
       ...createSignMessageFeature(this.#wallet, features.signMessage),
-      ...createSignTransactionFeature(this.#wallet, features.signTransaction, this.#config),
-      ...createSignAndSendTransactionFeature(this.#wallet, features.signAndSendTransaction, this.#config),
+      ...createSignTransactionFeature(
+        this.#wallet,
+        features.signTransaction,
+        this.#config,
+      ),
+      ...createSignAndSendTransactionFeature(
+        this.#wallet,
+        features.signAndSendTransaction,
+        this.#config,
+      ),
     };
   }
 
-  constructor(
-    wallet: OkoSolWalletInterface,
-    config: WalletStandardConfig,
-  ) {
+  constructor(wallet: OkoSolWalletInterface, config: WalletStandardConfig) {
     this.#wallet = wallet;
     this.#config = config;
     this.chains = config.chains;

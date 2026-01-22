@@ -1,10 +1,8 @@
-import type {
-  SolanaSignInInput,
-} from "@solana/wallet-standard-features";
+import type { SolanaSignInInput } from "@solana/wallet-standard-features";
 
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import { OkoSolanaWalletAccount } from "./account";
 import type { WalletStandardConfig } from "./chains";
+import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 
 export function buildSignInMessage(
   input: SolanaSignInInput,

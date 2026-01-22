@@ -1,13 +1,9 @@
-import {
-  Transaction,
-  VersionedTransaction,
-  Connection,
-} from "@solana/web3.js";
+import { Connection, Transaction, VersionedTransaction } from "@solana/web3.js";
 import type { IdentifierString } from "@wallet-standard/base";
 import bs58 from "bs58";
 
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import type { WalletStandardConfig } from "./chains";
+import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 
 const SUPPORTED_TRANSACTION_VERSIONS = ["legacy", 0] as const;
 
@@ -76,9 +72,7 @@ export function createSignAndSendTransactionFeature(
   config: WalletStandardConfig,
 ): Record<string, unknown> {
   const getConnection = (chain?: string): Connection => {
-    const targetChain = chain
-      ? (chain as IdentifierString)
-      : config.chains[0];
+    const targetChain = chain ? (chain as IdentifierString) : config.chains[0];
     const endpoint = config.rpcEndpoints?.[targetChain];
     if (!endpoint) {
       throw new Error(`No RPC endpoint for chain: ${targetChain}`);

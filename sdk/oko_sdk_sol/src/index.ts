@@ -1,37 +1,33 @@
-export { OkoSolWallet } from "./sol_wallet";
 export { SolWalletEventEmitter } from "./emitter";
-
 export type {
-  OkoSolWalletState,
+  LazyInitError,
+  OkoSolWalletError,
+  OkoSolWalletInitError,
+} from "./errors";
+export { OkoSolWallet } from "./sol_wallet";
+export type {
   OkoSolWalletInitArgs,
-  OkoSolWalletStaticInterface,
   OkoSolWalletInterface,
+  OkoSolWalletState,
+  OkoSolWalletStaticInterface,
+  SolSignAllTransactionsParams,
+  SolSignAllTransactionsResult,
+  SolSignMessageParams,
+  SolSignMessageResult,
   SolSignParams,
   SolSignResult,
   SolSignTransactionParams,
-  SolSignAllTransactionsParams,
-  SolSignMessageParams,
   SolSignTransactionResult,
-  SolSignAllTransactionsResult,
-  SolSignMessageResult,
   SolWalletEvent,
-  SolWalletEventMap,
   SolWalletEventHandler,
+  SolWalletEventMap,
 } from "./types";
-
-export type {
-  OkoSolWalletInitError,
-  LazyInitError,
-  OkoSolWalletError,
-} from "./errors";
-
+export type { WalletStandardConfig } from "./wallet-standard";
 export {
-  registerWalletStandard,
-  OkoStandardWallet,
-  OKO_WALLET_NAME,
-  OkoSolanaWalletAccount,
   buildSignInMessage,
   createSignInFeature,
+  OKO_WALLET_NAME,
+  OkoSolanaWalletAccount,
+  OkoStandardWallet,
+  registerWalletStandard,
 } from "./wallet-standard";
-
-export type { WalletStandardConfig } from "./wallet-standard";

@@ -1,16 +1,16 @@
 import { jest } from "@jest/globals";
 import type { IdentifierString } from "@wallet-standard/base";
 
+import { createMockOkoWallet } from "./mock";
 import { OkoSolWallet } from "@oko-wallet-sdk-sol/sol_wallet";
 import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 import {
-  OkoStandardWallet,
-  OkoSolanaWalletAccount,
-  OKO_WALLET_NAME,
   buildSignInMessage,
+  OKO_WALLET_NAME,
+  OkoSolanaWalletAccount,
+  OkoStandardWallet,
   type WalletStandardConfig,
 } from "@oko-wallet-sdk-sol/wallet-standard";
-import { createMockOkoWallet } from "./mock";
 
 // Mock config for testing
 const TEST_MAINNET_CHAIN = "test:mainnet" as IdentifierString;
@@ -59,7 +59,9 @@ describe("Wallet Standard", () => {
 
     beforeEach(async () => {
       const mockOkoWallet = createMockOkoWallet();
-      wallet = new (OkoSolWallet as any)(mockOkoWallet) as OkoSolWalletInterface;
+      wallet = new (OkoSolWallet as any)(
+        mockOkoWallet,
+      ) as OkoSolWalletInterface;
       standardWallet = new OkoStandardWallet(wallet, TEST_CONFIG);
     });
 
@@ -113,7 +115,9 @@ describe("Wallet Standard", () => {
       it("should have signMessage feature from config", () => {
         const features = standardWallet.features as any;
         expect(features[TEST_CONFIG.features.signMessage]).toBeDefined();
-        expect(features[TEST_CONFIG.features.signMessage].version).toBe("1.0.0");
+        expect(features[TEST_CONFIG.features.signMessage].version).toBe(
+          "1.0.0",
+        );
       });
 
       it("should have signTransaction feature from config", () => {
@@ -228,7 +232,9 @@ describe("Wallet Standard", () => {
       expect(features.signIn).toBe("test:signIn");
       expect(features.signMessage).toBe("test:signMessage");
       expect(features.signTransaction).toBe("test:signTransaction");
-      expect(features.signAndSendTransaction).toBe("test:signAndSendTransaction");
+      expect(features.signAndSendTransaction).toBe(
+        "test:signAndSendTransaction",
+      );
     });
   });
 
@@ -301,7 +307,9 @@ describe("Wallet Standard", () => {
 
       beforeEach(() => {
         const mockOkoWallet = createMockOkoWallet();
-        wallet = new (OkoSolWallet as any)(mockOkoWallet) as OkoSolWalletInterface;
+        wallet = new (OkoSolWallet as any)(
+          mockOkoWallet,
+        ) as OkoSolWalletInterface;
         standardWallet = new OkoStandardWallet(wallet, TEST_CONFIG);
       });
 

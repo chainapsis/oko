@@ -2,7 +2,7 @@ import type {
   OkoWalletInitArgs,
   OkoWalletInterface,
 } from "@oko-wallet/oko-sdk-core";
-import type { WalletStandardConfig } from "@oko-wallet-sdk-sol/wallet-standard";
+import type { Result } from "@oko-wallet/stdlib-js";
 import type {
   Connection,
   PublicKey,
@@ -11,13 +11,13 @@ import type {
   TransactionSignature,
   VersionedTransaction,
 } from "@solana/web3.js";
-import type { Result } from "@oko-wallet/stdlib-js";
 
-import type {
-  OkoSolWalletInitError,
-  LazyInitError,
-} from "@oko-wallet-sdk-sol/errors";
 import type { SolWalletEvent, SolWalletEventHandler } from "./event";
+import type {
+  LazyInitError,
+  OkoSolWalletInitError,
+} from "@oko-wallet-sdk-sol/errors";
+import type { WalletStandardConfig } from "@oko-wallet-sdk-sol/wallet-standard";
 
 export interface OkoSolWalletState {
   publicKey: PublicKey | null;
@@ -29,7 +29,7 @@ export type OkoSolWalletInitArgs = OkoWalletInitArgs & {
 };
 
 export interface OkoSolWalletStaticInterface {
-  new (okoWallet: OkoWalletInterface): void;
+  new (okoWallet: OkoWalletInterface): undefined;
   init: (
     args: OkoSolWalletInitArgs,
   ) => Result<OkoSolWalletInterface, OkoSolWalletInitError>;
