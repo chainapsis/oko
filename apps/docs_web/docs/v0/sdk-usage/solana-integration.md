@@ -136,21 +136,38 @@ unsubscribe(); // or wallet.off("connect", handler);
 
 ## Wallet Standard Integration
 
-Register Oko wallet for automatic discovery by dApps using
-`@solana/wallet-adapter`:
-
 ```typescript
-import { OkoSolWallet, registerOkoWallet } from "@oko-wallet/oko-sdk-sol";
+import { OkoSolWallet, type WalletStandardConfig } from "@oko-wallet/oko-sdk-sol";
+import {
+  SOLANA_CHAINS,
+  SOLANA_MAINNET_CHAIN,
+  SOLANA_DEVNET_CHAIN,
+} from "@solana/wallet-standard-chains";
+import {
+  SolanaSignIn,
+  SolanaSignMessage,
+  SolanaSignTransaction,
+  SolanaSignAndSendTransaction,
+} from "@solana/wallet-standard-features";
 
-const initRes = OkoSolWallet.init({ api_key: "your-api-key" });
-if (initRes.success) {
-  const wallet = initRes.data;
+const SOLANA_CONFIG: WalletStandardConfig = {
+  chains: SOLANA_CHAINS,
+  features: {
+    signIn: SolanaSignIn,
+    signMessage: SolanaSignMessage,
+    signTransaction: SolanaSignTransaction,
+    signAndSendTransaction: SolanaSignAndSendTransaction,
+  },
+  rpcEndpoints: {
+    [SOLANA_MAINNET_CHAIN]: "https://api.mainnet-beta.solana.com",
+    [SOLANA_DEVNET_CHAIN]: "https://api.devnet.solana.com",
+  },
+};
 
-  // Register with wallet-standard
-  registerOkoWallet(wallet);
-
-  // Now dApps using getWallets() will discover Oko automatically
-}
+const initRes = OkoSolWallet.init({
+  api_key: "your-api-key",
+  wallet_standard: [SOLANA_CONFIG],
+});
 ```
 
 ### Supported Features
