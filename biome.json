@@ -13,7 +13,8 @@
       "!**/dist",
       "!**/*.d.ts",
       "!**/routeTree.gen.ts",
-      "!**/cait_sith_keplr_addon/addon/index.js"
+      "!**/cait_sith_keplr_addon/addon/index.js",
+      "sandbox/sandbox_react_native"
     ]
   },
   "formatter": {
@@ -47,7 +48,9 @@
         "noImgElement": "off"
       },
       "a11y": {
-        "useKeyWithClickEvents": "off"
+        "useKeyWithClickEvents": "off",
+        "noLabelWithoutControl": "off",
+        "useSemanticElements": "off"
       }
     }
   },

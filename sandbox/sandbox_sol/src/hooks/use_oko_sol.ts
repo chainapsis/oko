@@ -19,6 +19,7 @@ import {
 import { useCallback, useEffect, useState } from "react";
 
 import { useSdkStore } from "@/store/sdk";
+import { PublicKey } from "@solana/web3.js";
 
 const SOLANA_CONFIG: WalletStandardConfig = {
   chains: SOLANA_CHAINS,
@@ -96,9 +97,10 @@ export function useOkoSol() {
           await solWallet.okoWallet.getPublicKeyEd25519();
         if (existingEd25519Pubkey) {
           await solWallet.connect();
-          const pk = solWallet.publicKey?.toBase58() ?? null;
-          setConnected(true, pk);
-          console.log("[sandbox_sol] Reconnected:", pk);
+          console.log(
+            "[sandbox_sol] Reconnected:",
+            solWallet.publicKey?.toBase58(),
+          );
         }
       } catch (err) {
         const message = err instanceof Error ? err.message : String(err);
@@ -116,8 +118,39 @@ export function useOkoSol() {
     setOkoWallet,
     setOkoSolWallet,
     setInitialized,
-    setConnected,
   ]);
+
+  useEffect(() => {
+    if (!okoSolWallet) {
+      return;
+    }
+
+    const handleAccountChanged = (pk: PublicKey | null) => {
+      const pubkeyStr = pk?.toBase58() ?? null;
+      setConnected(!!pk, pubkeyStr);
+      console.log("[sandbox_sol] accountChanged event:", pubkeyStr);
+    };
+
+    const handleConnect = (pk: PublicKey) => {
+      setConnected(true, pk.toBase58());
+      console.log("[sandbox_sol] connect event:", pk.toBase58());
+    };
+
+    const handleDisconnect = () => {
+      setConnected(false, null);
+      console.log("[sandbox_sol] disconnect event");
+    };
+
+    okoSolWallet.on("accountChanged", handleAccountChanged);
+    okoSolWallet.on("connect", handleConnect);
+    okoSolWallet.on("disconnect", handleDisconnect);
+
+    return () => {
+      okoSolWallet.off("accountChanged", handleAccountChanged);
+      okoSolWallet.off("connect", handleConnect);
+      okoSolWallet.off("disconnect", handleDisconnect);
+    };
+  }, [okoSolWallet, setConnected]);
 
   const connect = useCallback(async () => {
     if (!okoSolWallet) {
@@ -137,15 +170,16 @@ export function useOkoSol() {
 
       // connect() internally handles Ed25519 key creation if needed
       await okoSolWallet.connect();
-      const pk = okoSolWallet.publicKey?.toBase58() ?? null;
-      setConnected(true, pk);
-      console.log("[sandbox_sol] Connected:", pk);
+      console.log(
+        "[sandbox_sol] Connected:",
+        okoSolWallet.publicKey?.toBase58(),
+      );
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(message);
       console.error("[sandbox_sol] Failed to connect:", message);
     }
-  }, [okoSolWallet, setConnected]);
+  }, [okoSolWallet]);
 
   // Disconnect wallet
   const disconnect = useCallback(async () => {
@@ -155,14 +189,13 @@ export function useOkoSol() {
 
     try {
       await okoSolWallet.disconnect();
-      setConnected(false, null);
       console.log("[sandbox_sol] Disconnected");
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err);
       setError(message);
       console.error("[sandbox_sol] Failed to disconnect:", message);
     }
-  }, [okoSolWallet, setConnected]);
+  }, [okoSolWallet]);
 
   return {
     okoWallet,

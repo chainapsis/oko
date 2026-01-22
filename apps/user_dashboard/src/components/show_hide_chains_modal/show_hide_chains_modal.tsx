@@ -15,8 +15,15 @@ import { XCloseIcon } from "@oko-wallet/oko-common-ui/icons/x_close";
 import { Button } from "@oko-wallet/oko-common-ui/button";
 import { SearchIcon } from "@oko-wallet/oko-common-ui/icons/search";
 import { Spacing } from "@oko-wallet/oko-common-ui/spacing";
-import { useChainStore, getChainIdentifier } from "@oko-wallet-user-dashboard/state/chains";
-import { useAllBalances, useChains } from "@oko-wallet-user-dashboard/hooks/queries";
+import {
+  useChainStore,
+  getChainIdentifier,
+  DEFAULT_ENABLED_CHAINS,
+} from "@oko-wallet-user-dashboard/state/chains";
+import {
+  useAllBalances,
+  useChains,
+} from "@oko-wallet-user-dashboard/hooks/queries";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
@@ -60,9 +67,9 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
     setSearchQuery(e.target.value);
   };
 
-  // Filter chains that have cosmos or evm modules
+  // Filter chains that have cosmos, evm, or solana modules
   const visibleChains = useMemo(() => {
-    return chains.filter((chain) => chain.cosmos || chain.evm);
+    return chains.filter((chain) => chain.cosmos || chain.evm || chain.solana);
   }, [chains]);
 
   // Search configuration
@@ -82,16 +89,23 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
           if (chain.evm) {
             return chain.evm.currencies[0]?.coinDenom || "";
           }
+          if (chain.solana) {
+            return chain.solana.currencies[0]?.coinDenom || "";
+          }
           return "";
         },
       },
     ],
-    []
+    [],
   );
 
   const searchedChains = useSearch(visibleChains, searchQuery, searchFields);
 
   const sortedSearchedChains = useMemo(() => {
+    const defaultChainOrder = new Map<string, number>(
+      DEFAULT_ENABLED_CHAINS.map((id, index) => [id, index]),
+    );
+
     return [...searchedChains].sort((a, b) => {
       const aIsEnabled = isChainEnabled(a.chainId);
       const bIsEnabled = isChainEnabled(b.chainId);
@@ -99,6 +113,26 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
         return -1;
       }
       if (!aIsEnabled && bIsEnabled) {
+        return 1;
+      }
+
+      // Default chains first, in order
+      const aDefaultIndex = defaultChainOrder.get(
+        getChainIdentifier(a.chainId),
+      );
+      const bDefaultIndex = defaultChainOrder.get(
+        getChainIdentifier(b.chainId),
+      );
+      const aIsDefault = aDefaultIndex !== undefined;
+      const bIsDefault = bDefaultIndex !== undefined;
+
+      if (aIsDefault && bIsDefault) {
+        return aDefaultIndex - bDefaultIndex;
+      }
+      if (aIsDefault && !bIsDefault) {
+        return -1;
+      }
+      if (!aIsDefault && bIsDefault) {
         return 1;
       }
 
@@ -119,7 +153,7 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
     (chainId: string): TokenBalance[] => {
       return balancesByChainIdentifier.get(getChainIdentifier(chainId)) ?? [];
     },
-    [balancesByChainIdentifier]
+    [balancesByChainIdentifier],
   );
 
   const handleEnable = useCallback((chainId: string, checked: boolean) => {
@@ -195,6 +229,9 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
                           }
                           case "EVM": {
                             return !!chain.evm;
+                          }
+                          case "Solana": {
+                            return !!chain.solana;
                           }
                         }
                       })

@@ -8,10 +8,19 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import { ChainIdHelper } from "@keplr-wallet/cosmos";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
-import type { ModularChainInfo, CosmosChainInfo } from "@oko-wallet-user-dashboard/types/chain";
+import type {
+  ModularChainInfo,
+  CosmosChainInfo,
+} from "@oko-wallet-user-dashboard/types/chain";
+import { SOLANA_MAINNET } from "@oko-wallet-user-dashboard/config/solana";
 
 const STORAGE_KEY = "oko:user_dashboard:chains";
-export const DEFAULT_ENABLED_CHAINS = ["cosmoshub", "osmosis", "eip155:1"] as const;
+export const DEFAULT_ENABLED_CHAINS = [
+  "eip155:1",
+  SOLANA_MAINNET.chainId,
+  "cosmoshub",
+  "osmosis",
+] as const;
 
 // Cache for ChainIdHelper.parse() results
 const chainIdentifierCache = new Map<string, string>();
@@ -48,7 +57,9 @@ interface ChainPreferencesActions {
   getEnabledChainIds: () => string[];
 }
 
-export const useChainStore = create<ChainPreferencesState & ChainPreferencesActions>()(
+export const useChainStore = create<
+  ChainPreferencesState & ChainPreferencesActions
+>()(
   persist(
     (set, get) => ({
       enabledChainsByUser: {},
@@ -69,8 +80,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
           return;
         }
 
-        const currentEnabled =
-          enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
+        const currentEnabled = enabledChainsByUser[activeUserKey] ?? [
+          ...DEFAULT_ENABLED_CHAINS,
+        ];
         const enabledSet = new Set(currentEnabled);
 
         for (const chainId of chainIds) {
@@ -91,8 +103,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
           return;
         }
 
-        const currentEnabled =
-          enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
+        const currentEnabled = enabledChainsByUser[activeUserKey] ?? [
+          ...DEFAULT_ENABLED_CHAINS,
+        ];
         const enabledSet = new Set(currentEnabled);
 
         for (const chainId of chainIds) {
@@ -113,8 +126,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
           return false;
         }
 
-        const enabled =
-          enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
+        const enabled = enabledChainsByUser[activeUserKey] ?? [
+          ...DEFAULT_ENABLED_CHAINS,
+        ];
         const identifier = getChainIdentifier(chainId);
         return enabled.includes(identifier);
       },
@@ -124,7 +138,9 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
         if (!activeUserKey) {
           return [...DEFAULT_ENABLED_CHAINS];
         }
-        return enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS];
+        return (
+          enabledChainsByUser[activeUserKey] ?? [...DEFAULT_ENABLED_CHAINS]
+        );
       },
     }),
     {
@@ -133,8 +149,8 @@ export const useChainStore = create<ChainPreferencesState & ChainPreferencesActi
       partialize: (state) => ({
         enabledChainsByUser: state.enabledChainsByUser,
       }),
-    }
-  )
+    },
+  ),
 );
 
 /**

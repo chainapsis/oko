@@ -4,8 +4,8 @@ import {
   getLatestKSNodeTelemetries,
   getKSNodeByPublicKey,
 } from "@oko-wallet/oko-pg-interface/ks_nodes";
-import { sendSlackAlert } from "@oko-wallet/tss-api";
 import dayjs from "dayjs";
+import { sendSlackAlert } from "@oko-wallet-api/lib/slack";
 
 const HEARTBEAT_THRESHOLD_MINUTES = 10;
 
