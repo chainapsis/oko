@@ -5,8 +5,8 @@ sidebar_position: 1
 
 # SDK Overview
 
-Oko provides specialized SDKs for different blockchain ecosystems.
-Choose the right packages for your project.
+Oko provides specialized SDKs for different blockchain ecosystems. Choose the
+right packages for your project.
 
 <!-- prettier-ignore -->
 :::tip Get started faster

@@ -1,12 +1,13 @@
 import { OkoWallet } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
 
-import type {
-  OkoSolWalletInterface,
-  OkoSolWalletInitArgs,
-} from "@oko-wallet-sdk-sol/types";
-import type { OkoSolWalletInitError } from "@oko-wallet-sdk-sol/errors";
 import { OkoSolWallet } from "@oko-wallet-sdk-sol/constructor";
+import type { OkoSolWalletInitError } from "@oko-wallet-sdk-sol/errors";
+import type {
+  OkoSolWalletInitArgs,
+  OkoSolWalletInterface,
+} from "@oko-wallet-sdk-sol/types";
+import { registerWalletStandard } from "@oko-wallet-sdk-sol/wallet-standard";
 
 export function init(
   args: OkoSolWalletInitArgs,
@@ -28,12 +29,23 @@ export function init(
     };
   }
 
+  const wallet = new (
+    OkoSolWallet as unknown as new (
+      ...args: unknown[]
+    ) => OkoSolWalletInterface
+  )(okoSolWalletRes.data);
+
+  if (args.wallet_standard) {
+    const config = args.wallet_standard;
+    wallet.waitUntilInitialized.then((result) => {
+      if (result.success) {
+        registerWalletStandard(wallet, config);
+      }
+    });
+  }
+
   return {
     success: true,
-    data: new (
-      OkoSolWallet as unknown as new (
-        ...args: unknown[]
-      ) => OkoSolWalletInterface
-    )(okoSolWalletRes.data),
+    data: wallet,
   };
 }

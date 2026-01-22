@@ -18,6 +18,7 @@ export async function typeCheck(..._args: any[]) {
     paths.sdk_sol,
     paths.ksn_server,
     paths.sandbox_simple_host,
+    paths.sandbox_sol,
     paths.oko_api_server,
     // paths.tss_api,
     paths.admin_api,

@@ -1,16 +1,21 @@
 import { registerWallet } from "@wallet-standard/wallet";
 
-import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
+import type { WalletStandardConfig } from "./chains";
 import { OkoStandardWallet } from "./wallet";
+import type { OkoSolWalletInterface } from "@oko-wallet-sdk-sol/types";
 
-let registered = false;
+const registeredWallets = new WeakSet<OkoSolWalletInterface>();
 
-export function registerOkoWallet(wallet: OkoSolWalletInterface): void {
-  if (registered) {
+export function registerWalletStandard(
+  wallet: OkoSolWalletInterface,
+  configs: WalletStandardConfig[],
+): void {
+  if (registeredWallets.has(wallet)) {
     return;
   }
 
-  const standardWallet = new OkoStandardWallet(wallet);
+  const standardWallet = new OkoStandardWallet(wallet, configs);
   registerWallet(standardWallet);
-  registered = true;
+
+  registeredWallets.add(wallet);
 }

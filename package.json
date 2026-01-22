@@ -67,6 +67,7 @@
       "crypto/teddsa/teddsa_interface",
       "crypto/teddsa/api_lib",
       "crypto/teddsa/frost_ed25519_keplr_wasm",
+      "sandbox/sandbox_rialo",
       "sandbox/sandbox_sol"
     ]
   },

@@ -42,6 +42,8 @@ export const paths = (function () {
     "../../../sandbox/sandbox_simple_host/",
   );
 
+  const sandbox_sol = path.join(__dirname, "../../../sandbox/sandbox_sol/");
+
   const crypto_bytes = path.join(__dirname, "../../../crypto/bytes/");
 
   const crypto_js = path.join(__dirname, "../../../crypto/crypto_js/");
@@ -160,6 +162,7 @@ export const paths = (function () {
     ksn_server,
     ksn_pg_interface,
     sandbox_simple_host,
+    sandbox_sol,
     tecdsa_interface,
     teddsa_interface,
     oko_pg_interface,

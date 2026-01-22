@@ -1,13 +1,5 @@
-export { registerOkoWallet } from "./register";
-export { OkoStandardWallet, OKO_WALLET_NAME } from "./wallet";
-export { OkoSolanaWalletAccount, OKO_ACCOUNT_FEATURES } from "./account";
-export {
-  SOLANA_CHAINS,
-  SOLANA_MAINNET_CHAIN,
-  SOLANA_DEVNET_CHAIN,
-  SOLANA_TESTNET_CHAIN,
-  isSolanaChain,
-  type SolanaChain,
-} from "./chains";
-export { OKO_ICON } from "./icon";
+export { OkoSolanaWalletAccount } from "./account";
+export type { WalletStandardConfig } from "./chains";
+export { registerWalletStandard } from "./register";
 export { buildSignInMessage, createSignInFeature } from "./sign-in";
+export { OKO_WALLET_NAME, OkoStandardWallet } from "./wallet";
