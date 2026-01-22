@@ -23,24 +23,77 @@ function renderKSNodes(
   );
 
   if (connectedNodes.length === 0) {
-    return <div className={styles.ksNodesContainer}>-</div>;
+    return <span className={styles.emptyValue}>-</span>;
   }
 
-  const nodeElements = connectedNodes.map((node) => {
-    const isActive = node.status === "ACTIVE";
-    const nodeClassName = cn(styles.nodeName, {
-      [styles.nodeActive]: isActive,
-      [styles.nodeInactive]: !isActive,
-    });
+  return (
+    <div className={styles.ksNodesContainer}>
+      {connectedNodes.map((node) => {
+        const isActive = node.status === "ACTIVE";
+        const nodeClassName = cn(styles.nodeName, {
+          [styles.nodeActive]: isActive,
+          [styles.nodeInactive]: !isActive,
+        });
 
-    return (
-      <div key={node.node_id} className={nodeClassName}>
-        {node.node_name}
-      </div>
-    );
-  });
+        return (
+          <span key={node.node_id} className={nodeClassName}>
+            {node.node_name}
+          </span>
+        );
+      })}
+    </div>
+  );
+}
 
-  return <div className={styles.ksNodesContainer}>{nodeElements}</div>;
+function renderWalletsCell(
+  row: UserWithWalletsResponse,
+  allKeyShareNodesData: { ksNodes: KSNodeWithHealthCheck[] } | undefined,
+) {
+  const hasSecp256k1 = row.secp256k1_public_key !== null;
+  const hasEd25519 = row.ed25519_public_key !== null;
+
+  if (!hasSecp256k1 && !hasEd25519) {
+    return <div className={styles.emptyValue}>-</div>;
+  }
+
+  return (
+    <table className={styles.walletsTable}>
+      <tbody>
+        {hasSecp256k1 && (
+          <tr>
+            <td className={styles.curveCell}>
+              <span className={cn(styles.curveLabel, styles.secp256k1)}>
+                secp256k1
+              </span>
+            </td>
+            <td className={styles.publicKeyCell}>
+              <span className={styles.publicKey}>
+                {row.secp256k1_public_key}
+              </span>
+            </td>
+            <td className={styles.ksNodesCell}>
+              {renderKSNodes(row.secp256k1_ks_nodes, allKeyShareNodesData)}
+            </td>
+          </tr>
+        )}
+        {hasEd25519 && (
+          <tr>
+            <td className={styles.curveCell}>
+              <span className={cn(styles.curveLabel, styles.ed25519)}>
+                ed25519
+              </span>
+            </td>
+            <td className={styles.publicKeyCell}>
+              <span className={styles.publicKey}>{row.ed25519_public_key}</span>
+            </td>
+            <td className={styles.ksNodesCell}>
+              {renderKSNodes(row.ed25519_ks_nodes, allKeyShareNodesData)}
+            </td>
+          </tr>
+        )}
+      </tbody>
+    </table>
+  );
 }
 
 function createColumns(
@@ -59,25 +112,11 @@ function createColumns(
       id: "email",
       header: "User Identifier",
     }),
-    columnHelper.accessor((row) => row.secp256k1_public_key, {
-      id: "secp256k1_public_key",
-      header: "Secp256k1 Public Key",
-      cell: ({ getValue }) => getValue() ?? "-",
-    }),
-    columnHelper.accessor((row) => row.secp256k1_ks_nodes, {
-      id: "secp256k1_ks_nodes",
-      header: "Secp256k1 KS Nodes",
-      cell: ({ getValue }) => renderKSNodes(getValue(), allKeyShareNodesData),
-    }),
-    columnHelper.accessor((row) => row.ed25519_public_key, {
-      id: "ed25519_public_key",
-      header: "Ed25519 Public Key",
-      cell: ({ getValue }) => getValue() ?? "-",
-    }),
-    columnHelper.accessor((row) => row.ed25519_ks_nodes, {
-      id: "ed25519_ks_nodes",
-      header: "Ed25519 KS Nodes",
-      cell: ({ getValue }) => renderKSNodes(getValue(), allKeyShareNodesData),
+    columnHelper.display({
+      id: "wallets",
+      header: "Wallets",
+      cell: ({ row }) =>
+        renderWalletsCell(row.original, allKeyShareNodesData),
     }),
   ];
 }
