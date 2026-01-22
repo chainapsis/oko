@@ -54,39 +54,24 @@ export async function runSignEd25519Round1(
     }
     const wallet = validateWalletEmailAndCurveTypeRes.data;
 
-    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
-    const decryptedShare = await decryptDataAsync(
-      encryptedShare,
+    // Decrypt and reconstruct key package
+    const storedShares = await decryptEd25519WalletShares(
+      wallet.enc_tss_share,
       encryptionSecret,
     );
-    const storedShares = JSON.parse(decryptedShare) as {
-      signing_share: number[];
-      verifying_share: number[];
-    };
-
-    // Reconstruct key_package from stored shares
-    const serverIdentifier = participantToIdentifier(Participant.P1);
-    const verifyingKey = Array.from(wallet.public_key);
-    const minSigners = 2;
-
-    let keyPackageBytes: Uint8Array;
-    try {
-      keyPackageBytes = reconstructKeyPackageEd25519(
-        new Uint8Array(storedShares.signing_share),
-        new Uint8Array(storedShares.verifying_share),
-        new Uint8Array(serverIdentifier),
-        new Uint8Array(verifyingKey),
-        minSigners,
-      );
-    } catch (error) {
+    const keyPackageRes = reconstructServerKeyPackageEd25519(
+      storedShares,
+      wallet.public_key,
+    );
+    if (!keyPackageRes.success) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+        msg: keyPackageRes.error,
       };
     }
 
-    const round1Result = runSignRound1Ed25519(keyPackageBytes);
+    const round1Result = runSignRound1Ed25519(keyPackageRes.data);
 
     // Create TSS session
     const sessionRes = await createTssSession(db, {
@@ -212,35 +197,20 @@ export async function runSignEd25519Round2(
       };
     }
 
-    const encryptedShare = wallet.enc_tss_share.toString("utf-8");
-    const decryptedShare = await decryptDataAsync(
-      encryptedShare,
+    // Decrypt and reconstruct key package
+    const storedShares = await decryptEd25519WalletShares(
+      wallet.enc_tss_share,
       encryptionSecret,
     );
-    const storedShares = JSON.parse(decryptedShare) as {
-      signing_share: number[];
-      verifying_share: number[];
-    };
-
-    // Reconstruct key_package from stored shares
-    const serverIdentifier = participantToIdentifier(Participant.P1);
-    const verifyingKey = Array.from(wallet.public_key);
-    const minSigners = 2;
-
-    let keyPackageBytes: Uint8Array;
-    try {
-      keyPackageBytes = reconstructKeyPackageEd25519(
-        new Uint8Array(storedShares.signing_share),
-        new Uint8Array(storedShares.verifying_share),
-        new Uint8Array(serverIdentifier),
-        new Uint8Array(verifyingKey),
-        minSigners,
-      );
-    } catch (error) {
+    const keyPackageRes = reconstructServerKeyPackageEd25519(
+      storedShares,
+      wallet.public_key,
+    );
+    if (!keyPackageRes.success) {
       return {
         success: false,
         code: "UNKNOWN_ERROR",
-        msg: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
+        msg: keyPackageRes.error,
       };
     }
 
@@ -258,7 +228,7 @@ export async function runSignEd25519Round2(
 
     const round2Result = runSignRound2Ed25519(
       new Uint8Array(msg),
-      keyPackageBytes,
+      keyPackageRes.data,
       new Uint8Array(nonces),
       allCommitments,
     );
@@ -298,6 +268,54 @@ export async function runSignEd25519Round2(
       success: false,
       code: "UNKNOWN_ERROR",
       msg: `runSignEd25519Round2 error: ${error instanceof Error ? error.message : String(error)}`,
+    };
+  }
+}
+
+interface Ed25519StoredShares {
+  signing_share: number[];
+  verifying_share: number[];
+}
+
+/**
+ * Decrypt ed25519 wallet shares from encrypted storage.
+ */
+async function decryptEd25519WalletShares(
+  encTssShare: Buffer,
+  encryptionSecret: string,
+): Promise<Ed25519StoredShares> {
+  const encryptedShare = encTssShare.toString("utf-8");
+  const decryptedShare = await decryptDataAsync(
+    encryptedShare,
+    encryptionSecret,
+  );
+  return JSON.parse(decryptedShare) as Ed25519StoredShares;
+}
+
+/**
+ * Reconstruct server's key package from stored shares.
+ * Returns the key package bytes or an error response.
+ */
+function reconstructServerKeyPackageEd25519(
+  storedShares: Ed25519StoredShares,
+  publicKey: Buffer,
+): { success: true; data: Uint8Array } | { success: false; error: string } {
+  const serverIdentifier = participantToIdentifier(Participant.P1);
+  const verifyingKey = Array.from(publicKey);
+
+  try {
+    const keyPackageBytes = reconstructKeyPackageEd25519(
+      new Uint8Array(storedShares.signing_share),
+      new Uint8Array(storedShares.verifying_share),
+      new Uint8Array(serverIdentifier),
+      new Uint8Array(verifyingKey),
+      2,
+    );
+    return { success: true, data: keyPackageBytes };
+  } catch (error) {
+    return {
+      success: false,
+      error: `Failed to reconstruct key_package: ${error instanceof Error ? error.message : String(error)}`,
     };
   }
 }
