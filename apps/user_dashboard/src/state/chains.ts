@@ -12,12 +12,14 @@ import type {
   ModularChainInfo,
   CosmosChainInfo,
 } from "@oko-wallet-user-dashboard/types/chain";
+import { SOLANA_MAINNET } from "@oko-wallet-user-dashboard/config/solana";
 
 const STORAGE_KEY = "oko:user_dashboard:chains";
 export const DEFAULT_ENABLED_CHAINS = [
+  "eip155:1",
+  SOLANA_MAINNET.chainId,
   "cosmoshub",
   "osmosis",
-  "eip155:1",
 ] as const;
 
 // Cache for ChainIdHelper.parse() results

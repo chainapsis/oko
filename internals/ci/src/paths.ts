@@ -31,7 +31,7 @@ export const paths = (function () {
 
   const sdk_core = path.join(__dirname, "../../../sdk/oko_sdk_core/");
 
-  const sdk_sol = path.join(__dirname, "../../../sdk/oko_sdk_sol/");
+  const sdk_svm = path.join(__dirname, "../../../sdk/oko_sdk_svm/");
 
   const sdk_eth = path.join(__dirname, "../../../sdk/oko_sdk_eth/");
 
@@ -41,6 +41,8 @@ export const paths = (function () {
     __dirname,
     "../../../sandbox/sandbox_simple_host/",
   );
+
+  const sandbox_sol = path.join(__dirname, "../../../sandbox/sandbox_sol/");
 
   const crypto_bytes = path.join(__dirname, "../../../crypto/bytes/");
 
@@ -152,7 +154,7 @@ export const paths = (function () {
     sdk_eth,
     sdk_cosmos_kit,
     sdk_cosmos,
-    sdk_sol,
+    sdk_svm,
     sdk_common,
     crypto_bytes,
     crypto_js,
@@ -160,6 +162,7 @@ export const paths = (function () {
     ksn_server,
     ksn_pg_interface,
     sandbox_simple_host,
+    sandbox_sol,
     tecdsa_interface,
     teddsa_interface,
     oko_pg_interface,
