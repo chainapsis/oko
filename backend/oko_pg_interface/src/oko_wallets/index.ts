@@ -302,8 +302,18 @@ SELECT
   w_ed.wallet_id AS ed25519_wallet_id,
   COALESCE(ed_nodes.nodes, '[]'::json) AS ed25519_ks_nodes
 FROM oko_users u
-LEFT JOIN oko_wallets w_secp ON u.user_id = w_secp.user_id AND w_secp.curve_type = 'secp256k1' AND w_secp.status = 'ACTIVE'
-LEFT JOIN oko_wallets w_ed ON u.user_id = w_ed.user_id AND w_ed.curve_type = 'ed25519' AND w_ed.status = 'ACTIVE'
+LEFT JOIN LATERAL (
+  SELECT * FROM oko_wallets w
+  WHERE w.user_id = u.user_id AND w.curve_type = 'secp256k1' AND w.status = 'ACTIVE'
+  ORDER BY w.created_at DESC
+  LIMIT 1
+) w_secp ON true
+LEFT JOIN LATERAL (
+  SELECT * FROM oko_wallets w
+  WHERE w.user_id = u.user_id AND w.curve_type = 'ed25519' AND w.status = 'ACTIVE'
+  ORDER BY w.created_at DESC
+  LIMIT 1
+) w_ed ON true
 LEFT JOIN LATERAL (
   SELECT JSON_AGG(wk.node_id) AS nodes FROM wallet_ks_nodes wk WHERE wk.wallet_id = w_secp.wallet_id
 ) secp_nodes ON true
