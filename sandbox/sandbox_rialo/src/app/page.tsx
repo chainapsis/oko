@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
 import {
-  useIsConnected,
   useActiveAccount,
   useDisconnectWallet,
+  useIsConnected,
   useWallets,
 } from "@rialo/frost";
-import LoginView from "@/components/LoginView";
+import { useEffect } from "react";
+
 import ConnectedView from "@/components/ConnectedView";
+import LoginView from "@/components/LoginView";
 
 export default function Home() {
   const isConnected = useIsConnected();
@@ -17,7 +18,10 @@ export default function Home() {
   const { mutate: disconnect } = useDisconnectWallet();
 
   useEffect(() => {
-    console.log("[sandbox_frost_kit] Available wallets:", wallets.map((w) => w.name));
+    console.log(
+      "[sandbox_frost_kit] Available wallets:",
+      wallets.map((w) => w.name),
+    );
   }, [wallets]);
 
   const handleDisconnect = () => {

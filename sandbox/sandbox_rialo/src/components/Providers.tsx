@@ -1,21 +1,22 @@
 "use client";
 
-import { type ReactNode, useEffect, useState } from "react";
-import { FrostProvider } from "@rialo/frost";
 import {
   OkoSolWallet,
   type WalletStandardConfig,
 } from "@oko-wallet/oko-sdk-sol";
-import type { IdentifierString } from "@wallet-standard/base";
+import { FrostProvider } from "@rialo/frost";
 import {
   RIALO_CHAINS,
   RIALO_DEVNET_CHAIN,
-  RIALO_TESTNET_CHAIN,
   RIALO_LOCALNET_CHAIN,
+  RIALO_TESTNET_CHAIN,
+  RialoSignAndSendTransaction,
   RialoSignMessage,
   RialoSignTransaction,
-  RialoSignAndSendTransaction,
 } from "@rialo/wallet-standard";
+import type { IdentifierString } from "@wallet-standard/base";
+import { type ReactNode, useEffect, useState } from "react";
+
 import { frostConfig } from "@/lib/frost-config";
 
 const RIALO_CONFIG: WalletStandardConfig = {

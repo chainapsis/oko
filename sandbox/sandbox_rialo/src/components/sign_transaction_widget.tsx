@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
 import { useActiveAccount, useSignAndSendTransaction } from "@rialo/frost";
 import {
+  PublicKey,
   TransactionBuilder,
   transferInstruction,
-  PublicKey,
 } from "@rialo/ts-cdk";
+import Link from "next/link";
+import { useState } from "react";
+
 import Button from "./Button";
 
 export function SignTransactionWidget() {
@@ -46,7 +47,9 @@ export function SignTransactionWidget() {
       const transaction = TransactionBuilder.create()
         .setPayer(fromPubkey)
         .setValidFrom(validFrom)
-        .addInstruction(transferInstruction(fromPubkey, toPubkey, BigInt(kelvins)))
+        .addInstruction(
+          transferInstruction(fromPubkey, toPubkey, BigInt(kelvins)),
+        )
         .build();
 
       signAndSendTransaction(
@@ -54,7 +57,10 @@ export function SignTransactionWidget() {
         {
           onSuccess: (result) => {
             setSignature(result.signature);
-            console.log("[sandbox_frost_kit] Transaction sent:", result.signature);
+            console.log(
+              "[sandbox_frost_kit] Transaction sent:",
+              result.signature,
+            );
           },
           onError: (err) => {
             const errorMessage =
@@ -62,15 +68,18 @@ export function SignTransactionWidget() {
             setError(errorMessage);
             console.error(
               "[sandbox_frost_kit] Failed to send transaction:",
-              errorMessage
+              errorMessage,
             );
           },
-        }
+        },
       );
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : String(err);
       setError(errorMessage);
-      console.error("[sandbox_frost_kit] Failed to send transaction:", errorMessage);
+      console.error(
+        "[sandbox_frost_kit] Failed to send transaction:",
+        errorMessage,
+      );
     }
   };
 

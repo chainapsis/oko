@@ -1,8 +1,9 @@
 "use client";
 
-import { type ReactNode, useState } from "react";
-import Link from "next/link";
 import { useNativeBalance } from "@rialo/frost";
+import Link from "next/link";
+import { type ReactNode, useState } from "react";
+
 import Button from "./Button";
 
 interface AccountInfoProps {
@@ -76,7 +77,9 @@ function CopyableAddress({
       <button
         type="button"
         onClick={async () => {
-          if (!value) return;
+          if (!value) {
+            return;
+          }
           await navigator.clipboard.writeText(value);
           setCopied(true);
           setTimeout(() => setCopied(false), 1200);

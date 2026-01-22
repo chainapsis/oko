@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
 import { useSignMessage } from "@rialo/frost";
 import bs58 from "bs58";
+import { useState } from "react";
+
 import Button from "./Button";
 
 export function SignMessageWidget() {
@@ -26,9 +27,12 @@ export function SignMessageWidget() {
         onError: (err) => {
           const errorMessage = err instanceof Error ? err.message : String(err);
           setError(errorMessage);
-          console.error("[sandbox_frost_kit] Failed to sign message:", errorMessage);
+          console.error(
+            "[sandbox_frost_kit] Failed to sign message:",
+            errorMessage,
+          );
         },
-      }
+      },
     );
   };
 

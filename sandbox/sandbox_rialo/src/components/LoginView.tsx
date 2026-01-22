@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import { ConnectButton } from "@rialo/frost";
+import Image from "next/image";
 
 export default function LoginView() {
   return (
