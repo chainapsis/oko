@@ -102,8 +102,6 @@ export const paths = (function () {
     "../../../backend/oko_api/server",
   );
 
-  const tss_api = path.join(__dirname, "../../../backend/tss_api");
-
   const admin_api = path.join(__dirname, "../../../backend/admin_api");
 
   const ct_dashboard_api = path.join(
@@ -176,7 +174,6 @@ export const paths = (function () {
     user_dashboard,
     ct_dashboard_web,
     oko_api_server,
-    tss_api,
     admin_api,
     ct_dashboard_api,
     dockerfiles,

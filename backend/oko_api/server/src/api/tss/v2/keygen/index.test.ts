@@ -34,7 +34,7 @@ import { TEMP_ENC_SECRET } from "@oko-wallet-api/api/tss/utils";
 
 const mockCheckKeyShareFromKSNodesV2 = jest.fn() as jest.Mock;
 
-await jest.unstable_mockModule("@oko-wallet-tss-api/api/ks_node", () => ({
+await jest.unstable_mockModule("@oko-wallet-api/api/tss/ks_node", () => ({
   checkKeyShareFromKSNodesV2: mockCheckKeyShareFromKSNodesV2,
 }));
 
