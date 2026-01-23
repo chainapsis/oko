@@ -113,6 +113,7 @@ export async function keygenEd25519(
       keygen_2: body.keygen_2,
       email: oauthUser.email,
       name: oauthUser.name,
+      metadata: oauthUser.metadata,
     },
     state.encryption_secret,
   );

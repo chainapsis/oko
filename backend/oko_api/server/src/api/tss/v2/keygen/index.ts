@@ -2,6 +2,7 @@ import { Pool } from "pg";
 import {
   createUser,
   getUserByEmailAndAuthType,
+  updateUserMetadata,
 } from "@oko-wallet/oko-pg-interface/oko_users";
 import type { Result } from "@oko-wallet/stdlib-js";
 import { encryptDataAsync } from "@oko-wallet/crypto-js/node";
@@ -45,6 +46,7 @@ export async function runKeygenV2(
       keygen_2_ed25519,
       email,
       name,
+      metadata,
     } = keygenRequest;
 
     // 1. Get or create user
@@ -107,7 +109,7 @@ export async function runKeygenV2(
         };
       }
     } else {
-      const createUserRes = await createUser(db, user_identifier, auth_type);
+      const createUserRes = await createUser(db, user_identifier, auth_type, metadata);
       if (createUserRes.success === false) {
         return {
           success: false,
@@ -399,7 +401,7 @@ export async function runKeygenEd25519(
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponseV2>> {
   try {
-    const { auth_type, user_identifier, keygen_2, email, name } = keygenRequest;
+    const { auth_type, user_identifier, keygen_2, email, name, metadata } = keygenRequest;
 
     const getUserRes = await getUserByEmailAndAuthType(
       db,
@@ -424,6 +426,11 @@ export async function runKeygenEd25519(
     }
 
     const user = getUserRes.data;
+
+    // Update user metadata on keygen_ed25519
+    if (metadata) {
+      await updateUserMetadata(db, user.user_id, metadata);
+    }
 
     // in keygen_ed25519, secp256k1 wallet must exist
     const getSecp256k1WalletRes = await getActiveWalletByUserIdAndCurveType(

@@ -173,6 +173,7 @@ export async function userReshareV2(
     user_identifier,
     auth_type,
     walletsWithBytes,
+    oauthUser.metadata,
   );
 
   if (reshareRes.success === false) {

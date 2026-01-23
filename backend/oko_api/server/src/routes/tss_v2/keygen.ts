@@ -108,6 +108,7 @@ export async function keygenV2(
       keygen_2_ed25519: body.keygen_2_ed25519,
       email: oauthUser.email,
       name: oauthUser.name,
+      metadata: oauthUser.metadata,
     },
     state.encryption_secret,
   );

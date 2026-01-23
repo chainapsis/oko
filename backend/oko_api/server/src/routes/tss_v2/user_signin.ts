@@ -101,6 +101,7 @@ export async function userSignInV2(
     state.encryption_secret,
     oauthUser.email,
     oauthUser.name,
+    oauthUser.metadata,
   );
   if (signInRes.success === false) {
     res
