@@ -27,7 +27,7 @@
       "crypto/bytes",
       "crypto/tecdsa/tecdsa_interface",
       "crypto/crypto_js",
-      "backend/oko_api/error_codes",
+      "backend/oko_api_error_codes",
       "backend/oko_api/server",
       "backend/oko_api_server_state",
       "backend/log_api",
