@@ -25,8 +25,6 @@ export const paths = (function () {
 
   const oko_types = path.join(__dirname, "../../../common/oko_types/");
 
-  const sdk_common = path.join(__dirname, "../../../sdk/oko_sdk_common/");
-
   const sdk_cosmos_kit = path.join(__dirname, "../../../sdk/oko_cosmos_kit/");
 
   const sdk_core = path.join(__dirname, "../../../sdk/oko_sdk_core/");
@@ -153,7 +151,6 @@ export const paths = (function () {
     sdk_cosmos_kit,
     sdk_cosmos,
     sdk_svm,
-    sdk_common,
     crypto_bytes,
     crypto_js,
     ksn_interface,
