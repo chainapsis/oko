@@ -12,7 +12,6 @@
   },
   "dependencies": {
     "@oko-wallet/admin-api": "workspace:*",
-    "@oko-wallet/attached-api": "workspace:*",
     "@oko-wallet/crypto-js": "^0.1.2-alpha.1",
     "@oko-wallet/ct-dashboard-api": "workspace:*",
     "@oko-wallet/dotenv": "0.0.2-alpha.26",
