@@ -11,6 +11,10 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@oko-wallet/oko-common-ui/table";
+import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
+import { Badge } from "@oko-wallet/oko-common-ui/badge";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
 
 import styles from "./sig_shares_table.module.scss";
 import { useGetTSSSessionsList } from "./use_get_tss_sessions";
@@ -21,10 +25,11 @@ import {
   useTablePagination,
 } from "@oko-wallet-admin/components/table/use_table";
 import { useAllKeyShareNodes } from "@oko-wallet-admin/fetch/ks_node/use_all_ks_nodes";
-import { Dropdown } from "@oko-wallet/oko-common-ui/dropdown";
-import { Badge } from "@oko-wallet/oko-common-ui/badge";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { ChevronDownIcon } from "@oko-wallet/oko-common-ui/icons/chevron_down";
+
+const CUSTOMER_ID = "customer_id";
+const APP_ID = "app_id";
+const NODE_ID = "node_id";
+const CURVE_TYPE = "curve_type";
 
 const defaultData: TssSessionWithCustomerAndUser[] = [];
 
@@ -160,8 +165,12 @@ export const SigSharesTable: FC = () => {
   const selectedCurveType = searchParams.get("curve_type");
 
   const getFilterType = () => {
-    if (selectedNodeId) return "node";
-    if (selectedCustomerId) return "app";
+    if (selectedNodeId) {
+      return "node";
+    }
+    if (selectedCustomerId) {
+      return "app";
+    }
     return "app";
   };
 
@@ -192,10 +201,10 @@ export const SigSharesTable: FC = () => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (type === "app") {
-      params.delete("node_id");
+      params.delete(NODE_ID);
     } else {
-      params.delete("customer_id");
-      params.delete("app_id");
+      params.delete(CUSTOMER_ID);
+      params.delete(APP_ID);
     }
 
     router.push(`?${params.toString()}`, { scroll: false });
@@ -209,11 +218,11 @@ export const SigSharesTable: FC = () => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (customerId) {
-      params.set("customer_id", customerId);
-      params.delete("app_id");
+      params.set(CUSTOMER_ID, customerId);
+      params.delete(APP_ID);
     } else {
-      params.delete("customer_id");
-      params.delete("app_id");
+      params.delete(CUSTOMER_ID);
+      params.delete(APP_ID);
     }
 
     router.push(`?${params.toString()}`, { scroll: false });
@@ -223,9 +232,9 @@ export const SigSharesTable: FC = () => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (!nodeId || nodeId === "") {
-      params.delete("node_id");
+      params.delete(NODE_ID);
     } else {
-      params.set("node_id", nodeId);
+      params.set(NODE_ID, nodeId);
     }
 
     router.push(`?${params.toString()}`, { scroll: false });
@@ -235,9 +244,9 @@ export const SigSharesTable: FC = () => {
     const params = new URLSearchParams(searchParams.toString());
 
     if (curveType) {
-      params.set("curve_type", curveType);
+      params.set(CURVE_TYPE, curveType);
     } else {
-      params.delete("curve_type");
+      params.delete(CURVE_TYPE);
     }
 
     router.push(`?${params.toString()}`, { scroll: false });
@@ -488,6 +497,7 @@ export const SigSharesTable: FC = () => {
           </div>
           <div className={styles.paginationWrapper}>
             <button
+              type="button"
               className={styles.navButton}
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={!hasPrev || currentPage <= 1}
@@ -496,6 +506,7 @@ export const SigSharesTable: FC = () => {
             </button>
             <span className={styles.pageInfo}>Page {currentPage}</span>
             <button
+              type="button"
               className={styles.navButton}
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={!hasNext}
