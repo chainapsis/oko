@@ -364,8 +364,6 @@ export async function updateWalletKSNodesForReshareV2(
     secp256k1?: ReshareWalletInfoWithBytes;
     ed25519?: ReshareWalletInfoWithBytes;
   },
-  logger: Logger,
-  metadata?: Record<string, unknown>,
 ): Promise<OkoApiResponse<void>> {
   try {
     if (!wallets.secp256k1 && !wallets.ed25519) {
@@ -399,14 +397,6 @@ export async function updateWalletKSNodesForReshareV2(
         code: "FORBIDDEN",
         msg: `User is not active: ${email}`,
       };
-    }
-
-    // Update user metadata on reshare
-    if (metadata) {
-      const updateMetadataRes = await updateUserMetadata(db, user.user_id, metadata);
-      if (updateMetadataRes.success === false) {
-        logger.error(`Failed to update user metadata: ${updateMetadataRes.err}`);
-      }
     }
 
     // Collect upsert data after validation

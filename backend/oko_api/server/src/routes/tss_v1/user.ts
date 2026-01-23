@@ -449,8 +449,6 @@ export function setUserV1Routes(router: Router) {
         auth_type,
         publicKeyRes.data,
         reshared_key_shares,
-        state.logger,
-        oauthUser.metadata,
       );
 
       if (reshareRes.success === false) {

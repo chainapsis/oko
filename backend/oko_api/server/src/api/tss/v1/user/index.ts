@@ -290,8 +290,6 @@ export async function updateWalletKSNodesForReshare(
   auth_type: AuthType,
   public_key: Bytes33,
   reshared_key_shares: NodeNameAndEndpoint[],
-  logger: Logger,
-  metadata?: Record<string, unknown>,
 ): Promise<OkoApiResponse<void>> {
   try {
     const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
@@ -317,14 +315,6 @@ export async function updateWalletKSNodesForReshare(
         code: "FORBIDDEN",
         msg: `User is not active: ${email}`,
       };
-    }
-
-    // Update user metadata on reshare
-    if (metadata) {
-      const updateMetadataRes = await updateUserMetadata(db, user.user_id, metadata);
-      if (updateMetadataRes.success === false) {
-        logger.error(`Failed to update user metadata: ${updateMetadataRes.err}`);
-      }
     }
 
     const walletRes = await getWalletByPublicKey(
