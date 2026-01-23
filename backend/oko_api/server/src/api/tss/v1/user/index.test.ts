@@ -1,3 +1,4 @@
+import { jest } from "@jest/globals";
 import { Pool } from "pg";
 import type { Logger } from "winston";
 import { createPgConn } from "@oko-wallet/postgres-lib";
@@ -114,6 +115,7 @@ describe("user_test", () => {
           expires_in: "1h",
         },
         mockLogger,
+        email,
       );
 
       if (signInRes.success === true) {
@@ -164,6 +166,7 @@ describe("user_test", () => {
           expires_in: "1h",
         },
         mockLogger,
+        email,
       );
 
       if (signInRes.success === true) {
@@ -205,6 +208,7 @@ describe("user_test", () => {
           expires_in: "1h",
         },
         mockLogger,
+        email,
       );
 
       if (signInRes.success === false) {
@@ -221,7 +225,7 @@ describe("user_test", () => {
       );
     });
 
-    it("should handle database error from getUserByEmail", async () => {
+    it("should handle database error from getUserByEmailAndAuthType", async () => {
       // force database error by closing the pool
       await pool.end();
 
@@ -235,6 +239,7 @@ describe("user_test", () => {
           expires_in: "1h",
         },
         mockLogger,
+        email,
       );
 
       if (signInRes.success === true) {
@@ -243,7 +248,7 @@ describe("user_test", () => {
 
       expect(signInRes.success).toBe(false);
       expect(signInRes.code).toBe("UNKNOWN_ERROR");
-      expect(signInRes.msg).toContain("getUserByEmail error");
+      expect(signInRes.msg).toContain("getUserByEmailAndAuthType error");
 
       // recreate pool
       const config = testPgConfig;
