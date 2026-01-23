@@ -7,6 +7,15 @@
   align-self: stretch;
   border-radius: 12px;
   background: var(--bg-secondary);
+  transition: background-color 0.15s ease;
+
+  &:hover {
+    background: var(--bg-secondary-hover);
+
+    .chevronIconWrapper {
+      background: var(--bg-quaternary);
+    }
+  }
 }
 
 .collapsibleHeader {
@@ -17,12 +26,15 @@
   justify-content: space-between;
   width: 100%;
   cursor: pointer;
+}
 
-  &:hover {
-    .chevronIcon {
-      color: var(--fg-quaternary-hover);
-    }
-  }
+.chevronIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+  border-radius: 9999px;
+  transition: background-color 0.15s ease;
 }
 
 .chevronIcon {
@@ -34,8 +46,70 @@
 }
 
 .collapsibleContent {
+  position: relative;
   width: 100%;
   display: flex;
   flex-direction: column;
   min-height: 0;
+  max-height: 190px;
+  overflow-y: auto;
+
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--bg-quaternary);
+    border-radius: 9999px;
+  }
+
+  /* Firefox scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--bg-quaternary) transparent;
+}
+
+.collapsibleContentWrapper {
+  position: relative;
+  width: 100%;
+
+  &.showTopFade::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to top, transparent, var(--bg-secondary));
+    pointer-events: none;
+    z-index: 1;
+    transition: background 0.15s ease;
+  }
+
+  &.showBottomFade::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 48px;
+    background: linear-gradient(to bottom, transparent, var(--bg-secondary));
+    pointer-events: none;
+    z-index: 1;
+    transition: background 0.15s ease;
+  }
+}
+
+.collapsibleContainer:hover .collapsibleContentWrapper {
+  &.showTopFade::before {
+    background: linear-gradient(to top, transparent, var(--bg-secondary-hover));
+  }
+
+  &.showBottomFade::after {
+    background: linear-gradient(to bottom, transparent, var(--bg-secondary-hover));
+  }
 }

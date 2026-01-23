@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-self: stretch;
+  gap: 8px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  justify-content: space-between;
+}
+
+.countBadge {
+  display: flex;
+  align-items: center;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 18px;
+  cursor: pointer;
+}
+
+.toggleIcon {
+  width: 16px;
+  height: 16px;
+  aspect-ratio: 1/1;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
