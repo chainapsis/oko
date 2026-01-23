@@ -99,6 +99,7 @@ export async function userSignInV2(
       expires_in: state.jwt_expires_in,
     },
     state.encryption_secret,
+    state.logger,
     oauthUser.email,
     oauthUser.name,
     oauthUser.metadata,

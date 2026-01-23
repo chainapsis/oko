@@ -206,6 +206,7 @@ export function setUserV1Routes(router: Router) {
           secret: state.jwt_secret,
           expires_in: state.jwt_expires_in,
         },
+        state.logger,
         oauthUser.email,
         oauthUser.name,
         oauthUser.metadata,
@@ -305,10 +306,16 @@ export function setUserV1Routes(router: Router) {
             return;
           }
 
-          const signInRes = await signIn(state.db, payload.email, "google", {
-            secret: state.jwt_secret,
-            expires_in: state.jwt_expires_in,
-          });
+          const signInRes = await signIn(
+            state.db,
+            payload.email,
+            "google",
+            {
+              secret: state.jwt_secret,
+              expires_in: state.jwt_expires_in,
+            },
+            state.logger,
+          );
 
           if (signInRes.success === false) {
             res.status(ErrorCodeMap[signInRes.code] ?? 500).json(signInRes);
@@ -442,6 +449,7 @@ export function setUserV1Routes(router: Router) {
         auth_type,
         publicKeyRes.data,
         reshared_key_shares,
+        state.logger,
         oauthUser.metadata,
       );
 

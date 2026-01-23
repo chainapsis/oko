@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import type { Logger } from "winston";
 import {
   createUser,
   getUserByEmailAndAuthType,
@@ -399,6 +400,7 @@ export async function runKeygenEd25519(
   },
   keygenRequest: KeygenEd25519Request,
   encryptionSecret: string,
+  logger: Logger,
 ): Promise<OkoApiResponse<SignInResponseV2>> {
   try {
     const { auth_type, user_identifier, keygen_2, email, name, metadata } = keygenRequest;
@@ -429,7 +431,10 @@ export async function runKeygenEd25519(
 
     // Update user metadata on keygen_ed25519
     if (metadata) {
-      await updateUserMetadata(db, user.user_id, metadata);
+      const updateMetadataRes = await updateUserMetadata(db, user.user_id, metadata);
+      if (updateMetadataRes.success === false) {
+        logger.error(`Failed to update user metadata: ${updateMetadataRes.err}`);
+      }
     }
 
     // in keygen_ed25519, secp256k1 wallet must exist

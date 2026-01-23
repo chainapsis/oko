@@ -116,6 +116,7 @@ export async function keygenEd25519(
       metadata: oauthUser.metadata,
     },
     state.encryption_secret,
+    state.logger,
   );
 
   if (runKeygenRes.success === false) {

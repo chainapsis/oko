@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import type { Logger } from "winston";
 import {
   getActiveWalletByUserIdAndCurveType,
   getWalletByPublicKey,
@@ -41,6 +42,7 @@ export async function signInV2(
     expires_in: string;
   },
   encryptionSecret: string,
+  logger: Logger,
   email?: string,
   name?: string,
   metadata?: Record<string, unknown>,
@@ -68,7 +70,10 @@ export async function signInV2(
 
     // Update user metadata on every sign-in
     if (metadata) {
-      await updateUserMetadata(db, getUserRes.data.user_id, metadata);
+      const updateMetadataRes = await updateUserMetadata(db, getUserRes.data.user_id, metadata);
+      if (updateMetadataRes.success === false) {
+        logger.error(`Failed to update user metadata: ${updateMetadataRes.err}`);
+      }
     }
 
     const secp256k1WalletRes = await getActiveWalletByUserIdAndCurveType(
@@ -359,6 +364,7 @@ export async function updateWalletKSNodesForReshareV2(
     secp256k1?: ReshareWalletInfoWithBytes;
     ed25519?: ReshareWalletInfoWithBytes;
   },
+  logger: Logger,
   metadata?: Record<string, unknown>,
 ): Promise<OkoApiResponse<void>> {
   try {
@@ -397,7 +403,10 @@ export async function updateWalletKSNodesForReshareV2(
 
     // Update user metadata on reshare
     if (metadata) {
-      await updateUserMetadata(db, user.user_id, metadata);
+      const updateMetadataRes = await updateUserMetadata(db, user.user_id, metadata);
+      if (updateMetadataRes.success === false) {
+        logger.error(`Failed to update user metadata: ${updateMetadataRes.err}`);
+      }
     }
 
     // Collect upsert data after validation
