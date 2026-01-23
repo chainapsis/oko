@@ -1,55 +1,85 @@
-import { type FC } from "react";
-import type { Msg } from "@keplr-wallet/types";
 import { Bech32Address } from "@keplr-wallet/cosmos";
-import { MsgSend as ThorMsgSend } from "@keplr-wallet/proto-types/thorchain/v1/types/msg_send";
-import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import type { MsgSend as ThorMsgSend } from "@keplr-wallet/proto-types/thorchain/v1/types/msg_send";
+import type { Msg } from "@keplr-wallet/types";
+import type { FC, ReactNode } from "react";
 
-import styles from "./messages.module.scss";
+import { SendMessagePretty } from "./send/send";
+import { UnknownMessage } from "./unknown/unknown";
+import { CollapsibleList } from "@oko-wallet-attached/components/modal_variants/common/transaction_summary";
 import type {
   SendMsg,
   UnpackedMsgForView,
 } from "@oko-wallet-attached/types/cosmos_msg";
-import { SendMessagePretty } from "./send/send";
-import { UnknownMessage } from "./unknown/unknown";
 
-function renderAminoMessage(chainId: string, msg: Msg, index: number) {
+function getMessageKey(msg: Msg | UnpackedMsgForView, index: number): string {
+  if ("type" in msg) {
+    return `${msg.type}-${index}`;
+  }
+  if ("typeUrl" in msg) {
+    return `${msg.typeUrl}-${index}`;
+  }
+  return `unknown-${index}`;
+}
+
+function getMessageTitle(msg: Msg | UnpackedMsgForView): string {
+  if ("type" in msg) {
+    // Amino message: "cosmos-sdk/MsgSend" -> "Send"
+    const parts = msg.type.split("/");
+    const msgType = parts[parts.length - 1];
+    if (msgType.startsWith("Msg")) {
+      return msgType.slice(3);
+    }
+    return msgType;
+  }
+
+  if ("typeUrl" in msg) {
+    // Proto message: "/cosmos.bank.v1beta1.MsgSend" -> "Send"
+    const parts = msg.typeUrl.split(".");
+    const msgType = parts[parts.length - 1];
+    if (msgType.startsWith("Msg")) {
+      return msgType.slice(3);
+    }
+    return msgType;
+  }
+
+  return "Unknown";
+}
+
+function renderAminoMessageContent(chainId: string, msg: Msg): ReactNode {
   switch (msg.type) {
     case "cosmos-sdk/MsgSend":
     case "thorchain/MsgSend":
       return (
         <SendMessagePretty
-          key={index}
           chainId={chainId}
           amount={msg.value.amount}
           toAddress={msg.value.to_address}
         />
       );
     default:
-      return <UnknownMessage chainId={chainId} msg={msg} key={index} />;
+      return <UnknownMessage chainId={chainId} msg={msg} />;
   }
 }
 
-export function renderProtoMessage(
+export function renderProtoMessageContent(
   chainId: string,
   msg: UnpackedMsgForView,
-  index: number,
-) {
+): ReactNode {
   switch (msg.typeUrl) {
-    case "/cosmos.bank.v1beta1.MsgSend":
+    case "/cosmos.bank.v1beta1.MsgSend": {
       const unpacked = msg.unpacked as SendMsg;
       return (
         <SendMessagePretty
-          key={index}
           chainId={chainId}
           amount={unpacked.amount}
           toAddress={unpacked.to_address}
         />
       );
+    }
 
     case "/types.MsgSend":
       return (
         <SendMessagePretty
-          key={index}
           chainId={chainId}
           amount={(msg.unpacked as ThorMsgSend).amount}
           toAddress={new Bech32Address(
@@ -59,22 +89,29 @@ export function renderProtoMessage(
       );
 
     default:
-      return <UnknownMessage chainId={chainId} msg={msg} key={index} />;
+      return <UnknownMessage chainId={chainId} msg={msg} />;
   }
 }
 
-function renderMessage(
+function renderMessageContent(
   chainId: string,
   msg: Msg | UnpackedMsgForView,
-  index: number,
-): React.ReactNode {
+): ReactNode {
   if ("type" in msg) {
-    return renderAminoMessage(chainId, msg, index);
+    return renderAminoMessageContent(chainId, msg);
   }
 
   if ("unpacked" in msg) {
-    return renderProtoMessage(chainId, msg, index);
+    return renderProtoMessageContent(chainId, msg);
   }
+
+  return null;
+}
+
+export interface MessagesProps {
+  chainId: string;
+  messages: readonly (Msg | UnpackedMsgForView)[];
+  isLoading?: boolean;
 }
 
 export const Messages: FC<MessagesProps> = ({
@@ -82,19 +119,13 @@ export const Messages: FC<MessagesProps> = ({
   messages,
   isLoading,
 }) => {
-  if (isLoading) {
-    return <Skeleton width="100%" height="32px" />;
-  }
-
   return (
-    <div className={styles.txRendererContainer}>
-      {messages.map((msg, index) => renderMessage(chainId, msg, index))}
-    </div>
+    <CollapsibleList
+      items={messages as (Msg | UnpackedMsgForView)[]}
+      getKey={getMessageKey}
+      getTitle={getMessageTitle}
+      renderContent={(msg) => renderMessageContent(chainId, msg)}
+      isLoading={isLoading}
+    />
   );
 };
-
-export interface MessagesProps {
-  chainId: string;
-  messages: readonly (Msg | UnpackedMsgForView)[];
-  isLoading?: boolean;
-}

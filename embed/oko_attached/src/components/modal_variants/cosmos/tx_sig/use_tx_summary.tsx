@@ -1,21 +1,18 @@
-import { useState } from "react";
-import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import type { Msg, StdSignDoc } from "@keplr-wallet/types";
+import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
 import type { Result } from "@oko-wallet/stdlib-js";
 
-import { extractMsgsFromSignDoc } from "@oko-wallet-attached/web3/cosmos/sign_doc";
 import {
   useGetParsedMsgs,
   useGetSignDocStringWithParsedMsg,
 } from "./use_parse_msgs";
 import type { UnpackedMsgForView } from "@oko-wallet-attached/types/cosmos_msg";
+import { extractMsgsFromSignDoc } from "@oko-wallet-attached/web3/cosmos/sign_doc";
 
 export function useCosmosTxSummary(
   args: UseCosmosTxSummaryArgs,
 ): Result<UseCosmosTxSummaryReturn, UseCosmosTxSummaryError> {
   const { payload, signDocJson } = args;
-
-  const [isRawView, setIsRawView] = useState(false);
 
   const unparsedMsgsRes = extractMsgsFromSignDoc(payload.signDoc);
   if (!unparsedMsgsRes.success) {
@@ -38,18 +35,12 @@ export function useCosmosTxSummary(
 
   const isLoading = isSignDocLoading || isMsgsLoading;
 
-  function handleToggleView() {
-    setIsRawView((prev) => !prev);
-  }
-
   return {
     success: true,
     data: {
       isLoading,
-      handleToggleView,
       signDocString,
       msgs,
-      isRawView,
     },
   };
 }
@@ -61,10 +52,8 @@ export interface UseCosmosTxSummaryArgs {
 
 export interface UseCosmosTxSummaryReturn {
   isLoading: boolean;
-  handleToggleView: () => void;
   signDocString: string;
   msgs: readonly Msg[] | UnpackedMsgForView[];
-  isRawView: boolean;
 }
 
 export type UseCosmosTxSummaryError = {

@@ -1,9 +1,10 @@
 import type { MakeSvmTxSignData } from "@oko-wallet/oko-sdk-core";
-import { base64ToUint8Array } from "@oko-wallet-attached/utils/base64";
+
 import {
-  useSvmSignatureBase,
   signMessageToHex,
+  useSvmSignatureBase,
 } from "../use_svm_signature_base";
+import { base64ToUint8Array } from "@oko-wallet-attached/utils/base64";
 
 export interface UseTxSigModalArgs {
   modalId: string;

@@ -1,16 +1,26 @@
 import type { FC, ReactNode } from "react";
-import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/svm";
-import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
 
-import styles from "./instructions.module.scss";
-import { SvmTransferPretty } from "./transfer/transfer";
 import { TokenTransferPretty } from "./transfer/token_transfer";
+import { SvmTransferPretty } from "./transfer/transfer";
 import { UnknownInstruction } from "./unknown/unknown";
+import { CollapsibleList } from "@oko-wallet-attached/components/modal_variants/common/transaction_summary";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/svm";
 
-function renderInstruction(
+function getInstructionKey(
   instruction: ParsedInstruction,
   index: number,
-): ReactNode {
+): string {
+  return `${instruction.programId}-${instruction.instructionName}-${index}`;
+}
+
+function getInstructionTitle(instruction: ParsedInstruction): string {
+  const { instructionName } = instruction;
+
+  // Capitalize instruction name (e.g., "transfer" -> "Transfer")
+  return instructionName.charAt(0).toUpperCase() + instructionName.slice(1);
+}
+
+function renderInstructionContent(instruction: ParsedInstruction): ReactNode {
   const { programId, instructionName, data, accounts } = instruction;
 
   // System Program - SOL Transfer
@@ -20,7 +30,7 @@ function renderInstruction(
       const to = accounts[1]?.pubkey;
 
       if (lamports !== undefined) {
-        return <SvmTransferPretty key={index} lamports={lamports} to={to} />;
+        return <SvmTransferPretty lamports={lamports} to={to} />;
       }
     }
   }
@@ -40,7 +50,6 @@ function renderInstruction(
       if (amount !== undefined) {
         return (
           <TokenTransferPretty
-            key={index}
             amount={amount}
             decimals={decimals}
             mint={mint}
@@ -56,15 +65,15 @@ function renderInstruction(
       const to = accounts[1]?.pubkey;
 
       if (amount !== undefined) {
-        return <TokenTransferPretty key={index} amount={amount} to={to} />;
+        return <TokenTransferPretty amount={amount} to={to} />;
       }
     }
 
-    return <UnknownInstruction key={index} instruction={instruction} />;
+    return <UnknownInstruction instruction={instruction} />;
   }
 
   // Default: Unknown instruction
-  return <UnknownInstruction key={index} instruction={instruction} />;
+  return <UnknownInstruction instruction={instruction} />;
 }
 
 export interface InstructionsProps {
@@ -76,18 +85,13 @@ export const Instructions: FC<InstructionsProps> = ({
   instructions,
   isLoading,
 }) => {
-  if (isLoading) {
-    return <Skeleton width="100%" height="32px" />;
-  }
-
   return (
-    <div className={styles.instructionsContainer}>
-      {instructions.flatMap((ix, index) => [
-        index > 0 && (
-          <div key={`divider-${index}`} className={styles.instructionDivider} />
-        ),
-        renderInstruction(ix, index),
-      ])}
-    </div>
+    <CollapsibleList
+      items={instructions}
+      getKey={getInstructionKey}
+      getTitle={getInstructionTitle}
+      renderContent={renderInstructionContent}
+      isLoading={isLoading}
+    />
   );
 };

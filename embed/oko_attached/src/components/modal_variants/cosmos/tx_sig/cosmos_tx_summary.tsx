@@ -1,15 +1,12 @@
-import { type FC } from "react";
+import type { Msg, StdSignDoc } from "@keplr-wallet/types";
 import type { CosmosTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import type { StdSignDoc } from "@keplr-wallet/types";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
+import type { FC } from "react";
 
-import styles from "./cosmos_tx_summary.module.scss";
 import { Messages } from "./msg/messages";
-import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
-import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
 import { useCosmosTxSummary } from "./use_tx_summary";
 import { useTrackTxSummaryView } from "@oko-wallet-attached/analytics/events";
+import { TransactionSummaryFrame } from "@oko-wallet-attached/components/modal_variants/common/transaction_summary";
+import type { UnpackedMsgForView } from "@oko-wallet-attached/types/cosmos_msg";
 
 export interface CosmosTxSummaryProps {
   payload: CosmosTxSignPayload;
@@ -23,59 +20,54 @@ export const CosmosTxSummary: FC<CosmosTxSummaryProps> = ({
 }) => {
   const useCosmosTxSummaryRes = useCosmosTxSummary({ payload, signDocJson });
 
-  let content = null;
-  if (useCosmosTxSummaryRes.success) {
-    const { handleToggleView, msgs, isRawView, signDocString, isLoading } =
-      useCosmosTxSummaryRes.data;
-
-    useTrackTxSummaryView({
-      hostOrigin: payload.origin,
-      chainType: "cosmos",
-      chainId: payload.chain_info.chain_id,
-      messages: msgs,
-    });
-
-    content = (
-      <>
-        <div className={styles.txSummaryHeader}>
-          <Typography color="secondary" size="sm" weight="semibold">
-            <Typography
-              tagType="span"
-              color="brand-secondary"
-              size="sm"
-              weight="semibold"
-            >
-              {msgs.length + " "}
-            </Typography>
-            Message(s)
-          </Typography>
-          <div
-            className={styles.txSummaryHeaderRight}
-            onClick={handleToggleView}
-          >
-            <Typography color="tertiary" size="xs" weight="medium">
-              {isRawView ? "Smart View" : "Raw View"}
-            </Typography>
-            <ChevronRightIcon className={styles.txSummaryHeaderRightIcon} />
-          </div>
-        </div>
-        {isRawView ? (
-          <MakeSignatureRawCodeBlockContainer>
-            <MakeSignatureRawCodeBlock
-              className={styles.codeBlock}
-              code={signDocString}
-            />
-          </MakeSignatureRawCodeBlockContainer>
-        ) : (
-          <Messages
-            chainId={payload.chain_info.chain_id}
-            messages={msgs}
-            isLoading={isLoading}
-          />
-        )}
-      </>
-    );
+  if (!useCosmosTxSummaryRes.success) {
+    return null;
   }
 
-  return <div className={styles.txSummaryContainer}>{content}</div>;
+  const { msgs, signDocString, isLoading } = useCosmosTxSummaryRes.data;
+
+  return (
+    <CosmosTxSummaryContent
+      payload={payload}
+      msgs={msgs}
+      signDocString={signDocString}
+      isLoading={isLoading}
+    />
+  );
+};
+
+interface CosmosTxSummaryContentProps {
+  payload: CosmosTxSignPayload;
+  msgs: readonly Msg[] | UnpackedMsgForView[];
+  signDocString: string;
+  isLoading: boolean;
+}
+
+const CosmosTxSummaryContent: FC<CosmosTxSummaryContentProps> = ({
+  payload,
+  msgs,
+  signDocString,
+  isLoading,
+}) => {
+  useTrackTxSummaryView({
+    hostOrigin: payload.origin,
+    chainType: "cosmos",
+    chainId: payload.chain_info.chain_id,
+    messages: msgs,
+  });
+
+  return (
+    <TransactionSummaryFrame
+      count={msgs.length}
+      countLabel=" Message(s)"
+      rawData={signDocString}
+      smartContent={
+        <Messages
+          chainId={payload.chain_info.chain_id}
+          messages={msgs}
+          isLoading={isLoading}
+        />
+      }
+    />
+  );
 };

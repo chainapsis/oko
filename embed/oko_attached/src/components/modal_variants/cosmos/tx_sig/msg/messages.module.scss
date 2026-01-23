@@ -1,13 +1,9 @@
 .container {
   display: flex;
-  padding: 16px;
   flex-direction: column;
   align-items: flex-start;
-  overflow-y: auto;
-  border-radius: 12px;
-  background: var(--bg-secondary);
   width: 100%;
-  gap: 16px;
+  gap: 12px;
 }
 
 .tokenInfoContainer {
@@ -30,6 +26,5 @@
 .txRendererContainer {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   width: 100%;
 }

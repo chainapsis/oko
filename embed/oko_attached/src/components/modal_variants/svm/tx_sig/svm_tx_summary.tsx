@@ -1,16 +1,13 @@
-import { type FC, type ReactNode, useState, useMemo } from "react";
-import type { SvmTxSignPayload } from "@oko-wallet/oko-sdk-core";
-import { Typography } from "@oko-wallet/oko-common-ui/typography";
-import { ChevronRightIcon } from "@oko-wallet/oko-common-ui/icons/chevron_right";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
-import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/svm";
+import { Typography } from "@oko-wallet/oko-common-ui/typography";
+import type { SvmTxSignPayload } from "@oko-wallet/oko-sdk-core";
+import { type FC, type ReactNode, useMemo } from "react";
 
-import styles from "../common/summary.module.scss";
-import { MakeSignatureRawCodeBlock } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block";
-import { MakeSignatureRawCodeBlockContainer } from "@oko-wallet-attached/components/modal_variants/common/make_signature/make_sig_modal_code_block_container";
-import { TxContainer } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/common/tx_container";
-import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
 import { Instructions } from "./msg/instructions";
+import { TransactionSummaryFrame } from "@oko-wallet-attached/components/modal_variants/common/transaction_summary";
+import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
+import { TxContainer } from "@oko-wallet-attached/components/modal_variants/eth/tx_sig/actions/common/tx_container";
+import type { ParsedTransaction } from "@oko-wallet-attached/tx-parsers/svm";
 
 export interface SvmTxSummaryProps {
   payload: SvmTxSignPayload;
@@ -25,9 +22,9 @@ export const SvmTxSummary: FC<SvmTxSummaryProps> = ({
   parseError,
   isLoading,
 }) => {
-  const [isRawView, setIsRawView] = useState(false);
-
   const txData = payload.data;
+
+  const instructionCount = parsedTx?.instructions.length ?? 0;
 
   const { rawData, smartViewContent } = useMemo(() => {
     let content: ReactNode;
@@ -66,39 +63,12 @@ export const SvmTxSummary: FC<SvmTxSummaryProps> = ({
     };
   }, [txData, parsedTx, parseError, isLoading]);
 
-  function handleToggleView() {
-    setIsRawView((prev) => !prev);
-  }
-
-  let content: ReactNode | null = null;
-
-  if (isRawView) {
-    content = (
-      <MakeSignatureRawCodeBlockContainer>
-        <MakeSignatureRawCodeBlock
-          className={styles.codeBlock}
-          code={rawData}
-        />
-      </MakeSignatureRawCodeBlockContainer>
-    );
-  } else {
-    content = smartViewContent;
-  }
-
   return (
-    <div className={styles.summaryContainer}>
-      <div className={styles.summaryHeader}>
-        <Typography color="secondary" size="sm" weight="semibold">
-          Transaction Summary
-        </Typography>
-        <div className={styles.summaryHeaderRight} onClick={handleToggleView}>
-          <Typography color="tertiary" size="xs" weight="medium">
-            {isRawView ? "Smart View" : "Raw View"}
-          </Typography>
-          <ChevronRightIcon className={styles.summaryHeaderRightIcon} />
-        </div>
-      </div>
-      {content}
-    </div>
+    <TransactionSummaryFrame
+      count={instructionCount}
+      countLabel=" Message(s)"
+      rawData={rawData}
+      smartContent={smartViewContent}
+    />
   );
 };
