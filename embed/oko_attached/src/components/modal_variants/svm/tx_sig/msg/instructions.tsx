@@ -17,18 +17,10 @@ function renderInstruction(
   if (programId === "11111111111111111111111111111111") {
     if (instructionName === "transfer") {
       const lamports = data.lamports as bigint | number | undefined;
-      const from = accounts[0]?.pubkey;
       const to = accounts[1]?.pubkey;
 
       if (lamports !== undefined) {
-        return (
-          <SvmTransferPretty
-            key={index}
-            lamports={lamports}
-            from={from}
-            to={to}
-          />
-        );
+        return <SvmTransferPretty key={index} lamports={lamports} to={to} />;
       }
     }
   }
@@ -42,7 +34,6 @@ function renderInstruction(
     if (instructionName === "transferChecked") {
       const amount = data.amount as bigint | number | undefined;
       const decimals = data.decimals as number | undefined;
-      const from = accounts[0]?.pubkey;
       const mint = accounts[1]?.pubkey;
       const to = accounts[2]?.pubkey;
 
@@ -53,7 +44,6 @@ function renderInstruction(
             amount={amount}
             decimals={decimals}
             mint={mint}
-            from={from}
             to={to}
           />
         );
@@ -63,18 +53,10 @@ function renderInstruction(
     // transfer: source, destination, owner (no mint in accounts)
     if (instructionName === "transfer") {
       const amount = data.amount as bigint | number | undefined;
-      const from = accounts[0]?.pubkey;
       const to = accounts[1]?.pubkey;
 
       if (amount !== undefined) {
-        return (
-          <TokenTransferPretty
-            key={index}
-            amount={amount}
-            from={from}
-            to={to}
-          />
-        );
+        return <TokenTransferPretty key={index} amount={amount} to={to} />;
       }
     }
 

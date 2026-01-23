@@ -6,11 +6,6 @@ import styles from "../instructions.module.scss";
 import { TxRow } from "@oko-wallet-attached/components/modal_variants/common/tx_row";
 import { SOLANA_LOGO_URL } from "@oko-wallet-attached/constants/urls";
 
-function shortenAddress(address: string): string {
-  if (address.length <= 12) return address;
-  return `${address.slice(0, 6)}...${address.slice(-4)}`;
-}
-
 function formatLamports(lamports: bigint | number): string {
   // Use scientific notation to avoid floating-point precision issues
   // SOL has 9 decimals
@@ -23,13 +18,11 @@ function formatLamports(lamports: bigint | number): string {
 
 export interface SvmTransferPrettyProps {
   lamports: bigint | number;
-  from?: string;
   to?: string;
 }
 
 export const SvmTransferPretty: FC<SvmTransferPrettyProps> = ({
   lamports,
-  from,
   to,
 }) => {
   return (
@@ -47,27 +40,15 @@ export const SvmTransferPretty: FC<SvmTransferPrettyProps> = ({
           </Typography>
         </div>
       </TxRow>
-      {from && (
-        <TxRow label="From">
-          <Typography
-            color="secondary"
-            size="sm"
-            weight="medium"
-            className={styles.address}
-          >
-            {shortenAddress(from)}
-          </Typography>
-        </TxRow>
-      )}
       {to && (
-        <TxRow label="To">
+        <TxRow label="to">
           <Typography
             color="secondary"
             size="sm"
             weight="medium"
             className={styles.address}
           >
-            {shortenAddress(to)}
+            {to}
           </Typography>
         </TxRow>
       )}
