@@ -32,7 +32,6 @@
       "backend/oko_api_server_state",
       "backend/log_api",
       "backend/ct_dashboard_api",
-      "backend/attached_api",
       "backend/oko_pg_interface",
       "backend/admin_api",
       "backend/openapi",
