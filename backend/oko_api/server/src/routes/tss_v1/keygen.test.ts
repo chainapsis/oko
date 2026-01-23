@@ -47,7 +47,7 @@ const mockOauthMiddleware = jest.fn((req: any, res: any, next: any) => {
   next();
 });
 
-await jest.unstable_mockModule("@oko-wallet-tss-api/middleware/oauth", () => ({
+await jest.unstable_mockModule("@oko-wallet-api/middleware/auth/oauth", () => ({
   oauthMiddleware: (req: any, res: any, next: any) =>
     mockOauthMiddleware(req, res, next),
 }));
