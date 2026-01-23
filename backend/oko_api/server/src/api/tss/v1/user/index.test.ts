@@ -1,4 +1,5 @@
 import { Pool } from "pg";
+import type { Logger } from "winston";
 import { createPgConn } from "@oko-wallet/postgres-lib";
 import { createUser } from "@oko-wallet/oko-pg-interface/oko_users";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
@@ -16,6 +17,13 @@ import { insertKeyShareNodeMeta } from "@oko-wallet/oko-pg-interface/key_share_n
 import { resetPgDatabase } from "@oko-wallet-api/testing/database";
 import { testPgConfig } from "@oko-wallet-api/database/test_config";
 import { checkEmail, signIn } from "@oko-wallet-api/api/tss/v1/user";
+
+const mockLogger = {
+  error: jest.fn(),
+  warn: jest.fn(),
+  info: jest.fn(),
+  debug: jest.fn(),
+} as unknown as Logger;
 
 const SSS_THRESHOLD = 2;
 
@@ -70,10 +78,16 @@ describe("user_test", () => {
   describe("signIn", () => {
     it("should return USER_NOT_FOUND when user does not exist", async () => {
       const email = "nonexistent@example.com";
-      const signInRes = await signIn(pool, email, "google", {
-        secret: "test-jwt-secret",
-        expires_in: "1h",
-      });
+      const signInRes = await signIn(
+        pool,
+        email,
+        "google",
+        {
+          secret: "test-jwt-secret",
+          expires_in: "1h",
+        },
+        mockLogger,
+      );
 
       if (signInRes.success === true) {
         throw new Error("signIn should fail");
@@ -81,7 +95,7 @@ describe("user_test", () => {
 
       expect(signInRes.success).toBe(false);
       expect(signInRes.code).toBe("USER_NOT_FOUND");
-      expect(signInRes.msg).toBe(`User not found: ${email}`);
+      expect(signInRes.msg).toBe(`User not found: ${email} (auth_type: google)`);
     });
 
     it("should return WALLET_NOT_FOUND when user exists but wallet does not", async () => {
@@ -91,10 +105,16 @@ describe("user_test", () => {
         throw new Error("Failed to create user");
       }
 
-      const signInRes = await signIn(pool, email, "google", {
-        secret: "test-jwt-secret",
-        expires_in: "1h",
-      });
+      const signInRes = await signIn(
+        pool,
+        email,
+        "google",
+        {
+          secret: "test-jwt-secret",
+          expires_in: "1h",
+        },
+        mockLogger,
+      );
 
       if (signInRes.success === true) {
         throw new Error("signIn should fail");
@@ -135,10 +155,16 @@ describe("user_test", () => {
         throw new Error("Failed to update wallet status");
       }
 
-      const signInRes = await signIn(pool, email, "google", {
-        secret: "test-jwt-secret",
-        expires_in: "1h",
-      });
+      const signInRes = await signIn(
+        pool,
+        email,
+        "google",
+        {
+          secret: "test-jwt-secret",
+          expires_in: "1h",
+        },
+        mockLogger,
+      );
 
       if (signInRes.success === true) {
         throw new Error("signIn should fail");
@@ -170,10 +196,16 @@ describe("user_test", () => {
         throw new Error("Failed to create wallet");
       }
 
-      const signInRes = await signIn(pool, email, "google", {
-        secret: "test-jwt-secret",
-        expires_in: "1h",
-      });
+      const signInRes = await signIn(
+        pool,
+        email,
+        "google",
+        {
+          secret: "test-jwt-secret",
+          expires_in: "1h",
+        },
+        mockLogger,
+      );
 
       if (signInRes.success === false) {
         throw new Error("signIn should succeed");
@@ -194,10 +226,16 @@ describe("user_test", () => {
       await pool.end();
 
       const email = "test@example.com";
-      const signInRes = await signIn(pool, email, "google", {
-        secret: "test-jwt-secret",
-        expires_in: "1h",
-      });
+      const signInRes = await signIn(
+        pool,
+        email,
+        "google",
+        {
+          secret: "test-jwt-secret",
+          expires_in: "1h",
+        },
+        mockLogger,
+      );
 
       if (signInRes.success === true) {
         throw new Error("signIn should fail");

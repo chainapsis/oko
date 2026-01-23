@@ -1,5 +1,6 @@
 import { jest } from "@jest/globals";
 import { Pool } from "pg";
+import type { Logger } from "winston";
 import type { WalletStatus } from "@oko-wallet/oko-types/wallets";
 import {
   type KeygenRequestV2,
@@ -33,6 +34,13 @@ import { testPgConfig } from "@oko-wallet-api/database/test_config";
 import { TEMP_ENC_SECRET } from "@oko-wallet-api/api/tss/utils";
 
 const mockCheckKeyShareFromKSNodesV2 = jest.fn() as jest.Mock;
+
+const mockLogger = {
+  error: jest.fn(),
+  warn: jest.fn(),
+  info: jest.fn(),
+  debug: jest.fn(),
+} as unknown as Logger;
 
 await jest.unstable_mockModule("@oko-wallet-api/api/tss/ks_node", () => ({
   checkKeyShareFromKSNodesV2: mockCheckKeyShareFromKSNodesV2,
@@ -682,6 +690,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result.success).toBe(false);
@@ -709,6 +718,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result.success).toBe(false);
@@ -736,6 +746,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result.success).toBe(true);
@@ -768,6 +779,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request1,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       expect(result1.success).toBe(true);
 
@@ -779,6 +791,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request2,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result2.success).toBe(false);
@@ -808,6 +821,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request1,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       expect(result1.success).toBe(true);
 
@@ -818,6 +832,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request2,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result2.success).toBe(false);
@@ -856,6 +871,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result.success).toBe(true);
@@ -901,6 +917,7 @@ describe("keygen_v2_test", () => {
           TEST_JWT_CONFIG_ED25519,
           request,
           TEMP_ENC_SECRET,
+          mockLogger,
         );
 
         if (result.success === false) {
@@ -935,6 +952,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result.success).toBe(true);
@@ -964,6 +982,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result.success).toBe(false);
@@ -998,6 +1017,7 @@ describe("keygen_v2_test", () => {
         TEST_JWT_CONFIG_ED25519,
         request,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
 
       expect(result.success).toBe(true);
