@@ -16,6 +16,7 @@ import { ENV_FILE_NAME, envSchema } from "@oko-wallet-api/envs";
 import { getCommitHash } from "@oko-wallet-api/git";
 import { startKSNodeHealthCheckRuntime } from "@oko-wallet-api/runtime/health_check_node";
 import { startKSNodeHeartbeatRuntime } from "@oko-wallet-api/runtime/ks_node_monitor";
+import { initClientLogger } from "@oko-wallet-api/logger";
 
 async function main() {
   console.log("NODE_ENV: %s", process.env.NODE_ENV);
