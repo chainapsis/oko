@@ -31,7 +31,6 @@ export interface TokenTransferPrettyProps {
   amount: bigint | number;
   decimals?: number;
   mint?: string;
-  from?: string;
   to?: string;
 }
 
@@ -39,7 +38,6 @@ export const TokenTransferPretty: FC<TokenTransferPrettyProps> = ({
   amount,
   decimals: providedDecimals,
   mint,
-  from,
   to,
 }) => {
   const { data: tokenMetadata, isLoading } = useGetSvmTokenMetadata({
@@ -99,27 +97,15 @@ export const TokenTransferPretty: FC<TokenTransferPrettyProps> = ({
           </Typography>
         </TxRow>
       )}
-      {from && (
-        <TxRow label="From">
-          <Typography
-            color="secondary"
-            size="sm"
-            weight="medium"
-            className={styles.address}
-          >
-            {shortenAddress(from)}
-          </Typography>
-        </TxRow>
-      )}
       {to && (
-        <TxRow label="To">
+        <TxRow label="to">
           <Typography
             color="secondary"
             size="sm"
             weight="medium"
             className={styles.address}
           >
-            {shortenAddress(to)}
+            {to}
           </Typography>
         </TxRow>
       )}
