@@ -160,9 +160,9 @@ export const SigSharesTable: FC = () => {
   const searchParams = useSearchParams();
   const router = useRouter();
   const selectedCustomerId =
-    searchParams.get("customer_id") || searchParams.get("app_id");
-  const selectedNodeId = searchParams.get("node_id");
-  const selectedCurveType = searchParams.get("curve_type");
+    searchParams.get(CUSTOMER_ID) || searchParams.get(APP_ID);
+  const selectedNodeId = searchParams.get(NODE_ID);
+  const selectedCurveType = searchParams.get(CURVE_TYPE);
 
   const getFilterType = () => {
     if (selectedNodeId) {
