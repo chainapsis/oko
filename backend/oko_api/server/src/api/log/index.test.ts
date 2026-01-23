@@ -1,7 +1,7 @@
 import { jest } from "@jest/globals";
 import type { Logger } from "winston";
 
-import { ingestLog } from "@oko-wallet-log-api/api/log";
+import { ingestLog } from ".";
 
 describe("log_test", () => {
   const makeMockLogger = () =>

@@ -8,7 +8,7 @@ export function ingestLog(
   clientLogger: Logger,
 ): OkoApiResponse<PostLogResponse> {
   try {
-    let parsedLog;
+    let parsedLog: PostLogBody;
     try {
       parsedLog = logSchema.parse(log);
     } catch (error) {
