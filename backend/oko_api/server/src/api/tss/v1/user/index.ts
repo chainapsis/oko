@@ -11,7 +11,7 @@ import type {
 } from "@oko-wallet/oko-types/user";
 import type { AuthType } from "@oko-wallet/oko-types/auth";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import { getUserByEmailAndAuthType } from "@oko-wallet/oko-pg-interface/oko_users";
+import { getUserByEmailAndAuthType, updateUserMetadata } from "@oko-wallet/oko-pg-interface/oko_users";
 import {
   getActiveKSNodes,
   getWalletKSNodesByWalletId,
@@ -40,6 +40,7 @@ export async function signIn(
   },
   email?: string,
   name?: string,
+  metadata?: Record<string, unknown>,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
     const getUserRes = await getUserByEmailAndAuthType(
@@ -60,6 +61,11 @@ export async function signIn(
         code: "USER_NOT_FOUND",
         msg: `User not found: ${user_identifier} (auth_type: ${auth_type})`,
       };
+    }
+
+    // Update user metadata on every sign-in
+    if (metadata) {
+      await updateUserMetadata(db, getUserRes.data.user_id, metadata);
     }
 
     const walletRes = await getActiveWalletByUserIdAndCurveType(
@@ -279,6 +285,7 @@ export async function updateWalletKSNodesForReshare(
   auth_type: AuthType,
   public_key: Bytes33,
   reshared_key_shares: NodeNameAndEndpoint[],
+  metadata?: Record<string, unknown>,
 ): Promise<OkoApiResponse<void>> {
   try {
     const getUserRes = await getUserByEmailAndAuthType(db, email, auth_type);
@@ -304,6 +311,11 @@ export async function updateWalletKSNodesForReshare(
         code: "FORBIDDEN",
         msg: `User is not active: ${email}`,
       };
+    }
+
+    // Update user metadata on reshare
+    if (metadata) {
+      await updateUserMetadata(db, user.user_id, metadata);
     }
 
     const walletRes = await getWalletByPublicKey(

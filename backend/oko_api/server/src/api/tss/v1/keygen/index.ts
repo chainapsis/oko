@@ -34,7 +34,7 @@ export async function runKeygen(
   encryptionSecret: string,
 ): Promise<OkoApiResponse<SignInResponse>> {
   try {
-    const { auth_type, user_identifier, keygen_2, email, name } = keygenRequest;
+    const { auth_type, user_identifier, keygen_2, email, name, metadata } = keygenRequest;
 
     const getUserRes = await getUserByEmailAndAuthType(
       db,
@@ -73,7 +73,7 @@ export async function runKeygen(
         };
       }
     } else {
-      const createUserRes = await createUser(db, user_identifier, auth_type);
+      const createUserRes = await createUser(db, user_identifier, auth_type, metadata);
       if (createUserRes.success === false) {
         return {
           success: false,

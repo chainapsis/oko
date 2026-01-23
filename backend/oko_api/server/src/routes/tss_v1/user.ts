@@ -208,6 +208,7 @@ export function setUserV1Routes(router: Router) {
         },
         oauthUser.email,
         oauthUser.name,
+        oauthUser.metadata,
       );
       if (signInRes.success === false) {
         res
@@ -441,6 +442,7 @@ export function setUserV1Routes(router: Router) {
         auth_type,
         publicKeyRes.data,
         reshared_key_shares,
+        oauthUser.metadata,
       );
 
       if (reshareRes.success === false) {
