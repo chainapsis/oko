@@ -1,6 +1,5 @@
-import type { Response, Router, Request } from "express";
+import type { Response, Request } from "express";
 import type { OkoApiResponse } from "@oko-wallet/oko-types/api_response";
-import type { Logger } from "winston";
 import type { PostLogBody, PostLogResponse } from "@oko-wallet/oko-types/log";
 import { ErrorCodeMap } from "@oko-wallet/oko-api-error-codes";
 import { registry } from "@oko-wallet/oko-api-openapi";
@@ -10,8 +9,7 @@ import {
   PostLogSuccessResponseSchema,
 } from "@oko-wallet/oko-api-openapi/log";
 
-import { ingestLog } from "@oko-wallet-log-api/api/log";
-import { rateLimitMiddleware } from "@oko-wallet-log-api/middleware/rate_limit";
+import { ingestLog } from "@oko-wallet-api/api/log";
 
 registry.registerPath({
   method: "post",
@@ -61,9 +59,9 @@ export async function postLog(
   req: Request<any, any, PostLogBody>,
   res: Response<OkoApiResponse<PostLogResponse>>,
 ) {
-  const clientLogger = req.app.locals.logger;
+  const logger = req.app.locals.logger;
 
-  const ingestLogRes = ingestLog(req.body, clientLogger);
+  const ingestLogRes = ingestLog(req.body, logger);
   if (ingestLogRes.success === false) {
     return res.status(ErrorCodeMap[ingestLogRes.code]).json(ingestLogRes);
   }

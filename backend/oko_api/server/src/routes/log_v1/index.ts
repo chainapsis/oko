@@ -1,15 +1,14 @@
 import express from "express";
 
-import { initClientLogger } from "@oko-wallet-api/logger";
 import { rateLimitMiddleware } from "@oko-wallet-api/middleware/rate_limit";
 import { postLog } from "./post_log";
 
-interface LogRouterOptions {
-  esUrl: string | null;
-  esIndex: string | null;
-  esUsername: string | null;
-  esPassword: string | null;
-}
+// interface LogRouterOptions {
+//   esUrl: string | null;
+//   esIndex: string | null;
+//   esUsername: string | null;
+//   esPassword: string | null;
+// }
 
 export function makeLogRouterV1() {
   const router = express.Router();
