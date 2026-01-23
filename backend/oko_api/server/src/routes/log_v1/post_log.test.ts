@@ -3,12 +3,12 @@ import request from "supertest";
 
 const mockIngestLog = jest.fn();
 
-await jest.unstable_mockModule("@oko-wallet-log-api/api/log", () => ({
+await jest.unstable_mockModule("@oko-wallet-api/api/log", () => ({
   ingestLog: (body: any, logger: any) => mockIngestLog(body, logger),
 }));
 
 // Dynamically import after jest.unstable_mockModule to apply ESM mocks correctly
-const { makeApp } = await import("@oko-wallet-log-api/testing/app");
+const { makeApp } = await import("@oko-wallet-api/testing/app");
 
 describe("log_route_test", () => {
   let app: any;

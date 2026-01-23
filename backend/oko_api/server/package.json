@@ -15,7 +15,6 @@
     "@oko-wallet/crypto-js": "^0.1.2-alpha.1",
     "@oko-wallet/ct-dashboard-api": "workspace:*",
     "@oko-wallet/dotenv": "0.0.2-alpha.26",
-    "@oko-wallet/log-api": "workspace:*",
     "@oko-wallet/oko-api-openapi": "workspace:*",
     "@oko-wallet/oko-api-server-state": "workspace:*",
     "@oko-wallet/oko-pg-interface": "workspace:*",
@@ -35,6 +34,8 @@
     "swagger-ui-express": "^5.0.1",
     "tsx": "^4.20.3",
     "uuid": "^13.0.0",
+    "winston": "^3.17.0",
+    "winston-elasticsearch": "^0.19.0",
     "zod": "^4.1.12"
   },
   "devDependencies": {
