@@ -24,8 +24,10 @@ npm install @oko-wallet/oko-sdk-svm @solana/web3.js
 import { OkoSvmWallet } from "@oko-wallet/oko-sdk-svm";
 
 // Initialize Solana wallet
+// chain_id format: "namespace:genesisHash"
 const initRes = OkoSvmWallet.init({
   api_key: "your-api-key",
+  chain_id: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d", // Solana Mainnet
 });
 
 if (!initRes.success) {
@@ -166,6 +168,7 @@ const SOLANA_CONFIG: WalletStandardConfig = {
 
 const initRes = OkoSvmWallet.init({
   api_key: "your-api-key",
+  chain_id: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d", // Solana Mainnet
   wallet_standard: [SOLANA_CONFIG],
 });
 ```

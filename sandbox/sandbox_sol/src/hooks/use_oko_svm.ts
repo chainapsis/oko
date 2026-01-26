@@ -64,9 +64,11 @@ export function useOkoSvm() {
 
       try {
         // Initialize OkoSvmWallet with wallet-standard registration
+        // chain_id format: "namespace:genesisHash"
         const svmWalletResult = OkoSvmWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
+          chain_id: SOLANA_MAINNET_CHAIN,
           wallet_standard: [SOLANA_CONFIG],
         });
 
