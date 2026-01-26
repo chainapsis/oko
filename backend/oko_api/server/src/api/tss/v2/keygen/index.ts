@@ -38,6 +38,7 @@ export async function runKeygenV2(
   },
   keygenRequest: KeygenRequestV2,
   encryptionSecret: string,
+  logger: Logger,
 ): Promise<OkoApiResponse<SignInResponseV2>> {
   try {
     const {
@@ -67,6 +68,14 @@ export async function runKeygenV2(
     let user: User;
     if (getUserRes.data !== null) {
       user = getUserRes.data;
+
+      // Update user metadata if user already exists
+      if (metadata) {
+        const updateMetadataRes = await updateUserMetadata(db, user.user_id, metadata);
+        if (updateMetadataRes.success === false) {
+          logger.error(`Failed to update user metadata: ${updateMetadataRes.err}`);
+        }
+      }
 
       // Check if secp256k1 wallet already exists
       const getSecp256k1WalletRes = await getActiveWalletByUserIdAndCurveType(

@@ -146,6 +146,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === false) {
         console.error(keygenResponse);
@@ -289,6 +290,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === true) {
         throw new Error("keygenV2 should fail");
@@ -348,6 +350,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === true) {
         throw new Error("keygenV2 should fail");
@@ -404,6 +407,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === true) {
         throw new Error("keygenV2 should fail");
@@ -457,6 +461,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === true) {
         throw new Error("keygenV2 should fail");
@@ -508,6 +513,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === true) {
         throw new Error("keygenV2 should fail");
@@ -560,6 +566,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === true) {
         throw new Error("keygenV2 should fail");
@@ -610,6 +617,7 @@ describe("keygen_v2_test", () => {
         jwtConfig,
         keygenRequest,
         TEMP_ENC_SECRET,
+        mockLogger,
       );
       if (keygenResponse.success === true) {
         throw new Error("keygenV2 should fail");

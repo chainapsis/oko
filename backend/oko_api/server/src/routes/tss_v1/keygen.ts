@@ -117,6 +117,7 @@ export function setKeygenV1Routes(router: Router) {
           metadata: oauthUser.metadata,
         },
         state.encryption_secret,
+        state.logger,
       );
 
       if (runKeygenRes.success === false) {
