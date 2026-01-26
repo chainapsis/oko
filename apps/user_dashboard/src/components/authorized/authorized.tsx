@@ -26,6 +26,8 @@ export const Authorized: FC<PropsWithChildren> = ({ children }) => {
     }
   }, [router, isSignedIn, isSDKReady]);
 
+
+
   if (!isSDKReady || !isSignedIn) {
     return <WholePageLoading />;
   }
