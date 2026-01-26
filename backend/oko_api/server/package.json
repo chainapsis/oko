@@ -12,7 +12,9 @@
   },
   "dependencies": {
     "@oko-wallet/admin-api": "workspace:*",
+    "@oko-wallet/cait-sith-keplr-addon": "workspace:*",
     "@oko-wallet/crypto-js": "^0.1.2-alpha.1",
+    "@oko-wallet/teddsa-addon": "workspace:*",
     "@oko-wallet/ct-dashboard-api": "workspace:*",
     "@oko-wallet/dotenv": "0.0.2-alpha.26",
     "@oko-wallet/oko-api-openapi": "workspace:*",

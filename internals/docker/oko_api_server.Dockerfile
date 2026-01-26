@@ -93,6 +93,12 @@ RUN yarn run build
 
 WORKDIR /home/node/oko
 
+# Install dependencies for cait-sith-keplr-addon (wrapper package)
+RUN yarn workspaces focus @oko-wallet/cait-sith-keplr-addon
+
+# Install dependencies for teddsa-addon (wrapper package)
+RUN yarn workspaces focus @oko-wallet/teddsa-addon
+
 # Install dependencies for oko_api_server
 RUN yarn workspaces focus --production \
     @oko-wallet/oko-api-server
