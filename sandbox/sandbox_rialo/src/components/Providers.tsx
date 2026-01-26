@@ -2,6 +2,7 @@
 
 import {
   OkoSvmWallet,
+  registerWalletStandard,
   type WalletStandardConfig,
 } from "@oko-wallet/oko-sdk-svm";
 import { FrostProvider } from "@rialo/frost";
@@ -45,7 +46,6 @@ export function Providers({ children }: { children: ReactNode }) {
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
           chain_id: RIALO_DEVNET_CHAIN,
-          wallet_standard: [RIALO_CONFIG],
         });
 
         if (!result.success) {
@@ -53,6 +53,8 @@ export function Providers({ children }: { children: ReactNode }) {
             `Failed to initialize: ${JSON.stringify(result.err)}`,
           );
         }
+
+        registerWalletStandard(result.data, [RIALO_CONFIG]);
 
         await result.data.waitUntilInitialized;
         console.log("[sandbox_rialo] Oko wallet initialized");

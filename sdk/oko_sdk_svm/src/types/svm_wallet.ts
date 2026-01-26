@@ -17,7 +17,6 @@ import type {
   OkoSvmWalletInitError,
   LazyInitError,
 } from "@oko-wallet-sdk-svm/errors";
-import type { WalletStandardConfig } from "@oko-wallet-sdk-svm/wallet-standard";
 
 export interface OkoSvmWalletState {
   publicKey: PublicKey | null;
@@ -26,7 +25,6 @@ export interface OkoSvmWalletState {
 }
 
 export type OkoSvmWalletInitArgs = OkoWalletInitArgs & {
-  wallet_standard?: WalletStandardConfig[];
   chain_id: string;
 };
 
