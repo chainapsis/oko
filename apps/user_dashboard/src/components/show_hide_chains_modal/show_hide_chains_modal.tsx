@@ -18,6 +18,7 @@ import {
 import { ChainItem } from "./components/chain_item";
 import { ShowHideChainsFilters } from "./components/filters";
 import styles from "./show_hide_chains_modal.module.scss";
+import { SearchEmptyView } from "@oko-wallet-user-dashboard/components/search_empty_view";
 import {
   useAllBalances,
   useChains,
@@ -30,7 +31,6 @@ import {
 } from "@oko-wallet-user-dashboard/state/chains";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import type { TokenBalance } from "@oko-wallet-user-dashboard/types/token";
-import { SearchEmptyView } from "@oko-wallet-user-dashboard/components/search_empty_view";
 
 interface ShowHideChainsModalProps {
   renderTrigger: (props: { onOpen: () => void }) => ReactNode;
@@ -173,7 +173,11 @@ export const ShowHideChainsModal: FC<ShowHideChainsModalProps> = ({
       {isOpen && (
         /* biome-ignore lint/a11y/noStaticElementInteractions: for mouse user convenience */
         <div className={styles.modalBackground} onClick={onClose}>
-          <div className={styles.modal} role="dialog" onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modal}
+            role="dialog"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Card
               className={styles.modalCard}
               variant="elevated"

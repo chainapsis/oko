@@ -22,17 +22,16 @@ import { SearchEmptyView } from "@oko-wallet-user-dashboard/components/search_em
 import { useEnabledChains } from "@oko-wallet-user-dashboard/hooks/queries";
 import {
   useBech32Addresses,
-  useSolanaAddress,
   useEthAddress,
+  useSolanaAddress,
 } from "@oko-wallet-user-dashboard/hooks/queries/use_addresses";
 import { useSearch } from "@oko-wallet-user-dashboard/hooks/use_search";
+import {
+  DEFAULT_ENABLED_CHAINS,
+  getChainIdentifier,
+} from "@oko-wallet-user-dashboard/state/chains";
 import type { ModularChainInfo } from "@oko-wallet-user-dashboard/types/chain";
 import { isCosmosChainId } from "@oko-wallet-user-dashboard/utils/chain";
-import {
-  getChainIdentifier,
-  DEFAULT_ENABLED_CHAINS,
-} from "@oko-wallet-user-dashboard/state/chains";
-
 
 const ecosystemFilterOptions = [
   "All Chains",
@@ -137,12 +136,12 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
 
   const getAddressForChain = (
     chain: ModularChainInfo,
-  ): string | null | undefined => {
+  ): string | undefined => {
     if (chain.evm) {
-      return ethAddress;
+      return ethAddress === null ? undefined : ethAddress;
     }
     if (chain.solana) {
-      return solanaAddress;
+      return solanaAddress === null ? undefined : solanaAddress;
     }
     return bech32Addresses[chain.chainId];
   };
@@ -159,7 +158,11 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
           })}
           onClick={onClose}
         >
-          <div className={styles.modal} role="dialog" onClick={(e) => e.stopPropagation()}>
+          <div
+            className={styles.modal}
+            role="dialog"
+            onClick={(e) => e.stopPropagation()}
+          >
             <Card
               className={styles.modalCard}
               variant="elevated"
@@ -240,7 +243,7 @@ export const DepositModal: FC<DepositModalProps> = ({ renderTrigger }) => {
               <Spacing height={8} />
             </Card>
           </div>
-        </div >
+        </div>
       )}
     </>
   );
