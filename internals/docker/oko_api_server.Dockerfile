@@ -83,6 +83,12 @@ RUN yarn workspaces focus @oko-wallet/teddsa-interface
 WORKDIR /home/node/oko/crypto/teddsa/teddsa_interface
 RUN yarn run build
 
+# Build ksn-interface (depends on bytes, oko-types)
+WORKDIR /home/node/oko
+RUN yarn workspaces focus @oko-wallet/ksn-interface
+WORKDIR /home/node/oko/key_share_node/ksn_interface
+RUN yarn run build
+
 # Install dependencies for crypto-js
 WORKDIR /home/node/oko
 RUN yarn workspaces focus @oko-wallet/crypto-js
@@ -92,12 +98,6 @@ WORKDIR /home/node/oko/crypto/crypto_js
 RUN yarn run build
 
 WORKDIR /home/node/oko
-
-# Install dependencies for cait-sith-keplr-addon (wrapper package)
-RUN yarn workspaces focus @oko-wallet/cait-sith-keplr-addon
-
-# Install dependencies for teddsa-addon (wrapper package)
-RUN yarn workspaces focus @oko-wallet/teddsa-addon
 
 # Install dependencies for oko_api_server
 RUN yarn workspaces focus --production \
