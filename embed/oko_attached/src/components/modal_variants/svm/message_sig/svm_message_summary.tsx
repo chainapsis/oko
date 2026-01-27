@@ -33,6 +33,9 @@ export const SvmMessageSummary: FC<SvmMessageSummaryProps> = ({
       decoded = msgData.message;
     }
 
+    const displayText =
+      decoded.length > 200 ? decoded.slice(0, 200) + "..." : decoded;
+
     const content: ReactNode = (
       <MakeSignatureRawCodeBlockContainer>
         <Typography
@@ -44,7 +47,7 @@ export const SvmMessageSummary: FC<SvmMessageSummaryProps> = ({
             whiteSpace: "pre-wrap",
           }}
         >
-          {decoded.length > 200 ? decoded.slice(0, 200) + "..." : decoded}
+          {displayText}
         </Typography>
       </MakeSignatureRawCodeBlockContainer>
     );
