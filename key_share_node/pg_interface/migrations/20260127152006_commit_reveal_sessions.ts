@@ -15,10 +15,7 @@ export async function up(knex: Knex): Promise<void> {
           .uuid("session_id")
           .notNullable()
           .primary({ constraintName: "2_commit_reveal_sessions_pkey" });
-        table
-          .string("operation_type", 32)
-          .notNullable()
-          .checkIn(["sign_in", "sign_up", "reshare"]);
+        table.string("operation_type", 32).notNullable();
         table
           .binary("client_ephemeral_pubkey")
           .notNullable()
@@ -27,11 +24,7 @@ export async function up(knex: Knex): Promise<void> {
           .string("id_token_hash", 64)
           .notNullable()
           .unique({ indexName: "2_cr_sessions_id_token_hash_key" });
-        table
-          .string("state", 16)
-          .notNullable()
-          .defaultTo("COMMITTED")
-          .checkIn(["COMMITTED", "COMPLETED", "EXPIRED"]);
+        table.string("state", 16).notNullable().defaultTo("COMMITTED");
         table
           .timestamp("created_at", { useTz: true })
           .notNullable()
@@ -70,12 +63,6 @@ export async function up(knex: Knex): Promise<void> {
           .timestamp("called_at", { useTz: true })
           .notNullable()
           .defaultTo(knex.fn.now());
-
-        table
-          .foreign("session_id", "2_cr_api_calls_session_id_fkey")
-          .references("session_id")
-          .inTable("public.2_commit_reveal_sessions")
-          .onDelete("CASCADE");
 
         table.unique(["session_id", "api_name"], {
           indexName: "2_cr_api_calls_session_api_key",
