@@ -34,7 +34,7 @@ export async function getAllChainsCached(): Promise<ChainInfo[]> {
 }
 
 export function filterCosmosChains(chains: ChainInfo[]): ChainInfo[] {
-  return chains.filter((c) => !c.chainId.includes(":"));
+  return chains.filter((c) => "bech32Config" in c);
 }
 
 export function filterEthChains(chains: ChainInfo[]): ChainInfo[] {
