@@ -15,6 +15,7 @@ export interface CommitRevealApiCall {
   id: string;
   session_id: string;
   api_name: string;
+  signature: Uint8Array;
   called_at: Date;
 }
 

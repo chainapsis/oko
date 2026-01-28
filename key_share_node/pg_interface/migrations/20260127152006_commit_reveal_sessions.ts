@@ -60,6 +60,10 @@ export async function up(knex: Knex): Promise<void> {
         table.uuid("session_id").notNullable();
         table.string("api_name", 64).notNullable();
         table
+          .binary("signature")
+          .notNullable()
+          .unique({ indexName: "2_cr_api_calls_signature_key" });
+        table
           .timestamp("called_at", { useTz: true })
           .notNullable()
           .defaultTo(knex.fn.now());
