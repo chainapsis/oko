@@ -1,0 +1,77 @@
+name: Deploy Oko Apps
+on:
+  workflow_dispatch:
+    inputs:
+      targetTag:
+        description: "Target tag for deployment (format: develop/v0.0.1 or release/v0.0.1)"
+        required: true
+        type: string
+      app:
+        description: 'App'
+        required: true
+        type: choice
+        options:
+          - 'demo'
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    environment: develop
+    steps:
+      - name: Checkout self repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate target tag format
+        run: |
+          TARGET_TAG="${{ inputs.targetTag }}"
+          echo "Target tag: $TARGET_TAG"
+          if [[ ! "$TARGET_TAG" =~ ^(develop|release)/v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+            echo "Error: Invalid target tag format. Must be 'develop/v0.0.1' or 'release/v0.0.1' format"
+            exit 1
+          fi
+          echo "TARGET_TAG=$TARGET_TAG" >> $GITHUB_ENV
+          echo "✓ Valid target tag format"
+
+      - name: Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+
+      - run: node -v
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: AWS ECR Login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set target ECR repository
+        id: set-target-repo
+        run: |
+          if [[ $TARGET_TAG == release/v* ]]; then
+              ewallet_api_repo="ewallet/ewallet_api_dev"
+          else
+              ewallet_api_repo="ewallet/ewallet_api_develop"
+          fi
+          echo "ewallet_api_repo=$ewallet_api_repo" >> $GITHUB_OUTPUT
+        env:
+          TARGET_TAG: ${{ env.TARGET_TAG }}
+
+      - name: Build and push oko api image
+        uses: docker/build-push-action@v5
+        with:
+          context: ./oko
+          file: ./oko/internals/docker/oko_api_server.Dockerfile
+          push: true
+          tags: ${{ steps.login-ecr.outputs.registry }}/${{ env.REPOSITORY }}:latest
+        env:
+          REPOSITORY: ${{ steps.set-target-repo.outputs.ewallet_api_repo }}
