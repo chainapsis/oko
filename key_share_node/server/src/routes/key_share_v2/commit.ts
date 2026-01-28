@@ -91,7 +91,7 @@ registry.registerPath({
   },
 });
 
-export async function commitRevealCommit(
+export async function commit(
   req: Request<unknown, unknown, CommitRequestBody>,
   res: Response<KSNodeApiResponse<CommitResponseData>>,
 ) {

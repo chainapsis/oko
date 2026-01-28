@@ -8,8 +8,8 @@ import { v4 as uuidv4 } from "uuid";
 
 import { connectPG, resetPgDatabase } from "@oko-wallet-ksn-server/database";
 import { testPgConfig } from "@oko-wallet-ksn-server/database/test_config";
-import { makeCommitRevealRouter } from ".";
 import type { ServerState } from "@oko-wallet-ksn-server/state";
+import { commit } from "./commit";
 
 // Mock keypair for testing
 const privateKeyRes = Bytes.fromHexString(
@@ -57,8 +57,7 @@ describe("commit_reveal_commit_test", () => {
     app = express();
     app.use(express.json());
 
-    const commitRevealRouter = makeCommitRevealRouter();
-    app.use("/commit-reveal/v2", commitRevealRouter);
+    app.use("/keyshare/v2/commit", commit);
 
     app.locals = {
       db: pool,

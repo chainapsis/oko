@@ -10,7 +10,7 @@ import { keyshareV2Register } from "./register";
 import { registerKeyshareEd25519 } from "./ed25519";
 import { keyshareV2Reshare } from "./reshare";
 import { keyshareV2ReshareRegister } from "./reshare_register";
-import { commitRevealCommit } from "./commit";
+import { commit } from "./commit";
 
 export function makeKeyshareV2Router() {
   const router = Router();
@@ -52,7 +52,7 @@ export function makeKeyshareV2Router() {
     keyshareV2ReshareRegister,
   );
 
-  router.post("/commit", commitRevealCommit);
+  router.post("/commit", commit);
 
   return router;
 }
