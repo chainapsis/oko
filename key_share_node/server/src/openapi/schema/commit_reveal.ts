@@ -86,3 +86,28 @@ export const CommitSuccessResponseSchema = registry.register(
 
 export type CommitRequestBody = z.infer<typeof CommitRequestBodySchema>;
 export type CommitResponseData = z.infer<typeof CommitResponseDataSchema>;
+
+// Reveal request fields (used by protected endpoints)
+
+export const commitRevealRequestFieldsSchema = z.object({
+  cr_session_id: z
+    .string()
+    .uuid()
+    .describe("Commit-reveal session ID from commit API")
+    .openapi({ example: "550e8400-e29b-41d4-a716-446655440000" }),
+  cr_signature: z
+    .string()
+    .length(128)
+    .describe(
+      "Client signature: sign(node_pubkey + session_id + auth_type + id_token + operation_type + api_name) (64 bytes hex)",
+    )
+    .openapi({
+      example:
+        "c3d4e5f6789012345678901234567890123456789012345678901234567890abc3d4e5f6789012345678901234567890123456789012345678901234567890ab",
+    }),
+  auth_type: z
+    .string()
+    .optional()
+    .describe("Authentication type (defaults to 'google')")
+    .openapi({ example: "google" }),
+});
