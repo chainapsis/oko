@@ -19,24 +19,28 @@ jobs:
     container:
       image: node:22.0.0-alpine
     timeout-minutes: 60
-    environment: develop
     steps:
       - name: Checkout self repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
-      - name: Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: "22"
-          registry-url: "https://registry.npmjs.org"
+      - name: Now files are available
+        run: |
+          ls -la $GITHUB_WORKSPACE
 
-      - name: CHeck Node version
-        run: node -v
-
-      - name: Install dependencies
-        run: yarn install
-
-      - name: Run the Node.js script
-        run: tsx ./internals/ci/src/cmds/deploy_2.ts ${{ inputs.tag }}
+      # - name: Setup node
+      #   uses: actions/setup-node@v4
+      #   with:
+      #     node-version: "22"
+      #     registry-url: "https://registry.npmjs.org"
+      #
+      # - name: Check Node version
+      #   run: node -v
+      #
+      # - name: Enable Corepack
+      #   run: corepack enable
+      #
+      # - name: Install dependencies
+      #   run: yarn install
+      #
+      # - name: Run the Node.js script
+      #   run: tsx ./internals/ci/src/cmds/deploy_2.ts ${{ inputs.tag }}
