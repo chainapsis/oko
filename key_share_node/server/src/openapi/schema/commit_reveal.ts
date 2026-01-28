@@ -1,0 +1,82 @@
+import { z } from "zod";
+
+import { registry } from "../doc";
+
+export const operationTypeSchema = z
+  .enum(["sign_in", "sign_up", "reshare"])
+  .describe("Operation type for commit-reveal session");
+
+// POST /commit-reveal/v1/commit
+
+export const CommitRequestBodySchema = registry.register(
+  "CommitRequestBody",
+  z
+    .object({
+      session_id: z
+        .string()
+        .uuid()
+        .describe("Client-generated session ID (UUIDv4)")
+        .openapi({ example: "550e8400-e29b-41d4-a716-446655440000" }),
+      operation_type: operationTypeSchema,
+      client_ephemeral_pubkey: z
+        .string()
+        .length(64)
+        .describe("Client ephemeral public key (32 bytes hex)")
+        .openapi({
+          example:
+            "a1b2c3d4e5f6789012345678901234567890123456789012345678901234abcd",
+        }),
+      id_token_hash: z
+        .string()
+        .length(64)
+        .describe("SHA-256 hash of (auth_type | id_token) (32 bytes hex)")
+        .openapi({
+          example:
+            "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+        }),
+    })
+    .openapi("CommitRequestBody", {
+      description: "Request payload for creating a commit-reveal session.",
+    }),
+);
+
+export const CommitResponseDataSchema = registry.register(
+  "CommitResponseData",
+  z
+    .object({
+      node_pubkey: z
+        .string()
+        .length(64)
+        .describe("Node's public key (32 bytes hex)")
+        .openapi({
+          example:
+            "b2c3d4e5f67890123456789012345678901234567890123456789012345678ef",
+        }),
+      node_signature: z
+        .string()
+        .length(128)
+        .describe("Node's signature on node_pubkey (64 bytes hex)")
+        .openapi({
+          example:
+            "c3d4e5f6789012345678901234567890123456789012345678901234567890abc3d4e5f6789012345678901234567890123456789012345678901234567890ab",
+        }),
+    })
+    .openapi("CommitResponseData", {
+      description: "Response data containing node's public key and signature.",
+    }),
+);
+
+export const CommitSuccessResponseSchema = registry.register(
+  "CommitSuccessResponse",
+  z
+    .object({
+      success: z.literal(true),
+      data: CommitResponseDataSchema,
+    })
+    .openapi("CommitSuccessResponse", {
+      description: "Success response for commit request.",
+    }),
+);
+
+export type CommitRequestBody = z.infer<typeof CommitRequestBodySchema>;
+export type CommitResponseData = z.infer<typeof CommitResponseDataSchema>;
