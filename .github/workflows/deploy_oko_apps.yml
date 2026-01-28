@@ -23,16 +23,6 @@ jobs:
       - name: Checkout self repository
         uses: actions/checkout@v4
 
-      # - name: Now files are available
-      #   run: |
-      #     ls -la $GITHUB_WORKSPACE
-
-      # - name: Setup node
-      #   uses: actions/setup-node@v4
-      #   with:
-      #     node-version: "22"
-      #     registry-url: "https://registry.npmjs.org"
-
       - name: Check Node version
         run: node -v
 
@@ -42,11 +32,13 @@ jobs:
       - name: Yarn version
         run: yarn -v
 
-      - name: Focus root (install only)
-        run: yarn workspaces focus @oko-wallet/root
+      # - name: Focus root (install only)
+      #   run: yarn workspaces focus @oko-wallet/root
 
-      - name: Install dependencies
-        run: yarn install
-      #
-      # - name: Run the Node.js script
-      #   run: tsx ./internals/ci/src/cmds/deploy_2.ts ${{ inputs.tag }}
+      - name: Deploy to Vercel Action
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
