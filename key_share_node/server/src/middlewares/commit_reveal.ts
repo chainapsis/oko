@@ -1,16 +1,17 @@
 import type { Request, Response, NextFunction } from "express";
-import type { KSNodeApiErrorResponse } from "@oko-wallet/ksn-interface/response";
 import { Bytes } from "@oko-wallet/bytes";
 import { verifySignature } from "@oko-wallet/crypto-js/node/ecdhe";
 import { sha256 } from "@oko-wallet/crypto-js";
 import {
   getCommitRevealSessionBySessionId,
   createCommitRevealApiCall,
+  updateCommitRevealSessionState,
 } from "@oko-wallet/ksn-pg-interface/commit_reveal";
 
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
-import { isApiAllowed } from "@oko-wallet-ksn-server/commit_reveal";
+import { isApiAllowed, isFinalApi } from "@oko-wallet-ksn-server/commit_reveal";
 import type { ServerState } from "@oko-wallet-ksn-server/state";
+import { logger } from "@oko-wallet-ksn-server/logger";
 
 export interface CommitRevealBody {
   cr_session_id: string;
@@ -182,30 +183,43 @@ export function commitRevealMiddleware(apiName: string) {
       return;
     }
 
-    const recordResult = await createCommitRevealApiCall(
-      state.db,
-      cr_session_id,
-      apiName,
-      signatureRes.data.toUint8Array(),
-    );
-    if (!recordResult.success) {
-      if (recordResult.err.includes("duplicate key")) {
-        res.status(409).json({
-          success: false,
-          code: "INVALID_REQUEST",
-          msg: "This API has already been called for this session or signature was reused",
-        });
-        return;
-      }
-      res.status(500).json({
-        success: false,
-        code: "UNKNOWN_ERROR",
-        msg: `Failed to record API call: ${recordResult.err}`,
-      });
-      return;
-    }
-
     res.locals.cr_session_id = cr_session_id;
+
+    // Record API call and update session state on successful response
+    res.on("finish", async () => {
+      if (res.statusCode >= 200 && res.statusCode < 300) {
+        const client = await state.db.connect();
+        try {
+          await client.query("BEGIN");
+
+          await createCommitRevealApiCall(
+            client,
+            cr_session_id,
+            apiName,
+            signatureRes.data.toUint8Array(),
+          );
+
+          if (isFinalApi(session.operation_type, apiName)) {
+            await updateCommitRevealSessionState(
+              client,
+              cr_session_id,
+              "COMPLETED",
+            );
+          }
+
+          await client.query("COMMIT");
+        } catch (err) {
+          await client.query("ROLLBACK");
+          logger.error(
+            "Failed to record API call for session %s: %s",
+            cr_session_id,
+            err,
+          );
+        } finally {
+          client.release();
+        }
+      }
+    });
 
     next();
   };

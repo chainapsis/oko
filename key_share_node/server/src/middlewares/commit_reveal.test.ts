@@ -15,7 +15,12 @@ import { connectPG, resetPgDatabase } from "@oko-wallet-ksn-server/database";
 import { testPgConfig } from "@oko-wallet-ksn-server/database/test_config";
 import { commitRevealMiddleware } from "./commit_reveal";
 import type { ServerState } from "@oko-wallet-ksn-server/state";
-import { createCommitRevealSession } from "@oko-wallet/ksn-pg-interface/commit_reveal";
+import type { OperationType } from "@oko-wallet/ksn-interface/commit_reveal";
+import {
+  createCommitRevealSession,
+  getCommitRevealSessionBySessionId,
+  hasCommitRevealApiBeenCalled,
+} from "@oko-wallet/ksn-pg-interface/commit_reveal";
 
 // Mock server keypair
 const serverPrivateKeyRes = Bytes.fromHexString(
@@ -42,7 +47,7 @@ interface TestContext {
   };
   idToken: string;
   authType: string;
-  operationType: "sign_in" | "sign_up" | "reshare";
+  operationType: OperationType;
   apiName: string;
 }
 
@@ -185,6 +190,31 @@ describe("commit_reveal_middleware_test", () => {
         res.status(200).json({ success: true, data: { message: "ok" } });
       },
     );
+
+    app.post(
+      "/test/reshare_register",
+      commitRevealMiddleware("reshare_register"),
+      (_req, res) => {
+        res.status(200).json({ success: true, data: { message: "ok" } });
+      },
+    );
+
+    app.post(
+      "/test/register_ed25519",
+      commitRevealMiddleware("register_ed25519"),
+      (_req, res) => {
+        res.status(200).json({ success: true, data: { message: "ok" } });
+      },
+    );
+
+    // Route that returns 500 to test failure behavior
+    app.post(
+      "/test/get_key_shares_fail",
+      commitRevealMiddleware("get_key_shares"),
+      (_req, res) => {
+        res.status(500).json({ success: false, code: "SERVER_ERROR", msg: "Simulated failure" });
+      },
+    );
   });
 
   afterAll(async () => {
@@ -243,9 +273,9 @@ describe("commit_reveal_middleware_test", () => {
       expect(response.body.success).toBe(true);
     });
 
-    it("should pass middleware with valid signature for reshare operation", async () => {
+    it("should pass middleware with valid signature for sign_in_reshare operation", async () => {
       const ctx = createTestContext({
-        operationType: "reshare",
+        operationType: "sign_in_reshare",
         apiName: "reshare",
       });
       await createSession(pool, ctx);
@@ -257,6 +287,56 @@ describe("commit_reveal_middleware_test", () => {
 
       const response = await request(app)
         .post("/test/reshare")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      expect(response.body.success).toBe(true);
+    });
+
+    it("should pass middleware with valid signature for register_reshare operation", async () => {
+      const ctx = createTestContext({
+        operationType: "register_reshare",
+        apiName: "reshare_register",
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      const response = await request(app)
+        .post("/test/reshare_register")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      expect(response.body.success).toBe(true);
+    });
+
+    it("should pass middleware with valid signature for add_ed25519 operation", async () => {
+      const ctx = createTestContext({
+        operationType: "add_ed25519",
+        apiName: "register_ed25519",
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      const response = await request(app)
+        .post("/test/register_ed25519")
         .set("Authorization", `Bearer ${ctx.idToken}`)
         .send({
           cr_session_id: ctx.sessionId,
@@ -460,9 +540,9 @@ describe("commit_reveal_middleware_test", () => {
       expect(response.body.msg).toContain("not allowed");
     });
 
-    it("should allow get_key_shares for reshare operation", async () => {
+    it("should allow get_key_shares for sign_in_reshare operation", async () => {
       const ctx = createTestContext({
-        operationType: "reshare",
+        operationType: "sign_in_reshare",
         apiName: "get_key_shares",
       });
       await createSession(pool, ctx);
@@ -474,6 +554,56 @@ describe("commit_reveal_middleware_test", () => {
 
       const response = await request(app)
         .post("/test/get_key_shares")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      expect(response.body.success).toBe(true);
+    });
+
+    it("should allow get_key_shares for register_reshare operation", async () => {
+      const ctx = createTestContext({
+        operationType: "register_reshare",
+        apiName: "get_key_shares",
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      const response = await request(app)
+        .post("/test/get_key_shares")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      expect(response.body.success).toBe(true);
+    });
+
+    it("should allow register_ed25519 for add_ed25519 operation", async () => {
+      const ctx = createTestContext({
+        operationType: "add_ed25519",
+        apiName: "register_ed25519",
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      const response = await request(app)
+        .post("/test/register_ed25519")
         .set("Authorization", `Bearer ${ctx.idToken}`)
         .send({
           cr_session_id: ctx.sessionId,
@@ -642,7 +772,7 @@ describe("commit_reveal_middleware_test", () => {
   });
 
   describe("replay attack prevention", () => {
-    it("should return 409 when same API is called twice with same session", async () => {
+    it("should record api_call on successful response", async () => {
       const ctx = createTestContext();
       await createSession(pool, ctx);
 
@@ -651,7 +781,6 @@ describe("commit_reveal_middleware_test", () => {
         mockServerKeypair.publicKey.toHex(),
       );
 
-      // First call should succeed
       await request(app)
         .post("/test/get_key_shares")
         .set("Authorization", `Bearer ${ctx.idToken}`)
@@ -662,19 +791,53 @@ describe("commit_reveal_middleware_test", () => {
         })
         .expect(200);
 
-      // Second call with same signature should fail
-      const response = await request(app)
-        .post("/test/get_key_shares")
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify api_call was recorded
+      const hasBeenCalled = await hasCommitRevealApiBeenCalled(
+        pool,
+        ctx.sessionId,
+        ctx.apiName,
+      );
+      if (!hasBeenCalled.success) {
+        throw new Error(`Failed to check api call: ${hasBeenCalled.err}`);
+      }
+      expect(hasBeenCalled.data).toBe(true);
+    });
+
+    it("should NOT record api_call on failed response (allows retry)", async () => {
+      const ctx = createTestContext();
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      await request(app)
+        .post("/test/get_key_shares_fail")
         .set("Authorization", `Bearer ${ctx.idToken}`)
         .send({
           cr_session_id: ctx.sessionId,
           cr_signature: signature,
           auth_type: ctx.authType,
         })
-        .expect(409);
+        .expect(500);
 
-      expect(response.body.success).toBe(false);
-      expect(response.body.msg).toContain("already been called");
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify api_call was NOT recorded (allows retry)
+      const hasBeenCalled = await hasCommitRevealApiBeenCalled(
+        pool,
+        ctx.sessionId,
+        ctx.apiName,
+      );
+      if (!hasBeenCalled.success) {
+        throw new Error(`Failed to check api call: ${hasBeenCalled.err}`);
+      }
+      expect(hasBeenCalled.data).toBe(false);
     });
 
     it("should return 400 when same signature is reused for different API (signature mismatch)", async () => {
@@ -682,7 +845,7 @@ describe("commit_reveal_middleware_test", () => {
       // verification fails first because the message includes the api_name.
       // So this returns 400 INVALID_SIGNATURE, not 409.
       const ctx = createTestContext({
-        operationType: "reshare", // reshare allows multiple APIs
+        operationType: "sign_in_reshare", // sign_in_reshare allows multiple APIs
         apiName: "get_key_shares",
       });
       await createSession(pool, ctx);
@@ -720,9 +883,9 @@ describe("commit_reveal_middleware_test", () => {
       expect(response.body.code).toBe("INVALID_SIGNATURE");
     });
 
-    it("should allow different APIs with different signatures for reshare operation", async () => {
+    it("should allow different APIs with different signatures for sign_in_reshare operation", async () => {
       const ctx1 = createTestContext({
-        operationType: "reshare",
+        operationType: "sign_in_reshare",
         apiName: "get_key_shares",
       });
       await createSession(pool, ctx1);
@@ -732,7 +895,7 @@ describe("commit_reveal_middleware_test", () => {
         mockServerKeypair.publicKey.toHex(),
       );
 
-      // First call to get_key_shares
+      // First call to get_key_shares (non-final API)
       await request(app)
         .post("/test/get_key_shares")
         .set("Authorization", `Bearer ${ctx1.idToken}`)
@@ -742,6 +905,9 @@ describe("commit_reveal_middleware_test", () => {
           auth_type: ctx1.authType,
         })
         .expect(200);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
 
       // Create new signature for reshare API
       const ctx2 = {
@@ -753,7 +919,7 @@ describe("commit_reveal_middleware_test", () => {
         mockServerKeypair.publicKey.toHex(),
       );
 
-      // Call reshare with different signature
+      // Call reshare (final API) with different signature
       const response = await request(app)
         .post("/test/reshare")
         .set("Authorization", `Bearer ${ctx2.idToken}`)
@@ -765,6 +931,206 @@ describe("commit_reveal_middleware_test", () => {
         .expect(200);
 
       expect(response.body.success).toBe(true);
+    });
+  });
+
+  describe("final API and session completion", () => {
+    it("should update session to COMPLETED when final API is called for sign_in", async () => {
+      const ctx = createTestContext({
+        operationType: "sign_in",
+        apiName: "get_key_shares", // final API for sign_in
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      await request(app)
+        .post("/test/get_key_shares")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify session is COMPLETED
+      const sessionRes = await getCommitRevealSessionBySessionId(pool, ctx.sessionId);
+      if (!sessionRes.success) {
+        throw new Error(`Failed to get session: ${sessionRes.err}`);
+      }
+      expect(sessionRes.data?.state).toBe("COMPLETED");
+    });
+
+    it("should update session to COMPLETED when final API is called for sign_up", async () => {
+      const ctx = createTestContext({
+        operationType: "sign_up",
+        apiName: "register", // final API for sign_up
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      await request(app)
+        .post("/test/register")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify session is COMPLETED
+      const sessionRes = await getCommitRevealSessionBySessionId(pool, ctx.sessionId);
+      if (!sessionRes.success) {
+        throw new Error(`Failed to get session: ${sessionRes.err}`);
+      }
+      expect(sessionRes.data?.state).toBe("COMPLETED");
+    });
+
+    it("should NOT update session to COMPLETED when non-final API is called for sign_in_reshare", async () => {
+      const ctx = createTestContext({
+        operationType: "sign_in_reshare",
+        apiName: "get_key_shares", // NOT final API for sign_in_reshare (final is reshare)
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      await request(app)
+        .post("/test/get_key_shares")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify session is still COMMITTED (not COMPLETED)
+      const sessionRes = await getCommitRevealSessionBySessionId(pool, ctx.sessionId);
+      if (!sessionRes.success) {
+        throw new Error(`Failed to get session: ${sessionRes.err}`);
+      }
+      expect(sessionRes.data?.state).toBe("COMMITTED");
+    });
+
+    it("should update session to COMPLETED when final API is called for sign_in_reshare", async () => {
+      const ctx = createTestContext({
+        operationType: "sign_in_reshare",
+        apiName: "reshare", // final API for sign_in_reshare
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      await request(app)
+        .post("/test/reshare")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify session is COMPLETED
+      const sessionRes = await getCommitRevealSessionBySessionId(pool, ctx.sessionId);
+      if (!sessionRes.success) {
+        throw new Error(`Failed to get session: ${sessionRes.err}`);
+      }
+      expect(sessionRes.data?.state).toBe("COMPLETED");
+    });
+
+    it("should update session to COMPLETED when final API is called for add_ed25519", async () => {
+      const ctx = createTestContext({
+        operationType: "add_ed25519",
+        apiName: "get_key_shares", // final API for add_ed25519
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      await request(app)
+        .post("/test/get_key_shares")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify session is COMPLETED
+      const sessionRes = await getCommitRevealSessionBySessionId(pool, ctx.sessionId);
+      if (!sessionRes.success) {
+        throw new Error(`Failed to get session: ${sessionRes.err}`);
+      }
+      expect(sessionRes.data?.state).toBe("COMPLETED");
+    });
+
+    it("should NOT update session to COMPLETED when API fails", async () => {
+      const ctx = createTestContext({
+        operationType: "sign_in",
+        apiName: "get_key_shares", // final API for sign_in
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      await request(app)
+        .post("/test/get_key_shares_fail")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(500);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Verify session is still COMMITTED (not COMPLETED)
+      const sessionRes = await getCommitRevealSessionBySessionId(pool, ctx.sessionId);
+      if (!sessionRes.success) {
+        throw new Error(`Failed to get session: ${sessionRes.err}`);
+      }
+      expect(sessionRes.data?.state).toBe("COMMITTED");
     });
   });
 });

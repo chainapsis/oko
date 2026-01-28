@@ -3,7 +3,13 @@ import { z } from "zod";
 import { registry } from "../doc";
 
 export const operationTypeSchema = z
-  .enum(["sign_in", "sign_up", "reshare"])
+  .enum([
+    "sign_in",
+    "sign_up",
+    "sign_in_reshare",
+    "register_reshare",
+    "add_ed25519",
+  ])
   .describe("Operation type for commit-reveal session");
 
 // POST /commit-reveal/v2/commit
