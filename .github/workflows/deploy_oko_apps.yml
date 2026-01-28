@@ -1,0 +1,44 @@
+name: Deploy Oko Apps
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Target tag for deployment (format: develop/v0.0.1 or release/v0.0.1)"
+        required: true
+        type: string
+      app:
+        description: 'App'
+        required: true
+        type: choice
+        options:
+          - 'demo'
+
+jobs:
+  publish:
+    runs-on: ubuntu-22.04
+    container:
+      image: node:22.0.0-alpine
+    timeout-minutes: 60
+    steps:
+      - name: Checkout self repository
+        uses: actions/checkout@v4
+
+      - name: Check Node version
+        run: node -v
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Yarn version
+        run: yarn -v
+
+      # - name: Focus root (install only)
+      #   run: yarn workspaces focus @oko-wallet/root
+
+      - name: Deploy to Vercel Action
+        uses: BetaHuhn/deploy-to-vercel-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

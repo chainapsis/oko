@@ -1,4 +1,5 @@
 {
+  "name": "@oko-wallet/root",
   "private": true,
   "workspaces": {
     "packages": [
