@@ -6,6 +6,7 @@ import {
   getCommitRevealSessionBySessionId,
   createCommitRevealApiCall,
   updateCommitRevealSessionState,
+  hasCommitRevealApiBeenCalled,
 } from "@oko-wallet/ksn-pg-interface/commit_reveal";
 
 import { ErrorCodeMap } from "@oko-wallet-ksn-server/error";
@@ -81,6 +82,29 @@ export function commitRevealMiddleware(apiName: string) {
         success: false,
         code: "INVALID_REQUEST",
         msg: `API "${apiName}" is not allowed for operation "${session.operation_type}"`,
+      });
+      return;
+    }
+
+    // Check if this API has already been called for this session (replay attack prevention)
+    const apiCalledResult = await hasCommitRevealApiBeenCalled(
+      state.db,
+      cr_session_id,
+      apiName,
+    );
+    if (!apiCalledResult.success) {
+      res.status(500).json({
+        success: false,
+        code: "UNKNOWN_ERROR",
+        msg: `Failed to check API call status: ${apiCalledResult.err}`,
+      });
+      return;
+    }
+    if (apiCalledResult.data) {
+      res.status(ErrorCodeMap.API_ALREADY_CALLED).json({
+        success: false,
+        code: "API_ALREADY_CALLED",
+        msg: `API "${apiName}" has already been called for this session`,
       });
       return;
     }

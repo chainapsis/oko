@@ -840,6 +840,49 @@ describe("commit_reveal_middleware_test", () => {
       expect(hasBeenCalled.data).toBe(false);
     });
 
+    it("should return 409 when same API is called twice with same session (pre-check)", async () => {
+      // Use sign_in_reshare because get_key_shares is NOT the final API
+      // (reshare is final), so session stays COMMITTED after first call
+      const ctx = createTestContext({
+        operationType: "sign_in_reshare",
+        apiName: "get_key_shares",
+      });
+      await createSession(pool, ctx);
+
+      const signature = createRevealSignature(
+        ctx,
+        mockServerKeypair.publicKey.toHex(),
+      );
+
+      // First call should succeed
+      await request(app)
+        .post("/test/get_key_shares")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(200);
+
+      // Wait for res.on('finish') to complete
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      // Second call should fail with API_ALREADY_CALLED (pre-check)
+      const response = await request(app)
+        .post("/test/get_key_shares")
+        .set("Authorization", `Bearer ${ctx.idToken}`)
+        .send({
+          cr_session_id: ctx.sessionId,
+          cr_signature: signature,
+          auth_type: ctx.authType,
+        })
+        .expect(409);
+
+      expect(response.body.success).toBe(false);
+      expect(response.body.code).toBe("API_ALREADY_CALLED");
+    });
+
     it("should return 400 when same signature is reused for different API (signature mismatch)", async () => {
       // When trying to reuse a signature for a different API, the signature
       // verification fails first because the message includes the api_name.

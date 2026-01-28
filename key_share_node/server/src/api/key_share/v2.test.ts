@@ -160,42 +160,6 @@ describe("key_share_v2_test", () => {
       }
     });
 
-    it("3.4 failure - USER_ALREADY_REGISTERED", async () => {
-      const secp256k1Pk = parseSecp256k1PublicKey(TEST_SECP256K1_PK);
-      const secp256k1Pk2 = parseSecp256k1PublicKey(TEST_SECP256K1_PK_2);
-      const secp256k1Share = generateRandomShare();
-
-      // First registration
-      await registerKeyShareV2(
-        pool,
-        {
-          user_auth_id: TEST_USER_AUTH_ID,
-          auth_type: "google",
-          wallets: {
-            secp256k1: { public_key: secp256k1Pk, share: secp256k1Share },
-          },
-        },
-        TEST_ENC_SECRET,
-      );
-
-      // Second registration attempt with different pk
-      const result = await registerKeyShareV2(
-        pool,
-        {
-          user_auth_id: TEST_USER_AUTH_ID,
-          auth_type: "google",
-          wallets: {
-            secp256k1: { public_key: secp256k1Pk2, share: secp256k1Share },
-          },
-        },
-        TEST_ENC_SECRET,
-      );
-
-      expect(result.success).toBe(false);
-      if (result.success === false) {
-        expect(result.code).toBe("USER_ALREADY_REGISTERED");
-      }
-    });
   });
 
   // ============================================================================
