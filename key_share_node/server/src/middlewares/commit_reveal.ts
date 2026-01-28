@@ -18,18 +18,11 @@ export interface CommitRevealBody {
   auth_type?: string;
 }
 
-export interface CommitRevealLocals {
-  cr_session_id: string;
-}
-
 export function commitRevealMiddleware(apiName: string) {
-  return async (
-    req: Request<any, any, CommitRevealBody>,
-    res: Response<KSNodeApiErrorResponse, CommitRevealLocals>,
-    next: NextFunction,
-  ) => {
+  return async (req: Request, res: Response, next: NextFunction) => {
     const state = req.app.locals as ServerState;
-    const { cr_session_id, cr_signature } = req.body;
+    const body = req.body as CommitRevealBody;
+    const { cr_session_id, cr_signature } = body;
 
     if (!cr_session_id || !cr_signature) {
       res.status(400).json({
@@ -115,7 +108,7 @@ export function commitRevealMiddleware(apiName: string) {
     }
 
     // Get auth_type and id_token from request
-    const authType = req.body.auth_type ?? "google";
+    const authType = body.auth_type ?? "google";
     const authHeader = req.headers.authorization;
     if (!authHeader || !authHeader.startsWith("Bearer ")) {
       res.status(401).json({
