@@ -23,24 +23,30 @@ jobs:
       - name: Checkout self repository
         uses: actions/checkout@v4
 
-      - name: Now files are available
-        run: |
-          ls -la $GITHUB_WORKSPACE
+      # - name: Now files are available
+      #   run: |
+      #     ls -la $GITHUB_WORKSPACE
 
       # - name: Setup node
       #   uses: actions/setup-node@v4
       #   with:
       #     node-version: "22"
       #     registry-url: "https://registry.npmjs.org"
-      #
-      # - name: Check Node version
-      #   run: node -v
-      #
-      # - name: Enable Corepack
-      #   run: corepack enable
-      #
-      # - name: Install dependencies
-      #   run: yarn install
+
+      - name: Check Node version
+        run: node -v
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Yarn version
+        run: yarn -v
+
+      - name: Focus root (install only)
+        run: yarn workspaces focus @oko-wallet/root
+
+      - name: Install dependencies
+        run: yarn install
       #
       # - name: Run the Node.js script
       #   run: tsx ./internals/ci/src/cmds/deploy_2.ts ${{ inputs.tag }}
