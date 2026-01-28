@@ -6,7 +6,7 @@ export const operationTypeSchema = z
   .enum(["sign_in", "sign_up", "reshare"])
   .describe("Operation type for commit-reveal session");
 
-// POST /commit-reveal/v1/commit
+// POST /commit-reveal/v2/commit
 
 export const CommitRequestBodySchema = registry.register(
   "CommitRequestBody",

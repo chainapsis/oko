@@ -18,7 +18,7 @@ export function setRoutes(app: Express) {
   app.use("/keyshare/v2", keyshareV2Router);
 
   const commitRevealRouter = makeCommitRevealRouter();
-  app.use("/commit-reveal/v1", commitRevealRouter);
+  app.use("/commit-reveal/v2", commitRevealRouter);
 
   addStatusRoutes(app);
 }
