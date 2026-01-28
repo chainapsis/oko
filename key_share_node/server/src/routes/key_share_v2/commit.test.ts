@@ -57,7 +57,7 @@ describe("commit_reveal_commit_test", () => {
     app = express();
     app.use(express.json());
 
-    app.use("/keyshare/v2/commit", commit);
+    app.post("/keyshare/v2/commit", commit);
 
     app.locals = {
       db: pool,
@@ -79,7 +79,7 @@ describe("commit_reveal_commit_test", () => {
     await pool.end();
   });
 
-  const testEndpoint = "/commit-reveal/v2/commit";
+  const testEndpoint = "/keyshare/v2/commit";
 
   const createValidBody = () => ({
     session_id: uuidv4(),

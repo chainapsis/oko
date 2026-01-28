@@ -2,7 +2,7 @@
  * E2E Integration Tests for Commit-Reveal + KeyShare v2 APIs
  *
  * Tests the full flow:
- * 1. Commit phase - POST /commit-reveal/v2/commit
+ * 1. Commit phase - POST /keyshare/v2/commit
  * 2. Reveal + API call - POST /keyshare/v2/xxx with commit-reveal signature
  * 3. Verify data persistence and session state updates
  */
@@ -190,7 +190,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
       version: "",
     } satisfies ServerState;
 
-    app.use("/keyshare/v2/commit", commit);
+    app.post("/keyshare/v2/commit", commit);
 
     // Mount keyshare v2 routes with commit-reveal middleware + mock OAuth
     app.post(
@@ -233,7 +233,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Step 1: Commit
       const commitResponse = await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: ctx.sessionId,
           operation_type: ctx.operationType,
@@ -322,7 +322,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: ctx.sessionId,
           operation_type: ctx.operationType,
@@ -402,7 +402,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit for sign_up
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: signUpCtx.sessionId,
           operation_type: signUpCtx.operationType,
@@ -456,7 +456,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit for sign_in
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: signInCtx.sessionId,
           operation_type: signInCtx.operationType,
@@ -518,7 +518,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
       );
 
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: signUpCtx.sessionId,
           operation_type: signUpCtx.operationType,
@@ -571,7 +571,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit for sign_in_reshare
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: reshareCtx.sessionId,
           operation_type: reshareCtx.operationType,
@@ -661,7 +661,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
       );
 
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: signUpCtx.sessionId,
           operation_type: signUpCtx.operationType,
@@ -714,7 +714,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit for add_ed25519
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: addEd25519Ctx.sessionId,
           operation_type: addEd25519Ctx.operationType,
@@ -759,7 +759,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: ctx.sessionId,
           operation_type: ctx.operationType,
@@ -800,7 +800,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: ctx.sessionId,
           operation_type: ctx.operationType,
@@ -890,7 +890,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit with sign_in operation
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: ctx.sessionId,
           operation_type: ctx.operationType,
@@ -938,7 +938,7 @@ describe("e2e_commit_reveal_keyshare_test", () => {
 
       // Commit
       await request(app)
-        .post("/commit-reveal/v2/commit")
+        .post("/keyshare/v2/commit")
         .send({
           session_id: ctx.sessionId,
           operation_type: ctx.operationType,

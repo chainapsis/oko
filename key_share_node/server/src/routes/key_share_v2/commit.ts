@@ -22,7 +22,7 @@ const SESSION_EXPIRY_MINUTES = 5;
 
 registry.registerPath({
   method: "post",
-  path: "/commit-reveal/v2/commit",
+  path: "/keyshare/v2/commit",
   tags: ["Commit-Reveal"],
   summary: "Create a commit-reveal session",
   description:
