@@ -1,6 +1,6 @@
 import type { Pool, PoolClient } from "pg";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { SessionState } from "./types";
+import type { SessionState } from "@oko-wallet/oko-types/commit_reveal";
 
 export async function updateState(
   db: Pool | PoolClient,

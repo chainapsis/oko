@@ -1,6 +1,6 @@
 import type { Pool, PoolClient } from "pg";
 import type { Result } from "@oko-wallet/stdlib-js";
-import type { CommitRevealSession } from "./types";
+import type { CommitRevealSession } from "@oko-wallet/oko-types/commit_reveal";
 
 export async function findByIdTokenHash(
   db: Pool | PoolClient,
