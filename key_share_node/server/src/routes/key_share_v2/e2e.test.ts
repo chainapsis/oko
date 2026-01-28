@@ -27,8 +27,7 @@ import type { OperationType } from "@oko-wallet/ksn-interface/commit_reveal";
 import { getCommitRevealSessionBySessionId } from "@oko-wallet/ksn-pg-interface/commit_reveal";
 import { checkKeyShareV2 } from "@oko-wallet-ksn-server/api/key_share";
 import {
-  commitRevealMiddleware,
-  bearerTokenMiddleware,
+  commitRevealMiddleware
 } from "@oko-wallet-ksn-server/middlewares";
 import { keyshareV2Register } from "./register";
 import { getKeysharesV2 } from "./get_key_shares";
