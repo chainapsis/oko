@@ -1,11 +1,16 @@
-import type { FC, ReactNode } from "react";
-import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/svm";
 import { Skeleton } from "@oko-wallet/oko-common-ui/skeleton";
+import type { FC, ReactNode } from "react";
 
 import styles from "./instructions.module.scss";
-import { SvmTransferPretty } from "./transfer/transfer";
+import { isStakingProgram } from "./staking/constants";
+import {
+  extractStakingData,
+  StakingInstruction,
+} from "./staking/staking_instruction";
 import { TokenTransferPretty } from "./transfer/token_transfer";
+import { SvmTransferPretty } from "./transfer/transfer";
 import { UnknownInstruction } from "./unknown/unknown";
+import type { ParsedInstruction } from "@oko-wallet-attached/tx-parsers/svm";
 
 function renderInstruction(
   instruction: ParsedInstruction,
@@ -13,8 +18,19 @@ function renderInstruction(
 ): ReactNode {
   const { programId, instructionName, data, accounts } = instruction;
 
-  // System Program - SOL Transfer
+  // Staking instruction (check first, includes System Program createAccount for Stake)
+  if (extractStakingData(instruction) !== null) {
+    return <StakingInstruction key={index} instruction={instruction} />;
+  }
+
+  // Staking Programs without amount data -> skip (return null)
+  if (isStakingProgram(programId)) {
+    return null;
+  }
+
+  // System Program - createAccount for Stake Program owner is handled above
   if (programId === "11111111111111111111111111111111") {
+    // SOL Transfer
     if (instructionName === "transfer") {
       const lamports = data.lamports as bigint | number | undefined;
       const to = accounts[1]?.pubkey;
@@ -80,13 +96,18 @@ export const Instructions: FC<InstructionsProps> = ({
     return <Skeleton width="100%" height="32px" />;
   }
 
+  // Filter out null results from renderInstruction
+  const renderedInstructions = instructions
+    .map((ix, index) => renderInstruction(ix, index))
+    .filter((node): node is ReactNode => node !== null);
+
   return (
     <div className={styles.instructionsContainer}>
-      {instructions.flatMap((ix, index) => [
+      {renderedInstructions.flatMap((node, index) => [
         index > 0 && (
           <div key={`divider-${index}`} className={styles.instructionDivider} />
         ),
-        renderInstruction(ix, index),
+        node,
       ])}
     </div>
   );
