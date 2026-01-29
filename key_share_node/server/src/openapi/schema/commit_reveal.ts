@@ -12,7 +12,7 @@ export const operationTypeSchema = z
   ])
   .describe("Operation type for commit-reveal session");
 
-// POST /commit-reveal/v2/commit
+// POST /keyshare/v2/commit
 
 export const CommitRequestBodySchema = registry.register(
   "CommitRequestBody",
