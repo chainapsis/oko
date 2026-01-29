@@ -2,7 +2,6 @@ export type OperationType =
   | "sign_in"
   | "sign_up"
   | "sign_in_reshare"
-  | "register_reshare"
   | "add_ed25519";
 
 export type SessionState = "COMMITTED" | "COMPLETED";

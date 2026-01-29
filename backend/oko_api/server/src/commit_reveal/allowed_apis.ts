@@ -8,7 +8,6 @@ export const ALLOWED_APIS: Record<OperationType, string[]> = {
   sign_in: ["signin"],
   sign_up: ["keygen"],
   sign_in_reshare: ["signin", "reshare"], // signin first, then reshare
-  register_reshare: [], // Not used in oko_api
   add_ed25519: ["keygen_ed25519"],
 };
 
@@ -20,7 +19,6 @@ export const FINAL_APIS: Record<OperationType, string[]> = {
   sign_in: ["signin"],
   sign_up: ["keygen"],
   sign_in_reshare: ["reshare"],
-  register_reshare: [], // Not used in oko_api
   add_ed25519: ["keygen_ed25519"],
 };
 

@@ -2,6 +2,7 @@ import { Router } from "express";
 
 import { oauthMiddleware } from "@oko-wallet-api/middleware/auth/oauth";
 import { tssActivateMiddleware } from "@oko-wallet-api/middleware/auth/tss_activate";
+import { commitRevealMiddleware } from "@oko-wallet-api/middleware/commit_reveal";
 import { keygenV2 } from "./keygen";
 import { userJwtMiddlewareV2 } from "@oko-wallet-api/middleware/auth/keplr_auth";
 import { presignStep1 } from "./presign_step_1";
@@ -34,11 +35,18 @@ export function makeTSSRouterV2() {
 
   router.post("/commit-reveal/commit", commitRevealCommit);
 
-  router.post("/keygen", oauthMiddleware, tssActivateMiddleware, keygenV2);
+  router.post(
+    "/keygen",
+    oauthMiddleware,
+    commitRevealMiddleware("keygen"),
+    tssActivateMiddleware,
+    keygenV2,
+  );
 
   router.post(
     "/keygen_ed25519",
     oauthMiddleware,
+    commitRevealMiddleware("keygen_ed25519"),
     tssActivateMiddleware,
     keygenEd25519,
   );
@@ -154,6 +162,7 @@ export function makeTSSRouterV2() {
   router.post(
     "/user/signin",
     oauthMiddleware,
+    commitRevealMiddleware("signin"),
     tssActivateMiddleware,
     userSignInV2,
   );
@@ -161,6 +170,7 @@ export function makeTSSRouterV2() {
   router.post(
     "/user/reshare",
     oauthMiddleware,
+    commitRevealMiddleware("reshare"),
     tssActivateMiddleware,
     userReshareV2,
   );
