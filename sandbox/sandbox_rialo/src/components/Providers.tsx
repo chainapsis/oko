@@ -41,7 +41,6 @@ export function Providers({ children }: { children: ReactNode }) {
   useEffect(() => {
     const initWallet = async () => {
       try {
-        // chain_id format: "namespace:genesisHash"
         const result = OkoSvmWallet.init({
           api_key: process.env.NEXT_PUBLIC_OKO_API_KEY!,
           sdk_endpoint: process.env.NEXT_PUBLIC_OKO_SDK_ENDPOINT,
