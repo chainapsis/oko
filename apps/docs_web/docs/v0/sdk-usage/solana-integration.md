@@ -24,8 +24,10 @@ npm install @oko-wallet/oko-sdk-svm @solana/web3.js
 import { OkoSvmWallet } from "@oko-wallet/oko-sdk-svm";
 
 // Initialize Solana wallet
+// chain_id format: "namespace:genesisHash"
 const initRes = OkoSvmWallet.init({
   api_key: "your-api-key",
+  chain_id: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d", // Solana Mainnet
 });
 
 if (!initRes.success) {
@@ -137,7 +139,11 @@ unsubscribe(); // or wallet.off("connect", handler);
 ## Wallet Standard Integration
 
 ```typescript
-import { OkoSvmWallet, type WalletStandardConfig } from "@oko-wallet/oko-sdk-svm";
+import {
+  OkoSvmWallet,
+  registerWalletStandard,
+  type WalletStandardConfig,
+} from "@oko-wallet/oko-sdk-svm";
 import {
   SOLANA_CHAINS,
   SOLANA_MAINNET_CHAIN,
@@ -164,10 +170,16 @@ const SOLANA_CONFIG: WalletStandardConfig = {
   },
 };
 
+// chain_id format: "namespace:genesisHash"
 const initRes = OkoSvmWallet.init({
   api_key: "your-api-key",
-  wallet_standard: [SOLANA_CONFIG],
+  chain_id: "solana:5eykt4UsFv8P8NJdTREpY1vzqKqZKvdpKuc147dw2N9d", // Solana Mainnet
 });
+
+if (initRes.success) {
+  // Register wallet-standard separately (call once globally)
+  registerWalletStandard(initRes.data, [SOLANA_CONFIG]);
+}
 ```
 
 ### Supported Features
